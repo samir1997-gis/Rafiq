@@ -8,7 +8,7 @@
    apply sets: site address + redirect addresses (added to what's there),
    Resend as the email sender, the branded templates in TEMPLATES (the
    subject is read from the comment on each file's first line), a higher
-   email rate limit, passwords of at least 8 characters, and — only if CONFIRM=yes — "Confirm email". Secrets are
+   email rate limit, passwords of at least 8 characters, 6-digit sign-in codes, and — only if CONFIRM=yes — "Confirm email". Secrets are
    never printed. */
 const fs = require('fs'), path = require('path');
 const REF = 'gaajfahtrbdybjuunfhe';                 // the Rafiq project (see auth.js)
@@ -16,7 +16,7 @@ const API = `https://api.supabase.com/v1/projects/${REF}/config/auth`;
 const TOKEN = process.env.SUPABASE_ACCESS_TOKEN;
 const SITE = 'https://rafiq-arabic.com';
 const REDIRECTS = [`${SITE}/login.html`, `${SITE}/reset-password.html`, `${SITE}/**`];
-const TEMPLATES = { confirmation: 'confirm-signup.html', recovery: 'reset-password.html' };
+const TEMPLATES = { confirmation: 'confirm-signup.html', recovery: 'reset-password.html', magic_link: 'sign-in-code.html' };
 
 async function call(method, body) {
   const r = await fetch(API, { method, headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
@@ -35,6 +35,8 @@ function summary(c) {
     emails_per_hour: c.rate_limit_email_sent, password_min_length: c.password_min_length,
     confirm_subject: c.mailer_subjects_confirmation, confirm_template: len(c.mailer_templates_confirmation_content),
     reset_subject: c.mailer_subjects_recovery, reset_template: len(c.mailer_templates_recovery_content),
+    code_subject: c.mailer_subjects_magic_link, code_template: len(c.mailer_templates_magic_link_content),
+    code_length: c.mailer_otp_length, code_expires_s: c.mailer_otp_exp,
   };
 }
 
@@ -74,6 +76,7 @@ function template(dir, file) {
     smtp_admin_email: sender, smtp_sender_name: 'Rafiq',
     rate_limit_email_sent: Math.max(now.rate_limit_email_sent || 0, 100),
     password_min_length: Math.max(now.password_min_length || 0, 8),
+    mailer_otp_length: 6,                            // sign-in codes (login.html): 6 digits
   };
   const dir = process.env.TEMPLATES || 'supabase/email-templates';
   for (const [kind, file] of Object.entries(TEMPLATES)) {

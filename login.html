@@ -60,6 +60,9 @@
 .card.reset #pwField{display:none}
 .forgot{display:block;text-align:right;margin-top:6px;font-size:12px;color:var(--verdigris);cursor:pointer;text-decoration:underline}
 .card.signup .forgot,.card.reset .forgot{display:none}
+.alt{text-align:center;margin-top:4px}
+.card.signup .alt,.card.reset .alt{display:none}
+.otp input{height:56px;text-align:center;font-size:28px;letter-spacing:.35em;font-variant-numeric:tabular-nums;font-family:var(--mono,ui-monospace,monospace)}
 /* Google / Apple */
 .oauth[hidden],.obtn[hidden],.card.reset .oauth{display:none}
 .or{display:flex;align-items:center;gap:10px;margin:18px 0 12px;font-size:12px;color:var(--ink-soft)}
@@ -126,6 +129,7 @@
     <div class="field"><label for="email">Email</label><input id="email" name="username" type="email" inputmode="email" placeholder="you@example.com" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>
     <div class="field" id="pwField"><label for="pw">Password</label><input id="pw" name="password" type="password" placeholder="••••••••" autocomplete="current-password" required><a class="forgot" id="forgotLink">Forgot password?</a></div>
     <button class="btn" type="submit" id="submitBtn">Sign in</button>
+    <div class="alt"><button class="linkbtn" type="button" id="codeLink">Email me a sign-in code instead</button></div>
     <div class="msg" id="msg"></div>
     <!-- Sign in with Google / Apple: shown only for providers switched on in Supabase (Authentication → Providers) -->
     <div class="oauth" id="oauth" hidden>
@@ -159,6 +163,23 @@
     </div>
     <p class="fine">Can’t see it? Check spam or promotions. It comes from <b>hello@contact.rafiq-arabic.com</b>.</p>
   </section>
+
+  <!-- sign in with a 6-digit code from email: no password needed (iPhone fills it from Mail) -->
+  <form class="card sent" id="codeCard" hidden aria-labelledby="codeTitle" method="post" action="#">
+    <div class="env" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg></div>
+    <h1 id="codeTitle" tabindex="-1">Enter your code</h1>
+    <p class="lead">We’ve emailed a 6-digit code to <strong id="codeTo"></strong></p>
+    <div class="field otp" style="text-align:left;margin-top:22px"><label for="otp">Sign-in code</label>
+      <input id="otp" name="one-time-code" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" maxlength="10" required></div>
+    <button class="btn" type="submit" id="codeGo">Sign in</button>
+    <div class="msg" id="codeMsg" role="status" aria-live="polite"></div>
+    <div class="sent-row">
+      <button class="linkbtn" type="button" id="codeResend">Send a new code</button>
+      <span aria-hidden="true">·</span>
+      <button class="linkbtn" type="button" id="codeBack">Use my password</button>
+    </div>
+    <p class="fine">Can’t see it? Check spam or promotions. It comes from <b>hello@contact.rafiq-arabic.com</b>.</p>
+  </form>
 
   <!-- signed in with a password shorter than the current minimum: choose a new one, once -->
   <form class="card sent" id="newpw" hidden aria-labelledby="newpwTitle" method="post" action="#">
@@ -389,6 +410,68 @@ newpw.addEventListener('submit', async (e)=>{
   go.disabled = false; go.textContent = 'Save and continue';
   if (error) return say(friendly(error));
   say('Saved. Taking you in…', 'ok'); goIn();
+});
+
+/* Sign in with a code instead of a password. */
+const codeCard = document.getElementById('codeCard'), codeMsg = document.getElementById('codeMsg');
+const codeResend = document.getElementById('codeResend'), otpEl = document.getElementById('otp');
+let codeEmail = '', codeWait = 0, codeTick = null;
+function codeStatus(text, kind){ codeMsg.textContent = text || ''; codeMsg.className = 'msg' + (text ? ' show ' + (kind || 'err') : ''); }
+function codeCooldown(sec){
+  codeWait = sec; clearInterval(codeTick);
+  const draw = () => { codeResend.disabled = codeWait > 0; codeResend.textContent = codeWait > 0 ? `New code in ${codeWait}s` : 'Send a new code'; };
+  draw(); codeTick = setInterval(() => { codeWait--; draw(); if (codeWait <= 0) clearInterval(codeTick); }, 1000);
+}
+async function sendCode(email){
+  const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false } });
+  if (!error) return '';
+  const m = (error.message || '').toLowerCase();
+  if (m.includes('signups not allowed') || m.includes('not found')) return 'We couldn’t find an account with that email. Check it, or create an account.';
+  return friendly(error);
+}
+document.getElementById('codeLink').addEventListener('click', async (e) => {
+  const email = document.getElementById('email').value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showMsg('Enter your email above, then tap this again.'); document.getElementById('email').focus(); return; }
+  const b = e.currentTarget; b.disabled = true; b.textContent = 'Sending your code…'; showMsg('');
+  const err = await sendCode(email);
+  b.disabled = false; b.textContent = 'Email me a sign-in code instead';
+  if (err) { showMsg(err); return; }
+  codeEmail = email; otpEl.value = ''; codeStatus('');
+  document.getElementById('codeTo').textContent = email;
+  swap(form, codeCard); codeCooldown(60);
+  document.getElementById('codeTitle').focus({ preventScroll: true });
+});
+codeResend.addEventListener('click', async () => {
+  if (!codeEmail || codeWait > 0) return;
+  codeResend.disabled = true;
+  const err = await sendCode(codeEmail);
+  if (err) { codeStatus(err); codeResend.disabled = false; return; }
+  codeStatus('New code sent. Use the one in the newest email.', 'ok'); codeCooldown(60);
+});
+document.getElementById('codeBack').addEventListener('click', () => {
+  clearInterval(codeTick); swap(codeCard, form); setMode('signin'); pwEl.focus();
+});
+otpEl.addEventListener('input', () => {
+  otpEl.value = otpEl.value.replace(/\D/g, '');
+  if (otpEl.value.length === 6) codeCard.requestSubmit();   // filled from Mail, or typed: go straight in
+});
+codeCard.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const token = otpEl.value.replace(/\D/g, '');
+  if (token.length < 6) return codeStatus('Type the 6-digit code from the email.');
+  const go = document.getElementById('codeGo');
+  if (go.disabled) return;
+  go.disabled = true; go.textContent = 'Checking…'; codeStatus('');
+  const { data, error } = await sb.auth.verifyOtp({ email: codeEmail, token, type: 'email' });
+  go.disabled = false; go.textContent = 'Sign in';
+  if (error) {
+    const m = (error.message || '').toLowerCase();
+    return codeStatus(m.includes('expired') || m.includes('invalid') ? 'That code isn’t right or has expired. Check the newest email, or send a new code.' : friendly(error));
+  }
+  const nm = (data.user && data.user.user_metadata && data.user.user_metadata.name) || '';
+  try{ if(nm) localStorage.setItem('bay_name', nm); }catch(_){}
+  try{ localStorage.setItem('bay_last_active', String(Date.now())); }catch(_){}
+  codeStatus('Signed in. Taking you in…', 'ok'); goIn();
 });
 
 form.addEventListener('submit', async (e)=>{
