@@ -165,6 +165,7 @@
     <div class="greet" id="greetAr">السَّلامُ عَلَيْكُم</div>
   </section>
   <div id="planStrip"></div>
+  <div id="remPrompt"></div>
   <div id="home"></div>
 </main>
 <script src="vocab-data.js?v=20260928"></script>
@@ -289,6 +290,8 @@ function paintHome(){
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=6"></script>
 <script src="plan.js?v=20260927"></script>
+<script src="reminders.js?v=2"></script>
+<script>addEventListener("load", () => { if(window.RafiqReminders) RafiqReminders.prompt(document.getElementById("remPrompt")); });</script>
 <script>
 /* The free week: a quiet countdown, and once it's over a card to choose a plan.
    Home itself always stays open. */
