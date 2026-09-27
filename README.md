@@ -35,6 +35,8 @@ A **reading starter** (unit 0: the 28 letters in shape families, then the vowel 
 | `mistakes.js` | The mistake profile shown on Home |
 | `plan.js` | Essentials vs Complete, and the beta switch |
 | `nav.js` | The four tabs (Home, Practise, Progress, Settings) on every page |
+| `pwa.js`, `sw.js`, `manifest.json` | Installing to the home screen: the install card (Home, Settings), iPhone splash screens (`icons/splash/`), offline pages and audio, and reminder notifications |
+| `reminders.js`, `unsubscribe.html` | Daily reminder settings, and the unsubscribe link in reminder emails |
 | `worker/` | The Cloudflare Worker holding the TypeSafe key |
 | `tools/` | Build scripts and the TypeSafe experiments |
 
@@ -97,6 +99,8 @@ Upcoming units (Travel & directions, Health & the body, Ramadan & Eid, Telling s
   4. **Providers → Email:** turn on "Confirm email". Sign-up then asks people to click the link before they can sign in, and the sign-in form offers to resend it.
 - **Audio:** run the **Render audio** GitHub Action (ElevenLabs) to record clips for new lines; until then the device's Arabic voice is used. The 12 dialogues written for the independent app don't have clips yet.
 - **Rebuild the path** after changing words or units: `node tools/build-path.js`.
+- **Daily reminders** (`tools/send-reminders.js`, the **Reminders** GitHub Action): nothing to set up by hand. When the sender reaches `main`, the Action creates the `reminders` table, the unsubscribe function and the web push keys (kept in Supabase's private schema), then runs every hour, sending by email (Resend, secret `RESEND_API_KEY`) and/or as a notification to people whose chosen time it is and whose goal for the day isn't met. Run it by hand with **preview** to see who would be reminded now, or **test** with an account id to send one. Notifications work in Chrome, Edge and Firefox, and on iPhone (iOS 16.4 and later) once Rafiq is added to the Home Screen.
+- **Offline:** bump `VERSION` in `sw.js` when adding a page or script it should keep for offline use.
 
 ## Content notes
 

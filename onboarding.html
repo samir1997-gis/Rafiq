@@ -12,6 +12,7 @@
 })();
 </script>
 <script src="theme.js?v=2"></script>
+<script src="pwa.js?v=2"></script>
 <title>Welcome — Rafiq</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -108,6 +109,17 @@
         <button class="opt" data-val="20">20 minutes or more</button>
       </div>
     </div>
+    <div class="q" data-key="remind">
+      <h2>A daily reminder? <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></h2>
+      <div class="opts">
+        <button class="opt" data-val="8">Morning, 8:00</button>
+        <button class="opt" data-val="13">Lunchtime, 13:00</button>
+        <button class="opt" data-val="19">Evening, 19:00</button>
+        <button class="opt" data-val="21">Night, 21:00</button>
+        <button class="opt" data-val="none">No reminders</button>
+      </div>
+      <p class="qnote">By email, only on days you haven’t done your goal. Change it any time in Settings.</p>
+    </div>
     <div class="q" data-key="reason">
       <h2>What brings you to Arabic? <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></h2>
       <div class="opts">
@@ -167,11 +179,12 @@
 <script src="progress.js?v=20260924"></script>
 <script src="path.js?v=20260928"></script>
 <script src="plan.js?v=20260927"></script>
+<script src="reminders.js?v=2"></script>
 <script src="judge.js?v=20260922"></script>
 <script src="arkb.js?v=3" defer></script>
 <script>
 requireLogin();
-const answers = { reads:null, level:null, duration:null, reason:null };
+const answers = { reads:null, level:null, duration:null, remind:null, reason:null };
 document.querySelectorAll('.q').forEach(q=>{
   const key=q.dataset.key;
   q.querySelectorAll('.opt').forEach(btn=>btn.addEventListener('click',()=>{
@@ -193,6 +206,9 @@ const LEVEL_PACE={ beginner:2, basics:4, intermediate:5 };   // extra new words 
 async function save(){
   await uidReady; markOnboarded();
   try{ if(answers.duration) localStorage.setItem('rafiq_goal', String(GOAL_FOR[answers.duration])); }catch(_){}
+  // the reminder goes by email for now; notifications are offered once Rafiq is on the home screen
+  try{ if(answers.remind && answers.remind !== 'none' && window.RafiqReminders)
+         await RafiqReminders.save({ hour:+answers.remind, goal:GOAL_FOR[answers.duration] || 2, by_email:true, enabled:true }); }catch(_){}
   try{
     if(typeof cloudSaveProfile==='function')
       await cloudSaveProfile({ level:answers.level, duration:answers.duration, reason:answers.reason });

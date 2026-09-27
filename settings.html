@@ -12,6 +12,7 @@
 })();
 </script>
 <script src="theme.js?v=2"></script>
+<script src="pwa.js?v=2"></script>
 <title>Settings — Rafiq</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,6 +23,7 @@
 <meta name="color-scheme" content="light dark">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=6"></script>
+<script src="reminders.js?v=2"></script>
 <script src="nav.js?v=20260924"></script>
 <script src="sounds.js?v=1"></script>
 <script src="plan.js?v=20260927"></script>
@@ -48,6 +50,8 @@ main.wrap{max-width:680px}
 /* was ungated — sat outside site.css's @media(hover:hover), so it stuck after every tap on touch */
 @media (hover:hover) and (pointer:fine){ .btn.danger:hover{background:rgba(180,50,42,.08)} }
 .saved{font-size:12px;color:var(--verdigris);margin-left:8px;opacity:0;transition:opacity .2s}
+#remGroup .row[hidden],#remGroup .btn[hidden]{display:none}
+.msg-err{color:var(--rubric);font-size:13px;line-height:1.5;padding:10px 4px 0}
 .saved.show{opacity:1}
 .planrow{flex-direction:column;align-items:stretch}
 .planrow .acts{display:flex;gap:8px;flex-wrap:wrap}
@@ -218,6 +222,39 @@ a.rowlink{color:var(--verdigris);font-size:14px;text-decoration:none;white-space
     </div>
   </div>
 
+  <!-- REMINDERS (reminders.js; sent by tools/send-reminders.js) -->
+  <div class="group" id="remGroup">
+    <div class="glabel">Reminders</div>
+    <div class="row">
+      <div class="rl"><div class="rt">Daily reminder</div><div class="rs">Only on days you haven't met your goal yet, with your streak and what's due for review.</div></div>
+      <span>
+        <select id="remTime">
+          <option value="off">Off</option>
+          <option value="7">7:00</option><option value="8">8:00</option><option value="9">9:00</option>
+          <option value="12">12:00</option><option value="13">13:00</option>
+          <option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option>
+          <option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option>
+        </select>
+        <span class="saved" id="remTimeSaved">Saved</span>
+      </span>
+    </div>
+    <div class="row rem-on">
+      <div class="rl"><div class="rt">By email</div><div class="rs" id="remEmailNote">To the address you sign in with.</div></div>
+      <span>
+        <select id="remEmail"><option value="on">On</option><option value="off">Off</option></select>
+        <span class="saved" id="remEmailSaved">Saved</span>
+      </span>
+    </div>
+    <div class="row rem-on">
+      <div class="rl"><div class="rt">Notifications on this device</div><div class="rs" id="remPushNote">A notification at your reminder time.</div></div>
+      <span>
+        <button type="button" class="btn small" id="remPush">Turn on</button>
+        <span class="saved" id="remPushSaved">Saved</span>
+      </span>
+    </div>
+    <div class="msg-err" id="remErr" hidden></div>
+  </div>
+
   <!-- DATA -->
   <div class="group">
     <div class="glabel">Data</div>
@@ -248,10 +285,6 @@ a.rowlink{color:var(--verdigris);font-size:14px;text-decoration:none;white-space
         <button type="button" data-v="light">Light</button>
         <button type="button" data-v="dark">Dark</button>
       </span>
-    </div>
-    <div class="row soon">
-      <div class="rl"><div class="rt">Daily reminders</div><div class="rs">A nudge to keep your streak going.</div></div>
-      <span class="tag">Coming soon</span>
     </div>
   </div>
 </main>
@@ -349,7 +382,78 @@ function wireProfileField(inputId, savedId, key, evt){
   const sel=document.getElementById('goalSel');
   try{ const g=localStorage.getItem('rafiq_goal'); if(g) sel.value=g; }catch(_){}
   sel.addEventListener('change',()=>{ try{ localStorage.setItem('rafiq_goal', sel.value); }catch(_){}
+    if(window.remSetGoal) remSetGoal(+sel.value);
     const f=document.getElementById('goalSaved'); f.classList.add('show'); setTimeout(()=>f.classList.remove('show'),1400); });
+})();
+
+// ---- daily reminders ----
+(function(){
+  const R = window.RafiqReminders, time = document.getElementById('remTime');
+  if(!R || !time) return;
+  const email = document.getElementById('remEmail'), pushBtn = document.getElementById('remPush');
+  const pushNote = document.getElementById('remPushNote'), err = document.getElementById('remErr');
+  let row = null;                                       // what's saved
+  const goal = () => { try{ return parseInt(localStorage.getItem('rafiq_goal'),10) || 2; }catch(_){ return 2; } };
+  const fail = m => { err.textContent = m; err.hidden = !m; };
+  const on = () => time.value !== 'off';
+  function paint(){
+    document.querySelectorAll('#remGroup .rem-on').forEach(r => r.hidden = !on());
+    document.getElementById('remEmailNote').textContent = row && row.by_email === false && !row.push
+      ? 'Off. With email and notifications both off, no reminder is sent.' : 'To the address you sign in with.';
+    const st = R.pushState(), has = !!(row && row.push);
+    pushBtn.hidden = st !== 'ok';
+    pushBtn.textContent = has ? 'Turn off' : 'Turn on';
+    pushNote.textContent = st === 'install' ? "On iPhone, notifications need Rafiq on your Home Screen. Add it, then open it from there to turn these on. "
+      : st === 'no' ? "This browser can't show notifications."
+      : has ? 'On. Notifications go to the device you last turned them on from.' : 'A notification at your reminder time.';
+    if(st === 'install' && window.RafiqPWA){ const a = document.createElement('a'); a.href = '#'; a.textContent = 'Show me how';
+      a.style.color = 'var(--verdigris)'; a.onclick = e => { e.preventDefault(); RafiqPWA.guide(); }; pushNote.appendChild(a); }
+  }
+  async function put(patch, savedId){
+    fail('');
+    try{ await R.save(patch); row = { ...(row || {}), ...patch }; flash(savedId); }
+    catch(e){ fail("Couldn't save that. Check your connection and try again."); throw e; }
+    finally{ paint(); }
+  }
+  // 'enabled' means a time is set and there's somewhere to send it
+  const enabled = (h, e, p) => h !== 'off' && (e || !!p);
+
+  time.addEventListener('change', async () => {
+    const byEmail = email.value === 'on', push = row && row.push;
+    const patch = on() ? { hour: +time.value, goal: goal(), by_email: byEmail || !push, enabled: enabled(time.value, byEmail || !push, push) }
+                       : { enabled: false };
+    if(on() && patch.by_email) email.value = 'on';
+    put(patch, 'remTimeSaved').catch(() => {});
+  });
+  email.addEventListener('change', () => {
+    const push = row && row.push;
+    put({ by_email: email.value === 'on', enabled: enabled(time.value, email.value === 'on', push) }, 'remEmailSaved').catch(() => {});
+  });
+  pushBtn.addEventListener('click', async () => {
+    pushBtn.disabled = true; fail('');
+    try{
+      if(row && row.push){
+        await R.unsubscribe();
+        await put({ push: null, enabled: enabled(time.value, email.value === 'on', null) }, 'remPushSaved');
+      } else {
+        let sub;
+        try{ sub = await R.subscribe(); }
+        catch(e){ fail(e.message === 'blocked' ? "Notifications are blocked for this site. Allow them in your browser's settings, then try again."
+                                                : "Couldn't turn on notifications here. Please try again later."); return; }
+        await put({ push: sub, hour: +time.value, goal: goal(), enabled: true }, 'remPushSaved');
+      }
+    }catch(_){}
+    finally{ pushBtn.disabled = false; }
+  });
+  // Settings → Daily time changes the goal the reminder checks
+  window.remSetGoal = g => { if(row) R.save({ goal: g }).catch(() => {}); };
+
+  (async () => {
+    row = await R.load();
+    if(row){ time.value = row.enabled && row.hour != null ? String(row.hour) : 'off'; email.value = row.by_email === false ? 'off' : 'on'; }
+    if(![...time.options].some(o => o.value === time.value)) time.value = 'off';
+    paint();
+  })();
 })();
 wireProfileField('reasonSel','reasonSaved','reason','change');
 

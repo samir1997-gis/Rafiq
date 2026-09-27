@@ -12,6 +12,7 @@
 })();
 </script>
 <script src="theme.js?v=2"></script>
+<script src="pwa.js?v=2"></script>
 <title>Home — Rafiq</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -164,6 +165,7 @@
     <div class="greet" id="greetAr">السَّلامُ عَلَيْكُم</div>
   </section>
   <div id="planStrip"></div>
+  <div id="remPrompt"></div>
   <div id="home"></div>
 </main>
 <script src="vocab-data.js?v=20260928"></script>
@@ -258,7 +260,9 @@ function paintHome(){
     <p class="csub">New units are added regularly — Complete members get them first.</p>
     <div class="units">${RafiqPath.COMING.map(c=>`<div class="unit soon"><span class="st">✨</span>
       <span class="nm"><b>${esc(c.en)}</b><span>${esc(c.d)}</span></span><span class="ua">${esc(c.ar)}</span></div>`).join('')}</div>`;
-  el.innerHTML=card+wtoday+stats+week+focus+review+`<div class="ph">Your path</div><div class="units">${units}</div>`+coming;
+  el.innerHTML=card+wtoday+stats+'<div id="pwaInstall"></div>'+week+focus+review+`<div class="ph">Your path</div><div class="units">${units}</div>`+coming;
+  // "Get a daily reminder / put Rafiq on your home screen" (pwa.js), once a first lesson step is done
+  if(window.RafiqPWA) RafiqPWA.card(document.getElementById('pwaInstall'), { ready: U.some(p => RafiqPath.steps(p).some(x => RafiqPath.stepDone(p.n, x.key))) });
   el.querySelectorAll('[data-lock]').forEach(b=>b.onclick=()=>{
     const m=el.querySelector('.lockmsg')||Object.assign(document.createElement('div'),{className:'lockmsg'});
     m.textContent='🔒 Finish '+b.dataset.lock+' first — each unit builds on the one before.';
@@ -286,6 +290,8 @@ function paintHome(){
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=6"></script>
 <script src="plan.js?v=20260927"></script>
+<script src="reminders.js?v=2"></script>
+<script>addEventListener("load", () => { if(window.RafiqReminders) RafiqReminders.prompt(document.getElementById("remPrompt")); });</script>
 <script>
 /* The free week: a quiet countdown, and once it's over a card to choose a plan.
    Home itself always stays open. */
