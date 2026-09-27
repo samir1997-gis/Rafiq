@@ -182,7 +182,7 @@ async function push(row, m) {
   const wp = await pusher();
   if (!wp) throw new Error('web push is not available (web-push package or keys missing)');
   try {
-    await wp.sendNotification(row.push, JSON.stringify({ title: m.title, body: m.reviews ? `${m.line} ${m.reviews}` : m.line, url: '/dashboard.html' }),
+    await wp.sendNotification(row.push, JSON.stringify({ title: m.title, body: m.reviews ? `${m.line} ${m.reviews}` : m.line, url: 'dashboard.html' }),
       { TTL: 4 * 3600, urgency: 'normal' });
     return true;
   } catch (e) {

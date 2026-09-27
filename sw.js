@@ -47,9 +47,11 @@ self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
-  if (url.origin === location.origin) {
-    if (/^\/(audio|sounds)\/[^/]+\.mp3$/.test(url.pathname)) return e.respondWith(cacheFirst(req, AUDIO));
-    if (url.pathname.startsWith('/media/')) return;          // videos stream with range requests: leave them alone
+  const scope = self.registration.scope;                    // the site's folder: '/' on rafiq-arabic.com, deeper on a preview host
+  if (url.href.startsWith(scope)) {
+    const rel = url.pathname.slice(new URL(scope).pathname.length);
+    if (/^(audio|sounds)\/[^/]+\.mp3$/.test(rel)) return e.respondWith(cacheFirst(req, AUDIO));
+    if (rel.startsWith('media/')) return;                     // videos stream with range requests: leave them alone
     return e.respondWith(networkFirst(req, e));
   }
   if (REMOTE_HOSTS.includes(url.hostname)) e.respondWith(staleWhileRevalidate(req, e));
@@ -103,15 +105,15 @@ self.addEventListener('push', e => {
   e.waitUntil(self.registration.showNotification(d.title || 'Rafiq', {
     body: d.body || 'A few minutes of Arabic today.',
     icon: 'icon-192.png', badge: 'badge-96.png', tag: 'daily-reminder', renotify: true,
-    data: { url: d.url || '/dashboard.html' } }));
+    data: { url: d.url || 'dashboard.html' } }));
 });
 
 self.addEventListener('notificationclick', e => {
   e.notification.close();
-  const url = new URL((e.notification.data && e.notification.data.url) || '/dashboard.html', location.origin).href;
+  const url = new URL((e.notification.data && e.notification.data.url) || 'dashboard.html', self.registration.scope).href;   // relative to the site
   e.waitUntil((async () => {
     const open = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
-    const tab = open.find(c => new URL(c.url).origin === location.origin);
+    const tab = open.find(c => c.url.startsWith(self.registration.scope));
     if (tab) { await tab.focus(); return tab.navigate(url).catch(() => {}); }
     return self.clients.openWindow(url);
   })());
