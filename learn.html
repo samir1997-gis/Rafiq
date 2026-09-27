@@ -47,6 +47,7 @@ body{background:var(--paper)}
 .pair{padding:10px 0;border-bottom:1px solid var(--rule);cursor:pointer;touch-action:manipulation}
 .pair .mid{font-size:clamp(21px,5.6vw,26px);line-height:1.6}
 .pair .gtr{margin-top:0}
+.taphint{font-size:12.5px;color:var(--ink-soft);text-align:center;margin:8px 0 0}
 .endings{margin-top:14px;text-align:left;font-size:14px;line-height:1.55;color:var(--ink-soft);border-top:1px solid var(--rule);padding-top:10px}
 .endings summary{color:var(--verdigris);cursor:pointer;font-weight:700;padding:6px 0;list-style:none}
 .endings summary::-webkit-details-marker{display:none}
@@ -301,10 +302,16 @@ function runGrammar(p, step){
       <div class="card note">${g.h ? `<h3 class="gh">${esc(g.h)}</h3><p class="gt">${esc(g.t)}</p>` : `<h3>${esc(g.t)}</h3>`}
         ${pairsOf(g) ? `<div class="pairs">${pairsOf(g).map(([ar,en])=>`<div class="pair" data-say="${esc(ar)}"><div class="mid">${esc(ar)}</div><div class="gtr">${esc(en)}</div></div>`).join('')}</div>`
           : `<div class="mid" id="a">${esc(g.ar.replace(/=/g,' '))}</div>${g.tr ? `<div class="gtr">${esc(g.tr)}</div>` : ''}`}
+        <p class="taphint">🔊 Tap ${pairsOf(g) ? 'an example' : 'the Arabic'} to hear it again</p>
         <p>${esc(g.en)}</p>${ENDINGS_RE.test(g.en) ? ENDINGS_HTML : ''}</div></div>`);
     const a=body.querySelector('#a'); if(a) a.onclick=()=>say(g.ar,a);
-    body.querySelectorAll('.pair').forEach(r=>r.onclick=()=>say(r.dataset.say,r.querySelector('.mid')));
+    const rows=[...body.querySelectorAll('.pair')];
+    rows.forEach(r=>r.onclick=()=>say(r.dataset.say,r.querySelector('.mid')));
     screen(body,[button(i<notes.length-1?'Next':'Finish',()=>{i++;show()})]);
+    // play the example straight away; paired examples one row after another
+    const playRow=k=>{ if(k>=rows.length || !rows[k].isConnected || !window.RQ) return;
+      RQ.speak(rows[k].dataset.say, rows[k].querySelector('.mid'), ()=>setTimeout(()=>playRow(k+1), 350)); };
+    if(rows.length) playRow(0); else if(a) say(g.ar,a);
   };
   show();
 }
