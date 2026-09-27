@@ -38,8 +38,14 @@
       .concat([{key:'vowels', kind:'vowels', title:'The vowel marks', mins:5},
                {key:'hear', kind:'hearing', title:'Listening test', mins:6}]);
     const nb = Math.ceil(p.words.length / BATCH), out = [];
-    const words = i => ({key:'words'+(i+1), kind:'words', batch:i,
-      title: nb > 1 ? `New words ${i+1} of ${nb}` : 'New words', mins: 5});
+    // "Meet 10 new words & phrases": chosen with TypeSafe (tools/typesafe-exp/step_label.py, #116);
+    // "New words 4 of 4" read like four words. The count and "& phrases" follow the set itself.
+    const words = i => {
+      const set = p.words.slice(i*BATCH, (i+1)*BATCH).map(wordById).filter(Boolean);
+      const n = set.length, phrases = set.some(w => /\s/.test(w.ar.trim()));
+      return {key:'words'+(i+1), kind:'words', batch:i, mins: 5,
+        title: `Meet ${n} new ${n === 1 ? (phrases ? 'phrase' : 'word') : (phrases ? 'words & phrases' : 'words')}`};
+    };
     out.push(words(0));
     out.push({key:'listen',   kind:'listen',   title:'Hear the conversation', mins:4});
     out.push({key:'grammar',  kind:'grammar',  title:'How it works',          mins:5});
