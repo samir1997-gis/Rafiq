@@ -39,6 +39,17 @@ body{background:var(--paper)}
 .speaking{opacity:.55}
 .who{font-family:var(--ar);color:var(--rubric);font-size:15px;margin-bottom:4px}
 .note h3{font-size:18px;margin:0 0 10px}
+.note .gh{font-size:20px;line-height:1.25;letter-spacing:-.01em;margin:0}
+.note .gt{font-family:var(--ar);direction:rtl;text-align:center;font-size:14px;color:var(--ink-soft);margin:4px 0 10px}
+.note .gtr{color:var(--ink);font-size:15.5px;margin-top:2px}
+.endings{margin-top:14px;text-align:left;font-size:14px;line-height:1.55;color:var(--ink-soft);border-top:1px solid var(--rule);padding-top:10px}
+.endings summary{color:var(--verdigris);cursor:pointer;font-weight:700;padding:6px 0;list-style:none}
+.endings summary::-webkit-details-marker{display:none}
+.endings summary::before{content:'ⓘ ';font-weight:400}
+.endings p{margin:6px 0}
+.endings ul{margin:4px 0 6px;padding-left:18px}
+.endings li{margin:3px 0}
+
 .note p{color:var(--ink-soft);font-size:15px;line-height:1.55;text-align:left;margin-top:12px}
 .foot{margin-top:auto;padding-top:18px;display:flex;flex-direction:column;gap:10px}
 .go{width:100%;min-height:52px;border:0;border-radius:12px;background:var(--verdigris);color:#fff;font-size:16.5px;font-weight:600;cursor:pointer;touch-action:manipulation}
@@ -131,7 +142,7 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 </div>
 
 <script src="vocab-data.js?v=20260928"></script>
-<script src="drills-data.js?v=20260922"></script>
+<script src="drills-data.js?v=20260927"></script>
 <script src="path-data.js?v=20260928"></script>
 <script src="alphabet-data.js?v=20260926"></script>
 <script src="scenes-data.js?v=20260922"></script>
@@ -233,6 +244,13 @@ function runListen(p, step){
   show();
 }
 
+/* Word endings, explained once in plain English wherever a note mentions them. */
+const ENDINGS_RE=/(^|[\s(‘'])-(u|a|i|un|an|in)\b|extra -n/;
+const ENDINGS_HTML=`<details class="endings"><summary>What are these endings (-u, -a, -i)?</summary>
+  <p>Arabic words change their last vowel to show their job in the sentence:</p>
+  <ul><li><b>-u</b> (ـُ): the usual ending</li><li><b>-a</b> (ـَ): for the thing receiving an action, and after some words</li>
+  <li><b>-i</b> (ـِ): after little words like فِي ‘in’ and بِـ ‘with’</li></ul>
+  <p>Without ال, add an <b>n</b> sound: <b>-un</b> (ـٌ), <b>-an</b> (ـً), <b>-in</b> (ـٍ). You’ll pick these up as you go, and people often leave them off when speaking.</p></details>`;
 function runGrammar(p, step){
   const notes=RafiqPath.unitData(p.n).grammar||[];
   let i=0;
@@ -241,7 +259,9 @@ function runGrammar(p, step){
     setBar(i,notes.length);
     const g=notes[i];
     const body=el(`<div><p class="kicker">How it works · ${i+1} of ${notes.length}</p>
-      <div class="card note"><h3>${esc(g.t)}</h3><div class="mid" id="a">${esc(g.ar.replace(/=/g,' '))}</div><p>${esc(g.en)}</p></div></div>`);
+      <div class="card note">${g.h ? `<h3 class="gh">${esc(g.h)}</h3><p class="gt">${esc(g.t)}</p>` : `<h3>${esc(g.t)}</h3>`}
+        <div class="mid" id="a">${esc(g.ar.replace(/=/g,' '))}</div>${g.tr ? `<div class="gtr">${esc(g.tr)}</div>` : ''}
+        <p>${esc(g.en)}</p>${ENDINGS_RE.test(g.en) ? ENDINGS_HTML : ''}</div></div>`);
     const a=body.querySelector('#a'); a.onclick=()=>say(g.ar,a);
     screen(body,[button(i<notes.length-1?'Next':'Finish',()=>{i++;show()})]);
   };

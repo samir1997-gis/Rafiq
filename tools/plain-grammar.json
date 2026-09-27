@@ -1,0 +1,328 @@
+{
+ "notes": {
+  "No verb 'to be'. Both halves are marfūʿ — subject and predicate simply sit side by side.": {
+   "h": "No word for ‘am’, ‘is’ or ‘are’",
+   "tr": "I am an engineer.",
+   "en": "Arabic just puts the two words side by side: ‘I engineer’. There’s no word for ‘is’ in the present."
+  },
+  "The demonstrative agrees in gender with what follows.": {
+   "h": "‘This’ has a male and a female form",
+   "tr": "This is a student (m) · This is a student (f).",
+   "en": "Use هَذا for a man or a masculine word, and هَذِهِ for a woman or a feminine word (most end in ة)."
+  },
+  "Add ـِيّ to a country to make a nationality; add ة for the feminine.": {
+   "h": "Turning a country into a nationality",
+   "tr": "Pakistani (man) · Pakistani (woman)",
+   "en": "Add ـِيّ to the country to say where someone is from. For a woman, add ة as well: ـِيَّة."
+  },
+  "ما asks about things, مَنْ about people, هَلْ makes a yes/no question.": {
+   "h": "Question words",
+   "tr": "What? · Who? · Is…? / Are…? · Where from?",
+   "en": "ما asks ‘what’, مَنْ asks ‘who’, and مِنْ أَيْنَ asks ‘where from’. Put هَلْ at the start of a sentence to make it a yes/no question."
+  },
+  "Two nouns joined: the first takes no ال and no tanwin; the second is genitive.": {
+   "h": "‘The X of Y’: two nouns side by side",
+   "tr": "a picture of my family",
+   "en": "Say the thing first, then whose it is: ‘picture family-my’. The first word never takes ال or the extra -n; the second ends in -i (here hidden under ـِي, ‘my’)."
+  },
+  "Possession is a suffix on the noun, not a separate word.": {
+   "h": "‘My’, ‘your’, ‘his’ are endings",
+   "tr": "my father · your father · his father",
+   "en": "Instead of a separate word, Arabic adds an ending: ـِي for ‘my’, ـكَ for ‘your’, ـهُ for ‘his’."
+  },
+  "The prefix carries the person: أ for 'I', يـ for 'he', تـ for 'she' or 'you'.": {
+   "h": "Who’s doing it? Look at the first letter",
+   "tr": "I make wudu · he makes wudu",
+   "en": "In the present tense, the first letter shows who: أ for ‘I’, يـ for ‘he’, تـ for ‘she’ or ‘you’."
+  },
+  "The counted noun comes after, in the plural and genitive.": {
+   "h": "Counting from 3 to 10",
+   "tr": "nine boys",
+   "en": "The number comes first, then the thing you’re counting, in the plural and ending in -in."
+  },
+  "'There is' sentences put the place first and the thing second, marfūʿ.": {
+   "h": "Saying ‘there is’",
+   "tr": "There is a bed in the room.",
+   "en": "Start with the place, then the thing: ‘in the room, a bed’. There’s no separate word for ‘there is’."
+  },
+  "With a feminine noun the number drops its ة — reverse agreement.": {
+   "h": "Numbers 3 to 10 work backwards",
+   "tr": "five rooms",
+   "en": "With a feminine word (most end in ة, like غُرْفَة), say the number without ة: خَمْسُ غُرَفٍ. With a masculine word, add ة: خَمْسَةُ أَوْلادٍ. It feels backwards, but that’s the rule."
+  },
+  "After كَمْ the noun is singular and manṣūb, never plural.": {
+   "h": "‘How many?’ takes one, not many",
+   "tr": "How many rooms?",
+   "en": "After كَمْ, use the singular word ending in -an: ‘how many room?’. Never the plural."
+  },
+  "Ordinals follow the noun and match it in definiteness and case.": {
+   "h": "‘First’, ‘fifth’ come after the noun",
+   "tr": "the fifth floor",
+   "en": "Arabic says ‘the floor the fifth’: the number word comes after the noun and copies it, so if the noun has ال, so does the number."
+  },
+  "The present tense covers habits: 'I wake up', 'I usually wake up'.": {
+   "h": "The present tense for habits",
+   "tr": "I wake up early.",
+   "en": "The same verb means ‘I wake up’, ‘I’m waking up’ and ‘I usually wake up’. The situation tells you which."
+  },
+  "These adverbs are manṣūb — they always end in -an.": {
+   "h": "Words for ‘how’ or ‘when’ end in -an",
+   "tr": "early · late",
+   "en": "Words that say how or when you do something usually end in -an (ـًا)."
+  },
+  "بِـ marks the means of transport, and takes the genitive.": {
+   "h": "‘By bus’: بِـ",
+   "tr": "by bus",
+   "en": "Put بِـ on the front of the transport. The word after it ends in -i."
+  },
+  "لا negates the present tense; ما is for the past.": {
+   "h": "Saying ‘don’t’",
+   "tr": "I don’t watch TV.",
+   "en": "Put لا before a present-tense verb. (For the past you’ll use ما later on.)"
+  },
+  "The object of a verb is manṣūb — fatḥa, or -an if indefinite.": {
+   "h": "‘I eat rice’: verb, then the thing",
+   "tr": "I eat rice.",
+   "en": "Say the verb, then the thing: ‘I eat the rice’. Small detail: the thing gets an -a sound at the end, as in الأَرُزَّ."
+  },
+  "Accusative before عَلى, genitive after it.": {
+   "h": "‘I prefer X to Y’",
+   "tr": "I prefer tea to coffee.",
+   "en": "أُفَضِّلُ + what you like more + عَلى + the other thing. The first ends in -a, the one after عَلى in -i."
+  },
+  "لِأَنَّ needs a noun after it, and that noun is manṣūb; the predicate stays marfūʿ.": {
+   "h": "‘Because’: لِأَنَّ",
+   "tr": "because I weigh a lot",
+   "en": "لِأَنَّ means ‘because’. It’s followed by a noun, or by an ending like ـها (‘it’), rather than straight by a verb."
+  },
+  "The فَعْلان pattern is a diptote — no tanwin.": {
+   "h": "‘Hungry’ and ‘thirsty’: no extra -n",
+   "tr": "I’m hungry.",
+   "en": "Words like جَوْعان (hungry) and عَطْشان (thirsty) never add the extra -n sound: جَوْعانُ, not جَوْعانٌ."
+  },
+  "'Going' is an adjective here, not a verb, and agrees with the speaker's gender.": {
+   "h": "‘I’m going’ uses a describing word",
+   "tr": "going (said by a man) · going (said by a woman)",
+   "en": "أَنا ذاهِبٌ is literally ‘I (am) going’. It works like a describing word, so a woman adds ة: أَنا ذاهِبَةٌ."
+  },
+  "لِـ means 'for the purpose of', and takes the genitive.": {
+   "h": "‘For’ something: لِـ",
+   "tr": "for the Dhuhr prayer",
+   "en": "لِـ on the front of a word means ‘for’. The word after it ends in -i."
+  },
+  "Place names like مَكَّة take a fatḥa where you'd expect a kasra, and never tanwin.": {
+   "h": "Makkah and other names",
+   "tr": "to Makkah",
+   "en": "Some names, like مَكَّة, keep a simple ending: you say إِلى مَكَّةَ (to Makkah), never مَكَّةٍ."
+  },
+  "Compound prepositions end in a genitive noun.": {
+   "h": "‘Next to’, ‘in front of’",
+   "tr": "next to the house",
+   "en": "These place words go straight before the noun, and the noun ends in -i."
+  },
+  "After لِـ the verb takes a fatḥa — the subjunctive. This is the 'in order to' construction.": {
+   "h": "‘In order to’: لِـ + a verb",
+   "tr": "I go (in order) to study.",
+   "en": "Put لِـ on a present-tense verb to say ‘in order to’. The verb then ends in -a: أَدْرُسَ, not أَدْرُسُ."
+  },
+  "Singular and manṣūb after كَمْ, however many you mean.": {
+   "h": "‘How many?’ again: one, ending in -an",
+   "tr": "How many lessons?",
+   "en": "The same rule as before: after كَمْ, use the singular word ending in -an."
+  },
+  "'College of Education' — the second noun is genitive and carries the definiteness.": {
+   "h": "‘College of Education’",
+   "tr": "the College of Education",
+   "en": "Two nouns side by side mean ‘X of Y’. Only the second one takes ال, and it ends in -i."
+  },
+  "Plural masculine verbs end in ـُونَ in the present.": {
+   "h": "‘They’ (men) study: ـُونَ",
+   "tr": "they (men) study",
+   "en": "For ‘they’ meaning men or a mixed group, the present verb starts with يَـ and ends in ـُونَ."
+  },
+  "Doubling the middle letter turns 'do' into 'make someone do'.": {
+   "h": "Doubling a letter changes the meaning",
+   "tr": "I study · I teach",
+   "en": "The shadda (ّ) doubles the middle letter and often means ‘make someone do it’: study → teach."
+  },
+  "Nouns ending in ى never change their ending, whatever the case.": {
+   "h": "Words ending in ى don’t change",
+   "tr": "in the hospital",
+   "en": "Words ending in ى, like مُسْتَشْفى (hospital), keep the same ending whatever comes before them."
+  },
+  "Most job names form the feminine by adding ة.": {
+   "h": "Jobs for women: add ة",
+   "tr": "nurse (man) · nurse (woman)",
+   "en": "Most job words become feminine by adding ة, just like nationalities."
+  },
+  "Same rule as always after كَمْ: singular, manṣūb.": {
+   "h": "How many hours?",
+   "tr": "How many hours do you work?",
+   "en": "The same كَمْ rule: one hour, ending in -an: ساعَةً."
+  },
+  "Prices use بِكَمْ, not كَمْ on its own.": {
+   "h": "‘How much is it?’",
+   "tr": "How much is this shirt?",
+   "en": "For prices, say بِكَمْ (‘for how much?’). كَمْ on its own asks ‘how many?’."
+  },
+  "The thing wanted is the object, so it and its adjective are manṣūb.": {
+   "h": "What you want ends in -a",
+   "tr": "I want a white shirt.",
+   "en": "The thing you want takes the -a ending, and so does its colour: قَمِيصًا أَبْيَضَ."
+  },
+  "The أَفْعَل colour pattern never takes tanwin — fatḥa in the accusative.": {
+   "h": "Colours never add the extra -n",
+   "tr": "white · blue",
+   "en": "Colours like أَبْيَض and أَزْرَق never end in -un or -an. Where other words take -an, they just take -a."
+  },
+  "After 11–99 the counted noun is singular and manṣūb.": {
+   "h": "From 11 to 99: one riyal",
+   "tr": "fifty riyals",
+   "en": "After numbers from 11 to 99, the thing you’re counting is singular and ends in -an: ‘fifty riyal’."
+  },
+  "كانَ leaves the subject marfūʿ but makes the predicate manṣūb.": {
+   "h": "‘Was’: كانَ",
+   "tr": "The weather was cold.",
+   "en": "Use كانَ for ‘was’. It makes the describing word end in -an: بارِدًا."
+  },
+  "لَيْسَ behaves exactly like كانَ — predicate manṣūb.": {
+   "h": "‘Isn’t’: لَيْسَ",
+   "tr": "The weather isn’t hot.",
+   "en": "لَيْسَ means ‘is not’. Like كانَ, it makes the describing word end in -an."
+  },
+  "لِذَلِكَ introduces a result; لِأَنَّ introduces a cause. Don't swap them.": {
+   "h": "‘So’ and ‘because’",
+   "tr": "It’s raining, so I took the umbrella.",
+   "en": "لِذَلِكَ means ‘so’ (what happened as a result). لِأَنَّ means ‘because’ (the reason). Don’t mix them up."
+  },
+  "An iḍāfa: 'the season of spring'.": {
+   "h": "‘The season of spring’",
+   "tr": "spring (the season of spring)",
+   "en": "Arabic says ‘season (of) the spring’: two nouns side by side, the second with ال and ending in -i."
+  },
+  "لَكِنَّ with shadda takes a noun and makes it manṣūb; لَكِنْ without shadda doesn't.": {
+   "h": "Two ways to say ‘but’",
+   "tr": "but there’s noise in it",
+   "en": "لَكِنَّ (with a shadda) is followed by a noun ending in -a. لَكِنْ (without one) can go before anything and changes nothing."
+  },
+  "To say 'there isn't', use لَيْسَ, not لا.": {
+   "h": "Saying ‘there isn’t’",
+   "tr": "There isn’t any crowding in the village.",
+   "en": "Start with لَيْسَ, then the place, then the thing. Don’t use لا for this."
+  },
+  "The فَعْلاء pattern is a diptote — never any tanwin.": {
+   "h": "Colours for feminine words",
+   "tr": "white · blue (for feminine words)",
+   "en": "For a feminine word the colour changes: أَبْيَض → بَيْضاء, أَزْرَق → زَرْقاء. These never add the extra -n either."
+  },
+  "Duals end in ـانِ when marfūʿ and ـَيْنِ otherwise.": {
+   "h": "Two of something",
+   "tr": "two hours",
+   "en": "Add ـانِ to mean ‘two’: ساعَة → ساعَتانِ, ‘two hours’. In some sentences it becomes ـَيْنِ instead, as here. You’ll hear both."
+  },
+  "Both halves marfūʿ; no verb needed.": {
+   "h": "No word for ‘is’ (again)",
+   "tr": "My hobby is reading.",
+   "en": "As in unit 1, just put the two parts side by side. Both keep their usual -u ending."
+  },
+  "Sound feminine plurals take a kasra in the accusative, never a fatḥa.": {
+   "h": "Plurals ending in ـات",
+   "tr": "I read magazines.",
+   "en": "Many feminine words make their plural with ـات: مَجَلَّة → مَجَلَّات (magazines). Small detail: these never end in -an; you’ll hear -in instead."
+  },
+  "When the reason refers back to something already mentioned, attach the pronoun to لِأَنَّ.": {
+   "h": "‘Because it…’: لِأَنَّها",
+   "tr": "because it’s useful",
+   "en": "Join ‘it’, ‘he’ or ‘I’ straight onto لِأَنَّ: لِأَنَّها ‘because it (f)’, لِأَنَّهُ ‘because he / it’, لِأَنَّنِي ‘because I’."
+  },
+  "A defective verb — the final ى doesn't change in the present.": {
+   "h": "Verbs ending in ى",
+   "tr": "I love collecting stamps.",
+   "en": "Some verbs end in ى, like أَهْوى (‘I love doing’). The ى stays the same."
+  }
+ },
+ "why": {
+  "أُخْت is feminine, so the demonstrative must be هَذِهِ.": "أُخْت (sister) is feminine, so ‘this’ is هَذِهِ.",
+  "The predicate of a nominal sentence is marfūʿ, not manṣūb.": "In a sentence with no verb, the describing word ends in -un, not -an.",
+  "مِصْر is a diptote: fatḥa instead of kasra, and never any tanwin.": "مِصْر (Egypt) never adds the extra -n, and takes -a where you’d expect -i.",
+  "The second half of an iḍāfa; the pronoun suffix makes it definite.": "It’s the second word of an ‘X of Y’ pair, and the ‘my / your’ ending already makes it ‘the’.",
+  "Anything after فِي is genitive.": "The word after فِي (in) ends in -i.",
+  "After 3–10: plural, genitive, indefinite.": "After 3 to 10: plural, no ال, ending in -in.",
+  "A noun with a possessive suffix is already definite — no ال.": "A word with ‘my’, ‘your’ etc. on the end can’t take ال as well.",
+  "Counted noun after 3–10 is genitive.": "After 3 to 10, the word you’re counting ends in -in.",
+  "فِي always takes the genitive.": "The word after فِي (in) always ends in -i.",
+  "كَمْ takes a singular accusative — the commonest slip at this level.": "After كَمْ: one (singular), ending in -an. The most common slip at this stage.",
+  "After 3–10: plural and genitive.": "After 3 to 10: plural, ending in -in.",
+  "The adjective copies the noun's case — genitive after فِي.": "The describing word copies the noun’s ending: -i after فِي.",
+  "شَقَّة is feminine, and the predicate is marfūʿ.": "شَقَّة (flat) is feminine, so the describing word takes ة, and it ends in -un.",
+  "أَيّ is genitive after فِي, and the noun after it is genitive too.": "After فِي, أَيّ ends in -i, and so does the word after it.",
+  "After كَمْ: singular, accusative.": "After كَمْ: singular, ending in -an.",
+  "After 3–10: plural, genitive.": "After 3 to 10: plural, ending in -in.",
+  "The adjective must match the genitive noun.": "The describing word must copy the noun’s -i ending.",
+  "Indefinite and marfūʿ — it needs the tanwin.": "With no ال, it needs the extra -n: -un.",
+  "Adverbs of manner are manṣūb.": "Words for how you do something end in -an.",
+  "Adverb — manṣūb.": "A ‘how / when’ word: it ends in -an.",
+  "Direct object — manṣūb.": "It’s the thing receiving the action, so it ends in -a (or -an).",
+  "فَعْلان is a diptote — ḍamma with no tanwin.": "Words like جَوْعان never add the extra -n: just -u.",
+  "Genitive after إِلى.": "The word after إِلى (to) ends in -i.",
+  "Object of a verb is manṣūb.": "The thing receiving the action ends in -a (or -an).",
+  "لِأَنَّ makes its subject manṣūb, but the predicate stays marfūʿ.": "After لِأَنَّ the first word ends in -a, but the describing word keeps -u.",
+  "Diptote — no tanwin.": "This word never adds the extra -n.",
+  "Indefinite and genitive after فِي.": "After فِي, with no ال: it ends in -in.",
+  "بِـ makes جانِب genitive; الْبَيْتِ is genitive as the second term.": "After بِـ, جانِب ends in -i, and so does الْبَيْتِ (‘next to the house’).",
+  "Diptote: fatḥa, no tanwin, no ال.": "This name never takes ال or the extra -n, and uses -a where you’d expect -i.",
+  "Diptote — fatḥa, no tanwin.": "This word uses -a where you’d expect -i, and never adds the extra -n.",
+  "After بِـ the noun is genitive.": "The word after بِـ ends in -i.",
+  "Object of the verb — manṣūb.": "The thing receiving the action ends in -a (or -an).",
+  "لِـ of purpose puts the verb in the subjunctive — fatḥa.": "After لِـ meaning ‘in order to’, the verb ends in -a.",
+  "كَمْ takes singular accusative.": "After كَمْ: singular, ending in -an.",
+  "Second term of an iḍāfa — genitive.": "The second word of an ‘X of Y’ pair ends in -i.",
+  "Subjunctive after لِـ.": "After لِـ (‘in order to’), the verb ends in -a.",
+  "Singular accusative after كَمْ.": "After كَمْ: singular, ending in -an.",
+  "كُلِّيَّة is genitive after فِي even though it heads the iḍāfa.": "After فِي, كُلِّيَّة ends in -i, even though it’s the first word of ‘college of…’.",
+  "Object and its adjective both manṣūb.": "The thing wanted and its describing word both end in -a (or -an).",
+  "Genitive after فِي.": "The word after فِي (in) ends in -i.",
+  "Second term of the iḍāfa.": "The second word of an ‘X of Y’ pair ends in -i.",
+  "Feminine subject, feminine predicate.": "A feminine person or thing needs a feminine describing word (with ة).",
+  "Predicate of a nominal sentence is marfūʿ.": "In a sentence with no verb, the describing word ends in -u (-un).",
+  "Accusative adjective, but a diptote — fatḥa with no tanwin.": "The colour ends in -a here, but never adds the extra -n.",
+  "Singular accusative after 11–99.": "After 11 to 99: singular, ending in -an.",
+  "Feminine of أَفْعَل colours is فَعْلاء, and here it's marfūʿ.": "For a feminine word the colour takes its ـاء form (like حَمْراء), ending in -u here.",
+  "First term of an iḍāfa: no ال and no tanwin.": "The first word of an ‘X of Y’ pair has no ال and no extra -n.",
+  "Colour diptote: fatḥa, no tanwin.": "Colours never add the extra -n; here it ends in -a.",
+  "Diptote — the noun takes tanwin but the colour doesn't.": "The noun adds the extra -n, but the colour never does.",
+  "كانَ makes its predicate manṣūb.": "After كانَ, the describing word ends in -an.",
+  "فَوْقَ is a fixed accusative adverb, followed by a genitive.": "فَوْقَ (above) always ends in -a, and the word after it ends in -i.",
+  "Predicate of كانَ is manṣūb.": "After كانَ, the describing word ends in -an.",
+  "Object of the verb — manṣūb, even though it heads an iḍāfa.": "It receives the action, so it ends in -a, even as the first word of ‘X of Y’.",
+  "Feminine colour, marfūʿ.": "The feminine form of the colour, ending in -u.",
+  "Predicate after ما — marfūʿ.": "The describing word here keeps its -u ending.",
+  "Here ازْدِحام is the delayed subject of لَيْسَ — marfūʿ.": "ازْدِحام is the thing there isn’t, so it keeps its -un ending.",
+  "لا cannot negate a nominal sentence like this.": "لا can’t say ‘is not’ here: use لَيْسَ.",
+  "Accusative dual.": "For ‘two’ here, use the ـَيْنِ ending.",
+  "Predicate — marfūʿ.": "The describing word keeps its -u (-un) ending.",
+  "Predicate of a nominal sentence — marfūʿ.": "In a sentence with no verb, the second part ends in -u.",
+  "Sound feminine plural: kasra in the accusative. This one catches people for years.": "Plurals ending in ـات use -in where others use -an. This one catches people for years.",
+  "Object of the verb and head of an iḍāfa: manṣūb, no ال, no tanwin.": "It receives the action, so it ends in -a, and as the first word of ‘X of Y’ it has no ال and no extra -n.",
+  "Sound feminine plural takes kasra in the accusative.": "Plurals ending in ـات use -in, never -an."
+ },
+ "drills": {
+  "___ is from ___ . Sixteen sentences; the country never changes shape after مِنْ here because these are all diptotes.": "___ is from ___ . Sixteen sentences. The country’s ending doesn’t change after مِنْ: these names never take -i or the extra -n.",
+  "I eat ___ . All four take the accusative after the verb.": "I eat ___ . All four are what you eat, so they end in -a (or -an).",
+  "I prefer ___ to ___ . Accusative on the left of عَلَى, genitive on the right — that contrast is the whole drill.": "I prefer ___ to ___ . The word before عَلَى ends in -a, the word after it in -i: that’s the whole drill.",
+  "I'm going to ___ . Note مَكَّةَ takes no kasra — it's a diptote.": "I'm going to ___ . Note مَكَّةَ ends in -a, not -i: names like this never take -i.",
+  "I go to ___ to study ___ . Note أَدْرُسَ takes a fatḥa after لِـ — that's the subjunctive.": "I go to ___ to study ___ . Note أَدْرُسَ ends in -a after لِـ (‘in order to’).",
+  "I studied at ___ . Every one is an iḍāfa: كُلِّيَّة plus a genitive.": "I studied at ___ . Each is ‘college of…’: كُلِّيَّة, then a word ending in -i.",
+  "I want ___ . Everything after أُرِيدُ is accusative — listen for the -an.": "I want ___ . What you want ends in -a: listen for the -an.",
+  "The thobe is ___ . These colours are diptotes — no tanwin, ever.": "The thobe is ___ . These colours never add the extra -n.",
+  "I like the season of ___ . Note it's an iḍāfa — فَصْل then the season in the genitive.": "I like the season of ___ . It’s ‘season of…’: فَصْل, then the season ending in -i.",
+  "The car is ___ . Feminine colours: the fuʿlāʾ pattern, and no tanwin.": "The car is ___ . Colours for feminine words (ending in ـاء), and never the extra -n.",
+  "My hobby is ___ . Both sides of this sentence are nominative — no verb in it at all.": "My hobby is ___ . No verb at all: both parts keep their usual -u ending.",
+  "I read ___ . Watch مَجَلَّاتٍ — sound feminine plurals take kasra, not fatḥa, in the accusative.": "I read ___ . Watch مَجَلَّاتٍ: plurals ending in ـات end in -in, never -an."
+ },
+ "toolkit": {
+  "A noun follows, so the doubled لَكِنَّ, which makes it manṣūb.": "A noun follows, so it’s لَكِنَّ with the shadda, and the noun ends in -a.",
+  "قَبْلَ أَنْ takes a verb in the subjunctive — أَنامَ with a fatḥa.": "After قَبْلَ أَنْ (‘before’), the verb ends in -a: أَنامَ.",
+  "Counting hours — كَمْ, followed by a singular accusative.": "Counting hours: كَمْ, then one hour, ending in -an."
+ }
+}
