@@ -1,0 +1,33 @@
+name: Backend deploy
+
+# The server side in Supabase: database setup (supabase/sql/backend.sql), function
+# secrets, and the Edge Functions in supabase/functions. Runs when they change on
+# main, or by hand.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['supabase/functions/**', 'supabase/sql/**', 'supabase/config.toml', 'tools/backend-deploy.js']
+
+permissions:
+  contents: read
+
+concurrency: backend-deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Database and secrets
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+        run: node tools/backend-deploy.js
+      - name: Edge Functions
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: npx --yes supabase@2 functions deploy account billing emails stripe-webhook support --project-ref gaajfahtrbdybjuunfhe --use-api

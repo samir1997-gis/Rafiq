@@ -26,6 +26,7 @@
 <script src="reminders.js?v=1"></script>
 <script src="nav.js?v=20260924"></script>
 <script src="sounds.js?v=1"></script>
+<script src="plan.js?v=20260927"></script>
 <style>
 main.wrap{max-width:680px}
 .head{padding:30px 0 6px}
@@ -52,6 +53,19 @@ main.wrap{max-width:680px}
 #remGroup .row[hidden],#remGroup .btn[hidden]{display:none}
 .msg-err{color:var(--rubric);font-size:13px;line-height:1.5;padding:10px 4px 0}
 .saved.show{opacity:1}
+.planrow{flex-direction:column;align-items:stretch}
+.planrow .acts{display:flex;gap:8px;flex-wrap:wrap}
+.planrow .acts .btn{flex:1 1 auto;text-align:center;display:inline-flex;align-items:center;justify-content:center;min-height:44px}
+.planrow .pname{font-size:17px;font-weight:700}
+.planok{margin:0 0 10px;padding:12px 14px;border-radius:8px;background:color-mix(in srgb,var(--verdigris) 12%,var(--card));border:1px solid color-mix(in srgb,var(--verdigris) 40%,var(--rule));font-size:14px}
+.confirmbox{width:100%;margin-top:4px;padding-top:12px;border-top:1px solid var(--rule)}
+.confirmbox[hidden]{display:none}
+.confirmbox p{font-size:13.5px;line-height:1.5;color:var(--ink);margin:0 0 10px}
+.confirmbox input{border:1px solid var(--rule);border-radius:5px;background:var(--paper);height:42px;padding:0 10px;font-family:var(--ut);font-size:16px;color:var(--ink);width:160px;letter-spacing:.08em}
+.confirmbox input:focus{outline:none;border-color:var(--rubric)}
+.confirmbox .acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.confirmbox .err{font-size:13px;color:var(--rubric);margin-top:8px;min-height:18px}
+a.rowlink{color:var(--verdigris);font-size:14px;text-decoration:none;white-space:nowrap}
 .rateval{font-family:var(--ut);font-size:12px;color:var(--ink-soft);margin-left:8px}
 
 .seg{display:inline-flex;border:1px solid var(--rule);border-radius:6px;overflow:hidden}
@@ -79,7 +93,27 @@ main.wrap{max-width:680px}
 <main class="wrap">
   <div class="head">
     <h1>Settings</h1>
-    <p>Manage your learning pace, audio, and account.</p>
+    <p>Manage your plan, learning pace, audio, and account.</p>
+  </div>
+
+  <!-- PLAN -->
+  <div class="group">
+    <div class="glabel">Your plan</div>
+    <div class="planok" id="planOk" hidden role="status">Thank you! Your plan is set up. It can take a few seconds to show here.</div>
+    <div class="row planrow">
+      <div class="rl"><div class="pname" id="planName">…</div><div class="rs" id="planInfo"></div></div>
+      <div class="acts" id="planActs"></div>
+      <div class="confirmbox" id="cancelBox" hidden>
+        <p id="cancelText"></p>
+        <div class="acts"><button class="btn small danger" type="button" id="cancelYes">Cancel my plan</button>
+          <button class="btn small ghost" type="button" id="cancelNo">Keep it</button></div>
+        <div class="err" id="cancelErr" role="alert"></div>
+      </div>
+    </div>
+    <div class="row planrow">
+      <div class="rl"><div class="rt">Help and support</div><div class="rs">Report a problem, or ask about your plan, payments or anything else. A real person replies. <a href="privacy.html" style="color:var(--verdigris)">Privacy policy</a></div></div>
+      <a class="btn small ghost" href="help.html" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px">Report a problem or get help</a>
+    </div>
   </div>
 
   <!-- LEARNING -->
@@ -89,7 +123,7 @@ main.wrap{max-width:680px}
       <div class="rl"><div class="rt">New words a day</div><div class="rs">How many brand-new words to add each day. Your reviews are always shown on top of this.</div></div>
       <span>
         <select id="paceSel">
-          <option value="2">2</option><option value="3">3</option><option value="5">5</option><option value="8">8</option>
+          <option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="8">8</option>
         </select>
         <span class="saved" id="paceSaved">Saved</span>
       </span>
@@ -228,9 +262,16 @@ main.wrap{max-width:680px}
       <div class="rl"><div class="rt">Reset progress</div><div class="rs">Clears every word's box and due date. Cannot be undone.</div></div>
       <button class="btn small danger" onclick="resetProgress()">Reset</button>
     </div>
-    <div class="row soon">
+    <div class="row">
       <div class="rl"><div class="rt">Delete my account</div><div class="rs">Permanently remove your account and all your data.</div></div>
-      <span class="tag">Coming soon</span>
+      <button class="btn small danger" type="button" id="delBtn">Delete account</button>
+      <div class="confirmbox" id="delBox" hidden>
+        <p><b>This can’t be undone.</b> Your account, progress, streak, words and settings are deleted for good, and any subscription is cancelled straight away. To confirm, type <b>DELETE</b>.</p>
+        <div class="acts"><input id="delInput" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Type DELETE to confirm">
+          <button class="btn small danger" type="button" id="delYes" disabled>Delete for good</button>
+          <button class="btn small ghost" type="button" id="delNo">Cancel</button></div>
+        <div class="err" id="delErr" role="alert"></div>
+      </div>
     </div>
   </div>
 
@@ -469,6 +510,90 @@ async function resetProgress(){
   try{ localStorage.removeItem('bay_vocab_progress_v1'); }catch(_){}
   alert('Progress reset. Head to the Words page to start fresh.');
 }
+
+// ---- your plan ----
+(function(){
+  const P = window.RafiqPlan; if(!P) return;
+  const $ = id => document.getElementById(id);
+  const NAME = { essentials:'Essentials', complete:'Complete' };
+  if(new URLSearchParams(location.search).get('plan') === 'done') $('planOk').hidden = false;
+  const btn = (label, fn, cls='') => { const b=document.createElement(cls==='a'?'a':'button');
+    if(cls==='a'){ b.className='btn small'; b.href=fn; } else { b.type='button'; b.className='btn small '+cls; b.onclick=fn; }
+    b.textContent=label; return b; };
+  async function act(action, el){
+    el.disabled = true; const t = el.textContent; el.textContent = '…';
+    const r = await P.call('billing', { action });
+    if(r && r.url){ location.href = r.url; return r; }
+    el.disabled = false; el.textContent = t; return r;
+  }
+  function paint(){
+    const s = P.state(), acts = $('planActs'); acts.innerHTML = '';
+    $('cancelBox').hidden = true;
+    if(P.BETA && s.kind !== 'paid'){
+      $('planName').textContent = 'Complete · free during the beta';
+      $('planInfo').textContent = s.trialEndsAt ? `When Rafiq launches, your free week runs until ${P.dateText(s.trialEndsAt)}. No card needed.` : 'Everything is free while Rafiq is in beta.';
+      acts.append(btn('See plans', 'plans.html', 'a'));
+    } else if(s.kind === 'paid'){
+      const per = s.interval === 'year' ? 'yearly' : 'monthly';
+      $('planName').textContent = `${NAME[s.plan]} · ${per}`;
+      $('planInfo').textContent = s.cancelAtPeriodEnd ? `Cancelled. You keep ${NAME[s.plan]} until ${P.dateText(s.periodEnd)}, then it stops. Nothing more will be charged.`
+        : s.status === 'trialing' ? `Your first payment is on ${P.dateText(s.periodEnd)}.`
+        : s.status === 'past_due' ? 'Your last payment didn’t go through. Please update your card.'
+        : `Renews on ${P.dateText(s.periodEnd)}.`;
+      if(s.cancelAtPeriodEnd) acts.append(btn('Resume my plan', async e => { const r = await act('resume', e.target); if(r && r.ok){ await P.load(); loading(); } }));
+      else acts.append(btn('Cancel subscription', () => { $('cancelText').innerHTML =
+        `Your plan will stop on <b>${P.dateText(s.periodEnd)}</b>, the end of the period you’ve paid for. You won’t be charged again, and you can resume any time before then.`;
+        $('cancelBox').hidden = false; $('cancelErr').textContent = ''; }, 'danger'));
+      acts.append(btn('Manage billing', e => act('portal', e.target), 'ghost'));
+    } else if(s.kind === 'trial'){
+      $('planName').textContent = 'Free week';
+      $('planInfo').textContent = `${s.daysLeft} day${s.daysLeft===1?'':'s'} left, until ${P.dateText(s.trialEndsAt)}. No card needed.`;
+      acts.append(btn('Choose a plan', 'plans.html', 'a'));
+    } else if(s.kind === 'ended'){
+      $('planName').textContent = 'No plan';
+      $('planInfo').textContent = 'Your free week has ended. Choose a plan to carry on learning. Your progress is saved.';
+      acts.append(btn('Choose a plan', 'plans.html', 'a'));
+      if(s.hasCustomer) acts.append(btn('Billing history', e => act('portal', e.target), 'ghost'));
+    } else {
+      $('planName').textContent = 'Checking your plan…'; $('planInfo').textContent = '';
+    }
+  }
+  function loading(){ paint(); }
+  $('cancelNo').onclick = () => { $('cancelBox').hidden = true; };
+  $('cancelYes').onclick = async () => {
+    const b = $('cancelYes'); b.disabled = true; b.textContent = 'Cancelling…';
+    const r = await P.call('billing', { action:'cancel' });
+    b.disabled = false; b.textContent = 'Cancel my plan';
+    if(r && r.ok){ await P.load(); paint(); }
+    else $('cancelErr').textContent = 'That didn’t work. Please try again, or email support@rafiq-arabic.com.';
+  };
+  paint();
+  // right after checkout, Stripe's message can take a moment to arrive
+  const again = (n) => P.load().then(() => { paint(); if(n > 0 && $('planOk').hidden === false && P.state().kind !== 'paid') setTimeout(() => again(n - 1), 3000); });
+  again(5);
+})();
+
+// ---- delete my account ----
+(function(){
+  const $ = id => document.getElementById(id);
+  const box = $('delBox'), input = $('delInput'), yes = $('delYes');
+  $('delBtn').onclick = () => { box.hidden = false; $('delBtn').hidden = true; input.value=''; yes.disabled = true; input.focus(); };
+  $('delNo').onclick = () => { box.hidden = true; $('delBtn').hidden = false; $('delErr').textContent = ''; };
+  input.oninput = () => { yes.disabled = input.value.trim().toUpperCase() !== 'DELETE'; };
+  yes.onclick = async () => {
+    yes.disabled = true; yes.textContent = 'Deleting…'; $('delErr').textContent = '';
+    const r = await RafiqPlan.call('account', { action:'delete', confirm:'DELETE' });
+    if(r && r.ok){
+      try{ await sb.auth.signOut({ scope:'local' }); }catch(_){}
+      try{ ['rafiq_billing','rafiq_onboarded','bay_name','rafiq_progress_mirror','rafiq_progress_queue','bay_last_active'].forEach(k => localStorage.removeItem(k)); }catch(_){}
+      location.href = 'index.html?deleted=1';
+      return;
+    }
+    yes.textContent = 'Delete for good'; yes.disabled = false;
+    $('delErr').textContent = r && r.error === 'offline' ? 'You seem to be offline. Check your connection and try again.'
+      : 'Your account couldn’t be deleted just now. Please try again, or email support@rafiq-arabic.com and we’ll do it for you.';
+  };
+})();
 
 // ---- appearance (System / Light / Dark) ----
 (function(){

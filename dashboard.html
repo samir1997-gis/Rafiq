@@ -51,6 +51,15 @@
 @media (max-width:860px){ .acctbar{padding:14px 16px 0;margin-top:26px} .acctbar .btn{min-height:44px} }
 @media (min-width:861px){ .acctbar{display:none} }   /* desktop already has Log out in the top nav */
 
+.pstrip{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0 0;padding:10px 14px;border-radius:10px;
+  background:var(--card);border:1px solid var(--rule);font-size:14px}
+.pstrip b{font-variant-numeric:tabular-nums}
+.pstrip a{color:var(--verdigris);font-weight:700;text-decoration:none;white-space:nowrap;padding:6px 0}
+.pstrip.soon{border-color:var(--gold)}
+.pstrip.ended{display:block;border:1px solid var(--gold);padding:16px}
+.pstrip.ended .t{font-size:17px;font-weight:700;margin-bottom:4px}
+.pstrip.ended p{color:var(--ink-soft);margin:0 0 12px;line-height:1.5}
+.pstrip.ended .cont{display:inline-block}
 .today-card{background:var(--card);border:1px solid var(--verdigris);border-radius:14px;padding:20px;margin:18px 0 10px}
 .today-card .k{font-family:var(--ut);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
 .today-card .u{font-family:var(--ar);direction:rtl;text-align:left;font-size:22px;line-height:1.8;color:var(--rubric)}
@@ -155,6 +164,7 @@
   <section class="hero">
     <div class="greet" id="greetAr">السَّلامُ عَلَيْكُم</div>
   </section>
+  <div id="planStrip"></div>
   <div id="home"></div>
 </main>
 <script src="vocab-data.js?v=20260928"></script>
@@ -277,8 +287,23 @@ function paintHome(){
 </nav>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=6"></script>
-<script src="plan.js?v=20260922"></script>
-<script>RafiqPlan.requirePlan();</script>
+<script src="plan.js?v=20260927"></script>
+<script>
+/* The free week: a quiet countdown, and once it's over a card to choose a plan.
+   Home itself always stays open. */
+(function(){
+  const P = RafiqPlan, el = document.getElementById('planStrip');
+  function paint(){
+    const s = P.state();
+    if(P.BETA || !el){ if(el) el.innerHTML = ''; return; }
+    if(s.kind === 'trial') el.innerHTML = `<div class="pstrip${s.daysLeft<=2?' soon':''}"><span>Free week · <b>${s.daysLeft} day${s.daysLeft===1?'':'s'}</b> left</span><a href="plans.html">See plans</a></div>`;
+    else if(s.kind === 'ended') el.innerHTML = `<div class="pstrip ended"><div class="t">Your free week has ended</div>
+      <p>Choose a plan to carry on from where you are. Your progress, streak and words are all saved.</p><a class="cont" href="plans.html">Choose a plan</a></div>`;
+    else el.innerHTML = '';
+  }
+  paint(); P.load().then(paint);
+})();
+</script>
 <script src="progress.js?v=20260924"></script>
 <script src="path.js?v=20260928"></script>
 <script src="mistakes.js?v=20260922"></script>

@@ -1,0 +1,24 @@
+name: Stripe setup
+
+# Creates the Rafiq products, prices, customer portal and webhook in Stripe, and
+# stores the Stripe keys in Supabase. Needs the STRIPE_SECRET_KEY repository
+# secret (a test key first, the live key at launch). Safe to run again.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Set up Stripe
+        env:
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: node tools/stripe-setup.js

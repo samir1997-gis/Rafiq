@@ -78,12 +78,15 @@ Upcoming units (Travel & directions, Health & the body, Ramadan & Eid, Telling s
 
 `plan.js` has `BETA = true`, which gives everyone Complete and never asks anyone to subscribe. **Leave it on until payments work.** With it off, app pages send anyone without a plan to the pricing section of the landing page.
 
-### Taking payments (to do)
+### Plans, the free week and payments
 
-1. Create a Stripe account; add four Payment Links (Essentials and Complete, monthly and yearly), each with a 7-day trial.
-2. Add a `plan` column (`essentials` / `complete` / null) to the Supabase `profiles` table.
-3. Add a Stripe webhook (a second route on the Worker is the simplest place) that sets the paying user's `plan` and clears it on cancellation. The Worker will need the Stripe signing secret and a Supabase service key as secrets.
-4. In `plan.js`, read the profile's `plan` in `tier()` and set `BETA = false`.
+- **Free week:** every account gets 7 days of Complete, no card (chosen with TypeSafe: `tools/typesafe-exp/trial_model.py`). Accounts made before launch get theirs until 17 Oct 2026. Home shows a countdown; emails go 2 days before and on the last day. Afterwards, lessons send learners to `plans.html`; Home, Progress and the word list stay open.
+- **Where it lives:** the `billing` table in Supabase (one row per account; learners can only read their own). `plan.js` reads it; only the server writes it.
+- **Server:** Supabase Edge Functions in `supabase/functions`: `billing` (Stripe Checkout, the customer portal, cancel/resume), `stripe-webhook` (keeps `billing` in step with Stripe), `account` (Delete my account: cancels any subscription, deletes every row with the user's id, then the account), `emails` (welcome email on confirming, free-week reminders; called by the database). Database setup: `supabase/sql/backend.sql`.
+- **Deploying:** the **Backend deploy** Action runs on every change to `supabase/` on main (or by hand). It applies the SQL, stores `RESEND_API_KEY` and a hook secret, and deploys the functions.
+- **Stripe:** add the repository secret `STRIPE_SECRET_KEY` (a test key first), then run **Stripe setup**. It creates the products and four GBP prices (lookup keys `rafiq_<plan>_<monthly|yearly>`), the customer portal and the webhook, and stores the Stripe keys in Supabase. Run it again with the live key at launch.
+- **Launch:** set `BETA = false` in `plan.js`.
+- **Support:** support@rafiq-arabic.com (an ImprovMX alias), linked from Settings, the plans page and every email.
 
 ## Setting up
 

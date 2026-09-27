@@ -1,0 +1,15 @@
+# Only what the Edge Function deploy needs (tools/backend-deploy.js, "Backend deploy" Action).
+project_id = "gaajfahtrbdybjuunfhe"
+
+# Every function checks its caller itself (a signed-in learner, the database's
+# hook secret, or Stripe's signature), so the gateway's JWT check is off.
+[functions.account]
+verify_jwt = false
+[functions.billing]
+verify_jwt = false
+[functions.emails]
+verify_jwt = false
+[functions.stripe-webhook]
+verify_jwt = false
+[functions.support]
+verify_jwt = false
