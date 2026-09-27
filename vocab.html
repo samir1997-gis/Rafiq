@@ -656,7 +656,12 @@ function syncAudioUI(){ const on=hasArabicVoice(); document.querySelectorAll('.s
 
 /* ---- daily test: multiple choice + typed English, shares the same spaced repetition ---- */
 let qQueue=[], qCurrent=null, qTotal=0, qDone=0, qCorrect=0, qLocked=false;
-function primary(s){ return (s||'').split('/')[0].trim(); }
+// the main meaning: before the first '/' that isn't inside brackets, without wrapping brackets
+function primary(s){
+  let d=0; s=String(s||'');
+  for(let i=0;i<s.length;i++){ const c=s[i]; if(c==='(') d++; else if(c===')') d--; else if(c==='/' && d<=0){ s=s.slice(0,i); break; } }
+  s=s.trim(); return /^\(.*\)$/.test(s) ? s.slice(1,-1).trim() : s;
+}
 function qShuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 
 // A word qualifies for TYPING when the learner knows it (box >= 3) AND the
@@ -739,7 +744,7 @@ function nextQuestion(){
   } else {
     // MULTIPLE CHOICE — as before, mixed direction
     const dir = Math.random()<0.5 ? 'ar2en' : 'en2ar';
-    const others = VOCAB.filter(w=>w.id!==qCurrent.id); qShuffle(others);
+    const others = VOCAB.filter(w=>w.id!==qCurrent.id && primary(w.en).toLowerCase()!==primary(qCurrent.en).toLowerCase() && primary(w.ar)!==primary(qCurrent.ar)); qShuffle(others);
     let answer, options;
     if(dir==='ar2en'){
       promptEl.textContent='What does this mean?';

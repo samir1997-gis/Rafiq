@@ -206,16 +206,16 @@ function runWords(p, step){
     }
     setBar(words.length+k,total);
     const w=order[k];
-    const pool=shuffle(words.filter(x=>x!==w && x.en!==w.en)).slice(0,3).concat([w]);
+    const pool=shuffle(words.filter(x=>x!==w && !tooClose(x.en,w.en))).slice(0,3).concat([w]);
     const body=el(`<div><p class="kicker">What does this mean?</p>
       <div class="card"><div class="big" id="w">${esc(w.ar)}</div></div><div class="opts" id="o"></div></div>`);
     const a=body.querySelector('#w'); a.onclick=()=>say(w.ar,a);
     const next=button('Next',()=>check(k+1)); next.disabled=true;
     shuffle(pool).forEach(x=>{
-      const b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=x.en.split('/')[0];
+      const b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=gloss(x.en);
       b.onclick=()=>{ if(!next.disabled) return;
         b.classList.add(x===w?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(x===w);
-        if(x!==w) [...body.querySelectorAll('.opt')].find(o=>o.textContent===w.en.split('/')[0]).classList.add('right');
+        if(x!==w) [...body.querySelectorAll('.opt')].find(o=>o.textContent===gloss(w.en)).classList.add('right');
         say(w.ar,a); next.disabled=false; };
       body.querySelector('#o').appendChild(b);
     });
@@ -251,6 +251,16 @@ const ENDINGS_HTML=`<details class="endings"><summary>What are these endings (-u
   <ul><li><b>-u</b> (ـُ): the usual ending</li><li><b>-a</b> (ـَ): for the thing receiving an action, and after some words</li>
   <li><b>-i</b> (ـِ): after little words like فِي ‘in’ and بِـ ‘with’</li></ul>
   <p>Without ال, add an <b>n</b> sound: <b>-un</b> (ـٌ), <b>-an</b> (ـً), <b>-in</b> (ـٍ). You’ll pick these up as you go, and people often leave them off when speaking.</p></details>`;
+/* The short meaning shown on an answer button: the part before the first '/'
+   that isn't inside brackets, without wrapping brackets. */
+function gloss(en){
+  let d=0, s=String(en||'');
+  for(let i=0;i<s.length;i++){ const c=s[i]; if(c==='(') d++; else if(c===')') d--; else if(c==='/' && d<=0){ s=s.slice(0,i); break; } }
+  s=s.trim(); if(/^\(.*\)$/.test(s)) s=s.slice(1,-1).trim();
+  return s;
+}
+/* Two meanings too close to both be offered (the same, or one inside the other: 'yes' / 'yes, of course'). */
+const tooClose=(a,b)=>{ a=gloss(a).toLowerCase(); b=gloss(b).toLowerCase(); return a===b || (' '+a+' ').includes(' '+b+' ') || (' '+b+' ').includes(' '+a+' '); };
 function runGrammar(p, step){
   const notes=RafiqPath.unitData(p.n).grammar||[];
   let i=0;
