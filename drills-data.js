@@ -70,7 +70,7 @@ const DATA=[
     {tpl:["أَنا ",["طالِبٌ","مُدَرِّسٌ","مُهَنْدِسٌ","طَبِيبٌ"]," ."],en:"I am a ___ . All four jobs come straight from unit 1."},
     {tpl:["هَذِهِ ",["صَدِيقَتِي","أُخْتِي","طالِبَةٌ","طَبِيبَةٌ"]," ."],en:"This is ___ . Feminine throughout — هَذِهِ, and the ة on every word."},
     {tpl:["ما ",["اسْمُكَ","جِنْسِيَّتُكَ","اسْمُها","جِنْسِيَّتُهُ"]," ؟"],en:"What is ___ ? Swap the possessive ending and the whole question changes person."},
-    {tpl:[["أَنا","هُوَ","هِيَ","صَدِيقِي"]," مِنْ ",["مِصْرَ","باكِسْتانَ","بِرِيطانْيا","تُرْكِيا"]," ."],en:"___ is from ___ . Sixteen sentences; the country never changes shape after مِنْ here because these are all diptotes."}
+    {tpl:[["أَنا","هُوَ","هِيَ","صَدِيقِي"]," مِنْ ",["مِصْرَ","باكِسْتانَ","بِرِيطانْيا","تُرْكِيا"]," ."],en:"___ is from ___ . Sixteen sentences. The country’s ending doesn’t change after مِنْ: these names never take -i or the extra -n."}
   ],
   transforms:[
     {task:["حَوِّلْ إِلَى الْمُؤَنَّثِ","Change to feminine"],src:"هَذا طالِبٌ.",ans:"هَذِهِ طالِبَةٌ."},
@@ -484,9 +484,9 @@ const DATA=[
   ],
   subs:[
     {tpl:["أَنا ",["جَوْعانُ","سَمِينٌ","نَحِيفٌ","بِخَيْرٍ"]," ."],en:"I am ___ ."},
-    {tpl:["آكُلُ ",["الأَرُزَّ","الدَّجاجَ","السَّمَكَ","اللَّحْمَ"]," ."],en:"I eat ___ . All four take the accusative after the verb."},
+    {tpl:["آكُلُ ",["الأَرُزَّ","الدَّجاجَ","السَّمَكَ","اللَّحْمَ"]," ."],en:"I eat ___ . All four are what you eat, so they end in -a (or -an)."},
     {tpl:["أَشْرَبُ ",["الشَّايَ","الْقَهْوَةَ","الْحَلِيبَ","الْماءَ"]," ."],en:"I drink ___ ."},
-    {tpl:["أُفَضِّلُ ",["الشَّايَ","السَّمَكَ","الأَرُزَّ","الْفاكِهَةَ"]," عَلَى ",["الْقَهْوَةِ","اللَّحْمِ","الْخُبْزِ","التَّمْرِ"]," ."],en:"I prefer ___ to ___ . Accusative on the left of عَلَى, genitive on the right — that contrast is the whole drill."}
+    {tpl:["أُفَضِّلُ ",["الشَّايَ","السَّمَكَ","الأَرُزَّ","الْفاكِهَةَ"]," عَلَى ",["الْقَهْوَةِ","اللَّحْمِ","الْخُبْزِ","التَّمْرِ"]," ."],en:"I prefer ___ to ___ . The word before عَلَى ends in -a, the word after it in -i: that’s the whole drill."}
   ],
   transforms:[
     {task:["حَوِّلْ إِلَى الْماضِي","Change to the past"],src:"آكُلُ الْغَداءَ فِي الْمَطْعَمِ.",ans:"أَكَلْتُ الْغَداءَ فِي الْمَطْعَمِ."},
@@ -589,7 +589,7 @@ const DATA=[
   subs:[
     {tpl:["أُصَلِّي ",["الْفَجْرَ","الظُّهْرَ","الْعَصْرَ","الْمَغْرِبَ"]," ."],en:"I pray ___ . Four of the five daily prayers — add الْعِشاءَ yourself."},
     {tpl:["الْمَسْجِدُ ",["قَرِيبٌ","بَعِيدٌ","بِجانِبِ الْبَيْتِ","بِجانِبِ الْمَدْرَسَةِ"]," ."],en:"The mosque is ___ ."},
-    {tpl:["أَنا ذاهِبٌ إِلى ",["الْمَسْجِدِ","مَكَّةَ","الْمَدِينَةِ","الْعَمَلِ"]," ."],en:"I'm going to ___ . Note مَكَّةَ takes no kasra — it's a diptote."},
+    {tpl:["أَنا ذاهِبٌ إِلى ",["الْمَسْجِدِ","مَكَّةَ","الْمَدِينَةِ","الْعَمَلِ"]," ."],en:"I'm going to ___ . Note مَكَّةَ ends in -a, not -i: names like this never take -i."},
     {tpl:["صَلَّيْتُ ",["الْفَجْرَ","الظُّهْرَ","الْمَغْرِبَ","الْعِشاءَ"]," فِي ",["الْمَسْجِدِ","الْبَيْتِ","الْمَسْجِدِ الْحَرامِ","الْمَسْجِدِ النَّبَوِيِّ"]," ."],en:"I prayed ___ in ___ . Sixteen sentences."}
   ],
   transforms:[
@@ -695,7 +695,7 @@ const DATA=[
     {tpl:["أَدْرُسُ ",["اللُّغَةَ الْعَرَبِيَّةَ","التَّارِيخَ","الْعُلُومَ","الثَّقافَةَ الإِسْلامِيَّةَ"]," ."],en:"I study ___ ."},
     {tpl:["أَدْرُسُ فِي ",["كُلِّيَّةِ التَّرْبِيَةِ","كُلِّيَّةِ الطِّبِّ","الْمَدْرَسَةِ","الْمَكْتَبَةِ"]," ."],en:"I study at ___ ."},
     {tpl:["الْيَوْمُ الدِّراسِيُّ ",["يَبْدَأُ مُبَكِّرًا","يَنْتَهِي فِي الظُّهْرِ","فِيهِ أَرْبَعُ حِصَصٍ","طَوِيلٌ جِدًّا"]," ."],en:"The school day ___ . Three verb phrases and one adjective — all valid predicates."},
-    {tpl:["أَذْهَبُ إِلى ",["الْمَكْتَبَةِ","الْمُخْتَبَرِ","الصَّفِّ","الْكُلِّيَّةِ"]," لِأَدْرُسَ ",["اللُّغَةَ الْعَرَبِيَّةَ","الْعُلُومَ","التَّارِيخَ"]," ."],en:"I go to ___ to study ___ . Note أَدْرُسَ takes a fatḥa after لِـ — that's the subjunctive."}
+    {tpl:["أَذْهَبُ إِلى ",["الْمَكْتَبَةِ","الْمُخْتَبَرِ","الصَّفِّ","الْكُلِّيَّةِ"]," لِأَدْرُسَ ",["اللُّغَةَ الْعَرَبِيَّةَ","الْعُلُومَ","التَّارِيخَ"]," ."],en:"I go to ___ to study ___ . Note أَدْرُسَ ends in -a after لِـ (‘in order to’)."}
   ],
   transforms:[
     {task:["اسْأَلْ عَنِ الْمادَّةِ","Ask what they study"],src:"أَدْرُسُ اللُّغَةَ الْعَرَبِيَّةَ.",ans:"ماذا تَدْرُسُ؟"},
@@ -799,7 +799,7 @@ const DATA=[
   subs:[
     {tpl:["أَنا ",["مُعَلِّمٌ","طَبِيبٌ","مُهَنْدِسٌ","طَيَّارٌ"]," ."],en:"I'm a ___ ."},
     {tpl:["أَعْمَلُ فِي ",["الْمَدْرَسَةِ","الْمُسْتَشْفى","الشَّرِكَةِ","الْجامِعَةِ"]," ."],en:"I work at ___ . Note الْمُسْتَشْفى never changes its ending — it's a maqṣūr noun."},
-    {tpl:["دَرَسْتُ فِي ",["كُلِّيَّةِ التَّرْبِيَةِ","كُلِّيَّةِ الطِّبِّ","كُلِّيَّةِ الْهَنْدَسَةِ","كُلِّيَّةِ الصَّيْدَلَةِ"]," ."],en:"I studied at ___ . Every one is an iḍāfa: كُلِّيَّة plus a genitive."},
+    {tpl:["دَرَسْتُ فِي ",["كُلِّيَّةِ التَّرْبِيَةِ","كُلِّيَّةِ الطِّبِّ","كُلِّيَّةِ الْهَنْدَسَةِ","كُلِّيَّةِ الصَّيْدَلَةِ"]," ."],en:"I studied at ___ . Each is ‘college of…’: كُلِّيَّة, then a word ending in -i."},
     {tpl:[["أَخِي","صَدِيقِي","وَالِدِي","عَمِّي"]," يَعْمَلُ فِي ",["الْمُسْتَشْفى","الشَّرِكَةِ","الْمَدْرَسَةِ","الْجامِعَةِ"]," ."],en:"___ works at ___ . Sixteen sentences."}
   ],
   transforms:[
@@ -903,9 +903,9 @@ const DATA=[
      en:"I want a notebook → and a reading book → and a grammar book → and they're all in this section → in front of the door."}
   ],
   subs:[
-    {tpl:["أُرِيدُ ",["قَمِيصًا أَبْيَضَ","ثَوْبًا أَزْرَقَ","مُعْجَمًا عَرَبِيًّا","دَفْتَرًا"]," ."],en:"I want ___ . Everything after أُرِيدُ is accusative — listen for the -an."},
+    {tpl:["أُرِيدُ ",["قَمِيصًا أَبْيَضَ","ثَوْبًا أَزْرَقَ","مُعْجَمًا عَرَبِيًّا","دَفْتَرًا"]," ."],en:"I want ___ . What you want ends in -a: listen for the -an."},
     {tpl:["بِكَمْ ",["هَذا الْقَمِيصُ","هَذا الثَّوْبُ","هَذا الْمُعْجَمُ","طَبَقُ الْبَيْضِ"]," ؟"],en:"How much is ___ ? The single most useful question in this unit."},
-    {tpl:["الثَّوْبُ ",["أَحْمَرُ","أَخْضَرُ","أَصْفَرُ","أَسْوَدُ"]," ."],en:"The thobe is ___ . These colours are diptotes — no tanwin, ever."},
+    {tpl:["الثَّوْبُ ",["أَحْمَرُ","أَخْضَرُ","أَصْفَرُ","أَسْوَدُ"]," ."],en:"The thobe is ___ . These colours never add the extra -n."},
     {tpl:["اشْتَرَيْتُ ",["قَمِيصًا","مُعْجَمًا","ثَوْبًا","دَفْتَرًا"]," بِـ",["ثَلاثِينَ","خَمْسِينَ","ثَمانِينَ"]," رِيالًا ."],en:"I bought ___ for ___ riyals. Twelve sentences; say every one."}
   ],
   transforms:[
@@ -1009,7 +1009,7 @@ const DATA=[
   ],
   subs:[
     {tpl:["الْجَوُّ الْيَوْمَ ",["حارٌّ","بارِدٌ","دافِئٌ","مُعْتَدِلٌ"]," ."],en:"The weather today is ___ ."},
-    {tpl:["أُحِبُّ فَصْلَ ",["الرَّبِيعِ","الصَّيْفِ","الْخَرِيفِ","الشِّتاءِ"]," ."],en:"I like the season of ___ . Note it's an iḍāfa — فَصْل then the season in the genitive."},
+    {tpl:["أُحِبُّ فَصْلَ ",["الرَّبِيعِ","الصَّيْفِ","الْخَرِيفِ","الشِّتاءِ"]," ."],en:"I like the season of ___ . It’s ‘season of…’: فَصْل, then the season ending in -i."},
     {tpl:["دَرَجَةُ الْحَرارَةِ ",["خَمْسٌ فَوْقَ الصِّفْرِ","تَحْتَ الصِّفْرِ","ثَلاثُونَ دَرَجَةً","صِفْرٌ"]," ."],en:"The temperature is ___ ."},
     {tpl:["فِي ",["الصَّيْفِ","الشِّتاءِ","الرَّبِيعِ","الْخَرِيفِ"]," الْجَوُّ ",["حارٌّ","بارِدٌ","مُعْتَدِلٌ","دافِئٌ"]," ."],en:"In ___ the weather is ___ . Sixteen sentences — run the whole grid."}
   ],
@@ -1115,7 +1115,7 @@ const DATA=[
   subs:[
     {tpl:["أَسْكُنُ فِي ",["مَدِينَةٍ كَبِيرَةٍ","قَرْيَةٍ هادِئَةٍ","بَلَدٍ بَعِيدٍ","مَدِينَةٍ قَرِيبَةٍ مِنَ الْبَحْرِ"]," ."],en:"I live in ___ ."},
     {tpl:["الْمَدِينَةُ ",["هادِئَةٌ","كَبِيرَةٌ","فِيها ازْدِحامٌ","فِيها ضَوْضاءُ"]," ."],en:"The city is ___ . The last two swap an adjective for a whole clause — both are legal after the noun."},
-    {tpl:["السَّيَّارَةُ ",["بَيْضاءُ","حَمْراءُ","زَرْقاءُ","سَوْداءُ"]," ."],en:"The car is ___ . Feminine colours: the fuʿlāʾ pattern, and no tanwin."},
+    {tpl:["السَّيَّارَةُ ",["بَيْضاءُ","حَمْراءُ","زَرْقاءُ","سَوْداءُ"]," ."],en:"The car is ___ . Colours for feminine words (ending in ـاء), and never the extra -n."},
     {tpl:["زُرْتُ ",["الْقَرْيَةَ","الْمَدِينَةَ","بَلَدًا جَدِيدًا","صَدِيقِي"]," بِـ",["الْقِطارِ","السَّيَّارَةِ","الْحافِلَةِ"]," ."],en:"I visited ___ by ___ ."}
   ],
   transforms:[
@@ -1218,8 +1218,8 @@ const DATA=[
      en:"I have a library → at home → with Islamic and scientific books → and I read in it → every evening."}
   ],
   subs:[
-    {tpl:["هِوايَتِي ",["الْقِراءَةُ","السِّباحَةُ","جَمْعُ الطَّوابِعِ","الْخَطُّ الْعَرَبِيُّ"]," ."],en:"My hobby is ___ . Both sides of this sentence are nominative — no verb in it at all."},
-    {tpl:["أَقْرَأُ ",["كُتُبًا إِسْلامِيَّةً","مَجَلَّاتٍ عِلْمِيَّةً","الصُّحُفَ الْعَرَبِيَّةَ","كِتابًا قَصِيرًا"]," ."],en:"I read ___ . Watch مَجَلَّاتٍ — sound feminine plurals take kasra, not fatḥa, in the accusative."},
+    {tpl:["هِوايَتِي ",["الْقِراءَةُ","السِّباحَةُ","جَمْعُ الطَّوابِعِ","الْخَطُّ الْعَرَبِيُّ"]," ."],en:"My hobby is ___ . No verb at all: both parts keep their usual -u ending."},
+    {tpl:["أَقْرَأُ ",["كُتُبًا إِسْلامِيَّةً","مَجَلَّاتٍ عِلْمِيَّةً","الصُّحُفَ الْعَرَبِيَّةَ","كِتابًا قَصِيرًا"]," ."],en:"I read ___ . Watch مَجَلَّاتٍ: plurals ending in ـات end in -in, never -an."},
     {tpl:["أَهْوى ",["الرِّياضَةَ","السَّفَرَ","الْخِياطَةَ","الْفُرُوسِيَّةَ"]," ."],en:"I'm keen on ___ ."},
     {tpl:["أَقْضِي ",["ساعَةً","ساعَتَيْنِ","ثَلاثَ ساعاتٍ"]," فِي ",["الْقِراءَةِ","السِّباحَةِ","الْمَكْتَبَةِ","الْمَعْرِضِ"]," ."],en:"I spend ___ in ___ . Twelve sentences."}
   ],
@@ -1261,13 +1261,13 @@ const DATA=[
 const EXTRA={
 "01":{
  grammar:[
-  {t:"الجملة الاسمية",ar:"أَنا مُهَنْدِسٌ.",en:"No verb 'to be'. Both halves are marfūʿ — subject and predicate simply sit side by side."},
-  {t:"هَذا / هَذِهِ",ar:"هَذا طالِبٌ · هَذِهِ طالِبَةٌ.",en:"The demonstrative agrees in gender with what follows."},
-  {t:"النِّسْبَة",ar:"باكِسْتانِيٌّ · باكِسْتانِيَّةٌ",en:"Add ـِيّ to a country to make a nationality; add ة for the feminine."},
-  {t:"أدوات الاستفهام",ar:"ما · مَنْ · هَلْ · مِنْ أَيْنَ",en:"ما asks about things, مَنْ about people, هَلْ makes a yes/no question."}
+  {t:"الجملة الاسمية",ar:"أَنا مُهَنْدِسٌ.",h:"No word for ‘am’, ‘is’ or ‘are’",tr:"I am an engineer.",en:"Arabic just puts the two words side by side: ‘I engineer’. There’s no word for ‘is’ in the present."},
+  {t:"هَذا / هَذِهِ",ar:"هَذا طالِبٌ · هَذِهِ طالِبَةٌ.",h:"‘This’ has a male and a female form",tr:"This is a student (m) · This is a student (f).",en:"Use هَذا for a man or a masculine word, and هَذِهِ for a woman or a feminine word (most end in ة)."},
+  {t:"النِّسْبَة",ar:"باكِسْتانِيٌّ · باكِسْتانِيَّةٌ",h:"Turning a country into a nationality",tr:"Pakistani (man) · Pakistani (woman)",en:"Add ـِيّ to the country to say where someone is from. For a woman, add ة as well: ـِيَّة."},
+  {t:"أدوات الاستفهام",ar:"ما · مَنْ · هَلْ · مِنْ أَيْنَ",h:"Question words",tr:"What? · Who? · Is…? / Are…? · Where from?",en:"ما asks ‘what’, مَنْ asks ‘who’, and مِنْ أَيْنَ asks ‘where from’. Put هَلْ at the start of a sentence to make it a yes/no question."}
  ],
  cloze:[
-  {q:"___ أُخْتِي، وَهِيَ طَبِيبَةٌ.",o:["هَذا","هَذِهِ","ذَلِكَ","هُوَ"],a:1,w:"أُخْت is feminine, so the demonstrative must be هَذِهِ."},
+  {q:"___ أُخْتِي، وَهِيَ طَبِيبَةٌ.",o:["هَذا","هَذِهِ","ذَلِكَ","هُوَ"],a:1,w:"أُخْت (sister) is feminine, so ‘this’ is هَذِهِ."},
   {q:"صَدِيقَتِي باكِسْتانِ___ .",o:["ـيٌّ","ـيَّةٌ","ـيُّونَ","ـيَّاتٌ"],a:1,w:"A single female → the feminine singular nisba ending."},
   {q:"___ اسْمُكَ؟",o:["ما","مَنْ","هَلْ","أَيْنَ"],a:0,w:"ما is used for things, including names — مَنْ would ask 'who'."},
   {q:"___ أَنْتَ طالِبٌ؟",o:["ما","مَنْ","هَلْ","كَيْفَ"],a:2,w:"هَلْ turns a statement into a yes/no question."},
@@ -1276,64 +1276,64 @@ const EXTRA={
  ],
  fix:[
   {bad:"هَذا أُخْتِي.",good:"هَذِهِ أُخْتِي.",w:"Feminine noun needs هَذِهِ."},
-  {bad:"أَنا مُهَنْدِسًا.",good:"أَنا مُهَنْدِسٌ.",w:"The predicate of a nominal sentence is marfūʿ, not manṣūb."},
+  {bad:"أَنا مُهَنْدِسًا.",good:"أَنا مُهَنْدِسٌ.",w:"In a sentence with no verb, the describing word ends in -un, not -an."},
   {bad:"هَلْ أَنْتَ طالِبَةٌ يا خالِدُ؟",good:"هَلْ أَنْتَ طالِبٌ يا خالِدُ؟",w:"Khalid is male — drop the ة."},
-  {bad:"أَنا مِنْ مِصْرٍ.",good:"أَنا مِنْ مِصْرَ.",w:"مِصْر is a diptote: fatḥa instead of kasra, and never any tanwin."},
+  {bad:"أَنا مِنْ مِصْرٍ.",good:"أَنا مِنْ مِصْرَ.",w:"مِصْر (Egypt) never adds the extra -n, and takes -a where you’d expect -i."},
   {bad:"ما اسْمُكِ يا عُمَرُ؟",good:"ما اسْمُكَ يا عُمَرُ؟",w:"Umar is male, so the pronoun ending is ـكَ."}
  ]},
 "02":{
  grammar:[
-  {t:"الإضافة",ar:"صُورَةُ أُسْرَتِي",en:"Two nouns joined: the first takes no ال and no tanwin; the second is genitive."},
-  {t:"الضمائر المتصلة",ar:"وَالِدِي · وَالِدُكَ · وَالِدُهُ",en:"Possession is a suffix on the noun, not a separate word."},
-  {t:"المضارع: أنا / هو",ar:"أَتَوَضَّأُ · يَتَوَضَّأُ",en:"The prefix carries the person: أ for 'I', يـ for 'he', تـ for 'she' or 'you'."},
-  {t:"العدد ٣–١٠",ar:"تِسْعَةُ أَوْلادٍ",en:"The counted noun comes after, in the plural and genitive."}
+  {t:"الإضافة",ar:"صُورَةُ أُسْرَتِي",h:"‘The X of Y’: two nouns side by side",tr:"a picture of my family",en:"Say the thing first, then whose it is: ‘picture family-my’. The first word never takes ال or the extra -n; the second ends in -i (here hidden under ـِي, ‘my’)."},
+  {t:"الضمائر المتصلة",ar:"وَالِدِي · وَالِدُكَ · وَالِدُهُ",h:"‘My’, ‘your’, ‘his’ are endings",tr:"my father · your father · his father",en:"Instead of a separate word, Arabic adds an ending: ـِي for ‘my’, ـكَ for ‘your’, ـهُ for ‘his’."},
+  {t:"المضارع: أنا / هو",ar:"أَتَوَضَّأُ · يَتَوَضَّأُ",h:"Who’s doing it? Look at the first letter",tr:"I make wudu · he makes wudu",en:"In the present tense, the first letter shows who: أ for ‘I’, يـ for ‘he’, تـ for ‘she’ or ‘you’."},
+  {t:"العدد ٣–١٠",ar:"تِسْعَةُ أَوْلادٍ",h:"Counting from 3 to 10",tr:"nine boys",en:"The number comes first, then the thing you’re counting, in the plural and ending in -in."}
  ],
  cloze:[
-  {q:"هَذِهِ صُورَةُ ___ .",o:["أُسْرَتِي","أُسْرَةٌ","الأُسْرَةُ","أُسْرَةً"],a:0,w:"The second half of an iḍāfa; the pronoun suffix makes it definite."},
-  {q:"وَالِدِي يُصَلِّي فِي ___ .",o:["الْمَسْجِدُ","الْمَسْجِدِ","الْمَسْجِدَ","مَسْجِدًا"],a:1,w:"Anything after فِي is genitive."},
+  {q:"هَذِهِ صُورَةُ ___ .",o:["أُسْرَتِي","أُسْرَةٌ","الأُسْرَةُ","أُسْرَةً"],a:0,w:"It’s the second word of an ‘X of Y’ pair, and the ‘my / your’ ending already makes it ‘the’."},
+  {q:"وَالِدِي يُصَلِّي فِي ___ .",o:["الْمَسْجِدُ","الْمَسْجِدِ","الْمَسْجِدَ","مَسْجِدًا"],a:1,w:"The word after فِي (in) ends in -i."},
   {q:"أَتَوَضَّأُ ___ أَذْهَبُ إِلى الْمَسْجِدِ.",o:["وَ","ثُمَّ","لِأَنَّ","لَكِنَّ"],a:1,w:"Sequence in time — ثُمَّ marks 'and then'."},
-  {q:"فِي أُسْرَتِي تِسْعَةُ ___ .",o:["أَوْلادٍ","وَلَدٍ","أَوْلادٌ","الأَوْلادِ"],a:0,w:"After 3–10: plural, genitive, indefinite."},
+  {q:"فِي أُسْرَتِي تِسْعَةُ ___ .",o:["أَوْلادٍ","وَلَدٍ","أَوْلادٌ","الأَوْلادِ"],a:0,w:"After 3 to 10: plural, no ال, ending in -in."},
   {q:"___ هَذا؟ — هَذا جَدِّي.",o:["ما","مَنْ","أَيْنَ","كَيْفَ"],a:1,w:"مَنْ asks about people."},
   {q:"هُوَ ___ الْقُرْآنَ بَعْدَ الْفَجْرِ.",o:["أَقْرَأُ","يَقْرَأُ","تَقْرَأُ","نَقْرَأُ"],a:1,w:"هُوَ takes the يـ prefix."}
  ],
  fix:[
-  {bad:"هَذِهِ صُورَةُ الأُسْرَتِي.",good:"هَذِهِ صُورَةُ أُسْرَتِي.",w:"A noun with a possessive suffix is already definite — no ال."},
+  {bad:"هَذِهِ صُورَةُ الأُسْرَتِي.",good:"هَذِهِ صُورَةُ أُسْرَتِي.",w:"A word with ‘my’, ‘your’ etc. on the end can’t take ال as well."},
   {bad:"أَنا يَتَوَضَّأُ.",good:"أَنا أَتَوَضَّأُ.",w:"'I' takes the أ prefix."},
-  {bad:"فِي أُسْرَتِي تِسْعَةُ أَوْلادٌ.",good:"فِي أُسْرَتِي تِسْعَةُ أَوْلادٍ.",w:"Counted noun after 3–10 is genitive."},
-  {bad:"أُصَلِّي فِي الْمَسْجِدُ.",good:"أُصَلِّي فِي الْمَسْجِدِ.",w:"فِي always takes the genitive."},
+  {bad:"فِي أُسْرَتِي تِسْعَةُ أَوْلادٌ.",good:"فِي أُسْرَتِي تِسْعَةُ أَوْلادٍ.",w:"After 3 to 10, the word you’re counting ends in -in."},
+  {bad:"أُصَلِّي فِي الْمَسْجِدُ.",good:"أُصَلِّي فِي الْمَسْجِدِ.",w:"The word after فِي (in) always ends in -i."},
   {bad:"هَذِهِ جَدِّي.",good:"هَذا جَدِّي.",w:"جَدّ is masculine."}
  ]},
 "03":{
  grammar:[
-  {t:"خبر مقدّم",ar:"فِي الْغُرْفَةِ سَرِيرٌ.",en:"'There is' sentences put the place first and the thing second, marfūʿ."},
-  {t:"العدد ٣–١٠ ومعدوده",ar:"خَمْسُ غُرَفٍ",en:"With a feminine noun the number drops its ة — reverse agreement."},
-  {t:"كَمْ + تمييز",ar:"كَمْ غُرْفَةً؟",en:"After كَمْ the noun is singular and manṣūb, never plural."},
-  {t:"الترتيب",ar:"الدَّوْرُ الْخامِسُ",en:"Ordinals follow the noun and match it in definiteness and case."}
+  {t:"خبر مقدّم",ar:"فِي الْغُرْفَةِ سَرِيرٌ.",h:"Saying ‘there is’",tr:"There is a bed in the room.",en:"Start with the place, then the thing: ‘in the room, a bed’. There’s no separate word for ‘there is’."},
+  {t:"العدد ٣–١٠ ومعدوده",ar:"خَمْسُ غُرَفٍ",h:"Numbers 3 to 10 work backwards",tr:"five rooms",en:"With a feminine word (most end in ة, like غُرْفَة), say the number without ة: خَمْسُ غُرَفٍ. With a masculine word, add ة: خَمْسَةُ أَوْلادٍ. It feels backwards, but that’s the rule."},
+  {t:"كَمْ + تمييز",ar:"كَمْ غُرْفَةً؟",h:"‘How many?’ takes one, not many",tr:"How many rooms?",en:"After كَمْ, use the singular word ending in -an: ‘how many room?’. Never the plural."},
+  {t:"الترتيب",ar:"الدَّوْرُ الْخامِسُ",h:"‘First’, ‘fifth’ come after the noun",tr:"the fifth floor",en:"Arabic says ‘the floor the fifth’: the number word comes after the noun and copies it, so if the noun has ال, so does the number."}
  ],
  cloze:[
-  {q:"كَمْ ___ فِي الشَّقَّةِ؟",o:["غُرْفَةً","غُرَفٍ","غُرْفَةٌ","الْغُرْفَةِ"],a:0,w:"كَمْ takes a singular accusative — the commonest slip at this level."},
-  {q:"فِي الشَّقَّةِ خَمْسُ ___ .",o:["غُرَفٍ","غُرْفَةً","غُرْفاتٌ","الْغُرَفِ"],a:0,w:"After 3–10: plural and genitive."},
-  {q:"أَسْكُنُ فِي الدَّوْرِ ___ .",o:["الْخامِسُ","الْخامِسِ","خامِسٍ","الْخامِسَ"],a:1,w:"The adjective copies the noun's case — genitive after فِي."},
+  {q:"كَمْ ___ فِي الشَّقَّةِ؟",o:["غُرْفَةً","غُرَفٍ","غُرْفَةٌ","الْغُرْفَةِ"],a:0,w:"After كَمْ: one (singular), ending in -an. The most common slip at this stage."},
+  {q:"فِي الشَّقَّةِ خَمْسُ ___ .",o:["غُرَفٍ","غُرْفَةً","غُرْفاتٌ","الْغُرَفِ"],a:0,w:"After 3 to 10: plural, ending in -in."},
+  {q:"أَسْكُنُ فِي الدَّوْرِ ___ .",o:["الْخامِسُ","الْخامِسِ","خامِسٍ","الْخامِسَ"],a:1,w:"The describing word copies the noun’s ending: -i after فِي."},
   {q:"___ الْغُرْفَةِ سَرِيرٌ وَمِرْآةٌ.",o:["فِي","عَلى","إِلى","مِنْ"],a:0,w:"Containment — فِي."},
-  {q:"الشَّقَّةُ ___ .",o:["جَمِيلٌ","جَمِيلَةٌ","جَمِيلَةً","جَمِيلاتٌ"],a:1,w:"شَقَّة is feminine, and the predicate is marfūʿ."},
-  {q:"___ دَوْرٍ شَقَّتُكَ؟",o:["فِي أَيِّ","فِي أَيَّ","أَيُّ","كَمْ"],a:0,w:"أَيّ is genitive after فِي, and the noun after it is genitive too."}
+  {q:"الشَّقَّةُ ___ .",o:["جَمِيلٌ","جَمِيلَةٌ","جَمِيلَةً","جَمِيلاتٌ"],a:1,w:"شَقَّة (flat) is feminine, so the describing word takes ة, and it ends in -un."},
+  {q:"___ دَوْرٍ شَقَّتُكَ؟",o:["فِي أَيِّ","فِي أَيَّ","أَيُّ","كَمْ"],a:0,w:"After فِي, أَيّ ends in -i, and so does the word after it."}
  ],
  fix:[
-  {bad:"كَمْ غُرَفٍ فِي الشَّقَّةِ؟",good:"كَمْ غُرْفَةً فِي الشَّقَّةِ؟",w:"After كَمْ: singular, accusative."},
-  {bad:"فِي الشَّقَّةِ خَمْسُ غُرْفَةً.",good:"فِي الشَّقَّةِ خَمْسُ غُرَفٍ.",w:"After 3–10: plural, genitive."},
-  {bad:"أَسْكُنُ فِي الدَّوْرِ الْخامِسُ.",good:"أَسْكُنُ فِي الدَّوْرِ الْخامِسِ.",w:"The adjective must match the genitive noun."},
+  {bad:"كَمْ غُرَفٍ فِي الشَّقَّةِ؟",good:"كَمْ غُرْفَةً فِي الشَّقَّةِ؟",w:"After كَمْ: singular, ending in -an."},
+  {bad:"فِي الشَّقَّةِ خَمْسُ غُرْفَةً.",good:"فِي الشَّقَّةِ خَمْسُ غُرَفٍ.",w:"After 3 to 10: plural, ending in -in."},
+  {bad:"أَسْكُنُ فِي الدَّوْرِ الْخامِسُ.",good:"أَسْكُنُ فِي الدَّوْرِ الْخامِسِ.",w:"The describing word must copy the noun’s -i ending."},
   {bad:"الشَّقَّةُ جَمِيلٌ.",good:"الشَّقَّةُ جَمِيلَةٌ.",w:"Feminine noun, feminine adjective."},
-  {bad:"أَنا مُسْتَأْجِرُ.",good:"أَنا مُسْتَأْجِرٌ.",w:"Indefinite and marfūʿ — it needs the tanwin."}
+  {bad:"أَنا مُسْتَأْجِرُ.",good:"أَنا مُسْتَأْجِرٌ.",w:"With no ال, it needs the extra -n: -un."}
  ]},
 "04":{
  grammar:[
-  {t:"المضارع للعادة",ar:"أَسْتَيْقِظُ مُبَكِّرًا.",en:"The present tense covers habits: 'I wake up', 'I usually wake up'."},
-  {t:"الحال / الظرف",ar:"مُبَكِّرًا · مُتَأَخِّرًا",en:"These adverbs are manṣūb — they always end in -an."},
-  {t:"باء الاستعانة",ar:"بِالْحافِلَةِ",en:"بِـ marks the means of transport, and takes the genitive."},
-  {t:"النفي بـ لا",ar:"لا أُشاهِدُ التِّلْفازَ.",en:"لا negates the present tense; ما is for the past."}
+  {t:"المضارع للعادة",ar:"أَسْتَيْقِظُ مُبَكِّرًا.",h:"The present tense for habits",tr:"I wake up early.",en:"The same verb means ‘I wake up’, ‘I’m waking up’ and ‘I usually wake up’. The situation tells you which."},
+  {t:"الحال / الظرف",ar:"مُبَكِّرًا · مُتَأَخِّرًا",h:"Words for ‘how’ or ‘when’ end in -an",tr:"early · late",en:"Words that say how or when you do something usually end in -an (ـًا)."},
+  {t:"باء الاستعانة",ar:"بِالْحافِلَةِ",h:"‘By bus’: بِـ",tr:"by bus",en:"Put بِـ on the front of the transport. The word after it ends in -i."},
+  {t:"النفي بـ لا",ar:"لا أُشاهِدُ التِّلْفازَ.",h:"Saying ‘don’t’",tr:"I don’t watch TV.",en:"Put لا before a present-tense verb. (For the past you’ll use ما later on.)"}
  ],
  cloze:[
-  {q:"أَسْتَيْقِظُ ___ .",o:["مُبَكِّرٌ","مُبَكِّرًا","مُبَكِّرٍ","الْمُبَكِّرُ"],a:1,w:"Adverbs of manner are manṣūb."},
+  {q:"أَسْتَيْقِظُ ___ .",o:["مُبَكِّرٌ","مُبَكِّرًا","مُبَكِّرٍ","الْمُبَكِّرُ"],a:1,w:"Words for how you do something end in -an."},
   {q:"أَذْهَبُ ___ الْحافِلَةِ.",o:["بِ","فِي","عَلى","مِنْ"],a:0,w:"بِـ for the means; فِي would mean physically inside it."},
   {q:"أَمْسِ ___ الْمَلابِسَ.",o:["أَغْسِلُ","غَسَلْتُ","تَغْسِلُ","يَغْسِلُ"],a:1,w:"أَمْسِ forces the past tense."},
   {q:"___ أُشاهِدُ التِّلْفازَ.",o:["لا","ما","لَيْسَ","لَمْ"],a:0,w:"لا negates a present-tense verb."},
@@ -1341,7 +1341,7 @@ const EXTRA={
   {q:"هِيَ ___ مُبَكِّرًا.",o:["أَسْتَيْقِظُ","يَسْتَيْقِظُ","تَسْتَيْقِظُ","نَسْتَيْقِظُ"],a:2,w:"هِيَ takes the تـ prefix — same as 'you' masculine, which trips people up."}
  ],
  fix:[
-  {bad:"أَسْتَيْقِظُ مُبَكِّرٌ.",good:"أَسْتَيْقِظُ مُبَكِّرًا.",w:"Adverb — manṣūb."},
+  {bad:"أَسْتَيْقِظُ مُبَكِّرٌ.",good:"أَسْتَيْقِظُ مُبَكِّرًا.",w:"A ‘how / when’ word: it ends in -an."},
   {bad:"أَمْسِ أَذْهَبُ إِلى الْعَمَلِ.",good:"أَمْسِ ذَهَبْتُ إِلى الْعَمَلِ.",w:"أَمْسِ needs the past tense."},
   {bad:"أَذْهَبُ فِي الْحافِلَةِ.",good:"أَذْهَبُ بِالْحافِلَةِ.",w:"Means of transport takes بِـ."},
   {bad:"ما أُشاهِدُ التِّلْفازَ.",good:"لا أُشاهِدُ التِّلْفازَ.",w:"ما negates the past; لا the present."},
@@ -1349,177 +1349,177 @@ const EXTRA={
  ]},
 "05":{
  grammar:[
-  {t:"المفعول به",ar:"آكُلُ الأَرُزَّ.",en:"The object of a verb is manṣūb — fatḥa, or -an if indefinite."},
-  {t:"فَضَّلَ ... عَلى ...",ar:"أُفَضِّلُ الشَّايَ عَلى الْقَهْوَةِ.",en:"Accusative before عَلى, genitive after it."},
-  {t:"لِأَنَّ",ar:"لِأَنَّ وَزْنِي كَثِيرٌ",en:"لِأَنَّ needs a noun after it, and that noun is manṣūb; the predicate stays marfūʿ."},
-  {t:"جَوْعانُ",ar:"أَنا جَوْعانُ.",en:"The فَعْلان pattern is a diptote — no tanwin."}
+  {t:"المفعول به",ar:"آكُلُ الأَرُزَّ.",h:"‘I eat rice’: verb, then the thing",tr:"I eat rice.",en:"Say the verb, then the thing: ‘I eat the rice’. Small detail: the thing gets an -a sound at the end, as in الأَرُزَّ."},
+  {t:"فَضَّلَ ... عَلى ...",ar:"أُفَضِّلُ الشَّايَ عَلى الْقَهْوَةِ.",h:"‘I prefer X to Y’",tr:"I prefer tea to coffee.",en:"أُفَضِّلُ + what you like more + عَلى + the other thing. The first ends in -a, the one after عَلى in -i."},
+  {t:"لِأَنَّ",ar:"لِأَنَّ وَزْنِي كَثِيرٌ",h:"‘Because’: لِأَنَّ",tr:"because I weigh a lot",en:"لِأَنَّ means ‘because’. It’s followed by a noun, or by an ending like ـها (‘it’), rather than straight by a verb."},
+  {t:"جَوْعانُ",ar:"أَنا جَوْعانُ.",h:"‘Hungry’ and ‘thirsty’: no extra -n",tr:"I’m hungry.",en:"Words like جَوْعان (hungry) and عَطْشان (thirsty) never add the extra -n sound: جَوْعانُ, not جَوْعانٌ."}
  ],
  cloze:[
-  {q:"آكُلُ ___ .",o:["الأَرُزُّ","الأَرُزَّ","الأَرُزِّ","أَرُزٌّ"],a:1,w:"Direct object — manṣūb."},
+  {q:"آكُلُ ___ .",o:["الأَرُزُّ","الأَرُزَّ","الأَرُزِّ","أَرُزٌّ"],a:1,w:"It’s the thing receiving the action, so it ends in -a (or -an)."},
   {q:"أُفَضِّلُ الشَّايَ ___ الْقَهْوَةِ.",o:["مِنْ","عَلى","عَنْ","فِي"],a:1,w:"Arabic prefers X over Y with عَلى, not مِنْ."},
   {q:"آكُلُ قَلِيلًا ___ وَزْنِي كَثِيرٌ.",o:["لِأَنَّ","لِأَنِّي","لَكِنَّ","ثُمَّ"],a:0,w:"A full noun clause follows, so لِأَنَّ; لِأَنِّي already contains 'I'."},
-  {q:"أَنا ___ ، أُرِيدُ الْغَداءَ.",o:["جَوْعانٌ","جَوْعانُ","جَوْعانًا","الْجَوْعانُ"],a:1,w:"فَعْلان is a diptote — ḍamma with no tanwin."},
+  {q:"أَنا ___ ، أُرِيدُ الْغَداءَ.",o:["جَوْعانٌ","جَوْعانُ","جَوْعانًا","الْجَوْعانُ"],a:1,w:"Words like جَوْعان never add the extra -n: just -u."},
   {q:"___ تُفَضِّلُ، الشَّايَ أَمِ الْقَهْوَةَ؟",o:["ما","ماذا","مَنْ","كَيْفَ"],a:1,w:"ماذا asks 'what' before a verb."},
-  {q:"جَلَسْنا إِلى ___ مَعَ الضُّيُوفِ.",o:["الْمائِدَةُ","الْمائِدَةِ","الْمائِدَةَ","مائِدَةً"],a:1,w:"Genitive after إِلى."}
+  {q:"جَلَسْنا إِلى ___ مَعَ الضُّيُوفِ.",o:["الْمائِدَةُ","الْمائِدَةِ","الْمائِدَةَ","مائِدَةً"],a:1,w:"The word after إِلى (to) ends in -i."}
  ],
  fix:[
-  {bad:"آكُلُ الأَرُزُّ.",good:"آكُلُ الأَرُزَّ.",w:"Object of a verb is manṣūb."},
+  {bad:"آكُلُ الأَرُزُّ.",good:"آكُلُ الأَرُزَّ.",w:"The thing receiving the action ends in -a (or -an)."},
   {bad:"أُفَضِّلُ الشَّايَ مِنَ الْقَهْوَةِ.",good:"أُفَضِّلُ الشَّايَ عَلى الْقَهْوَةِ.",w:"فَضَّلَ pairs with عَلى."},
-  {bad:"لِأَنَّ وَزْنِي كَثِيرًا.",good:"لِأَنَّ وَزْنِي كَثِيرٌ.",w:"لِأَنَّ makes its subject manṣūb, but the predicate stays marfūʿ."},
-  {bad:"أَنا جَوْعانٌ.",good:"أَنا جَوْعانُ.",w:"Diptote — no tanwin."},
-  {bad:"أَكَلْتُ فِي مَطْعَمُ.",good:"أَكَلْتُ فِي مَطْعَمٍ.",w:"Indefinite and genitive after فِي."}
+  {bad:"لِأَنَّ وَزْنِي كَثِيرًا.",good:"لِأَنَّ وَزْنِي كَثِيرٌ.",w:"After لِأَنَّ the first word ends in -a, but the describing word keeps -u."},
+  {bad:"أَنا جَوْعانٌ.",good:"أَنا جَوْعانُ.",w:"This word never adds the extra -n."},
+  {bad:"أَكَلْتُ فِي مَطْعَمُ.",good:"أَكَلْتُ فِي مَطْعَمٍ.",w:"After فِي, with no ال: it ends in -in."}
  ]},
 "06":{
  grammar:[
-  {t:"اسم الفاعل",ar:"ذاهِبٌ · ذاهِبَةٌ",en:"'Going' is an adjective here, not a verb, and agrees with the speaker's gender."},
-  {t:"لام التعليل",ar:"لِصَلاةِ الظُّهْرِ",en:"لِـ means 'for the purpose of', and takes the genitive."},
-  {t:"الممنوع من الصرف",ar:"إِلى مَكَّةَ",en:"Place names like مَكَّة take a fatḥa where you'd expect a kasra, and never tanwin."},
-  {t:"ظروف المكان",ar:"بِجانِبِ الْبَيْتِ",en:"Compound prepositions end in a genitive noun."}
+  {t:"اسم الفاعل",ar:"ذاهِبٌ · ذاهِبَةٌ",h:"‘I’m going’ uses a describing word",tr:"going (said by a man) · going (said by a woman)",en:"أَنا ذاهِبٌ is literally ‘I (am) going’. It works like a describing word, so a woman adds ة: أَنا ذاهِبَةٌ."},
+  {t:"لام التعليل",ar:"لِصَلاةِ الظُّهْرِ",h:"‘For’ something: لِـ",tr:"for the Dhuhr prayer",en:"لِـ on the front of a word means ‘for’. The word after it ends in -i."},
+  {t:"الممنوع من الصرف",ar:"إِلى مَكَّةَ",h:"Makkah and other names",tr:"to Makkah",en:"Some names, like مَكَّة, keep a simple ending: you say إِلى مَكَّةَ (to Makkah), never مَكَّةٍ."},
+  {t:"ظروف المكان",ar:"بِجانِبِ الْبَيْتِ",h:"‘Next to’, ‘in front of’",tr:"next to the house",en:"These place words go straight before the noun, and the noun ends in -i."}
  ],
  cloze:[
   {q:"أَنا ___ إِلى الْمَسْجِدِ.",o:["ذاهِبٌ","ذاهِبَةٌ","يَذْهَبُ","ذَهَبَ"],a:0,w:"A male speaker uses the masculine active participle."},
-  {q:"الْمَسْجِدُ ___ الْبَيْتِ.",o:["بِجانِبِ","بِجانِبُ","بِجانِبَ","جانِبٌ"],a:0,w:"بِـ makes جانِب genitive; الْبَيْتِ is genitive as the second term."},
-  {q:"ذَهَبْتُ إِلى ___ بِالطَّائِرَةِ.",o:["مَكَّةٍ","مَكَّةَ","مَكَّةِ","الْمَكَّةِ"],a:1,w:"Diptote: fatḥa, no tanwin, no ال."},
+  {q:"الْمَسْجِدُ ___ الْبَيْتِ.",o:["بِجانِبِ","بِجانِبُ","بِجانِبَ","جانِبٌ"],a:0,w:"After بِـ, جانِب ends in -i, and so does الْبَيْتِ (‘next to the house’)."},
+  {q:"ذَهَبْتُ إِلى ___ بِالطَّائِرَةِ.",o:["مَكَّةٍ","مَكَّةَ","مَكَّةِ","الْمَكَّةِ"],a:1,w:"This name never takes ال or the extra -n, and uses -a where you’d expect -i."},
   {q:"أَضَعُ الْمُنَبِّهَ ___ كَسْلانُ.",o:["لِأَنَّ","لِأَنِّي","لَكِنَّ","لِذَلِكَ"],a:1,w:"The reason concerns 'me', so the pronoun attaches: لِأَنِّي."},
   {q:"___ أَيْنَ أَنْتَ ذاهِبٌ؟",o:["مِنْ","إِلى","فِي","عَنْ"],a:1,w:"Destination — إِلى أَيْنَ."},
   {q:"هِيَ ___ إِلى الْمَسْجِدِ.",o:["ذاهِبٌ","ذاهِبَةٌ","ذاهِبُونَ","ذاهِبِينَ"],a:1,w:"Feminine singular."}
  ],
  fix:[
   {bad:"خالِدٌ ذاهِبَةٌ إِلى الْمَسْجِدِ.",good:"خالِدٌ ذاهِبٌ إِلى الْمَسْجِدِ.",w:"Khalid is male."},
-  {bad:"ذَهَبْتُ إِلى مَكَّةٍ.",good:"ذَهَبْتُ إِلى مَكَّةَ.",w:"Diptote — fatḥa, no tanwin."},
-  {bad:"الْمَسْجِدُ بِجانِبُ الْبَيْتِ.",good:"الْمَسْجِدُ بِجانِبِ الْبَيْتِ.",w:"After بِـ the noun is genitive."},
+  {bad:"ذَهَبْتُ إِلى مَكَّةٍ.",good:"ذَهَبْتُ إِلى مَكَّةَ.",w:"This word uses -a where you’d expect -i, and never adds the extra -n."},
+  {bad:"الْمَسْجِدُ بِجانِبُ الْبَيْتِ.",good:"الْمَسْجِدُ بِجانِبِ الْبَيْتِ.",w:"The word after بِـ ends in -i."},
   {bad:"أَضَعُ الْمُنَبِّهَ لِأَنَّ كَسْلانُ.",good:"أَضَعُ الْمُنَبِّهَ لِأَنِّي كَسْلانُ.",w:"لِأَنَّ needs a subject — here the attached pronoun ـِي."},
-  {bad:"صَلَّيْتُ الظُّهْرُ.",good:"صَلَّيْتُ الظُّهْرَ.",w:"Object of the verb — manṣūb."}
+  {bad:"صَلَّيْتُ الظُّهْرُ.",good:"صَلَّيْتُ الظُّهْرَ.",w:"The thing receiving the action ends in -a (or -an)."}
  ]},
 "07":{
  grammar:[
-  {t:"لام التعليل + المنصوب",ar:"أَذْهَبُ لِأَدْرُسَ",en:"After لِـ the verb takes a fatḥa — the subjunctive. This is the 'in order to' construction."},
-  {t:"كَمْ + تمييز",ar:"كَمْ حِصَّةً؟",en:"Singular and manṣūb after كَمْ, however many you mean."},
-  {t:"الإضافة",ar:"كُلِّيَّةُ التَّرْبِيَةِ",en:"'College of Education' — the second noun is genitive and carries the definiteness."},
-  {t:"جمع المذكر السالم",ar:"يَدْرُسُونَ",en:"Plural masculine verbs end in ـُونَ in the present."}
+  {t:"لام التعليل + المنصوب",ar:"أَذْهَبُ لِأَدْرُسَ",h:"‘In order to’: لِـ + a verb",tr:"I go (in order) to study.",en:"Put لِـ on a present-tense verb to say ‘in order to’. The verb then ends in -a: أَدْرُسَ, not أَدْرُسُ."},
+  {t:"كَمْ + تمييز",ar:"كَمْ حِصَّةً؟",h:"‘How many?’ again: one, ending in -an",tr:"How many lessons?",en:"The same rule as before: after كَمْ, use the singular word ending in -an."},
+  {t:"الإضافة",ar:"كُلِّيَّةُ التَّرْبِيَةِ",h:"‘College of Education’",tr:"the College of Education",en:"Two nouns side by side mean ‘X of Y’. Only the second one takes ال, and it ends in -i."},
+  {t:"جمع المذكر السالم",ar:"يَدْرُسُونَ",h:"‘They’ (men) study: ـُونَ",tr:"they (men) study",en:"For ‘they’ meaning men or a mixed group, the present verb starts with يَـ and ends in ـُونَ."}
  ],
  cloze:[
-  {q:"أَذْهَبُ إِلى الْمَكْتَبَةِ لِ___ .",o:["أَدْرُسُ","أَدْرُسَ","أَدْرُسِ","دَرَسْتُ"],a:1,w:"لِـ of purpose puts the verb in the subjunctive — fatḥa."},
-  {q:"كَمْ ___ عِنْدَكَ الْيَوْمَ؟",o:["حِصَصٍ","حِصَّةً","حِصَّةٌ","الْحِصَّةِ"],a:1,w:"كَمْ takes singular accusative."},
-  {q:"أَدْرُسُ فِي كُلِّيَّةِ ___ .",o:["التَّرْبِيَةُ","التَّرْبِيَةِ","التَّرْبِيَةَ","تَرْبِيَةً"],a:1,w:"Second term of an iḍāfa — genitive."},
+  {q:"أَذْهَبُ إِلى الْمَكْتَبَةِ لِ___ .",o:["أَدْرُسُ","أَدْرُسَ","أَدْرُسِ","دَرَسْتُ"],a:1,w:"After لِـ meaning ‘in order to’, the verb ends in -a."},
+  {q:"كَمْ ___ عِنْدَكَ الْيَوْمَ؟",o:["حِصَصٍ","حِصَّةً","حِصَّةٌ","الْحِصَّةِ"],a:1,w:"After كَمْ: singular, ending in -an."},
+  {q:"أَدْرُسُ فِي كُلِّيَّةِ ___ .",o:["التَّرْبِيَةُ","التَّرْبِيَةِ","التَّرْبِيَةَ","تَرْبِيَةً"],a:1,w:"The second word of an ‘X of Y’ pair ends in -i."},
   {q:"الطُّلَّابُ ___ فِي الْمَكْتَبَةِ.",o:["يَدْرُسُ","يَدْرُسُونَ","تَدْرُسُ","أَدْرُسُ"],a:1,w:"A plural subject before the verb takes the full plural ending."},
   {q:"يَبْدَأُ الْيَوْمُ الدِّراسِيُّ ___ يَنْتَهِي فِي الظُّهْرِ.",o:["لِأَنَّ","ثُمَّ","لَكِنَّ","لِذَلِكَ"],a:1,w:"Simple sequence."},
   {q:"___ تَدْرُسُ؟ — أَدْرُسُ التَّارِيخَ.",o:["ما","ماذا","مَنْ","أَيْنَ"],a:1,w:"ماذا before a verb; ما before a noun."}
  ],
  fix:[
-  {bad:"أَذْهَبُ إِلى الْمَكْتَبَةِ لِأَدْرُسُ.",good:"أَذْهَبُ إِلى الْمَكْتَبَةِ لِأَدْرُسَ.",w:"Subjunctive after لِـ."},
-  {bad:"كَمْ حِصَصٍ عِنْدَكَ؟",good:"كَمْ حِصَّةً عِنْدَكَ؟",w:"Singular accusative after كَمْ."},
-  {bad:"أَدْرُسُ فِي كُلِّيَّةُ الطِّبِّ.",good:"أَدْرُسُ فِي كُلِّيَّةِ الطِّبِّ.",w:"كُلِّيَّة is genitive after فِي even though it heads the iḍāfa."},
+  {bad:"أَذْهَبُ إِلى الْمَكْتَبَةِ لِأَدْرُسُ.",good:"أَذْهَبُ إِلى الْمَكْتَبَةِ لِأَدْرُسَ.",w:"After لِـ (‘in order to’), the verb ends in -a."},
+  {bad:"كَمْ حِصَصٍ عِنْدَكَ؟",good:"كَمْ حِصَّةً عِنْدَكَ؟",w:"After كَمْ: singular, ending in -an."},
+  {bad:"أَدْرُسُ فِي كُلِّيَّةُ الطِّبِّ.",good:"أَدْرُسُ فِي كُلِّيَّةِ الطِّبِّ.",w:"After فِي, كُلِّيَّة ends in -i, even though it’s the first word of ‘college of…’."},
   {bad:"الطُّلَّابُ يَدْرُسُ فِي الْمُخْتَبَرِ.",good:"الطُّلَّابُ يَدْرُسُونَ فِي الْمُخْتَبَرِ.",w:"Plural subject first → plural verb."},
-  {bad:"دَرَسْتُ اللُّغَةُ الْعَرَبِيَّةُ.",good:"دَرَسْتُ اللُّغَةَ الْعَرَبِيَّةَ.",w:"Object and its adjective both manṣūb."}
+  {bad:"دَرَسْتُ اللُّغَةُ الْعَرَبِيَّةُ.",good:"دَرَسْتُ اللُّغَةَ الْعَرَبِيَّةَ.",w:"The thing wanted and its describing word both end in -a (or -an)."}
  ]},
 "08":{
  grammar:[
-  {t:"دَرَسَ / دَرَّسَ",ar:"أَدْرُسُ = I study · أُدَرِّسُ = I teach",en:"Doubling the middle letter turns 'do' into 'make someone do'."},
-  {t:"الاسم المقصور",ar:"فِي الْمُسْتَشْفى",en:"Nouns ending in ى never change their ending, whatever the case."},
-  {t:"تأنيث المهن",ar:"مُمَرِّض · مُمَرِّضَة",en:"Most job names form the feminine by adding ة."},
-  {t:"كَمْ ساعَةً",ar:"كَمْ ساعَةً تَعْمَلُ؟",en:"Same rule as always after كَمْ: singular, manṣūb."}
+  {t:"دَرَسَ / دَرَّسَ",ar:"أَدْرُسُ = I study · أُدَرِّسُ = I teach",h:"Doubling a letter changes the meaning",tr:"I study · I teach",en:"The shadda (ّ) doubles the middle letter and often means ‘make someone do it’: study → teach."},
+  {t:"الاسم المقصور",ar:"فِي الْمُسْتَشْفى",h:"Words ending in ى don’t change",tr:"in the hospital",en:"Words ending in ى, like مُسْتَشْفى (hospital), keep the same ending whatever comes before them."},
+  {t:"تأنيث المهن",ar:"مُمَرِّض · مُمَرِّضَة",h:"Jobs for women: add ة",tr:"nurse (man) · nurse (woman)",en:"Most job words become feminine by adding ة, just like nationalities."},
+  {t:"كَمْ ساعَةً",ar:"كَمْ ساعَةً تَعْمَلُ؟",h:"How many hours?",tr:"How many hours do you work?",en:"The same كَمْ rule: one hour, ending in -an: ساعَةً."}
  ],
  cloze:[
   {q:"أَنا مُعَلِّمٌ، ___ الأَطْفالَ.",o:["أَدْرُسُ","أُدَرِّسُ","دَرَسْتُ","يُدَرِّسُ"],a:1,w:"A teacher teaches — أُدَرِّسُ, not أَدْرُسُ."},
-  {q:"أَخِي يَعْمَلُ فِي ___ .",o:["الشَّرِكَةُ","الشَّرِكَةِ","الشَّرِكَةَ","شَرِكَةً"],a:1,w:"Genitive after فِي."},
-  {q:"كَمْ ___ تَعْمَلُ فِي الْيَوْمِ؟",o:["ساعاتٍ","ساعَةً","ساعَةٌ","السَّاعَةِ"],a:1,w:"Singular accusative after كَمْ."},
+  {q:"أَخِي يَعْمَلُ فِي ___ .",o:["الشَّرِكَةُ","الشَّرِكَةِ","الشَّرِكَةَ","شَرِكَةً"],a:1,w:"The word after فِي (in) ends in -i."},
+  {q:"كَمْ ___ تَعْمَلُ فِي الْيَوْمِ؟",o:["ساعاتٍ","ساعَةً","ساعَةٌ","السَّاعَةِ"],a:1,w:"After كَمْ: singular, ending in -an."},
   {q:"أُخْتِي ___ فِي الْمُسْتَشْفى.",o:["مُمَرِّضٌ","مُمَرِّضَةٌ","مُمَرِّضُونَ","مُمَرِّضاتٌ"],a:1,w:"One woman — feminine singular."},
   {q:"أُحِبُّ عَمَلِي ___ أُحِبُّ الأَطْفالَ.",o:["لِأَنَّ","لِأَنِّي","لَكِنَّ","ثُمَّ"],a:1,w:"The clause has no separate noun subject, so the pronoun attaches."},
-  {q:"دَرَسَتْ فِي كُلِّيَّةِ ___ .",o:["الصَّيْدَلَةُ","الصَّيْدَلَةِ","الصَّيْدَلَةَ","صَيْدَلَةً"],a:1,w:"Second term of the iḍāfa."}
+  {q:"دَرَسَتْ فِي كُلِّيَّةِ ___ .",o:["الصَّيْدَلَةُ","الصَّيْدَلَةِ","الصَّيْدَلَةَ","صَيْدَلَةً"],a:1,w:"The second word of an ‘X of Y’ pair ends in -i."}
  ],
  fix:[
   {bad:"أَنا مُعَلِّمٌ، أَدْرُسُ الأَطْفالَ.",good:"أَنا مُعَلِّمٌ، أُدَرِّسُ الأَطْفالَ.",w:"دَرَسَ is to study; دَرَّسَ is to teach."},
-  {bad:"كَمْ ساعاتٍ تَعْمَلُ؟",good:"كَمْ ساعَةً تَعْمَلُ؟",w:"Singular accusative after كَمْ."},
-  {bad:"أُخْتِي مُمَرِّضٌ.",good:"أُخْتِي مُمَرِّضَةٌ.",w:"Feminine subject, feminine predicate."},
+  {bad:"كَمْ ساعاتٍ تَعْمَلُ؟",good:"كَمْ ساعَةً تَعْمَلُ؟",w:"After كَمْ: singular, ending in -an."},
+  {bad:"أُخْتِي مُمَرِّضٌ.",good:"أُخْتِي مُمَرِّضَةٌ.",w:"A feminine person or thing needs a feminine describing word (with ة)."},
   {bad:"أُحِبُّ عَمَلِي لِأَنَّ أُحِبُّ الأَطْفالَ.",good:"أُحِبُّ عَمَلِي لِأَنِّي أُحِبُّ الأَطْفالَ.",w:"لِأَنَّ cannot sit directly before a verb."},
-  {bad:"أَخِي طَبِيبًا.",good:"أَخِي طَبِيبٌ.",w:"Predicate of a nominal sentence is marfūʿ."}
+  {bad:"أَخِي طَبِيبًا.",good:"أَخِي طَبِيبٌ.",w:"In a sentence with no verb, the describing word ends in -u (-un)."}
  ]},
 "09":{
  grammar:[
-  {t:"بِكَمْ؟",ar:"بِكَمْ هَذا الْقَمِيصُ؟",en:"Prices use بِكَمْ, not كَمْ on its own."},
-  {t:"أُرِيدُ + منصوب",ar:"أُرِيدُ قَمِيصًا أَبْيَضَ.",en:"The thing wanted is the object, so it and its adjective are manṣūb."},
-  {t:"ألوان ممنوعة من الصرف",ar:"أَبْيَضُ · أَزْرَقَ",en:"The أَفْعَل colour pattern never takes tanwin — fatḥa in the accusative."},
-  {t:"تمييز العدد",ar:"خَمْسِينَ رِيالًا",en:"After 11–99 the counted noun is singular and manṣūb."}
+  {t:"بِكَمْ؟",ar:"بِكَمْ هَذا الْقَمِيصُ؟",h:"‘How much is it?’",tr:"How much is this shirt?",en:"For prices, say بِكَمْ (‘for how much?’). كَمْ on its own asks ‘how many?’."},
+  {t:"أُرِيدُ + منصوب",ar:"أُرِيدُ قَمِيصًا أَبْيَضَ.",h:"What you want ends in -a",tr:"I want a white shirt.",en:"The thing you want takes the -a ending, and so does its colour: قَمِيصًا أَبْيَضَ."},
+  {t:"ألوان ممنوعة من الصرف",ar:"أَبْيَضُ · أَزْرَقَ",h:"Colours never add the extra -n",tr:"white · blue",en:"Colours like أَبْيَض and أَزْرَق never end in -un or -an. Where other words take -an, they just take -a."},
+  {t:"تمييز العدد",ar:"خَمْسِينَ رِيالًا",h:"From 11 to 99: one riyal",tr:"fifty riyals",en:"After numbers from 11 to 99, the thing you’re counting is singular and ends in -an: ‘fifty riyal’."}
  ],
  cloze:[
   {q:"___ هَذا الْقَمِيصُ؟",o:["كَمْ","بِكَمْ","ما","أَيْنَ"],a:1,w:"Asking a price always uses بِكَمْ."},
-  {q:"أُرِيدُ قَمِيصًا ___ .",o:["أَبْيَضُ","أَبْيَضَ","أَبْيَضٍ","الأَبْيَضُ"],a:1,w:"Accusative adjective, but a diptote — fatḥa with no tanwin."},
-  {q:"اشْتَرَيْتُهُ بِخَمْسِينَ ___ .",o:["رِيالٌ","رِيالًا","رِيالٍ","الرِّيالِ"],a:1,w:"Singular accusative after 11–99."},
-  {q:"السَّيَّارَةُ ___ .",o:["أَحْمَرُ","حَمْراءُ","حَمْراءَ","أَحْمَرَ"],a:1,w:"Feminine of أَفْعَل colours is فَعْلاء, and here it's marfūʿ."},
+  {q:"أُرِيدُ قَمِيصًا ___ .",o:["أَبْيَضُ","أَبْيَضَ","أَبْيَضٍ","الأَبْيَضُ"],a:1,w:"The colour ends in -a here, but never adds the extra -n."},
+  {q:"اشْتَرَيْتُهُ بِخَمْسِينَ ___ .",o:["رِيالٌ","رِيالًا","رِيالٍ","الرِّيالِ"],a:1,w:"After 11 to 99: singular, ending in -an."},
+  {q:"السَّيَّارَةُ ___ .",o:["أَحْمَرُ","حَمْراءُ","حَمْراءَ","أَحْمَرَ"],a:1,w:"For a feminine word the colour takes its ـاء form (like حَمْراء), ending in -u here."},
   {q:"ما اشْتَرَيْتُ الثَّوْبَ ___ غالٍ.",o:["لِأَنَّهُ","لِأَنَّ","لَكِنَّ","ثُمَّ"],a:0,w:"The subject of the reason is 'it' — attached to لِأَنَّ."},
-  {q:"أَيْنَ ___ الْقُمْصانِ؟",o:["قِسْمٌ","قِسْمُ","الْقِسْمُ","قِسْمًا"],a:1,w:"First term of an iḍāfa: no ال and no tanwin."}
+  {q:"أَيْنَ ___ الْقُمْصانِ؟",o:["قِسْمٌ","قِسْمُ","الْقِسْمُ","قِسْمًا"],a:1,w:"The first word of an ‘X of Y’ pair has no ال and no extra -n."}
  ],
  fix:[
   {bad:"كَمْ هَذا الْقَمِيصُ؟",good:"بِكَمْ هَذا الْقَمِيصُ؟",w:"Prices take بِكَمْ."},
-  {bad:"أُرِيدُ قَمِيصًا أَبْيَضٍ.",good:"أُرِيدُ قَمِيصًا أَبْيَضَ.",w:"Colour diptote: fatḥa, no tanwin."},
-  {bad:"اشْتَرَيْتُهُ بِخَمْسِينَ رِيالٍ.",good:"اشْتَرَيْتُهُ بِخَمْسِينَ رِيالًا.",w:"Singular accusative after 11–99."},
+  {bad:"أُرِيدُ قَمِيصًا أَبْيَضٍ.",good:"أُرِيدُ قَمِيصًا أَبْيَضَ.",w:"Colours never add the extra -n; here it ends in -a."},
+  {bad:"اشْتَرَيْتُهُ بِخَمْسِينَ رِيالٍ.",good:"اشْتَرَيْتُهُ بِخَمْسِينَ رِيالًا.",w:"After 11 to 99: singular, ending in -an."},
   {bad:"السَّيَّارَةُ أَحْمَرُ.",good:"السَّيَّارَةُ حَمْراءُ.",w:"Feminine noun takes the فَعْلاء colour."},
-  {bad:"اشْتَرَيْتُ ثَوْبًا أَزْرَقًا.",good:"اشْتَرَيْتُ ثَوْبًا أَزْرَقَ.",w:"Diptote — the noun takes tanwin but the colour doesn't."}
+  {bad:"اشْتَرَيْتُ ثَوْبًا أَزْرَقًا.",good:"اشْتَرَيْتُ ثَوْبًا أَزْرَقَ.",w:"The noun adds the extra -n, but the colour never does."}
  ]},
 "10":{
  grammar:[
-  {t:"كانَ + خبر منصوب",ar:"كانَ الْجَوُّ بارِدًا.",en:"كانَ leaves the subject marfūʿ but makes the predicate manṣūb."},
-  {t:"لَيْسَ",ar:"الْجَوُّ لَيْسَ حارًّا.",en:"لَيْسَ behaves exactly like كانَ — predicate manṣūb."},
-  {t:"لِذَلِكَ",ar:"تُمْطِرُ، لِذَلِكَ أَخَذْتُ الْمِظَلَّةَ.",en:"لِذَلِكَ introduces a result; لِأَنَّ introduces a cause. Don't swap them."},
-  {t:"فَصْل + الفصل",ar:"فَصْلُ الرَّبِيعِ",en:"An iḍāfa: 'the season of spring'."}
+  {t:"كانَ + خبر منصوب",ar:"كانَ الْجَوُّ بارِدًا.",h:"‘Was’: كانَ",tr:"The weather was cold.",en:"Use كانَ for ‘was’. It makes the describing word end in -an: بارِدًا."},
+  {t:"لَيْسَ",ar:"الْجَوُّ لَيْسَ حارًّا.",h:"‘Isn’t’: لَيْسَ",tr:"The weather isn’t hot.",en:"لَيْسَ means ‘is not’. Like كانَ, it makes the describing word end in -an."},
+  {t:"لِذَلِكَ",ar:"تُمْطِرُ، لِذَلِكَ أَخَذْتُ الْمِظَلَّةَ.",h:"‘So’ and ‘because’",tr:"It’s raining, so I took the umbrella.",en:"لِذَلِكَ means ‘so’ (what happened as a result). لِأَنَّ means ‘because’ (the reason). Don’t mix them up."},
+  {t:"فَصْل + الفصل",ar:"فَصْلُ الرَّبِيعِ",h:"‘The season of spring’",tr:"spring (the season of spring)",en:"Arabic says ‘season (of) the spring’: two nouns side by side, the second with ال and ending in -i."}
  ],
  cloze:[
-  {q:"كانَ الْجَوُّ ___ أَمْسِ.",o:["بارِدٌ","بارِدًا","بارِدٍ","الْبارِدُ"],a:1,w:"كانَ makes its predicate manṣūb."},
+  {q:"كانَ الْجَوُّ ___ أَمْسِ.",o:["بارِدٌ","بارِدًا","بارِدٍ","الْبارِدُ"],a:1,w:"After كانَ, the describing word ends in -an."},
   {q:"الْجَوُّ لَيْسَ ___ الْيَوْمَ.",o:["حارٌّ","حارًّا","حارٍّ","الْحارُّ"],a:1,w:"لَيْسَ works like كانَ."},
   {q:"تُمْطِرُ فِي الْخارِجِ، ___ أَخَذْتُ الْمِظَلَّةَ.",o:["لِأَنَّ","لِذَلِكَ","لَكِنَّ","ثُمَّ"],a:1,w:"The umbrella is the result of the rain, not its cause."},
-  {q:"أُحِبُّ فَصْلَ ___ .",o:["الرَّبِيعُ","الرَّبِيعِ","الرَّبِيعَ","رَبِيعًا"],a:1,w:"Second term of the iḍāfa."},
+  {q:"أُحِبُّ فَصْلَ ___ .",o:["الرَّبِيعُ","الرَّبِيعِ","الرَّبِيعَ","رَبِيعًا"],a:1,w:"The second word of an ‘X of Y’ pair ends in -i."},
   {q:"___ الْجَوُّ الْيَوْمَ؟",o:["ما","كَيْفَ","مَتى","أَيْنَ"],a:1,w:"Weather is asked with كَيْفَ, not ما."},
-  {q:"دَرَجَةُ الْحَرارَةِ خَمْسٌ ___ الصِّفْرِ.",o:["فَوْقَ","فَوْقُ","عَلى","فِي"],a:0,w:"فَوْقَ is a fixed accusative adverb, followed by a genitive."}
+  {q:"دَرَجَةُ الْحَرارَةِ خَمْسٌ ___ الصِّفْرِ.",o:["فَوْقَ","فَوْقُ","عَلى","فِي"],a:0,w:"فَوْقَ (above) always ends in -a, and the word after it ends in -i."}
  ],
  fix:[
-  {bad:"كانَ الْجَوُّ بارِدٌ.",good:"كانَ الْجَوُّ بارِدًا.",w:"Predicate of كانَ is manṣūb."},
+  {bad:"كانَ الْجَوُّ بارِدٌ.",good:"كانَ الْجَوُّ بارِدًا.",w:"After كانَ, the describing word ends in -an."},
   {bad:"الْجَوُّ لَيْسَ حارٌّ.",good:"الْجَوُّ لَيْسَ حارًّا.",w:"Same rule as كانَ."},
-  {bad:"أُحِبُّ فَصْلُ الصَّيْفِ.",good:"أُحِبُّ فَصْلَ الصَّيْفِ.",w:"Object of the verb — manṣūb, even though it heads an iḍāfa."},
+  {bad:"أُحِبُّ فَصْلُ الصَّيْفِ.",good:"أُحِبُّ فَصْلَ الصَّيْفِ.",w:"It receives the action, so it ends in -a, even as the first word of ‘X of Y’."},
   {bad:"تُمْطِرُ، لِأَنَّ أَخَذْتُ الْمِظَلَّةَ.",good:"تُمْطِرُ، لِذَلِكَ أَخَذْتُ الْمِظَلَّةَ.",w:"Cause and result the wrong way round."},
   {bad:"ما الْجَوُّ الْيَوْمَ؟",good:"كَيْفَ الْجَوُّ الْيَوْمَ؟",w:"Idiom: the weather is 'how', not 'what'."}
  ]},
 "11":{
  grammar:[
-  {t:"لَكِنَّ + اسم منصوب",ar:"لَكِنَّ فِيها ضَوْضاءَ",en:"لَكِنَّ with shadda takes a noun and makes it manṣūb; لَكِنْ without shadda doesn't."},
-  {t:"نفي الوجود",ar:"لَيْسَ فِي الْقَرْيَةِ ازْدِحامٌ.",en:"To say 'there isn't', use لَيْسَ, not لا."},
-  {t:"الألوان المؤنثة",ar:"بَيْضاءُ · زَرْقاءُ",en:"The فَعْلاء pattern is a diptote — never any tanwin."},
-  {t:"المثنى في النصب والجر",ar:"ساعَتَيْنِ",en:"Duals end in ـانِ when marfūʿ and ـَيْنِ otherwise."}
+  {t:"لَكِنَّ + اسم منصوب",ar:"لَكِنَّ فِيها ضَوْضاءَ",h:"Two ways to say ‘but’",tr:"but there’s noise in it",en:"لَكِنَّ (with a shadda) is followed by a noun ending in -a. لَكِنْ (without one) can go before anything and changes nothing."},
+  {t:"نفي الوجود",ar:"لَيْسَ فِي الْقَرْيَةِ ازْدِحامٌ.",h:"Saying ‘there isn’t’",tr:"There isn’t any crowding in the village.",en:"Start with لَيْسَ, then the place, then the thing. Don’t use لا for this."},
+  {t:"الألوان المؤنثة",ar:"بَيْضاءُ · زَرْقاءُ",h:"Colours for feminine words",tr:"white · blue (for feminine words)",en:"For a feminine word the colour changes: أَبْيَض → بَيْضاء, أَزْرَق → زَرْقاء. These never add the extra -n either."},
+  {t:"المثنى في النصب والجر",ar:"ساعَتَيْنِ",h:"Two of something",tr:"two hours",en:"Add ـانِ to mean ‘two’: ساعَة → ساعَتانِ, ‘two hours’. In some sentences it becomes ـَيْنِ instead, as here. You’ll hear both."}
  ],
  cloze:[
   {q:"الْمَدِينَةُ كَبِيرَةٌ، ___ فِيها ضَوْضاءَ.",o:["لَكِنْ","لَكِنَّ","لِأَنَّ","ثُمَّ"],a:1,w:"A noun follows, so the doubled form لَكِنَّ."},
   {q:"___ فِي الْقَرْيَةِ ازْدِحامٌ.",o:["لا","ما","لَيْسَ","لَمْ"],a:2,w:"لَيْسَ negates existence."},
-  {q:"السَّيَّارَةُ ___ .",o:["أَزْرَقُ","زَرْقاءُ","زَرْقاءَ","أَزْرَقَ"],a:1,w:"Feminine colour, marfūʿ."},
-  {q:"ما ___ فِي هَذِهِ الْمَدِينَةِ؟",o:["رَأْيُكَ","رَأْيَكَ","رَأْيِكَ","الرَّأْيُ"],a:0,w:"Predicate after ما — marfūʿ."},
+  {q:"السَّيَّارَةُ ___ .",o:["أَزْرَقُ","زَرْقاءُ","زَرْقاءَ","أَزْرَقَ"],a:1,w:"The feminine form of the colour, ending in -u."},
+  {q:"ما ___ فِي هَذِهِ الْمَدِينَةِ؟",o:["رَأْيُكَ","رَأْيَكَ","رَأْيِكَ","الرَّأْيُ"],a:0,w:"The describing word here keeps its -u ending."},
   {q:"انْتَقَلْتُ إِلى الْمَدِينَةِ ___ ثَلاثِ سَنَواتٍ.",o:["قَبْلَ","بَعْدَ","مُنْذُ","عِنْدَ"],a:0,w:"'Three years ago' — قَبْلَ."},
   {q:"اسْتَغْرَقَتِ الرِّحْلَةُ ___ .",o:["ساعَتانِ","ساعَتَيْنِ","ساعَتَيْ","السَّاعَتانِ"],a:1,w:"Object of the verb, so the dual takes ـَيْنِ."}
  ],
  fix:[
-  {bad:"لَيْسَ فِي الْقَرْيَةِ ازْدِحامًا.",good:"لَيْسَ فِي الْقَرْيَةِ ازْدِحامٌ.",w:"Here ازْدِحام is the delayed subject of لَيْسَ — marfūʿ."},
-  {bad:"لا فِي الْقَرْيَةِ ازْدِحامٌ.",good:"لَيْسَ فِي الْقَرْيَةِ ازْدِحامٌ.",w:"لا cannot negate a nominal sentence like this."},
+  {bad:"لَيْسَ فِي الْقَرْيَةِ ازْدِحامًا.",good:"لَيْسَ فِي الْقَرْيَةِ ازْدِحامٌ.",w:"ازْدِحام is the thing there isn’t, so it keeps its -un ending."},
+  {bad:"لا فِي الْقَرْيَةِ ازْدِحامٌ.",good:"لَيْسَ فِي الْقَرْيَةِ ازْدِحامٌ.",w:"لا can’t say ‘is not’ here: use لَيْسَ."},
   {bad:"السَّيَّارَةُ أَزْرَقُ.",good:"السَّيَّارَةُ زَرْقاءُ.",w:"Feminine colour pattern."},
-  {bad:"اسْتَغْرَقَتِ الرِّحْلَةُ ساعَتانِ.",good:"اسْتَغْرَقَتِ الرِّحْلَةُ ساعَتَيْنِ.",w:"Accusative dual."},
-  {bad:"ما رَأْيَكَ فِي الْمَدِينَةِ؟",good:"ما رَأْيُكَ فِي الْمَدِينَةِ؟",w:"Predicate — marfūʿ."}
+  {bad:"اسْتَغْرَقَتِ الرِّحْلَةُ ساعَتانِ.",good:"اسْتَغْرَقَتِ الرِّحْلَةُ ساعَتَيْنِ.",w:"For ‘two’ here, use the ـَيْنِ ending."},
+  {bad:"ما رَأْيَكَ فِي الْمَدِينَةِ؟",good:"ما رَأْيُكَ فِي الْمَدِينَةِ؟",w:"The describing word keeps its -u (-un) ending."}
  ]},
 "12":{
  grammar:[
-  {t:"الجملة الاسمية",ar:"هِوايَتِي الْقِراءَةُ.",en:"Both halves marfūʿ; no verb needed."},
-  {t:"جمع المؤنث السالم",ar:"أَقْرَأُ مَجَلَّاتٍ",en:"Sound feminine plurals take a kasra in the accusative, never a fatḥa."},
-  {t:"لِأَنَّها",ar:"لِأَنَّها مُفِيدَةٌ",en:"When the reason refers back to something already mentioned, attach the pronoun to لِأَنَّ."},
-  {t:"أَهْوى",ar:"أَهْوى جَمْعَ الطَّوابِعِ",en:"A defective verb — the final ى doesn't change in the present."}
+  {t:"الجملة الاسمية",ar:"هِوايَتِي الْقِراءَةُ.",h:"No word for ‘is’ (again)",tr:"My hobby is reading.",en:"As in unit 1, just put the two parts side by side. Both keep their usual -u ending."},
+  {t:"جمع المؤنث السالم",ar:"أَقْرَأُ مَجَلَّاتٍ",h:"Plurals ending in ـات",tr:"I read magazines.",en:"Many feminine words make their plural with ـات: مَجَلَّة → مَجَلَّات (magazines). Small detail: these never end in -an; you’ll hear -in instead."},
+  {t:"لِأَنَّها",ar:"لِأَنَّها مُفِيدَةٌ",h:"‘Because it…’: لِأَنَّها",tr:"because it’s useful",en:"Join ‘it’, ‘he’ or ‘I’ straight onto لِأَنَّ: لِأَنَّها ‘because it (f)’, لِأَنَّهُ ‘because he / it’, لِأَنَّنِي ‘because I’."},
+  {t:"أَهْوى",ar:"أَهْوى جَمْعَ الطَّوابِعِ",h:"Verbs ending in ى",tr:"I love collecting stamps.",en:"Some verbs end in ى, like أَهْوى (‘I love doing’). The ى stays the same."}
  ],
  cloze:[
-  {q:"هِوايَتِي ___ .",o:["الْقِراءَةُ","الْقِراءَةَ","الْقِراءَةِ","قِراءَةً"],a:0,w:"Predicate of a nominal sentence — marfūʿ."},
-  {q:"أَقْرَأُ ___ عِلْمِيَّةً.",o:["مَجَلَّاتٌ","مَجَلَّاتٍ","مَجَلَّاتًا","الْمَجَلَّاتُ"],a:1,w:"Sound feminine plural: kasra in the accusative. This one catches people for years."},
-  {q:"كَمْ ___ تَقْرَأُ فِي الْيَوْمِ؟",o:["ساعاتٍ","ساعَةً","ساعَةٌ","السَّاعَةَ"],a:1,w:"Singular accusative after كَمْ."},
+  {q:"هِوايَتِي ___ .",o:["الْقِراءَةُ","الْقِراءَةَ","الْقِراءَةِ","قِراءَةً"],a:0,w:"In a sentence with no verb, the second part ends in -u."},
+  {q:"أَقْرَأُ ___ عِلْمِيَّةً.",o:["مَجَلَّاتٌ","مَجَلَّاتٍ","مَجَلَّاتًا","الْمَجَلَّاتُ"],a:1,w:"Plurals ending in ـات use -in where others use -an. This one catches people for years."},
+  {q:"كَمْ ___ تَقْرَأُ فِي الْيَوْمِ؟",o:["ساعاتٍ","ساعَةً","ساعَةٌ","السَّاعَةَ"],a:1,w:"After كَمْ: singular, ending in -an."},
   {q:"أُحِبُّ الْقِراءَةَ ___ مُفِيدَةٌ.",o:["لِأَنَّ","لِأَنَّها","لَكِنَّ","ثُمَّ"],a:1,w:"The subject is 'it' (reading), so the pronoun attaches."},
   {q:"___ لَدَيَّ مَكْتَبَةٌ كَبِيرَةٌ.",o:["لا","ما","لَيْسَ","لَمْ"],a:2,w:"Negating possession uses لَيْسَ."},
-  {q:"زُرْتُ ___ الْخَطِّ الْعَرَبِيِّ.",o:["جَناحٌ","جَناحَ","جَناحِ","الْجَناحُ"],a:1,w:"Object of the verb and head of an iḍāfa: manṣūb, no ال, no tanwin."}
+  {q:"زُرْتُ ___ الْخَطِّ الْعَرَبِيِّ.",o:["جَناحٌ","جَناحَ","جَناحِ","الْجَناحُ"],a:1,w:"It receives the action, so it ends in -a, and as the first word of ‘X of Y’ it has no ال and no extra -n."}
  ],
  fix:[
-  {bad:"هِوايَتِي الْقِراءَةَ.",good:"هِوايَتِي الْقِراءَةُ.",w:"Predicate — marfūʿ."},
-  {bad:"أَقْرَأُ مَجَلَّاتًا عِلْمِيَّةً.",good:"أَقْرَأُ مَجَلَّاتٍ عِلْمِيَّةً.",w:"Sound feminine plural takes kasra in the accusative."},
-  {bad:"كَمْ ساعاتٍ تَقْرَأُ؟",good:"كَمْ ساعَةً تَقْرَأُ؟",w:"Singular accusative after كَمْ."},
+  {bad:"هِوايَتِي الْقِراءَةَ.",good:"هِوايَتِي الْقِراءَةُ.",w:"The describing word keeps its -u (-un) ending."},
+  {bad:"أَقْرَأُ مَجَلَّاتًا عِلْمِيَّةً.",good:"أَقْرَأُ مَجَلَّاتٍ عِلْمِيَّةً.",w:"Plurals ending in ـات use -in, never -an."},
+  {bad:"كَمْ ساعاتٍ تَقْرَأُ؟",good:"كَمْ ساعَةً تَقْرَأُ؟",w:"After كَمْ: singular, ending in -an."},
   {bad:"أُحِبُّ الْقِراءَةَ لِأَنَّ مُفِيدَةٌ.",good:"أُحِبُّ الْقِراءَةَ لِأَنَّها مُفِيدَةٌ.",w:"لِأَنَّ needs a subject."},
   {bad:"لا لَدَيَّ مَكْتَبَةٌ.",good:"لَيْسَ لَدَيَّ مَكْتَبَةٌ.",w:"Possession is negated with لَيْسَ."}
  ]}

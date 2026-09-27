@@ -479,6 +479,12 @@ textarea.ar-in{flex:1 1 100%;min-width:0;font-family:var(--ar);font-size:21px;li
 /* grammar */
 .gcard{border:1px solid var(--rule);border-radius:6px;padding:16px 18px;margin-bottom:12px;background:var(--paper-deep)}
 .gcard h4{margin:0 0 8px;font-family:var(--ar);font-size:18px;direction:rtl;color:var(--rubric);font-weight:700;line-height:1.65}
+.gcard h4.gh{font-family:var(--la);direction:ltr;color:var(--ink);font-size:17px;line-height:1.3;margin:0}
+.gcard .gt{font-family:var(--ar);direction:rtl;text-align:right;font-size:14px;color:var(--ink-soft);margin:2px 0 6px}
+.gcard .gtr{font-size:14.5px;color:var(--ink);margin:0 0 6px}
+.gcard details{margin-top:10px;font-size:13.5px;line-height:1.55;color:var(--ink-soft);border-top:1px solid var(--rule);padding-top:8px}
+.gcard summary{color:var(--verdigris);cursor:pointer;font-weight:700;padding:4px 0}
+.gcard details ul{margin:4px 0;padding-left:18px}
 .gcard .ex{font-family:var(--ar);font-size:21px;direction:rtl;text-align:right;line-height:1.8;cursor:pointer;margin:6px 0;transition:opacity .1s;touch-action:manipulation}
 .gcard .ex:active{opacity:.55}
 .gcard p{margin:6px 0 0;font-size:13px;color:var(--ink-soft)}
@@ -755,7 +761,7 @@ footer{border-top:1px solid var(--rule);padding:16px 28px 30px;font-size:12px;co
   Progress is saved on this device where the browser allows it; otherwise it lasts for the session.
 </footer>
 
-<script src="drills-data.js?v=20260922"></script>
+<script src="drills-data.js?v=20260927"></script>
 <script>
 /* ── merge extra content + derive pools ─────────────────── */
 DATA.forEach(u=>Object.assign(u,EXTRA[u.n]||{}));
@@ -1639,13 +1645,23 @@ function vPrompts(u){
   });
 }
 
+/* Word endings, explained once in plain English wherever a note mentions them. */
+const ENDINGS_RE=/(^|[\s(‘'])-(u|a|i|un|an|in)\b|extra -n/;
+const ENDINGS_HTML=`<details class="endings"><summary>What are these endings (-u, -a, -i)?</summary>
+  <p>Arabic words change their last vowel to show their job in the sentence:</p>
+  <ul><li><b>-u</b> (ـُ): the usual ending</li><li><b>-a</b> (ـَ): for the thing receiving an action, and after some words</li>
+  <li><b>-i</b> (ـِ): after little words like فِي ‘in’ and بِـ ‘with’</li></ul>
+  <p>Without ال, add an <b>n</b> sound: <b>-un</b> (ـٌ), <b>-an</b> (ـً), <b>-in</b> (ـٍ). You’ll pick these up as you go, and people often leave them off when speaking.</p></details>`;
 function vGrammar(u){
   (u.grammar||[]).forEach(g=>{
     const c=document.createElement('div');c.className='gcard';
-    c.innerHTML=`<h4>${g.t}</h4>`;
+    c.innerHTML=g.h ? `<h4 class="gh"></h4><div class="gt"></div>` : `<h4></h4>`;
+    c.querySelector('h4').textContent=g.h||g.t; if(g.h) c.querySelector('.gt').textContent=g.t;
     const ex=document.createElement('div');ex.className='ex';ex.textContent=g.ar;
     c.appendChild(tappable(ex,g.ar.replace(/=/g,' ')));
+    if(g.tr){ const t=document.createElement('div');t.className='gtr';t.textContent=g.tr;c.appendChild(t); }
     const p=document.createElement('p');p.textContent=g.en;c.appendChild(p);
+    if(ENDINGS_RE.test(g.en)) c.insertAdjacentHTML('beforeend',ENDINGS_HTML);
     panel.appendChild(c);
   });
 }
