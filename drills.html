@@ -482,6 +482,10 @@ textarea.ar-in{flex:1 1 100%;min-width:0;font-family:var(--ar);font-size:21px;li
 .gcard h4.gh{font-family:var(--la);direction:ltr;color:var(--ink);font-size:17px;line-height:1.3;margin:0}
 .gcard .gt{font-family:var(--ar);direction:rtl;text-align:right;font-size:14px;color:var(--ink-soft);margin:2px 0 6px}
 .gcard .gtr{font-size:14.5px;color:var(--ink);margin:0 0 6px}
+.gcard .pairs{margin:4px 0 8px;border-top:1px solid var(--rule)}
+.gcard .pair{padding:8px 0;border-bottom:1px solid var(--rule)}
+.gcard .pair .ex{margin:0}
+.gcard .pair .gtr{margin:0}
 .gcard details{margin-top:10px;font-size:13.5px;line-height:1.55;color:var(--ink-soft);border-top:1px solid var(--rule);padding-top:8px}
 .gcard summary{color:var(--verdigris);cursor:pointer;font-weight:700;padding:4px 0}
 .gcard details ul{margin:4px 0;padding-left:18px}
@@ -1652,14 +1656,31 @@ const ENDINGS_HTML=`<details class="endings"><summary>What are these endings (-u
   <ul><li><b>-u</b> (ـُ): the usual ending</li><li><b>-a</b> (ـَ): for the thing receiving an action, and after some words</li>
   <li><b>-i</b> (ـِ): after little words like فِي ‘in’ and بِـ ‘with’</li></ul>
   <p>Without ال, add an <b>n</b> sound: <b>-un</b> (ـٌ), <b>-an</b> (ـً), <b>-in</b> (ـٍ). You’ll pick these up as you go, and people often leave them off when speaking.</p></details>`;
+/* An example like 'هَذا طالِبٌ · هَذِهِ طالِبَةٌ' with 'This is… (m) · This is… (f)': Arabic runs right to
+   left, so on one line the pairs sit opposite their English. Split into [arabic, english] rows. */
+function pairsOf(g){
+  if(!g.tr) return null;
+  const a=g.ar.split(' · '), e=g.tr.split(' · ');
+  return a.length>1 && a.length===e.length ? a.map((x,i)=>[x.replace(/[.،]\s*$/,'').trim(), e[i].replace(/\.\s*$/,'').trim()]) : null;
+}
 function vGrammar(u){
   (u.grammar||[]).forEach(g=>{
     const c=document.createElement('div');c.className='gcard';
     c.innerHTML=g.h ? `<h4 class="gh"></h4><div class="gt"></div>` : `<h4></h4>`;
     c.querySelector('h4').textContent=g.h||g.t; if(g.h) c.querySelector('.gt').textContent=g.t;
-    const ex=document.createElement('div');ex.className='ex';ex.textContent=g.ar;
-    c.appendChild(tappable(ex,g.ar.replace(/=/g,' ')));
-    if(g.tr){ const t=document.createElement('div');t.className='gtr';t.textContent=g.tr;c.appendChild(t); }
+    const rows=pairsOf(g);
+    if(rows){
+      // one example per row, English right under its Arabic (on one line they'd sit opposite)
+      const box=document.createElement('div');box.className='pairs';
+      rows.forEach(([ar,en])=>{ const r=document.createElement('div');r.className='pair';
+        const ex=document.createElement('div');ex.className='ex';ex.textContent=ar;r.appendChild(tappable(ex,ar));
+        const t=document.createElement('div');t.className='gtr';t.textContent=en;r.appendChild(t); box.appendChild(r); });
+      c.appendChild(box);
+    } else {
+      const ex=document.createElement('div');ex.className='ex';ex.textContent=g.ar;
+      c.appendChild(tappable(ex,g.ar.replace(/=/g,' ')));
+      if(g.tr){ const t=document.createElement('div');t.className='gtr';t.textContent=g.tr;c.appendChild(t); }
+    }
     const p=document.createElement('p');p.textContent=g.en;c.appendChild(p);
     if(ENDINGS_RE.test(g.en)) c.insertAdjacentHTML('beforeend',ENDINGS_HTML);
     panel.appendChild(c);
