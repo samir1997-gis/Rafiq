@@ -15,10 +15,10 @@
     const b=aid(bare(text)); return CLIPS.has(b) ? b : null;
   }
 
-  let CLIPS=null, curAudio=null;
+  let CLIPS=null, curAudio=null, clipsReady=Promise.resolve();
   try{
     if(typeof fetch==='function'){
-      fetch('audio/index.json?t='+Math.floor(Date.now()/60000)).then(r=>r.ok?r.json():[])
+      clipsReady=fetch('audio/index.json?t='+Math.floor(Date.now()/60000)).then(r=>r.ok?r.json():[])
         .then(a=>{CLIPS=new Set(a);sync()}).catch(()=>{CLIPS=new Set()});
     } else CLIPS=new Set();
   }catch(e){ CLIPS=new Set(); }
@@ -64,7 +64,12 @@
     document.querySelectorAll('.speaking').forEach(e=>e.classList.remove('speaking'));
   }
   /* after(): called once the line has finished playing (or couldn't play) */
+  let seq=0;
   function speak(text,el,after){
+    const my=++seq;
+    // the list of recordings is still loading (the first word on a page): wait for it,
+    // rather than falling back to the device voice
+    if(CLIPS===null){ if(el)el.classList.add('speaking'); clipsReady.then(()=>{ if(my===seq) speak(text,el,after); }); return; }
     stop();
     if(el)el.classList.add('speaking');
     let ended=false;
@@ -75,7 +80,13 @@
       a.playbackRate=Math.max(0.6,Math.min(1.3,rate()+0.15));
       curAudio=a; a.onended=()=>{curAudio=null;done()};
       a.onerror=()=>{curAudio=null;tts(text,done)};
-      a.play().catch(()=>{curAudio=null;tts(text,done)});
+      a.play().catch(err=>{
+        curAudio=null;
+        // the browser won't play sound before the first tap on the page (strict on iPhone):
+        // keep this line and play it on that tap, with a cue so it doesn't seem silent
+        if(err && err.name==='NotAllowedError'){ if(el)el.classList.remove('speaking'); waitForTap({text,el,after}); return; }
+        tts(text,done);
+      });
       return;
     }
     tts(text,done);
@@ -95,6 +106,29 @@
   function sync(){}
 
   if(window.speechSynthesis) speechSynthesis.onvoiceschanged=sync;
+
+  /* A line refused before the first tap: shown as a "Tap anywhere to hear" cue,
+     played on the first tap. If that tap starts other audio (Next, a word),
+     that simply takes over. */
+  let blocked=null, cue=null;
+  function waitForTap(line){
+    blocked=line;
+    if(cue||!document.body) return;
+    cue=document.createElement('button'); cue.type='button'; cue.className='rq-tap';
+    cue.textContent='🔊 Tap anywhere to hear';
+    cue.style.cssText='position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:350;white-space:nowrap;'+
+      'border:0;border-radius:999px;padding:9px 16px;background:var(--verdigris,#2E7263);color:var(--paper,#F1ECE0);'+
+      'font:600 14px var(--la,system-ui);box-shadow:0 6px 20px -8px rgba(0,0,0,.45);cursor:pointer';
+    document.body.appendChild(cue);
+  }
+  function playBlocked(){
+    if(cue){ cue.remove(); cue=null; }
+    if(!blocked) return;
+    const b=blocked; blocked=null;
+    if(b.el && !b.el.isConnected) return;       // that screen has gone
+    speak(b.text,b.el,b.after);                 // inside the tap, so the browser allows it
+  }
+  ['click','touchend','keydown'].forEach(ev=>document.addEventListener(ev,playBlocked,{capture:true,passive:true}));
   let unlocked=false;
   ['pointerdown','touchstart','keydown'].forEach(ev=>document.addEventListener(ev,()=>{
     if(unlocked)return; unlocked=true;
