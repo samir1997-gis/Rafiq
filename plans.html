@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="theme.js?v=2"></script>
+<title>Choose your plan — Rafiq</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=901">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1ECE0">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1B1815">
+<meta name="color-scheme" content="light dark">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js?v=6"></script>
+<script src="plan.js?v=20260927"></script>
+<style>
+main.wrap{max-width:620px;padding-bottom:48px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0 4px}
+.top a{color:var(--verdigris);font-size:14px;text-decoration:none;padding:10px 0}
+.head{padding:14px 0 4px}
+.head h1{font-size:28px;line-height:1.15;letter-spacing:-.02em;font-weight:700}
+.status{margin:10px 0 0;font-size:15px;line-height:1.5;color:var(--ink-soft)}
+.status b{color:var(--ink)}
+.status.ended{background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--gold);border-radius:8px;padding:12px 14px;color:var(--ink)}
+.toggle{display:flex;justify-content:center;margin:22px 0 16px}
+.seg{display:inline-flex;background:var(--paper-deep);border-radius:10px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;border-radius:8px;padding:9px 18px;min-height:40px;font-family:var(--la);font-size:14px;color:var(--ink-soft);
+  cursor:pointer;touch-action:manipulation;transition:background var(--settle,.2s) var(--ease-out,ease-out),color .15s,transform var(--press,.12s) var(--ease-out,ease-out)}
+.seg button.on{background:var(--card);color:var(--ink);font-weight:700;box-shadow:0 1px 3px rgba(var(--ink-rgb),.14)}
+.seg button:active{transform:scale(.96)}
+.save{font-size:11px;color:var(--verdigris);font-weight:700;margin-left:4px}
+.cards{display:grid;gap:14px}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:20px 20px 18px;position:relative}
+.card.best{border:2px solid var(--verdigris);padding:19px 19px 17px}
+.card .tag{position:absolute;top:-11px;left:18px;background:var(--verdigris);color:var(--paper);font-size:11px;font-weight:700;letter-spacing:.04em;border-radius:999px;padding:3px 10px}
+.card h2{font-size:19px;font-weight:700;margin:0}
+.price{margin:8px 0 2px;font-size:30px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.price small{font-size:14px;font-weight:400;color:var(--ink-soft);letter-spacing:0}
+.per{font-size:13px;color:var(--ink-soft);min-height:18px}
+.card ul{list-style:none;margin:14px 0 16px;padding:0;display:grid;gap:7px}
+.card li{font-size:14.5px;line-height:1.4;padding-left:24px;position:relative}
+.card li::before{content:'✓';position:absolute;left:0;color:var(--verdigris);font-weight:700}
+.card .btn{width:100%;min-height:48px}
+.card.cur .btn{background:transparent;color:var(--verdigris)}
+.msg{margin-top:14px;font-size:14px;line-height:1.5;text-align:center;min-height:20px;color:var(--rubric)}
+.fine{margin-top:20px;font-size:13px;line-height:1.6;color:var(--ink-soft);text-align:center}
+.fine a{color:var(--verdigris)}
+@media (prefers-reduced-motion:reduce){.seg button{transition:none}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><a href="dashboard.html">‹ Home</a><a href="settings.html">Settings</a></div>
+  <div class="head">
+    <h1>Choose your plan</h1>
+    <p class="status" id="status" role="status"></p>
+  </div>
+
+  <div class="toggle"><div class="seg" role="group" aria-label="Billing period">
+    <button type="button" data-i="year" class="on">Yearly <span class="save">save 40%+</span></button>
+    <button type="button" data-i="month">Monthly</button>
+  </div></div>
+
+  <div class="cards">
+    <section class="card" data-plan="essentials" aria-labelledby="pe">
+      <h2 id="pe">Essentials</h2>
+      <div class="price"><span data-price></span> <small data-unit></small></div>
+      <div class="per" data-per></div>
+      <ul>
+        <li>All 12 units and the reading starter</li>
+        <li>Native audio, pictures and daily review</li>
+        <li>Every practice area: words, sentences, verbs, joining words, spelling bee, everyday essentials</li>
+        <li>25 smart checks a day</li>
+      </ul>
+      <button class="btn" type="button" data-go>Choose Essentials</button>
+    </section>
+    <section class="card best" data-plan="complete" aria-labelledby="pc">
+      <span class="tag">Everything</span>
+      <h2 id="pc">Complete</h2>
+      <div class="price"><span data-price></span> <small data-unit></small></div>
+      <div class="per" data-per></div>
+      <ul>
+        <li>Everything in Essentials</li>
+        <li>Unlimited smart checking</li>
+        <li>Conversation partner: reply in your own words</li>
+        <li>Real-life scenes: the airport, the doctor, the masjid and more</li>
+        <li>Weak-spots review built from your own mistakes</li>
+        <li>First access to new units</li>
+      </ul>
+      <button class="btn" type="button" data-go>Choose Complete</button>
+    </section>
+  </div>
+  <div class="msg" id="msg" role="alert"></div>
+
+  <p class="fine">Payments are handled securely by Stripe. Cancel any time in Settings: your plan runs to the end of the period you've paid for.
+    <br>Questions? <a href="mailto:support@rafiq-arabic.com">support@rafiq-arabic.com</a></p>
+</main>
+<script>
+requireLogin();
+const P = RafiqPlan, $ = s => document.querySelector(s);
+const AMOUNTS = { essentials:{month:6.99, year:49.99}, complete:{month:11.99, year:79.99} };
+let interval = 'year';
+
+function paint(){
+  document.querySelectorAll('.seg button').forEach(b => b.classList.toggle('on', b.dataset.i === interval));
+  document.querySelectorAll('.card').forEach(c => {
+    const a = AMOUNTS[c.dataset.plan];
+    c.querySelector('[data-price]').textContent = '£' + a[interval].toFixed(2);
+    c.querySelector('[data-unit]').textContent = interval === 'year' ? '/ year' : '/ month';
+    c.querySelector('[data-per]').textContent = interval === 'year' ? `That's £${(a.year / 12).toFixed(2)} a month` : `or £${a.year.toFixed(2)} a year`;
+  });
+  const s = P.state(), st = $('#status');
+  st.className = 'status';
+  if(s.kind === 'trial') st.innerHTML = `Your free week ends on <b>${P.dateText(s.trialEndsAt)}</b> (${s.daysLeft} day${s.daysLeft === 1 ? '' : 's'} left).${s.trialEndsAt - Date.now() > 49 * 3600e3 ? ' If you choose now, your first payment waits until then.' : ''}`;
+  else if(s.kind === 'ended'){ st.className = 'status ended'; st.innerHTML = '<b>Your free week has ended.</b> Choose a plan to carry on learning. Your progress, streak and words are all saved.'; }
+  else if(s.kind === 'paid') st.innerHTML = `You're on <b>${s.plan === 'complete' ? 'Complete' : 'Essentials'}</b>. To switch plans or update your card, go to <a href="settings.html">Settings</a>.`;
+  else st.textContent = 'Start with a free week, then pick the plan that suits you. Cancel any time.';
+  document.querySelectorAll('.card').forEach(c => {
+    const cur = s.kind === 'paid' && s.plan === c.dataset.plan;
+    c.classList.toggle('cur', cur);
+    c.querySelector('[data-go]').textContent = cur ? 'Your plan' : `Choose ${c.dataset.plan === 'complete' ? 'Complete' : 'Essentials'}`;
+  });
+}
+document.querySelectorAll('.seg button').forEach(b => b.onclick = () => { interval = b.dataset.i; paint(); });
+
+const ERR = {
+  not_ready: 'Payments open when Rafiq launches on 10 October, in shā’ Allāh. You can keep learning until then.',
+  already_subscribed: 'You already have a plan. Taking you to Settings…',
+  signin: 'Please sign in again.', offline: 'You seem to be offline. Check your connection and try again.',
+};
+document.querySelectorAll('[data-go]').forEach(b => b.onclick = async () => {
+  const plan = b.closest('.card').dataset.plan, s = P.state();
+  if(s.kind === 'paid'){ location.href = 'settings.html'; return; }
+  const label = b.textContent; b.disabled = true; b.textContent = 'Opening secure checkout…'; $('#msg').textContent = '';
+  const r = await P.call('billing', { action:'checkout', plan, interval });
+  if(r && r.url){ location.href = r.url; return; }
+  b.disabled = false; b.textContent = label;
+  $('#msg').textContent = ERR[r && r.error] || 'Something went wrong. Please try again, or email support@rafiq-arabic.com.';
+  if(r && r.error === 'already_subscribed') setTimeout(() => location.href = 'settings.html', 1500);
+  if(r && r.error === 'signin') setTimeout(() => location.href = 'login.html', 1200);
+});
+paint(); P.load().then(paint);
+</script>
+</body>
+</html>

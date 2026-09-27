@@ -1,0 +1,39 @@
+/* backend-deploy.js — set up the server side in Supabase (Management API).
+   Run by the "Backend deploy" GitHub Action, before it deploys supabase/functions.
+   Needs SUPABASE_ACCESS_TOKEN and RESEND_API_KEY. Safe to run again.
+
+   1. applies supabase/sql/backend.sql (billing table, free week, triggers, daily job)
+   2. stores the function secrets: RESEND_API_KEY and a fresh HOOK_SECRET
+   3. tells the database where the emails function is, and the same HOOK_SECRET
+   Secrets are never printed. */
+const fs = require('fs'), path = require('path'), crypto = require('crypto');
+const REF = 'gaajfahtrbdybjuunfhe';
+const API = `https://api.supabase.com/v1/projects/${REF}`;
+const TOKEN = process.env.SUPABASE_ACCESS_TOKEN;
+
+async function call(method, url, body) {
+  const r = await fetch(API + url, { method, headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
+                                     body: body ? JSON.stringify(body) : undefined });
+  const t = await r.text();
+  if (!r.ok) { console.error(`${method} ${url} failed: ${r.status} ${t.slice(0, 400)}`); process.exit(1); }
+  return t ? JSON.parse(t) : {};
+}
+const sql = query => call('POST', '/database/query', { query });
+const lit = s => `'${String(s).replace(/'/g, "''")}'`;
+
+(async () => {
+  if (!TOKEN) { console.error('SUPABASE_ACCESS_TOKEN is not set'); process.exit(1); }
+  if (!process.env.RESEND_API_KEY) { console.error('RESEND_API_KEY is not set'); process.exit(1); }
+  await sql(fs.readFileSync(path.join(__dirname, '..', 'supabase/sql/backend.sql'), 'utf8'));
+  console.log('database: backend.sql applied');
+
+  const hook = crypto.randomBytes(24).toString('hex');
+  await call('POST', '/secrets', [{ name: 'RESEND_API_KEY', value: process.env.RESEND_API_KEY }, { name: 'HOOK_SECRET', value: hook }]);
+  await sql(`insert into private.config (key, value) values
+               ('emails_url', ${lit(`https://${REF}.supabase.co/functions/v1/emails`)}), ('hook_secret', ${lit(hook)})
+             on conflict (key) do update set value = excluded.value`);
+  console.log('secrets: RESEND_API_KEY, HOOK_SECRET set; database knows the emails function');
+
+  const n = await sql(`select count(*)::int as n, count(*) filter (where trial_ends_at > now())::int as trial from public.billing`);
+  console.log(`billing rows: ${n[0].n} (${n[0].trial} in their free week)`);
+})();
