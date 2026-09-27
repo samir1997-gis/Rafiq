@@ -26,7 +26,13 @@ function markActive(){
   try { localStorage.setItem(LAST_ACTIVE_KEY, String(Date.now())); } catch(_) {}
 }
 // has the idle limit been exceeded since last activity?
+/* The app added to the home screen is on the person's own phone, so it keeps
+   them signed in (iPhone often won't offer saved passwords there). */
+function installedApp(){
+  try { return matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; } catch(_) { return false; }
+}
 function idleExpired(){
+  if (installedApp()) return false;
   try {
     const last = parseInt(localStorage.getItem(LAST_ACTIVE_KEY), 10);
     if (!last) return false;                  // never recorded -> don't lock out

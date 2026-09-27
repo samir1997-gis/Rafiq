@@ -1,0 +1,20 @@
+<!-- Supabase → Authentication → Emails → "Magic link" (used for sign-in codes). Subject: Your Rafiq sign-in code -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F1ECE0;padding:32px 16px;font-family:Helvetica,Arial,sans-serif;color:#17262B">
+  <tr><td align="center">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;background:#FFFFFF;border:1px solid #E2DACB;border-radius:6px">
+      <tr><td style="padding:32px 32px 8px;text-align:center">
+        <div style="display:inline-block;width:52px;height:52px;line-height:52px;border-radius:12px;background:#17262B;color:#F1ECE0;font-size:30px;font-family:serif">ر</div>
+        <div style="font-size:30px;font-family:serif;margin-top:10px" dir="rtl">رَفِيق</div>
+      </td></tr>
+      <tr><td style="padding:8px 32px 0;font-size:16px;line-height:1.6;text-align:center">
+        <p style="margin:0 0 6px">Your Rafiq sign-in code is</p>
+        <p style="margin:0 0 18px;font-size:34px;font-weight:bold;letter-spacing:8px;font-family:'Courier New',monospace">{{ .Token }}</p>
+        <p style="margin:0 0 26px;font-size:14px;color:#5C6B6E">Type it into Rafiq to sign in. It works once and expires in an hour.</p>
+      </td></tr>
+      <tr><td style="padding:0 32px 30px;font-size:13px;line-height:1.6;color:#5C6B6E">
+        <p style="margin:0">If you didn't ask for this code, you can ignore this email. Nobody can sign in without it.</p>
+      </td></tr>
+    </table>
+    <p style="font-size:12px;color:#5C6B6E;margin:16px 0 0">Rafiq · rafiq-arabic.com</p>
+  </td></tr>
+</table>
