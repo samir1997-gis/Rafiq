@@ -52,7 +52,7 @@ const VOCAB = [
   { id: 136, ar: "فَعَلَ / يَفْعَلُ", en: "to do", tr: "faʿala / yafʿalu", unit: "02 · Core sentence-building" },
   { id: 614, ar: "قالَ / يَقُولُ", en: "to say", tr: "qāla / yaqūlu", unit: "02 · Core sentence-building" },
   { id: 64, ar: "صَلَّى / يُصَلِّي", en: "to pray", tr: "ṣallā / yuṣallī", unit: "02 · Core sentence-building" },
-  { id: 22, ar: "هَلْ؟", en: "is…? (starts a yes/no question)", tr: "hal", unit: "02 · Core sentence-building" },
+  { id: 22, ar: "هَلْ؟", en: "is…? are…? do…? does…? (starts a yes/no question)", tr: "hal", unit: "02 · Core sentence-building" },
   { id: 27, ar: "صَدِيقَة", en: "friend (f)", tr: "ṣadīqa", unit: "02 · Core sentence-building" },
   { id: 65, ar: "تَوَضَّأَ / يَتَوَضَّأُ", en: "to perform wudu", tr: "tawaḍḍaʾa / yatawaḍḍaʾu", unit: "02 · Core sentence-building" },
   { id: 24, ar: "مِنْ أَيْنَ؟", en: "where from?", tr: "min ayna", unit: "02 · Core sentence-building" },
