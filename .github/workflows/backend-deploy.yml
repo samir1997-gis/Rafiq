@@ -30,4 +30,4 @@ jobs:
       - name: Edge Functions
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-        run: npx --yes supabase@2 functions deploy account billing emails stripe-webhook --project-ref gaajfahtrbdybjuunfhe --use-api
+        run: npx --yes supabase@2 functions deploy account billing emails stripe-webhook support --project-ref gaajfahtrbdybjuunfhe --use-api

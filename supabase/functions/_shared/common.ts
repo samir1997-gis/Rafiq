@@ -36,12 +36,12 @@ export const fromHook = (req: Request) => {
   return !!s && req.headers.get('x-rafiq-hook') === s;
 };
 
-export async function sendEmail(to: string, subject: string, html: string, text: string) {
+export async function sendEmail(to: string, subject: string, html: string, text: string, replyTo = 'support@rafiq-arabic.com') {
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${Deno.env.get('RESEND_API_KEY')}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({ from: 'Rafiq <hello@contact.rafiq-arabic.com>', to: [to],
-      reply_to: 'support@rafiq-arabic.com', subject, html, text }),
+      reply_to: replyTo, subject, html, text }),
   });
   if (!r.ok) throw new Error(`email failed: ${r.status} ${(await r.text()).slice(0, 200)}`);
 }

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="theme.js?v=2"></script>
+<title>Help and support — Rafiq</title>
+<meta name="description" content="Get help with Rafiq: report a problem, ask about your plan or account, or send us an idea.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=901">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1ECE0">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1B1815">
+<meta name="color-scheme" content="light dark">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js?v=6"></script>
+<script src="report.js?v=1"></script>
+<style>
+main.wrap{max-width:620px;padding-bottom:48px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0 4px}
+.top a{color:var(--verdigris);font-size:14px;text-decoration:none;padding:10px 0}
+h1{font-size:28px;line-height:1.15;letter-spacing:-.02em;margin:14px 0 6px}
+.lead{color:var(--ink-soft);font-size:15px;line-height:1.55;margin:0 0 20px}
+.quick{display:grid;gap:8px;margin:0 0 26px}
+.quick a{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--card);border:1px solid var(--rule);border-radius:10px;
+  padding:13px 16px;color:var(--ink);text-decoration:none;font-size:15px;transition:transform var(--press,.12s) var(--ease-out,ease-out)}
+.quick a:active{transform:scale(.985)}
+.quick a span{color:var(--ink-soft);font-size:13px}
+.quick a::after{content:'›';color:var(--ink-soft);font-size:20px;margin-left:auto}
+h2{font-size:19px;margin:0 0 12px}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:18px}
+.card .rp-f textarea,.card .rp-f input[type=email]{background:var(--paper)}
+.fine{margin-top:18px;font-size:13px;line-height:1.6;color:var(--ink-soft);text-align:center}
+.fine a{color:var(--verdigris)}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><a href="dashboard.html">‹ Home</a><a href="settings.html">Settings</a></div>
+  <h1>Help and support</h1>
+  <p class="lead">A real person reads every message, usually within a day or two.</p>
+
+  <div class="quick">
+    <a href="settings.html">Change or cancel your plan<span>Settings</span></a>
+    <a href="login.html?mode=reset">Forgotten your password<span>Reset it</span></a>
+    <a href="settings.html#delBtn">Delete your account and data<span>Settings</span></a>
+    <a href="privacy.html">How we use your data<span>Privacy policy</span></a>
+  </div>
+
+  <h2>Send us a message</h2>
+  <div class="card" id="form"></div>
+  <p class="fine">Or email <a href="mailto:support@rafiq-arabic.com">support@rafiq-arabic.com</a>.</p>
+</main>
+<script>
+// ?kind=billing etc. picks the topic
+const kind = new URLSearchParams(location.search).get('kind') || 'bug';
+RafiqReport.mount(document.getElementById('form'), { kind });
+</script>
+</body>
+</html>
