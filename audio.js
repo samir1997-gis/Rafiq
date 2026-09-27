@@ -5,6 +5,15 @@
   const VKEY='bay_voice_uri', RKEY='bay_voice_rate', WKEY='bay_voicewarn_dismissed';
 
   function aid(s){let h=5381;for(let i=0;i<s.length;i++)h=((h*33)^s.charCodeAt(i))>>>0;return h.toString(36);}
+  /* The recorded clip for a line: the exact text, or failing that the same words
+     without punctuation (word tiles keep the sentence's commas and full stops).
+     tools/build-manifest.js records the tiles in that bare form. */
+  const bare=s=>String(s).replace(/[؟?!.،,:؛]/g,' ').replace(/\s+/g,' ').trim();
+  function clipId(text){
+    if(!CLIPS) return null;
+    const a=aid(text); if(CLIPS.has(a)) return a;
+    const b=aid(bare(text)); return CLIPS.has(b) ? b : null;
+  }
 
   let CLIPS=null, curAudio=null;
   try{
@@ -54,12 +63,14 @@
     if(window.speechSynthesis) speechSynthesis.cancel();
     document.querySelectorAll('.speaking').forEach(e=>e.classList.remove('speaking'));
   }
-  function speak(text,el){
+  /* after(): called once the line has finished playing (or couldn't play) */
+  function speak(text,el,after){
     stop();
     if(el)el.classList.add('speaking');
-    const done=()=>{if(el)el.classList.remove('speaking')};
-    const id=aid(text);
-    if(CLIPS&&CLIPS.has(id)){
+    let ended=false;
+    const done=()=>{if(el)el.classList.remove('speaking'); if(!ended){ended=true; if(after)after();}};
+    const id=clipId(text);
+    if(id){
       const a=new Audio('audio/'+id+'.mp3');
       a.playbackRate=Math.max(0.6,Math.min(1.3,rate()+0.15));
       curAudio=a; a.onended=()=>{curAudio=null;done()};

@@ -117,8 +117,16 @@
         if(ok) score++; else missed.push(it);
         const r = el.querySelector('.es-reveal');
         r.innerHTML = `<span class="ar">${esc(it[0])}</span> · ${esc(it[1])}`;
-        if(!hear) say(it[0], null);
         next.disabled = false; next.textContent = k + 1 >= qs.length ? 'See results' : 'Next'; next.focus();
+        // a right answer moves on by itself once the word's been said (see autoNext in learn.html)
+        if(ok){
+          let gone = false;
+          const go = () => { if(gone || !next.isConnected) return;
+            if(document.querySelector('.rp-sheet') || document.hidden) return setTimeout(go, 700);
+            gone = true; next.click(); };
+          if(!hear && window.RQ) RQ.speak(it[0], null, () => setTimeout(go, 500)); else setTimeout(go, 900);
+          setTimeout(go, 6000);
+        } else if(!hear) say(it[0], null);
       });
       next.onclick = () => { k++; ask(); };
     };

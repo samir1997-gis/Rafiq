@@ -1073,7 +1073,9 @@ function say(text,el,after){
   const done=()=>{if(el)el.classList.remove('speaking');if(after)after()};
   if(el)el.classList.add('speaking');
 
-  const id=aid(text);
+  // the exact text, or the same words without punctuation (as word tiles are recorded)
+  let id=aid(text);
+  if(CLIPS&&!CLIPS.has(id)) id=aid(String(text).replace(/[؟?!.،,:؛]/g,' ').replace(/\s+/g,' ').trim());
   if(CLIPS&&CLIPS.has(id)){
     const a=new Audio('audio/'+id+'.mp3');
     curAudio=a;

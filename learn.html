@@ -179,6 +179,22 @@ function screen(body, buttons){
   buttons.forEach(b=>f.appendChild(b)); stage.appendChild(f);
   window.scrollTo(0,0);
 }
+/* A right answer on a simple pick moves on by itself once the word has been said
+   (chosen with TypeSafe: tools/typesafe-exp/auto_advance.py). A wrong answer
+   waits for Next, so the right one can be looked at. Next stays, to go sooner.
+   Nothing moves while the report sheet is open or the app is in the background,
+   and a screen that has already moved on is left alone. */
+function autoNext(next, text, el){
+  let gone=false;
+  const go=()=>{
+    if(gone || !next.isConnected) return;
+    if(document.querySelector('.rp-sheet') || document.hidden) return setTimeout(go, 700);
+    gone=true; next.click();
+  };
+  if(text && window.RQ) RQ.speak(text.replace(/=/g,' '), el, ()=>setTimeout(go, 500));
+  else setTimeout(go, 900);
+  setTimeout(go, 6000);                  // in case the audio never reports that it ended
+}
 function button(label, fn, ghost){ const b=document.createElement('button'); b.className='go'+(ghost?' ghost':''); b.type='button'; b.textContent=label; b.onclick=fn; return b; }
 
 /* ── steps ─────────────────────────────────────────────── */
@@ -221,7 +237,8 @@ function runWords(p, step){
       b.onclick=()=>{ if(!next.disabled) return;
         b.classList.add(x===w?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(x===w);
         if(x!==w) [...body.querySelectorAll('.opt')].find(o=>o.textContent===gloss(w.en)).classList.add('right');
-        say(w.ar,a); next.disabled=false; };
+        next.disabled=false;
+        if(x===w) autoNext(next, w.ar, a); else say(w.ar,a); };
       body.querySelector('#o').appendChild(b);
     });
     screen(body,[next]);
@@ -395,7 +412,8 @@ function letterQuestion({t, options, kicker, at, total, onNext}){
     b.onclick=()=>{ if(!next.disabled) return;
       const ok=x===t; b.classList.add(ok?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(ok); gradeLetter(ch,ok);
       if(!ok) [...body.querySelectorAll('.opt')].find(o=>o.textContent===ch).classList.add('right');
-      say(name,null); next.disabled=false; };
+      next.disabled=false;
+      if(ok) autoNext(next, name, null); else say(name,null); };
     body.querySelector('#o').appendChild(b);
   });
   screen(body,[next]);
@@ -482,7 +500,8 @@ function runVowels(p, step){
       b.onclick=()=>{ if(!next.disabled) return;
         b.classList.add(x===t?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(x===t);
         if(x!==t) [...body.querySelectorAll('.opt')].find(o=>o.textContent===t[0]).classList.add('right');
-        next.disabled=false; };
+        next.disabled=false;
+        if(x===t) autoNext(next, null); };
       body.querySelector('#o').appendChild(b);
     });
     screen(body,[next]);
@@ -519,7 +538,8 @@ function hearQuestion({it, kicker, at, total, onAnswer, onNext}){
       const rev=body.querySelector('#rev');
       rev.innerHTML=`<div class="mid" id="rw">${hlWord(word,ch,'start')}</div><div class="tr">${esc(en)}</div>`;
       rev.classList.remove('hide'); const rw=rev.querySelector('#rw'); rw.onclick=()=>say(word,rw);
-      onAnswer(ok,ch); next.disabled=false; };
+      onAnswer(ok,ch); next.disabled=false;
+      if(ok) autoNext(next, word, rw); };
     body.querySelector('#o').appendChild(b);
   });
   screen(body,[next]);

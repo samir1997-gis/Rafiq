@@ -55,6 +55,22 @@ DATA.forEach(u=>{
 
 VOCAB.forEach(v=>add('vocab',v.unit,v.ar));
 
+/* Word tiles ("Say this in Arabic" in sessions, "Build it" on Sentences): each
+   tile is spoken when tapped. Recorded without punctuation; audio.js falls back
+   to that bare form. The pieces match sayParts() and decoys() in session.html. */
+const PUNCT=/[؟?!.،,:]/g, bare=s=>s.replace(/[؟?!.،,:؛]/g,' ').replace(/\s+/g,' ').trim();
+const tile=(unit,t)=>{ const b=bare(t); if(/[\u0621-\u064A]/.test(b)) add('tile',unit,b); };
+DATA.forEach(u=>{
+  const convos=(u.convos&&u.convos.length)?u.convos:[{lines:u.dialogue||[]}];
+  const lines=[]; convos.forEach(c=>(c.lines||[]).forEach(l=>lines.push(l[1]))); (u.dialogue||[]).forEach(l=>lines.push(l[1]));
+  lines.forEach(ar=>{
+    const w=[]; ar.split(/\s+/).filter(Boolean).forEach(t=>{ if(!t.replace(PUNCT,'')&&w.length) w[w.length-1]+=t; else w.push(t); });
+    const size=Math.ceil(w.length/7); for(let i=0;i<w.length;i+=size) tile(u.n,w.slice(i,i+size).join(' '));
+    ar.split(/\s+/).forEach(t=>tile(u.n,t));                    // decoy pieces are single words from these lines
+  });
+  (u.builds||[]).forEach(b=>b.parts.forEach(p=>{ tile(u.n,p); p.split(/\s+/).forEach(t=>tile(u.n,t)); }));
+});
+
 /* Reading starter: each letter's name, its example words, the vowel-mark
    examples and the listening-test words (said without being shown). */
 eval(fs.readFileSync(path.join(root,'alphabet-data.js'),'utf8')
