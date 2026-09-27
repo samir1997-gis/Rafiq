@@ -45,7 +45,12 @@ DATA.forEach(u=>{
   (u.fix||[]).forEach(f=>add('fix',u.n,f.good));
   (u.builds||[]).forEach(b=>add('build',u.n,J(b.parts)));
   (u.prompts||[]).forEach(p=>{add('prompt',u.n,p[0]);add('model',u.n,p[2]);});
-  (u.grammar||[]).forEach(g=>add('grammar',u.n,g.ar));
+  (u.grammar||[]).forEach(g=>{
+    add('grammar',u.n,g.ar);
+    // paired examples show one per row, each with its own play (pairsOf in learn.html / drills.html)
+    const a=g.ar.split(' · '), e=(g.tr||'').split(' · ');
+    if(g.tr && a.length>1 && a.length===e.length) a.forEach(x=>add('grammar',u.n,x.replace(/[.،]\s*$/,'').trim()));
+  });
 });
 
 VOCAB.forEach(v=>add('vocab',v.unit,v.ar));

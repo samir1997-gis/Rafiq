@@ -616,6 +616,20 @@
   "chars": 30
  },
  {
+  "id": "1p3nxtn",
+  "text": "هَذا طالِبٌ",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 11
+ },
+ {
+  "id": "sow22k",
+  "text": "هَذِهِ طالِبَةٌ",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 15
+ },
+ {
   "id": "1xb1yz9",
   "text": "باكِسْتانِيٌّ · باكِسْتانِيَّةٌ",
   "bucket": "grammar",
@@ -623,11 +637,53 @@
   "chars": 31
  },
  {
+  "id": "768fys",
+  "text": "باكِسْتانِيٌّ",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 13
+ },
+ {
+  "id": "1x82ioj",
+  "text": "باكِسْتانِيَّةٌ",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 15
+ },
+ {
   "id": "1exs3kc",
   "text": "ما · مَنْ · هَلْ · مِنْ أَيْنَ",
   "bucket": "grammar",
   "unit": "01",
   "chars": 30
+ },
+ {
+  "id": "3h8sn",
+  "text": "ما",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 2
+ },
+ {
+  "id": "y7h9bu",
+  "text": "مَنْ",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 4
+ },
+ {
+  "id": "y9mw3e",
+  "text": "هَلْ",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 4
+ },
+ {
+  "id": "o2yn15",
+  "text": "مِنْ أَيْنَ",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 11
  },
  {
   "id": "14g49xn",
@@ -1260,11 +1316,46 @@
   "chars": 32
  },
  {
+  "id": "1nh4p2d",
+  "text": "وَالِدِي",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "18v9eil",
+  "text": "وَالِدُكَ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 9
+ },
+ {
+  "id": "18v9em0",
+  "text": "وَالِدُهُ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 9
+ },
+ {
   "id": "qclquz",
   "text": "أَتَوَضَّأُ · يَتَوَضَّأُ",
   "bucket": "grammar",
   "unit": "02",
   "chars": 25
+ },
+ {
+  "id": "uioxhr",
+  "text": "أَتَوَضَّأُ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 11
+ },
+ {
+  "id": "tbanvq",
+  "text": "يَتَوَضَّأُ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 11
  },
  {
   "id": "1gp4hax",
@@ -2485,6 +2576,20 @@
   "chars": 25
  },
  {
+  "id": "1ektunq",
+  "text": "مُبَكِّرًا",
+  "bucket": "grammar",
+  "unit": "04",
+  "chars": 10
+ },
+ {
+  "id": "hd27zo",
+  "text": "مُتَأَخِّرًا",
+  "bucket": "grammar",
+  "unit": "04",
+  "chars": 12
+ },
+ {
   "id": "lhikpw",
   "text": "بِالْحافِلَةِ",
   "bucket": "grammar",
@@ -3701,6 +3806,20 @@
   "bucket": "grammar",
   "unit": "06",
   "chars": 17
+ },
+ {
+  "id": "1k28jk1",
+  "text": "ذاهِبٌ",
+  "bucket": "grammar",
+  "unit": "06",
+  "chars": 6
+ },
+ {
+  "id": "104nefa",
+  "text": "ذاهِبَةٌ",
+  "bucket": "grammar",
+  "unit": "06",
+  "chars": 8
  },
  {
   "id": "1xk5vr5",
@@ -4956,11 +5075,25 @@
   "chars": 94
  },
  {
-  "id": "1mw2ho5",
-  "text": "أَدْرُسُ = I study · أُدَرِّسُ = I teach",
+  "id": "1wf1tpd",
+  "text": "أَدْرُسُ · أُدَرِّسُ",
   "bucket": "grammar",
   "unit": "08",
-  "chars": 40
+  "chars": 20
+ },
+ {
+  "id": "1p1rnyv",
+  "text": "أَدْرُسُ",
+  "bucket": "grammar",
+  "unit": "08",
+  "chars": 8
+ },
+ {
+  "id": "a5ua1w",
+  "text": "أُدَرِّسُ",
+  "bucket": "grammar",
+  "unit": "08",
+  "chars": 9
  },
  {
   "id": "1mp17am",
@@ -4975,6 +5108,20 @@
   "bucket": "grammar",
   "unit": "08",
   "chars": 21
+ },
+ {
+  "id": "10lhj0i",
+  "text": "مُمَرِّض",
+  "bucket": "grammar",
+  "unit": "08",
+  "chars": 8
+ },
+ {
+  "id": "5n09wl",
+  "text": "مُمَرِّضَة",
+  "bucket": "grammar",
+  "unit": "08",
+  "chars": 10
  },
  {
   "id": "277jwp",
@@ -5612,6 +5759,20 @@
   "bucket": "grammar",
   "unit": "09",
   "chars": 19
+ },
+ {
+  "id": "6b5kpb",
+  "text": "أَبْيَضُ",
+  "bucket": "grammar",
+  "unit": "09",
+  "chars": 8
+ },
+ {
+  "id": "1e3yqyj",
+  "text": "أَزْرَقَ",
+  "bucket": "grammar",
+  "unit": "09",
+  "chars": 8
  },
  {
   "id": "6wtuev",
@@ -6837,6 +6998,20 @@
   "bucket": "grammar",
   "unit": "11",
   "chars": 19
+ },
+ {
+  "id": "1gfhckk",
+  "text": "بَيْضاءُ",
+  "bucket": "grammar",
+  "unit": "11",
+  "chars": 8
+ },
+ {
+  "id": "gg8btd",
+  "text": "زَرْقاءُ",
+  "bucket": "grammar",
+  "unit": "11",
+  "chars": 8
  },
  {
   "id": "1m0qi4s",
@@ -10227,13 +10402,6 @@
   "chars": 5
  },
  {
-  "id": "10lhj0i",
-  "text": "مُمَرِّض",
-  "bucket": "vocab",
-  "unit": "11 · Body & health",
-  "chars": 8
- },
- {
   "id": "1mspty",
   "text": "طَبِيب",
   "bucket": "vocab",
@@ -11256,13 +11424,6 @@
   "chars": 11
  },
  {
-  "id": "6b5kpb",
-  "text": "أَبْيَضُ",
-  "bucket": "vocab",
-  "unit": "15 · Objects & clothes",
-  "chars": 8
- },
- {
   "id": "7k7zvm",
   "text": "أَحْمَرُ",
   "bucket": "vocab",
@@ -11312,13 +11473,6 @@
   "chars": 6
  },
  {
-  "id": "1gfhckk",
-  "text": "بَيْضاءُ",
-  "bucket": "vocab",
-  "unit": "15 · Objects & clothes",
-  "chars": 8
- },
- {
   "id": "1dnn13d",
   "text": "حَمْراءُ",
   "bucket": "vocab",
@@ -11328,13 +11482,6 @@
  {
   "id": "1w72k3d",
   "text": "خَضْراءُ",
-  "bucket": "vocab",
-  "unit": "15 · Objects & clothes",
-  "chars": 8
- },
- {
-  "id": "gg8btd",
-  "text": "زَرْقاءُ",
   "bucket": "vocab",
   "unit": "15 · Objects & clothes",
   "chars": 8
@@ -13244,13 +13391,6 @@
   "chars": 4
  },
  {
-  "id": "y7h9bu",
-  "text": "مَنْ",
-  "bucket": "alphabet",
-  "unit": "00",
-  "chars": 4
- },
- {
   "id": "36v8uc",
   "text": "هاء",
   "bucket": "alphabet",
@@ -14462,20 +14602,6 @@
   "chars": 30
  },
  {
-  "id": "y9mw3e",
-  "text": "هَلْ",
-  "bucket": "connector",
-  "unit": "-",
-  "chars": 4
- },
- {
-  "id": "3h8sn",
-  "text": "ما",
-  "bucket": "connector",
-  "unit": "-",
-  "chars": 2
- },
- {
   "id": "y7jbrk",
   "text": "ماذا",
   "bucket": "connector",
@@ -14488,13 +14614,6 @@
   "bucket": "connector-ex",
   "unit": "-",
   "chars": 14
- },
- {
-  "id": "o2yn15",
-  "text": "مِنْ أَيْنَ",
-  "bucket": "connector",
-  "unit": "-",
-  "chars": 11
  },
  {
   "id": "fi6v3n",
@@ -14849,13 +14968,6 @@
  {
   "id": "l2yc6z",
   "text": "دَرَسْنا",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
- },
- {
-  "id": "1p1rnyv",
-  "text": "أَدْرُسُ",
   "bucket": "verb",
   "unit": "-",
   "chars": 8
@@ -16641,13 +16753,6 @@
  {
   "id": "1l424zu",
   "text": "دَرَّسْنا",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 9
- },
- {
-  "id": "a5ua1w",
-  "text": "أُدَرِّسُ",
   "bucket": "verb",
   "unit": "-",
   "chars": 9
