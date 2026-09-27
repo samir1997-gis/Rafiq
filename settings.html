@@ -12,7 +12,7 @@
 })();
 </script>
 <script src="theme.js?v=2"></script>
-<script src="pwa.js?v=1"></script>
+<script src="pwa.js?v=2"></script>
 <title>Settings — Rafiq</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -403,9 +403,11 @@ function wireProfileField(inputId, savedId, key, evt){
     const st = R.pushState(), has = !!(row && row.push);
     pushBtn.hidden = st !== 'ok';
     pushBtn.textContent = has ? 'Turn off' : 'Turn on';
-    pushNote.textContent = st === 'install' ? "On iPhone, add Rafiq to your Home Screen first (Share, then Add to Home Screen), then open it from there to turn these on."
+    pushNote.textContent = st === 'install' ? "On iPhone, notifications need Rafiq on your Home Screen. Add it, then open it from there to turn these on. "
       : st === 'no' ? "This browser can't show notifications."
       : has ? 'On. Notifications go to the device you last turned them on from.' : 'A notification at your reminder time.';
+    if(st === 'install' && window.RafiqPWA){ const a = document.createElement('a'); a.href = '#'; a.textContent = 'Show me how';
+      a.style.color = 'var(--verdigris)'; a.onclick = e => { e.preventDefault(); RafiqPWA.guide(); }; pushNote.appendChild(a); }
   }
   async function put(patch, savedId){
     fail('');
