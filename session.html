@@ -176,7 +176,7 @@ input.ar-in{flex:1;min-width:200px;font-family:var(--ar);font-size:21px;line-hei
 <script src="progress.js?v=20260924"></script>
 <script src="arkb.js?v=3" defer></script>
 <script src="translations.js?v=1"></script>
-<script src="plan.js?v=20260922"></script>
+<script src="plan.js?v=20260927"></script>
 <script>RafiqPlan.requirePlan();</script>
 <script src="judge.js?v=20260922"></script>
 <script>requireLogin();</script>
@@ -602,7 +602,7 @@ Progress.init().then(()=>{
   if(WEAK && !RafiqPlan.isComplete()){
     panel.innerHTML=`<div class="done"><div class="big">🎯</div><h2>Weak-spots review</h2>
       <p>A session built from your own repeat mistakes is part of Rafiq Complete.</p>
-      <div class="nextrow"><a class="primary" href="index.html#pricing">See Complete</a><a href="dashboard.html">Back to home</a></div></div>`;
+      <div class="nextrow"><a class="primary" href="plans.html">See Complete</a><a href="dashboard.html">Back to home</a></div></div>`;
     document.getElementById('count').textContent=''; return;
   }
   Q=WEAK ? buildWeak(10) : build(UNIT?10:LEN);

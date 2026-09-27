@@ -139,7 +139,7 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 <script src="auth.js?v=6"></script>
 <script src="progress.js?v=20260924"></script>
 <script src="path.js?v=20260928"></script>
-<script src="plan.js?v=20260922"></script>
+<script src="plan.js?v=20260927"></script>
 <script>RafiqPlan.requirePlan();</script>
 <script src="judge.js?v=20260925"></script>
 <script src="sounds.js?v=1"></script>
@@ -553,7 +553,7 @@ function runChat(p, step, opts){
       <div style="font-size:40px">💬</div><h3 style="margin:8px 0">Part of Rafiq Complete</h3>
       <p style="color:var(--ink-soft)">Reply to the other speaker in your own words and get feedback on every reply.
       ${c.yearly} a year or ${c.monthly} a month.</p></div></div>`);
-    screen(body,[button('See Complete',()=>{location.href='index.html#pricing'}),
+    screen(body,[button('See Complete',()=>{location.href='plans.html'}),
       opts ? button('Back to practice',()=>{location.href='practise.html'},true) : button('Skip this step',done,true)]);
     return;
   }
