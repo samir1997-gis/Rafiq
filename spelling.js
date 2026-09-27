@@ -60,7 +60,7 @@
     const words = pool();
     if(words.length < MIN_WORDS){
       el.innerHTML = `<div class="sb-card"><p class="sb-empty">The spelling bee uses words you've met in your lessons.
-        Finish a few more <b>New words</b> steps on your path (you need ${MIN_WORDS} single words; you have ${words.length}),
+        Finish a few more <b>Meet new words</b> steps on your path (you need ${MIN_WORDS} single words; you have ${words.length}),
         then come back.</p><a class="btn" href="dashboard.html">Go to your path</a></div>`;
       return;
     }
