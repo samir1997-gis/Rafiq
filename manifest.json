@@ -1,8 +1,9 @@
 {
+  "id": "./index.html",
   "name": "رَفِيق — Rafiq",
   "short_name": "رَفِيق",
-  "description": "Your Arabic pal — vocabulary, sentences, verbs and connectors for Modern Standard Arabic.",
-  "start_url": "./index.html",
+  "description": "Learn Arabic a few minutes a day: one path from the letters to real conversations, with every word brought back for review.",
+  "start_url": "./dashboard.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
@@ -28,6 +29,45 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Continue",
+      "short_name": "Continue",
+      "description": "Your next step",
+      "url": "./dashboard.html",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Practise",
+      "short_name": "Practise",
+      "url": "./practise.html",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Progress",
+      "short_name": "Progress",
+      "url": "./progress.html",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }

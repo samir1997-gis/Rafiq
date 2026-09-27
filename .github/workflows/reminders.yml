@@ -1,0 +1,52 @@
+name: Reminders
+
+# Daily reminders (issue #31): tools/send-reminders.js.
+# - Every hour: remind the people whose chosen time it is and whose goal isn't met yet.
+# - When the sender changes on main: 'setup' (creates the table, the unsubscribe
+#   function and the push keys; safe to re-run), so merging is all it takes.
+# - By hand: preview (who'd be reminded now, sends nothing) or test (one account).
+# Scheduled runs only happen on the default branch; GitHub may start them a little late.
+
+on:
+  schedule:
+    - cron: "7 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - "tools/send-reminders.js"
+      - ".github/workflows/reminders.yml"
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "preview (sends nothing) | test (one account) | run | setup"
+        required: true
+        default: "preview"
+      arg:
+        description: "test: the account id · otherwise leave as -"
+        required: true
+        default: "-"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: reminders
+  cancel-in-progress: false
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install web-push
+        run: npm install --no-save --no-package-lock web-push@3.6.7
+      - name: Send
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          CMD: ${{ github.event_name == 'schedule' && 'run' || github.event_name == 'push' && 'setup' || inputs.command }}
+          ARG: ${{ inputs.arg }}
+        run: node tools/send-reminders.js "$CMD" "$ARG"

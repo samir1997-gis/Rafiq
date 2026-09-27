@@ -1,0 +1,19 @@
+<!-- Daily reminder email, sent by tools/send-reminders.js. The subject is the reminder's title ("Keep your 5-day streak going" or "A few minutes of Arabic today"). -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F1ECE0;padding:24px 10px;font-family:Helvetica,Arial,sans-serif;color:#17262B">
+  <tr><td align="center">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#FFFFFF;border:1px solid #E2DACB;border-radius:6px">
+      <tr><td style="padding:28px 22px 8px;text-align:center">
+        <div style="display:inline-block;width:52px;height:52px;line-height:52px;border-radius:12px;background:#17262B;color:#F1ECE0;font-size:30px;font-family:serif">ر</div>
+      </td></tr>
+      <tr><td style="padding:8px 22px 0;font-size:16px;line-height:1.6">
+        <p style="margin:0 0 14px">{{GREETING}}</p>
+        <p style="margin:0 0 20px">{{LINE}}</p>
+        {{REVIEWS}}
+      </td></tr>
+      <tr><td align="center" style="padding:0 22px 28px">
+        <a href="https://rafiq-arabic.com/dashboard.html" style="display:inline-block;background:#2E7263;color:#F1ECE0;text-decoration:none;font-size:16px;padding:13px 28px;border-radius:3px">Continue</a>
+      </td></tr>
+    </table>
+    <p style="font-size:12px;color:#5C6B6E;margin:16px 0 0;line-height:1.6">You’re getting this because you turned on daily reminders in Rafiq. Change the time in Settings, or <a href="{{UNSUB}}" style="color:#5C6B6E">unsubscribe from reminder emails</a>.</p>
+  </td></tr>
+</table>

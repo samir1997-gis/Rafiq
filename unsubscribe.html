@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<script src="theme.js?v=2"></script>
+<script src="pwa.js?v=1"></script>
+<title>Rafiq — reminder emails</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=901">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317262B'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23F1ECE0' font-family='serif'%3E%D8%B1%3C/text%3E%3Ccircle cx='46' cy='19' r='4' fill='%23B4322A'/%3E%3C/svg%3E">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1ECE0">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1B1815">
+<meta name="color-scheme" content="light dark">
+<style>
+.screen{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:32px 36px;width:min(420px,100%)}
+.card .label{margin-bottom:14px}
+.card p{margin:0 0 18px;line-height:1.6}
+.card .btn{display:inline-block}
+</style>
+</head>
+<body>
+<main class="screen">
+  <div class="card">
+    <div class="label">Reminder emails</div>
+    <p id="msg">Turning off reminder emails…</p>
+    <a class="btn" href="settings.html">Open Settings</a>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js?v=6"></script>
+<script>
+/* The link at the bottom of every reminder email: unsubscribe.html?t=<token>.
+   No sign-in needed; the token stops reminder emails for that account only
+   (notifications stay on if they were on). */
+(async () => {
+  const msg = document.getElementById('msg');
+  const t = new URLSearchParams(location.search).get('t') || '';
+  if (!/^[0-9a-f-]{36}$/i.test(t)) { msg.textContent = "This link isn't complete. You can turn reminders off in Settings."; return; }
+  try {
+    const { data, error } = await sb.rpc('reminders_unsubscribe', { token: t });
+    if (error) throw error;
+    msg.textContent = data ? "Done. You won't get reminder emails any more. You can turn them back on in Settings at any time."
+                           : "This link has already been used or has expired. You can turn reminders off in Settings.";
+  } catch (_) {
+    msg.textContent = "Something went wrong. Please try again, or turn reminders off in Settings.";
+  }
+})();
+</script>
+</body>
+</html>
