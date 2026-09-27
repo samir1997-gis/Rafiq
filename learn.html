@@ -42,6 +42,11 @@ body{background:var(--paper)}
 .note .gh{font-size:20px;line-height:1.25;letter-spacing:-.01em;margin:0}
 .note .gt{font-family:var(--ar);direction:rtl;text-align:center;font-size:14px;color:var(--ink-soft);margin:4px 0 10px}
 .note .gtr{color:var(--ink);font-size:15.5px;margin-top:2px}
+/* paired examples (هَذا · هَذِهِ): one per row, English right under its Arabic */
+.pairs{margin:6px 0 4px;border-top:1px solid var(--rule)}
+.pair{padding:10px 0;border-bottom:1px solid var(--rule);cursor:pointer;touch-action:manipulation}
+.pair .mid{font-size:clamp(21px,5.6vw,26px);line-height:1.6}
+.pair .gtr{margin-top:0}
 .endings{margin-top:14px;text-align:left;font-size:14px;line-height:1.55;color:var(--ink-soft);border-top:1px solid var(--rule);padding-top:10px}
 .endings summary{color:var(--verdigris);cursor:pointer;font-weight:700;padding:6px 0;list-style:none}
 .endings summary::-webkit-details-marker{display:none}
@@ -253,6 +258,13 @@ const ENDINGS_HTML=`<details class="endings"><summary>What are these endings (-u
   <p>Without ال, add an <b>n</b> sound: <b>-un</b> (ـٌ), <b>-an</b> (ـً), <b>-in</b> (ـٍ). You’ll pick these up as you go, and people often leave them off when speaking.</p></details>`;
 /* The short meaning shown on an answer button: the part before the first '/'
    that isn't inside brackets, without wrapping brackets. */
+/* An example like 'هَذا طالِبٌ · هَذِهِ طالِبَةٌ' with 'This is… (m) · This is… (f)': Arabic runs right to
+   left, so on one line the pairs sit opposite their English. Split into [arabic, english] rows. */
+function pairsOf(g){
+  if(!g.tr) return null;
+  const a=g.ar.split(' · '), e=g.tr.split(' · ');
+  return a.length>1 && a.length===e.length ? a.map((x,i)=>[x.replace(/[.،]\s*$/,'').trim(), e[i].replace(/\.\s*$/,'').trim()]) : null;
+}
 function gloss(en){
   let d=0, s=String(en||'');
   for(let i=0;i<s.length;i++){ const c=s[i]; if(c==='(') d++; else if(c===')') d--; else if(c==='/' && d<=0){ s=s.slice(0,i); break; } }
@@ -270,9 +282,11 @@ function runGrammar(p, step){
     const g=notes[i];
     const body=el(`<div><p class="kicker">How it works · ${i+1} of ${notes.length}</p>
       <div class="card note">${g.h ? `<h3 class="gh">${esc(g.h)}</h3><p class="gt">${esc(g.t)}</p>` : `<h3>${esc(g.t)}</h3>`}
-        <div class="mid" id="a">${esc(g.ar.replace(/=/g,' '))}</div>${g.tr ? `<div class="gtr">${esc(g.tr)}</div>` : ''}
+        ${pairsOf(g) ? `<div class="pairs">${pairsOf(g).map(([ar,en])=>`<div class="pair" data-say="${esc(ar)}"><div class="mid">${esc(ar)}</div><div class="gtr">${esc(en)}</div></div>`).join('')}</div>`
+          : `<div class="mid" id="a">${esc(g.ar.replace(/=/g,' '))}</div>${g.tr ? `<div class="gtr">${esc(g.tr)}</div>` : ''}`}
         <p>${esc(g.en)}</p>${ENDINGS_RE.test(g.en) ? ENDINGS_HTML : ''}</div></div>`);
-    const a=body.querySelector('#a'); a.onclick=()=>say(g.ar,a);
+    const a=body.querySelector('#a'); if(a) a.onclick=()=>say(g.ar,a);
+    body.querySelectorAll('.pair').forEach(r=>r.onclick=()=>say(r.dataset.say,r.querySelector('.mid')));
     screen(body,[button(i<notes.length-1?'Next':'Finish',()=>{i++;show()})]);
   };
   show();

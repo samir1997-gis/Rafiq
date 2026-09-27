@@ -1415,7 +1415,7 @@ const EXTRA={
  ]},
 "08":{
  grammar:[
-  {t:"دَرَسَ / دَرَّسَ",ar:"أَدْرُسُ = I study · أُدَرِّسُ = I teach",h:"Doubling a letter changes the meaning",tr:"I study · I teach",en:"The shadda (ّ) doubles the middle letter and often means ‘make someone do it’: study → teach."},
+  {t:"دَرَسَ / دَرَّسَ",ar:"أَدْرُسُ · أُدَرِّسُ",h:"Doubling a letter changes the meaning",tr:"I study · I teach",en:"The shadda (ّ) doubles the middle letter and often means ‘make someone do it’: study → teach."},
   {t:"الاسم المقصور",ar:"فِي الْمُسْتَشْفى",h:"Words ending in ى don’t change",tr:"in the hospital",en:"Words ending in ى, like مُسْتَشْفى (hospital), keep the same ending whatever comes before them."},
   {t:"تأنيث المهن",ar:"مُمَرِّض · مُمَرِّضَة",h:"Jobs for women: add ة",tr:"nurse (man) · nurse (woman)",en:"Most job words become feminine by adding ة, just like nationalities."},
   {t:"كَمْ ساعَةً",ar:"كَمْ ساعَةً تَعْمَلُ؟",h:"How many hours?",tr:"How many hours do you work?",en:"The same كَمْ rule: one hour, ending in -an: ساعَةً."}
