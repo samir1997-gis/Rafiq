@@ -109,3 +109,19 @@ begin
 end $$;
 revoke all on function public.delete_user_data(uuid) from public, anon, authenticated;
 grant execute on function public.delete_user_data(uuid) to service_role;
+
+-- Report a problem / contact support: every message is kept here (for the admin
+-- page, #29) as well as emailed to support@. Only the server reads or writes it.
+create table if not exists public.reports (
+  id bigserial primary key,
+  created_at timestamptz not null default now(),
+  user_id uuid references auth.users(id) on delete set null,
+  email text,
+  kind text not null,
+  message text not null,
+  page text,
+  context text,
+  user_agent text
+);
+alter table public.reports enable row level security;
+create index if not exists reports_recent on public.reports (created_at desc);

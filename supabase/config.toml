@@ -11,3 +11,5 @@ verify_jwt = false
 verify_jwt = false
 [functions.stripe-webhook]
 verify_jwt = false
+[functions.support]
+verify_jwt = false
