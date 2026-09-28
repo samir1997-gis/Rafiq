@@ -265,7 +265,7 @@ td.tr{font-family:var(--ut);font-size:11px;color:var(--ink-soft);width:20%}
   </section>
 </main>
 
-<script src="vocab-data.js?v=20260928"></script>
+<script src="vocab-data.js?v=20260928b"></script>
 <script src="drills-data.js?v=20260927"></script>
 <script src="path-data.js?v=20260928"></script>
 <script src="alphabet-data.js?v=20260926"></script>
@@ -744,7 +744,7 @@ function nextQuestion(){
   } else {
     // MULTIPLE CHOICE — as before, mixed direction
     const dir = Math.random()<0.5 ? 'ar2en' : 'en2ar';
-    const others = VOCAB.filter(w=>w.id!==qCurrent.id && primary(w.en).toLowerCase()!==primary(qCurrent.en).toLowerCase() && primary(w.ar)!==primary(qCurrent.ar)); qShuffle(others);
+    const others = VOCAB.filter(w=>w.id!==qCurrent.id && !/^ـ/.test(w.ar) && primary(w.en).toLowerCase()!==primary(qCurrent.en).toLowerCase() && primary(w.ar)!==primary(qCurrent.ar)); qShuffle(others);
     let answer, options;
     if(dir==='ar2en'){
       promptEl.textContent='What does this mean?';
