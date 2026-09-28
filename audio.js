@@ -120,6 +120,9 @@
       'border:0;border-radius:999px;padding:9px 16px;background:var(--verdigris,#2E7263);color:var(--paper,#F1ECE0);'+
       'font:600 14px var(--la,system-ui);box-shadow:0 6px 20px -8px rgba(0,0,0,.45);cursor:pointer';
     document.body.appendChild(cue);
+    // just above the lesson's buttons, however many there are
+    const foot=document.querySelector('.foot'), top=foot && foot.getBoundingClientRect().top;
+    if(top>0 && top<innerHeight) cue.style.bottom=Math.round(innerHeight-top+12)+'px';
   }
   function playBlocked(){
     if(cue){ cue.remove(); cue=null; }
