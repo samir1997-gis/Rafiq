@@ -21490,6 +21490,510 @@
   "chars": 34
  },
  {
+  "id": "runbw1",
+  "text": "اللَّهُ أَكْبَرُ",
+  "bucket": "salah",
+  "unit": "takbir",
+  "chars": 16
+ },
+ {
+  "id": "fuja5x",
+  "text": "اللَّهُ",
+  "bucket": "salah",
+  "unit": "takbir",
+  "chars": 7
+ },
+ {
+  "id": "1fauxi5",
+  "text": "سُبْحانَكَ اللَّهُمَّ وَبِحَمْدِكَ وَتَبارَكَ اسْمُكَ وَتَعالى جَدُّكَ وَلا إِلٰهَ غَيْرُكَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 91
+ },
+ {
+  "id": "9xm1rg",
+  "text": "سُبْحانَكَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 10
+ },
+ {
+  "id": "bdqx1r",
+  "text": "اللَّهُمَّ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 10
+ },
+ {
+  "id": "1ab0u9p",
+  "text": "وَبِحَمْدِكَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 12
+ },
+ {
+  "id": "1q11ui",
+  "text": "وَتَبارَكَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 10
+ },
+ {
+  "id": "1oziv6c",
+  "text": "وَتَعالى",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 8
+ },
+ {
+  "id": "y9vpsw",
+  "text": "وَلا",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 4
+ },
+ {
+  "id": "cnwmz1",
+  "text": "إِلٰهَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 6
+ },
+ {
+  "id": "vuziqi",
+  "text": "غَيْرُكَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 8
+ },
+ {
+  "id": "1euje57",
+  "text": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطانِ الرَّجِيمِ",
+  "bucket": "salah",
+  "unit": "refuge",
+  "chars": 45
+ },
+ {
+  "id": "1b84ort",
+  "text": "أَعُوذُ",
+  "bucket": "salah",
+  "unit": "refuge",
+  "chars": 7
+ },
+ {
+  "id": "fvszpu",
+  "text": "بِاللَّهِ",
+  "bucket": "salah",
+  "unit": "refuge",
+  "chars": 9
+ },
+ {
+  "id": "19e1gk3",
+  "text": "الشَّيْطانِ",
+  "bucket": "salah",
+  "unit": "refuge",
+  "chars": 11
+ },
+ {
+  "id": "1hs346j",
+  "text": "الرَّجِيمِ",
+  "bucket": "salah",
+  "unit": "refuge",
+  "chars": 10
+ },
+ {
+  "id": "1x2jwn6",
+  "text": "سُبْحانَ رَبِّيَ الْعَظِيمِ",
+  "bucket": "salah",
+  "unit": "ruku",
+  "chars": 27
+ },
+ {
+  "id": "1l7mydd",
+  "text": "سُبْحانَ",
+  "bucket": "salah",
+  "unit": "ruku",
+  "chars": 8
+ },
+ {
+  "id": "1gotsfr",
+  "text": "رَبِّيَ",
+  "bucket": "salah",
+  "unit": "ruku",
+  "chars": 7
+ },
+ {
+  "id": "1q4pzg4",
+  "text": "الْعَظِيمِ",
+  "bucket": "salah",
+  "unit": "ruku",
+  "chars": 10
+ },
+ {
+  "id": "11506se",
+  "text": "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ",
+  "bucket": "salah",
+  "unit": "rising",
+  "chars": 30
+ },
+ {
+  "id": "1kb5whm",
+  "text": "سَمِعَ",
+  "bucket": "salah",
+  "unit": "rising",
+  "chars": 6
+ },
+ {
+  "id": "qbo432",
+  "text": "لِمَنْ",
+  "bucket": "salah",
+  "unit": "rising",
+  "chars": 6
+ },
+ {
+  "id": "1dqvvdm",
+  "text": "حَمِدَهُ",
+  "bucket": "salah",
+  "unit": "rising",
+  "chars": 8
+ },
+ {
+  "id": "1qpgkrs",
+  "text": "رَبَّنا وَلَكَ الْحَمْدُ",
+  "bucket": "salah",
+  "unit": "rising",
+  "chars": 24
+ },
+ {
+  "id": "1go6g0c",
+  "text": "رَبَّنا",
+  "bucket": "salah",
+  "unit": "rising",
+  "chars": 7
+ },
+ {
+  "id": "xo7mxw",
+  "text": "وَلَكَ",
+  "bucket": "salah",
+  "unit": "rising",
+  "chars": 6
+ },
+ {
+  "id": "e33ve1",
+  "text": "سُبْحانَ رَبِّيَ الْأَعْلى",
+  "bucket": "salah",
+  "unit": "sujud",
+  "chars": 26
+ },
+ {
+  "id": "vn1tzz",
+  "text": "الْأَعْلى",
+  "bucket": "salah",
+  "unit": "sujud",
+  "chars": 9
+ },
+ {
+  "id": "u6yt00",
+  "text": "رَبِّ اغْفِرْ لِي",
+  "bucket": "salah",
+  "unit": "sujud",
+  "chars": 17
+ },
+ {
+  "id": "1q0gq0j",
+  "text": "رَبِّ",
+  "bucket": "salah",
+  "unit": "sujud",
+  "chars": 5
+ },
+ {
+  "id": "10nocrc",
+  "text": "اغْفِرْ",
+  "bucket": "salah",
+  "unit": "sujud",
+  "chars": 7
+ },
+ {
+  "id": "36vd4r",
+  "text": "لِي",
+  "bucket": "salah",
+  "unit": "sujud",
+  "chars": 3
+ },
+ {
+  "id": "278dcc",
+  "text": "التَّحِيّاتُ لِلَّهِ وَالصَّلَواتُ وَالطَّيِّباتُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 49
+ },
+ {
+  "id": "1m6c97b",
+  "text": "التَّحِيّاتُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 12
+ },
+ {
+  "id": "p7bwdm",
+  "text": "وَالصَّلَواتُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 13
+ },
+ {
+  "id": "1snjurt",
+  "text": "وَالطَّيِّباتُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 14
+ },
+ {
+  "id": "mh3v86",
+  "text": "السَّلامُ عَلَيْكَ أَيُّها النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكاتُهُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 69
+ },
+ {
+  "id": "1j2onsd",
+  "text": "عَلَيْكَ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 8
+ },
+ {
+  "id": "1azl5ks",
+  "text": "أَيُّها",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 7
+ },
+ {
+  "id": "j7vacz",
+  "text": "النَّبِيُّ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 10
+ },
+ {
+  "id": "ika2y6",
+  "text": "وَرَحْمَةُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 10
+ },
+ {
+  "id": "fuja5m",
+  "text": "اللَّهِ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 7
+ },
+ {
+  "id": "1umjhyr",
+  "text": "وَبَرَكاتُهُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 12
+ },
+ {
+  "id": "9y5o92",
+  "text": "السَّلامُ عَلَيْنا وَعَلى عِبادِ اللَّهِ الصّالِحِينَ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 53
+ },
+ {
+  "id": "1j2ontt",
+  "text": "عَلَيْنا",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 8
+ },
+ {
+  "id": "xna93t",
+  "text": "وَعَلى",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 6
+ },
+ {
+  "id": "1qbof30",
+  "text": "عِبادِ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 6
+ },
+ {
+  "id": "4w6zla",
+  "text": "الصّالِحِينَ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 12
+ },
+ {
+  "id": "tqip3",
+  "text": "أَشْهَدُ أَنْ لا إِلٰهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 87
+ },
+ {
+  "id": "1jv21qf",
+  "text": "أَشْهَدُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 8
+ },
+ {
+  "id": "cnx7gs",
+  "text": "إِلَّا",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 6
+ },
+ {
+  "id": "1iw9if5",
+  "text": "وَأَشْهَدُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 10
+ },
+ {
+  "id": "1q9nndd",
+  "text": "أَنَّ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 5
+ },
+ {
+  "id": "5hxnv9",
+  "text": "مُحَمَّدًا",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 10
+ },
+ {
+  "id": "1r3c9og",
+  "text": "عَبْدُهُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 8
+ },
+ {
+  "id": "bqd3hn",
+  "text": "وَرَسُولُهُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 11
+ },
+ {
+  "id": "ehfqjl",
+  "text": "اللَّهُمَّ صَلِّ عَلى مُحَمَّدٍ وَعَلى آلِ مُحَمَّدٍ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 52
+ },
+ {
+  "id": "1qiebbv",
+  "text": "صَلِّ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 5
+ },
+ {
+  "id": "d2xe5w",
+  "text": "مُحَمَّدٍ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 9
+ },
+ {
+  "id": "36rnbn",
+  "text": "آلِ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 3
+ },
+ {
+  "id": "wy2u9y",
+  "text": "كَما صَلَّيْتَ عَلى إِبْراهِيمَ وَعَلى آلِ إِبْراهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 78
+ },
+ {
+  "id": "y9psh6",
+  "text": "كَما",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 4
+ },
+ {
+  "id": "v5ilgq",
+  "text": "إِبْراهِيمَ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 11
+ },
+ {
+  "id": "1qqgobo",
+  "text": "إِنَّكَ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 7
+ },
+ {
+  "id": "rc1noa",
+  "text": "حَمِيدٌ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 7
+ },
+ {
+  "id": "1tt1wyj",
+  "text": "مَجِيدٌ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 7
+ },
+ {
+  "id": "1gwirpc",
+  "text": "اللَّهُمَّ بارِكْ عَلى مُحَمَّدٍ وَعَلى آلِ مُحَمَّدٍ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 53
+ },
+ {
+  "id": "1yh8l4q",
+  "text": "بارِكْ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 6
+ },
+ {
+  "id": "1yxggm7",
+  "text": "كَما بارَكْتَ عَلى إِبْراهِيمَ وَعَلى آلِ إِبْراهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 77
+ },
+ {
+  "id": "11r3c8w",
+  "text": "بارَكْتَ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 8
+ },
+ {
+  "id": "13r9q0p",
+  "text": "السَّلامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ",
+  "bucket": "salah",
+  "unit": "taslim",
+  "chars": 39
+ },
+ {
   "id": "3hbk3",
   "text": "وَ",
   "bucket": "connector",
@@ -22643,13 +23147,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 8
- },
- {
-  "id": "1kb5whm",
-  "text": "سَمِعَ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 6
  },
  {
   "id": "m1c1he",

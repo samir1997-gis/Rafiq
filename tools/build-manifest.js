@@ -92,6 +92,14 @@ ESSENTIALS.forEach(s=>s.items.forEach(it=>{ add('essentials',s.id,it[0]); if(s.i
 
 SCENES.forEach(sc=>sc.lines.forEach(l=>add('scene',sc.id,l[1])));
 
+/* "Your salah" (salah.js): the prayer phrases and their words, in the app's voice.
+   Never the Quran (Al-Fatiha, the surahs): that only ever plays a licensed human
+   recitation. Render the 'salah' bucket once the teacher has signed off (#38). */
+load('salah-data.js', ['SALAH']);
+SALAH.parts.filter(p=>p.group==='prayer' && !/^fatiha/.test(p.id)).forEach(p=>p.lines.forEach(l=>{
+  add('salah',p.id,l.ar); l.words.forEach(w=>add('salah',p.id,w.ar));
+}));
+
 CONNECTORS.forEach(cat=>cat.items.forEach(it=>{
   add('connector','-',it.ar);
   add('connector-ex','-',it.ex);

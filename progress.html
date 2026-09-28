@@ -113,12 +113,14 @@ table.per{width:100%;border-collapse:collapse;font-size:14.5px}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=6"></script>
 <script src="plan.js?v=20260927"></script>
-<script src="progress.js?v=20260924"></script>
+<script src="progress.js?v=20260928"></script>
 <script src="vocab-data.js?v=20260928"></script>
 <script src="drills-data.js?v=20260927"></script>
 <script src="path-data.js?v=20260928"></script>
 <script src="alphabet-data.js?v=20260926"></script>
 <script src="path.js?v=20260928"></script>
+<script src="salah-data.js?v=1"></script>
+<script src="salah.js?v=1"></script>
 <script>RafiqPlan.load();</script>
 <script src="nav.js?v=20260924"></script>
 <script>
@@ -183,7 +185,12 @@ function paint(el){
     return `<div class="urow"><span>${+p.n}. ${esc(p.en)}</span><span class="ub"><i style="width:${100*k/st.length}%"></i></span>
       <span class="un">${P.placed(p.n)?'skipped':k+'/'+st.length}</span></div>`; }).join('')}</div>`;
 
-  el.innerHTML=banner+tiles+table+chart+cal+units;
+  // the "Your salah" map: the prayer with the words you understand lit up (salah.js)
+  const S=window.RafiqSalah, salah = S && S.enabled() ? (()=>{ const c=S.counts();
+    return `<div class="sec">Your salah</div><div class="box"><p class="note" style="margin:0 0 10px">${c.known} of ${c.total} words understood ·
+      <a href="salah.html" style="color:var(--verdigris)">Open your salah →</a></p><div id="salahMap"></div></div>`; })() : '';
+  el.innerHTML=banner+tiles+table+chart+cal+units+salah;
+  if(salah) S.mountMap(document.getElementById('salahMap'), {prayerOnly:true});
   // tap or hover a bar: show that day under the chart
   const ro=document.getElementById('readout');
   el.querySelectorAll('#chart .col').forEach(c=>{

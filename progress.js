@@ -26,6 +26,7 @@
      its own gaps (in days). Vocabulary matches the intervals already in use. */
   const GAPS={
     v:[0,1,2,4,8,16],
+    sw:[0,1,2,4,8,16],       // words of the salah (salah.js)
     d:[0,1,3,7,21,60],
     f:[0,1,3,7,21,60],
     c:[0,1,3,7,21,60]

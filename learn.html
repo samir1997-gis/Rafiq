@@ -47,6 +47,19 @@ body{background:var(--paper)}
 .pair{padding:10px 0;border-bottom:1px solid var(--rule);cursor:pointer;touch-action:manipulation}
 .pair .mid{font-size:clamp(21px,5.6vw,26px);line-height:1.6}
 .pair .gtr{margin-top:0}
+/* Your salah */
+.salah-ar{line-height:2.1}
+.ar{font-family:var(--ar);font-weight:600}
+.sw-list{padding:6px 16px;text-align:left}
+.sw-row{display:flex;gap:14px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--rule);cursor:pointer}
+.sw-row:last-child{border-bottom:0}
+.sw-ar{font-family:var(--ar);direction:rtl;font-size:24px;line-height:1.6;min-width:92px;text-align:right}
+.sw-en{flex:1;font-size:15px;line-height:1.45}
+.sw-root{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:2px}
+.sw-br{font-size:12.5px;color:var(--verdigris);margin-top:3px}
+.follow span{border-radius:6px;padding:0 3px;transition:background .15s}
+.follow span.on{background:color-mix(in srgb,var(--verdigris) 26%,transparent)}
+mark{background:color-mix(in srgb,var(--gold) 35%,transparent);color:inherit;border-radius:5px;padding:0 3px}
 .taphint{font-size:12.5px;color:var(--ink-soft);text-align:center;margin:8px 0 0}
 .endings{margin-top:14px;text-align:left;font-size:14px;line-height:1.55;color:var(--ink-soft);border-top:1px solid var(--rule);padding-top:10px}
 .endings summary{color:var(--verdigris);cursor:pointer;font-weight:700;padding:6px 0;list-style:none}
@@ -155,13 +168,15 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 <script src="audio.js?v=900"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=6"></script>
-<script src="progress.js?v=20260924"></script>
+<script src="progress.js?v=20260928"></script>
 <script src="path.js?v=20260928"></script>
 <script src="plan.js?v=20260927"></script>
 <script src="report.js?v=1"></script>
 <script>RafiqPlan.requirePlan();</script>
 <script src="judge.js?v=20260925"></script>
-<script src="tiles.js?v=2"></script>
+<script src="tiles.js?v=3"></script>
+<script src="salah-data.js?v=1"></script>
+<script src="salah.js?v=1"></script>
 <script src="sounds.js?v=1"></script>
 <script src="arkb.js?v=3" defer></script>
 <script>
@@ -225,7 +240,8 @@ function runWords(p, step){
       // into daily review; the first time through, every word counts as met today
       const first=!RafiqPath.stepDone(p.n, step.key);
       words.forEach(w=>{ if(Progress.isNew('v:'+w.id)) Progress.grade('v:'+w.id,'good'); if(first) RafiqPath.wordMet(); });
-      return finish(p, step);
+      const br=salahBridge(words);
+      return br ? showBridge(br, ()=>finish(p, step)) : finish(p, step);
     }
     setBar(words.length+k,total);
     const w=order[k];
@@ -832,9 +848,172 @@ function runScene(sc){
   }});
 }
 
+/* ── Your salah (salah.js, #38) ─────────────────────────────
+   One part, words first: Listen · Word by word · Check · Put it together ·
+   Follow along. Prayer phrases play the app's voice; Quran (Al-Fatiha, the
+   surahs) plays only a licensed recitation, so until there is one it's a
+   read-along. Its own progress: nothing here counts towards the daily goal. */
+function salahSay(p, line, text, elx, after){
+  const S=RafiqSalah;
+  if(!S.isQuran(p)){ if(window.RQ) RQ.speak(text, elx, after); else if(after) after(); return true; }
+  const src=line && S.recitation(line);
+  if(src && text===line.ar){ const a=new Audio(src); a.onended=()=>after&&after(); a.onerror=()=>after&&after(); a.play().catch(()=>after&&after()); return true; }
+  if(after) after();
+  return false;
+}
+function runSalah(id){
+  const S=RafiqSalah, p=S.part(id);
+  if(!p || !S.enabled()){ location.replace('dashboard.html'); return; }
+  if(S.stateOf(p)==='locked'){ const n=S.next(); if(n) return runSalah(n.id); }
+  document.title=p.title+' — Your salah — Rafiq';
+  document.querySelector('.close').href='salah.html';
+  const quran=S.isQuran(p), lines=p.lines, ws=S.words(p);
+  const steps=['listen','words','check','build','follow']; let si=0, li=0;
+  const total=lines.length*3+Math.min(6,ws.length)+Math.min(2,lines.length);
+  let at=0; const tick=()=>setBar(at++,total);
+  const head=(k)=>`<p class="kicker">🕌 ${esc(p.title)} · ${k}</p>`;
+  const silent=quran&&!S.recitation(lines[0])?`<p class="taphint">Recitation coming soon: read along for now.</p>`:'';
+  function go(){ li=0; ({listen, words, check, build, follow})[steps[si]](); }
+  const nextStep=()=>{ si++; if(si>=steps.length) return end(); go(); };
+
+  // 1. Listen: the phrase with its meaning, and one line on what this part is
+  function listen(){
+    if(li>=lines.length) return nextStep();
+    tick(); const l=lines[li];
+    const body=el(`<div>${head('Listen')}
+      ${li===0?`<p class="wnote">${esc(p.what)}</p>`:''}
+      <div class="card"><div class="mid salah-ar" id="a">${esc(l.ar)}</div>
+      ${l.ref?`<div class="tr">${esc(p.title)} ${esc(l.ref)}</div>`:''}
+      <div class="en">${esc(l.en)}</div>
+      ${quran&&!S.recitation(l)?'':`<button class="hear" type="button" id="h">🔊 Hear it again</button>`}</div>${silent}</div>`);
+    screen(body,[button(li<lines.length-1?'Next line':'Word by word',()=>{li++;listen();})]);
+    const a=body.querySelector('#a'), h=body.querySelector('#h');
+    const play=()=>salahSay(p,l,l.ar,a); if(h) h.onclick=play; a.onclick=play; play();
+  }
+  // 2. Word by word: meaning, root, and a word from the course with the same root
+  function words(){
+    if(li>=lines.length){ li=0; return nextStep(); }
+    tick(); const l=lines[li];
+    const rows=l.words.map((w,k)=>{
+      const cw=S.courseWords(w.root).slice(0,2);
+      const bridge=cw.length?`<div class="sw-br">${cw.map(v=>`${S.courseKnown(v)?'✓ You know ':'In your course: '}<b class="ar">${esc(v.ar)}</b> ${esc(v.en.split('/')[0])}`).join(' · ')}</div>`:'';
+      return `<div class="sw-row" data-k="${k}"><div class="sw-ar">${esc(w.ar)}</div><div class="sw-en">${esc(w.en)}
+        ${w.root?`<span class="sw-root">root <b class="ar">${esc(w.root.split('').join(' '))}</b></span>`:''}${bridge}</div></div>`; }).join('');
+    const body=el(`<div>${head('Word by word')}<div class="card sw-list">${rows}</div>
+      <p class="taphint">${quran&&!S.recitation(l)?'Read each word with its meaning.':'🔊 Tap a word to hear it'}</p></div>`);
+    body.querySelectorAll('.sw-row').forEach(r=>r.onclick=()=>{ const w=l.words[+r.dataset.k]; if(!quran) salahSay(p,l,w.ar,r.querySelector('.sw-ar')); });
+    screen(body,[button(li<lines.length-1?'Next line':'Check yourself',()=>{li++;words();})]);
+  }
+  // 3. Check: match words to their meanings (up to 6), marked by the app
+  function check(){
+    const pool=ws.filter(w=>w.en), picks=shuffle(pool.filter(w=>w.root)).slice(0,6);
+    const order=picks.length?picks:shuffle(pool).slice(0,6);
+    const q=k=>{
+      if(k>=order.length) return nextStep();
+      tick(); const w=order[k];
+      const others=shuffle(S.words().filter(x=>x.en && x.en!==w.en && S.wid(x)!==S.wid(w))).slice(0,3);
+      const body=el(`<div>${head('Check yourself')}<p class="kicker">What does this mean?</p>
+        <div class="card"><div class="big" id="w">${esc(w.ar)}</div></div><div class="opts" id="o"></div></div>`);
+      const nx=button('Next',()=>q(k+1)); nx.disabled=true;
+      shuffle(others.concat([w])).forEach(x=>{ const b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=x.en;
+        b.onclick=()=>{ if(!nx.disabled) return; const ok=x===w; b.classList.add(ok?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(ok);
+          if(!ok) [...body.querySelectorAll('.opt')].find(o=>o.textContent===w.en).classList.add('right');
+          Progress.grade(S.wid(w), ok?'good':'again'); nx.disabled=false;
+          if(ok){ if(quran) autoNext(nx,null); else autoNext(nx,w.ar,body.querySelector('#w')); } };
+        body.querySelector('#o').appendChild(b); });
+      screen(body,[nx]);
+    };
+    q(0);
+  }
+  // 4. Put it together: rebuild the phrase in order (only the exact order counts)
+  function build(){
+    const pick=lines.length<=2?lines:[lines[0],lines[lines.length-1]];
+    const b1=k=>{
+      if(k>=pick.length) return nextStep();
+      tick(); const l=pick[k], w=l.words.map(x=>x.ar), size=Math.ceil(w.length/7), parts=[];
+      for(let i=0;i<w.length;i+=size) parts.push(w.slice(i,i+size).join(' '));
+      const body=el(`<div>${head('Put it together')}<div class="card"><div class="en" style="margin:0">${esc(l.en)}</div></div><div id="t" style="margin-top:14px"></div></div>`);
+      const nx=button(k<pick.length-1?'Next':'Follow along',()=>b1(k+1)); nx.disabled=true;
+      const tl=RafiqTiles.create({parts, en:l.en, strict:true, say:quran?null:((t,e)=>salahSay(p,l,t,e)), okText:'Right ✓',
+        onCorrect:()=>{ nx.disabled=false; if(!quran) salahSay(p,l,l.ar,null); }});
+      body.querySelector('#t').appendChild(tl.el);
+      screen(body,[nx, button('Show the answer',()=>{ tl.reveal(); nx.disabled=false; },true)]);
+    };
+    b1(0);
+  }
+  // 5. Follow along: each word lit up in turn, with the audio where there is some
+  function follow(){
+    if(li>=lines.length) return nextStep();
+    const l=lines[li];
+    const body=el(`<div>${head('Follow along')}<div class="card"><div class="mid salah-ar follow" id="f">${l.words.map((w,k)=>`<span data-k="${k}">${esc(w.ar)}</span>`).join(' ')}</div>
+      <div class="en">${esc(l.en)}</div></div>${silent}</div>`);
+    const spans=[...body.querySelectorAll('#f span')];
+    let timer=null;
+    const run=()=>{ clearInterval(timer); let k=0; const lit=()=>spans.forEach((s,i)=>s.classList.toggle('on',i===k));
+      const perWord=quran&&!S.recitation(l)?900:Math.max(380, 3400/Math.max(1,spans.length));
+      lit(); salahSay(p,l,l.ar,null);
+      timer=setInterval(()=>{ k++; if(k>=spans.length){ clearInterval(timer); spans.forEach(s=>s.classList.remove('on')); return; } lit(); }, perWord); };
+    screen(body,[button(li<lines.length-1?'Next line':'Finish',()=>{ clearInterval(timer); li++; follow(); }), button('Again',run,true)]);
+    run();
+  }
+  function end(){
+    S.finishPart(p); setBar(1,1);
+    const c=S.counts(), n=S.next();
+    const body=el(`<div class="done"><div class="tick">🕌</div><h2>${esc(p.title)} — done</h2>
+      <p>You now understand <b>${c.known} of ${c.total}</b> words of your salah. Its words join your salah review.</p></div>`);
+    screen(body,[n?button('Next: '+n.title,()=>{location.href='learn.html?salah='+n.id}):button('Review',()=>{location.href='learn.html?salah=review'}),
+      button('Back to your salah',()=>{location.href='salah.html'},true)]);
+  }
+  go();
+}
+/* Review: salah words that are due (spaced repetition), pick the meaning. */
+function runSalahReview(){
+  const S=RafiqSalah;
+  if(!S.enabled()){ location.replace('dashboard.html'); return; }
+  document.title='Salah review — Rafiq'; document.querySelector('.close').href='salah.html';
+  let ids=S.due(); if(!ids.length) ids=S.words().filter(S.known).map(S.wid);
+  const order=shuffle(ids).slice(0,10).map(S.wordById).filter(Boolean);
+  if(!order.length){ screen(el(`<div class="done"><div class="tick">🕌</div><h2>Nothing to review yet</h2><p>Finish a part of your salah and its words come back here to review.</p></div>`),
+    [button('Back to your salah',()=>{location.href='salah.html'})]); return; }
+  let right=0;
+  const q=k=>{
+    if(k>=order.length){ setBar(1,1); screen(el(`<div class="done"><div class="tick">✓</div><h2>Review done</h2><p>${right} of ${order.length} right first time.</p></div>`),
+      [button('Back to your salah',()=>{location.href='salah.html'})]); return; }
+    setBar(k,order.length); const w=order[k];
+    const others=shuffle(S.words().filter(x=>x.en && x.en!==w.en && S.wid(x)!==S.wid(w))).slice(0,3);
+    const body=el(`<div><p class="kicker">🕌 Salah review · ${k+1} of ${order.length}</p><p class="kicker">What does this mean?</p>
+      <div class="card"><div class="big" id="w">${esc(w.ar)}</div></div><div class="opts" id="o"></div></div>`);
+    const nx=button('Next',()=>q(k+1)); nx.disabled=true;
+    shuffle(others.concat([w])).forEach(x=>{ const b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=x.en;
+      b.onclick=()=>{ if(!nx.disabled) return; const ok=x===w; if(ok) right++; b.classList.add(ok?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(ok);
+        if(!ok) [...body.querySelectorAll('.opt')].find(o=>o.textContent===w.en).classList.add('right');
+        Progress.grade(S.wid(w), ok?'good':'again'); nx.disabled=false; if(ok) autoNext(nx,null); };
+      body.querySelector('#o').appendChild(b); });
+    screen(body,[nx]);
+  };
+  q(0);
+}
+/* Bridge card after "Meet new words": a word you just met shares a root with
+   something you say in salah. */
+function salahBridge(words){
+  const S=window.RafiqSalah; if(!S || !S.enabled()) return null;
+  for(const w of words){ const b=S.bridgeFor(w.id); if(b) return Object.assign({w}, b); }
+  return null;
+}
+function showBridge(b, then){
+  const l=b.line, S=RafiqSalah;
+  const phrase=l.words.map((x,k)=>k===b.index?`<mark>${esc(x.ar)}</mark>`:esc(x.ar)).join(' ');
+  const body=el(`<div><p class="kicker">🕌 You'll hear this in your salah</p>
+    <div class="card"><div class="mid salah-ar">${phrase}</div><div class="en">${esc(l.en)}</div>
+    <p class="wnote" style="margin-top:14px"><b class="ar">${esc(b.w.ar)}</b> (${esc(b.w.en.split('/')[0])}) shares its root <b class="ar">${esc(b.root.split('').join(' '))}</b>
+      with <b class="ar">${esc(b.word.ar)}</b>, “${esc(b.word.en)}”, in ${esc(b.part.title)}.</p></div></div>`);
+  screen(body,[button('Continue',then), button('See your salah',()=>{location.href='salah.html'},true)]);
+}
+
 (async function(){
   if(typeof requireLogin==='function') requireLogin();
   await Progress.init();
+  if(qs.get('salah') && window.RafiqSalah) return qs.get('salah')==='review' ? runSalahReview() : runSalah(qs.get('salah'));
   const scene=qs.get('scene')&&typeof SCENES!=='undefined'&&SCENES.find(s=>s.id===qs.get('scene'));
   if(scene) return runScene(scene);
   let p=RafiqPath.units().find(x=>x.n===qs.get('u'))||RafiqPath.next().unit;
