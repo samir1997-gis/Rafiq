@@ -287,6 +287,8 @@ const seen=id=>typeof Progress!=='undefined'&&Progress.hasSeen(id);
           {href:'learn.html?salah=top50', ar:'⭐ ٥٠', t:'Your 50 most-said words', d:'They make up three-quarters of what you say', m:b?`Best: <b>${b}</b> of 20`:'20 questions'},
           {href:'learn.html?salah=quiz', ar:'💬 الْمَعْنى', t:'Pick the meaning', d:'Words from the parts you’ve done', m:'10 questions'},
           {href:'learn.html?salah=listen', ar:'👂 اسْمَعْ', t:'Hear it, pick the word', d:'Listen and choose the word you heard', m:'10 questions'}];
+        // everything but the track itself is Complete (salah.js); Essentials sees what it would get
+        if(!S.complete()) cards.slice(1).forEach(c=>{ c.href='plans.html'; c.m='Complete'; });
         return `<div class="qgrid">`+cards.map(c=>`<a class="qcard" href="${c.href}"><div class="qa">${c.ar}</div><div class="qt">${c.t}</div>
           <div class="qd">${c.d}</div><div class="qm">${c.m}</div></a>`).join('')+`</div>`; }},
     essentials:{icon:'📅', t:'Everyday essentials', cx:'',

@@ -46,9 +46,14 @@
   const P = () => window.Progress;
 
   /* Progress: a part is done once finished (sp:<id>); each word is reviewed as sw:<word>. */
+  /* Plans (#125, chosen with TypeSafe: pricing_revenue.py): the most-said words are in
+     every plan, as a taster; the rest (every part of the prayer, the surahs, Pray along,
+     the drills) is Complete. The free week is Complete, so everyone tries it all. */
+  const complete = () => !window.RafiqPlan || RafiqPlan.isComplete();
+  const open = p => !!p && (p.kind === 'common' || complete());
   const done = id => !!(P() && P().hasSeen('sp:' + id));
   const next = () => parts().find(p => !done(p.id)) || null;
-  const stateOf = p => done(p.id) ? 'done' : (next() === p ? 'next' : 'locked');
+  const stateOf = p => done(p.id) ? 'done' : !open(p) ? 'plan' : (next() === p ? 'next' : 'locked');
   // no punctuation, and the shadda always before its vowel (the Quran text writes it after)
   const bare = s => String(s).replace(/[۝؟?!.،,:؛﴿﴾0-9٠-٩]/g, '').replace(/([\u064B-\u0650\u0652])\u0651/g, '\u0651$1').trim();
   const wid = w => 'sw:' + bare(w.ar);
@@ -123,6 +128,9 @@
   /* The Home card: its Continue goes straight into the next part; the card opens the overview. */
   function cardHTML(){
     const n = next(), c = counts();
+    if(n && !open(n)) return `<div class="salah-card"><a class="sc-open" href="salah.html" aria-label="Your salah: open the overview">
+        <span class="sc-ic" aria-hidden="true">🕌</span><span class="sc-tx"><b>Your salah</b><span>Your 20 most-said words ✓ · the whole prayer is in Complete</span></span></a>
+      <a class="sc-go" href="plans.html">See Complete</a></div>`;
     const sub = n ? `${esc(n.title)} · ${c.known} of ${c.total} words understood` : `Every part done · ${c.known} of ${c.total} words understood`;
     return `<div class="salah-card"><a class="sc-open" href="salah.html" aria-label="Your salah: open the overview">
         <span class="sc-ic" aria-hidden="true">🕌</span><span class="sc-tx"><b>Your salah</b><span>${sub}</span></span></a>
@@ -183,6 +191,6 @@
   // meaning of a reviewed word id (its first appearance)
   const wordById = id => { for(const p of parts()) for(const w of allWords(p)) if(wid(w) === id) return w; return null; };
 
-  window.RafiqSalah = { enabled, LIVE, parts, part, isQuran, done, next, stateOf, words, counts, wid, known, freq, voiced, sayAr,
+  window.RafiqSalah = { enabled, LIVE, complete, open, parts, part, isQuran, done, next, stateOf, words, counts, wid, known, freq, voiced, sayAr,
     courseWords, courseKnown, bridgeFor, recitation, cardHTML, styles, mapHTML, mountMap, finishPart, due, wordById, esc };
 })();

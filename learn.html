@@ -868,9 +868,20 @@ function salahSay(p, line, text, elx, after){
   if(after) after();
   return false;
 }
+/* The rest of Your salah is Complete (salah.js): say what it is, offer the plans. */
+function salahUpsell(title){
+  document.title='Your salah — Rafiq'; document.querySelector('.close').href='salah.html';
+  const c=RafiqPlan.PRICES.complete;
+  screen(el(`<div><p class="kicker">🕌 ${esc(title)}</p><div class="card"><div style="font-size:40px">🕌</div>
+    <h3 style="margin:8px 0">Understand your whole salah with Complete</h3>
+    <p style="color:var(--ink-soft)">You've got your most-said words. Complete takes you through every part of the prayer and the short surahs,
+      word by word, with Pray along and the salah drills. ${c.yearly} a year or ${c.monthly} a month.</p></div></div>`),
+    [button('See Complete',()=>{location.href='plans.html'}), button('Back to your salah',()=>{location.href='salah.html'},true)]);
+}
 function runSalah(id){
   const S=RafiqSalah, p=S.part(id);
   if(!p || !S.enabled()){ location.replace('dashboard.html'); return; }
+  if(!S.open(p)) return salahUpsell(p.title);
   if(S.stateOf(p)==='locked'){ const n=S.next(); if(n) return runSalah(n.id); }
   document.title=p.title+' — Your salah — Rafiq';
   document.querySelector('.close').href='salah.html';
@@ -1013,6 +1024,7 @@ function runSalahReview(){
 function runPrayAlong(){
   const S=RafiqSalah;
   if(!S.enabled()){ location.replace('dashboard.html'); return; }
+  if(!S.complete()) return salahUpsell('Pray along');
   document.title='Pray along — Rafiq'; document.querySelector('.close').href='salah.html';
   let surah=qs.get('surah'); if(!S.part(surah)||S.part(surah).group!=='surah') surah='ikhlas';
   const ORDER=['takbir','opening','refuge','fatiha1','fatiha2',surah,'ruku','rising','sujud','tashahhud','salawat','taslim'];
@@ -1051,6 +1063,7 @@ function runPrayAlong(){
 function runSalahDrill(kind){
   const S=RafiqSalah;
   if(!S.enabled()){ location.replace('dashboard.html'); return; }
+  if(!S.complete()) return salahUpsell('Salah practice');
   document.querySelector('.close').href='practise.html#salah';
   const all=S.words().filter(w=>w.en), top50=all.filter(w=>S.freq(w)).sort((a,b)=>S.freq(b)-S.freq(a)).slice(0,50);
   const knownW=all.filter(S.known);
