@@ -470,7 +470,43 @@ function vLink(it){
     ob.appendChild(b)});
   c.appendChild(ob);c.appendChild(why);c.appendChild(tr);panel.appendChild(c);
 }
-function vDrill(it){
+/* Units 1–3 (the "tiles" and "mixed" answer styles): "Find the mistake" and the
+   rewrite exercises are built from word tiles, with the word that has to change
+   among them as a decoy. Chosen with TypeSafe (tools/typesafe-exp/early_answers.py,
+   #118): typing so early scored lowest by far. Typing takes over at the "type"
+   stage (RafiqPath.answerStyle), and either card can switch to the other. */
+function wordsOf(ar){ const w=[]; ar.split(/\s+/).filter(Boolean).forEach(t=>{ if(!t.replace(PUNCT,'')&&w.length) w[w.length-1]+=t; else w.push(t); }); return w; }
+// the words that have to change, as written (keeping a full stop, so it doesn't give the answer away)
+function changedWords(from,to){ const bare=s=>s.replace(PUNCT,''), keep=new Set(wordsOf(to).map(bare));
+  return [...new Set(wordsOf(from).filter(x=>bare(x)&&!keep.has(bare(x))))]; }
+const tilesFor=it=>!it.typed && RafiqPath.answerStyle(it.unit.n)!=='type';
+function tileDrill(c, it, target, decoys, why){
+  const n=it.unit.n, style=RafiqPath.answerStyle(n);
+  const tr=window.RAFIQ_TR ? RAFIQ_TR.trOf(target)||'' : '';
+  const box=document.createElement('div'); box.style.display='none';
+  const g=document.createElement('div'); g.className='good'; g.textContent=target; box.appendChild(tappable(g,target));
+  if(why){ const w=document.createElement('div'); w.className='why'; w.textContent=why; box.appendChild(w); }
+  if(tr){ const t=document.createElement('div'); t.className='tr'; t.textContent=tr; box.appendChild(t); }
+  const btn=document.createElement('button'); btn.className='btn'; btn.textContent='Show the answer'; btn.style.cssText='width:100%;margin-top:12px';
+  const swap=document.createElement('button'); swap.type='button'; swap.className='swap'; swap.textContent='Type it instead';
+  let answered=false;
+  const settle=ok=>{ if(answered) return; answered=true;
+    const q=ok?'good':'again'; tally[q]++; if(!ok) kindWrong[it.kind]++;
+    gradeDrill(ID.drill(it),q); RafiqPath.answered(n,style,ok);
+    btn.remove(); swap.remove(); box.style.display='block'; c.appendChild(nextRow()); };
+  const tl=RafiqTiles.create({parts:wordsOf(target), extra:decoys, en:tr, say, onCorrect:r=>settle(r.firstTry)});
+  c.appendChild(tl.el);
+  btn.onclick=()=>{ tl.reveal(); say(target,tl.el.querySelector('.tl-line')); settle(false); };
+  swap.onclick=()=>{ it.typed=true; vDrill(it,c); };
+  c.appendChild(btn); c.appendChild(box); c.appendChild(swap);
+}
+// on a typing card in units 1–3: go back to tiles
+function tilesSwap(c, it){
+  if(!it.typed || RafiqPath.answerStyle(it.unit.n)==='type') return;
+  const s=document.createElement('button'); s.type='button'; s.className='swap'; s.textContent='Use word tiles';
+  s.onclick=()=>{ it.typed=false; vDrill(it,c); }; c.appendChild(s);
+}
+function vDrill(it, old){
   if(it.mode==='build'||it.mode==='produce') return vSay(it);
   const c=document.createElement('div');c.className='card';
   const d=it.d;
@@ -496,6 +532,7 @@ function vDrill(it){
     c.appendChild(taskBar('Find the mistake and correct it','صَحِّحِ الْخَطَأَ'));
     const bad=document.createElement('div');bad.className='qar';bad.style.color='var(--rubric)';bad.textContent=d.bad;
     c.appendChild(bad);
+    if(tilesFor(it)){ tileDrill(c,it,d.good,changedWords(d.bad,d.good),d.w); if(old) old.replaceWith(c); else panel.appendChild(c); return; }
     c.appendChild(answerRow(d.good,t=>RafiqJudge.rewrite('Correct the one mistake in this sentence',d.bad,d.good,t)));
     const btn=document.createElement('button');btn.className='btn';btn.textContent='Show the answer';btn.style.cssText='width:100%;margin-top:14px';
     const box=document.createElement('div');box.style.display='none';
@@ -504,11 +541,12 @@ function vDrill(it){
     if(window.RAFIQ_TR){const tr=RAFIQ_TR.trOf(d.good);if(tr){const trEl=document.createElement('div');trEl.className='tr';trEl.textContent=tr;box.appendChild(trEl);}}
     btn.onclick=()=>{box.style.display='block';btn.style.display='none';say(d.good,g);
       c.appendChild(rateRow(q=>gradeDrill(ID.drill(it),q),it.kind))};
-    c.appendChild(btn);c.appendChild(box);
+    c.appendChild(btn);c.appendChild(box);tilesSwap(c,it);
   } else if(it.mode==='transform'){
     c.appendChild(taskBar(d.task[1],d.task[0]));
     const src=document.createElement('div');src.className='qar';src.textContent=d.src;
     c.appendChild(tappable(src,d.src));
+    if(tilesFor(it)){ tileDrill(c,it,d.ans,changedWords(d.src,d.ans),''); if(old) old.replaceWith(c); else panel.appendChild(c); return; }
     c.appendChild(answerRow(d.ans,t=>RafiqJudge.rewrite(d.task[1],d.src,d.ans,t)));
     const btn=document.createElement('button');btn.className='btn';btn.textContent='Show the answer';btn.style.cssText='width:100%;margin-top:14px';
     const box=document.createElement('div');box.style.display='none';
@@ -516,9 +554,9 @@ function vDrill(it){
     if(window.RAFIQ_TR){const trT=RAFIQ_TR.trOf(d.ans);if(trT){const trEl=document.createElement('div');trEl.className='tr';trEl.textContent=trT;box.appendChild(trEl);}}
     btn.onclick=()=>{box.style.display='block';btn.style.display='none';say(d.ans,g);
       c.appendChild(rateRow(q=>gradeDrill(ID.drill(it),q),it.kind))};
-    c.appendChild(btn);c.appendChild(box);
+    c.appendChild(btn);c.appendChild(box);tilesSwap(c,it);
   }
-  panel.appendChild(c);
+  if(old) old.replaceWith(c); else panel.appendChild(c);
 }
 
 /* "Say this in Arabic" (build and produce items). Word tiles in the early

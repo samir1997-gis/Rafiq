@@ -69,6 +69,10 @@ DATA.forEach(u=>{
     ar.split(/\s+/).forEach(t=>tile(u.n,t));                    // decoy pieces are single words from these lines
   });
   (u.builds||[]).forEach(b=>b.parts.forEach(p=>{ tile(u.n,p); p.split(/\s+/).forEach(t=>tile(u.n,t)); }));
+  // "Find the mistake" and rewrite exercises as tiles in units 1–3 (tileDrill in session.html):
+  // every word of the answer, plus the words that change (the decoys)
+  (u.fix||[]).forEach(f=>{ f.good.split(/\s+/).forEach(t=>tile(u.n,t)); f.bad.split(/\s+/).forEach(t=>tile(u.n,t)); });
+  (u.transforms||[]).forEach(x=>{ x.ans.split(/\s+/).forEach(t=>tile(u.n,t)); x.src.split(/\s+/).forEach(t=>tile(u.n,t)); });
 });
 
 /* Reading starter: each letter's name, its example words, the vowel-mark

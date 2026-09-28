@@ -13552,6 +13552,41 @@
   "chars": 4
  },
  {
+  "id": "12l4bki",
+  "text": "مُهَنْدِسًا",
+  "bucket": "tile",
+  "unit": "01",
+  "chars": 11
+ },
+ {
+  "id": "1x6eejc",
+  "text": "خالِدُ",
+  "bucket": "tile",
+  "unit": "01",
+  "chars": 6
+ },
+ {
+  "id": "w5e9go",
+  "text": "مِصْرَ",
+  "bucket": "tile",
+  "unit": "01",
+  "chars": 6
+ },
+ {
+  "id": "w5e9gr",
+  "text": "مِصْرٍ",
+  "bucket": "tile",
+  "unit": "01",
+  "chars": 6
+ },
+ {
+  "id": "1qgc5gm",
+  "text": "عُمَرُ",
+  "bucket": "tile",
+  "unit": "01",
+  "chars": 6
+ },
+ {
   "id": "1q5kaf9",
   "text": "عِيدٌ",
   "bucket": "tile",
@@ -14110,6 +14145,55 @@
   "bucket": "tile",
   "unit": "02",
   "chars": 6
+ },
+ {
+  "id": "nzjzs4",
+  "text": "الأُسْرَتِي",
+  "bucket": "tile",
+  "unit": "02",
+  "chars": 11
+ },
+ {
+  "id": "1ja38vm",
+  "text": "أَوْلادٌ",
+  "bucket": "tile",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "4e0l19",
+  "text": "أُصَلِّي",
+  "bucket": "tile",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "o3m2pu",
+  "text": "الْمَسْجِدُ",
+  "bucket": "tile",
+  "unit": "02",
+  "chars": 11
+ },
+ {
+  "id": "1o1h56p",
+  "text": "وَالِدَتِي",
+  "bucket": "tile",
+  "unit": "02",
+  "chars": 10
+ },
+ {
+  "id": "1mdq0iq",
+  "text": "قَرَأْتُ",
+  "bucket": "tile",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "1ffmp0k",
+  "text": "أَذْهَبُ",
+  "bucket": "tile",
+  "unit": "02",
+  "chars": 8
  },
  {
   "id": "1gflohf",
@@ -14686,6 +14770,69 @@
   "chars": 6
  },
  {
+  "id": "vpnrp0",
+  "text": "الْخامِسُ",
+  "bucket": "tile",
+  "unit": "03",
+  "chars": 9
+ },
+ {
+  "id": "1gkwcc9",
+  "text": "مُسْتَأْجِرُ",
+  "bucket": "tile",
+  "unit": "03",
+  "chars": 12
+ },
+ {
+  "id": "kora85",
+  "text": "تَسْكُنُ",
+  "bucket": "tile",
+  "unit": "03",
+  "chars": 8
+ },
+ {
+  "id": "1aj95t1",
+  "text": "يَسْكُنُ",
+  "bucket": "tile",
+  "unit": "03",
+  "chars": 8
+ },
+ {
+  "id": "i64m4",
+  "text": "بَيْتٍ",
+  "bucket": "tile",
+  "unit": "03",
+  "chars": 6
+ },
+ {
+  "id": "n9k98m",
+  "text": "كَبِيرٍ",
+  "bucket": "tile",
+  "unit": "03",
+  "chars": 7
+ },
+ {
+  "id": "dtwhhz",
+  "text": "دَخَلْتُ",
+  "bucket": "tile",
+  "unit": "03",
+  "chars": 8
+ },
+ {
+  "id": "5u60wn",
+  "text": "الشَّقَّةَ",
+  "bucket": "tile",
+  "unit": "03",
+  "chars": 10
+ },
+ {
+  "id": "1p105xb",
+  "text": "أَدْخُلُ",
+  "bucket": "tile",
+  "unit": "03",
+  "chars": 8
+ },
+ {
   "id": "y9m7fv",
   "text": "هُدى",
   "bucket": "tile",
@@ -14726,13 +14873,6 @@
   "bucket": "tile",
   "unit": "04",
   "chars": 12
- },
- {
-  "id": "4e0l19",
-  "text": "أُصَلِّي",
-  "bucket": "tile",
-  "unit": "04",
-  "chars": 8
  },
  {
   "id": "8j04nu",
@@ -14796,13 +14936,6 @@
   "bucket": "tile",
   "unit": "04",
   "chars": 9
- },
- {
-  "id": "1ffmp0k",
-  "text": "أَذْهَبُ",
-  "bucket": "tile",
-  "unit": "04",
-  "chars": 8
  },
  {
   "id": "1fx509b",
@@ -15300,6 +15433,69 @@
   "bucket": "tile",
   "unit": "04",
   "chars": 10
+ },
+ {
+  "id": "tiiv5i",
+  "text": "مُبَكِّرٌ",
+  "bucket": "tile",
+  "unit": "04",
+  "chars": 9
+ },
+ {
+  "id": "1tzfwqk",
+  "text": "أَمْسِ",
+  "bucket": "tile",
+  "unit": "04",
+  "chars": 6
+ },
+ {
+  "id": "1cqlzm5",
+  "text": "ذَهَبْتُ",
+  "bucket": "tile",
+  "unit": "04",
+  "chars": 8
+ },
+ {
+  "id": "egzt7g",
+  "text": "الْحافِلَةِ",
+  "bucket": "tile",
+  "unit": "04",
+  "chars": 11
+ },
+ {
+  "id": "1pttvbt",
+  "text": "يَسْتَيْقِظُ",
+  "bucket": "tile",
+  "unit": "04",
+  "chars": 12
+ },
+ {
+  "id": "bkeqxr",
+  "text": "غَسَلْتُ",
+  "bucket": "tile",
+  "unit": "04",
+  "chars": 8
+ },
+ {
+  "id": "1fxs5s2",
+  "text": "وَكَنَسْتُ",
+  "bucket": "tile",
+  "unit": "04",
+  "chars": 10
+ },
+ {
+  "id": "1btrlbe",
+  "text": "وَأَكْنُسُ",
+  "bucket": "tile",
+  "unit": "04",
+  "chars": 10
+ },
+ {
+  "id": "13nns0x",
+  "text": "نَذْهَبُ",
+  "bucket": "tile",
+  "unit": "04",
+  "chars": 8
  },
  {
   "id": "ykpqha",
@@ -15834,6 +16030,97 @@
   "chars": 7
  },
  {
+  "id": "x68cyg",
+  "text": "الأَرُزَّ",
+  "bucket": "tile",
+  "unit": "05",
+  "chars": 9
+ },
+ {
+  "id": "x68d15",
+  "text": "الأَرُزُّ",
+  "bucket": "tile",
+  "unit": "05",
+  "chars": 9
+ },
+ {
+  "id": "1569c04",
+  "text": "كَثِيرًا",
+  "bucket": "tile",
+  "unit": "05",
+  "chars": 8
+ },
+ {
+  "id": "urdio9",
+  "text": "جَوْعانٌ",
+  "bucket": "tile",
+  "unit": "05",
+  "chars": 8
+ },
+ {
+  "id": "18fz47q",
+  "text": "أَكَلْتُ",
+  "bucket": "tile",
+  "unit": "05",
+  "chars": 8
+ },
+ {
+  "id": "b35uj8",
+  "text": "مَطْعَمٍ",
+  "bucket": "tile",
+  "unit": "05",
+  "chars": 8
+ },
+ {
+  "id": "b35uja",
+  "text": "مَطْعَمُ",
+  "bucket": "tile",
+  "unit": "05",
+  "chars": 8
+ },
+ {
+  "id": "n0jeiv",
+  "text": "الْغَداءَ",
+  "bucket": "tile",
+  "unit": "05",
+  "chars": 9
+ },
+ {
+  "id": "e3mi5o",
+  "text": "الْقَهْوَةَ",
+  "bucket": "tile",
+  "unit": "05",
+  "chars": 11
+ },
+ {
+  "id": "w7fg7r",
+  "text": "تَأْكُلُ",
+  "bucket": "tile",
+  "unit": "05",
+  "chars": 8
+ },
+ {
+  "id": "1ohonzv",
+  "text": "نَجْلِسُ",
+  "bucket": "tile",
+  "unit": "05",
+  "chars": 8
+ },
+ {
+  "id": "88yiv2",
+  "text": "أَجْلِسُ",
+  "bucket": "tile",
+  "unit": "05",
+  "chars": 8
+ },
+ {
+  "id": "7keh8z",
+  "text": "تُفَضِّلُ",
+  "bucket": "tile",
+  "unit": "05",
+  "chars": 9
+ },
+ {
   "id": "16v5ozw",
   "text": "الْجُمُعَةُ",
   "bucket": "tile",
@@ -15881,13 +16168,6 @@
   "bucket": "tile",
   "unit": "06",
   "chars": 4
- },
- {
-  "id": "o3m2pu",
-  "text": "الْمَسْجِدُ",
-  "bucket": "tile",
-  "unit": "06",
-  "chars": 11
  },
  {
   "id": "y64wzq",
@@ -15951,13 +16231,6 @@
   "bucket": "tile",
   "unit": "06",
   "chars": 7
- },
- {
-  "id": "n0jeiv",
-  "text": "الْغَداءَ",
-  "bucket": "tile",
-  "unit": "06",
-  "chars": 9
  },
  {
   "id": "90zc4x",
@@ -16198,13 +16471,6 @@
   "chars": 19
  },
  {
-  "id": "1cqlzm5",
-  "text": "ذَهَبْتُ",
-  "bucket": "tile",
-  "unit": "06",
-  "chars": 8
- },
- {
   "id": "1yxj0ou",
   "text": "وَصَلَّيْتُ",
   "bucket": "tile",
@@ -16238,6 +16504,76 @@
   "bucket": "tile",
   "unit": "06",
   "chars": 7
+ },
+ {
+  "id": "1x6eejf",
+  "text": "خالِدٌ",
+  "bucket": "tile",
+  "unit": "06",
+  "chars": 6
+ },
+ {
+  "id": "1rht186",
+  "text": "مَكَّةٍ",
+  "bucket": "tile",
+  "unit": "06",
+  "chars": 7
+ },
+ {
+  "id": "1t29ah3",
+  "text": "بِجانِبُ",
+  "bucket": "tile",
+  "unit": "06",
+  "chars": 8
+ },
+ {
+  "id": "1i3tut4",
+  "text": "صَلَّيْتُ",
+  "bucket": "tile",
+  "unit": "06",
+  "chars": 9
+ },
+ {
+  "id": "zg3jmy",
+  "text": "الظُّهْرَ",
+  "bucket": "tile",
+  "unit": "06",
+  "chars": 9
+ },
+ {
+  "id": "zg3jmz",
+  "text": "الظُّهْرُ",
+  "bucket": "tile",
+  "unit": "06",
+  "chars": 9
+ },
+ {
+  "id": "1i3tut5",
+  "text": "صَلَّيْتَ",
+  "bucket": "tile",
+  "unit": "06",
+  "chars": 9
+ },
+ {
+  "id": "10k252p",
+  "text": "نَسْمَعُ",
+  "bucket": "tile",
+  "unit": "06",
+  "chars": 8
+ },
+ {
+  "id": "1gny978",
+  "text": "الأَذانَ",
+  "bucket": "tile",
+  "unit": "06",
+  "chars": 8
+ },
+ {
+  "id": "1ih4w50",
+  "text": "أَسْمَعُ",
+  "bucket": "tile",
+  "unit": "06",
+  "chars": 8
  },
  {
   "id": "7wijn5",
@@ -16814,6 +17150,83 @@
   "chars": 8
  },
  {
+  "id": "uo351e",
+  "text": "لِأَدْرُسَ",
+  "bucket": "tile",
+  "unit": "07",
+  "chars": 10
+ },
+ {
+  "id": "uo351f",
+  "text": "لِأَدْرُسُ",
+  "bucket": "tile",
+  "unit": "07",
+  "chars": 10
+ },
+ {
+  "id": "1khrnq7",
+  "text": "كُلِّيَّةُ",
+  "bucket": "tile",
+  "unit": "07",
+  "chars": 10
+ },
+ {
+  "id": "mm7ook",
+  "text": "الطُّلَّابُ",
+  "bucket": "tile",
+  "unit": "07",
+  "chars": 11
+ },
+ {
+  "id": "19lfakh",
+  "text": "الْمُخْتَبَرِ",
+  "bucket": "tile",
+  "unit": "07",
+  "chars": 13
+ },
+ {
+  "id": "19rcese",
+  "text": "يَدْرُسُ",
+  "bucket": "tile",
+  "unit": "07",
+  "chars": 8
+ },
+ {
+  "id": "l2ygn3",
+  "text": "دَرَسْتُ",
+  "bucket": "tile",
+  "unit": "07",
+  "chars": 8
+ },
+ {
+  "id": "1mksu",
+  "text": "اللُّغَةُ",
+  "bucket": "tile",
+  "unit": "07",
+  "chars": 9
+ },
+ {
+  "id": "14rvy9j",
+  "text": "الْعَرَبِيَّةُ",
+  "bucket": "tile",
+  "unit": "07",
+  "chars": 14
+ },
+ {
+  "id": "jy7ozi",
+  "text": "تَدْرُسُ",
+  "bucket": "tile",
+  "unit": "07",
+  "chars": 8
+ },
+ {
+  "id": "169lno3",
+  "text": "كَتَبْتُ",
+  "bucket": "tile",
+  "unit": "07",
+  "chars": 8
+ },
+ {
   "id": "by81vu",
   "text": "تَعْمَلُ",
   "bucket": "tile",
@@ -16926,13 +17339,6 @@
   "chars": 12
  },
  {
-  "id": "12l4bki",
-  "text": "مُهَنْدِسًا",
-  "bucket": "tile",
-  "unit": "08",
-  "chars": 11
- },
- {
   "id": "gpqw39",
   "text": "مَصْنَعٍ",
   "bucket": "tile",
@@ -16959,13 +17365,6 @@
   "bucket": "tile",
   "unit": "08",
   "chars": 9
- },
- {
-  "id": "1569c04",
-  "text": "كَثِيرًا",
-  "bucket": "tile",
-  "unit": "08",
-  "chars": 8
  },
  {
   "id": "1pivosq",
@@ -17061,13 +17460,6 @@
  {
   "id": "19w7mvn",
   "text": "طَيَّارٌ",
-  "bucket": "tile",
-  "unit": "08",
-  "chars": 8
- },
- {
-  "id": "l2ygn3",
-  "text": "دَرَسْتُ",
   "bucket": "tile",
   "unit": "08",
   "chars": 8
@@ -17313,6 +17705,41 @@
  {
   "id": "196gmim",
   "text": "كَمْ ساعَةً",
+  "bucket": "tile",
+  "unit": "08",
+  "chars": 11
+ },
+ {
+  "id": "65gni",
+  "text": "مُمَرِّضٌ",
+  "bucket": "tile",
+  "unit": "08",
+  "chars": 9
+ },
+ {
+  "id": "2uvpsa",
+  "text": "طَبِيبًا",
+  "bucket": "tile",
+  "unit": "08",
+  "chars": 8
+ },
+ {
+  "id": "1pzbgoj",
+  "text": "سِتَّ",
+  "bucket": "tile",
+  "unit": "08",
+  "chars": 5
+ },
+ {
+  "id": "14g9jhm",
+  "text": "يَعْمَلُونَ",
+  "bucket": "tile",
+  "unit": "08",
+  "chars": 11
+ },
+ {
+  "id": "emac8",
+  "text": "الشَّرِكَةِ",
   "bucket": "tile",
   "unit": "08",
   "chars": 11
@@ -17927,15 +18354,120 @@
   "chars": 9
  },
  {
-  "id": "hxjw83",
-  "text": "رَأْيُكَ",
+  "id": "1kewnx9",
+  "text": "الْقَمِيصُ",
   "bucket": "tile",
-  "unit": "10",
+  "unit": "09",
+  "chars": 10
+ },
+ {
+  "id": "6b5kp9",
+  "text": "أَبْيَضٍ",
+  "bucket": "tile",
+  "unit": "09",
   "chars": 8
  },
  {
-  "id": "13nns0x",
-  "text": "نَذْهَبُ",
+  "id": "7besi2",
+  "text": "اشْتَرَيْتُهُ",
+  "bucket": "tile",
+  "unit": "09",
+  "chars": 13
+ },
+ {
+  "id": "1lplhk0",
+  "text": "رِيالٍ",
+  "bucket": "tile",
+  "unit": "09",
+  "chars": 6
+ },
+ {
+  "id": "lm6nz5",
+  "text": "السَّيَّارَةُ",
+  "bucket": "tile",
+  "unit": "09",
+  "chars": 13
+ },
+ {
+  "id": "1t1ws3i",
+  "text": "ثَوْبًا",
+  "bucket": "tile",
+  "unit": "09",
+  "chars": 7
+ },
+ {
+  "id": "jx9f2x",
+  "text": "أَزْرَقًا",
+  "bucket": "tile",
+  "unit": "09",
+  "chars": 9
+ },
+ {
+  "id": "1ardrv4",
+  "text": "سَيَّارَةٌ",
+  "bucket": "tile",
+  "unit": "09",
+  "chars": 10
+ },
+ {
+  "id": "2bnrvp",
+  "text": "بِكَمِ",
+  "bucket": "tile",
+  "unit": "09",
+  "chars": 6
+ },
+ {
+  "id": "1bpnt75",
+  "text": "جَدِيدًا",
+  "bucket": "tile",
+  "unit": "09",
+  "chars": 8
+ },
+ {
+  "id": "1t42z1d",
+  "text": "أَشْتَرِي",
+  "bucket": "tile",
+  "unit": "09",
+  "chars": 9
+ },
+ {
+  "id": "t39sh3",
+  "text": "قُمْصانًا",
+  "bucket": "tile",
+  "unit": "09",
+  "chars": 9
+ },
+ {
+  "id": "1gq1yx6",
+  "text": "غالِيًا",
+  "bucket": "tile",
+  "unit": "09",
+  "chars": 7
+ },
+ {
+  "id": "1yb9v9q",
+  "text": "الثَّوْبَ",
+  "bucket": "tile",
+  "unit": "09",
+  "chars": 9
+ },
+ {
+  "id": "1x0uo8d",
+  "text": "لِأَنَّهُ",
+  "bucket": "tile",
+  "unit": "09",
+  "chars": 9
+ },
+ {
+  "id": "1yb9v9r",
+  "text": "الثَّوْبُ",
+  "bucket": "tile",
+  "unit": "09",
+  "chars": 9
+ },
+ {
+  "id": "hxjw83",
+  "text": "رَأْيُكَ",
   "bucket": "tile",
   "unit": "10",
   "chars": 8
@@ -18072,13 +18604,6 @@
   "bucket": "tile",
   "unit": "10",
   "chars": 10
- },
- {
-  "id": "1ohonzv",
-  "text": "نَجْلِسُ",
-  "bucket": "tile",
-  "unit": "10",
-  "chars": 8
  },
  {
   "id": "1ttt0id",
@@ -18536,6 +19061,55 @@
   "chars": 17
  },
  {
+  "id": "y9m07d",
+  "text": "كانَ",
+  "bucket": "tile",
+  "unit": "10",
+  "chars": 4
+ },
+ {
+  "id": "1gt8qfc",
+  "text": "بارِدًا",
+  "bucket": "tile",
+  "unit": "10",
+  "chars": 7
+ },
+ {
+  "id": "1xupr1f",
+  "text": "حارًّا",
+  "bucket": "tile",
+  "unit": "10",
+  "chars": 6
+ },
+ {
+  "id": "p0l25j",
+  "text": "فَصْلَ",
+  "bucket": "tile",
+  "unit": "10",
+  "chars": 6
+ },
+ {
+  "id": "14uvczt",
+  "text": "سَأَقْضِي",
+  "bucket": "tile",
+  "unit": "10",
+  "chars": 9
+ },
+ {
+  "id": "1bkw4i2",
+  "text": "الْعُطْلَةَ",
+  "bucket": "tile",
+  "unit": "10",
+  "chars": 11
+ },
+ {
+  "id": "1hpwkzx",
+  "text": "الرَّبِيعَ",
+  "bucket": "tile",
+  "unit": "10",
+  "chars": 10
+ },
+ {
   "id": "1ldh5tn",
   "text": "زائِرٌ",
   "bucket": "tile",
@@ -18802,13 +19376,6 @@
   "chars": 6
  },
  {
-  "id": "kora85",
-  "text": "تَسْكُنُ",
-  "bucket": "tile",
-  "unit": "11",
-  "chars": 8
- },
- {
   "id": "11yzcad",
   "text": "البَلَدِ",
   "bucket": "tile",
@@ -19035,6 +19602,41 @@
  {
   "id": "hgod58",
   "text": "وَلَيْسَ",
+  "bucket": "tile",
+  "unit": "11",
+  "chars": 8
+ },
+ {
+  "id": "1cmxzge",
+  "text": "ازْدِحامًا",
+  "bucket": "tile",
+  "unit": "11",
+  "chars": 10
+ },
+ {
+  "id": "uhxlra",
+  "text": "اسْتَغْرَقَتِ",
+  "bucket": "tile",
+  "unit": "11",
+  "chars": 13
+ },
+ {
+  "id": "y8czzx",
+  "text": "ساعَتانِ",
+  "bucket": "tile",
+  "unit": "11",
+  "chars": 8
+ },
+ {
+  "id": "hxjvfm",
+  "text": "رَأْيَكَ",
+  "bucket": "tile",
+  "unit": "11",
+  "chars": 8
+ },
+ {
+  "id": "1hbl3ax",
+  "text": "ضَوْضاءَ",
   "bucket": "tile",
   "unit": "11",
   "chars": 8
@@ -19745,6 +20347,48 @@
   "bucket": "tile",
   "unit": "12",
   "chars": 9
+ },
+ {
+  "id": "1cqqdiw",
+  "text": "الْقِراءَةَ",
+  "bucket": "tile",
+  "unit": "12",
+  "chars": 11
+ },
+ {
+  "id": "pwhrw6",
+  "text": "مَجَلَّاتًا",
+  "bucket": "tile",
+  "unit": "12",
+  "chars": 11
+ },
+ {
+  "id": "rcha0u",
+  "text": "السِّباحَةُ",
+  "bucket": "tile",
+  "unit": "12",
+  "chars": 11
+ },
+ {
+  "id": "qirzbu",
+  "text": "تَقْرَئِينَ",
+  "bucket": "tile",
+  "unit": "12",
+  "chars": 11
+ },
+ {
+  "id": "2o574e",
+  "text": "زَيْنَبُ",
+  "bucket": "tile",
+  "unit": "12",
+  "chars": 8
+ },
+ {
+  "id": "7k7zy4",
+  "text": "أَحْمَدُ",
+  "bucket": "tile",
+  "unit": "12",
+  "chars": 8
  },
  {
   "id": "1q9nhp9",
@@ -21490,13 +22134,6 @@
   "chars": 10
  },
  {
-  "id": "jy7ozi",
-  "text": "تَدْرُسُ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
- },
- {
   "id": "1ix831f",
   "text": "سَتَدْرُسُ",
   "bucket": "verb",
@@ -21509,13 +22146,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 13
- },
- {
-  "id": "19rcese",
-  "text": "يَدْرُسُ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
  },
  {
   "id": "8q6seb",
@@ -21537,13 +22167,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 10
- },
- {
-  "id": "169lno3",
-  "text": "كَتَبْتُ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
  },
  {
   "id": "169lno2",
@@ -21789,13 +22412,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 13
- },
- {
-  "id": "1aj95t1",
-  "text": "يَسْكُنُ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
  },
  {
   "id": "80h3lk",
@@ -22050,13 +22666,6 @@
   "chars": 8
  },
  {
-  "id": "1ih4w50",
-  "text": "أَسْمَعُ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
- },
- {
   "id": "1nytgq1",
   "text": "سَأَسْمَعُ",
   "bucket": "verb",
@@ -22106,25 +22715,11 @@
   "chars": 10
  },
  {
-  "id": "10k252p",
-  "text": "نَسْمَعُ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
- },
- {
   "id": "4fm8z0",
   "text": "سَنَسْمَعُ",
   "bucket": "verb",
   "unit": "-",
   "chars": 10
- },
- {
-  "id": "18fz47q",
-  "text": "أَكَلْتُ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
  },
  {
   "id": "18fz47r",
@@ -22160,13 +22755,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 7
- },
- {
-  "id": "w7fg7r",
-  "text": "تَأْكُلُ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
  },
  {
   "id": "175zxai",
@@ -22209,13 +22797,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 10
- },
- {
-  "id": "1mdq0iq",
-  "text": "قَرَأْتُ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
  },
  {
   "id": "1mdq0ir",
@@ -22265,13 +22846,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 10
- },
- {
-  "id": "qirzbu",
-  "text": "تَقْرَئِينَ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 11
  },
  {
   "id": "ebqa1z",
@@ -22419,13 +22993,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 6
- },
- {
-  "id": "y9m07d",
-  "text": "كانَ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 4
  },
  {
   "id": "piizzl",
@@ -22820,13 +23387,6 @@
   "chars": 11
  },
  {
-  "id": "1t42z1d",
-  "text": "أَشْتَرِي",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 9
- },
- {
   "id": "1pm5mjg",
   "text": "سَأَشْتَرِي",
   "bucket": "verb",
@@ -22881,20 +23441,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 11
- },
- {
-  "id": "1i3tut4",
-  "text": "صَلَّيْتُ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 9
- },
- {
-  "id": "1i3tut5",
-  "text": "صَلَّيْتَ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 9
  },
  {
   "id": "1i3tusn",
@@ -23364,13 +23910,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 17
- },
- {
-  "id": "1pttvbt",
-  "text": "يَسْتَيْقِظُ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 12
  },
  {
   "id": "5fq5ok",
