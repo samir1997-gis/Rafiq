@@ -1066,3 +1066,13 @@ After a lesson, learners will see "🕌 You'll hear this in your salah" for thes
 | بَلَد | و-ل-د | بلد is from ب-ل-د |
 
 </details>
+
+## Added for the "most-said words" opener and frequency tags (#124)
+
+Please check these too:
+
+1. **How often each phrase is said in a normal four-rakah prayer** (used for "You say this N times" and to pick the 20 most-said words):
+   takbir 22 · opening supplication 1 · seeking refuge 1 · Al-Fatiha 4 · bowing tasbih 12 (3 × 4) · rising 4 · prostration tasbih 24 (3 × 8) ·
+   "رَبِّ اغْفِرْ لِي" between prostrations 4 · tashahhud 2 · salawat 1 · salam 2. Surahs vary, so they aren't counted.
+   Change them in `REPS` in `salah.js` if your school counts differently.
+2. **A course-word link that may feel out of place:** سُبْحانَ ("Glory be") shows "In your course: سِباحَة (swimming)". Both share the root س ب ح, whose first meaning is to float or glide, and many scholars connect the two. Keep it, or remove it (the link is in `tools/salah/links.json`)?

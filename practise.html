@@ -276,6 +276,19 @@ const seen=id=>typeof Progress!=='undefined'&&Progress.hasSeen(id);
       intro:'Spell words from your lessons. Right letters pass; vowel marks earn a bonus.',
       body:()=>`<div id="spelling"></div>`,
       mount:()=>RafiqSpelling.mount(document.getElementById('spelling'))},
+    salah:{icon:'🕌', t:'Your salah', cx:'',
+      d:'Practise the words of your prayer',
+      get m(){ const S=RafiqSalah, n=S.next(), c=S.counts(); return n ? `Next: ${n.title} · <b>${c.known}</b> of ${c.total} words understood` : `Every part done · <b>${c.known}</b> of ${c.total} words`; },
+      intro:'Keep the words of your prayer fresh. Each answer feeds your salah review.',
+      body:()=>{ const S=RafiqSalah, n=S.next(), b=(()=>{ try{ return +localStorage.getItem('rafiq_salah_top50')||0; }catch(_){ return 0; } })();
+        const cards=[
+          {href:'salah.html', ar:'🕌 صَلاتُكَ', t:n?'Continue your salah':'Your salah', d:n?`Next: ${n.title}`:'Every part done: reopen any part', m:'The track, the map and review'},
+          {href:'learn.html?salah=prayalong', ar:'🤲 مَعَ الصَّلاةِ', t:'Pray along', d:'The whole prayer at praying pace, each word lit with its meaning', m:'Open it just before you pray'},
+          {href:'learn.html?salah=top50', ar:'⭐ ٥٠', t:'Your 50 most-said words', d:'They make up three-quarters of what you say', m:b?`Best: <b>${b}</b> of 20`:'20 questions'},
+          {href:'learn.html?salah=quiz', ar:'💬 الْمَعْنى', t:'Pick the meaning', d:'Words from the parts you’ve done', m:'10 questions'},
+          {href:'learn.html?salah=listen', ar:'👂 اسْمَعْ', t:'Hear it, pick the word', d:'Listen and choose the word you heard', m:'10 questions'}];
+        return `<div class="qgrid">`+cards.map(c=>`<a class="qcard" href="${c.href}"><div class="qa">${c.ar}</div><div class="qt">${c.t}</div>
+          <div class="qd">${c.d}</div><div class="qm">${c.m}</div></a>`).join('')+`</div>`; }},
     essentials:{icon:'📅', t:'Everyday essentials', cx:'',
       d:'Numbers, days, months, colours and telling the time',
       get m(){ const n=ESSENTIALS.reduce((a,s)=>a+RafiqEssentials.known(s),0);
@@ -302,9 +315,7 @@ const seen=id=>typeof Progress!=='undefined'&&Progress.hasSeen(id);
       if(sec.mount) sec.mount();
       scrollTo(0,0); return;
     }
-    const S=window.RafiqSalah, salah = S && S.enabled() ? (()=>{ const n=S.next(), c=S.counts();
-      return row('salah.html',{icon:'🕌', t:'Your salah', cx:'', d:'Understand every word you say in the prayer',
-        m: n ? `Next: ${n.title} · <b>${c.known}</b> of ${c.total} words understood` : `Every part done · <b>${c.known}</b> of ${c.total} words`}); })() : '';
+    const S=window.RafiqSalah, salah = S && S.enabled() ? row('#salah',SECTIONS.salah) : '';
     el.innerHTML=`<div class="plist">`+salah+
       row('session.html?focus=weak',{icon:'🎯', t:'Weak-spots review', cx:'Complete',
         d:'Exercises picked for the mistakes you keep making', m:'About 5 minutes'})+

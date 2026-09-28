@@ -49,13 +49,39 @@
   const done = id => !!(P() && P().hasSeen('sp:' + id));
   const next = () => parts().find(p => !done(p.id)) || null;
   const stateOf = p => done(p.id) ? 'done' : (next() === p ? 'next' : 'locked');
-  const bare = s => String(s).replace(/[۝؟?!.،,:؛﴿﴾0-9٠-٩]/g, '').trim();
+  // no punctuation, and the shadda always before its vowel (the Quran text writes it after)
+  const bare = s => String(s).replace(/[۝؟?!.،,:؛﴿﴾0-9٠-٩]/g, '').replace(/([\u064B-\u0650\u0652])\u0651/g, '\u0651$1').trim();
   const wid = w => 'sw:' + bare(w.ar);
   const known = w => !!(P() && !P().isNew(wid(w)));
 
   const allWords = p => p.lines.reduce((a, l) => a.concat(l.words), []);
   // distinct words (by their written form) in a part, or in the whole prayer
   function distinct(ws){ const m = new Map(); ws.forEach(w => { const k = wid(w); if(!m.has(k)) m.set(k, w); }); return [...m.values()]; }
+  /* How often each word is said in a normal 4-rakah prayer (#124): takbir 22 times,
+     Al-Fatiha, bowing and rising 4 (the tasbih of bowing 3 times each, of prostration
+     3 times in each of 8 prostrations; 'my Lord, forgive me' once between each pair),
+     tashahhud and salam twice, salawat once. A number per line where lines differ.
+     Surahs vary, so they aren't counted. The teacher checks these numbers too. */
+  const REPS = { takbir:22, opening:1, refuge:1, fatiha1:4, fatiha2:4, ruku:12, rising:4, sujud:[24,4], tashahhud:2, salawat:1, taslim:2 };
+  const FREQ = {};
+  SALAH.parts.forEach(p => { const r = REPS[p.id]; if(r) p.lines.forEach((l, i) => { const n = Array.isArray(r) ? (r[i] || 0) : r;
+    l.words.forEach(w => { const k = 'sw:' + bare(w.ar); FREQ[k] = (FREQ[k] || 0) + n; }); }); });
+  const freq = w => FREQ[wid(w)] || 0;
+  // words said in the prayer's own phrases (not the Quran): these may be voiced
+  const VOICED = new Set(); SALAH.parts.forEach(p => { if(p.group === 'prayer' && !/^fatiha/.test(p.id)) allWords(p).forEach(w => VOICED.add(wid(w))); });
+  const voiced = w => VOICED.has(wid(w));
+
+  /* "Your most-said words": a first part of the 20 words said most (nearly half of
+     everything said in the prayer), chosen with TypeSafe (salah_learning.py) to get
+     people going. Word by word + Check, no whole line to recite. */
+  if(!SALAH.parts.some(p => p.id === 'common')){
+    const top = distinct(SALAH.parts.filter(p => REPS[p.id]).reduce((a, p) => a.concat(allWords(p)), []))
+      .filter(w => w.root).sort((a, b) => freq(b) - freq(a)).slice(0, 20);
+    const lines = []; for(let i = 0; i < top.length; i += 5) lines.push({ ar: '', en: '', words: top.slice(i, i + 5) });
+    const said = top.reduce((a, w) => a + freq(w), 0), all = Object.values(FREQ).reduce((a, n) => a + n, 0);
+    SALAH.parts.unshift({ id: 'common', group: 'start', kind: 'common', title: 'Your most-said words', ar_title: 'أَكْثَرُ الْكَلِماتِ',
+      what: `These 20 words are about ${Math.round(100 * said / all)}% of everything you say in a four-rakah prayer. Start here and you'll understand a lot, fast.`, lines });
+  }
   const words = p => distinct(p ? allWords(p) : parts().reduce((a, x) => a.concat(allWords(x)), []));
   const counts = p => { const ws = words(p); return { known: ws.filter(known).length, total: ws.length }; };
 
@@ -126,7 +152,7 @@
   function mapHTML(opts = {}){
     const learnedRoots = new Set();
     if(typeof VOCAB !== 'undefined') Object.entries(SALAH.links || {}).forEach(([id, roots]) => { if(courseKnown({id: +id})) roots.forEach(r => learnedRoots.add(r)); });
-    const list = opts.prayerOnly ? parts().filter(p => p.group === 'prayer') : parts();
+    const list = opts.prayerOnly ? parts().filter(p => p.group === 'prayer') : parts().filter(p => p.kind !== 'common');
     return `<div class="smap"><div class="key"><span><i class="k">word</i> you understand</span><span><i class="r">word</i> its root is in your course words</span></div>
       <div class="tip" aria-live="polite">Tap a word for its meaning.</div>` +
       list.map(p => { const c = counts(p);
@@ -151,6 +177,6 @@
   // meaning of a reviewed word id (its first appearance)
   const wordById = id => { for(const p of parts()) for(const w of allWords(p)) if(wid(w) === id) return w; return null; };
 
-  window.RafiqSalah = { enabled, LIVE, parts, part, isQuran, done, next, stateOf, words, counts, wid, known,
+  window.RafiqSalah = { enabled, LIVE, parts, part, isQuran, done, next, stateOf, words, counts, wid, known, freq, voiced,
     courseWords, courseKnown, bridgeFor, recitation, cardHTML, styles, mapHTML, mountMap, finishPart, due, wordById, esc };
 })();

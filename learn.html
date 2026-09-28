@@ -55,6 +55,13 @@ body{background:var(--paper)}
 .sw-row:last-child{border-bottom:0}
 .sw-ar{font-family:var(--ar);direction:rtl;font-size:24px;line-height:1.6;min-width:92px;text-align:right}
 .sw-en{flex:1;font-size:15px;line-height:1.45}
+.pa{display:flex;flex-wrap:wrap;direction:rtl;justify-content:center;gap:10px 12px;padding:22px 14px}
+.pw{display:flex;flex-direction:column;align-items:center;border-radius:10px;padding:4px 6px;transition:background .2s}
+.pw b{font-family:var(--ar);font-size:24px;line-height:1.7;font-weight:600}
+.pw i{font-style:normal;font-size:11.5px;color:var(--ink-soft);direction:ltr;max-width:9em;text-align:center;line-height:1.3}
+.pw.on{background:color-mix(in srgb,var(--verdigris) 22%,transparent)}
+.pa-ctl{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.sw-freq{display:block;font-size:12.5px;color:var(--gold);font-weight:700;margin-top:2px}
 .sw-root{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:2px}
 .sw-br{font-size:12.5px;color:var(--verdigris);margin-top:3px}
 .follow span{border-radius:6px;padding:0 3px;transition:background .15s}
@@ -868,8 +875,9 @@ function runSalah(id){
   document.title=p.title+' — Your salah — Rafiq';
   document.querySelector('.close').href='salah.html';
   const quran=S.isQuran(p), lines=p.lines, ws=S.words(p);
-  const steps=['listen','words','check','build','follow']; let si=0, li=0;
-  const total=lines.length*3+Math.min(6,ws.length)+Math.min(2,lines.length);
+  const common=p.kind==='common';
+  const steps=common?['words','check']:['listen','words','check','build','follow']; let si=0, li=0;
+  const total=common?lines.length+6:lines.length*3+Math.min(6,ws.length)+Math.min(2,lines.length);
   let at=0; const tick=()=>setBar(at++,total);
   const head=(k)=>`<p class="kicker">🕌 ${esc(p.title)} · ${k}</p>`;
   const silent=quran&&!S.recitation(lines[0])?`<p class="taphint">Recitation coming soon: read along for now.</p>`:'';
@@ -897,11 +905,16 @@ function runSalah(id){
     const rows=l.words.map((w,k)=>{
       const cw=S.courseWords(w.root).slice(0,2);
       const bridge=cw.length?`<div class="sw-br">${cw.map(v=>`${S.courseKnown(v)?'✓ You know ':'In your course: '}<b class="ar">${esc(v.ar)}</b> ${esc(v.en.split('/')[0])}`).join(' · ')}</div>`:'';
+      const f=S.freq(w);
       return `<div class="sw-row" data-k="${k}"><div class="sw-ar">${esc(w.ar)}</div><div class="sw-en">${esc(w.en)}
+        ${f?`<span class="sw-freq">You say this ${f===1?'once':f+' times'} in a four-rakah prayer</span>`:''}
         ${w.root?`<span class="sw-root">root <b class="ar">${esc(w.root.split('').join(' '))}</b></span>`:''}${bridge}</div></div>`; }).join('');
-    const body=el(`<div>${head('Word by word')}<div class="card sw-list">${rows}</div>
-      <p class="taphint">${quran&&!S.recitation(l)?'Read each word with its meaning.':'🔊 Tap a word to hear it'}</p></div>`);
-    body.querySelectorAll('.sw-row').forEach(r=>r.onclick=()=>{ const w=l.words[+r.dataset.k]; if(!quran) salahSay(p,l,w.ar,r.querySelector('.sw-ar')); });
+    // a word is voiced only where it isn't the Quran (prayer phrases; the opener's prayer words)
+    const canHear=w=>!quran && S.voiced(w);
+    const body=el(`<div>${head(common?`Word by word · ${li*5+1}–${li*5+l.words.length} of ${ws.length}`:'Word by word')}
+      ${common&&li===0?`<p class="wnote">${esc(p.what)}</p>`:''}<div class="card sw-list">${rows}</div>
+      <p class="taphint">${l.words.some(canHear)?'🔊 Tap a word to hear it':'Read each word with its meaning.'}</p></div>`);
+    body.querySelectorAll('.sw-row').forEach(r=>r.onclick=()=>{ const w=l.words[+r.dataset.k]; if(canHear(w)) RQ.speak(w.ar,r.querySelector('.sw-ar')); });
     screen(body,[button(li<lines.length-1?'Next line':'Check yourself',()=>{li++;words();})]);
   }
   // 3. Check: match words to their meanings (up to 6), marked by the app
@@ -919,7 +932,7 @@ function runSalah(id){
         b.onclick=()=>{ if(!nx.disabled) return; const ok=x===w; b.classList.add(ok?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(ok);
           if(!ok) [...body.querySelectorAll('.opt')].find(o=>o.textContent===w.en).classList.add('right');
           Progress.grade(S.wid(w), ok?'good':'again'); nx.disabled=false;
-          if(ok){ if(quran) autoNext(nx,null); else autoNext(nx,w.ar,body.querySelector('#w')); } };
+          if(ok){ if(quran||!S.voiced(w)) autoNext(nx,null); else autoNext(nx,w.ar,body.querySelector('#w')); } };
         body.querySelector('#o').appendChild(b); });
       screen(body,[nx]);
     };
@@ -972,7 +985,8 @@ function runSalahReview(){
   if(!S.enabled()){ location.replace('dashboard.html'); return; }
   document.title='Salah review — Rafiq'; document.querySelector('.close').href='salah.html';
   let ids=S.due(); if(!ids.length) ids=S.words().filter(S.known).map(S.wid);
-  const order=shuffle(ids).slice(0,10).map(S.wordById).filter(Boolean);
+  // the words said most come first (TypeSafe, #124)
+  const order=shuffle(ids.map(S.wordById).filter(Boolean).sort((a,b)=>S.freq(b)-S.freq(a)).slice(0,10));
   if(!order.length){ screen(el(`<div class="done"><div class="tick">🕌</div><h2>Nothing to review yet</h2><p>Finish a part of your salah and its words come back here to review.</p></div>`),
     [button('Back to your salah',()=>{location.href='salah.html'})]); return; }
   let right=0;
@@ -990,6 +1004,84 @@ function runSalahReview(){
         Progress.grade(S.wid(w), ok?'good':'again'); nx.disabled=false; if(ok) autoNext(nx,null); };
       body.querySelector('#o').appendChild(b); });
     screen(body,[nx]);
+  };
+  q(0);
+}
+/* Pray along (#124): the whole prayer in order at praying pace, each word lit with
+   its meaning under it: something to open just before praying. Prayer phrases play
+   the app's voice; the Quran is read along silently until there's a licensed recitation. */
+function runPrayAlong(){
+  const S=RafiqSalah;
+  if(!S.enabled()){ location.replace('dashboard.html'); return; }
+  document.title='Pray along — Rafiq'; document.querySelector('.close').href='salah.html';
+  let surah=qs.get('surah'); if(!S.part(surah)||S.part(surah).group!=='surah') surah='ikhlas';
+  const ORDER=['takbir','opening','refuge','fatiha1','fatiha2',surah,'ruku','rising','sujud','tashahhud','salawat','taslim'];
+  const seq=[]; ORDER.forEach(id=>{ const p=S.part(id); if(p) p.lines.forEach(l=>seq.push({p,l})); });
+  let i=0, playing=true, timer=null, slow=false;
+  try{ slow=localStorage.getItem('rafiq_prayalong_slow')==='1'; }catch(_){}
+  function show(){
+    clearTimeout(timer);
+    if(i>=seq.length){ setBar(1,1); screen(el(`<div class="done"><div class="tick">🕌</div><h2>That's the whole prayer</h2>
+      <p>Open Pray along before you pray and the meanings will be with you.</p></div>`),[button('Back to your salah',()=>{location.href='salah.html'}),
+      button('Again',()=>{i=0;playing=true;show();},true)]); return; }
+    setBar(i,seq.length);
+    const {p,l}=seq[i], quran=S.isQuran(p);
+    const body=el(`<div><p class="kicker">🕌 Pray along · ${esc(p.title)}</p>
+      <div class="card pa">${l.words.map((w,k)=>`<span class="pw" data-k="${k}"><b>${esc(w.ar)}</b><i>${esc(w.en)}</i></span>`).join('')}</div>
+      <p class="taphint">${quran?'Read along':'Listen and read along'} · ${esc(l.en)}</p>
+      <div class="pa-ctl"><button type="button" class="hear" id="pv">‹ Back</button><button type="button" class="hear" id="pp">${playing?'Pause':'Play'}</button>
+      <button type="button" class="hear" id="sp">${slow?'Normal pace':'Slower'}</button></div></div>`);
+    screen(body,[button(i<seq.length-1?'Next':'Finish',()=>{i++;show();})]);
+    const words=[...body.querySelectorAll('.pw')];
+    body.querySelector('#pv').onclick=()=>{ i=Math.max(0,i-1); show(); };
+    body.querySelector('#pp').onclick=()=>{ playing=!playing; if(window.RQ) RQ.stop(); show(); };
+    body.querySelector('#sp').onclick=()=>{ slow=!slow; try{ localStorage.setItem('rafiq_prayalong_slow',slow?'1':'0'); }catch(_){} show(); };
+    if(!playing){ words.forEach(w=>w.classList.add('on')); return; }
+    const per=(slow?1.6:1)*(quran?850:Math.max(420,3000/Math.max(1,words.length)));
+    let k=0; const lit=()=>words.forEach((w,n)=>w.classList.toggle('on',n===k));
+    lit(); if(!quran && window.RQ) RQ.speak(l.ar,null);
+    const step=()=>{ k++; if(k>=words.length){ words.forEach(w=>w.classList.remove('on')); timer=setTimeout(()=>{ if(playing && body.isConnected){ i++; show(); } },1200); return; }
+      lit(); timer=setTimeout(step,per); };
+    timer=setTimeout(step,per);
+  }
+  show();
+}
+/* Salah drills in Practise (#124): pick the meaning, hear it and pick the word,
+   and "your 50 most-said words". Every answer feeds the salah review. */
+function runSalahDrill(kind){
+  const S=RafiqSalah;
+  if(!S.enabled()){ location.replace('dashboard.html'); return; }
+  document.querySelector('.close').href='practise.html#salah';
+  const all=S.words().filter(w=>w.en), top50=all.filter(w=>S.freq(w)).sort((a,b)=>S.freq(b)-S.freq(a)).slice(0,50);
+  const knownW=all.filter(S.known);
+  let items, title, n;
+  if(kind==='listen'){ title='Hear it, pick the word'; const pool=(knownW.filter(S.voiced).length>=4?knownW:top50).filter(S.voiced); items=shuffle(pool).slice(0,10); }
+  else if(kind==='top50'){ title='Your 50 most-said words'; items=shuffle(top50).slice(0,20); }
+  else { title='Pick the meaning'; items=shuffle(knownW.length>=4?knownW:top50).slice(0,10); }
+  document.title=title+' — Rafiq';
+  let right=0;
+  const q=k=>{
+    if(k>=items.length){ setBar(1,1);
+      let best=''; if(kind==='top50'){ try{ const b=+localStorage.getItem('rafiq_salah_top50')||0; if(right>b) localStorage.setItem('rafiq_salah_top50',right); best=right>b?' A new best!':` Your best: ${b} of 20.`; }catch(_){} }
+      screen(el(`<div class="done"><div class="tick">🕌</div><h2>${right} of ${items.length}</h2><p>${esc(title)}.${best}</p></div>`),
+        [button('Again',()=>runSalahDrill(kind)), button('Back to Practise',()=>{location.href='practise.html#salah'},true)]); return; }
+    setBar(k,items.length); const w=items[k];
+    const others=shuffle(all.filter(x=>x.en!==w.en && S.wid(x)!==S.wid(w) && (kind!=='listen'||S.voiced(x)))).slice(0,3);
+    const listen=kind==='listen';
+    const body=el(`<div><p class="kicker">🕌 ${esc(title)} · ${k+1} of ${items.length}</p>
+      <div class="card">${listen?`<button type="button" class="hear-big" id="w" aria-label="Play again">🔊</button>`:`<div class="big" id="w">${esc(w.ar)}</div>`}
+      ${S.freq(w)&&!listen?`<div class="tr">said ${S.freq(w)} times in a four-rakah prayer</div>`:''}</div><div class="opts" id="o"></div></div>`);
+    const nx=button('Next',()=>q(k+1)); nx.disabled=true; const wEl=body.querySelector('#w');
+    if(listen) wEl.onclick=()=>RQ.speak(w.ar,wEl);
+    shuffle(others.concat([w])).forEach(x=>{ const b=document.createElement('button'); b.className='opt'; b.type='button';
+      if(listen){ b.style.cssText='font-family:var(--ar);font-size:24px'; b.textContent=x.ar; } else b.textContent=x.en; b._w=x;
+      b.onclick=()=>{ if(!nx.disabled) return; const ok=x===w; if(ok) right++; b.classList.add(ok?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(ok);
+        if(!ok) [...body.querySelectorAll('.opt')].find(o=>o._w===w).classList.add('right');
+        Progress.grade(S.wid(w), ok?'good':'again'); nx.disabled=false;
+        if(ok) autoNext(nx, S.voiced(w)?w.ar:null, listen?null:wEl); };
+      body.querySelector('#o').appendChild(b); });
+    screen(body,[nx]);
+    if(listen) RQ.speak(w.ar,wEl);
   };
   q(0);
 }
@@ -1013,7 +1105,8 @@ function showBridge(b, then){
 (async function(){
   if(typeof requireLogin==='function') requireLogin();
   await Progress.init();
-  if(qs.get('salah') && window.RafiqSalah) return qs.get('salah')==='review' ? runSalahReview() : runSalah(qs.get('salah'));
+  if(qs.get('salah') && window.RafiqSalah){ const k=qs.get('salah');
+    return k==='review' ? runSalahReview() : k==='prayalong' ? runPrayAlong() : ['quiz','listen','top50'].includes(k) ? runSalahDrill(k) : runSalah(k); }
   const scene=qs.get('scene')&&typeof SCENES!=='undefined'&&SCENES.find(s=>s.id===qs.get('scene'));
   if(scene) return runScene(scene);
   let p=RafiqPath.units().find(x=>x.n===qs.get('u'))||RafiqPath.next().unit;

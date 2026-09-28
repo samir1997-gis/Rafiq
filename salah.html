@@ -109,7 +109,9 @@ requireLogin();
   el.innerHTML=(S.LIVE?'':`<div class="preview">Preview: the meanings are waiting for a teacher's review, so this isn't switched on for learners yet.</div>`)+
     `<div class="go">${n?`<a class="c" href="learn.html?salah=${n.id}">${S.done(S.parts()[0].id)?'Continue':'Start'}: ${esc(n.title)}</a>`:''}
       <a class="r" href="learn.html?salah=review">Review${due?` · ${due} due`:''}</a></div>
+    <div class="go" style="margin-top:10px"><a class="r" href="learn.html?salah=prayalong">🤲 Pray along</a><a class="r" href="practise.html#salah">Practise</a></div>
     <p class="note" style="text-align:center">${c.known} of ${c.total} words of your salah understood</p>
+    <div class="sec">Start here</div><div class="parts">${S.parts().filter(p=>p.kind==='common').map(row).join('')}</div>
     <div class="sec">The prayer, in order</div><div class="parts">${prayer.map(row).join('')}</div>
     <div class="gh">Then the short surahs</div><div class="parts">${surahs.map(row).join('')}</div>
     <div class="sec">Your salah map</div><div id="map"></div>
