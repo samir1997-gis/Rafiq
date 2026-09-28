@@ -23,7 +23,7 @@
    Needs salah-data.js (SALAH) and progress.js (Progress); vocab-data.js (VOCAB)
    for the links to course words. */
 (function(){
-  const LIVE = false;
+  const LIVE = true;   // on in this branch for testing: set back to false (or get the teacher's sign-off) before merging into main
   /* A licensed recitation, one file per verse: RECITATION + '001001.mp3' (surah,
      verse, three digits each), e.g. files placed in audio/quran/. null = none yet. */
   const RECITATION = null;
