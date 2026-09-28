@@ -98,6 +98,9 @@ SCENES.forEach(sc=>sc.lines.forEach(l=>add('scene',sc.id,l[1])));
 load('salah-data.js', ['SALAH']);
 SALAH.parts.filter(p=>p.group==='prayer' && !/^fatiha/.test(p.id)).forEach(p=>p.lines.forEach(l=>{
   add('salah',p.id,l.ar); l.words.forEach(w=>add('salah',p.id,w.ar));
+  // "Put it together" tiles on long lines: groups of words (build() in learn.html)
+  const w=l.words.map(x=>x.ar), size=Math.ceil(w.length/7);
+  if(size>1) for(let i=0;i<w.length;i+=size) add('salah',p.id,w.slice(i,i+size).join(' '));
 }));
 
 CONNECTORS.forEach(cat=>cat.items.forEach(it=>{

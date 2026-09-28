@@ -21567,6 +21567,41 @@
   "chars": 8
  },
  {
+  "id": "xfue2u",
+  "text": "سُبْحانَكَ اللَّهُمَّ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 21
+ },
+ {
+  "id": "uu4eaq",
+  "text": "وَبِحَمْدِكَ وَتَبارَكَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 23
+ },
+ {
+  "id": "1vjqpf9",
+  "text": "اسْمُكَ وَتَعالى",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 16
+ },
+ {
+  "id": "475exq",
+  "text": "جَدُّكَ وَلا",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 12
+ },
+ {
+  "id": "dlav6a",
+  "text": "إِلٰهَ غَيْرُكَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 15
+ },
+ {
   "id": "1euje57",
   "text": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطانِ الرَّجِيمِ",
   "bucket": "salah",
@@ -21889,6 +21924,41 @@
   "chars": 11
  },
  {
+  "id": "10tw7vi",
+  "text": "أَشْهَدُ أَنْ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 13
+ },
+ {
+  "id": "u0kpla",
+  "text": "لا إِلٰهَ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 9
+ },
+ {
+  "id": "10hr2gs",
+  "text": "إِلَّا اللَّهُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 14
+ },
+ {
+  "id": "13gkmj9",
+  "text": "وَأَشْهَدُ أَنَّ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 16
+ },
+ {
+  "id": "1uze1zk",
+  "text": "مُحَمَّدًا عَبْدُهُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 19
+ },
+ {
   "id": "ehfqjl",
   "text": "اللَّهُمَّ صَلِّ عَلى مُحَمَّدٍ وَعَلى آلِ مُحَمَّدٍ",
   "bucket": "salah",
@@ -21959,6 +22029,41 @@
   "chars": 7
  },
  {
+  "id": "3vas9i",
+  "text": "كَما صَلَّيْتَ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 14
+ },
+ {
+  "id": "j2l6gg",
+  "text": "عَلى إِبْراهِيمَ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 16
+ },
+ {
+  "id": "1hpmj0v",
+  "text": "وَعَلى آلِ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 10
+ },
+ {
+  "id": "12obqyz",
+  "text": "إِبْراهِيمَ إِنَّكَ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 19
+ },
+ {
+  "id": "1xylykk",
+  "text": "حَمِيدٌ مَجِيدٌ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 15
+ },
+ {
   "id": "1gwirpc",
   "text": "اللَّهُمَّ بارِكْ عَلى مُحَمَّدٍ وَعَلى آلِ مُحَمَّدٍ",
   "bucket": "salah",
@@ -21985,6 +22090,13 @@
   "bucket": "salah",
   "unit": "salawat",
   "chars": 8
+ },
+ {
+  "id": "53xxjj",
+  "text": "كَما بارَكْتَ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 13
  },
  {
   "id": "13r9q0p",

@@ -877,7 +877,7 @@ function runSalah(id){
   const quran=S.isQuran(p), lines=p.lines, ws=S.words(p);
   const common=p.kind==='common';
   const steps=common?['words','check']:['listen','words','check','build','follow']; let si=0, li=0;
-  const total=common?lines.length+6:lines.length*3+Math.min(6,ws.length)+Math.min(2,lines.length);
+  const total=common?lines.length+3:lines.length*3+Math.min(6,ws.length)+Math.min(2,lines.length);
   let at=0; const tick=()=>setBar(at++,total);
   const head=(k)=>`<p class="kicker">🕌 ${esc(p.title)} · ${k}</p>`;
   const silent=quran&&!S.recitation(lines[0])?`<p class="taphint">Recitation coming soon: read along for now.</p>`:'';
@@ -911,15 +911,15 @@ function runSalah(id){
         ${w.root?`<span class="sw-root">root <b class="ar">${esc(w.root.split('').join(' '))}</b></span>`:''}${bridge}</div></div>`; }).join('');
     // a word is voiced only where it isn't the Quran (prayer phrases; the opener's prayer words)
     const canHear=w=>!quran && S.voiced(w);
-    const body=el(`<div>${head(common?`Word by word · ${li*5+1}–${li*5+l.words.length} of ${ws.length}`:'Word by word')}
+    const body=el(`<div>${head('Word by word')}
       ${common&&li===0?`<p class="wnote">${esc(p.what)}</p>`:''}<div class="card sw-list">${rows}</div>
       <p class="taphint">${l.words.some(canHear)?'🔊 Tap a word to hear it':'Read each word with its meaning.'}</p></div>`);
-    body.querySelectorAll('.sw-row').forEach(r=>r.onclick=()=>{ const w=l.words[+r.dataset.k]; if(canHear(w)) RQ.speak(w.ar,r.querySelector('.sw-ar')); });
+    body.querySelectorAll('.sw-row').forEach(r=>r.onclick=()=>{ const w=l.words[+r.dataset.k]; if(canHear(w)) RQ.speak(S.sayAr(w),r.querySelector('.sw-ar')); });
     screen(body,[button(li<lines.length-1?'Next line':'Check yourself',()=>{li++;words();})]);
   }
   // 3. Check: match words to their meanings (up to 6), marked by the app
   function check(){
-    const pool=ws.filter(w=>w.en), picks=shuffle(pool.filter(w=>w.root)).slice(0,6);
+    const pool=ws.filter(w=>w.en), picks=shuffle(pool.filter(w=>w.root)).slice(0,common?3:6);
     const order=picks.length?picks:shuffle(pool).slice(0,6);
     const q=k=>{
       if(k>=order.length) return nextStep();
@@ -932,7 +932,7 @@ function runSalah(id){
         b.onclick=()=>{ if(!nx.disabled) return; const ok=x===w; b.classList.add(ok?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(ok);
           if(!ok) [...body.querySelectorAll('.opt')].find(o=>o.textContent===w.en).classList.add('right');
           Progress.grade(S.wid(w), ok?'good':'again'); nx.disabled=false;
-          if(ok){ if(quran||!S.voiced(w)) autoNext(nx,null); else autoNext(nx,w.ar,body.querySelector('#w')); } };
+          if(ok){ if(quran||!S.voiced(w)) autoNext(nx,null); else autoNext(nx,S.sayAr(w),body.querySelector('#w')); } };
         body.querySelector('#o').appendChild(b); });
       screen(body,[nx]);
     };
@@ -1072,16 +1072,16 @@ function runSalahDrill(kind){
       <div class="card">${listen?`<button type="button" class="hear-big" id="w" aria-label="Play again">🔊</button>`:`<div class="big" id="w">${esc(w.ar)}</div>`}
       ${S.freq(w)&&!listen?`<div class="tr">said ${S.freq(w)} times in a four-rakah prayer</div>`:''}</div><div class="opts" id="o"></div></div>`);
     const nx=button('Next',()=>q(k+1)); nx.disabled=true; const wEl=body.querySelector('#w');
-    if(listen) wEl.onclick=()=>RQ.speak(w.ar,wEl);
+    if(listen) wEl.onclick=()=>RQ.speak(S.sayAr(w),wEl);
     shuffle(others.concat([w])).forEach(x=>{ const b=document.createElement('button'); b.className='opt'; b.type='button';
       if(listen){ b.style.cssText='font-family:var(--ar);font-size:24px'; b.textContent=x.ar; } else b.textContent=x.en; b._w=x;
       b.onclick=()=>{ if(!nx.disabled) return; const ok=x===w; if(ok) right++; b.classList.add(ok?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(ok);
         if(!ok) [...body.querySelectorAll('.opt')].find(o=>o._w===w).classList.add('right');
         Progress.grade(S.wid(w), ok?'good':'again'); nx.disabled=false;
-        if(ok) autoNext(nx, S.voiced(w)?w.ar:null, listen?null:wEl); };
+        if(ok) autoNext(nx, S.voiced(w)?S.sayAr(w):null, listen?null:wEl); };
       body.querySelector('#o').appendChild(b); });
     screen(body,[nx]);
-    if(listen) RQ.speak(w.ar,wEl);
+    if(listen) RQ.speak(S.sayAr(w),wEl);
   };
   q(0);
 }

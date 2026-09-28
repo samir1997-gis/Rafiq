@@ -68,19 +68,25 @@
     l.words.forEach(w => { const k = 'sw:' + bare(w.ar); FREQ[k] = (FREQ[k] || 0) + n; }); }); });
   const freq = w => FREQ[wid(w)] || 0;
   // words said in the prayer's own phrases (not the Quran): these may be voiced
-  const VOICED = new Set(); SALAH.parts.forEach(p => { if(p.group === 'prayer' && !/^fatiha/.test(p.id)) allWords(p).forEach(w => VOICED.add(wid(w))); });
+  // (and how the prayer spells them, which is what was recorded: the Quran text orders the marks differently)
+  const VOICED = new Map(); SALAH.parts.forEach(p => { if(p.group === 'prayer' && !/^fatiha/.test(p.id)) allWords(p).forEach(w => { if(!VOICED.has(wid(w))) VOICED.set(wid(w), w.ar); }); });
   const voiced = w => VOICED.has(wid(w));
+  const sayAr = w => VOICED.get(wid(w)) || w.ar;
 
-  /* "Your most-said words": a first part of the 20 words said most (nearly half of
-     everything said in the prayer), chosen with TypeSafe (salah_learning.py) to get
-     people going. Word by word + Check, no whole line to recite. */
-  if(!SALAH.parts.some(p => p.id === 'common')){
+  /* "Your most-said words": the 20 words said most (over half of everything said in
+     the prayer), chosen with TypeSafe (salah_learning.py) to get people going, as
+     four small parts of 5 (salah_opener_size.py: easiest to take in). Word by word +
+     a short check, no whole line to recite. */
+  if(!SALAH.parts.some(p => p.kind === 'common')){
     const top = distinct(SALAH.parts.filter(p => REPS[p.id]).reduce((a, p) => a.concat(allWords(p)), []))
       .filter(w => w.root).sort((a, b) => freq(b) - freq(a)).slice(0, 20);
-    const lines = []; for(let i = 0; i < top.length; i += 5) lines.push({ ar: '', en: '', words: top.slice(i, i + 5) });
-    const said = top.reduce((a, w) => a + freq(w), 0), all = Object.values(FREQ).reduce((a, n) => a + n, 0);
-    SALAH.parts.unshift({ id: 'common', group: 'start', kind: 'common', title: 'Your most-said words', ar_title: 'أَكْثَرُ الْكَلِماتِ',
-      what: `These 20 words are about ${Math.round(100 * said / all)}% of everything you say in a four-rakah prayer. Start here and you'll understand a lot, fast.`, lines });
+    const all = Object.values(FREQ).reduce((a, n) => a + n, 0), pct = ws => Math.round(100 * ws.reduce((a, w) => a + freq(w), 0) / all);
+    const sets = []; for(let i = 0; i < top.length; i += 5) sets.push(top.slice(i, i + 5));
+    SALAH.parts.unshift(...sets.map((ws, i) => ({ id: 'common' + (i + 1), group: 'start', kind: 'common',
+      title: `Most-said words ${i * 5 + 1}–${i * 5 + ws.length}`, ar_title: 'أَكْثَرُ الْكَلِماتِ',
+      what: i === 0 ? `The 20 words you say most are about ${pct(top)}% of everything you say in a four-rakah prayer. These first 5 alone are ${pct(ws)}%.`
+                    : `These 5 are another ${pct(ws)}% of what you say in a four-rakah prayer.`,
+      lines: [{ ar: '', en: '', words: ws }] })));
   }
   const words = p => distinct(p ? allWords(p) : parts().reduce((a, x) => a.concat(allWords(x)), []));
   const counts = p => { const ws = words(p); return { known: ws.filter(known).length, total: ws.length }; };
@@ -177,6 +183,6 @@
   // meaning of a reviewed word id (its first appearance)
   const wordById = id => { for(const p of parts()) for(const w of allWords(p)) if(wid(w) === id) return w; return null; };
 
-  window.RafiqSalah = { enabled, LIVE, parts, part, isQuran, done, next, stateOf, words, counts, wid, known, freq, voiced,
+  window.RafiqSalah = { enabled, LIVE, parts, part, isQuran, done, next, stateOf, words, counts, wid, known, freq, voiced, sayAr,
     courseWords, courseKnown, bridgeFor, recitation, cardHTML, styles, mapHTML, mountMap, finishPart, due, wordById, esc };
 })();
