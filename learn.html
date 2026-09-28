@@ -161,6 +161,7 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 <script src="report.js?v=1"></script>
 <script>RafiqPlan.requirePlan();</script>
 <script src="judge.js?v=20260925"></script>
+<script src="tiles.js?v=2"></script>
 <script src="sounds.js?v=1"></script>
 <script src="arkb.js?v=3" defer></script>
 <script>
@@ -631,9 +632,17 @@ function runChat(p, step, opts){
     return;
   }
   let t=0;
+  /* How the learner replies (TypeSafe: tools/typesafe-exp/early_answers.py, #118): units 1–2 pick
+     the right reply from three, unit 3 builds it from word tiles, and own-words typing from unit 4.
+     "Type it in your own words" is always there. Settings' "always type" keeps typing; real-life
+     scenes (opts) stay as they are. */
+  const pref=RafiqPath.answerPref();
+  const early = !opts && p && pref!=='type' ? (+p.n<=2 ? 'pick' : (+p.n===3 || pref==='tiles') ? 'tiles' : null) : null;
+  let ownWords=false;
   const body=el(`<div><p class="kicker">${opts?esc(opts.title):'Have the conversation'} · you reply</p><div class="chat" id="chat"></div>
+    <div id="alt" style="margin-top:12px"></div>
     <textarea class="ar-in" dir="rtl" placeholder="اكْتُبْ رَدَّكَ هُنا" style="min-height:70px"></textarea></div>`);
-  const chat=body.querySelector('#chat'), ta=body.querySelector('textarea');
+  const chat=body.querySelector('#chat'), ta=body.querySelector('textarea'), alt=body.querySelector('#alt');
   const add=(cls,ar,en)=>{ const b=el(`<div class="bub ${cls}">${ar?`<div class="a">${esc(ar)}</div>`:''}${en?`<div class="e">${esc(en)}</div>`:''}</div>`);
     chat.appendChild(b); b.scrollIntoView({block:'nearest'}); return b; };
   const send=button(judge?'Send':'Show a suggested reply',()=>reply());
@@ -642,15 +651,57 @@ function runChat(p, step, opts){
   const earlier=[];   // what the learner has said so far (the partner's later lines may refer to it)
   const useSuggested=()=>button('Use this reply',()=>{ const s=turns[t][1]; add('me',s[1],''); earlier.push(s[1]); t++; turn(); },true);
   const next=button('Continue',()=>{ t++; turn(); });
+  // units 1–3: the reply they give (picked or built), then say it aloud and carry on
+  const replied=(ok)=>{
+    const r=turns[t][1], m=add('me',r[1],r[2]); m.onclick=()=>say(r[1],m); earlier.push(r[1]);
+    add('note '+(ok?'ok':'no'),'', ok?'✓ Now say it aloud.':'That’s the reply that fits. Say it aloud.');
+    say(r[1],m); screen(body,[next]);
+  };
+  const ownBtn=()=> judge ? button('Type it in your own words',()=>{
+    ownWords=true; alt.innerHTML='';
+    add('note goal','','In your own words: “'+turns[t][1][2]+'”');
+    ta.value=''; ta.classList.remove('hide'); screen(body,[send,hint]); ta.focus(); },true) : null;
+  function pick(){
+    const right=turns[t][1];
+    const others=shuffle(turns.filter((x,j)=>j!==t).map(x=>x[1]).filter(x=>x[1]!==right[1])).slice(0,2);
+    let chosen=false;
+    shuffle([right].concat(others)).forEach(o=>{
+      const bt=document.createElement('button'); bt.type='button'; bt.className='opt'; bt.dir='rtl';
+      bt.style.cssText='display:block;width:100%;text-align:right;margin-top:8px;font-family:var(--ar);font-size:20px;line-height:1.7';
+      bt.textContent=o[1]; bt._o=o;
+      bt.onclick=()=>{ if(chosen) return; chosen=true;
+        const ok=o===right; bt.classList.add(ok?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(ok);
+        if(!ok) [...alt.querySelectorAll('.opt')].find(x=>x._o===right).classList.add('right');
+        // a moment to see green/red, then the reply joins the conversation
+        setTimeout(()=>{ if(!alt.isConnected) return; alt.innerHTML=''; replied(ok); }, ok ? 700 : 1400); };
+      alt.appendChild(bt);
+    });
+    screen(body,[ownBtn()].filter(Boolean));
+  }
+  function build(){
+    const right=turns[t][1], w=[];
+    right[1].split(/\s+/).filter(Boolean).forEach(x=>{ if(!x.replace(/[؟?!.،,:]/g,'')&&w.length) w[w.length-1]+=x; else w.push(x); });
+    const size=Math.ceil(w.length/7), parts=[]; for(let i=0;i<w.length;i+=size) parts.push(w.slice(i,i+size).join(' '));
+    let done=false; const fin=ok=>{ if(done) return; done=true; setTimeout(()=>{ if(!alt.isConnected) return; alt.innerHTML=''; replied(ok); }, 900); };
+    const tl=RafiqTiles.create({parts, en:right[2], say, onCorrect:r=>fin(r.firstTry)});
+    alt.appendChild(tl.el);
+    screen(body,[button('Show the answer',()=>{ tl.reveal(); fin(false); },true), ownBtn()].filter(Boolean));
+  }
   function them(){
     const [a]=turns[t]; setBar(t,turns.length);
     const b=add('them',a[1],a[2]); b.onclick=()=>say(a[1],b); say(a[1],b);
+    alt.innerHTML='';
+    if(early && !ownWords){
+      ta.classList.add('hide');
+      add('note goal','','Your turn. Reply: “'+turns[t][1][2]+'”');
+      return early==='pick' ? pick() : build();
+    }
     // what to get across — the wording is theirs, so the partner's next line still makes sense
     if(judge) add('note goal','','Your turn — in your own words: “'+turns[t][1][2]+'”');
     ta.value=''; ta.classList.remove('hide');
     screen(body,[send,hint]);
   }
-  function turn(){ if(t>=turns.length) return done(); them(); }
+  function turn(){ ownWords=false; if(t>=turns.length) return done(); them(); }
   async function reply(){
     const [a,sug]=turns[t], said=ta.value.trim();
     if(!judge){ add('me',sug[1],'Suggested: '+sug[2]); say(sug[1],null); ta.classList.add('hide'); screen(body,[next]); return; }
