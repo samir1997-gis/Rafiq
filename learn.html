@@ -72,6 +72,10 @@ body{background:var(--paper)}
 .pa.long .pw i{font-size:.82rem}
 .pa.long~.pa-en{font-size:1rem;margin-top:12px}
 .pa.long~.taphint{margin-top:6px}
+/* Pray along fills the space above the buttons: heading at the top, credit at the bottom */
+.stage>.pa-screen{margin:0;padding:0;flex:1;display:flex;flex-direction:column}
+.pa-mid{margin:auto 0;padding:12px 0}
+.pa-credit{margin:0;padding-top:10px;font-size:.85rem}
 .pa-cue{display:flex;align-items:center;justify-content:center;gap:10px;width:max-content;margin:4px auto 14px;padding:10px 24px;
   border:2px solid var(--ink);border-radius:999px;background:var(--card);color:var(--ink);font-size:1.35rem;line-height:1.2;
   transition:background var(--settle) var(--ease-out),color var(--settle) var(--ease-out),transform var(--settle) var(--ease-out)}
@@ -198,6 +202,8 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
   .foot{padding-top:10px;gap:8px}
   .pa-ctl .hear{min-height:40px;padding:6px 12px}
   .pa-cue{font-size:1.1rem;padding:7px 18px;margin:0 auto 8px}
+  .pa-mid{padding:6px 0}
+  .pa-credit{font-size:.75rem;padding-top:6px}
 }
 </style>
 </head>
@@ -1136,12 +1142,15 @@ function runPrayAlong(){
       button('Again',()=>{i=0;playing=true;show();},true)]); return; }
     setBar(i,seq.length);
     const {p,l}=seq[i], quran=S.isQuran(p)&&!!l.ref, heard=!quran||!!S.recitation(l);   // آمِين: voiced, not recited
-    const body=el(`<div><p class="kicker">🕌 Pray along · ${esc(p.title)}</p>
+    // heading pinned to the top, credit to the bottom; only the line itself is centred between
+    const body=el(`<div class="pa-screen"><p class="kicker">🕌 Pray along · ${esc(p.title)}</p>
+      <div class="pa-mid">
       <div class="pa-cue" aria-live="polite"><span class="ic"></span><b></b></div>
       <div class="card pa${l.words.length>6?' long':''}">${l.words.map((w,k)=>`<span class="pw" data-k="${k}"><b>${esc(w.ar)}</b><i>${esc(w.en)}</i></span>`).join('')}</div>
       <p class="pa-en">${esc(l.en)}</p>
       ${quran&&!heard?`<p class="taphint">${esc(silentWhy())}</p>`:''}
-      ${quran&&heard?`<p class="taphint credit">${esc(S.credit())}</p>`:''}
+      </div>
+      ${quran&&heard?`<p class="taphint credit pa-credit">${esc(S.credit())}</p>`:''}
 </div>`);
     // playback controls sit with Next, within thumb reach, so a long line never pushes them off screen
     const ctl=el(`<div class="pa-ctl"><button type="button" class="hear" id="pv">‹ Back</button><button type="button" class="hear" id="pp">${playing?'Pause':'Play'}</button>
