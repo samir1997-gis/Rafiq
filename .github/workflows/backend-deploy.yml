@@ -28,6 +28,7 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           QF_CLIENT_ID: ${{ secrets.QF_CLIENT_ID }}
           QF_CLIENT_SECRET: ${{ secrets.QF_CLIENT_SECRET }}
+          QF_RECITATION_ID: ${{ vars.QF_RECITATION_ID }}
         run: node tools/backend-deploy.js
       - name: Edge Functions
         env:
