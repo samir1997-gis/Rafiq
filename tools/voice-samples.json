@@ -54,5 +54,19 @@
   "voice": "Ywuz3KyW2N5pqKNpwcCL",
   "stability": 0.6,
   "style": 0.2
+ },
+ {
+  "file": "talia-warm-soft",
+  "text": "Imagine understanding every word of your salah. رَفِيق takes you through it, word by word, a few minutes a day.",
+  "voice": "OZ0L6eISlOejga3XjDFt",
+  "stability": 0.6,
+  "style": 0.2
+ },
+ {
+  "file": "talia-chill",
+  "text": "Imagine understanding every word of your salah. رَفِيق takes you through it, word by word, a few minutes a day.",
+  "voice": "ZLR2VL7jAuie9sowsXqg",
+  "stability": 0.6,
+  "style": 0.2
  }
 ]
