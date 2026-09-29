@@ -11,6 +11,11 @@ from playwright.sync_api import sync_playwright
 BASE = "http://localhost:8765/"
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 CLIP = max(glob.glob("audio/*.mp3"), key=os.path.getsize)          # any real mp3 stands in for the reciter
+import json as _json
+try:
+    REAL = _json.load(open("/tmp/claude-0/health.json"))["verses"]      # live QF answer, if captured
+except Exception:
+    REAL = {}
 STUB = """
 (() => {
   let rp;
@@ -20,7 +25,9 @@ STUB = """
       window.__asked = (window.__asked || []).concat(body.verses || []);
       if (fn !== 'quran') return { error: 'stub' };
       const verses = {};
+      const REAL = __REAL__;
       (body.verses || []).forEach(k => {
+        if (REAL[k] && REAL[k].url) { verses[k] = REAL[k]; return; }
         // four words, 250 ms each, in QF's [position, start, end] form; 1:7 in quran-align's form
         verses[k] = { url: 'CLIP', segments: k === '1:7'
           ? [[0, 9, 0, 900]]
@@ -30,7 +37,31 @@ STUB = """
     };
   }});
 })();
-""".replace("CLIP", CLIP)
+""".replace("CLIP", CLIP).replace("__REAL__", _json.dumps({k: v for k, v in REAL.items() if k.startswith("1:")}))
+
+
+def sync_errors(page, seconds=6):
+    """Sample the page: the lit word must be the one being said at that moment
+    (a word's own timing, or the last one said in a gap), give or take 120 ms."""
+    bad, n = [], 0
+    for _ in range(int(seconds / 0.05)):
+        v = page.evaluate("""(() => {
+          const a = window.__audios && window.__audios[window.__audios.length - 1];
+          const ws = [...document.querySelectorAll('.pw, #f span')]; if (!a || a.paused || !ws.length) return null;
+          const txt = ws.map(w => (w.querySelector('b') || w).textContent).join(' ');
+          const S = window.RafiqSalah, parts = S.parts ? S.parts() : [];
+          let line = null; parts.forEach(p => p.lines.forEach(l => { if (l.words.map(w => w.ar).join(' ') === txt) line = l; }));
+          const t = line && S.timings(line); if (!t) return null;
+          return { ms: a.currentTime * 1000, lit: ws.findIndex(w => w.classList.contains('on')), t };
+        })()""")
+        page.wait_for_timeout(50)
+        if not v: continue
+        n += 1
+        ms, lit, t = v["ms"], v["lit"], v["t"]
+        said = max([i for i, (s0, e0) in enumerate(t) if s0 <= ms] or [0])
+        near = any(abs(ms - x) < 120 for se in t for x in se)
+        if lit != said and not near: bad.append((round(ms), lit, said))
+    return n, bad
 
 def main():
     proxy = os.environ.get("HTTPS_PROXY")
@@ -50,19 +81,10 @@ def main():
         page.on("pageerror", lambda e: errors.append(str(e)))
         page.goto(BASE + "learn.html?salah=prayalong&surah=ikhlas", wait_until="domcontentloaded")
         page.wait_for_timeout(1500)
-        # a prayer phrase in the app's voice: the lit word follows the clip's position
+        # the opening supplication (10 words, the app's voice): lit word = word being said
         page.evaluate("(() => { const b = [...document.querySelectorAll('button')].find(b => b.textContent.trim() === 'Next'); if (b) b.click(); })()")
-        page.wait_for_timeout(300)
-        drift = []
-        for _ in range(40):
-            v = page.evaluate("""(() => { const a = window.__audios && window.__audios[window.__audios.length - 1];
-              const w = [...document.querySelectorAll('.pw')]; const k = w.findIndex(x => x.classList.contains('on'));
-              return a && a.duration > 0 && !a.paused ? [a.currentTime / a.duration, k, w.length] : null; })()""")
-            if v:
-                frac, k, n = v
-                if k >= 0: drift.append(abs((k + 0.5) / n - frac))
-            page.wait_for_timeout(60)
-        sync_ok = bool(drift) and max(drift) < 0.35
+        page.wait_for_timeout(200)
+        n_pr, bad_pr = sync_errors(page, 6)
         for _ in range(40):                                    # step through to Al-Fatiha
             if "al-fatiha" in page.inner_text("body").lower():
                 break
@@ -76,14 +98,12 @@ def main():
         ok.append(("asked for the Quran verses once", "1:1" in page.evaluate("window.__asked || []")))
         ok.append(("shows the QF credit", "Quran Foundation" in text))
         ok.append(("says listen, not read-only", "Listen and read along" in text))
-        seen = set()
-        for _ in range(30):                                    # watch the highlight move with the audio
-            k = page.evaluate("[...document.querySelectorAll('.pw')].findIndex(w => w.classList.contains('on'))")
-            seen.add(k)
-            page.wait_for_timeout(50)
-        ok.append(("played the recitation", any(CLIP in s for s in page.evaluate("window.__played"))))
-        ok.append(("highlight moved across words", len({k for k in seen if k >= 0}) >= 3))
-        ok.append(("prayer phrase highlight follows its audio (%d samples, worst gap %.0f%% of the line)" % (len(drift), 100 * max(drift or [1])), sync_ok))
+        page.wait_for_timeout(300)
+        n_q, bad_q = sync_errors(page, 5)                      # Al-Fatiha 1:1, the real recitation
+        played = page.evaluate("window.__played")
+        ok.append(("played the recitation", any("quran.foundation" in s or CLIP in s for s in played)))
+        ok.append(("prayer phrase: lit word is the word being said (%d samples, %d wrong %s)" % (n_pr, len(bad_pr), bad_pr[:3]), n_pr > 20 and not bad_pr))
+        ok.append(("Quran: lit word is the word being recited (%d samples, %d wrong %s)" % (n_q, len(bad_q), bad_q[:3]), n_q > 20 and not bad_q))
         ok.append(("no page errors", not errors))
         for name, good in ok:
             print(("ok   " if good else "FAIL ") + name)
