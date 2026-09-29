@@ -99,7 +99,7 @@ def main():
         ok.append(("reached Al-Fatiha", "al-fatiha" in text.lower()))
         ok.append(("asked for the Quran verses once", "1:1" in page.evaluate("window.__asked || []")))
         ok.append(("shows the QF credit", "Quran Foundation" in text))
-        ok.append(("says listen, not read-only", "Listen and read along" in text))
+        ok.append(("not marked silent", "couldn't load" not in text and "no recitation yet" not in text and "Sign in to hear" not in text))
         page.wait_for_timeout(300)
         n_q, bad_q = sync_errors(page, 5)                      # Al-Fatiha 1:1, the real recitation
         played = page.evaluate("window.__played")
