@@ -106,10 +106,19 @@ def main():
         ok.append(("not marked silent", "couldn't load" not in text and "no recitation yet" not in text and "Sign in to hear" not in text))
         page.wait_for_timeout(300)
         n_q, bad_q = sync_errors(page, 5)                      # Al-Fatiha 1:1, the real recitation
+        # the cue: Listen while the reciter speaks, Now repeat in the pause after the last word
+        cues = set()
+        for _ in range(120):
+            c = page.evaluate("(() => { const c = document.querySelector('.pa-cue'); return c ? c.className + '|' + c.textContent.trim() : '' })()")
+            cues.add(c)
+            if 'repeat' in c: break
+            page.wait_for_timeout(100)
+        cue_ok = any('listen' in c and 'Listen' in c for c in cues) and any('repeat' in c and 'Now repeat' in c for c in cues)
         played = page.evaluate("window.__played")
         ok.append(("played the recitation", any("quran.foundation" in s or "quranicaudio" in s or CLIP in s for s in played)))
         ok.append(("prayer phrase: lit word is the word being said (%d samples, %d wrong %s)" % (n_pr, len(bad_pr), bad_pr[:3]), n_pr > 20 and not bad_pr))
         ok.append(("Quran: lit word is the word being recited (%d samples, %d wrong %s)" % (n_q, len(bad_q), bad_q[:3]), n_q > 20 and not bad_q))
+        ok.append(("cue: Listen while reciting, then Now repeat %s" % sorted(c.split('|')[1] for c in cues if c), cue_ok))
         ok.append(("no page errors", not errors))
         for name, good in ok:
             print(("ok   " if good else "FAIL ") + name)
