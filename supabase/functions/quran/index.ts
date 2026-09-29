@@ -82,11 +82,27 @@ async function health(list: string[], recitation = RECITATION) {
   return result;
 }
 
+/* TEMPORARY (#147): read the translation list and a translation's licence info, and one
+   sample verse with words and translation. Fixed paths only; removed once chosen. */
+async function probe(what: string) {
+  const paths: Record<string, string> = {
+    list: '/resources/translations?language=en',
+    info131: '/resources/translations/131/info', info20: '/resources/translations/20/info',
+    info85: '/resources/translations/85/info', info84: '/resources/translations/84/info',
+    sample: '/verses/by_chapter/112?words=true&translations=131,20&word_fields=text_uthmani&word_translation_language=en&audio=12&per_page=2',
+  };
+  if (!paths[what]) return { error: 'unknown' };
+  const t = await accessToken();
+  const r = await fetch(ENVS[env].api + paths[what], { headers: { 'x-auth-token': t, 'x-client-id': ID } });
+  return { status: r.status, body: await r.json().catch(() => null) };
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors(req) });
   if (req.method !== 'POST') return json(req, { error: 'method' }, 405);
   if (!ID || !SECRET) return json(req, { error: 'not_configured' }, 503);
   const body = await req.json().catch(() => ({}));
+  if (body.probe) return json(req, await probe(String(body.probe)));   // TEMPORARY (#147): translation licences
   if (body.check) return json(req, await health(verseKeys(body.verses), /^\d{1,3}$/.test(String(body.recitation)) ? String(body.recitation) : RECITATION));       // no sign-in: says only whether QF answers
   if (!(await caller(req))) return json(req, { error: 'signin' }, 401);
   const keys = verseKeys(body.verses);
