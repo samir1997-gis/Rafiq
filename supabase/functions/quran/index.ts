@@ -9,19 +9,31 @@ import { caller, cors, json } from '../_shared/common.ts';
 
 const ID = Deno.env.get('QF_CLIENT_ID') || '', SECRET = Deno.env.get('QF_CLIENT_SECRET') || '';
 const RECITATION = Deno.env.get('QF_RECITATION_ID') || '7';
-const PRELIVE = Deno.env.get('QF_ENV') === 'prelive';
-const AUTH = PRELIVE ? 'https://prelive-oauth2.quran.foundation' : 'https://oauth2.quran.foundation';
-const API = (PRELIVE ? 'https://apis-prelive.quran.foundation' : 'https://apis.quran.foundation') + '/content/api/v4';
+// QF issues production or pre-production keys; the right one is found on first use.
+const ENVS = {
+  production: { auth: 'https://oauth2.quran.foundation', api: 'https://apis.quran.foundation/content/api/v4' },
+  prelive: { auth: 'https://prelive-oauth2.quran.foundation', api: 'https://apis-prelive.quran.foundation/content/api/v4' },
+};
+type Env = keyof typeof ENVS;
+let env: Env = Deno.env.get('QF_ENV') === 'prelive' ? 'prelive' : 'production';
 const AUDIO = 'https://verses.quran.foundation/';
 const CREDIT = 'Recitation: Quran Foundation (Quran.com)';
 
 let token = '', expires = 0;                 // one access token per instance, renewed before its hour is up
-async function accessToken() {
-  if (token && Date.now() < expires) return token;
-  const r = await fetch(`${AUTH}/oauth2/token`, {
+async function tokenFrom(e: Env) {
+  return await fetch(`${ENVS[e].auth}/oauth2/token`, {
     method: 'POST',
     headers: { Authorization: 'Basic ' + btoa(`${ID}:${SECRET}`), 'Content-Type': 'application/x-www-form-urlencoded' },
     body: 'grant_type=client_credentials&scope=content' });
+}
+async function accessToken() {
+  if (token && Date.now() < expires) return token;
+  let r = await tokenFrom(env);
+  if (r.status === 401 || r.status === 400) {                 // keys from the other environment?
+    const other: Env = env === 'production' ? 'prelive' : 'production';
+    const r2 = await tokenFrom(other);
+    if (r2.ok) { env = other; r = r2; }
+  }
   if (!r.ok) throw new Error(`token ${r.status}`);
   const t = await r.json();
   token = t.access_token; expires = Date.now() + (Number(t.expires_in || 3600) - 300) * 1000;
@@ -29,8 +41,9 @@ async function accessToken() {
 }
 
 async function verse(key: string) {
-  const r = await fetch(`${API}/recitations/${RECITATION}/by_ayah/${key}?fields=segments,url&segments=true`,
-    { headers: { 'x-auth-token': await accessToken(), 'x-client-id': ID } });
+  const t = await accessToken();                              // first: it settles which environment
+  const r = await fetch(`${ENVS[env].api}/recitations/${RECITATION}/by_ayah/${key}?fields=segments,url&segments=true`,
+    { headers: { 'x-auth-token': t, 'x-client-id': ID } });
   if (!r.ok) throw new Error(`${key} ${r.status}`);
   const f = ((await r.json()).audio_files || [])[0];
   if (!f || !f.url) return null;
@@ -46,9 +59,9 @@ async function health() {
   let result: Record<string, unknown>;
   try {
     const v = await verse('1:1');
-    result = { ok: !!v, env: PRELIVE ? 'prelive' : 'production', recitation: RECITATION,
+    result = { ok: !!v, env, recitation: RECITATION,
                timings: !!(v && v.segments.length), audio_host: v ? new URL(v.url).host : null };
-  } catch (e) { result = { ok: false, env: PRELIVE ? 'prelive' : 'production', error: String(e) }; }
+  } catch (e) { result = { ok: false, env, error: String(e) }; }
   checked = { at: Date.now(), result };
   return result;
 }
