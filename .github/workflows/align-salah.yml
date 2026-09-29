@@ -1,0 +1,34 @@
+name: Align salah audio
+
+# Word timings for the recorded prayer phrases (tools/align-salah.js), so the words
+# light up exactly as they're heard. Run by hand after re-recording salah audio.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  align:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Align
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+        run: node tools/align-salah.js
+      - name: Commit the timings
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add salah-timings.js
+          if git diff --staged --quiet; then
+            echo "Nothing new to commit."
+          else
+            git commit -m "Align salah audio"
+            git pull --rebase --autostash
+            git push
+          fi

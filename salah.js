@@ -138,10 +138,17 @@
     if(r && r.credit) credit = r.credit;
     lastError = r && r.verses ? '' : ((r && r.error) || 'offline');
   }
-  /* When each word of a recited line is said: [[startMs, endMs] per word] or null.
-     Takes QF's [position from 1, start, end] and quran-align's [first word from 0,
-     word after last, start, end] (#140). */
+  /* When each word of a line is said: [[startMs, endMs] per word] or null.
+     Quran: the recitation's timings, QF's [position from 1, start, end] or quran-align's
+     [first word from 0, word after last, start, end] (#140). Prayer phrases: measured
+     from our own recording (salah-timings.js, tools/align-salah.js). */
   function timings(line){
+    if(!line) return null;
+    if(!line.ref){
+      const id = window.RQ && RQ.clipId && RQ.clipId(line.ar);
+      const t = id && typeof SALAH_TIMINGS !== 'undefined' && SALAH_TIMINGS[id];
+      return t && t.length === line.words.length ? t : null;
+    }
     const r = recitation(line), segs = r && r.segments;
     if(!segs || !segs.length) return null;
     const out = line.words.map(() => null);

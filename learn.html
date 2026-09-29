@@ -172,7 +172,7 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 <script src="path-data.js?v=20260928"></script>
 <script src="alphabet-data.js?v=20260926"></script>
 <script src="scenes-data.js?v=20260922"></script>
-<script src="audio.js?v=902"></script>
+<script src="audio.js?v=903"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=6"></script>
 <script src="fsrs.js?v=20260929"></script>
@@ -184,7 +184,8 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 <script src="judge.js?v=20260925"></script>
 <script src="tiles.js?v=3"></script>
 <script src="salah-data.js?v=1"></script>
-<script src="salah.js?v=3"></script>
+<script src="salah-timings.js?v=1"></script>
+<script src="salah.js?v=4"></script>
 <script src="sounds.js?v=1"></script>
 <script src="arkb.js?v=3" defer></script>
 <script>
@@ -892,11 +893,12 @@ function trackWords(a, onWord, weights, timings){
   };
   requestAnimationFrame(tick);
 }
-/* Say a line in the app's voice (not the Quran), lighting its words in step. */
+/* Say a line in the app's voice (not the Quran), lighting its words in step: from the
+   recording's measured word timings, or shared out by length if it has none yet. */
 function sayTracked(line, onWord, after, elx, slow){
   onWord(0);
   RQ.speak(line.ar, elx||null, ()=>{ onWord(-1); if(after) after(); },
-    { onStart:a=>{ if(slow) a.playbackRate=Math.min(a.playbackRate,0.8); trackWords(a, onWord, wordWeights(line.words)); } });
+    { onStart:a=>{ if(slow) a.playbackRate=Math.min(a.playbackRate,0.8); trackWords(a, onWord, wordWeights(line.words), RafiqSalah.timings(line)); } });
 }
 /* Play a Quran line's licensed recitation through the app's player (so an iPhone
    that blocks it gets the "Tap anywhere to hear" cue), lighting words as they're said. */

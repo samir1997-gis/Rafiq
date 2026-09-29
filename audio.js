@@ -143,5 +143,5 @@
     setTimeout(sync,350);
   },{once:true,passive:true}));
 
-  window.RQ={speak,stop,mount,sync,available,aid,rate,list,chosen};
+  window.RQ={speak,stop,mount,sync,available,aid,clipId,rate,list,chosen};
 })();
