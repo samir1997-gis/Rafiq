@@ -38,12 +38,28 @@ async function verse(key: string) {
   return { url, segments: Array.isArray(f.segments) ? f.segments : [] };
 }
 
+/* Health check: fetches 1:1 at most every 10 minutes, and says whether the keys and
+   word timings work. Shows no content. */
+let checked: { at: number, result: Record<string, unknown> } | null = null;
+async function health() {
+  if (checked && Date.now() - checked.at < 600_000) return checked.result;
+  let result: Record<string, unknown>;
+  try {
+    const v = await verse('1:1');
+    result = { ok: !!v, env: PRELIVE ? 'prelive' : 'production', recitation: RECITATION,
+               timings: !!(v && v.segments.length), audio_host: v ? new URL(v.url).host : null };
+  } catch (e) { result = { ok: false, env: PRELIVE ? 'prelive' : 'production', error: String(e) }; }
+  checked = { at: Date.now(), result };
+  return result;
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors(req) });
   if (req.method !== 'POST') return json(req, { error: 'method' }, 405);
   if (!ID || !SECRET) return json(req, { error: 'not_configured' }, 503);
-  if (!(await caller(req))) return json(req, { error: 'signin' }, 401);
   const body = await req.json().catch(() => ({}));
+  if (body.check) return json(req, await health());       // no sign-in: says only whether QF answers
+  if (!(await caller(req))) return json(req, { error: 'signin' }, 401);
   const keys = [...new Set((Array.isArray(body.verses) ? body.verses : [])
     .map(String).filter((k: string) => /^\d{1,3}:\d{1,3}$/.test(k)))].slice(0, 40) as string[];
   const out: Record<string, unknown> = {};
