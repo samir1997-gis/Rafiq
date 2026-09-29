@@ -125,3 +125,7 @@ create table if not exists public.reports (
 );
 alter table public.reports enable row level security;
 create index if not exists reports_recent on public.reports (created_at desc);
+
+-- FSRS memory state per reviewed item (stability, difficulty, state, reps, lapses,
+-- last review), written by progress.js. box and due stay as before.
+alter table public.item_progress add column if not exists fsrs jsonb;
