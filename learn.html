@@ -216,7 +216,7 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 <script src="tiles.js?v=3"></script>
 <script src="salah-data.js?v=1"></script>
 <script src="salah-timings.js?v=1"></script>
-<script src="salah.js?v=5"></script>
+<script src="salah.js?v=6"></script>
 <script src="sounds.js?v=1"></script>
 <script src="arkb.js?v=3" defer></script>
 <script>
@@ -1207,6 +1207,8 @@ function showBridge(b, then){
   if(typeof requireLogin==='function') requireLogin();
   await Progress.init();
   if(qs.get('salah') && window.RafiqSalah){ const k=qs.get('salah');
+    // the Quran's official meanings and recitation first, so every screen uses the same ones
+    if(RafiqSalah.enabled()){ screen(el(`<div class="done"><p>Loading your salah…</p></div>`),[]); await RafiqSalah.ready(); }
     return k==='review' ? runSalahReview() : k==='prayalong' ? runPrayAlong() : ['quiz','listen','top50'].includes(k) ? runSalahDrill(k) : runSalah(k); }
   const scene=qs.get('scene')&&typeof SCENES!=='undefined'&&SCENES.find(s=>s.id===qs.get('scene'));
   if(scene) return runScene(scene);

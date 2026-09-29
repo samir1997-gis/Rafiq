@@ -126,14 +126,33 @@
   const recitation = line => (line && line.ref && recited[line.ref]) || null;
   /* True while some of these lines haven't been asked for yet. */
   const needsRecitation = lines => lines.some(l => l.ref && !(l.ref in recited));
-  async function loadRecitation(lines){
+  /* Every Quran line of the track: they're all asked for in one go, so the official
+     meanings are the same everywhere (lessons, checks, review, drills, the map). */
+  const quranLines = () => parts().reduce((a, p) => a.concat(p.lines.filter(l => l.ref)), []);
+  /* The Quran's meanings come from the official translation and Quran.com's word-by-word
+     English (#147), replacing our drafts while the page is open; the drafts stay in
+     salah-data.js only as the fallback when that can't be reached. */
+  let official = false;
+  function useOfficial(line, v){
+    if(!v) return;
+    if(v.translation) line.en = v.translation;
+    if(Array.isArray(v.words) && v.words.length === line.words.length && v.words.every(Boolean))
+      line.words.forEach((w, i) => { w.en = v.words[i]; });
+    official = true;
+  }
+  const ready = () => needsRecitation(quranLines()) ? loadRecitation() : Promise.resolve();
+  async function loadRecitation(){
+    const lines = quranLines();
     const keys = [...new Set(lines.map(l => l.ref).filter(k => k && !(k in recited)))];
     if(!keys.length) return;
     let r = null;
     try{ if(window.RafiqPlan && RafiqPlan.call) r = await RafiqPlan.call('quran', { verses:keys }); }catch(_){}
     // remember a verse only when the server answered for it; a failed request is
     // asked again next time a part opens, not silent for the rest of the visit
-    if(r && r.verses) keys.forEach(k => { recited[k] = r.verses[k] || null; });
+    if(r && r.verses){
+      keys.forEach(k => { recited[k] = r.verses[k] || null; });
+      lines.forEach(l => useOfficial(l, recited[l.ref]));
+    }
     else keys.forEach(k => { recited[k] = null; setTimeout(() => { delete recited[k]; }, 30000); });
     if(r && r.credit) credit = r.credit;
     lastError = r && r.verses ? '' : ((r && r.error) || 'offline');
@@ -228,6 +247,7 @@
   }
   function mountMap(el, opts){
     styles(); el.innerHTML = mapHTML(opts);
+    if(!official) ready().then(() => { if(official) el.querySelector('.smap').outerHTML = mapHTML(opts); });   // official meanings once loaded
     const tip = el.querySelector('.tip');
     el.addEventListener('click', e => { const w = e.target.closest('.w'); if(w) tip.innerHTML = `<b dir="rtl" style="font-family:var(--ar)">${esc(w.dataset.ar)}</b> · ${esc(w.dataset.en)}`; });
   }
@@ -243,5 +263,5 @@
   const wordById = id => { for(const p of parts()) for(const w of allWords(p)) if(wid(w) === id) return w; return null; };
 
   window.RafiqSalah = { enabled, LIVE, complete, open, parts, part, isQuran, done, next, stateOf, words, counts, wid, known, freq, voiced, sayAr,
-    courseWords, courseKnown, bridgeFor, recitation, needsRecitation, loadRecitation, timings, credit:()=>credit, recitationError:()=>lastError, cardHTML, styles, mapHTML, mountMap, finishPart, due, wordById, esc };
+    courseWords, courseKnown, bridgeFor, recitation, needsRecitation, loadRecitation, ready, officialMeanings:()=>official, timings, credit:()=>credit, recitationError:()=>lastError, cardHTML, styles, mapHTML, mountMap, finishPart, due, wordById, esc };
 })();

@@ -1,11 +1,13 @@
-// quran — licensed Quran recitation for Your salah, from the Quran Foundation API (#135):
-//   {verses: ["1:1", "112:1", …]} → {verses: {"1:1": {url, segments}}, credit}
-// segments are word timings, [word position (from 1), start ms, end ms], for the
-// word-by-word highlight. Signed-in learners only. Nothing is stored: QF's terms
+// quran — the Quran for Your salah from the Quran Foundation API (#135, #147): the licensed
+// recitation, the official translation and the word-by-word meanings.
+//   {verses: ["1:1", "112:1", …]} → {verses: {"1:1": {url, segments, translation, words}}, credit}
+// segments are word timings, [first word from 0, word after last, start ms, end ms], for the
+// word-by-word highlight; words are the English meaning of each word, in order. Signed-in learners only. Nothing is stored: QF's terms
 // allow at most a week of caching, and the browser only keeps it for the page.
 // Needs the function secrets QF_CLIENT_ID and QF_CLIENT_SECRET (Developer Console);
 // QF_RECITATION_ID picks the reciter (default 12, Mahmoud Khalil al-Husary, Muallim: the slow
-// teaching recitation, with a pause after each verse to repeat it).
+// teaching recitation, with a pause after each verse to repeat it). QF_TRANSLATION_ID picks
+// the translation (default 20, Saheeh International).
 import { caller, cors as siteCors, json as siteJson } from '../_shared/common.ts';
 
 // Also answers the branch preview (raw.githack.com) so Salah can be tried before it's
@@ -18,6 +20,8 @@ const json = (req: Request, body: unknown, status = 200) =>
 
 const ID = Deno.env.get('QF_CLIENT_ID') || '', SECRET = Deno.env.get('QF_CLIENT_SECRET') || '';
 const RECITATION = Deno.env.get('QF_RECITATION_ID') || '12';
+const TRANSLATION = Deno.env.get('QF_TRANSLATION_ID') || '20';
+const TRANSLATORS: Record<string, string> = { '20': 'Saheeh International', '85': 'M.A.S. Abdel Haleem', '84': 'T. Usmani', '19': 'M. Pickthall', '22': 'A. Yusuf Ali' };
 // QF issues production or pre-production keys; the right one is found on first use.
 const ENVS = {
   production: { auth: 'https://oauth2.quran.foundation', api: 'https://apis.quran.foundation/content/api/v4' },
@@ -26,7 +30,7 @@ const ENVS = {
 type Env = keyof typeof ENVS;
 let env: Env = Deno.env.get('QF_ENV') === 'prelive' ? 'prelive' : 'production';
 const AUDIO = 'https://verses.quran.foundation/';
-const CREDIT = 'Recitation: Quran Foundation (Quran.com)';
+const CREDIT = `Recitation and translation (${TRANSLATORS[TRANSLATION] || 'Quran Foundation'}; word by word: Quran.com) from the Quran Foundation`;
 
 let token = '', expires = 0;                 // one access token per instance, renewed before its hour is up
 async function tokenFrom(e: Env) {
@@ -49,52 +53,58 @@ async function accessToken() {
   return token;
 }
 
-async function verse(key: string, recitation = RECITATION) {
+/* Every verse of one surah that we need, in one call: recitation with word timings, the
+   translation (footnote markers left out) and each word's meaning. */
+async function surah(ch: string, recitation = RECITATION) {
   const t = await accessToken();                              // first: it settles which environment
-  const r = await fetch(`${ENVS[env].api}/recitations/${recitation}/by_ayah/${key}?fields=segments,url&segments=true`,
-    { headers: { 'x-auth-token': t, 'x-client-id': ID } });
-  if (!r.ok) throw new Error(`${key} ${r.status}`);
-  const f = ((await r.json()).audio_files || [])[0];
-  if (!f || !f.url) return null;
-  const url = /^https?:/.test(f.url) ? f.url : f.url.startsWith('//') ? 'https:' + f.url : AUDIO + f.url;
-  return { url, segments: Array.isArray(f.segments) ? f.segments : [] };
+  const q = `words=true&word_fields=text_uthmani&translations=${TRANSLATION}&audio=${recitation}&per_page=50`;
+  const r = await fetch(`${ENVS[env].api}/verses/by_chapter/${ch}?${q}`, { headers: { 'x-auth-token': t, 'x-client-id': ID } });
+  if (!r.ok) throw new Error(`surah ${ch} ${r.status}`);
+  const out: Record<string, unknown> = {};
+  for (const v of (await r.json()).verses || []) {
+    const a = v.audio || {}, url = String(a.url || '');
+    out[v.verse_key] = {
+      url: !url ? null : /^https?:/.test(url) ? url : url.startsWith('//') ? 'https:' + url : AUDIO + url,
+      segments: Array.isArray(a.segments) ? a.segments : [],
+      translation: String(((v.translations || [])[0] || {}).text || '').replace(/<sup[^>]*>.*?<\/sup>/g, '').replace(/<[^>]+>/g, '').trim() || null,
+      words: (v.words || []).filter((w: { char_type_name: string }) => w.char_type_name === 'word')
+        .map((w: { translation?: { text?: string } }) => (w.translation && w.translation.text) || ''),
+    };
+  }
+  return out;
+}
+/* The verses asked for, fetched a surah at a time (three at once); a surah that fails is
+   left out, so its verses are read along with our own meanings rather than all failing. */
+async function versesFor(keys: string[], recitation = RECITATION) {
+  const chapters = [...new Set(keys.map(k => k.split(':')[0]))], out: Record<string, unknown> = {};
+  let failed = 0;
+  await Promise.all([0, 1, 2].map(async () => {
+    for (let ch = chapters.shift(); ch; ch = chapters.shift()) {
+      try { const got = await surah(ch, recitation); keys.forEach(k => { if (got[k]) out[k] = got[k]; }); }
+      catch (e) { failed++; console.error(String(e)); }
+    }
+  }));
+  return { out, failed };
 }
 
 const verseKeys = (v: unknown) => [...new Set((Array.isArray(v) ? v : [])
   .map(String).filter((k: string) => /^\d{1,3}:\d{1,3}$/.test(k)))].slice(0, 60) as string[];
 
 /* Health check, no sign-in: {check: true, verses?: [...]} says whether the keys work and,
-   per verse, whether QF returns audio and word timings (the public audio link and the
-   timings only; no Quran text). At most once every 10 minutes per list of verses. */
+   per verse, whether QF returns audio, word timings, a translation and word meanings (the
+   public audio link, the timings and counts only; no Quran text or translation). At most once every 10 minutes per list of verses. */
 const checked = new Map<string, { at: number, result: Record<string, unknown> }>();
 async function health(list: string[], recitation = RECITATION) {
   const keys = (list.length ? list : ['1:1']).slice(0, 60), id = recitation + ':' + keys.join(',');
   const c = checked.get(id);
   if (c && Date.now() - c.at < 600_000) return c.result;
-  const verses: Record<string, unknown> = {}, todo = [...keys];
-  await Promise.all([0, 1, 2].map(async () => {
-    for (let k = todo.shift(); k; k = todo.shift()) {
-      try { verses[k] = await verse(k, recitation); } catch (e) { verses[k] = { error: String(e) }; }
-    }
-  }));
-  const result = { ok: Object.values(verses).some(v => v && !(v as { error?: string }).error), env, recitation, verses };
+  const { out } = await versesFor(keys, recitation);
+  const verses: Record<string, unknown> = {};
+  keys.forEach(k => { const v = out[k] as { url: string, segments: unknown[], translation: string | null, words: string[] } | undefined;
+    verses[k] = v ? { url: v.url, segments: v.segments, has_translation: !!v.translation, word_meanings: v.words.length } : { error: 'missing' }; });
+  const result = { ok: Object.keys(out).length > 0, env, recitation, translation: TRANSLATION, verses };
   checked.set(id, { at: Date.now(), result });
   return result;
-}
-
-/* TEMPORARY (#147): read the translation list and a translation's licence info, and one
-   sample verse with words and translation. Fixed paths only; removed once chosen. */
-async function probe(what: string) {
-  const paths: Record<string, string> = {
-    list: '/resources/translations?language=en',
-    info131: '/resources/translations/131/info', info20: '/resources/translations/20/info',
-    info85: '/resources/translations/85/info', info84: '/resources/translations/84/info',
-    sample: '/verses/by_chapter/112?words=true&translations=131,20&word_fields=text_uthmani&word_translation_language=en&audio=12&per_page=2',
-  };
-  if (!paths[what]) return { error: 'unknown' };
-  const t = await accessToken();
-  const r = await fetch(ENVS[env].api + paths[what], { headers: { 'x-auth-token': t, 'x-client-id': ID } });
-  return { status: r.status, body: await r.json().catch(() => null) };
 }
 
 Deno.serve(async (req) => {
@@ -102,20 +112,10 @@ Deno.serve(async (req) => {
   if (req.method !== 'POST') return json(req, { error: 'method' }, 405);
   if (!ID || !SECRET) return json(req, { error: 'not_configured' }, 503);
   const body = await req.json().catch(() => ({}));
-  if (body.probe) return json(req, await probe(String(body.probe)));   // TEMPORARY (#147): translation licences
   if (body.check) return json(req, await health(verseKeys(body.verses), /^\d{1,3}$/.test(String(body.recitation)) ? String(body.recitation) : RECITATION));       // no sign-in: says only whether QF answers
   if (!(await caller(req))) return json(req, { error: 'signin' }, 401);
   const keys = verseKeys(body.verses);
-  // three at a time, so a whole prayer's verses don't trip QF's rate limit; a verse
-  // that still fails is left out (the app reads it along silently) rather than all
-  const out: Record<string, unknown> = {}, todo = [...keys];
-  let failed = 0;
-  await Promise.all([0, 1, 2].map(async () => {
-    for (let k = todo.shift(); k; k = todo.shift()) {
-      try { out[k] = await verse(k); }
-      catch (e) { failed++; console.error(k, String(e)); }
-    }
-  }));
-  if (failed && failed === keys.length) return json(req, { error: 'upstream' }, 502);
+  const { out, failed } = await versesFor(keys);
+  if (failed && !Object.keys(out).length) return json(req, { error: 'upstream' }, 502);
   return json(req, { verses: out, credit: CREDIT });
 });
