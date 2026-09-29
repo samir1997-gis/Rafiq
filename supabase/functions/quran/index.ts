@@ -48,9 +48,9 @@ async function accessToken() {
   return token;
 }
 
-async function verse(key: string) {
+async function verse(key: string, recitation = RECITATION) {
   const t = await accessToken();                              // first: it settles which environment
-  const r = await fetch(`${ENVS[env].api}/recitations/${RECITATION}/by_ayah/${key}?fields=segments,url&segments=true`,
+  const r = await fetch(`${ENVS[env].api}/recitations/${recitation}/by_ayah/${key}?fields=segments,url&segments=true`,
     { headers: { 'x-auth-token': t, 'x-client-id': ID } });
   if (!r.ok) throw new Error(`${key} ${r.status}`);
   const f = ((await r.json()).audio_files || [])[0];
@@ -66,17 +66,17 @@ const verseKeys = (v: unknown) => [...new Set((Array.isArray(v) ? v : [])
    per verse, whether QF returns audio and word timings (the public audio link and the
    timings only; no Quran text). At most once every 10 minutes per list of verses. */
 const checked = new Map<string, { at: number, result: Record<string, unknown> }>();
-async function health(list: string[]) {
-  const keys = (list.length ? list : ['1:1']).slice(0, 60), id = keys.join(',');
+async function health(list: string[], recitation = RECITATION) {
+  const keys = (list.length ? list : ['1:1']).slice(0, 60), id = recitation + ':' + keys.join(',');
   const c = checked.get(id);
   if (c && Date.now() - c.at < 600_000) return c.result;
   const verses: Record<string, unknown> = {}, todo = [...keys];
   await Promise.all([0, 1, 2].map(async () => {
     for (let k = todo.shift(); k; k = todo.shift()) {
-      try { verses[k] = await verse(k); } catch (e) { verses[k] = { error: String(e) }; }
+      try { verses[k] = await verse(k, recitation); } catch (e) { verses[k] = { error: String(e) }; }
     }
   }));
-  const result = { ok: Object.values(verses).some(v => v && !(v as { error?: string }).error), env, recitation: RECITATION, verses };
+  const result = { ok: Object.values(verses).some(v => v && !(v as { error?: string }).error), env, recitation, verses };
   checked.set(id, { at: Date.now(), result });
   return result;
 }
@@ -86,7 +86,7 @@ Deno.serve(async (req) => {
   if (req.method !== 'POST') return json(req, { error: 'method' }, 405);
   if (!ID || !SECRET) return json(req, { error: 'not_configured' }, 503);
   const body = await req.json().catch(() => ({}));
-  if (body.check) return json(req, await health(verseKeys(body.verses)));       // no sign-in: says only whether QF answers
+  if (body.check) return json(req, await health(verseKeys(body.verses), /^\d{1,3}$/.test(String(body.recitation)) ? String(body.recitation) : RECITATION));       // no sign-in: says only whether QF answers
   if (!(await caller(req))) return json(req, { error: 'signin' }, 401);
   const keys = verseKeys(body.verses);
   // three at a time, so a whole prayer's verses don't trip QF's rate limit; a verse
