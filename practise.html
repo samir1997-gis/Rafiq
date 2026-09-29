@@ -89,6 +89,8 @@
 .prow .pm b{color:var(--rubric)}
 .prow .pgo{font-size:26px;color:var(--verdigris);flex:0 0 auto}
 .prow:first-child{border-color:var(--verdigris)}
+/* the salah menu: the track itself is the main thing, outlined like the first row of the menu */
+.salah-grid .qcard:first-child{border-color:var(--verdigris)}
 .pback{display:inline-block;margin:26px 0 6px;color:var(--verdigris);text-decoration:none;font-size:15px;padding:6px 0}
 .ph1{font-size:clamp(21px,4.4vw,26px);font-weight:700;margin:4px 0 6px}
 .pintro{color:var(--ink-soft);font-size:14.5px;margin:0 0 18px;max-width:60ch}
@@ -299,7 +301,7 @@ const seen=id=>typeof Progress!=='undefined'&&Progress.hasSeen(id);
           {href:'learn.html?salah=listen', ar:'👂 اسْمَعْ', t:'Hear it, pick the word', d:'Listen and choose the word you heard', m:'10 questions'}];
         // everything but the track itself is Complete (salah.js); Essentials sees what it would get
         if(!S.complete()) cards.slice(1).forEach(c=>{ c.href='plans.html'; c.m='Complete'; });
-        return `<div class="qgrid">`+cards.map(c=>`<a class="qcard" href="${c.href}"><div class="qa">${c.ar}</div><div class="qt">${c.t}</div>
+        return `<div class="qgrid salah-grid">`+cards.map(c=>`<a class="qcard" href="${c.href}"><div class="qa">${c.ar}</div><div class="qt">${c.t}</div>
           <div class="qd">${c.d}</div><div class="qm">${c.m}</div></a>`).join('')+`</div>`; }},
     essentials:{icon:'📅', t:'Everyday essentials', cx:'',
       d:'Numbers, days, months, colours and telling the time',
@@ -322,7 +324,12 @@ const seen=id=>typeof Progress!=='undefined'&&Progress.hasSeen(id);
         <h1 class="ph1">${sec.icon} ${sec.t}${sec.cx?` <span class="cx">${sec.cx}</span>`:''}</h1>
         <p class="pintro">${sec.intro}</p>`+sec.body();
       // back to the menu: undo the step we took from it, or replace this view if we landed here directly
-      el.querySelector('.pback').onclick=e=>{ e.preventDefault();
+      // the salah menu opened from Your salah goes back there, not to the Practise list
+      // (unless Your salah was itself opened from here: then this menu's back is Practise, so the two don't loop)
+      let fromSalah=false; try{ fromSalah = k==='salah' && !fromMenu && new URL(document.referrer).pathname.endsWith('/salah.html')
+        && !String((JSON.parse(sessionStorage.getItem('rafiq_salah_from'))||[''])[0]).startsWith('practise'); }catch(_){}
+      if(fromSalah){ const bk=el.querySelector('.pback'); bk.textContent='‹ Your salah'; bk.href='salah.html#back'; }   // #back: a return trip, keep where salah came from
+      else el.querySelector('.pback').onclick=e=>{ e.preventDefault();
         if(fromMenu){ history.back(); } else { history.replaceState(null,'',location.pathname); paint(); } };
       if(sec.mount) sec.mount();
       scrollTo(0,0); return;

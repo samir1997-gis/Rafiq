@@ -52,6 +52,7 @@
 .gh{font-family:var(--ut);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:16px 0 8px}
 .note{font-size:12.5px;color:var(--ink-soft);margin-top:14px;line-height:1.55}
 .preview{margin:16px 0 0;padding:10px 14px;border-radius:10px;font-size:13px;background:color-mix(in srgb,var(--gold) 16%,var(--card));border:1px solid color-mix(in srgb,var(--gold) 60%,transparent)}
+.pback{display:inline-block;margin:26px 0 6px;color:var(--verdigris);text-decoration:none;font-size:15px;padding:6px 0}
 </style>
 </head>
 <body>
@@ -66,6 +67,7 @@
   </div>
 </nav>
 <main class="wrap">
+  <a class="pback" id="back" href="dashboard.html">‹ Home</a>
   <section class="hero">
     <div class="greet">صَلاتُكَ</div>
     <h1>Your salah</h1>
@@ -121,6 +123,21 @@ requireLogin();
     <p class="note">Quran recitation: a licensed human recitation from the Quran Foundation (Quran.com), streamed as you listen; if it can't be reached, Al-Fatiha and the surahs are read along without audio. Word timings follow the recitation.
       ${(SALAH.sources||[]).map(esc).join(' ')}</p>`;
   S.mountMap(document.getElementById('map'));
+})();
+</script>
+<script>
+/* Back to where Your salah was opened from: Home, Practise's salah menu or Progress. Remembered
+   for the visit, so coming back from a lesson (✕) still goes there, not into the lesson; Home
+   when it was opened directly. */
+(function(){
+  const b=document.getElementById('back'), KEY='rafiq_salah_from';
+  const PAGES={'dashboard.html':['dashboard.html','Home'], 'practise.html':['practise.html#salah','Your salah practice'],
+               'progress.html':['progress.html','Progress']};
+  let from=null;
+  try{ const r=new URL(document.referrer); if(r.origin===location.origin) from=PAGES[r.pathname.split('/').pop()||'dashboard.html'] || null; }catch(_){}
+  if(location.hash==='#back'){ from=null; history.replaceState(null,'',location.pathname); }   // a return trip from its own practice menu
+  try{ if(from) sessionStorage.setItem(KEY, JSON.stringify(from)); else from=JSON.parse(sessionStorage.getItem(KEY)); }catch(_){}
+  if(from){ b.href=from[0]; b.textContent='‹ '+from[1]; }
 })();
 </script>
 </body>
