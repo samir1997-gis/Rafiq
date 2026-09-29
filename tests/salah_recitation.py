@@ -73,7 +73,9 @@ def main():
         ctx.add_init_script(STUB)
         ctx.add_init_script("""(() => { const A = window.Audio; window.__played = [];
           window.__audios = [];
-          window.Audio = function(src){ const a = new A(src); window.__played.push(src); window.__audios.push(a); return a; }; })();""")
+          window.Audio = function(src){ const a = new A(src); window.__audios.push(a); return a; };
+          const play = HTMLMediaElement.prototype.play;             // the app reuses one player: log each clip it plays
+          HTMLMediaElement.prototype.play = function(){ window.__played.push(this.src); return play.call(this); }; })();""")
         # no Supabase: the app then runs signed out without sending us to login (auth.js)
         ctx.route("**/@supabase/**", lambda r: r.abort())
         page = ctx.new_page()

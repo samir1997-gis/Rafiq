@@ -172,7 +172,7 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 <script src="path-data.js?v=20260928"></script>
 <script src="alphabet-data.js?v=20260926"></script>
 <script src="scenes-data.js?v=20260922"></script>
-<script src="audio.js?v=903"></script>
+<script src="audio.js?v=904"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=6"></script>
 <script src="fsrs.js?v=20260929"></script>
@@ -185,7 +185,7 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 <script src="tiles.js?v=3"></script>
 <script src="salah-data.js?v=1"></script>
 <script src="salah-timings.js?v=1"></script>
-<script src="salah.js?v=4"></script>
+<script src="salah.js?v=5"></script>
 <script src="sounds.js?v=1"></script>
 <script src="arkb.js?v=3" defer></script>
 <script>
@@ -882,9 +882,9 @@ function silentWhy(){
    shared out over the words by their length. onWord(k) for each new word. */
 const wordWeights=ws=>ws.map(w=>w.ar.replace(/[\u064b-\u0652\u0670\u0640]/g,'').length+1);
 function trackWords(a, onWord, weights, timings){
-  const total=weights.reduce((x,y)=>x+y,0); let last=-2;
+  const total=weights.reduce((x,y)=>x+y,0), src=a.src; let last=-2;
   const tick=()=>{
-    if(a.paused||a.ended) return;                       // stopped, finished or replaced
+    if(a.paused||a.ended||a.src!==src) return;          // stopped, finished, or the player moved on (it's shared)
     const ms=a.currentTime*1000, d=a.duration*1000; let k=-1;
     if(timings) k=timings.findIndex(([s,e])=>ms>=s&&ms<e);
     else if(d>0){ let acc=0; for(let i=0;i<weights.length;i++){ acc+=weights[i]; if(ms<d*acc/total){ k=i; break; } } }

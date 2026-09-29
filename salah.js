@@ -151,12 +151,29 @@
     }
     const r = recitation(line), segs = r && r.segments;
     if(!segs || !segs.length) return null;
-    const out = line.words.map(() => null);
-    segs.forEach(s => {
+    const n = line.words.length, owner = new Array(n).fill(-1);
+    const groups = segs.map((s, g) => {
       const [a, b, t0, t1] = s.length >= 4 ? [s[0], s[1], s[2], s[3]] : [s[0] - 1, s[0], s[1], s[2]];
-      for(let k = a; k < b && k < out.length; k++) if(k >= 0) out[k] = [t0, t1];
+      for(let k = Math.max(0, a); k < b && k < n; k++) owner[k] = g;
+      return { t0, t1, words: [] };
     });
-    return out.every(Boolean) ? out : null;
+    /* A word the timings leave out (109:1 has 3 timed of 4) shares the time of the
+       word before it (or after, at the start); a time covering several words is
+       split between them by length. */
+    for(let k = 0; k < n; k++){
+      let g = owner[k];
+      for(let j = k - 1; g < 0 && j >= 0; j--) g = owner[j];
+      for(let j = k + 1; g < 0 && j < n; j++) g = owner[j];
+      if(g < 0) return null;
+      groups[g].words.push(k);
+    }
+    const len = k => line.words[k].ar.replace(/[\u064b-\u0652\u0670\u0640]/g, '').length + 1;
+    const out = new Array(n);
+    groups.forEach(({ t0, t1, words }) => {
+      const total = words.reduce((x, k) => x + len(k), 0); let at = t0;
+      words.sort((x, y) => x - y).forEach(k => { const e = at + (t1 - t0) * len(k) / total; out[k] = [Math.round(at), Math.round(e)]; at = e; });
+    });
+    return out;
   }
 
   /* The Home card: its Continue goes straight into the next part; the card opens the overview. */
