@@ -10,6 +10,12 @@ The owner's Kanban board is this repo's GitHub issues. Every piece of work goes 
 - Label every issue with a priority: `priority: before launch`, `priority: next` or `priority: later`.
 - Big pieces of work: a parent issue with sub-issues.
 
+## Tests: run before pushing
+- `node tests/progress-fsrs.test.js`: review scheduling (FSRS) and the boxes pages read.
+- Browser smoke test (webapp-testing skill): every page loads with no JavaScript errors.
+  `python3 .claude/skills/webapp-testing/scripts/with_server.py --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/smoke.py`
+- `python3 tools/camel-check.py`: after changing Arabic in the word list, see `tools/camel-report.md`.
+
 ## How to code (Karpathy guidelines)
 From github.com/multica-ai/andrej-karpathy-skills. The Kanban rule above still applies.
 
