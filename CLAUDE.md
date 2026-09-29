@@ -14,6 +14,7 @@ The owner's Kanban board is this repo's GitHub issues. Every piece of work goes 
 - `node tests/progress-fsrs.test.js`: review scheduling (FSRS) and the boxes pages read.
 - Browser smoke test (webapp-testing skill): every page loads with no JavaScript errors.
   `python3 .claude/skills/webapp-testing/scripts/with_server.py --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/smoke.py`
+- Lesson layout (heading at the top, exercise centred, Listen cue): `... -- python3 tests/lesson_layout.py` (same server command as the smoke test).
 - `python3 tools/camel-check.py`: after changing Arabic in the word list, see `tools/camel-report.md`.
 
 ## How to code (Karpathy guidelines)

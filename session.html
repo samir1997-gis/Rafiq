@@ -26,6 +26,16 @@
 
 <style>
 .sess-head{display:flex;align-items:center;gap:14px;margin:22px 0 18px}
+/* Like Pray along: the item's label pinned at the top, the exercise in the middle of the
+   space above the tab bar, its instruction beneath it (instructionUnder()) */
+main.wrap{display:flex;flex-direction:column;min-height:calc(100dvh - 95px)}
+@media (max-width:860px){ main.wrap{min-height:calc(100dvh - 83px - 68px)} }
+#panel{flex:1;display:flex;flex-direction:column}
+#panel>.card,#panel>.done{margin:auto 0;padding-bottom:3vh}
+#panel>.card{padding-bottom:22px}
+.taskbar.under{margin:18px 0 14px;padding:0;background:none;border:0;border-radius:0;flex-direction:column;align-items:center;gap:2px;text-align:center}
+.taskbar.under .t-en{font-size:1.05rem}
+.taskbar.under .t-ar{font-size:1rem}
 .sess-prog{flex:1;height:6px;background:var(--paper-deep);border-radius:3px;overflow:hidden}
 .sess-prog i{display:block;height:100%;background:var(--verdigris);transition:width .3s ease}
 .sess-n{font-family:var(--ut);font-size:12px;color:var(--ink-soft);white-space:nowrap}
@@ -42,7 +52,7 @@
 .taskbar .t-en{font-size:17px;font-weight:700}
 .taskbar .t-ar{font-family:var(--ar);font-size:17px;direction:rtl;color:var(--rubric);line-height:1.7}
 .qar{font-family:var(--ar);font-size:29px;direction:rtl;text-align:right;line-height:1.95}
-.qen{font-size:16.5px;margin:6px 0 0}
+.qen{font-size:1.3rem;line-height:1.4;font-weight:600;text-align:center;margin:6px 0 0}
 .big-ar{font-family:var(--ar);font-size:clamp(34px,8.5vw,50px);direction:rtl;text-align:center;line-height:1.7;padding:10px 0;transition:opacity .1s;touch-action:manipulation}
 .big-ar:active{opacity:.55}
 .reveal{border-top:1px dashed var(--rule);margin-top:14px;padding-top:14px;text-align:center}
@@ -139,7 +149,7 @@ input.ar-in{flex:1;min-width:200px;font-family:var(--ar);font-size:21px;line-hei
   background:color-mix(in srgb,var(--gold) 14%,var(--card));border:1px solid color-mix(in srgb,var(--gold) 50%,transparent)}
 @media (max-width:860px){
   #signout{font-size:12px;padding:8px 10px}
-  .card{padding:16px}.taskbar{margin:-16px -16px 14px;padding:10px 12px}
+  .card{padding:16px}.taskbar{margin:-16px -16px 14px;padding:10px 12px}.taskbar.under{margin:16px 0 12px;padding:0}
   .ansrow{flex-direction:column}.ansrow .btn,.ansrow input{width:100%}
   .nextrow{flex-direction:column}.nextrow a,.nextrow button{width:100%;text-align:center}
 }
@@ -369,6 +379,16 @@ function render(){
                  (it.unit?`<span>Unit ${it.unit.n} · ${it.unit.en}</span>`:'');
   panel.appendChild(from);
   ({word:vWord,verb:vVerb,link:vLink,intro:vIntro}[it.mode]||vDrill)(it);
+  instructionUnder(panel);
+}
+/* Like Pray along: what to do sits beneath the thing to do it with. The task line moves from
+   the top of the card to just before its first button or answer box. */
+function instructionUnder(root){
+  const card=root.querySelector(':scope > .card'), tb=card&&card.querySelector(':scope > .taskbar');
+  if(!tb) return;
+  const at=[...card.children].find(ch=>ch!==tb && (ch.matches('button,input,textarea') || ch.querySelector('button,input,textarea')));
+  tb.classList.add('under');
+  if(at) card.insertBefore(tb, at); else card.appendChild(tb);
 }
 /* Where to send someone for each section, and what to call it on screen. */
 const FOCUS_PAGE={

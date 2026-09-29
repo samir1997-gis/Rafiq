@@ -116,7 +116,17 @@
 .sb-prompt{text-align:center;margin-bottom:6px}
 .sb-pic{font-size:44px;line-height:1.2}
 .sb-en{font-size:20px;font-weight:600;margin-top:4px}
-.sb-how{font-size:13px;color:var(--ink-soft);margin-top:6px}
+.sb-how{font-size:1rem;font-weight:600;color:var(--ink);margin-top:10px}
+/* the Pray along cue (learn.html): Listen, then whose turn it is */
+.pa-cue{display:flex;align-items:center;justify-content:center;gap:10px;width:max-content;margin:0 auto 14px;padding:8px 20px;
+  border:2px solid var(--ink);border-radius:999px;background:var(--card);color:var(--ink);font-size:1.2rem;line-height:1.2;
+  transition:background var(--settle) var(--ease-out),color var(--settle) var(--ease-out),transform var(--settle) var(--ease-out)}
+.pa-cue b{font-weight:800;letter-spacing:-.01em}
+.pa-cue .ic{font-size:1.2em;line-height:1}
+.pa-cue.listen .ic{animation:cue-pulse 1.1s ease-in-out infinite}
+.pa-cue.repeat{background:var(--ink);color:var(--paper);transform:scale(1.05)}
+@keyframes cue-pulse{50%{transform:scale(1.25)}}
+@media (prefers-reduced-motion:reduce){.pa-cue.listen .ic{animation:none}.pa-cue.repeat{transform:none}}
 .sb-listen{font-size:34px;width:76px;height:76px;border-radius:50%;border:1px solid var(--verdigris);background:var(--paper);cursor:pointer;touch-action:manipulation}
 .sb-listen.speaking{background:var(--verdigris)}
 .sb-hint{display:inline-block;margin-top:8px;font-size:13px;color:var(--verdigris);text-decoration:underline;cursor:pointer}
@@ -357,7 +367,7 @@ const seen=id=>typeof Progress!=='undefined'&&Progress.hasSeen(id);
 <script src="salah.js?v=6"></script>
 <script src="audio.js?v=904"></script>
 <script src="sounds.js?v=1"></script>
-<script src="spelling.js?v=3"></script>
+<script src="spelling.js?v=4"></script>
 <script src="essentials-data.js?v=1"></script>
 <script src="essentials.js?v=1"></script>
 <script src="arkb.js?v=3" defer></script>
