@@ -84,9 +84,16 @@ Deno.serve(async (req) => {
   if (!(await caller(req))) return json(req, { error: 'signin' }, 401);
   const keys = [...new Set((Array.isArray(body.verses) ? body.verses : [])
     .map(String).filter((k: string) => /^\d{1,3}:\d{1,3}$/.test(k)))].slice(0, 40) as string[];
-  const out: Record<string, unknown> = {};
-  try {
-    await Promise.all(keys.map(async k => { out[k] = await verse(k); }));
-  } catch (e) { console.error(e); return json(req, { error: 'upstream' }, 502); }
+  // three at a time, so a whole prayer's verses don't trip QF's rate limit; a verse
+  // that still fails is left out (the app reads it along silently) rather than all
+  const out: Record<string, unknown> = {}, todo = [...keys];
+  let failed = 0;
+  await Promise.all([0, 1, 2].map(async () => {
+    for (let k = todo.shift(); k; k = todo.shift()) {
+      try { out[k] = await verse(k); }
+      catch (e) { failed++; console.error(k, String(e)); }
+    }
+  }));
+  if (failed && failed === keys.length) return json(req, { error: 'upstream' }, 502);
   return json(req, { verses: out, credit: CREDIT });
 });

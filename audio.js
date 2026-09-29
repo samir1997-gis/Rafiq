@@ -65,27 +65,31 @@
   }
   /* after(): called once the line has finished playing (or couldn't play) */
   let seq=0;
-  function speak(text,el,after){
+  /* opts (optional): src plays that file instead of the text's clip (a licensed
+     recitation), at normal speed; onStart(audio) runs once it is playing, so a page
+     can follow audio.currentTime (the word-by-word highlight). */
+  function speak(text,el,after,opts){
+    opts=opts||{};
     const my=++seq;
     // the list of recordings is still loading (the first word on a page): wait for it,
     // rather than falling back to the device voice
-    if(CLIPS===null){ if(el)el.classList.add('speaking'); clipsReady.then(()=>{ if(my===seq) speak(text,el,after); }); return; }
+    if(CLIPS===null){ if(el)el.classList.add('speaking'); clipsReady.then(()=>{ if(my===seq) speak(text,el,after,opts); }); return; }
     stop();
     if(el)el.classList.add('speaking');
     let ended=false;
     const done=()=>{if(el)el.classList.remove('speaking'); if(!ended){ended=true; if(after)after();}};
-    const id=clipId(text);
-    if(id){
-      const a=new Audio('audio/'+id+'.mp3');
-      a.playbackRate=Math.max(0.6,Math.min(1.3,rate()+0.15));
+    const id=opts.src?null:clipId(text);
+    if(id||opts.src){
+      const a=new Audio(opts.src||('audio/'+id+'.mp3'));
+      if(!opts.src) a.playbackRate=Math.max(0.6,Math.min(1.3,rate()+0.15));
       curAudio=a; a.onended=()=>{curAudio=null;done()};
-      a.onerror=()=>{curAudio=null;tts(text,done)};
-      a.play().catch(err=>{
+      a.onerror=()=>{curAudio=null; if(opts.src) done(); else tts(text,done)};
+      a.play().then(()=>{ if(opts.onStart && curAudio===a) opts.onStart(a); }).catch(err=>{
         curAudio=null;
         // the browser won't play sound before the first tap on the page (strict on iPhone):
         // keep this line and play it on that tap, with a cue so it doesn't seem silent
-        if(err && err.name==='NotAllowedError'){ if(el)el.classList.remove('speaking'); waitForTap({text,el,after}); return; }
-        tts(text,done);
+        if(err && err.name==='NotAllowedError'){ if(el)el.classList.remove('speaking'); waitForTap({text,el,after,opts}); return; }
+        if(opts.src) done(); else tts(text,done);   // never a device voice for a recitation
       });
       return;
     }
@@ -129,7 +133,7 @@
     if(!blocked) return;
     const b=blocked; blocked=null;
     if(b.el && !b.el.isConnected) return;       // that screen has gone
-    speak(b.text,b.el,b.after);                 // inside the tap, so the browser allows it
+    speak(b.text,b.el,b.after,b.opts);          // inside the tap, so the browser allows it
   }
   ['click','touchend','keydown'].forEach(ev=>document.addEventListener(ev,playBlocked,{capture:true,passive:true}));
   let unlocked=false;

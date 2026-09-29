@@ -30,7 +30,7 @@
      caching. Until that function has its QF keys, or offline, Quran parts stay
      silent read-alongs. */
   const recited = {};            // "112:1" -> {url, segments} | null (asked, none)
-  let credit = '';
+  let credit = '', lastError = '';   // why the last request brought nothing: 'signin', 'offline', …
 
   function enabled(){
     if(LIVE) return true;
@@ -131,8 +131,12 @@
     if(!keys.length) return;
     let r = null;
     try{ if(window.RafiqPlan && RafiqPlan.call) r = await RafiqPlan.call('quran', { verses:keys }); }catch(_){}
-    keys.forEach(k => { recited[k] = (r && r.verses && r.verses[k]) || null; });
+    // remember a verse only when the server answered for it; a failed request is
+    // asked again next time a part opens, not silent for the rest of the visit
+    if(r && r.verses) keys.forEach(k => { recited[k] = r.verses[k] || null; });
+    else keys.forEach(k => { recited[k] = null; setTimeout(() => { delete recited[k]; }, 30000); });
     if(r && r.credit) credit = r.credit;
+    lastError = r && r.verses ? '' : ((r && r.error) || 'offline');
   }
   /* When each word of a recited line is said: [[startMs, endMs] per word] or null.
      Takes QF's [position from 1, start, end] and quran-align's [first word from 0,
@@ -215,5 +219,5 @@
   const wordById = id => { for(const p of parts()) for(const w of allWords(p)) if(wid(w) === id) return w; return null; };
 
   window.RafiqSalah = { enabled, LIVE, complete, open, parts, part, isQuran, done, next, stateOf, words, counts, wid, known, freq, voiced, sayAr,
-    courseWords, courseKnown, bridgeFor, recitation, needsRecitation, loadRecitation, timings, credit:()=>credit, cardHTML, styles, mapHTML, mountMap, finishPart, due, wordById, esc };
+    courseWords, courseKnown, bridgeFor, recitation, needsRecitation, loadRecitation, timings, credit:()=>credit, recitationError:()=>lastError, cardHTML, styles, mapHTML, mountMap, finishPart, due, wordById, esc };
 })();

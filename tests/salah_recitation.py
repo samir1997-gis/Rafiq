@@ -41,7 +41,8 @@ def main():
         ctx = b.new_context(ignore_https_errors=bool(proxy))
         ctx.add_init_script(STUB)
         ctx.add_init_script("""(() => { const A = window.Audio; window.__played = [];
-          window.Audio = function(src){ const a = new A(src); window.__played.push(src); return a; }; })();""")
+          window.__audios = [];
+          window.Audio = function(src){ const a = new A(src); window.__played.push(src); window.__audios.push(a); return a; }; })();""")
         # no Supabase: the app then runs signed out without sending us to login (auth.js)
         ctx.route("**/@supabase/**", lambda r: r.abort())
         page = ctx.new_page()
@@ -49,6 +50,19 @@ def main():
         page.on("pageerror", lambda e: errors.append(str(e)))
         page.goto(BASE + "learn.html?salah=prayalong&surah=ikhlas", wait_until="domcontentloaded")
         page.wait_for_timeout(1500)
+        # a prayer phrase in the app's voice: the lit word follows the clip's position
+        page.evaluate("(() => { const b = [...document.querySelectorAll('button')].find(b => b.textContent.trim() === 'Next'); if (b) b.click(); })()")
+        page.wait_for_timeout(300)
+        drift = []
+        for _ in range(40):
+            v = page.evaluate("""(() => { const a = window.__audios && window.__audios[window.__audios.length - 1];
+              const w = [...document.querySelectorAll('.pw')]; const k = w.findIndex(x => x.classList.contains('on'));
+              return a && a.duration > 0 && !a.paused ? [a.currentTime / a.duration, k, w.length] : null; })()""")
+            if v:
+                frac, k, n = v
+                if k >= 0: drift.append(abs((k + 0.5) / n - frac))
+            page.wait_for_timeout(60)
+        sync_ok = bool(drift) and max(drift) < 0.35
         for _ in range(40):                                    # step through to Al-Fatiha
             if "al-fatiha" in page.inner_text("body").lower():
                 break
@@ -69,6 +83,7 @@ def main():
             page.wait_for_timeout(50)
         ok.append(("played the recitation", any(CLIP in s for s in page.evaluate("window.__played"))))
         ok.append(("highlight moved across words", len({k for k in seen if k >= 0}) >= 3))
+        ok.append(("prayer phrase highlight follows its audio (%d samples, worst gap %.0f%% of the line)" % (len(drift), 100 * max(drift or [1])), sync_ok))
         ok.append(("no page errors", not errors))
         for name, good in ok:
             print(("ok   " if good else "FAIL ") + name)
