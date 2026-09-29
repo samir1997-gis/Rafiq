@@ -1,3 +1,4 @@
 tools/typesafe-exp/results*.json
 tools/typesafe-exp/__pycache__/
 supabase/.temp/
+graphify-out/

@@ -22,8 +22,12 @@
   const MIRROR='rafiq_progress_mirror';      // offline cache, not the master copy
   const QUEUE ='rafiq_progress_queue';       // writes that have not reached the server
 
-  /* Different material is forgotten at different rates, so each namespace keeps
-     its own gaps (in days). Vocabulary matches the intervals already in use. */
+  /* Reviews are scheduled by FSRS (fsrs.js, loaded before this file): it learns
+     how well each item is remembered and picks the next gap from that. The
+     per-item memory state lives in r.fsrs. `box` is still kept, derived from the
+     gap, because pages read it: 0 new, 1 missed last time, 4+ known.
+     The fixed gaps below are the fallback if fsrs.js is missing, and the seed
+     for items reviewed before FSRS existed. */
   const GAPS={
     v:[0,1,2,4,8,16],
     sw:[0,1,2,4,8,16],       // words of the salah (salah.js)
@@ -41,6 +45,7 @@
   let dirty = new Set();
   let ready = false;
   let timer = null;
+  let hasFsrsCol = true; // false until the fsrs column exists (supabase/sql/backend.sql)
 
   const readLS  = (k,d) => { try{ return JSON.parse(localStorage.getItem(k)) || d }catch(_){ return d } };
   const writeLS = (k,v) => { try{ localStorage.setItem(k, JSON.stringify(v)) }catch(_){} };
@@ -52,13 +57,18 @@
       const uid = await currentUserId();
       if(uid){
         let { data, error } = await sb.from('item_progress')
-          .select('item_id, box, due, seen, updated_at').eq('user_id', uid);
+          .select('item_id, box, due, seen, updated_at, fsrs').eq('user_id', uid);
+        if(error){                                   // table without the fsrs column yet
+          hasFsrsCol = false;
+          ({ data, error } = await sb.from('item_progress').select('item_id, box, due, seen, updated_at').eq('user_id', uid));
+        }
         if(error)                                    // older table without the timestamp
           ({ data, error } = await sb.from('item_progress').select('item_id, box, due, seen').eq('user_id', uid));
         if(error){ console.warn('[progress] load failed:', error.message); }
         else{
           mem = {};
-          (data||[]).forEach(r => { mem[r.item_id] = {box:r.box, due:r.due, seen:r.seen, at:r.updated_at||null}; });
+          (data||[]).forEach(r => { mem[r.item_id] = {box:r.box, due:r.due, seen:r.seen, at:r.updated_at||null,
+                                                      ...(r.fsrs ? {fsrs:r.fsrs} : {})}; });
           writeLS(MIRROR, mem);
         }
         await flushQueue(uid);                      // anything written while offline
@@ -109,13 +119,44 @@
     Object.keys(mem).filter(id => (!prefix || id.startsWith(prefix)) && mem[id].seen>0).length;
   const hasSeen = id => !!(mem[id] && mem[id].seen>0);
 
+  const F = window.FSRS;
+  const scheduler = F && F.fsrs(F.generatorParameters({ enable_short_term:false }));   // whole days only
+  const RATING = F && { again:F.Rating.Again, good:F.Rating.Good, easy:F.Rating.Easy };
+
+  /* The saved FSRS state, or one seeded from the old box for items reviewed
+     before FSRS: stability = that box's gap, average difficulty. */
+  function cardOf(r, id){
+    if(r.fsrs) return {
+      due:new Date(r.due||Date.now()), stability:r.fsrs.s, difficulty:r.fsrs.d,
+      elapsed_days:0, scheduled_days:0, learning_steps:0,
+      reps:r.fsrs.n||0, lapses:r.fsrs.l||0, state:r.fsrs.st,
+      last_review:r.fsrs.lr ? new Date(r.fsrs.lr) : undefined };
+    if(!r.box) return F.createEmptyCard(new Date());
+    const gap = gaps(id)[Math.min(r.box, gaps(id).length-1)] || 1;
+    const due = r.due ? new Date(r.due) : new Date();
+    return { due, stability:gap, difficulty:5, elapsed_days:0, scheduled_days:gap, learning_steps:0,
+             reps:r.box, lapses:0, state:F.State.Review,
+             last_review:new Date(due.getTime() - gap*86400000) };
+  }
+  const boxFor = days => days<=3 ? 2 : days<=7 ? 3 : days<=15 ? 4 : 5;
+
   function grade(id, quality){
     const g = gaps(id);
     const r = mem[id] || {box:0, due:null, seen:0};
-    if(quality==='again')      r.box = 1;                         // back to the start, still scheduled
-    else if(quality==='easy')  r.box = Math.min(g.length-1, Math.max(1,r.box)+2);
-    else                       r.box = Math.min(g.length-1, Math.max(1,r.box)+1);
-    r.due  = addDays(g[r.box]);
+    if(scheduler){
+      const now  = new Date();
+      const card = scheduler.next(cardOf(r, id), now, RATING[quality] || RATING.good).card;
+      const days = Math.max(1, Math.round((card.due - now) / 86400000));
+      r.box  = quality==='again' ? 1 : boxFor(days);
+      r.due  = addDays(days);
+      r.fsrs = { s:+card.stability.toFixed(3), d:+card.difficulty.toFixed(3), st:card.state,
+                 n:card.reps, l:card.lapses, lr:now.toISOString() };
+    } else {
+      if(quality==='again')      r.box = 1;                         // back to the start, still scheduled
+      else if(quality==='easy')  r.box = Math.min(g.length-1, Math.max(1,r.box)+2);
+      else                       r.box = Math.min(g.length-1, Math.max(1,r.box)+1);
+      r.due  = addDays(g[r.box]);
+    }
     r.seen = (r.seen||0)+1;
     r.at   = new Date().toISOString();
     mem[id]=r;
@@ -135,14 +176,28 @@
     const ids=[...dirty]; dirty.clear();
     const rows = ids.map(id => ({
       item_id:id, box:mem[id].box, due:mem[id].due, seen:mem[id].seen,
-      updated_at:new Date().toISOString()
+      updated_at:new Date().toISOString(),
+      ...(mem[id].fsrs ? {fsrs:mem[id].fsrs} : {})
     }));
     if(typeof sb==='undefined' || !sb){ queueRows(rows); return; }
     const uid = await currentUserId();
     if(!uid){ queueRows(rows); return; }
-    const { error } = await sb.from('item_progress')
-      .upsert(rows.map(r=>({user_id:uid, ...r})), { onConflict:'user_id,item_id' });
+    const error = await upsert(uid, rows);
     if(error){ console.warn('[progress] save failed:', error.message); queueRows(rows); }
+  }
+
+  /* Save rows; leaves out the fsrs field while the column doesn't exist, so
+     answers still save (the state is kept in the local mirror meanwhile). */
+  async function upsert(uid, rows){
+    const send = rs => sb.from('item_progress')
+      .upsert(rs.map(r=>({user_id:uid, ...r})), { onConflict:'user_id,item_id' });
+    if(hasFsrsCol){
+      const { error } = await send(rows);
+      if(!error || !/fsrs/.test(error.message||'')) return error;
+      hasFsrsCol = false;
+    }
+    const { error } = await send(rows.map(({fsrs, ...r}) => r));
+    return error;
   }
 
   function queueRows(rows){
@@ -152,8 +207,7 @@
   async function flushQueue(uid){
     const q = readLS(QUEUE, []);
     if(!q.length || !sb || !uid) return;
-    const { error } = await sb.from('item_progress')
-      .upsert(q.map(r=>({user_id:uid, ...r})), { onConflict:'user_id,item_id' });
+    const error = await upsert(uid, q);
     if(!error) writeLS(QUEUE, []);
   }
 

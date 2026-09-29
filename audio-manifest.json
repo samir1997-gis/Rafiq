@@ -7700,11 +7700,11 @@
   "chars": 17
  },
  {
-  "id": "8pex6l",
-  "text": "تَفَضَّلْ (ادْخُلْ)",
+  "id": "d1uii9",
+  "text": "تَفَضَّلْ",
   "bucket": "vocab",
   "unit": "01 · Greetings",
-  "chars": 19
+  "chars": 9
  },
  {
   "id": "kjxapi",
@@ -7889,18 +7889,18 @@
   "chars": 3
  },
  {
-  "id": "9cfser",
-  "text": "لِ (حَرْف جَرّ)",
+  "id": "36vd4h",
+  "text": "لِـ",
   "bucket": "vocab",
   "unit": "02 · Core sentence-building",
-  "chars": 15
+  "chars": 3
  },
  {
-  "id": "bw88eq",
-  "text": "وَ (العَطْف)",
+  "id": "3hbk3",
+  "text": "وَ",
   "bucket": "vocab",
   "unit": "02 · Core sentence-building",
-  "chars": 12
+  "chars": 2
  },
  {
   "id": "1re4p0l",
@@ -8092,11 +8092,11 @@
   "chars": 15
  },
  {
-  "id": "dsam76",
-  "text": "ـِ (المُخاطَبَة)",
+  "id": "yu01j8",
+  "text": "تَتَكَلَّمِينَ",
   "bucket": "vocab",
   "unit": "02 · Core sentence-building",
-  "chars": 16
+  "chars": 14
  },
  {
   "id": "dlclxs",
@@ -8603,32 +8603,25 @@
   "chars": 10
  },
  {
-  "id": "1kzuoqs",
-  "text": "يا (النِّداء)",
+  "id": "3hbl4",
+  "text": "يا",
   "bucket": "vocab",
   "unit": "04 · Grammar & particles",
-  "chars": 13
+  "chars": 2
  },
  {
-  "id": "1fnbr3a",
-  "text": "ما (النافية)",
+  "id": "36rxp9",
+  "text": "بِـ",
   "bucket": "vocab",
   "unit": "04 · Grammar & particles",
-  "chars": 12
+  "chars": 3
  },
  {
-  "id": "5vcu7",
-  "text": "بِ (حَرْف جَرّ)",
+  "id": "3hb8m",
+  "text": "لا",
   "bucket": "vocab",
   "unit": "04 · Grammar & particles",
-  "chars": 15
- },
- {
-  "id": "1t2bmh3",
-  "text": "لا (النافية)",
-  "bucket": "vocab",
-  "unit": "04 · Grammar & particles",
-  "chars": 12
+  "chars": 2
  },
  {
   "id": "xx5sl0",
@@ -9135,11 +9128,11 @@
   "chars": 5
  },
  {
-  "id": "rwf4ia",
-  "text": "ساعَة (وَقْت)",
+  "id": "1pzlzm7",
+  "text": "ساعَة",
   "bucket": "vocab",
   "unit": "06 · Numbers & time",
-  "chars": 13
+  "chars": 5
  },
  {
   "id": "1779igb",
@@ -10661,11 +10654,11 @@
   "chars": 11
  },
  {
-  "id": "19kit2s",
-  "text": "الجَوّ (الطَّقْس)",
+  "id": "b9rb3x",
+  "text": "الجَوّ",
   "bucket": "vocab",
   "unit": "12 · Animals & nature",
-  "chars": 17
+  "chars": 6
  },
  {
   "id": "169s209",
@@ -10766,18 +10759,18 @@
   "chars": 7
  },
  {
-  "id": "wm5qp3",
-  "text": "شُرُوق (الشَّمْس)",
+  "id": "vb6t7q",
+  "text": "شُرُوق الشَّمْس",
   "bucket": "vocab",
   "unit": "12 · Animals & nature",
-  "chars": 17
+  "chars": 15
  },
  {
-  "id": "lyhagz",
-  "text": "غُرُوب (الشَّمْس)",
+  "id": "1xxifr6",
+  "text": "غُرُوب الشَّمْس",
   "bucket": "vocab",
   "unit": "12 · Animals & nature",
-  "chars": 17
+  "chars": 15
  },
  {
   "id": "1td9qsb",
@@ -11200,13 +11193,6 @@
   "chars": 7
  },
  {
-  "id": "tdift8",
-  "text": "لا (الجوابية)",
-  "bucket": "vocab",
-  "unit": "14 · Study & work",
-  "chars": 13
- },
- {
   "id": "94dc9a",
   "text": "فِكْرَة طَيِّبَة",
   "bucket": "vocab",
@@ -11340,13 +11326,6 @@
   "chars": 16
  },
  {
-  "id": "mf642p",
-  "text": "جِنْسِيَّة (وَثِيقَة)",
-  "bucket": "vocab",
-  "unit": "14 · Study & work",
-  "chars": 21
- },
- {
   "id": "1qidbwc",
   "text": "صُحُف",
   "bucket": "vocab",
@@ -11415,13 +11394,6 @@
   "bucket": "vocab",
   "unit": "15 · Objects & clothes",
   "chars": 7
- },
- {
-  "id": "ww3br5",
-  "text": "ساعَة (آلة)",
-  "bucket": "vocab",
-  "unit": "15 · Objects & clothes",
-  "chars": 11
  },
  {
   "id": "7k7zvm",
@@ -11606,13 +11578,6 @@
   "chars": 4
  },
  {
-  "id": "hp3d93",
-  "text": "لِ (التَّعْلِيل)",
-  "bucket": "vocab",
-  "unit": "16 · General vocabulary (needs review)",
-  "chars": 16
- },
- {
   "id": "1qrg3ho",
   "text": "الآنَ",
   "bucket": "vocab",
@@ -11711,32 +11676,32 @@
   "chars": 12
  },
  {
-  "id": "eqr6ke",
-  "text": "ـِي (المُتَكَلِّم)",
+  "id": "36vghr",
+  "text": "ـِي",
   "bucket": "vocab",
   "unit": "16 · General vocabulary (needs review)",
-  "chars": 18
+  "chars": 3
  },
  {
-  "id": "1uwxxb9",
-  "text": "ـِيّ (النِّسْبَة)",
+  "id": "y9q15a",
+  "text": "ـِيّ",
   "bucket": "vocab",
   "unit": "16 · General vocabulary (needs review)",
-  "chars": 17
+  "chars": 4
  },
  {
-  "id": "1bkzawo",
-  "text": "ـكَ (المُخاطَب)",
+  "id": "36vdu0",
+  "text": "ـكَ",
   "bucket": "vocab",
   "unit": "16 · General vocabulary (needs review)",
-  "chars": 15
+  "chars": 3
  },
  {
-  "id": "1xsxi1t",
-  "text": "ـكِ (المُخاطَبَة)",
+  "id": "36vdue",
+  "text": "ـكِ",
   "bucket": "vocab",
   "unit": "16 · General vocabulary (needs review)",
-  "chars": 17
+  "chars": 3
  },
  {
   "id": "p7m22v",
@@ -11760,18 +11725,18 @@
   "chars": 4
  },
  {
-  "id": "ch50il",
-  "text": "ـهُ (هاء الغائب)",
+  "id": "36vdql",
+  "text": "ـهُ",
   "bucket": "vocab",
   "unit": "16 · General vocabulary (needs review)",
-  "chars": 16
+  "chars": 3
  },
  {
-  "id": "1r4mekc",
-  "text": "ـها (هاء الغائبة)",
+  "id": "36vdph",
+  "text": "ـها",
   "bucket": "vocab",
   "unit": "16 · General vocabulary (needs review)",
-  "chars": 17
+  "chars": 3
  },
  {
   "id": "1cl1fp5",
@@ -11886,13 +11851,6 @@
   "chars": 7
  },
  {
-  "id": "1t24tvl",
-  "text": "لا (الناهية)",
-  "bucket": "vocab",
-  "unit": "16 · General vocabulary (needs review)",
-  "chars": 12
- },
- {
   "id": "w23owr",
   "text": "مَكَّة",
   "bucket": "vocab",
@@ -11900,11 +11858,11 @@
   "chars": 6
  },
  {
-  "id": "cyuu6w",
-  "text": "المَدِينَة (المُنَوَّرَة)",
+  "id": "1x5puu1",
+  "text": "المَدِينَة المُنَوَّرَة",
   "bucket": "vocab",
   "unit": "16 · General vocabulary (needs review)",
-  "chars": 25
+  "chars": 23
  },
  {
   "id": "1pytvot",
@@ -12271,11 +12229,11 @@
   "chars": 6
  },
  {
-  "id": "11rw6d8",
-  "text": "جَناح (قِسْم)",
+  "id": "1qd2grv",
+  "text": "جَناح",
   "bucket": "vocab",
   "unit": "16 · General vocabulary (needs review)",
-  "chars": 13
+  "chars": 5
  },
  {
   "id": "18vj45d",
@@ -12453,11 +12411,11 @@
   "chars": 17
  },
  {
-  "id": "1rbgztb",
-  "text": "خُطُوط (طَيَران)",
+  "id": "es51ss",
+  "text": "خُطُوط الطَّيَران",
   "bucket": "vocab",
   "unit": "16 · General vocabulary (needs review)",
-  "chars": 16
+  "chars": 17
  },
  {
   "id": "1ywxzz0",
@@ -13167,13 +13125,6 @@
   "chars": 4
  },
  {
-  "id": "3hbl4",
-  "text": "يا",
-  "bucket": "tile",
-  "unit": "01",
-  "chars": 2
- },
- {
   "id": "y7hgxk",
   "text": "مِنَ",
   "bucket": "tile",
@@ -13200,13 +13151,6 @@
   "bucket": "tile",
   "unit": "01",
   "chars": 6
- },
- {
-  "id": "3hb8m",
-  "text": "لا",
-  "bucket": "tile",
-  "unit": "01",
-  "chars": 2
  },
  {
   "id": "1itzptt",
@@ -13606,13 +13550,6 @@
   "bucket": "tile",
   "unit": "02",
   "chars": 7
- },
- {
-  "id": "d1uii9",
-  "text": "تَفَضَّلْ",
-  "bucket": "tile",
-  "unit": "02",
-  "chars": 9
  },
  {
   "id": "p3blaf",
@@ -21056,13 +20993,6 @@
   "chars": 8
  },
  {
-  "id": "1pzlzm7",
-  "text": "ساعَة",
-  "bucket": "essentials",
-  "unit": "time",
-  "chars": 5
- },
- {
   "id": "rezkgg",
   "text": "صَباحًا",
   "bucket": "essentials",
@@ -22104,13 +22034,6 @@
   "bucket": "salah",
   "unit": "taslim",
   "chars": 39
- },
- {
-  "id": "3hbk3",
-  "text": "وَ",
-  "bucket": "connector",
-  "unit": "-",
-  "chars": 2
  },
  {
   "id": "bzrynq",
@@ -24414,13 +24337,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 13
- },
- {
-  "id": "yu01j8",
-  "text": "تَتَكَلَّمِينَ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 14
  },
  {
   "id": "wd06mx",
