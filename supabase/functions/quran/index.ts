@@ -59,19 +59,25 @@ async function verse(key: string) {
   return { url, segments: Array.isArray(f.segments) ? f.segments : [] };
 }
 
-/* Health check: fetches 1:1 at most every 10 minutes, and says whether the keys and
-   word timings work. Shows no content. */
-let checked: { at: number, result: Record<string, unknown> } | null = null;
-async function health() {
-  if (checked && Date.now() - checked.at < 600_000) return checked.result;
-  let result: Record<string, unknown>;
-  try {
-    const v = await verse('1:1');
-    result = { ok: !!v, env, recitation: RECITATION,
-               timings: !!(v && v.segments.length),
-               timing_shape: v && v.segments.length ? { entries: v.segments.length, first: v.segments[0] } : null, audio_host: v ? new URL(v.url).host : null };
-  } catch (e) { result = { ok: false, env, error: String(e) }; }
-  checked = { at: Date.now(), result };
+const verseKeys = (v: unknown) => [...new Set((Array.isArray(v) ? v : [])
+  .map(String).filter((k: string) => /^\d{1,3}:\d{1,3}$/.test(k)))].slice(0, 60) as string[];
+
+/* Health check, no sign-in: {check: true, verses?: [...]} says whether the keys work and,
+   per verse, whether QF returns audio and word timings (the public audio link and the
+   timings only; no Quran text). At most once every 10 minutes per list of verses. */
+const checked = new Map<string, { at: number, result: Record<string, unknown> }>();
+async function health(list: string[]) {
+  const keys = (list.length ? list : ['1:1']).slice(0, 60), id = keys.join(',');
+  const c = checked.get(id);
+  if (c && Date.now() - c.at < 600_000) return c.result;
+  const verses: Record<string, unknown> = {}, todo = [...keys];
+  await Promise.all([0, 1, 2].map(async () => {
+    for (let k = todo.shift(); k; k = todo.shift()) {
+      try { verses[k] = await verse(k); } catch (e) { verses[k] = { error: String(e) }; }
+    }
+  }));
+  const result = { ok: Object.values(verses).some(v => v && !(v as { error?: string }).error), env, recitation: RECITATION, verses };
+  checked.set(id, { at: Date.now(), result });
   return result;
 }
 
@@ -80,10 +86,9 @@ Deno.serve(async (req) => {
   if (req.method !== 'POST') return json(req, { error: 'method' }, 405);
   if (!ID || !SECRET) return json(req, { error: 'not_configured' }, 503);
   const body = await req.json().catch(() => ({}));
-  if (body.check) return json(req, await health());       // no sign-in: says only whether QF answers
+  if (body.check) return json(req, await health(verseKeys(body.verses)));       // no sign-in: says only whether QF answers
   if (!(await caller(req))) return json(req, { error: 'signin' }, 401);
-  const keys = [...new Set((Array.isArray(body.verses) ? body.verses : [])
-    .map(String).filter((k: string) => /^\d{1,3}:\d{1,3}$/.test(k)))].slice(0, 40) as string[];
+  const keys = verseKeys(body.verses);
   // three at a time, so a whole prayer's verses don't trip QF's rate limit; a verse
   // that still fails is left out (the app reads it along silently) rather than all
   const out: Record<string, unknown> = {}, todo = [...keys];
