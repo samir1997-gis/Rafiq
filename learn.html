@@ -952,9 +952,10 @@ function recite(line, onWord, after, elx, onSpoken, onPlay){
   const S=RafiqSalah, r=S.recitation(line);
   if(!r){ if(after) after(); return; }
   if(onWord) onWord(0);
-  let spoken=false; const said=()=>{ if(!spoken){ spoken=true; if(onSpoken) onSpoken(); } };
-  RQ.speak(line.ar, elx||null, ()=>{ said(); if(onWord) onWord(-1); if(after) after(); },
-    { src:r.url, onStart:a=>{ if(onPlay) onPlay(); if(onWord) trackWords(a, onWord, wordWeights(line.words), S.timings(line), said); } });
+  let spoken=false, started=false; const said=()=>{ if(!spoken){ spoken=true; if(onSpoken) onSpoken(); } };
+  // after(started): false when the recitation couldn't play (no connection, blocked)
+  RQ.speak(line.ar, elx||null, ()=>{ if(started) said(); if(onWord) onWord(-1); if(after) after(started); },
+    { src:r.url, onStart:a=>{ started=true; if(onPlay) onPlay(); if(onWord) trackWords(a, onWord, wordWeights(line.words), S.timings(line), said); } });
 }
 /* The rest of Your salah is Complete (salah.js): say what it is, offer the plans. */
 function salahUpsell(title){
@@ -1167,9 +1168,11 @@ function runPrayAlong(){
     if(nr) fetch(nr.url, {mode:'no-cors'}).catch(()=>{});
     // "Listen" only once the audio is actually playing (a recitation can take a moment to arrive)
     const listening=()=>setCue('listen');
-    if(quran && heard){ setCue('loading'); return recite(l, lit, ()=>next(slow?1600:800), box, repeat, listening); }
+    // audio that couldn't play: read it instead, at a steady pace, rather than "repeat" what wasn't heard
+    const unheard=()=>{ setCue('read'); words.forEach(w=>w.classList.add('on')); next((slow?1.6:1)*Math.max(2500, words.length*850)); };
+    if(quran && heard){ setCue('loading'); return recite(l, lit, ok=>ok?next(slow?1600:800):unheard(), box, repeat, listening); }
     if(!quran){ setCue('loading');
-      return sayTracked(l, lit, a=>{ repeat(); const d=a&&a.duration>0?a.duration*1000:2000;
+      return sayTracked(l, lit, a=>{ if(!a) return unheard(); repeat(); const d=a&&a.duration>0?a.duration*1000:2000;
         next(Math.min(5000, Math.max(1500, d))*(slow?1.3:1)); }, box, slow, listening); }
     setCue('read');
     const per=(slow?1.6:1)*850;                           // silent read-along: a steady pace
