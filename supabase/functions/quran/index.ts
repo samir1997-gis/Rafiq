@@ -4,7 +4,8 @@
 // word-by-word highlight. Signed-in learners only. Nothing is stored: QF's terms
 // allow at most a week of caching, and the browser only keeps it for the page.
 // Needs the function secrets QF_CLIENT_ID and QF_CLIENT_SECRET (Developer Console);
-// QF_RECITATION_ID picks the reciter (default 7, Mishari Rashid al-Afasy).
+// QF_RECITATION_ID picks the reciter (default 12, Mahmoud Khalil al-Husary, Muallim: the slow
+// teaching recitation, with a pause after each verse to repeat it).
 import { caller, cors as siteCors, json as siteJson } from '../_shared/common.ts';
 
 // Also answers the branch preview (raw.githack.com) so Salah can be tried before it's
@@ -16,7 +17,7 @@ const json = (req: Request, body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...cors(req), 'Content-Type': 'application/json' } });
 
 const ID = Deno.env.get('QF_CLIENT_ID') || '', SECRET = Deno.env.get('QF_CLIENT_SECRET') || '';
-const RECITATION = Deno.env.get('QF_RECITATION_ID') || '7';
+const RECITATION = Deno.env.get('QF_RECITATION_ID') || '12';
 // QF issues production or pre-production keys; the right one is found on first use.
 const ENVS = {
   production: { auth: 'https://oauth2.quran.foundation', api: 'https://apis.quran.foundation/content/api/v4' },

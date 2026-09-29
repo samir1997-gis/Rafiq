@@ -38,7 +38,7 @@ const lit = s => `'${String(s).replace(/'/g, "''")}'`;
     await call('POST', '/secrets', [{ name: 'QF_CLIENT_ID', value: process.env.QF_CLIENT_ID },
                                     { name: 'QF_CLIENT_SECRET', value: process.env.QF_CLIENT_SECRET }]);
     console.log('secrets: Quran Foundation client set');
-    if (process.env.QF_RECITATION_ID) {                    // the reciter: a GitHub Actions variable (default 7, al-Afasy)
+    if (process.env.QF_RECITATION_ID) {                    // the reciter: a GitHub Actions variable (default 12, al-Husary Muallim)
       await call('POST', '/secrets', [{ name: 'QF_RECITATION_ID', value: process.env.QF_RECITATION_ID }]);
       console.log('secrets: reciter set to recitation ' + process.env.QF_RECITATION_ID);
     }
