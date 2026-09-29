@@ -92,7 +92,7 @@
 <script src="progress.js?v=20260928"></script>
 <script src="vocab-data.js?v=20260928"></script>
 <script src="salah-data.js?v=1"></script>
-<script src="salah.js?v=1"></script>
+<script src="salah.js?v=2"></script>
 <script src="nav.js?v=20260924"></script>
 <script>
 requireLogin();
@@ -118,7 +118,7 @@ requireLogin();
     <div class="sec">The prayer, in order</div><div class="parts">${prayer.map(row).join('')}</div>
     <div class="gh">Then the short surahs</div><div class="parts">${surahs.map(row).join('')}</div>
     <div class="sec">Your salah map</div><div id="map"></div>
-    <p class="note">Quran recitation: a licensed human recitation will be added; until then, Al-Fatiha and the surahs are read-along without audio.
+    <p class="note">Quran recitation: a licensed human recitation from the Quran Foundation (Quran.com), streamed as you listen; if it can't be reached, Al-Fatiha and the surahs are read along without audio. Word timings follow the recitation.
       ${(SALAH.sources||[]).map(esc).join(' ')}</p>`;
   S.mountMap(document.getElementById('map'));
 })();

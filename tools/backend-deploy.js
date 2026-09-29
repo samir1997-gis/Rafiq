@@ -3,7 +3,8 @@
    Needs SUPABASE_ACCESS_TOKEN and RESEND_API_KEY. Safe to run again.
 
    1. applies supabase/sql/backend.sql (billing table, free week, triggers, daily job)
-   2. stores the function secrets: RESEND_API_KEY and a fresh HOOK_SECRET
+   2. stores the function secrets: RESEND_API_KEY and a fresh HOOK_SECRET, and the
+      Quran Foundation client (QF_CLIENT_ID, QF_CLIENT_SECRET) when they're given
    3. tells the database where the emails function is, and the same HOOK_SECRET
    Secrets are never printed. */
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
@@ -33,6 +34,11 @@ const lit = s => `'${String(s).replace(/'/g, "''")}'`;
                ('emails_url', ${lit(`https://${REF}.supabase.co/functions/v1/emails`)}), ('hook_secret', ${lit(hook)})
              on conflict (key) do update set value = excluded.value`);
   console.log('secrets: RESEND_API_KEY, HOOK_SECRET set; database knows the emails function');
+  if (process.env.QF_CLIENT_ID && process.env.QF_CLIENT_SECRET) {
+    await call('POST', '/secrets', [{ name: 'QF_CLIENT_ID', value: process.env.QF_CLIENT_ID },
+                                    { name: 'QF_CLIENT_SECRET', value: process.env.QF_CLIENT_SECRET }]);
+    console.log('secrets: Quran Foundation client set');
+  } else console.log('secrets: no Quran Foundation client yet (Quran parts stay read-along)');
 
   const n = await sql(`select count(*)::int as n, count(*) filter (where trial_ends_at > now())::int as trial from public.billing`);
   console.log(`billing rows: ${n[0].n} (${n[0].trial} in their free week)`);

@@ -183,7 +183,7 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 <script src="judge.js?v=20260925"></script>
 <script src="tiles.js?v=3"></script>
 <script src="salah-data.js?v=1"></script>
-<script src="salah.js?v=1"></script>
+<script src="salah.js?v=2"></script>
 <script src="sounds.js?v=1"></script>
 <script src="arkb.js?v=3" defer></script>
 <script>
@@ -863,10 +863,26 @@ function runScene(sc){
 function salahSay(p, line, text, elx, after){
   const S=RafiqSalah;
   if(!S.isQuran(p)){ if(window.RQ) RQ.speak(text, elx, after); else if(after) after(); return true; }
-  const src=line && S.recitation(line);
-  if(src && text===line.ar){ const a=new Audio(src); a.onended=()=>after&&after(); a.onerror=()=>after&&after(); a.play().catch(()=>after&&after()); return true; }
+  if(line && S.recitation(line) && text===line.ar){ recite(line, null, after); return true; }
   if(after) after();
   return false;
+}
+/* Play a Quran line's licensed recitation; onWord(k) as each word is said (from
+   the recitation's word timings), then onWord(-1) at the end. One at a time. */
+let reciting=null;
+function stopReciting(){ if(reciting){ reciting.onended=reciting.onerror=null; reciting.pause(); reciting=null; } }
+function recite(line, onWord, after){
+  const S=RafiqSalah, r=S.recitation(line), t=S.timings(line);
+  stopReciting();
+  if(!r){ if(after) after(); return; }
+  const a=new Audio(r.url); reciting=a;
+  const done=()=>{ if(reciting!==a) return; reciting=null; if(onWord) onWord(-1); if(after) after(); };
+  a.onended=done; a.onerror=done;
+  if(onWord && t){ let last=-2; const tick=()=>{ if(reciting!==a) return;
+      const ms=a.currentTime*1000, k=t.findIndex(([s,e])=>ms>=s&&ms<e);
+      if(k>=0 && k!==last){ last=k; onWord(k); } requestAnimationFrame(tick); };
+    requestAnimationFrame(tick); }
+  a.play().catch(done);
 }
 /* The rest of Your salah is Complete (salah.js): say what it is, offer the plans. */
 function salahUpsell(title){
@@ -883,6 +899,7 @@ function runSalah(id){
   if(!p || !S.enabled()){ location.replace('dashboard.html'); return; }
   if(!S.open(p)) return salahUpsell(p.title);
   if(S.stateOf(p)==='locked'){ const n=S.next(); if(n) return runSalah(n.id); }
+  if(S.isQuran(p) && S.needsRecitation(p.lines)) return S.loadRecitation(p.lines).then(()=>runSalah(id));
   document.title=p.title+' — Your salah — Rafiq';
   document.querySelector('.close').href='salah.html';
   const quran=S.isQuran(p), lines=p.lines, ws=S.words(p);
@@ -891,7 +908,8 @@ function runSalah(id){
   const total=common?lines.length+3:lines.length*3+Math.min(6,ws.length)+Math.min(2,lines.length);
   let at=0; const tick=()=>setBar(at++,total);
   const head=(k)=>`<p class="kicker">🕌 ${esc(p.title)} · ${k}</p>`;
-  const silent=quran&&!S.recitation(lines[0])?`<p class="taphint">Recitation coming soon: read along for now.</p>`:'';
+  const silent=!quran?'':!S.recitation(lines[0])?`<p class="taphint">Recitation coming soon: read along for now.</p>`
+    :`<p class="taphint credit">${esc(S.credit())}</p>`;
   function go(){ li=0; ({listen, words, check, build, follow})[steps[si]](); }
   const nextStep=()=>{ si++; if(si>=steps.length) return end(); go(); };
 
@@ -974,10 +992,12 @@ function runSalah(id){
     const spans=[...body.querySelectorAll('#f span')];
     let timer=null;
     const run=()=>{ clearInterval(timer); let k=0; const lit=()=>spans.forEach((s,i)=>s.classList.toggle('on',i===k));
+      // a recitation with word timings lights each word as the reciter says it
+      if(quran && S.timings(l)){ recite(l, n=>{ k=n; lit(); }); return; }
       const perWord=quran&&!S.recitation(l)?900:Math.max(380, 3400/Math.max(1,spans.length));
       lit(); salahSay(p,l,l.ar,null);
       timer=setInterval(()=>{ k++; if(k>=spans.length){ clearInterval(timer); spans.forEach(s=>s.classList.remove('on')); return; } lit(); }, perWord); };
-    screen(body,[button(li<lines.length-1?'Next line':'Finish',()=>{ clearInterval(timer); li++; follow(); }), button('Again',run,true)]);
+    screen(body,[button(li<lines.length-1?'Next line':'Finish',()=>{ clearInterval(timer); stopReciting(); li++; follow(); }), button('Again',run,true)]);
     run();
   }
   function end(){
@@ -1029,18 +1049,21 @@ function runPrayAlong(){
   let surah=qs.get('surah'); if(!S.part(surah)||S.part(surah).group!=='surah') surah='ikhlas';
   const ORDER=['takbir','opening','refuge','fatiha1','fatiha2',surah,'ruku','rising','sujud','tashahhud','salawat','taslim'];
   const seq=[]; ORDER.forEach(id=>{ const p=S.part(id); if(p) p.lines.forEach(l=>seq.push({p,l})); });
+  const qLines=seq.filter(x=>S.isQuran(x.p)).map(x=>x.l);
+  if(S.needsRecitation(qLines)) return S.loadRecitation(qLines).then(runPrayAlong);
   let i=0, playing=true, timer=null, slow=false;
   try{ slow=localStorage.getItem('rafiq_prayalong_slow')==='1'; }catch(_){}
   function show(){
-    clearTimeout(timer);
+    clearTimeout(timer); stopReciting();
     if(i>=seq.length){ setBar(1,1); screen(el(`<div class="done"><div class="tick">🕌</div><h2>That's the whole prayer</h2>
       <p>Open Pray along before you pray and the meanings will be with you.</p></div>`),[button('Back to your salah',()=>{location.href='salah.html'}),
       button('Again',()=>{i=0;playing=true;show();},true)]); return; }
     setBar(i,seq.length);
-    const {p,l}=seq[i], quran=S.isQuran(p);
+    const {p,l}=seq[i], quran=S.isQuran(p), heard=!quran||!!S.recitation(l);
     const body=el(`<div><p class="kicker">🕌 Pray along · ${esc(p.title)}</p>
       <div class="card pa">${l.words.map((w,k)=>`<span class="pw" data-k="${k}"><b>${esc(w.ar)}</b><i>${esc(w.en)}</i></span>`).join('')}</div>
-      <p class="taphint">${quran?'Read along':'Listen and read along'} · ${esc(l.en)}</p>
+      <p class="taphint">${heard?'Listen and read along':'Read along'} · ${esc(l.en)}</p>
+      ${quran&&heard?`<p class="taphint credit">${esc(S.credit())}</p>`:''}
       <div class="pa-ctl"><button type="button" class="hear" id="pv">‹ Back</button><button type="button" class="hear" id="pp">${playing?'Pause':'Play'}</button>
       <button type="button" class="hear" id="sp">${slow?'Normal pace':'Slower'}</button></div></div>`);
     screen(body,[button(i<seq.length-1?'Next':'Finish',()=>{i++;show();})]);
@@ -1049,9 +1072,11 @@ function runPrayAlong(){
     body.querySelector('#pp').onclick=()=>{ playing=!playing; if(window.RQ) RQ.stop(); show(); };
     body.querySelector('#sp').onclick=()=>{ slow=!slow; try{ localStorage.setItem('rafiq_prayalong_slow',slow?'1':'0'); }catch(_){} show(); };
     if(!playing){ words.forEach(w=>w.classList.add('on')); return; }
+    const onward=()=>{ timer=setTimeout(()=>{ if(playing && body.isConnected){ i++; show(); } }, slow?2400:1200); };
+    if(quran && S.timings(l)){ recite(l, k=>words.forEach((w,n)=>w.classList.toggle('on',n===k)), onward); return; }
     const per=(slow?1.6:1)*(quran?850:Math.max(420,3000/Math.max(1,words.length)));
     let k=0; const lit=()=>words.forEach((w,n)=>w.classList.toggle('on',n===k));
-    lit(); if(!quran && window.RQ) RQ.speak(l.ar,null);
+    lit(); if(!quran && window.RQ) RQ.speak(l.ar,null); else if(heard) recite(l,null);
     const step=()=>{ k++; if(k>=words.length){ words.forEach(w=>w.classList.remove('on')); timer=setTimeout(()=>{ if(playing && body.isConnected){ i++; show(); } },1200); return; }
       lit(); timer=setTimeout(step,per); };
     timer=setTimeout(step,per);

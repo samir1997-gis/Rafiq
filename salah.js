@@ -24,9 +24,13 @@
    for the links to course words. */
 (function(){
   const LIVE = true;   // on in this branch for testing: set back to false (or get the teacher's sign-off) before merging into main
-  /* A licensed recitation, one file per verse: RECITATION + '001001.mp3' (surah,
-     verse, three digits each), e.g. files placed in audio/quran/. null = none yet. */
-  const RECITATION = null;
+  /* The licensed recitation comes from the Quran Foundation API through our own
+     function (supabase/functions/quran, #135): one file per verse, with word timings.
+     Kept in memory for the page only, since QF's terms allow no more than a week of
+     caching. Until that function has its QF keys, or offline, Quran parts stay
+     silent read-alongs. */
+  const recited = {};            // "112:1" -> {url, segments} | null (asked, none)
+  let credit = '';
 
   function enabled(){
     if(LIVE) return true;
@@ -118,11 +122,30 @@
     return null;
   }
 
-  /* Recitation for a Quran line ("112:1"), or null. */
-  function recitation(line){
-    if(!RECITATION || !line.ref) return null;
-    const [s, a] = line.ref.split(':').map(Number);
-    return RECITATION + String(s).padStart(3, '0') + String(a).padStart(3, '0') + '.mp3';
+  /* Recitation for a Quran line ("112:1"): {url, segments}, or null. */
+  const recitation = line => (line && line.ref && recited[line.ref]) || null;
+  /* True while some of these lines haven't been asked for yet. */
+  const needsRecitation = lines => lines.some(l => l.ref && !(l.ref in recited));
+  async function loadRecitation(lines){
+    const keys = [...new Set(lines.map(l => l.ref).filter(k => k && !(k in recited)))];
+    if(!keys.length) return;
+    let r = null;
+    try{ if(window.RafiqPlan && RafiqPlan.call) r = await RafiqPlan.call('quran', { verses:keys }); }catch(_){}
+    keys.forEach(k => { recited[k] = (r && r.verses && r.verses[k]) || null; });
+    if(r && r.credit) credit = r.credit;
+  }
+  /* When each word of a recited line is said: [[startMs, endMs] per word] or null.
+     Takes QF's [position from 1, start, end] and quran-align's [first word from 0,
+     word after last, start, end] (#140). */
+  function timings(line){
+    const r = recitation(line), segs = r && r.segments;
+    if(!segs || !segs.length) return null;
+    const out = line.words.map(() => null);
+    segs.forEach(s => {
+      const [a, b, t0, t1] = s.length >= 4 ? [s[0], s[1], s[2], s[3]] : [s[0] - 1, s[0], s[1], s[2]];
+      for(let k = a; k < b && k < out.length; k++) if(k >= 0) out[k] = [t0, t1];
+    });
+    return out.every(Boolean) ? out : null;
   }
 
   /* The Home card: its Continue goes straight into the next part; the card opens the overview. */
@@ -192,5 +215,5 @@
   const wordById = id => { for(const p of parts()) for(const w of allWords(p)) if(wid(w) === id) return w; return null; };
 
   window.RafiqSalah = { enabled, LIVE, complete, open, parts, part, isQuran, done, next, stateOf, words, counts, wid, known, freq, voiced, sayAr,
-    courseWords, courseKnown, bridgeFor, recitation, cardHTML, styles, mapHTML, mountMap, finishPart, due, wordById, esc };
+    courseWords, courseKnown, bridgeFor, recitation, needsRecitation, loadRecitation, timings, credit:()=>credit, cardHTML, styles, mapHTML, mountMap, finishPart, due, wordById, esc };
 })();
