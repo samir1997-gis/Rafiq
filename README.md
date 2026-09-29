@@ -85,7 +85,8 @@ Upcoming units (Travel & directions, Health & the body, Ramadan & Eid, Telling s
 - **Server:** Supabase Edge Functions in `supabase/functions`: `billing` (Stripe Checkout, the customer portal, cancel/resume), `stripe-webhook` (keeps `billing` in step with Stripe), `account` (Delete my account: cancels any subscription, deletes every row with the user's id, then the account), `emails` (welcome email on confirming, free-week reminders; called by the database). Database setup: `supabase/sql/backend.sql`.
 - **Deploying:** the **Backend deploy** Action runs on every change to `supabase/` on main (or by hand). It applies the SQL, stores `RESEND_API_KEY` and a hook secret, and deploys the functions.
 - **Stripe:** add the repository secret `STRIPE_SECRET_KEY` (a test key first), then run **Stripe setup**. It creates the products and four GBP prices (lookup keys `rafiq_<plan>_<monthly|yearly>`), the customer portal and the webhook, and stores the Stripe keys in Supabase. Run it again with the live key at launch.
-- **Launch:** set `BETA = false` in `plan.js`.
+- **Launch:** set `BETA = false` in `plan.js` and in `supabase/functions/tutor/index.ts`.
+- **AI tutor (Complete, #127):** the Tutor tab (`tutor.html`) and the "Why?" button after a wrong answer in lessons (`tutor.js`) ask the `tutor` Edge Function, which calls Claude with the course material the learner is on. Add the repository secret `ANTHROPIC_API_KEY` and run **Backend deploy**. 20 questions a day per learner; every question, answer and token count is kept in `tutor_usage` (server-only) to check costs and answers.
 - **Support:** support@rafiq-arabic.com (an ImprovMX alias), linked from Settings, the plans page and every email.
 
 ## Setting up

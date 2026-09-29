@@ -129,3 +129,21 @@ create index if not exists reports_recent on public.reports (created_at desc);
 -- FSRS memory state per reviewed item (stability, difficulty, state, reps, lapses,
 -- last review), written by progress.js. box and due stay as before.
 alter table public.item_progress add column if not exists fsrs jsonb;
+
+-- The AI tutor (supabase/functions/tutor, #127): one row per question, for the daily
+-- limit, the cost per learner, and checking a sample of answers. Only the server reads or writes it.
+create table if not exists public.tutor_usage (
+  id bigserial primary key,
+  created_at timestamptz not null default now(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  mode text not null,                 -- chat | why
+  model text not null,
+  input_tokens int not null default 0,
+  output_tokens int not null default 0,
+  cache_read_tokens int not null default 0,
+  cache_write_tokens int not null default 0,
+  question text,
+  answer text
+);
+alter table public.tutor_usage enable row level security;
+create index if not exists tutor_usage_user_day on public.tutor_usage (user_id, created_at desc);
