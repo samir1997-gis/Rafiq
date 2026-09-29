@@ -5,7 +5,15 @@
 // allow at most a week of caching, and the browser only keeps it for the page.
 // Needs the function secrets QF_CLIENT_ID and QF_CLIENT_SECRET (Developer Console);
 // QF_RECITATION_ID picks the reciter (default 7, Mishari Rashid al-Afasy).
-import { caller, cors, json } from '../_shared/common.ts';
+import { caller, cors as siteCors, json as siteJson } from '../_shared/common.ts';
+
+// Also answers the branch preview (raw.githack.com) so Salah can be tried before it's
+// on the live site. Only this function: it hands out recitation links and nothing else.
+const PREVIEW = 'https://raw.githack.com';
+const cors = (req: Request) => req.headers.get('origin') === PREVIEW
+  ? { ...siteCors(req), 'Access-Control-Allow-Origin': PREVIEW } : siteCors(req);
+const json = (req: Request, body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), { status, headers: { ...cors(req), 'Content-Type': 'application/json' } });
 
 const ID = Deno.env.get('QF_CLIENT_ID') || '', SECRET = Deno.env.get('QF_CLIENT_SECRET') || '';
 const RECITATION = Deno.env.get('QF_RECITATION_ID') || '7';
