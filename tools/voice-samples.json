@@ -68,5 +68,12 @@
   "voice": "ZLR2VL7jAuie9sowsXqg",
   "stability": 0.6,
   "style": 0.2
+ },
+ {
+  "file": "sara",
+  "text": "Imagine understanding every word of your salah. رَفِيق takes you through it, word by word, a few minutes a day.",
+  "voice": "jAAHNNqlbAX9iWjJPEtE",
+  "stability": 0.6,
+  "style": 0.2
  }
 ]
