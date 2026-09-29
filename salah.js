@@ -78,7 +78,9 @@
   const freq = w => FREQ[wid(w)] || 0;
   // words said in the prayer's own phrases (not the Quran): these may be voiced
   // (and how the prayer spells them, which is what was recorded: the Quran text orders the marks differently)
-  const VOICED = new Map(); SALAH.parts.forEach(p => { if(p.group === 'prayer' && !/^fatiha/.test(p.id)) allWords(p).forEach(w => { if(!VOICED.has(wid(w))) VOICED.set(wid(w), w.ar); }); });
+  // (a line without a verse reference is a prayer phrase, even inside a Quran part: آمِين after Al-Fatiha)
+  const VOICED = new Map(); SALAH.parts.forEach(p => { if(p.group === 'surah') return;
+    p.lines.filter(l => !l.ref).forEach(l => l.words.forEach(w => { if(!VOICED.has(wid(w))) VOICED.set(wid(w), w.ar); })); });
   const voiced = w => VOICED.has(wid(w));
   const sayAr = w => VOICED.get(wid(w)) || w.ar;
 

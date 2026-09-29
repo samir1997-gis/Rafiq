@@ -96,7 +96,9 @@ SCENES.forEach(sc=>sc.lines.forEach(l=>add('scene',sc.id,l[1])));
    Never the Quran (Al-Fatiha, the surahs): that only ever plays a licensed human
    recitation. Render the 'salah' bucket once the teacher has signed off (#38). */
 load('salah-data.js', ['SALAH']);
-SALAH.parts.filter(p=>p.group==='prayer' && !/^fatiha/.test(p.id)).forEach(p=>p.lines.forEach(l=>{
+// A line with a verse reference is Quran; any other line is a prayer phrase, including
+// the ones inside a Quran part (آمِين after Al-Fatiha).
+SALAH.parts.forEach(p=>p.lines.filter(l=>!l.ref && p.group!=='surah').forEach(l=>{
   add('salah',p.id,l.ar); l.words.forEach(w=>add('salah',p.id,w.ar));
   // "Put it together" tiles on long lines: groups of words (build() in learn.html)
   const w=l.words.map(x=>x.ar), size=Math.ceil(w.length/7);

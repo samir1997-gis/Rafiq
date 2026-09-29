@@ -38,7 +38,8 @@ function perWord(line, res) {
 (async () => {
   if (!KEY) { console.error('ELEVENLABS_API_KEY is not set'); process.exit(1); }
   const timings = {}, report = [];
-  for (const p of SALAH.parts.filter(p => !isQuran(p))) for (const line of p.lines) {
+  // prayer phrases: every line without a verse, including آمِين inside Al-Fatiha's part
+  for (const p of SALAH.parts.filter(p => p.group !== 'surah')) for (const line of p.lines.filter(l => !l.ref)) {
     const id = clipId(line.ar);
     if (!id) { report.push(`${p.id}: no recording for "${line.ar}"`); continue; }
     if (timings[id]) continue;
