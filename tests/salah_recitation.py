@@ -13,7 +13,7 @@ CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 CLIP = max(glob.glob("audio/*.mp3"), key=os.path.getsize)          # any real mp3 stands in for the reciter
 import json as _json
 try:
-    REAL = _json.load(open("/tmp/claude-0/health.json"))["verses"]      # live QF answer, if captured
+    REAL = _json.load(open("/tmp/claude-0/h4.json"))["verses"]          # live QF health answer, if captured
 except Exception:
     REAL = {}
 STUB = """
@@ -27,7 +27,9 @@ STUB = """
       const verses = {};
       const REAL = __REAL__;
       (body.verses || []).forEach(k => {
-        if (REAL[k] && REAL[k].url) { verses[k] = REAL[k]; return; }
+        // the real recitation and word timings; stand-in meanings, so the test can see they're used
+        if (REAL[k] && REAL[k].url) { verses[k] = { url: REAL[k].url, segments: REAL[k].segments, translation: 'OFFICIAL ' + k,
+          words: (REAL[k].words || []).map((w, i) => ({ t: w.t, en: 'qf' + i })) }; return; }
         // four words, 250 ms each, in QF's [position, start, end] form; 1:7 in quran-align's form
         verses[k] = { url: 'CLIP', segments: k === '1:7'
           ? [[0, 9, 0, 900]]
@@ -99,11 +101,13 @@ def main():
         ok.append(("reached Al-Fatiha", "al-fatiha" in text.lower()))
         ok.append(("asked for the Quran verses once", "1:1" in page.evaluate("window.__asked || []")))
         ok.append(("shows the QF credit", "Quran Foundation" in text))
+        ok.append(("official translation shown", "OFFICIAL 1:" in text))
+        ok.append(("official word meanings shown", page.evaluate("[...document.querySelectorAll('.pw i')].every(i => /^qf\\d+$/.test(i.textContent))")))
         ok.append(("not marked silent", "couldn't load" not in text and "no recitation yet" not in text and "Sign in to hear" not in text))
         page.wait_for_timeout(300)
         n_q, bad_q = sync_errors(page, 5)                      # Al-Fatiha 1:1, the real recitation
         played = page.evaluate("window.__played")
-        ok.append(("played the recitation", any("quran.foundation" in s or CLIP in s for s in played)))
+        ok.append(("played the recitation", any("quran.foundation" in s or "quranicaudio" in s or CLIP in s for s in played)))
         ok.append(("prayer phrase: lit word is the word being said (%d samples, %d wrong %s)" % (n_pr, len(bad_pr), bad_pr[:3]), n_pr > 20 and not bad_pr))
         ok.append(("Quran: lit word is the word being recited (%d samples, %d wrong %s)" % (n_q, len(bad_q), bad_q[:3]), n_q > 20 and not bad_q))
         ok.append(("no page errors", not errors))

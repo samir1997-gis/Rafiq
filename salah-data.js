@@ -6,7 +6,8 @@ const SALAH = {
  "sources": [
   "Quran text: Tanzil Project (tanzil.net), Tanzil Quran Text (Simple), CC BY 3.0, used verbatim.",
   "Roots of Quran words: Quranic Arabic Corpus (corpus.quran.com), morphology v0.4.",
-  "Meanings: Rafiq drafts, awaiting teacher review."
+  "Quran meanings: shown in the app from the Quran Foundation (translation: Saheeh International; word by word: Quran.com), loaded live; the ones here are only the fallback when it can't be reached.",
+  "Prayer phrases (not Quran): Rafiq drafts, awaiting teacher review."
  ],
  "parts": [
   {

@@ -129,7 +129,7 @@
   /* Which of our words each of QF's words covers: [[first, after last], …] in QF's order,
      or null if they can't be matched. Compared by consonants only, so vowel marks and the
      Uthmani script's spellings (ٱ, مَٰلِكِ for مالك) don't count as differences. */
-  const skel = t => String(t).replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, '').replace(/[اأإآٱىيوءئؤ]/g, '');
+  const skel = t => String(t).replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640\s]/g, '').replace(/[اأإآٱىيوءئؤ]/g, '');
   function matchWords(line, qf){
     if(!Array.isArray(qf) || !qf.length || typeof qf[0] !== 'object') return null;
     const map = []; let j = 0;
