@@ -67,8 +67,10 @@ async function surah(ch: string, recitation = RECITATION) {
       url: !url ? null : /^https?:/.test(url) ? url : url.startsWith('//') ? 'https:' + url : AUDIO + url,
       segments: Array.isArray(a.segments) ? a.segments : [],
       translation: String(((v.translations || [])[0] || {}).text || '').replace(/<sup[^>]*>.*?<\/sup>/g, '').replace(/<[^>]+>/g, '').trim() || null,
+      // each word's text too, so the app can match QF's words to its own (the Uthmani script
+      // sometimes joins two words: يَٰٓأَيُّهَا is يا + أيها)
       words: (v.words || []).filter((w: { char_type_name: string }) => w.char_type_name === 'word')
-        .map((w: { translation?: { text?: string } }) => (w.translation && w.translation.text) || ''),
+        .map((w: { text_uthmani?: string, translation?: { text?: string } }) => ({ t: w.text_uthmani || '', en: (w.translation && w.translation.text) || '' })),
     };
   }
   return out;
@@ -92,7 +94,7 @@ const verseKeys = (v: unknown) => [...new Set((Array.isArray(v) ? v : [])
 
 /* Health check, no sign-in: {check: true, verses?: [...]} says whether the keys work and,
    per verse, whether QF returns audio, word timings, a translation and word meanings (the
-   public audio link, the timings and counts only; no Quran text or translation). At most once every 10 minutes per list of verses. */
+   public audio link, the timings, and each word's Arabic to check the matching; no translation). At most once every 10 minutes per list of verses. */
 const checked = new Map<string, { at: number, result: Record<string, unknown> }>();
 async function health(list: string[], recitation = RECITATION) {
   const keys = (list.length ? list : ['1:1']).slice(0, 60), id = recitation + ':' + keys.join(',');
@@ -100,8 +102,8 @@ async function health(list: string[], recitation = RECITATION) {
   if (c && Date.now() - c.at < 600_000) return c.result;
   const { out } = await versesFor(keys, recitation);
   const verses: Record<string, unknown> = {};
-  keys.forEach(k => { const v = out[k] as { url: string, segments: unknown[], translation: string | null, words: string[] } | undefined;
-    verses[k] = v ? { url: v.url, segments: v.segments, has_translation: !!v.translation, word_meanings: v.words.length } : { error: 'missing' }; });
+  keys.forEach(k => { const v = out[k] as { url: string, segments: unknown[], translation: string | null, words: { t: string, en: string }[] } | undefined;
+    verses[k] = v ? { url: v.url, segments: v.segments, has_translation: !!v.translation, words: v.words.map(w => ({ t: w.t, has_en: !!w.en })) } : { error: 'missing' }; });
   const result = { ok: Object.keys(out).length > 0, env, recitation, translation: TRANSLATION, verses };
   checked.set(id, { at: Date.now(), result });
   return result;

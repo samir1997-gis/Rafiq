@@ -126,6 +126,21 @@
   const recitation = line => (line && line.ref && recited[line.ref]) || null;
   /* True while some of these lines haven't been asked for yet. */
   const needsRecitation = lines => lines.some(l => l.ref && !(l.ref in recited));
+  /* Which of our words each of QF's words covers: [[first, after last], …] in QF's order,
+     or null if they can't be matched. Compared by consonants only, so vowel marks and the
+     Uthmani script's spellings (ٱ, مَٰلِكِ for مالك) don't count as differences. */
+  const skel = t => String(t).replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, '').replace(/[اأإآٱىيوءئؤ]/g, '');
+  function matchWords(line, qf){
+    if(!Array.isArray(qf) || !qf.length || typeof qf[0] !== 'object') return null;
+    const map = []; let j = 0;
+    for(const q of qf){
+      const want = skel(q.t), start = j; let got = '';
+      do { if(j >= line.words.length) return null; got += skel(line.words[j].ar); j++; } while(got.length < want.length);
+      if(got !== want) return null;
+      map.push([start, j]);
+    }
+    return j === line.words.length ? map : null;
+  }
   /* Every Quran line of the track: they're all asked for in one go, so the official
      meanings are the same everywhere (lessons, checks, review, drills, the map). */
   const quranLines = () => parts().reduce((a, p) => a.concat(p.lines.filter(l => l.ref)), []);
@@ -136,8 +151,10 @@
   function useOfficial(line, v){
     if(!v) return;
     if(v.translation) line.en = v.translation;
-    if(Array.isArray(v.words) && v.words.length === line.words.length && v.words.every(Boolean))
-      line.words.forEach((w, i) => { w.en = v.words[i]; });
+    // a QF word that is one of ours gets QF's meaning; where QF joins two of ours
+    // (يَٰٓأَيُّهَا) ours keep their separate meanings ("O", "you")
+    const map = matchWords(line, v.words);
+    if(map) map.forEach(([a, b], q) => { if(b - a === 1 && v.words[q].en) line.words[a].en = v.words[q].en; });
     official = true;
   }
   const ready = () => needsRecitation(quranLines()) ? loadRecitation() : Promise.resolve();
@@ -170,10 +187,13 @@
     }
     const r = recitation(line), segs = r && r.segments;
     if(!segs || !segs.length) return null;
+    // timings count QF's words; turn them into ours (يَٰٓأَيُّهَا is one QF word, two of ours)
+    const map = matchWords(line, r.words) || line.words.map((_, i) => [i, i + 1]);
     const n = line.words.length, owner = new Array(n).fill(-1);
     const groups = segs.map((s, g) => {
       const [a, b, t0, t1] = s.length >= 4 ? [s[0], s[1], s[2], s[3]] : [s[0] - 1, s[0], s[1], s[2]];
-      for(let k = Math.max(0, a); k < b && k < n; k++) owner[k] = g;
+      for(let q = Math.max(0, a); q < b && q < map.length; q++)
+        for(let k = map[q][0]; k < map[q][1] && k < n; k++) owner[k] = g;
       return { t0, t1, words: [] };
     });
     /* A word the timings leave out (109:1 has 3 timed of 4) shares the time of the
