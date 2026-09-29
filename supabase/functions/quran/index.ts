@@ -60,7 +60,8 @@ async function health() {
   try {
     const v = await verse('1:1');
     result = { ok: !!v, env, recitation: RECITATION,
-               timings: !!(v && v.segments.length), audio_host: v ? new URL(v.url).host : null };
+               timings: !!(v && v.segments.length),
+               timing_shape: v && v.segments.length ? { entries: v.segments.length, first: v.segments[0] } : null, audio_host: v ? new URL(v.url).host : null };
   } catch (e) { result = { ok: false, env, error: String(e) }; }
   checked = { at: Date.now(), result };
   return result;
