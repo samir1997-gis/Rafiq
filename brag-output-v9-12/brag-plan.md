@@ -71,6 +71,7 @@ The first cut was too fast, showed too little of the features, cut screens off a
 ## Third cut (30 Sep 2026): the owner's notes on the second
 - **Pace a little faster:** a 0.5s pause after each line (was 0.9), 0.2s after each demo (was 0.35), 0.7s before the first line (was 0.9). An "after" demo now starts as Sara's line ends, not 0.15s later. The idle stretches are trimmed: the quiz's wait before the first pick, and Pray along's long "Now repeat" at the end. Sara still speaks at 0.92, since re-recording at 0.97 wasn't needed. Lengths: v12 43s (was 45), v9 59s (63), v10 46s (48), v11 66s (69).
 - **More background sound:** the fountain (22s) and birds (15s) used to stop partway through every video, which is where it went quiet. They now loop under the whole video, a little louder (0.2 and 0.15, were 0.12 and 0.08), over a soft low room tone (`ambience()` in build.py). The bed is about 5–6 dB louder on average and stays about 20 dB under Sara. Still no music.
+- **Review gaps updated:** the review scene (v11, v12) now shows 1 day → 1 week → 1 month → 4 months, the gaps since a new word comes back the next day (#158).
 - **The page fits the phone:** the most-said words shot (v9) no longer zooms in 1.3×, which had pushed the page past the phone's edges. It was the only zoomed shot.
 
 ## Before posting

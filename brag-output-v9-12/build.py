@@ -58,8 +58,8 @@ def scene_meet(sid):
     return body, anim
 
 def scene_review(sid):
-    # the real gaps from fsrs.js (progress.js settings) for a new word remembered every time: 3, 14, 57, 196 days
-    chips = [("3 days", ""), ("2 weeks", ""), ("2 months", ""), ("6 months", "")]
+    # the real gaps for a new word remembered every time: back the next day (#158), then fsrs.js spaces it out: 1, 7, 32, 118 days
+    chips = [("1 day", ""), ("1 week", ""), ("1 month", ""), ("4 months", "")]
     row = "".join(f'<div class="chip" id="{sid}-g{i}"><b>{a}</b></div>' + ('<div class="arr">→</div>' if i < 3 else '') for i, (a, _) in enumerate(chips))
     body = (f'<div class="rcard" id="{sid}-card"><b>بَيْت</b><i>house</i></div>'
             f'<div class="rlab" id="{sid}-l1">Remember it? It comes back in</div><div class="chips">{row}</div>'
