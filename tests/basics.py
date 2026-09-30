@@ -109,7 +109,7 @@ def main():
         ok.append(("your three sentences " + " / ".join(mine), mine == lines and mine[0].startswith("أَنا")))
         go(p)                                                            # Next task: pick the questions
         asked = 0
-        while kicker(p).startswith("Say it yourself") and p.locator("#q").count():
+        while p.locator("#q").count():
             p.evaluate("(() => { const f = RafiqPath.unitData('01').say[1].frames.find(f => f.q === document.querySelector('#q').textContent);"
                        " [...document.querySelectorAll('.opt')].find(o => o.textContent === f.o[f.a]).click(); })()")
             p.wait_for_timeout(150); asked += 1; go(p)
