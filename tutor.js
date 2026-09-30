@@ -113,7 +113,9 @@
       const words = unit.alpha ? [] : RafiqPath.wordsOf(unit);
       if(words.length) out.push('Words in this unit:\n' + words.map(w => `${w.ar} = ${w.en}`).join('\n'));
       // the notes are in drills-data.js's EXTRA (lesson pages copy them onto the unit)
-      const notes = unit.alpha ? [] : ((RafiqPath.unitData(unit.n) || {}).grammar || (typeof EXTRA !== 'undefined' && EXTRA[unit.n] && EXTRA[unit.n].grammar) || []);
+      // the basics (#165): its lessons' teaching screens are the notes
+      const notes = unit.alpha ? [] : unit.basics ? BASICS.flatMap(l => l.teach.map(t => ({h:t.h, ar:t.pairs.map(p => p[0]).join(' · '), tr:t.pairs.map(p => p[1]).join(' · '), en:t.en})))
+        : ((RafiqPath.unitData(unit.n) || {}).grammar || (typeof EXTRA !== 'undefined' && EXTRA[unit.n] && EXTRA[unit.n].grammar) || []);
       if(notes.length) out.push('How it works (grammar notes) in this unit:\n' +
         notes.map(g => `- ${g.h || g.t}: ${(g.ar || '').replace(/=/g, ' ')}${g.tr ? ` (${g.tr})` : ''}. ${g.en}`).join('\n'));
     }

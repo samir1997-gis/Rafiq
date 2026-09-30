@@ -6,6 +6,7 @@
      meet 10 words → hear the conversation → how it works (grammar) →
      meet the next 10 → practise → … → have the conversation → say it yourself →
      the unit test (pass it to open the next unit)
+   Before unit 1 come the reading starter and the basics (both 'pre' units, unnumbered).
    Steps are stored in the shared progress store as 'p:<unit>|<step>', so the
    path follows the learner across devices. A unit skipped by the placement
    check is stored as 'p:<unit>|placed'. Each day with any finished step or
@@ -22,7 +23,13 @@
      loaded on the page. */
   const ALPHA = typeof ALPHABET_GROUPS !== 'undefined'
     ? [{n:'00', ar:'الْحُرُوفُ', en:'Reading Arabic', words:[], alpha:true}] : [];
-  const UNITS = ALPHA.concat(PATH);
+  /* The basics (#165), between the reading starter and unit 1: short lessons on the building blocks
+     (the/a, masculine/feminine, I/you/he/she, this, plurals, my/your), then a check. It exists only if
+     basics-data.js is loaded. Both it and the reading starter are 'pre' units: before the numbered ones. */
+  const BASICS_UNIT = typeof BASICS !== 'undefined'
+    ? [{n:'0b', ar:'الأَساسِيّاتُ', en:'The basics', words:[...new Set(BASICS.flatMap(l => l.words))], basics:true, pre:true}] : [];
+  ALPHA.forEach(u => u.pre = true);
+  const UNITS = ALPHA.concat(BASICS_UNIT, PATH);
   const units = () => UNITS;
   const unitData = n => DATA.find(u => u.n === n);
   /* Announced, not built yet: shown after the last unit on Home and on the
@@ -42,6 +49,8 @@
       .concat([{key:'vowels', kind:'vowels', title:'The vowel marks', mins:5},
                {key:'rules', kind:'rules', title:'Reading rules', mins:5},        // #163: ة, ال, sun letters, joining, pauses
                {key:'hear', kind:'hearing', title:'Listening test', mins:6}]);
+    if(p.basics) return BASICS.map((l,i) => ({key:'b-'+l.key, kind:'basics', lesson:i, title:l.title, mins:5, words:l.words}))
+      .concat([{key:'test', kind:'test', title:'Check the basics', mins:6}]);
     const nb = Math.ceil(p.words.length / BATCH), out = [];
     // "Meet 10 new words & phrases": chosen with TypeSafe (tools/typesafe-exp/step_label.py, #116);
     // "New words 4 of 4" read like four words. The count and "& phrases" follow the set itself.
@@ -85,7 +94,7 @@
   const placed = n => Progress.hasSeen(sid(n, 'placed'));
   /* The listening test (and the reading rules, #163) were added after some learners had finished the reading
      starter and moved on to unit 1; they stay open to them but don't pull them back. */
-  const movedOn = () => UNITS.some(u => !u.alpha && (placed(u.n) || steps(u).some(s => stepDone(u.n, s.key))));
+  const movedOn = () => UNITS.some(u => !u.pre && (placed(u.n) || steps(u).some(s => stepDone(u.n, s.key))));
   /* The same goes for words added to a unit after it was written (lateFrom in
      path-data.js, e.g. the missing days of the week): their step stays open to
      learners who are already past the unit, but doesn't pull them back. */
@@ -96,6 +105,7 @@
   function unitDone(p){
     return placed(p.n) || steps(p).every(s => stepDone(p.n, s.key)
       || (p.alpha && (s.key === 'hear' || s.key === 'rules') && movedOn())
+      || (p.basics && movedOn())            // the basics came later too: open to anyone already in the units, never pulling them back
       || ((late(p, s) || s.kind === 'test' || s.key === 'grammar2') && movedPast(p)));
   }
   // a finished unit with a late step still to do (Home can point it out)
@@ -126,7 +136,7 @@
     return stepDone(n, key) || (first && first.key === key);
   }
   // units whose material sessions may use (the reading starter has none)
-  const reached = () => UNITS.slice(0, currentIndex() + 1).filter(p => !p.alpha);
+  const reached = () => UNITS.slice(0, currentIndex() + 1).filter(p => !p.pre);
 
   /* What review may draw on: only what the learner has actually done on the
      path — words they've met in lessons (from units reached) and sentence
@@ -142,7 +152,9 @@
   function metWords(){
     const out = new Set();
     UNITS.forEach(p => { if(p.alpha) return;
-      steps(p).forEach(s => { if(s.kind==='words' && stepDone(p.n, s.key)) wordsOf(p, s.batch).forEach(w => out.add(w.id)); }); });
+      steps(p).forEach(s => { if(!stepDone(p.n, s.key)) return;
+        if(s.kind==='words') wordsOf(p, s.batch).forEach(w => out.add(w.id));
+        if(s.kind==='basics') s.words.forEach(id => out.add(id)); }); });
     return out;
   }
   const inScope = (id, sc) => id.startsWith('v:') ? sc.wordIds.has(+id.slice(2))
@@ -222,7 +234,7 @@
   const dayOf = at => at ? iso(new Date(at)) : null;
   function savedByDay(){
     const words={}, sentences={};
-    UNITS.forEach(p => { if(p.alpha) return;
+    UNITS.forEach(p => { if(p.pre) return;
       steps(p).forEach(s => { if(s.kind!=='words') return;
         const r=Progress.get(sid(p.n, s.key)), d=r && r.seen && dayOf(r.at);
         if(d) words[d]=(words[d]||0)+wordsOf(p, s.batch).length; }); });

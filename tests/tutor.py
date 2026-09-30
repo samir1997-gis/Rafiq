@@ -66,7 +66,7 @@ def main():
         ok.append(("Tutor tab marked as the current one", page.eval_on_selector(".tabbar a.on", "a => a.textContent").endswith("Tutor")))
 
         # a question, from a learner past the reading starter (unit 1)
-        page.evaluate("RafiqPath.skipReading()")
+        page.evaluate("RafiqPath.skipReading(); RafiqPath.steps(RafiqPath.units()[1]).forEach(s => RafiqPath.complete('0b', s.key))")   # and the basics (#165)
         page.click(".starts button >> nth=0")
         page.wait_for_selector(".msg.tu .rep")
         c = asked[-1]

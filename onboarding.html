@@ -178,7 +178,8 @@
 <script src="alphabet-data.js?v=20260930"></script>
 <script src="fsrs.js?v=20260929"></script>
 <script src="progress.js?v=20260930c"></script>
-<script src="path.js?v=20260930e"></script>
+<script src="basics-data.js?v=1"></script>
+<script src="path.js?v=20260930f"></script>
 <script src="plan.js?v=20260927"></script>
 <script src="reminders.js?v=2"></script>
 <script src="judge.js?v=20260922"></script>
@@ -265,7 +266,7 @@ function placement(){
   const en=document.getElementById('plEn'), inp=document.getElementById('plIn'), msg=document.getElementById('plMsg');
   const go=document.getElementById('plGo'), skip=document.getElementById('plSkip');
   const start=n=>{
-    const units=RafiqPath.units(), idx=units.findIndex(u=>u.n===n);
+    const units=RafiqPath.units(), idx=units.findIndex(u=>u.n===(n==='01' && units.some(x=>x.basics) ? '0b' : n));   // unit 1: the basics first (#165)
     RafiqPath.place(idx<0?units.length-1:idx);
     home();
   };

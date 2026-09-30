@@ -213,7 +213,7 @@ function paintHome(){
   const card = n.finishedAll
     ? `<div class="today-card"><div class="k">All units done</div><div class="t">Mabrook — you've finished the path 🎉</div>
        <div class="m">Keep what you've learned fresh with a daily review.</div><a class="cont" href="session.html">Daily review</a></div>`
-    : `<div class="today-card"><div class="k">${n.unit.alpha?'Start here':'Unit '+cur+' of '+(U.length-1)} · step ${doneN+1} of ${steps.length}</div>
+    : `<div class="today-card"><div class="k">${n.unit.alpha?'Start here':n.unit.basics?'Before unit 1':'Unit '+(+n.unit.n)+' of '+U.filter(u=>!u.pre).length} · step ${doneN+1} of ${steps.length}</div>
        <div class="u">${esc(n.unit.ar)}</div><div class="t">${esc(n.step.title)}</div>
        <div class="m">${esc(n.unit.en)} · about ${n.step.mins} minutes</div>
        <a class="cont" href="learn.html?u=${n.unit.n}&s=${n.step.key}">Continue</a>
@@ -250,10 +250,10 @@ function paintHome(){
     const done=RafiqPath.unitDone(p), now=i===cur&&!done, later=i>cur;
     const st=RafiqPath.steps(p), k=st.filter(x=>RafiqPath.stepDone(p.n,x.key)).length;
     const sub = done ? (RafiqPath.placed(p.n)?'Skipped — you already know this':RafiqPath.lateLeft(p)?'Done · new words added':'Done') : now ? `${k} of ${st.length} steps` : 'Locked';
-    const inner=`<span class="st">${done?'✓':now?'▶':'🔒'}</span><span class="nm"><b>${p.alpha?'':i+'. '}${esc(p.en)}</b><span>${sub}</span></span>
+    const inner=`<span class="st">${done?'✓':now?'▶':'🔒'}</span><span class="nm"><b>${p.pre?'':(+p.n)+'. '}${esc(p.en)}</b><span>${sub}</span></span>
       <span class="ua">${esc(p.ar)}</span>`;
     return later
-      ? `<button type="button" class="unit later" data-lock="${esc(U[cur].alpha?'the reading starter':'unit '+cur)}">${inner}</button>`
+      ? `<button type="button" class="unit later" data-lock="${esc(U[cur].alpha?'the reading starter':U[cur].basics?'the basics':'unit '+(+U[cur].n))}">${inner}</button>`
       : `<a class="unit ${done?'done':'now'}" href="learn.html?u=${p.n}">${inner}</a>`;
   }).join('');
   const coming=`<div class="ph" style="margin-top:4px">More units coming</div>
@@ -312,7 +312,8 @@ function paintHome(){
 </script>
 <script src="fsrs.js?v=20260929"></script>
 <script src="progress.js?v=20260930c"></script>
-<script src="path.js?v=20260930e"></script>
+<script src="basics-data.js?v=1"></script>
+<script src="path.js?v=20260930f"></script>
 <script src="salah-data.js?v=1"></script>
 <script src="salah.js?v=6"></script>
 <script src="mistakes.js?v=20260922"></script>

@@ -252,7 +252,7 @@ const seen=id=>typeof Progress!=='undefined'&&Progress.hasSeen(id);
      d:'Flashcards and a quick test on the words you\u2019ve met in your lessons, plus the full word list.',
      m: met.size ? (wDue?`<b>${wDue}</b> due \u00b7 `:'')+`${met.size} words met` : 'Words from your lessons show up here'}
   ];
-  const done=window.RafiqPath?RafiqPath.units().filter(p=>!p.alpha && RafiqPath.unitDone(p)):[];
+  const done=window.RafiqPath?RafiqPath.units().filter(p=>!p.pre && RafiqPath.unitDone(p)):[];
   const redo = done.length
     ? `<div class="qgrid">${done.map(p=>`<a class="qcard" href="session.html?unit=${p.n}&redo=1">
         <div class="qa">${esc(p.ar)}</div><div class="qt">Unit ${+p.n}: ${esc(p.en)}</div>
@@ -369,7 +369,8 @@ const seen=id=>typeof Progress!=='undefined'&&Progress.hasSeen(id);
 <script src="drills-data.js?v=20260930f"></script>
 <script src="path-data.js?v=20260930b"></script>
 <script src="alphabet-data.js?v=20260930"></script>
-<script src="path.js?v=20260930e"></script>
+<script src="basics-data.js?v=1"></script>
+<script src="path.js?v=20260930f"></script>
 <script src="salah-data.js?v=1"></script>
 <script src="salah.js?v=6"></script>
 <script src="audio.js?v=904"></script>

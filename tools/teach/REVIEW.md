@@ -129,3 +129,103 @@ No more writing from scratch this early. Learners build their own sentences: one
 | 3 | أَسْكُنُ فِي ___. | بَيْتٍ · شَقَّةٍ | |
 | 3 | بَيْتِي / شَقَّتِي ___. | كَبِيرٌ/كَبِيرَةٌ · قَرِيبٌ/قَرِيبَةٌ مِنَ الْمَسْجِدِ | |
 | 3 | فِي غُرْفَتِي ___. | سَرِيرٌ وَسَجَّادَةٌ · سَرِيرٌ وَمِرْآةٌ · سَرِيرٌ وَنافِذَةٌ | |
+
+## Added 30 Sep 2026 (#165): the new section “The basics” (between the letters and unit 1) — for the teacher to check
+Six short lessons, each 1–2 teaching screens then 8 picks, and a check at the end (12 picks from the lessons + 6 word meanings, 80% to pass). Checked with TypeSafe (tools/typesafe-exp/basics_content.py): every pick has one right answer (0.71–0.97). The teaching screens scored 0.61–0.69 for correctness; they are simplified on purpose, so please check the wording.
+
+**‘The’ and ‘a’**
+
+- *ال means ‘the’*: بَيْتٌ (a house) · الْبَيْتُ (the house) — Put ال on the front of a word for ‘the’. There’s no word for ‘a’: the -un ending (ٌ) does that job. A word has one or the other, never both.
+- *Sun letters: the ل goes quiet*: الْكِتابُ (al-kitāb: the book) · الشَّمْسُ (ash-shams: the sun) — Before half the letters (like ك, ب, م, ق) you say al-. Before the other half, the sun letters (like ش, س, ت, د, ر, ن), the ل is silent and the next letter doubles.
+
+| Pick | Shown | Right answer | Other options | OK? |
+|---|---|---|---|---|
+| How do you say ‘the book’? |  | الْكِتابُ | كِتابٌ / الْكِتابٌ | |
+| How do you say ‘a mosque’? |  | مَسْجِدٌ | الْمَسْجِدُ / الْمَسْجِدٌ | |
+| What does it mean? | الْبابُ | the door | a door / doors | |
+| What does it mean? | بَيْتٌ | a house | the house / my house | |
+| How is it said? | الشَّمْسُ | ash-shams | al-shams | |
+| How is it said? | الْبابُ | al-bāb | ab-bāb | |
+| How is it said? | الطّالِبُ | aṭ-ṭālib | al-ṭālib | |
+| How is it said? | الْمَسْجِدُ | al-masjid | am-masjid | |
+
+**Masculine and feminine**
+
+- *Look for ة*: مُدَرِّسٌ (a teacher (a man)) · مُدَرِّسَةٌ (a teacher (a woman)) · صَدِيقٌ (a friend (a man)) · صَدِيقَةٌ (a friend (a woman)) — Every Arabic noun, a person or a thing, is masculine or feminine. Most feminine nouns end in ة, and adding ة to a man’s word often makes the woman’s: مُدَرِّس → مُدَرِّسَة. Things too: بَيْتٌ (a house) is masculine, غُرْفَةٌ (a room) is feminine.
+- *A few are feminine without ة*: أُمٌّ (a mother) · أُخْتٌ (a sister) · بِنْتٌ (a girl) — These mean a woman, so they’re feminine even without ة.
+
+| Pick | Shown | Right answer | Other options | OK? |
+|---|---|---|---|---|
+| Masculine or feminine? | مُدَرِّسَةٌ | feminine | masculine | |
+| Masculine or feminine? | صَدِيقٌ | masculine | feminine | |
+| Masculine or feminine? | أُمٌّ | feminine | masculine | |
+| Masculine or feminine? | غُرْفَةٌ | feminine | masculine | |
+| Make it feminine | طالِبٌ | طالِبَةٌ | طالِبٌ / طُلّابٌ | |
+| Make it feminine | طَبِيبٌ | طَبِيبَةٌ | طَبِيبٌ / طالِبَةٌ | |
+| Which one is a woman? |  | صَدِيقَةٌ | صَدِيقٌ / مُدَرِّسٌ | |
+| Which one is feminine? |  | أُخْتٌ | كِتابٌ / بَيْتٌ | |
+
+**I, you, he, she**
+
+- *I, you, he, she*: أَنا (I) · أَنْتَ (you (to a man)) · أَنْتِ (you (to a woman)) · هُوَ (he) · هِيَ (she) — ‘You’ has two forms: أَنْتَ to a man, أَنْتِ to a woman.
+- *No word for ‘is’*: أَنا مُدَرِّسٌ (I’m a teacher) · هِيَ طالِبَةٌ (She’s a student) · أَنا مُدَرِّسٌ وَهِيَ طالِبَةٌ (I’m a teacher and she’s a student) — In the present, Arabic just puts the two words side by side: ‘I teacher’. وَ means ‘and’, written joined to the next word.
+
+| Pick | Shown | Right answer | Other options | OK? |
+|---|---|---|---|---|
+| Which fits? | ___ طالِبَةٌ | هِيَ | هُوَ | |
+| Which fits? | ___ مُدَرِّسٌ | هُوَ | هِيَ | |
+| How do you say ‘I’m a teacher’ (a man)? |  | أَنا مُدَرِّسٌ | أَنْتَ مُدَرِّسٌ / هُوَ مُدَرِّسٌ | |
+| How do you say ‘you’re a doctor’ to a woman? |  | أَنْتِ طَبِيبَةٌ | أَنْتَ طَبِيبٌ / هِيَ طَبِيبَةٌ | |
+| What does it mean? | هُوَ طَبِيبٌ | He’s a doctor | She’s a doctor / I’m a doctor | |
+| What does it mean? | أَنْتَ طالِبٌ | You’re a student (to a man) | You’re a student (to a woman) / I’m a student | |
+| Which fits? | أَنا مُدَرِّسٌ وَهِيَ ___ | طالِبَةٌ | طالِبٌ | |
+| Which fits? | هِيَ ___ | طَبِيبَةٌ | طَبِيبٌ | |
+
+**This one, and describing words**
+
+- *هَذا and هَذِهِ*: هَذا بَيْتٌ (This is a house) · هَذِهِ غُرْفَةٌ (This is a room) — ‘This’ is هَذا for a masculine word and هَذِهِ for a feminine one.
+- *Describing words come after, and match*: بَيْتٌ كَبِيرٌ (a big house) · غُرْفَةٌ كَبِيرَةٌ (a big room) — A describing word comes after the noun and matches it: with ة if the noun is feminine.
+- *Plurals of things take هَذِهِ*: هَذِهِ كُتُبٌ (These are books) · هَذِهِ غُرَفٌ (These are rooms) — A plural of things (not people) is treated as feminine: هَذِهِ, not هَذا.
+
+| Pick | Shown | Right answer | Other options | OK? |
+|---|---|---|---|---|
+| Which fits? | ___ مَسْجِدٌ | هَذا | هَذِهِ | |
+| Which fits? | ___ مَدْرَسَةٌ | هَذِهِ | هَذا | |
+| Which fits? | ___ أُمِّي | هَذِهِ | هَذا | |
+| How do you say ‘a big room’? |  | غُرْفَةٌ كَبِيرَةٌ | غُرْفَةٌ كَبِيرٌ / كَبِيرَةٌ غُرْفَةٌ | |
+| How do you say ‘a big house’? |  | بَيْتٌ كَبِيرٌ | بَيْتٌ كَبِيرَةٌ / كَبِيرٌ بَيْتٌ | |
+| Which fits? | هَذا وَلَدٌ وَهَذِهِ ___ | بِنْتٌ | وَلَدٌ | |
+| How do you say ‘these are books’? |  | هَذِهِ كُتُبٌ | هَذا كُتُبٌ | |
+| What does it mean? | هَذِهِ مَدْرَسَةٌ كَبِيرَةٌ | This is a big school | This is a big house / This is a school | |
+
+**One and many**
+
+- *Many plurals change inside the word*: طالِبٌ · طُلّابٌ (a student · students) · وَلَدٌ · أَوْلادٌ (a boy · boys) · كِتابٌ · كُتُبٌ (a book · books) · غُرْفَةٌ · غُرَفٌ (a room · rooms) — Some plurals add an ending, but many change the inside of the word. There’s no simple rule, so learn each word with its plural.
+- *We, you (a group), they*: نَحْنُ طُلّابٌ (We’re students) · أَنْتُمْ طُلّابٌ (You’re students (to a group)) · هُمْ أَوْلادٌ (They’re boys) — For more than one person: نَحْنُ we, أَنْتُمْ you, هُمْ they (for men or a mixed group; a group of only women has its own forms, which come later). Still no word for ‘are’.
+
+| Pick | Shown | Right answer | Other options | OK? |
+|---|---|---|---|---|
+| What’s the plural? | كِتابٌ | كُتُبٌ | كِتابٌ / كُتُبِي | |
+| What’s the plural? | وَلَدٌ | أَوْلادٌ | وَلَدٌ / بِنْتٌ | |
+| What’s the plural? | طالِبٌ | طُلّابٌ | طالِبَةٌ / طالِبٌ | |
+| One, or more than one? | غُرَفٌ | more than one | one | |
+| One, or more than one? | كِتابٌ | one | more than one | |
+| How do you say ‘we’re students’? |  | نَحْنُ طُلّابٌ | هُمْ طُلّابٌ / أَنا طالِبٌ | |
+| How do you say ‘they’re boys’? |  | هُمْ أَوْلادٌ | نَحْنُ أَوْلادٌ / هُوَ وَلَدٌ | |
+| Which fits? | أَنْتُمْ ___ | طُلّابٌ | طالِبٌ | |
+
+**My, your, his, her**
+
+- *Endings for ‘my’, ‘your’, ‘his’, ‘her’*: أُمِّي (my mother) · أُمُّكَ (your mother (to a man)) · أُمُّكِ (your mother (to a woman)) · أُمُّهُ (his mother) · أُمُّها (her mother) — There’s no separate word: add an ending. ـِي my, ـكَ / ـكِ your, ـهُ his, ـها her.
+- *ة becomes ت*: مَدْرَسَةٌ (a school) · مَدْرَسَتِي (my school) — When an ending is added, ة is written and said as ت: غُرْفَة → غُرْفَتِي, my room.
+
+| Pick | Shown | Right answer | Other options | OK? |
+|---|---|---|---|---|
+| How do you say ‘my brother’? |  | أَخِي | أَخٌ / الْأَخُ | |
+| How do you say ‘my room’? |  | غُرْفَتِي | غُرْفَةِي / غُرْفَتُكَ | |
+| How do you say ‘your book’ to a woman? |  | كِتابُكِ | كِتابُكَ / كِتابِي | |
+| How do you say ‘her house’? |  | بَيْتُها | بَيْتُهُ / بَيْتِي | |
+| What does it mean? | صَدِيقُهُ | his friend | her friend / my friend | |
+| How do you say ‘my friend’ (a woman)? |  | صَدِيقَتِي | صَدِيقِي / صَدِيقَةِي | |
+| What does it mean? | مَدْرَسَتُها | her school | his school / my school | |
+| Which fits? | هَذا ___ | بَيْتِي | الْبَيْتِي | |

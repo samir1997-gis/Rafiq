@@ -20,8 +20,8 @@ def main():
         pg = ctx.new_page(); errors = []
         pg.on("pageerror", lambda e: errors.append(str(e)))
         pg.goto(BASE + "dashboard.html", wait_until="load"); pg.wait_for_timeout(600)
-        pg.evaluate("RafiqPath.units().slice(0,2).forEach(u => RafiqPath.steps(u).forEach(s => RafiqPath.complete(u.n, s.key)))")
-        n = pg.evaluate("RafiqPath.units().find(u => !u.alpha).n")
+        pg.evaluate("RafiqPath.units().slice(0,2).forEach(u => RafiqPath.steps(u).forEach(s => RafiqPath.complete(u.n, s.key))); RafiqPath.recapDone()")   # straight into the lesson, no recap first
+        n = pg.evaluate("RafiqPath.units().find(u => !u.pre).n")
         for step, cue in (("words1", True), ("listen", True), ("grammar", False), ("speak", False)):
             pg.goto(f"{BASE}learn.html?u={n}&s={step}", wait_until="load")
             seen = []

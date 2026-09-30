@@ -93,6 +93,14 @@ ALPHABET_GROUPS.forEach(g=>g.letters.forEach(l=>{
 VOWEL_MARKS.forEach(v=>{ if(v[3]) add('alphabet','00',v[3][0]); });
 LISTEN_TEST.forEach(t=>add('alphabet','00',t[0]));
 READING_RULES.forEach(r=>{ r[2].forEach(e=>add('alphabet','00',e[0])); add('alphabet','00',r[3][4]); });
+// the basics (#165): each example, and what's said after each pick (the finished sentence, the right answer, or the word shown)
+eval(fs.readFileSync(path.join(root,'basics-data.js'),'utf8').replace(/const BASICS/,'globalThis.BASICS'));
+const hasAr=t=>/[\u0600-\u06FF]/.test(t);
+BASICS.forEach(l=>{
+  l.teach.forEach(t=>t.pairs.forEach(([a])=>add('basics','0b',a.replace(/ · /g,'، '))));
+  l.drills.forEach(([q,shown,opts])=>{ const gap=shown.includes('___');
+    add('basics','0b', gap ? shown.replace('___',opts[0]) : hasAr(opts[0]) ? opts[0] : shown); });
+});
 
 /* Everyday essentials (Practise): numbers, days, months, colours (both forms), time. */
 eval(fs.readFileSync(path.join(root,'essentials-data.js'),'utf8').replace(/const ESSENTIALS/,'globalThis.ESSENTIALS'));
