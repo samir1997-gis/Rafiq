@@ -35,9 +35,9 @@ def main():
         # the steps, and progress saved under the old order
         p = page_with(b, seen("p:00|placed"), errors); p.goto(BASE + "dashboard.html"); p.wait_for_timeout(1500)
         keys = lambda n: p.evaluate(f"RafiqPath.steps(RafiqPath.units().find(u => u.n === '{n}')).map(s => s.key)")
-        ok.append(("unit 1 order " + str(keys("01")), keys("01") == ["words1", "words2", "grammar", "words3", "words4", "practise", "listen", "chat", "speak"]))
-        ok.append(("unit 3 keeps its late words before Practise", keys("03")[:3] == ["words1", "words2", "grammar"] and keys("03")[-4:] == ["practise", "listen", "chat", "speak"]))
-        ok.append(("unit 4 unchanged", keys("04") == ["words1", "listen", "grammar", "words2", "practise", "words3", "words4", "chat", "speak"]))
+        ok.append(("unit 1 order " + str(keys("01")), keys("01") == ["words1", "words2", "grammar", "words3", "words4", "practise", "listen", "chat", "speak", "test"]))
+        ok.append(("unit 3 keeps its late words before Practise", keys("03")[:3] == ["words1", "words2", "grammar"] and keys("03")[-5:] == ["practise", "listen", "chat", "speak", "test"]))
+        ok.append(("unit 4 unchanged (plus its test)", keys("04") == ["words1", "listen", "grammar", "words2", "practise", "words3", "words4", "chat", "speak", "test"]))
         first = p.evaluate("RafiqPath.wordsOf(RafiqPath.units().find(u => u.n === '01'), 0).map(w => w.ar)")
         ok.append(("unit 1 starts with ten single words " + " ".join(first), len(first) == 10 and all(" " not in w.strip() for w in first)))
         bad_keys = p.evaluate("""(() => { const all = new Set(VOCAB.map(w => w.ar.trim()));
@@ -51,7 +51,7 @@ def main():
         p = page_with(b, old, errors); p.goto(BASE + "dashboard.html"); p.wait_for_timeout(1500)
         nxt = p.evaluate("(() => { const n = RafiqPath.next(); return n.unit.n + '|' + (n.step && n.step.key); })()")
         ok.append(("mid-unit under the old order: next is words2 (" + nxt + ")", nxt == "01|words2")); p.close()
-        done = seen("p:00|placed", *[f"p:01|{k}" for k in ["words1", "listen", "grammar", "words2", "practise", "words3", "words4", "chat", "speak"]])
+        done = seen("p:00|placed", *[f"p:01|{k}" for k in ["words1", "listen", "grammar", "words2", "practise", "words3", "words4", "chat", "speak", "test"]])
         p = page_with(b, done, errors); p.goto(BASE + "dashboard.html"); p.wait_for_timeout(1500)
         ok.append(("unit 1 finished under the old order stays finished", p.evaluate("RafiqPath.unitDone(RafiqPath.units().find(u => u.n === '01'))"))); p.close()
 

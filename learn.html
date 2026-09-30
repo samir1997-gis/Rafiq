@@ -66,6 +66,7 @@ body{padding-bottom:0!important}
 .big-hear{font-size:2.4rem;padding:18px 26px;margin:6px auto;min-width:96px;min-height:96px;touch-action:manipulation;transition:transform 100ms ease-out}
 .big-hear:active{transform:scale(.94)}
 @media (prefers-contrast:more){.gbad{background:var(--card);border:2px solid var(--rubric)}.wparts{border-top-style:solid}}
+.gap{color:var(--rubric);border-bottom:2px solid var(--rubric);padding:0 12px}
 .ar-opts .opt{font-family:var(--ar);font-size:1.4rem}
 /* Your salah */
 .salah-ar{line-height:2.1}
@@ -248,8 +249,8 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=6"></script>
 <script src="fsrs.js?v=20260929"></script>
-<script src="progress.js?v=20260929"></script>
-<script src="path.js?v=20260930b"></script>
+<script src="progress.js?v=20260930c"></script>
+<script src="path.js?v=20260930c"></script>
 <script src="plan.js?v=20260927"></script>
 <script src="report.js?v=1"></script>
 <script src="teach.js?v=1"></script>
@@ -382,7 +383,8 @@ function runWords(p, step){
   const done=()=>{
     // into daily review; the first time through, every word counts as met today
     const first=!RafiqPath.stepDone(p.n, step.key);
-    words.forEach(w=>{ if(Progress.isNew('v:'+w.id)) Progress.grade('v:'+w.id,'good'); if(first) RafiqPath.wordMet(); });
+    // a new word comes back tomorrow, then FSRS spaces it out (7, 32, 118 days; #158)
+    words.forEach(w=>{ if(Progress.isNew('v:'+w.id)) Progress.grade('v:'+w.id,'good',1); if(first) RafiqPath.wordMet(); });
     const br=salahBridge(words);
     return br ? showBridge(br, ()=>finish(p, step)) : finish(p, step);
   };
@@ -901,6 +903,131 @@ function runChat(p, step, opts){
   turn();
 }
 
+/* ── recaps and the unit test (#158) ─────────────────────────
+   One kind of question for both: a word's meaning, a word heard, or a gap in a
+   sentence ({t:'mean'|'hear', id} or {t:'cloze', u, i}). A wrong answer brings
+   the word or sentence back for review tomorrow. */
+const clozeOf=q=>RafiqPath.unitData(q.u).cloze[q.i];
+const skel=t=>t.replace(/[ً-ْٰـ؟?.]/g,'').trim();
+function question(q, pool){
+  if(q.t==='cloze'){ const d=clozeOf(q), full=d.q.replace('___',d.o[d.a]);
+    return {kicker:'Fill the gap', id:'d:'+q.u+'|cloze|'+q.i, opts:d.o, right:d.o[d.a], ar:true, say:full,
+      html:`<div class="card"><div class="mid" id="w" lang="ar" dir="rtl">${esc(d.q).replace('___','<span class="gap">___</span>')}</div></div>`,
+      answer:`<div class="mid" lang="ar" dir="rtl">${esc(full)}</div>${d.w?`<div class="en">${esc(d.w)}</div>`:''}`}; }
+  const w=RafiqPath.wordById(q.id), answer=`<div class="big" lang="ar">${esc(w.ar)}</div><div class="en">${esc(w.en)}</div>`;
+  if(q.t==='hear'){ const used=new Set([skel(w.ar)]);
+    const others=shuffle(pool).filter(x=>!used.has(skel(x.ar)) && used.add(skel(x.ar))).slice(0,3);
+    return {kicker:'Hear it, pick the word', id:'v:'+w.id, opts:others.map(x=>x.ar).concat(w.ar), right:w.ar, ar:true, say:w.ar, answer,
+      html:`<div class="card"><button class="hear big-hear" type="button" id="w" aria-label="Hear it again">🔊</button></div>`}; }
+  const others=shuffle(pool.filter(x=>x!==w && !tooClose(x.en,w.en))).slice(0,3);
+  return {kicker:'What does this mean?', id:'v:'+w.id, opts:others.map(x=>gloss(x.en)).concat(gloss(w.en)), right:gloss(w.en), say:w.ar, answer,
+    html:`<div class="card"><div class="big" id="w">${esc(w.ar)}</div></div>`};
+}
+/* One question on screen. onAnswer(ok) as soon as it's answered; Next goes on. */
+let asking=null;                         // the question on screen (for tests/review.py)
+function askOne(x, head, onAnswer, onNext){
+  asking=x;
+  const body=el(`<div><p class="kicker">${esc(head||x.kicker)}</p>${x.html}<div class="opts${x.ar?' ar-opts':''}" id="o"></div></div>`);
+  const a=body.querySelector('#w'), play=()=>say(x.say,a); a.onclick=play;
+  const next=button('Next',onNext); next.disabled=true;
+  shuffle(x.opts).forEach(o=>{
+    const b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=o; if(x.ar){ b.lang='ar'; b.dir='rtl'; }
+    b.onclick=()=>{ if(!next.disabled) return;
+      const ok=o===x.right; b.classList.add(ok?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(ok);
+      if(!ok) [...body.querySelectorAll('.opt')].find(e=>e.textContent===x.right).classList.add('right');
+      if(!ok) Progress.grade(x.id,'again');
+      next.disabled=false; onAnswer(ok);
+      if(ok) autoNext(next, x.say, a); else say(x.say,a); };
+    body.querySelector('#o').appendChild(b);
+  });
+  screen(body,[next]);
+  if(x.kicker.startsWith('Hear')) play();
+}
+
+/* Recap: before the next lesson, every two lessons (RafiqPath.recapDue), five
+   words from earlier lessons: the ones due first, then the ones reviewed longest
+   ago. Chosen with TypeSafe (tools/typesafe-exp/review_progress.py). */
+const RECAP_N=5;
+function recapWords(p){
+  const now=new Set((p.words||[]));        // not the unit you're in: its words are fresh
+  const met=[...RafiqPath.metWords()].filter(id=>!now.has(id)).map(RafiqPath.wordById).filter(Boolean);
+  const at=w=>{ const r=Progress.get('v:'+w.id); return r&&r.at||''; };
+  const due=shuffle(met.filter(w=>Progress.isDue('v:'+w.id)));
+  const rest=met.filter(w=>!Progress.isDue('v:'+w.id)).sort((a,b)=>at(a)<at(b)?-1:1);
+  return {pick:due.concat(rest).slice(0,RECAP_N), pool:met};
+}
+function runRecap(p, then){
+  const {pick, pool}=recapWords(p);
+  if(pick.length<RECAP_N) return then();
+  let k=0, right=0;
+  const show=()=>{
+    if(k>=pick.length){ RafiqPath.recapDone(); RafiqPath.markDay(); setBar(1,1);
+      const body=el(`<div class="done"><div class="tick">✓</div><h2>Recap — ${right} of ${pick.length}</h2>
+        <p>${right===pick.length?'All still there. On to the next lesson.':'The ones you missed come back for review tomorrow.'}</p></div>`);
+      return screen(body,[button('Start the lesson',then)]); }
+    setBar(k,pick.length);
+    askOne(question({t:k%2?'hear':'mean', id:pick[k].id}, pool), `Quick recap · ${k+1} of ${pick.length}`, ok=>{ if(ok) right++; }, ()=>{k++;show();});
+  };
+  show();
+}
+
+/* The unit test: 18 questions from the unit: 3 words heard, 5 sentence gaps, the rest meanings.
+   Pass with 80%. Below that, the questions missed are reviewed (the answer, then
+   the question again until it's right) before a retake; the next unit opens on a
+   pass. Chosen with TypeSafe (tools/typesafe-exp/review_progress.py): 18 questions;
+   it leaned slightly to 90%, but 80% leaves room for a slip on a sound. */
+const PASS=0.8, TEST_KEY='rafiq_test';
+const testState=()=>{ try{ return JSON.parse(localStorage.getItem(TEST_KEY))||{}; }catch(_){ return {}; } };
+const saveTest=(n,v)=>{ const s=testState(); if(v) s[n]=v; else delete s[n]; try{ localStorage.setItem(TEST_KEY,JSON.stringify(s)); }catch(_){} };
+function testQuestions(p){
+  const words=shuffle(RafiqPath.wordsOf(p)), u=RafiqPath.unitData(p.n);
+  let cl=((u&&u.cloze)||[]).map((d,i)=>({t:'cloze',u:p.n,i,d}));
+  if(RafiqPath.teaches(p.n) && window.RafiqTeach){ const k=RafiqTeach.taught(p.n);
+    cl=cl.filter(x=>RafiqTeach.coverage(x.d.q.replace('___',' ')+' '+x.d.o.join(' '),k)>=0.8); }
+  cl=shuffle(cl).slice(0,5);
+  const m=15-cl.length;                   // fewer gaps (unit 1 has 4 from taught words): more meanings
+  return words.slice(0,m).map(w=>({t:'mean',id:w.id})).concat(words.slice(m,m+3).map(w=>({t:'hear',id:w.id})),
+    cl.map(({t,u,i})=>({t,u,i})));
+}
+function runTest(p, step){
+  const pool=RafiqPath.wordsOf(p), saved=testState()[p.n];
+  if(saved && !saved.reviewed) return reviewMistakes(p, step, saved.missed);
+  const qs=testQuestions(p), missed=[];
+  let k=0;
+  const show=()=>{
+    if(k>=qs.length) return result();
+    setBar(k,qs.length);
+    askOne(question(qs[k],pool), `Unit test · ${k+1} of ${qs.length}`, ok=>{ if(!ok) missed.push(qs[k]); }, ()=>{k++;show();});
+  };
+  const result=()=>{
+    const right=qs.length-missed.length, pct=Math.round(100*right/qs.length);
+    if(right>=Math.ceil(PASS*qs.length)){ saveTest(p.n,null);
+      return finish(p, step, `<div class="wnote up">🎓 <b>${right} of ${qs.length}</b> (${pct}%) — unit ${+p.n} passed</div>`); }
+    saveTest(p.n,{missed, reviewed:false}); setBar(1,1);
+    const body=el(`<div class="done"><div class="tick">${right} / ${qs.length}</div><h2>Not quite yet</h2>
+      <p>You need ${Math.ceil(PASS*qs.length)} to pass. Go over the ${missed.length} you missed, then try the test again.</p></div>`);
+    screen(body,[button('Review my mistakes',()=>reviewMistakes(p, step, missed)), button('Complete',()=>{location.href='dashboard.html'},true)]);
+  };
+  show();
+}
+function reviewMistakes(p, step, missed){
+  const pool=RafiqPath.wordsOf(p), left=missed.slice();
+  const show=()=>{
+    if(!left.length){ saveTest(p.n,{missed, reviewed:true}); setBar(1,1);
+      const body=el(`<div class="done"><div class="tick">✓</div><h2>Mistakes reviewed</h2><p>Ready when you are.</p></div>`);
+      return screen(body,[button('Try the test again',()=>runTest(p, step)), button('Complete',()=>{location.href='dashboard.html'},true)]); }
+    setBar(missed.length-left.length, missed.length);
+    const q=left[0], x=question(q,pool);
+    // the right answer first, then the question
+    const body=el(`<div><p class="kicker">Your mistakes · ${missed.length-left.length+1} of ${missed.length}</p>
+      <div class="card" id="w">${x.answer}</div><p class="howto">Tap to hear it, then try it again</p></div>`);
+    const a=body.querySelector('#w'); a.onclick=()=>say(x.say,a);
+    screen(body,[button('Try it',()=>askOne(question(q,pool), 'Try it again', ok=>{ left.shift(); if(!ok) left.push(q); }, show))]);
+    say(x.say,a);
+  };
+  show();
+}
+
 function runPractise(p){
   location.href='session.html?unit='+p.n+'&n=10';
 }
@@ -1355,8 +1482,10 @@ function showBridge(b, then){
   let step=steps.find(s=>s.key===qs.get('s'))||steps.find(s=>!RafiqPath.stepDone(p.n,s.key))||steps[0];
   if(!RafiqPath.stepOpen(p.n,step.key)) step=steps.find(s=>RafiqPath.stepOpen(p.n,s.key)&&!RafiqPath.stepDone(p.n,s.key))||steps[0];
   document.title=step.title+' — Rafiq';
-  ({words:runWords,listen:runListen,grammar:runGrammar,practise:runPractise,speak:runSpeak,
-    letters:runLetters,vowels:runVowels,hearing:runHearing,chat:runChat})[step.kind](p,step);
+  const run=()=>({words:runWords,listen:runListen,grammar:runGrammar,practise:runPractise,speak:runSpeak,
+    letters:runLetters,vowels:runVowels,hearing:runHearing,chat:runChat,test:runTest})[step.kind](p,step);
+  // every two lessons, a short recap before the next new one (#158)
+  if(!p.alpha && step.kind!=='test' && !RafiqPath.stepDone(p.n,step.key) && RafiqPath.recapDue()) runRecap(p, run); else run();
 })();
 </script>
 </body>

@@ -4,7 +4,8 @@
 
    A unit is a short run of steps, each about 5–10 minutes:
      meet 10 words → hear the conversation → how it works (grammar) →
-     meet the next 10 → practise → … → have the conversation → say it yourself
+     meet the next 10 → practise → … → have the conversation → say it yourself →
+     the unit test (pass it to open the next unit)
    Steps are stored in the shared progress store as 'p:<unit>|<step>', so the
    path follows the learner across devices. A unit skipped by the placement
    check is stored as 'p:<unit>|placed'. Each day with any finished step or
@@ -71,6 +72,8 @@
     }
     out.push({key:'chat',     kind:'chat',     title:'Have the conversation', mins:6});
     out.push({key:'speak',    kind:'speak',    title:'Say it yourself',       mins:6});
+    // the unit test (#158): the next unit opens once it's passed
+    out.push({key:'test',     kind:'test',     title:'Unit test',             mins:6});
     return out;
   }
   const sid = (n, key) => 'p:' + n + '|' + key;
@@ -85,9 +88,10 @@
   const late = (p, s) => p.lateFrom != null && s.kind === 'words' && s.batch * BATCH >= p.lateFrom;
   const movedPast = p => { const i = UNITS.indexOf(p);
     return UNITS.slice(i + 1).some(u => placed(u.n) || steps(u).some(s => stepDone(u.n, s.key))); };
+  // the unit test came later too (#158): learners already past a unit aren't sent back for it
   function unitDone(p){
     return placed(p.n) || steps(p).every(s => stepDone(p.n, s.key)
-      || (p.alpha && s.key === 'hear' && movedOn()) || (late(p, s) && movedPast(p)));
+      || (p.alpha && s.key === 'hear' && movedOn()) || ((late(p, s) || s.kind === 'test') && movedPast(p)));
   }
   // a finished unit with a late step still to do (Home can point it out)
   const lateLeft = p => !placed(p.n) && steps(p).some(s => late(p, s) && !stepDone(p.n, s.key));
@@ -146,9 +150,20 @@
 
   function complete(n, key){
     // a step keeps the date it was first finished; revisiting it only counts the day
-    if(!stepDone(n, key)) Progress.touch(sid(n, key));
+    if(!stepDone(n, key)){ Progress.touch(sid(n, key)); if(n !== '00' && key !== 'test') lessonsSinceRecap(1); }
     markDay();
   }
+  /* Recaps (#158): review that grows with progress. Every RECAP lessons finished, the
+     next lesson starts with a short recap of words from earlier lessons, so two units
+     in a day bring back far more than one. Kept on the device. */
+  const RECAP = 2;
+  function lessonsSinceRecap(add){
+    let n = 0; try{ n = parseInt(localStorage.getItem('rafiq_recap'), 10) || 0; }catch(_){}
+    if(add != null){ n = add ? n + add : 0; try{ localStorage.setItem('rafiq_recap', String(n)); }catch(_){} }
+    return n;
+  }
+  const recapDue = () => lessonsSinceRecap() >= RECAP;
+  const recapDone = () => lessonsSinceRecap(0);
   function place(uptoIndex){          // placement: skip units before this one (index into units())
     UNITS.slice(0, uptoIndex).forEach(p => { if(!unitDone(p)) Progress.touch(sid(p.n, 'placed')); });
   }
@@ -281,7 +296,7 @@
     return ids.map(wordById).filter(Boolean);
   }
 
-  window.RafiqPath = { teaches: n => TEACH.has(n), lateLeft, reviewScope, metWords, sentenceDone, period, wordsByDay, wordsReport, bestStreak, reviewDue, hasLearned, COMING, STREAK_GOALS, streakGoal, BATCH, GOAL, units, skipReading, unitOpen, stepOpen, steps, stepDone, unitDone, placed, currentIndex, next, reached,
+  window.RafiqPath = { recapDue, recapDone, teaches: n => TEACH.has(n), lateLeft, reviewScope, metWords, sentenceDone, period, wordsByDay, wordsReport, bestStreak, reviewDue, hasLearned, COMING, STREAK_GOALS, streakGoal, BATCH, GOAL, units, skipReading, unitOpen, stepOpen, steps, stepDone, unitDone, placed, currentIndex, next, reached,
                        complete, place, markDay, wordMet, week, doneToday, streak, wordsOf, unitData, wordById,
                        answerStyle, answered, answerPref };
 })();

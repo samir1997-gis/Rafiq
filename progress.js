@@ -4,7 +4,8 @@
      await Progress.init()          pull this user's rows (once per page)
      Progress.get(id)               {box, due, seen} or null
      Progress.isDue(id)             due today or earlier
-     Progress.grade(id, quality)    'again' | 'good' | 'easy' — schedules and saves
+     Progress.grade(id, quality, maxDays)  'again' | 'good' | 'easy' — schedules and saves;
+                                    maxDays brings the next review forward
      Progress.dueIds(prefix)        ids due now, optionally 'v:' / 'd:' / 'f:' / 'c:'
      Progress.stats(prefix)         {due, learning, known, started}
      Progress.newPerDayKey          shared settings key
@@ -140,13 +141,14 @@
   }
   const boxFor = days => days<=3 ? 2 : days<=7 ? 3 : days<=15 ? 4 : 5;
 
-  function grade(id, quality){
+  /* maxDays: bring the next review forward (a word just met comes back tomorrow, #158) */
+  function grade(id, quality, maxDays){
     const g = gaps(id);
     const r = mem[id] || {box:0, due:null, seen:0};
     if(scheduler){
       const now  = new Date();
       const card = scheduler.next(cardOf(r, id), now, RATING[quality] || RATING.good).card;
-      const days = Math.max(1, Math.round((card.due - now) / 86400000));
+      const days = Math.min(maxDays || Infinity, Math.max(1, Math.round((card.due - now) / 86400000)));
       r.box  = quality==='again' ? 1 : boxFor(days);
       r.due  = addDays(days);
       r.fsrs = { s:+card.stability.toFixed(3), d:+card.difficulty.toFixed(3), st:card.state,
