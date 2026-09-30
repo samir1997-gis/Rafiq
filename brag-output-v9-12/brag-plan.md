@@ -68,6 +68,10 @@ The first cut was too fast, showed too little of the features, cut screens off a
 | v10 What's in Complete | 48s | Plans, Pray along, the tutor, Why?, a real-life scene reply, the weak-spots review |
 | v11 How Rafiq works | 69s | Continue, the alphabet, new words, the conversation, a grammar note, tiles, the review gaps, the spelling bee, Your salah |
 
+## Next cut: owner notes (30 Sep 2026), not done yet
+- **Pace: a little faster.** The first cut was too fast and the second is a little too slow, so aim between them. Levers in `build.py`: GAP (now 0.9s after each line) → about 0.5s; TAIL 0.35 → about 0.2; start an "after" demo as Sara's line ends rather than 0.15s later; trim the idle holds inside clips (quiz, part, Pray along). Possibly speak at 0.97 instead of 0.92 (needs the lines re-recorded).
+- **More background sound.** It feels silent and a bit boring in places. Raise the fountain and birds (now 0.12 and 0.08), maybe add a soft room tone or another natural layer, and fill the gaps between lines. Still no music.
+
 ## Before posting
 - v10 shows the AI tutor, and v9, v10 and v11 show Your salah. Post them only once both are live: the Claude key (#154), and the teacher's sign-off for Your salah (#98).
 - The tutor's answers on screen are ones I wrote for the demo, matching what the tutor is told to do. Check them the next time a teacher reviews.
