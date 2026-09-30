@@ -243,7 +243,7 @@ bdi[lang=ar]{white-space:nowrap;font-family:var(--ar)}
 </div>
 
 <script src="vocab-data.js?v=20260928b"></script>
-<script src="drills-data.js?v=20260930e"></script>
+<script src="drills-data.js?v=20260930f"></script>
 <script src="path-data.js?v=20260930b"></script>
 <script src="alphabet-data.js?v=20260930"></script>
 <script src="scenes-data.js?v=20260922"></script>
@@ -1105,7 +1105,7 @@ function runSayOwn(p, step){
     const t=tasks[ti];
     if(fi>=t.frames.length) return mineScreen();
     setBar(done(),total);
-    const f=t.frames[fi], head=`Say it yourself · ${t.en} · ${fi+1} of ${t.frames.length}`;
+    const f=t.frames[fi], head=`${t.en} · ${fi+1} of ${t.frames.length}`;
     if(t.ask){
       const body=el(`<div><p class="kicker">${esc(head)}</p><div class="card"><p class="howto" style="margin:0 0 6px">They say:</p>
         <div class="mid" id="q">${esc(f.q)}</div><div class="gtr">${esc(f.qen)}</div>
@@ -1138,8 +1138,9 @@ function runSayOwn(p, step){
         [...body.querySelectorAll('.opt')].forEach(x=>x.classList.remove('right')); b.classList.add('right');
         if(f.sets) g=o[2];
         const line=pattern==='___' ? o[0] : pattern.replace('___',o[0]);
-        s.textContent=line; e.textContent=o[1];
-        mine[fi]=[line, o[1]]; next.disabled=false; say(line, s); };
+        const en=pattern==='___' ? o[1] : f.en.replace('…', o[1]);   // the whole sentence in English
+        s.textContent=line; e.textContent=en;
+        mine[fi]=[line, en]; next.disabled=false; say(line, s); };
       body.querySelector('#o').appendChild(b);
     });
     s.onclick=()=>{ if(mine[fi]) say(mine[fi][0], s); };

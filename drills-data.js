@@ -1291,7 +1291,7 @@ const EXTRA={
  say:[
   {en:"Introduce yourself",ar:"عَرِّفْ بِنَفْسِكَ",gender:true,frames:[
    {ar:"أَنا ___.",en:"I’m …",o:[["طالِبٌ","a student","m"],["مُدَرِّسٌ","a teacher","m"],["طَبِيبٌ","a doctor","m"],["طالِبَةٌ","a student","f"],["مُدَرِّسَةٌ","a teacher","f"],["طَبِيبَةٌ","a doctor","f"]]},
-   {ar:"أَنا ___.",en:"I’m … (where you’re from)",o:[["بِرِيطانِيٌّ","British","m"],["باكِسْتانِيٌّ","Pakistani","m"],["بَنْغْلادِيشِيٌّ","Bangladeshi","m"],["صُومالِيٌّ","Somali","m"],["بِرِيطانِيَّةٌ","British","f"],["باكِسْتانِيَّةٌ","Pakistani","f"],["بَنْغْلادِيشِيَّةٌ","Bangladeshi","f"],["صُومالِيَّةٌ","Somali","f"]]},
+   {ar:"أَنا ___.",en:"I’m …",o:[["بِرِيطانِيٌّ","British","m"],["باكِسْتانِيٌّ","Pakistani","m"],["بَنْغْلادِيشِيٌّ","Bangladeshi","m"],["صُومالِيٌّ","Somali","m"],["بِرِيطانِيَّةٌ","British","f"],["باكِسْتانِيَّةٌ","Pakistani","f"],["بَنْغْلادِيشِيَّةٌ","Bangladeshi","f"],["صُومالِيَّةٌ","Somali","f"]]},
    {ar:"___",en:"Someone you know",o:[["هَذا صَدِيقِي.","This is my friend (a man)."],["هَذِهِ صَدِيقَتِي.","This is my friend (a woman)."],["هَذِهِ أُمِّي.","This is my mother."],["هَذِهِ أُخْتِي.","This is my sister."]]}]},
   {en:"Ask the questions",ar:"اسْأَلِ الأَسْئِلَةَ",ask:true,frames:[
    {q:"اسْمِي عُمَرُ.",qen:"My name is Umar.",o:["ما اسْمُكَ؟","مِنْ أَيْنَ أَنْتَ؟","كَيْفَ حالُكَ؟"],a:0},
