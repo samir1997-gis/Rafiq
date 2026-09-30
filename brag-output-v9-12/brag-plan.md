@@ -68,9 +68,10 @@ The first cut was too fast, showed too little of the features, cut screens off a
 | v10 What's in Complete | 48s | Plans, Pray along, the tutor, Why?, a real-life scene reply, the weak-spots review |
 | v11 How Rafiq works | 69s | Continue, the alphabet, new words, the conversation, a grammar note, tiles, the review gaps, the spelling bee, Your salah |
 
-## Next cut: owner notes (30 Sep 2026), not done yet
-- **Pace: a little faster.** The first cut was too fast and the second is a little too slow, so aim between them. Levers in `build.py`: GAP (now 0.9s after each line) → about 0.5s; TAIL 0.35 → about 0.2; start an "after" demo as Sara's line ends rather than 0.15s later; trim the idle holds inside clips (quiz, part, Pray along). Possibly speak at 0.97 instead of 0.92 (needs the lines re-recorded).
-- **More background sound.** It feels silent and a bit boring in places. Raise the fountain and birds (now 0.12 and 0.08), maybe add a soft room tone or another natural layer, and fill the gaps between lines. Still no music.
+## Third cut (30 Sep 2026): the owner's notes on the second
+- **Pace a little faster:** a 0.5s pause after each line (was 0.9), 0.2s after each demo (was 0.35), 0.7s before the first line (was 0.9). An "after" demo now starts as Sara's line ends, not 0.15s later. The idle stretches are trimmed: the quiz's wait before the first pick, and Pray along's long "Now repeat" at the end. Sara still speaks at 0.92, since re-recording at 0.97 wasn't needed. Lengths: v12 43s (was 45), v9 59s (63), v10 46s (48), v11 66s (69).
+- **More background sound:** the fountain (22s) and birds (15s) used to stop partway through every video, which is where it went quiet. They now loop under the whole video, a little louder (0.2 and 0.15, were 0.12 and 0.08), over a soft low room tone (`ambience()` in build.py). The bed is about 5–6 dB louder on average and stays about 20 dB under Sara. Still no music.
+- **The page fits the phone:** the most-said words shot (v9) no longer zooms in 1.3×, which had pushed the page past the phone's edges. It was the only zoomed shot.
 
 ## Before posting
 - v10 shows the AI tutor, and v9, v10 and v11 show Your salah. Post them only once both are live: the Claude key (#154), and the teacher's sign-off for Your salah (#98).

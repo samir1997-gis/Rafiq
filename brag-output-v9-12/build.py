@@ -7,7 +7,7 @@ clips of the real app working (capture.py: tapping, typing, words lighting up, w
 designed scenes in the phone's place for the hook, Meet Rafiq, the review gaps and the ending.
 Pace: every line is followed by a pause, and a demo that makes sounds plays after the line, so the
 narration never talks over the app. Voice: Sara (ElevenLabs, vo-sara/, tools/v9-12-lines-sara.json).
-Sound: v6's fountain and birdsong, no music.
+Sound: v6's fountain and birdsong, looped under the whole video with a soft room tone (ambience()), no music.
 
   python3 brag-output-v9-12/capture.py (with the site served, see there), then python3 brag-output-v9-12/build.py,
   then per video: cd brag-output-vN/composition && npx hyperframes check && npx hyperframes render -o ../brag.mp4
@@ -16,7 +16,7 @@ import html, json, os, re, shutil, subprocess
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 V6 = os.path.join(ROOT, "brag-output-v6/composition/assets")
 SW, SH = 390, 844                   # the app's CSS size in the captures
-LEAD, GAP, TAIL = 0.9, 0.9, 0.35     # before the first line; after each line; after each demo
+LEAD, GAP, TAIL = 0.7, 0.5, 0.2      # before the first line; after each line; after each demo (third cut: a little faster)
 
 def dur(p): return float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", p]).decode())
 def ar(s): return html.escape(s)
@@ -111,16 +111,16 @@ VIDEOS = {
  "v9": ("Your salah", [
    ("v9-s1", ("scene", "prayer_words")),
    ("v9-s2", [("mostsaid", "with", 0, 4.6, "")]),
-   ("v9-s3", [("mostsaid", "with", 0, 1.4, "195,300,1.3")]),
-   ("v9-s4", [("quiz", "with", 0.9, 7.6, "")]),
+   ("v9-s3", [("mostsaid", "with", 0, 1.4, "")]),
+   ("v9-s4", [("quiz", "with", 1.2, 7.6, "")]),
    ("v9-s5", [("parts", "with", 0, 3.4, ""), ("part", "after", 5.9, 10.6, "", 5.0)]),
    ("v9-s6", [("count", "with", 0, 9.8, "")]),
-   ("v9-s7", [("prayalong", "after", 2.9, 8.6, "")]),
+   ("v9-s7", [("prayalong", "after", 2.9, 7.6, "")]),
    ("v9-s8", ("scene", scene_outro("صَلاتُكَ", "Your salah", "The words you say most are free on every plan"))),
  ]),
  "v10": ("What's in Complete", [
    ("v10-s1", [("plans", "with", 0, 3.7, "")]),
-   ("v10-s2", [("prayalong", "with", 2.9, 8.6, "")]),
+   ("v10-s2", [("prayalong", "with", 2.9, 7.6, "")]),
    ("v10-s3", [("tutor", "with", 0.4, 8.6, "")]),
    ("v10-s4", [("why", "with", 0.6, 7.6, "")]),
    ("v10-s5", [("scene", "with", 0.8, 9.2, "")]),
@@ -145,6 +145,18 @@ SOUNDS = {"listen": [[1.05, "audio/1u2523z.mp3"]]}
 
 CSS = open(os.path.join(HERE, "style.css")).read()
 
+def ambience(path, length):
+    """The bed under the whole video (third cut: more of it, and all the way through). The fountain (22s)
+    and the birds (15s) used to stop partway into a 45-70s video; now both loop, a little louder
+    (0.2 and 0.15, were 0.12 and 0.08), over a soft low room tone. Still no music."""
+    sfx = os.path.join(V6, "sfx-gen")
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-y",
+        "-stream_loop", "-1", "-i", os.path.join(sfx, "fountain.mp3"), "-stream_loop", "-1", "-i", os.path.join(sfx, "birds.mp3"),
+        "-f", "lavfi", "-i", "anoisesrc=color=brown:amplitude=0.5:sample_rate=44100",
+        "-filter_complex", "[0]volume=0.2[f];[1]adelay=300|300,volume=0.15[b];[2]lowpass=f=320,volume=0.05[r];"
+        f"[f][b][r]amix=inputs=3:normalize=0,afade=t=in:d=1,afade=t=out:st={length - 1.2:.2f}:d=1.2",
+        "-t", f"{length:.2f}", "-ac", "2", "-b:a", "160k", path], check=True)
+
 def sounds_of(clip):
     s = SOUNDS.get(clip) or json.load(open(os.path.join(HERE, "clips", clip + ".json")))["sounds"]
     s = sorted(s)
@@ -157,7 +169,7 @@ def build(vid, title, lines):
     for d in ("fonts", "lib", "vo", "clips", "sfx", "app"): os.makedirs(os.path.join(a, d), exist_ok=True)
     for f in os.listdir(os.path.join(V6, "fonts")): shutil.copy(os.path.join(V6, "fonts", f), os.path.join(a, "fonts"))
     shutil.copy(os.path.join(V6, "lib/gsap.min.js"), os.path.join(a, "lib"))
-    for f in ("fountain.mp3", "birds.mp3", "page-turn.mp3", "pen-stroke.mp3"): shutil.copy(os.path.join(V6, "sfx-gen", f), os.path.join(a, "sfx"))
+    for f in ("page-turn.mp3", "pen-stroke.mp3"): shutil.copy(os.path.join(V6, "sfx-gen", f), os.path.join(a, "sfx"))
 
     html_clips, scenes, js, audio, caps = [], [], [], [], []
     phone_on, t, n = [], LEAD, 0
@@ -172,7 +184,7 @@ def build(vid, title, lines):
                 still_at = rest[0] if rest else c_in             # the frame held under the line (default: where the clip starts)
                 n += 1; cid = f"c{n}"; L = c_out - c_in
                 shutil.copy(os.path.join(HERE, "clips", clip + ".mp4"), os.path.join(a, "clips"))
-                hold_until = max(at, vo_end + 0.15) if how == "after" else at
+                hold_until = max(at, vo_end) if how == "after" else at
                 show, play = at, hold_until
                 if how == "after":                             # its first frame, still, while the line is spoken
                     still = f"{clip}-{still_at:.1f}.jpg"
@@ -240,8 +252,8 @@ def build(vid, title, lines):
     for k, s in enumerate(sorted(turns)[1:]):
         audio.append(f'<audio id="pt{k}" src="assets/sfx/page-turn.mp3" data-start="{max(0, s):.2f}" data-duration="1.0" data-volume="0.22" data-track-index="11"></audio>')
     audio += [f'<audio id="pen" src="assets/sfx/pen-stroke.mp3" data-start="0.00" data-duration="0.9" data-volume="0.6" data-track-index="10"></audio>',
-              f'<audio id="amb1" src="assets/sfx/fountain.mp3" data-start="0.30" data-duration="{total - 0.3:.2f}" data-volume="0.12" data-fade-in="1" data-fade-out="1.2" data-track-index="8"></audio>',
-              f'<audio id="amb2" src="assets/sfx/birds.mp3" data-start="0.60" data-duration="{min(total - 0.6, dur(os.path.join(V6, "sfx-gen/birds.mp3"))):.2f}" data-volume="0.08" data-fade-in="1.5" data-fade-out="1.5" data-track-index="9"></audio>']
+              f'<audio id="amb" src="assets/sfx/ambience.mp3" data-start="0.30" data-duration="{total - 0.3:.2f}" data-volume="1" data-track-index="8"></audio>']
+    ambience(os.path.join(a, "sfx", "ambience.mp3"), total - 0.3)
     caps_html = "".join(f'<div class="cap" id="cap{k}"><p>{cap(text)}</p></div>' for k, (_, _, text) in enumerate(caps))
 
     doc = f"""<!doctype html>
