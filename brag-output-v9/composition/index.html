@@ -29,22 +29,23 @@ body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--la
 .tile.big span { font-size:128px; margin-top:-18px; }
 .tile.big em { width:30px; height:30px; right:32px; top:30px; }
 
-#caps { position:absolute; top:180px; left:70px; right:70px; height:270px; }
+#caps { position:absolute; top:150px; left:70px; right:70px; height:270px; }
 .cap { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; opacity:0;
-  font-size:58px; line-height:1.18; font-weight:700; letter-spacing:-.01em; }
+  font-size:54px; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
 .cap .ca { font-family:var(--ar); font-weight:600; color:var(--rubric); unicode-bidi:isolate; }
 .cap p { margin:0; }
 .cap .nw { white-space:nowrap; }
 
-#phone { position:absolute; left:110px; top:478px; width:860px; height:1815px; border-radius:96px; background:var(--ink); padding:20px; box-sizing:border-box;
-  box-shadow:0 60px 90px -40px rgba(23,38,43,.55), 0 8px 24px -8px rgba(23,38,43,.35); opacity:0; }
-.screen { position:relative; width:820px; height:1775px; border-radius:76px; overflow:hidden; background:var(--paper); }
+#phone { position:absolute; left:208px; top:440px; width:664px; height:1399px; border-radius:82px; background:var(--ink); padding:16px; box-sizing:border-box;
+  box-shadow:0 50px 80px -40px rgba(23,38,43,.55), 0 8px 24px -8px rgba(23,38,43,.35); opacity:0; }
+.screen { position:relative; width:632px; height:1367px; border-radius:66px; overflow:hidden; background:var(--paper); }
+.cl { position:absolute; left:0; top:0; width:632px; height:1367px; object-fit:cover; opacity:0; }
 .shot { position:absolute; left:0; right:0; top:0; height:1775px; opacity:0; }
 .shot img { position:absolute; inset:0; width:100%; height:100%; }
 .shot img.pf { opacity:0; }
 .tap { position:absolute; width:150px; height:150px; margin:-75px 0 0 -75px; border-radius:50%; background:rgba(46,114,99,.35); border:4px solid rgba(46,114,99,.9); opacity:0; }
 
-.scene { position:absolute; left:0; right:0; top:478px; height:1400px; display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; }
+.scene { position:absolute; left:0; right:0; top:440px; height:1400px; display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; }
 .kick { font-family:var(--ut); font-size:30px; letter-spacing:.14em; color:var(--ink-soft); margin-top:70px; }
 
 .pwrow { display:flex; flex-direction:row-reverse; gap:44px; }
@@ -74,169 +75,95 @@ body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--la
 </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="23.53">
+    <div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="62.5">
       <div id="glow"></div>
       <div id="ink"></div>
       <div id="brand"><div class="tile"><span>ر</span><em></em></div><b>رَفِيق</b></div>
-      <div id="caps"><div class="cap" id="cap0"><p>Imagine understanding every word of your salah.</p></div><div class="cap" id="cap1"><p>It starts with the words you say most in every prayer.</p></div><div class="cap" id="cap2"><p>Then each part of the prayer, word by word.</p></div><div class="cap" id="cap3"><p>And Pray along takes you through a whole prayer, lighting up each word as it&#x27;s said.</p></div><div class="cap" id="cap4"><p>Your salah, in <bdi class="ca" lang="ar">رَفِيق</bdi>.</p></div><div class="cap" id="cap5"><p>Try it free for a week at <span class="nw">rafiq-arabic.com</span>.</p></div></div>
-      <div id="phone"><div class="screen"><div class="shot" id="i1_0" style="top:-0px"><img src="assets/shots/ruku.jpg"></div><div class="shot" id="i1_1" style="top:-147px"><img src="assets/shots/quiz_q.jpg"></div><div class="shot" id="i2_0" style="top:-147px"><img src="assets/shots/part_rising.jpg"></div><div class="shot" id="i2_1" style="top:-0px"><img src="assets/shots/salah_map.jpg"></div><div class="shot" id="i3_0" style="top:-84px"><img class="pf" id="i3_0f0" src="assets/shots/pa_000.jpg"><img class="pf" id="i3_0f1" src="assets/shots/pa_001.jpg"><img class="pf" id="i3_0f2" src="assets/shots/pa_002.jpg"><img class="pf" id="i3_0f3" src="assets/shots/pa_003.jpg"><img class="pf" id="i3_0f4" src="assets/shots/pa_004.jpg"><img class="pf" id="i3_0f5" src="assets/shots/pa_005.jpg"><img class="pf" id="i3_0f6" src="assets/shots/pa_006.jpg"><img class="pf" id="i3_0f7" src="assets/shots/pa_007.jpg"><img class="pf" id="i3_0f8" src="assets/shots/pa_008.jpg"><img class="pf" id="i3_0f9" src="assets/shots/pa_009.jpg"><img class="pf" id="i3_0f10" src="assets/shots/pa_010.jpg"><img class="pf" id="i3_0f11" src="assets/shots/pa_011.jpg"><img class="pf" id="i3_0f12" src="assets/shots/pa_012.jpg"><img class="pf" id="i3_0f13" src="assets/shots/pa_013.jpg"><img class="pf" id="i3_0f14" src="assets/shots/pa_014.jpg"><img class="pf" id="i3_0f15" src="assets/shots/pa_015.jpg"><img class="pf" id="i3_0f16" src="assets/shots/pa_016.jpg"><img class="pf" id="i3_0f17" src="assets/shots/pa_017.jpg"><img class="pf" id="i3_0f18" src="assets/shots/pa_018.jpg"><img class="pf" id="i3_0f19" src="assets/shots/pa_019.jpg"><img class="pf" id="i3_0f20" src="assets/shots/pa_020.jpg"><img class="pf" id="i3_0f21" src="assets/shots/pa_021.jpg"><img class="pf" id="i3_0f22" src="assets/shots/pa_022.jpg"><img class="pf" id="i3_0f23" src="assets/shots/pa_023.jpg"><img class="pf" id="i3_0f24" src="assets/shots/pa_024.jpg"><img class="pf" id="i3_0f25" src="assets/shots/pa_025.jpg"><img class="pf" id="i3_0f26" src="assets/shots/pa_026.jpg"><img class="pf" id="i3_0f27" src="assets/shots/pa_027.jpg"><img class="pf" id="i3_0f28" src="assets/shots/pa_028.jpg"><img class="pf" id="i3_0f29" src="assets/shots/pa_029.jpg"><img class="pf" id="i3_0f30" src="assets/shots/pa_030.jpg"><img class="pf" id="i3_0f31" src="assets/shots/pa_031.jpg"><img class="pf" id="i3_0f32" src="assets/shots/pa_032.jpg"><img class="pf" id="i3_0f33" src="assets/shots/pa_033.jpg"><img class="pf" id="i3_0f34" src="assets/shots/pa_034.jpg"><img class="pf" id="i3_0f35" src="assets/shots/pa_035.jpg"><img class="pf" id="i3_0f36" src="assets/shots/pa_036.jpg"><img class="pf" id="i3_0f37" src="assets/shots/pa_037.jpg"><img class="pf" id="i3_0f38" src="assets/shots/pa_038.jpg"><img class="pf" id="i3_0f39" src="assets/shots/pa_039.jpg"><img class="pf" id="i3_0f40" src="assets/shots/pa_040.jpg"><img class="pf" id="i3_0f41" src="assets/shots/pa_041.jpg"><img class="pf" id="i3_0f42" src="assets/shots/pa_042.jpg"><img class="pf" id="i3_0f43" src="assets/shots/pa_043.jpg"><img class="pf" id="i3_0f44" src="assets/shots/pa_044.jpg"><img class="pf" id="i3_0f45" src="assets/shots/pa_045.jpg"><img class="pf" id="i3_0f46" src="assets/shots/pa_046.jpg"><img class="pf" id="i3_0f47" src="assets/shots/pa_047.jpg"><img class="pf" id="i3_0f48" src="assets/shots/pa_048.jpg"><img class="pf" id="i3_0f49" src="assets/shots/pa_049.jpg"></div></div></div>
-      <section id="s0" class="scene"><div class="pwrow"><div class="pw" id="s0-w0"><b>سُبْحانَ</b><i>Glory be to</i></div><div class="pw" id="s0-w1"><b>رَبِّيَ</b><i>my Lord</i></div><div class="pw" id="s0-w2"><b>الْعَظِيمِ</b><i>the Magnificent</i></div></div><div class="kick" id="s0-k">IN RUKU, THREE TIMES</div></section><section id="s4" class="scene"><div class="meet"><div class="tile big" id="s4-t"><span>ر</span><em></em></div><div class="mar" id="s4-a">صَلاتُكَ</div><div class="mname" id="s4-n">Your salah</div><div class="url" id="s4-u">rafiq-arabic.com</div><div class="msub" id="s4-s">The words you say most are free on every plan</div></div></section>
-            <audio id="a-v9-n1" src="assets/vo/v9-n1.mp3" data-start="0.90" data-duration="3.06" data-track-index="20"></audio>
-      <audio id="a-v9-n2" src="assets/vo/v9-n2.mp3" data-start="4.41" data-duration="3.37" data-track-index="21"></audio>
-      <audio id="a-v9-n3" src="assets/vo/v9-n3.mp3" data-start="8.23" data-duration="2.64" data-track-index="20"></audio>
-      <audio id="a-v9-n4" src="assets/vo/v9-n4.mp3" data-start="11.31" data-duration="5.15" data-track-index="21"></audio>
-      <audio id="a-v9-r5" src="assets/vo/v9-r5.mp3" data-start="16.91" data-duration="1.75" data-track-index="20"></audio>
-      <audio id="a-v9-n6" src="assets/vo/v9-n6.mp3" data-start="19.11" data-duration="2.77" data-track-index="21"></audio>
-      <audio id="sfx6" src="assets/sfx/page-turn.mp3" data-start="16.61" data-duration="1.0" data-volume="0.28" data-track-index="11"></audio>
-      <audio id="sfx7" src="assets/sfx/page-turn.mp3" data-start="4.06" data-duration="1.0" data-volume="0.28" data-track-index="11"></audio>
-      <audio id="sfx8" src="assets/sfx/pen-stroke.mp3" data-start="0.00" data-duration="0.9" data-volume="0.6" data-track-index="10"></audio>
-      <audio id="sfx9" src="assets/sfx/fountain.mp3" data-start="0.30" data-duration="23.23" data-volume="0.16" data-fade-in="1" data-fade-out="1.2" data-track-index="8"></audio>
-      <audio id="sfx10" src="assets/sfx/birds.mp3" data-start="0.60" data-duration="15.05" data-volume="0.10" data-fade-in="1.5" data-fade-out="1.5" data-track-index="9"></audio>
+      <div id="caps"><div class="cap" id="cap0"><p>Imagine understanding every word of your salah.</p></div><div class="cap" id="cap1"><p>It starts with the words you say most in every prayer.</p></div><div class="cap" id="cap2"><p>Each one shows what it means, how often you say it, and where it comes up in your lessons.</p></div><div class="cap" id="cap3"><p>Then quick drills: pick the meaning, or hear a word and find it.</p></div><div class="cap" id="cap4"><p>Next, each part of the prayer, word by word, from the opening takbir to the salam.</p></div><div class="cap" id="cap5"><p>And you can watch it grow: how many of the 238 words of your salah you understand.</p></div><div class="cap" id="cap6"><p>Then Pray along takes you through a whole prayer, lighting up each word as it&#x27;s said.</p></div><div class="cap" id="cap7"><p>Understand your salah with <bdi class="ca" lang="ar">رَفِيق</bdi>. Start free at <span class="nw">rafiq-arabic.com</span>.</p></div></div>
+      <div id="phone"><div class="screen"><video class="cl" id="c1" src="assets/clips/mostsaid.mp4" muted playsinline data-start="4.69" data-duration="4.60" data-media-start="0.00" data-track-index="6"></video><img class="cl" id="c1e" src="assets/clips/mostsaid-end-4.6.jpg"><video class="cl" id="c2" src="assets/clips/mostsaid.mp4" muted playsinline data-start="9.34" data-duration="1.40" data-media-start="0.00" data-track-index="5"></video><img class="cl" id="c2e" src="assets/clips/mostsaid-end-1.4.jpg" style="transform-origin:50.0% 35.5%;transform:scale(1.3)"><video class="cl" id="c3" src="assets/clips/quiz.mp4" muted playsinline data-start="16.22" data-duration="6.70" data-media-start="0.90" data-track-index="6"></video><img class="cl" id="c3e" src="assets/clips/quiz-end-7.6.jpg"><video class="cl" id="c4" src="assets/clips/parts.mp4" muted playsinline data-start="22.97" data-duration="3.40" data-media-start="0.00" data-track-index="5"></video><img class="cl" id="c5s" src="assets/clips/part-5.0.jpg"><video class="cl" id="c5" src="assets/clips/part.mp4" muted playsinline data-start="29.35" data-duration="4.70" data-media-start="5.90" data-track-index="6"></video><img class="cl" id="c5e" src="assets/clips/part-end-10.6.jpg"><video class="cl" id="c6" src="assets/clips/count.mp4" muted playsinline data-start="34.10" data-duration="9.80" data-media-start="0.00" data-track-index="5"></video><img class="cl" id="c6e" src="assets/clips/count-end-9.8.jpg"><img class="cl" id="c7s" src="assets/clips/prayalong-2.9.jpg"><video class="cl" id="c7" src="assets/clips/prayalong.mp4" muted playsinline data-start="49.65" data-duration="5.70" data-media-start="2.90" data-track-index="6"></video><img class="cl" id="c7e" src="assets/clips/prayalong-end-8.6.jpg"></div></div>
+      <section id="s0" class="scene"><div class="pwrow"><div class="pw" id="s0-w0"><b>سُبْحانَ</b><i>Glory be to</i></div><div class="pw" id="s0-w1"><b>رَبِّيَ</b><i>my Lord</i></div><div class="pw" id="s0-w2"><b>الْعَظِيمِ</b><i>the Magnificent</i></div></div><div class="kick" id="s0-k">IN RUKU, THREE TIMES</div></section><section id="s7" class="scene"><div class="meet"><div class="tile big" id="s7-t"><span>ر</span><em></em></div><div class="mar" id="s7-a">صَلاتُكَ</div><div class="mname" id="s7-n">Your salah</div><div class="url" id="s7-u">rafiq-arabic.com</div><div class="msub" id="s7-s">The words you say most are free on every plan</div></div></section>
+      <audio id="a-v9-s1" src="assets/vo/v9-s1.mp3" data-start="0.90" data-duration="3.19" data-track-index="20"></audio>
+      <audio id="a-v9-s2" src="assets/vo/v9-s2.mp3" data-start="4.99" data-duration="3.42" data-track-index="20"></audio>
+      <audio id="a-v9-s3" src="assets/vo/v9-s3.mp3" data-start="9.64" data-duration="5.98" data-track-index="20"></audio>
+      <audio id="a-v9-s4" src="assets/vo/v9-s4.mp3" data-start="16.52" data-duration="4.91" data-track-index="20"></audio>
+      <audio id="s4" src="assets/app/cnwmz1.mp3" data-start="18.49" data-duration="0.97" data-volume="0.35" data-track-index="12"></audio>
+      <audio id="s5" src="assets/app/cnwmz1.mp3" data-start="21.08" data-duration="0.97" data-volume="0.35" data-track-index="12"></audio>
+      <audio id="s6" src="assets/app/correct.mp3" data-start="21.08" data-duration="0.63" data-volume="0.19" data-track-index="12"></audio>
+      <audio id="s7" src="assets/app/y64x5r.mp3" data-start="22.60" data-duration="0.86" data-volume="1.0" data-track-index="12"></audio>
+      <audio id="a-v9-s5" src="assets/vo/v9-s5.mp3" data-start="23.27" data-duration="5.93" data-track-index="20"></audio>
+      <audio id="s9" src="assets/app/mh3v86.mp3" data-start="29.63" data-duration="4.86" data-volume="1.0" data-track-index="12"></audio>
+      <audio id="a-v9-s6" src="assets/vo/v9-s6.mp3" data-start="34.40" data-duration="6.35" data-track-index="20"></audio>
+      <audio id="a-v9-s7" src="assets/vo/v9-s7.mp3" data-start="44.25" data-duration="5.25" data-track-index="20"></audio>
+      <audio id="s12" src="assets/app/1euje57.mp3" data-start="49.99" data-duration="2.93" data-volume="1.0" data-track-index="12"></audio>
+      <audio id="a-v9-s8" src="assets/vo/v9-s8.mp3" data-start="55.70" data-duration="4.60" data-track-index="20"></audio>
+      <audio id="pt0" src="assets/sfx/page-turn.mp3" data-start="4.64" data-duration="1.0" data-volume="0.22" data-track-index="11"></audio>
+      <audio id="pen" src="assets/sfx/pen-stroke.mp3" data-start="0.00" data-duration="0.9" data-volume="0.6" data-track-index="10"></audio>
+      <audio id="amb1" src="assets/sfx/fountain.mp3" data-start="0.30" data-duration="62.20" data-volume="0.12" data-fade-in="1" data-fade-out="1.2" data-track-index="8"></audio>
+      <audio id="amb2" src="assets/sfx/birds.mp3" data-start="0.60" data-duration="15.05" data-volume="0.08" data-fade-in="1.5" data-fade-out="1.5" data-track-index="9"></audio>
     </div>
     <script>
       const tl = gsap.timeline({ paused: true });
       tl.fromTo("#ink", {scaleX:0, opacity:1}, {scaleX:1, opacity:1, duration:0.42, ease:"power3.out"}, 0.0);
       tl.to("#ink", {opacity:0, duration:0.35, ease:"sine.in"}, 0.55);
       tl.fromTo("#brand", {opacity:0, y:-12}, {opacity:1, y:0, duration:0.6, ease:"power3.out"}, 0.35);
-      tl.fromTo("#glow", {scale:0.92}, {scale:1.08, duration:23.53, ease:"none"}, 0);
-            tl.fromTo("#cap0", {opacity:0, y:14}, {opacity:1, y:0, duration:0.35, ease:"power2.out"}, 0.75);
-      tl.to("#cap0", {opacity:0, duration:0.25}, 4.11);
+      tl.fromTo("#glow", {scale:0.92}, {scale:1.08, duration:62.5, ease:"none"}, 0);
       tl.fromTo("#s0", {opacity:0}, {opacity:1, duration:0.35}, 0.60);
       tl.fromTo("#s0 .pw b", {opacity:0, y:30}, {opacity:1, y:0, duration:0.6, ease:"power3.out", stagger:0.25}, 1.00);
       tl.fromTo("#s0-w0 i", {opacity:0, y:-10}, {opacity:1, y:0, duration:0.5, ease:"power2.out"}, 1.90);
       tl.fromTo("#s0-w1 i", {opacity:0, y:-10}, {opacity:1, y:0, duration:0.5, ease:"power2.out"}, 2.35);
       tl.fromTo("#s0-w2 i", {opacity:0, y:-10}, {opacity:1, y:0, duration:0.5, ease:"power2.out"}, 2.80);
       tl.fromTo("#s0-k", {opacity:0}, {opacity:1, duration:0.5}, 3.30);
-      tl.to("#s0", {opacity:0, duration:0.3}, 4.11);
-      tl.fromTo("#cap1", {opacity:0, y:14}, {opacity:1, y:0, duration:0.35, ease:"power2.out"}, 4.26);
-      tl.to("#cap1", {opacity:0, duration:0.25}, 7.93);
-      tl.fromTo("#i1_0", {opacity:0}, {opacity:1, duration:0.3}, 4.11);
-      tl.set("#i1_0 img", {transformOrigin:"50.0% 35.5%"}, 0);
-      tl.fromTo("#i1_0 img", {scale:1}, {scale:1.1, duration:1.80, ease:"power1.inOut"}, 4.61);
-      tl.to("#i1_0", {opacity:0, duration:0.3}, 6.21);
-      tl.fromTo("#i1_1", {opacity:0}, {opacity:1, duration:0.3}, 6.21);
-      tl.to("#i1_1", {opacity:0, duration:0.3}, 7.93);
-      tl.fromTo("#cap2", {opacity:0, y:14}, {opacity:1, y:0, duration:0.35, ease:"power2.out"}, 8.08);
-      tl.to("#cap2", {opacity:0, duration:0.25}, 11.01);
-      tl.fromTo("#i2_0", {opacity:0}, {opacity:1, duration:0.3}, 7.93);
-      tl.to("#i2_0", {opacity:0, duration:0.3}, 9.47);
-      tl.fromTo("#i2_1", {opacity:0}, {opacity:1, duration:0.3}, 9.47);
-      tl.to("#i2_1", {opacity:0, duration:0.3}, 11.01);
-      tl.fromTo("#cap3", {opacity:0, y:14}, {opacity:1, y:0, duration:0.35, ease:"power2.out"}, 11.16);
-      tl.to("#cap3", {opacity:0, duration:0.25}, 16.61);
-      tl.fromTo("#i3_0", {opacity:0}, {opacity:1, duration:0.3}, 11.01);
-      tl.set("#i3_0f0", {opacity:1}, 11.31);
-      tl.set("#i3_0f1", {opacity:1}, 11.45);
-      tl.set("#i3_0f0", {opacity:0}, 11.45);
-      tl.set("#i3_0f2", {opacity:1}, 11.59);
-      tl.set("#i3_0f1", {opacity:0}, 11.59);
-      tl.set("#i3_0f3", {opacity:1}, 11.73);
-      tl.set("#i3_0f2", {opacity:0}, 11.73);
-      tl.set("#i3_0f4", {opacity:1}, 11.87);
-      tl.set("#i3_0f3", {opacity:0}, 11.87);
-      tl.set("#i3_0f5", {opacity:1}, 12.01);
-      tl.set("#i3_0f4", {opacity:0}, 12.01);
-      tl.set("#i3_0f6", {opacity:1}, 12.15);
-      tl.set("#i3_0f5", {opacity:0}, 12.15);
-      tl.set("#i3_0f7", {opacity:1}, 12.29);
-      tl.set("#i3_0f6", {opacity:0}, 12.29);
-      tl.set("#i3_0f8", {opacity:1}, 12.43);
-      tl.set("#i3_0f7", {opacity:0}, 12.43);
-      tl.set("#i3_0f9", {opacity:1}, 12.57);
-      tl.set("#i3_0f8", {opacity:0}, 12.57);
-      tl.set("#i3_0f10", {opacity:1}, 12.71);
-      tl.set("#i3_0f9", {opacity:0}, 12.71);
-      tl.set("#i3_0f11", {opacity:1}, 12.85);
-      tl.set("#i3_0f10", {opacity:0}, 12.85);
-      tl.set("#i3_0f12", {opacity:1}, 12.99);
-      tl.set("#i3_0f11", {opacity:0}, 12.99);
-      tl.set("#i3_0f13", {opacity:1}, 13.13);
-      tl.set("#i3_0f12", {opacity:0}, 13.13);
-      tl.set("#i3_0f14", {opacity:1}, 13.27);
-      tl.set("#i3_0f13", {opacity:0}, 13.27);
-      tl.set("#i3_0f15", {opacity:1}, 13.41);
-      tl.set("#i3_0f14", {opacity:0}, 13.41);
-      tl.set("#i3_0f16", {opacity:1}, 13.55);
-      tl.set("#i3_0f15", {opacity:0}, 13.55);
-      tl.set("#i3_0f17", {opacity:1}, 13.69);
-      tl.set("#i3_0f16", {opacity:0}, 13.69);
-      tl.set("#i3_0f18", {opacity:1}, 13.83);
-      tl.set("#i3_0f17", {opacity:0}, 13.83);
-      tl.set("#i3_0f19", {opacity:1}, 13.97);
-      tl.set("#i3_0f18", {opacity:0}, 13.97);
-      tl.set("#i3_0f20", {opacity:1}, 14.11);
-      tl.set("#i3_0f19", {opacity:0}, 14.11);
-      tl.set("#i3_0f21", {opacity:1}, 14.25);
-      tl.set("#i3_0f20", {opacity:0}, 14.25);
-      tl.set("#i3_0f22", {opacity:1}, 14.39);
-      tl.set("#i3_0f21", {opacity:0}, 14.39);
-      tl.set("#i3_0f23", {opacity:1}, 14.53);
-      tl.set("#i3_0f22", {opacity:0}, 14.53);
-      tl.set("#i3_0f24", {opacity:1}, 14.67);
-      tl.set("#i3_0f23", {opacity:0}, 14.67);
-      tl.set("#i3_0f25", {opacity:1}, 14.81);
-      tl.set("#i3_0f24", {opacity:0}, 14.81);
-      tl.set("#i3_0f26", {opacity:1}, 14.95);
-      tl.set("#i3_0f25", {opacity:0}, 14.95);
-      tl.set("#i3_0f27", {opacity:1}, 15.09);
-      tl.set("#i3_0f26", {opacity:0}, 15.09);
-      tl.set("#i3_0f28", {opacity:1}, 15.23);
-      tl.set("#i3_0f27", {opacity:0}, 15.23);
-      tl.set("#i3_0f29", {opacity:1}, 15.37);
-      tl.set("#i3_0f28", {opacity:0}, 15.37);
-      tl.set("#i3_0f30", {opacity:1}, 15.51);
-      tl.set("#i3_0f29", {opacity:0}, 15.51);
-      tl.set("#i3_0f31", {opacity:1}, 15.65);
-      tl.set("#i3_0f30", {opacity:0}, 15.65);
-      tl.set("#i3_0f32", {opacity:1}, 15.79);
-      tl.set("#i3_0f31", {opacity:0}, 15.79);
-      tl.set("#i3_0f33", {opacity:1}, 15.93);
-      tl.set("#i3_0f32", {opacity:0}, 15.93);
-      tl.set("#i3_0f34", {opacity:1}, 16.07);
-      tl.set("#i3_0f33", {opacity:0}, 16.07);
-      tl.set("#i3_0f35", {opacity:1}, 16.21);
-      tl.set("#i3_0f34", {opacity:0}, 16.21);
-      tl.set("#i3_0f36", {opacity:1}, 16.35);
-      tl.set("#i3_0f35", {opacity:0}, 16.35);
-      tl.set("#i3_0f37", {opacity:1}, 16.49);
-      tl.set("#i3_0f36", {opacity:0}, 16.49);
-      tl.set("#i3_0f38", {opacity:1}, 16.63);
-      tl.set("#i3_0f37", {opacity:0}, 16.63);
-      tl.set("#i3_0f39", {opacity:1}, 16.77);
-      tl.set("#i3_0f38", {opacity:0}, 16.77);
-      tl.set("#i3_0f40", {opacity:1}, 16.91);
-      tl.set("#i3_0f39", {opacity:0}, 16.91);
-      tl.set("#i3_0f41", {opacity:1}, 17.05);
-      tl.set("#i3_0f40", {opacity:0}, 17.05);
-      tl.set("#i3_0f42", {opacity:1}, 17.19);
-      tl.set("#i3_0f41", {opacity:0}, 17.19);
-      tl.set("#i3_0f43", {opacity:1}, 17.33);
-      tl.set("#i3_0f42", {opacity:0}, 17.33);
-      tl.set("#i3_0f44", {opacity:1}, 17.47);
-      tl.set("#i3_0f43", {opacity:0}, 17.47);
-      tl.set("#i3_0f45", {opacity:1}, 17.61);
-      tl.set("#i3_0f44", {opacity:0}, 17.61);
-      tl.set("#i3_0f46", {opacity:1}, 17.75);
-      tl.set("#i3_0f45", {opacity:0}, 17.75);
-      tl.set("#i3_0f47", {opacity:1}, 17.89);
-      tl.set("#i3_0f46", {opacity:0}, 17.89);
-      tl.set("#i3_0f48", {opacity:1}, 18.03);
-      tl.set("#i3_0f47", {opacity:0}, 18.03);
-      tl.set("#i3_0f49", {opacity:1}, 18.17);
-      tl.set("#i3_0f48", {opacity:0}, 18.17);
-      tl.to("#i3_0", {opacity:0, duration:0.3}, 16.61);
-      tl.fromTo("#cap4", {opacity:0, y:14}, {opacity:1, y:0, duration:0.35, ease:"power2.out"}, 16.76);
-      tl.to("#cap4", {opacity:0, duration:0.25}, 18.81);
-      tl.fromTo("#s4", {opacity:0}, {opacity:1, duration:0.35}, 16.61);
-      tl.fromTo("#s4-t", {opacity:0, scale:0.7}, {opacity:1, scale:1, duration:0.6, ease:"back.out(1.7)"}, 16.91);
-      tl.fromTo("#s4-a", {opacity:0, y:20}, {opacity:1, y:0, duration:0.6, ease:"power3.out"}, 17.11);
-      tl.fromTo("#s4-n", {opacity:0, y:20}, {opacity:1, y:0, duration:0.6, ease:"power3.out"}, 17.26);
-      tl.fromTo("#s4-u", {opacity:0, scale:0.9}, {opacity:1, scale:1, duration:0.5, ease:"back.out(1.6)"}, 17.71);
-      tl.fromTo("#s4-s", {opacity:0}, {opacity:1, duration:0.5}, 18.01);
-      tl.fromTo("#s4 .meet", {scale:1}, {scale:1.04, duration:6.42, ease:"sine.inOut"}, 17.11);
-      tl.fromTo("#cap5", {opacity:0, y:14}, {opacity:1, y:0, duration:0.35, ease:"power2.out"}, 18.96);
-      tl.fromTo("#phone", {opacity:0, y:80}, {opacity:1, y:0, duration:0.5, ease:"power3.out"}, 4.06);
-      tl.to("#phone", {opacity:0, y:40, duration:0.3, ease:"power2.in"}, 16.61);
+      tl.to("#s0", {opacity:0, duration:0.3}, 4.69);
+      tl.fromTo("#c1", {opacity:0}, {opacity:1, duration:0.3}, 4.69);
+      tl.set("#c1e", {opacity:1}, 9.23);
+      tl.to(["#c1", "#c1e"], {opacity:0, duration:0.3}, 9.34);
+      tl.fromTo("#c2", {opacity:0}, {opacity:1, duration:0.3}, 9.34);
+      tl.set("#c2", {transformOrigin:"50.0% 35.5%"}, 0);
+      tl.fromTo("#c2", {scale:1}, {scale:1.3, duration:0.84, ease:"power2.inOut"}, 9.64);
+      tl.set("#c2e", {opacity:1}, 10.68);
+      tl.to(["#c2", "#c2e"], {opacity:0, duration:0.3}, 16.22);
+      tl.fromTo("#c3", {opacity:0}, {opacity:1, duration:0.3}, 16.22);
+      tl.set("#c3e", {opacity:1}, 22.86);
+      tl.to(["#c3", "#c3e"], {opacity:0, duration:0.3}, 22.97);
+      tl.fromTo("#c4", {opacity:0}, {opacity:1, duration:0.3}, 22.97);
+      tl.to("#c4", {opacity:0, duration:0.3}, 26.32);
+      tl.fromTo("#c5s", {opacity:0}, {opacity:1, duration:0.3}, 26.32);
+      tl.set("#c5s", {opacity:0}, 29.45);
+      tl.fromTo("#c5", {opacity:0}, {opacity:1, duration:0.01}, 29.35);
+      tl.set("#c5e", {opacity:1}, 33.99);
+      tl.to(["#c5", "#c5e"], {opacity:0, duration:0.3}, 34.10);
+      tl.fromTo("#c6", {opacity:0}, {opacity:1, duration:0.3}, 34.10);
+      tl.set("#c6e", {opacity:1}, 43.84);
+      tl.to(["#c6", "#c6e"], {opacity:0, duration:0.3}, 43.95);
+      tl.fromTo("#c7s", {opacity:0}, {opacity:1, duration:0.3}, 43.95);
+      tl.set("#c7s", {opacity:0}, 49.75);
+      tl.fromTo("#c7", {opacity:0}, {opacity:1, duration:0.01}, 49.65);
+      tl.set("#c7e", {opacity:1}, 55.29);
+      tl.to(["#c7", "#c7e"], {opacity:0, duration:0.3}, 55.40);
+      tl.fromTo("#s7", {opacity:0}, {opacity:1, duration:0.35}, 55.40);
+      tl.fromTo("#s7-t", {opacity:0, scale:0.7}, {opacity:1, scale:1, duration:0.6, ease:"back.out(1.7)"}, 55.70);
+      tl.fromTo("#s7-a", {opacity:0, y:20}, {opacity:1, y:0, duration:0.6, ease:"power3.out"}, 55.90);
+      tl.fromTo("#s7-n", {opacity:0, y:20}, {opacity:1, y:0, duration:0.6, ease:"power3.out"}, 56.05);
+      tl.fromTo("#s7-u", {opacity:0, scale:0.9}, {opacity:1, scale:1, duration:0.5, ease:"back.out(1.6)"}, 56.50);
+      tl.fromTo("#s7-s", {opacity:0}, {opacity:1, duration:0.5}, 56.80);
+      tl.fromTo("#s7 .meet", {scale:1}, {scale:1.04, duration:5.30, ease:"sine.inOut"}, 55.90);
+      tl.fromTo("#cap0", {opacity:0, y:14}, {opacity:1, y:0, duration:0.35, ease:"power2.out"}, 0.75);
+      tl.to("#cap0", {opacity:0, duration:0.25}, 4.69);
+      tl.fromTo("#cap1", {opacity:0, y:14}, {opacity:1, y:0, duration:0.35, ease:"power2.out"}, 4.84);
+      tl.to("#cap1", {opacity:0, duration:0.25}, 9.34);
+      tl.fromTo("#cap2", {opacity:0, y:14}, {opacity:1, y:0, duration:0.35, ease:"power2.out"}, 9.49);
+      tl.to("#cap2", {opacity:0, duration:0.25}, 16.22);
+      tl.fromTo("#cap3", {opacity:0, y:14}, {opacity:1, y:0, duration:0.35, ease:"power2.out"}, 16.37);
+      tl.to("#cap3", {opacity:0, duration:0.25}, 22.97);
+      tl.fromTo("#cap4", {opacity:0, y:14}, {opacity:1, y:0, duration:0.35, ease:"power2.out"}, 23.12);
+      tl.to("#cap4", {opacity:0, duration:0.25}, 34.10);
+      tl.fromTo("#cap5", {opacity:0, y:14}, {opacity:1, y:0, duration:0.35, ease:"power2.out"}, 34.25);
+      tl.to("#cap5", {opacity:0, duration:0.25}, 43.95);
+      tl.fromTo("#cap6", {opacity:0, y:14}, {opacity:1, y:0, duration:0.35, ease:"power2.out"}, 44.10);
+      tl.to("#cap6", {opacity:0, duration:0.25}, 55.40);
+      tl.fromTo("#cap7", {opacity:0, y:14}, {opacity:1, y:0, duration:0.35, ease:"power2.out"}, 55.55);
+      tl.fromTo("#phone", {opacity:0, y:70}, {opacity:1, y:0, duration:0.5, ease:"power3.out"}, 4.64);
+      tl.to("#phone", {opacity:0, y:40, duration:0.3, ease:"power2.in"}, 55.40);
       window.__timelines = window.__timelines || {};
       window.__timelines["main"] = tl;
     </script>

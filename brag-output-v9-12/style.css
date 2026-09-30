@@ -22,22 +22,23 @@ body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--la
 .tile.big span { font-size:128px; margin-top:-18px; }
 .tile.big em { width:30px; height:30px; right:32px; top:30px; }
 
-#caps { position:absolute; top:180px; left:70px; right:70px; height:270px; }
+#caps { position:absolute; top:150px; left:70px; right:70px; height:270px; }
 .cap { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; opacity:0;
-  font-size:58px; line-height:1.18; font-weight:700; letter-spacing:-.01em; }
+  font-size:54px; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
 .cap .ca { font-family:var(--ar); font-weight:600; color:var(--rubric); unicode-bidi:isolate; }
 .cap p { margin:0; }
 .cap .nw { white-space:nowrap; }
 
-#phone { position:absolute; left:110px; top:478px; width:860px; height:1815px; border-radius:96px; background:var(--ink); padding:20px; box-sizing:border-box;
-  box-shadow:0 60px 90px -40px rgba(23,38,43,.55), 0 8px 24px -8px rgba(23,38,43,.35); opacity:0; }
-.screen { position:relative; width:820px; height:1775px; border-radius:76px; overflow:hidden; background:var(--paper); }
+#phone { position:absolute; left:208px; top:440px; width:664px; height:1399px; border-radius:82px; background:var(--ink); padding:16px; box-sizing:border-box;
+  box-shadow:0 50px 80px -40px rgba(23,38,43,.55), 0 8px 24px -8px rgba(23,38,43,.35); opacity:0; }
+.screen { position:relative; width:632px; height:1367px; border-radius:66px; overflow:hidden; background:var(--paper); }
+.cl { position:absolute; left:0; top:0; width:632px; height:1367px; object-fit:cover; opacity:0; }
 .shot { position:absolute; left:0; right:0; top:0; height:1775px; opacity:0; }
 .shot img { position:absolute; inset:0; width:100%; height:100%; }
 .shot img.pf { opacity:0; }
 .tap { position:absolute; width:150px; height:150px; margin:-75px 0 0 -75px; border-radius:50%; background:rgba(46,114,99,.35); border:4px solid rgba(46,114,99,.9); opacity:0; }
 
-.scene { position:absolute; left:0; right:0; top:478px; height:1400px; display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; }
+.scene { position:absolute; left:0; right:0; top:440px; height:1400px; display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; }
 .kick { font-family:var(--ut); font-size:30px; letter-spacing:.14em; color:var(--ink-soft); margin-top:70px; }
 
 .pwrow { display:flex; flex-direction:row-reverse; gap:44px; }

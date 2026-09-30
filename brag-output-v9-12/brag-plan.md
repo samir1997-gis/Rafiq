@@ -45,6 +45,29 @@ The review scene shows the app's real review gaps: a new word remembered each ti
 
 **v12 Meet Rafiq (22.1s)**: three words blur away ("one week later…") → Meet Rafiq → a new word → the conversation → the review gaps → the ending.
 
+
+## Second cut (owner feedback, 30 Sep 2026)
+The first cut was too fast, showed too little of the features, cut screens off at the phone's edges, and the owner didn't like the narrator's voice. What changed:
+- **Voice:** Sara (ElevenLabs jAAHNNqlbAX9iWjJPEtE), at speed 0.92 (`tools/v9-12-lines-sara.json`).
+- **Pace:** about 1 second after every line. A demo that makes sounds (a word being said, a letter, a part of the prayer) plays after the line, so Sara never talks over the app. Any app sound under her voice is quieter. TypeSafe rated the scripts' pace 1.85–1.94 out of 2, where 2 means right; the first cut scored about 0.9 (`tools/typesafe-exp/videos_v13_scripts.py`).
+- **Live:** `capture.py` drives the real app and saves a frame at every change with its real timing, plus the app's own sounds. On screen:
+  - a tile sentence built and marked right;
+  - a spelling bee word typed on the Arabic keyboard;
+  - a question typed to the tutor, with the answer appearing;
+  - a wrong answer, then Why?;
+  - a reply typed in a real-life scene, then "Good reply";
+  - the salah count growing from 24 to 138 of 238;
+  - Pray along lighting up each word.
+- **Features:** the ones TypeSafe found make people most want to pay (`videos_v13_features.py`: Pray along, the salah features, the tutor, weak spots, scenes). Also every part of Your salah and the spelling bee, which the owner asked for.
+- **Phone:** always fully in frame. The only zoom is one gentle move onto a most-said word.
+
+| Video | Length | Features shown working |
+|---|---|---|
+| v12 Meet Rafiq | 45s | new words, the most-said salah words, Pray along, the tutor, the review gaps |
+| v9 Your salah | 63s | most-said words, the two drills, the parts, the tashahhud, the count growing, Pray along |
+| v10 What's in Complete | 48s | Plans, Pray along, the tutor, Why?, a real-life scene reply, the weak-spots review |
+| v11 How Rafiq works | 69s | Continue, the alphabet, new words, the conversation, a grammar note, tiles, the review gaps, the spelling bee, Your salah |
+
 ## Before posting
 - v10 shows the AI tutor, and v9, v10 and v11 show Your salah. Post them only once both are live: the Claude key (#154), and the teacher's sign-off for Your salah (#98).
 - The tutor's answers on screen are ones I wrote for the demo, matching what the tutor is told to do. Check them the next time a teacher reviews.

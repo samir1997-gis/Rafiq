@@ -1,25 +1,27 @@
 #!/usr/bin/env python3
-"""Builds the four vertical videos (#155) as Hyperframes compositions:
+"""Builds the four vertical videos (#155) as Hyperframes compositions, second cut:
 brag-output-v9 (Your salah), v10 (What's in Complete), v11 (How Rafiq works), v12 (Meet Rafiq).
 
-One layout for all four, 1080x1920: the voiceover line as a caption at the top and the real
-app in a phone below (screens captured from the app at phone size, shots/), with a few designed
-scenes in the phone's place (the hook, the review gaps, Meet Rafiq, the ending).
-Voice: ElevenLabs (vo-el/, tools/v9-12-lines.json). Sound: v6's fountain and birdsong, no music.
+1080x1920. The spoken line as a caption at the top; below it the whole phone, always in frame, playing
+clips of the real app working (capture.py: tapping, typing, words lighting up, with the app's own sounds);
+designed scenes in the phone's place for the hook, Meet Rafiq, the review gaps and the ending.
+Pace: every line is followed by a pause, and a demo that makes sounds plays after the line, so the
+narration never talks over the app. Voice: Sara (ElevenLabs, vo-sara/, tools/v9-12-lines-sara.json).
+Sound: v6's fountain and birdsong, no music.
 
-  python3 brag-output-v9-12/build.py      then, per video:  cd brag-output-vN/composition && npx hyperframes check
+  python3 brag-output-v9-12/capture.py (with the site served, see there), then python3 brag-output-v9-12/build.py,
+  then per video: cd brag-output-vN/composition && npx hyperframes check && npx hyperframes render -o ../brag.mp4
 """
-import html, json, os, shutil, subprocess
+import html, json, os, re, shutil, subprocess
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 V6 = os.path.join(ROOT, "brag-output-v6/composition/assets")
-GAP, LEAD = 0.45, 0.9               # silence between lines; the opening ink stroke before the first line
 SW, SH = 390, 844                   # the app's CSS size in the captures
+LEAD, GAP, TAIL = 0.9, 0.9, 0.35     # before the first line; after each line; after each demo
 
 def dur(p): return float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", p]).decode())
 def ar(s): return html.escape(s)
 # captions: Arabic inside English lines in the Arabic font
 def cap(s):
-    import re
     t = re.sub(r"([؀-ۿ][؀-ۿ\s]*[؀-ۿ]|[؀-ۿ])", lambda m: f'<bdi class="ca" lang="ar">{m.group(0)}</bdi>', html.escape(s))
     return t.replace("rafiq-arabic.com", '<span class="nw">rafiq-arabic.com</span>')
 
@@ -89,134 +91,158 @@ def scene_outro(title_ar, title_en, note):
 SCENES = {"prayer_words": scene_prayer_words, "forget": scene_forget, "meet": scene_meet, "review": scene_review}
 
 # ---- the four videos -----------------------------------------------------------------------
-# each line: (voice file, caption or None to use the spoken text, visual)
-# visual: ("scene", name) | ("phone", [(shot, fraction of the line, effect)]) | ("pa",) the Pray along frames
-# effects: "" | "zoom:x,y,scale" (x, y in the app's CSS pixels) | "tap:x,y" | "y:N" scroll the app N CSS px up, since the
-# phone runs off the bottom of the frame and shows about 680 of the app's 844 px; combine with ";"
-LINES = {l["file"]: l["text"] for l in json.load(open(os.path.join(ROOT, "tools/v9-12-lines.json")))}
+# a line: (Sara's line id, visual). visual: ("scene", name or maker) | [demo, ...] | None (keep the last)
+# a demo: (clip, how, start, end, zoom): how "with" plays it under the line, "after" holds its first frame
+# under the line and plays it once the line is spoken (for demos with sound); start/end trim the clip (s);
+# zoom "x,y,scale" eases in on that point (the app's CSS px) while it plays; an optional 6th value is the time of the
+# frame held under the line in "after" mode (e.g. a settled screen, then the next word being said).
+LINES = {l["file"]: l["text"] for l in json.load(open(os.path.join(ROOT, "tools/v9-12-lines-sara.json")))}
+END = lambda t: ("scene", scene_outro("رَفِيق", t, "Free for a week · no card needed"))
 VIDEOS = {
+ "v12": ("Meet Rafiq", [
+   ("v12-s1", ("scene", "forget")),
+   ("v12-s2", ("scene", "meet")),
+   ("v12-s3", [("words", "after", 3.3, 6.7, "", 3.2)]),
+   ("v12-s4", [("mostsaid", "with", 0, 2.2, ""), ("prayalong", "after", 2.9, 7.2, "")]),
+   ("v12-s5", [("tutor", "with", 0.4, 8.2, "")]),
+   ("v12-s6", ("scene", "review")),
+   ("v12-s7", END("Rafiq")),
+ ]),
  "v9": ("Your salah", [
-   ("v9-n1", None, ("scene", "prayer_words")),
-   ("v9-n2", None, ("phone", [("ruku", 0, "zoom:195,300,1.1"), ("quiz_q", 0.55, "y:70")])),
-   ("v9-n3", None, ("phone", [("part_rising", 0, "y:70"), ("salah_map", 0.5, "")])),
-   ("v9-n4", None, ("pa",)),
-   ("v9-r5", "Your salah, in رَفِيق.", ("scene", scene_outro("صَلاتُكَ", "Your salah", "The words you say most are free on every plan"))),
-   ("v9-n6", None, None),
+   ("v9-s1", ("scene", "prayer_words")),
+   ("v9-s2", [("mostsaid", "with", 0, 4.6, "")]),
+   ("v9-s3", [("mostsaid", "with", 0, 1.4, "195,300,1.3")]),
+   ("v9-s4", [("quiz", "with", 0.9, 7.6, "")]),
+   ("v9-s5", [("parts", "with", 0, 3.4, ""), ("part", "after", 5.9, 10.6, "", 5.0)]),
+   ("v9-s6", [("count", "with", 0, 9.8, "")]),
+   ("v9-s7", [("prayalong", "after", 2.9, 8.6, "")]),
+   ("v9-s8", ("scene", scene_outro("صَلاتُكَ", "Your salah", "The words you say most are free on every plan"))),
  ]),
  "v10": ("What's in Complete", [
-   ("v10-n1", None, ("phone", [("plans_complete", 0, "")])),
-   ("v10-n2", None, ("pa",)),
-   ("v10-n3", "Your own tutor: ask anything, or tap Why? after a mistake.", ("phone", [("tutor0", 0, "tap:150,250"), ("tutor1", 0.28, ""), ("quiz_wrong", 0.6, "tap:292,24"), ("why", 0.78, "y:164")])),
-   ("v10-n4", None, ("phone", [("scenes", 0, ""), ("scene_masjid", 0.5, "")])),
-   ("v10-n5", None, ("phone", [("practise", 0, "y:40;zoom:195,345,1.15")])),
-   ("v10-n6", None, ("scene", scene_outro("رَفِيق", "Rafiq Complete", "Free for a week · no card needed"))),
+   ("v10-s1", [("plans", "with", 0, 3.7, "")]),
+   ("v10-s2", [("prayalong", "with", 2.9, 8.6, "")]),
+   ("v10-s3", [("tutor", "with", 0.4, 8.6, "")]),
+   ("v10-s4", [("why", "with", 0.6, 7.6, "")]),
+   ("v10-s5", [("scene", "with", 0.8, 9.2, "")]),
+   ("v10-s6", [("weak", "with", 0, 5.7, "")]),
+   ("v10-s7", END("Rafiq Complete")),
  ]),
  "v11": ("How Rafiq works", [
-   ("v11-n1", None, ("phone", [("home", 0, "")])),
-   ("v11-n2", None, ("phone", [("home", 0, "tap:150,256")])),
-   ("v11-n3", None, ("phone", [("alpha", 0, "y:40")])),
-   ("v11-n4", None, ("phone", [("words1", 0, "y:80")])),
-   ("v11-n5", None, ("phone", [("listen", 0, "y:70"), ("grammar", 0.5, "y:70")])),
-   ("v11-n6", None, ("phone", [("tiles0", 0, "zoom:195,330,1.08")])),
-   ("v11-n7", None, ("scene", "review")),
-   ("v11-n8", None, ("phone", [("practise", 0, ""), ("salah_map", 0.55, "")])),
-   ("v11-n9", None, ("scene", scene_outro("رَفِيق", "Rafiq", "Free for a week · no card needed"))),
- ]),
- "v12": ("Meet Rafiq", [
-   ("v12-n1", None, ("scene", "forget")),
-   ("v12-r2", "Meet رَفِيق.", ("scene", "meet")),
-   ("v12-n3", None, ("phone", [("words1", 0, "y:80"), ("listen", 0.55, "y:70")])),
-   ("v12-n4", None, ("scene", "review")),
-   ("v12-n5", None, ("scene", scene_outro("رَفِيق", "Rafiq", "Free for a week · no card needed"))),
+   ("v11-s1", [("home", "with", 0, 1.9, "")]),
+   ("v11-s2", [("home", "with", 0.3, 5.9, "")]),
+   ("v11-s3", [("letters", "with", 0.4, 6.2, "")]),
+   ("v11-s4", [("words", "after", 3.3, 6.7, "", 3.2)]),
+   ("v11-s5", [("listen", "after", 0.8, 3.6, ""), ("listen", "with", 8.2, 11.5, "")]),
+   ("v11-s6", [("tiles", "with", 0.9, 5.8, "")]),
+   ("v11-s7", ("scene", "review")),
+   ("v11-s8", [("spelling", "with", 0.8, 5.6, "")]),
+   ("v11-s9", [("mostsaid", "with", 0, 3.4, "")]),
+   ("v11-s10", END("Rafiq")),
  ]),
 }
+# sounds the recorder missed or doubled, per clip: [seconds, file]
+SOUNDS = {"listen": [[1.05, "audio/1u2523z.mp3"]]}
 
 CSS = open(os.path.join(HERE, "style.css")).read()
+
+def sounds_of(clip):
+    s = SOUNDS.get(clip) or json.load(open(os.path.join(HERE, "clips", clip + ".json")))["sounds"]
+    s = sorted(s)
+    # the app has one shared player: a sound cut off by the next one within 0.3s never really played
+    return [x for i, x in enumerate(s) if not (i + 1 < len(s) and s[i + 1][0] - x[0] < 0.3 and s[i + 1][1].startswith("audio/") and x[1].startswith("audio/"))]
 
 def build(vid, title, lines):
     out = os.path.join(ROOT, f"brag-output-{vid}/composition"); a = os.path.join(out, "assets")
     if os.path.exists(out): shutil.rmtree(out)
-    for d in ("fonts", "lib", "vo", "shots", "sfx"): os.makedirs(os.path.join(a, d), exist_ok=True)
+    for d in ("fonts", "lib", "vo", "clips", "sfx", "app"): os.makedirs(os.path.join(a, d), exist_ok=True)
     for f in os.listdir(os.path.join(V6, "fonts")): shutil.copy(os.path.join(V6, "fonts", f), os.path.join(a, "fonts"))
     shutil.copy(os.path.join(V6, "lib/gsap.min.js"), os.path.join(a, "lib"))
     for f in ("fountain.mp3", "birds.mp3", "page-turn.mp3", "pen-stroke.mp3"): shutil.copy(os.path.join(V6, "sfx-gen", f), os.path.join(a, "sfx"))
-    shutil.copy(os.path.join(V6, "sfx/click_003.ogg"), os.path.join(a, "sfx"))
 
-    # timing: each line's window runs from its voice's start to the next line's start
-    t, rows = LEAD, []
-    for i, (vo, caption, vis) in enumerate(lines):
-        src = os.path.join(HERE, "vo-el", vo + ".mp3"); shutil.copy(src, os.path.join(a, "vo"))
-        d = dur(src); rows.append([vo, caption or LINES[vo], vis, t, d]); t += d + GAP
-    total = round(t + 1.2, 2)
-    for i, r in enumerate(rows): r.append((rows[i + 1][3] if i + 1 < len(rows) else total) - r[3])   # window
-    capwin = [r[5] for r in rows]                     # each caption keeps its own line's window
-    # a line with no visual keeps the one before (the ending holds under the last line)
-    for i, r in enumerate(rows):
-        if r[2] is None: rows[i - 1][5] += r[5]
-
-    shots, scenes, js, audio, sfx_at = [], [], [], [], []
-    phone_on = []                                      # (start, end) the phone is showing
-    for i, (vo, text, vis, t0, d, win) in enumerate(rows):
-        audio.append(f'<audio id="a-{vo}" src="assets/vo/{vo}.mp3" data-start="{t0:.2f}" data-duration="{d:.2f}" data-track-index="{20 + i % 2}"></audio>')
-        js.append(f'tl.fromTo("#cap{i}", {{opacity:0, y:14}}, {{opacity:1, y:0, duration:0.35, ease:"power2.out"}}, {t0 - 0.15:.2f});')
-        if i + 1 < len(rows): js.append(f'tl.to("#cap{i}", {{opacity:0, duration:0.25}}, {t0 + capwin[i] - 0.3:.2f});')
-        if vis is None: continue
-        if vis[0] == "scene":
+    html_clips, scenes, js, audio, caps = [], [], [], [], []
+    phone_on, t, n = [], LEAD, 0
+    for i, (vo, vis) in enumerate(lines):
+        src = os.path.join(HERE, "vo-sara", vo + ".mp3"); shutil.copy(src, os.path.join(a, "vo"))
+        d = dur(src); s0 = t; vo_end = s0 + d
+        audio.append(f'<audio id="a-{vo}" src="assets/vo/{vo}.mp3" data-start="{s0:.2f}" data-duration="{d:.2f}" data-track-index="20"></audio>')
+        end = vo_end + GAP
+        if isinstance(vis, list):                              # demos, one after another
+            at = s0 - 0.3
+            for j, (clip, how, c_in, c_out, zoom, *rest) in enumerate(vis):
+                still_at = rest[0] if rest else c_in             # the frame held under the line (default: where the clip starts)
+                n += 1; cid = f"c{n}"; L = c_out - c_in
+                shutil.copy(os.path.join(HERE, "clips", clip + ".mp4"), os.path.join(a, "clips"))
+                hold_until = max(at, vo_end + 0.15) if how == "after" else at
+                show, play = at, hold_until
+                if how == "after":                             # its first frame, still, while the line is spoken
+                    still = f"{clip}-{still_at:.1f}.jpg"
+                    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-ss", f"{still_at + 0.05:.2f}", "-i", os.path.join(HERE, "clips", clip + ".mp4"),
+                                    "-frames:v", "1", "-q:v", "3", os.path.join(a, "clips", still)], check=True)
+                    html_clips.append(f'<img class="cl" id="{cid}s" src="assets/clips/{still}">')
+                    js.append(f'tl.fromTo("#{cid}s", {{opacity:0}}, {{opacity:1, duration:0.3}}, {show:.2f});')
+                    js.append(f'tl.set("#{cid}s", {{opacity:0}}, {play + 0.1:.2f});')
+                html_clips.append(f'<video class="cl" id="{cid}" src="assets/clips/{clip}.mp4" muted playsinline data-start="{play:.2f}" data-duration="{L:.2f}" data-media-start="{c_in:.2f}" data-track-index="{5 + n % 2}"></video>')
+                js.append(f'tl.fromTo("#{cid}", {{opacity:0}}, {{opacity:1, duration:{0.3 if how != "after" else 0.01}}}, {play:.2f});')
+                if zoom:
+                    x, y, z = [float(v) for v in zoom.split(",")]
+                    js.append(f'tl.set("#{cid}", {{transformOrigin:"{x / SW * 100:.1f}% {y / SH * 100:.1f}%"}}, 0);')
+                    js.append(f'tl.fromTo("#{cid}", {{scale:1}}, {{scale:{z}, duration:{min(1.6, L * 0.6):.2f}, ease:"power2.inOut"}}, {play + 0.3:.2f});')
+                for st, f in sounds_of(clip):
+                    if c_in - 0.05 <= st < c_out:
+                        shutil.copy(os.path.join(ROOT, f), os.path.join(a, "app"))
+                        at_s = play + (st - c_in)
+                        vol = 0.55 if f.startswith("sounds/") else 1.0
+                        if s0 - 0.2 <= at_s <= vo_end: vol = round(vol * 0.35, 2)      # under Sara's line: quieter
+                        audio.append(f'<audio id="s{len(audio)}" src="assets/app/{os.path.basename(f)}" data-start="{max(at_s, play):.2f}" data-duration="{dur(os.path.join(ROOT, f)):.2f}" data-volume="{vol}" data-track-index="12"></audio>')
+                clip_end = play + L
+                last = j + 1 == len(vis)
+                if not last:
+                    js.append(f'tl.to("#{cid}", {{opacity:0, duration:0.3}}, {clip_end - 0.05:.2f});')
+                    at = clip_end - 0.05
+                end = max(end, clip_end + TAIL)
+            # the last demo's final frame stays on screen until the scene ends (a video shows only while it plays)
+            held = f"{clip}-end-{c_out:.1f}.jpg"
+            subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-ss", f"{max(c_in, c_out - 0.12):.2f}", "-i", os.path.join(HERE, "clips", clip + ".mp4"),
+                            "-frames:v", "1", "-q:v", "3", os.path.join(a, "clips", held)], check=True)
+            html_clips.append(f'<img class="cl" id="{cid}e" src="assets/clips/{held}"' + (f' style="transform-origin:{x / SW * 100:.1f}% {y / SH * 100:.1f}%;transform:scale({z})"' if zoom else '') + '>')
+            js.append(f'tl.set("#{cid}e", {{opacity:1}}, {clip_end - 0.06:.2f});')
+            lines[i] = (vo, vis, [f"#{cid}", f"#{cid}e"])      # faded at the scene's end below
+            phone_on.append((s0 - 0.35, end))
+        elif vis is not None:
             sid = f"s{i}"; make = SCENES[vis[1]] if isinstance(vis[1], str) else vis[1]
             body, anim = make(sid)
             scenes.append(f'<section id="{sid}" class="scene">{body}</section>')
-            js.append(f'tl.fromTo("#{sid}", {{opacity:0}}, {{opacity:1, duration:0.35}}, {t0 - 0.3:.2f});')
-            js += anim(t0, win)
-            if i + 1 < len(rows) and rows[i + 1][2] is not None: js.append(f'tl.to("#{sid}", {{opacity:0, duration:0.3}}, {t0 + win - 0.3:.2f});')
-            sfx_at.append(t0 - 0.3)
-        else:
-            phone_on.append((t0, t0 + win))
-            items = [("pa", 0, "")] if vis[0] == "pa" else vis[1]
-            for j, (shot, frac, fx) in enumerate(items):
-                s = t0 - 0.3 + frac * win; e = (t0 + frac * win + (items[j + 1][1] - frac) * win) if j + 1 < len(items) else t0 + win
-                iid = f"i{i}_{j}"
-                if shot == "pa":
-                    frames = sorted(os.listdir(os.path.join(HERE, "shots/pa")))
-                    for f in frames: shutil.copy(os.path.join(HERE, "shots/pa", f), os.path.join(a, "shots"))
-                    shots.append(f'<div class="shot" id="{iid}" style="top:-84px">' + "".join(f'<img class="pf" id="{iid}f{k}" src="assets/shots/{f}">' for k, f in enumerate(frames)) + '</div>')
-                    js.append(f'tl.fromTo("#{iid}", {{opacity:0}}, {{opacity:1, duration:0.3}}, {s:.2f});')
-                    step = 0.14                                    # the frames were captured about every 0.14s
-                    for k in range(len(frames)):
-                        js.append(f'tl.set("#{iid}f{k}", {{opacity:1}}, {s + 0.3 + k * step:.2f});')
-                        if k: js.append(f'tl.set("#{iid}f{k-1}", {{opacity:0}}, {s + 0.3 + k * step:.2f});')
-                else:
-                    shutil.copy(os.path.join(HERE, "shots", shot + ".jpg"), os.path.join(a, "shots"))
-                    off = next((float(f[2:]) for f in fx.split(";") if f.startswith("y:")), 0) * 820 / SW
-                    shots.append(f'<div class="shot" id="{iid}" style="top:{-off:.0f}px"><img src="assets/shots/{shot}.jpg"></div>')
-                    fx = ";".join(f for f in fx.split(";") if not f.startswith("y:"))
-                    js.append(f'tl.fromTo("#{iid}", {{opacity:0}}, {{opacity:1, duration:0.3}}, {s:.2f});')
-                    if fx.startswith("zoom:"):
-                        x, y, z = [float(v) for v in fx[5:].split(",")]
-                        js.append(f'tl.set("#{iid} img", {{transformOrigin:"{x / SW * 100:.1f}% {y / SH * 100:.1f}%"}}, 0);')
-                        js.append(f'tl.fromTo("#{iid} img", {{scale:1}}, {{scale:{z}, duration:{max(1.0, e - s - 0.6):.2f}, ease:"power1.inOut"}}, {s + 0.5:.2f});')
-                    if fx.startswith("tap:"):
-                        x, y = [float(v) for v in fx[4:].split(",")]
-                        shots[-1] = shots[-1].replace("</div>", f'<i class="tap" id="{iid}t" style="left:{x / SW * 100:.1f}%;top:{y / SH * 100:.1f}%"></i></div>')
-                        tt = s + 0.35 + min(0.9, (e - s) * 0.45)
-                        js.append(f'tl.fromTo("#{iid}t", {{opacity:0.9, scale:0.3}}, {{opacity:0, scale:1.6, duration:0.6, ease:"power2.out"}}, {tt:.2f});')
-                        audio.append(f'<audio src="assets/sfx/click_003.ogg" data-start="{tt:.2f}" data-duration="0.3" data-volume="0.5" data-track-index="12"></audio>')
-                js.append(f'tl.to("#{iid}", {{opacity:0, duration:0.3}}, {e - 0.3:.2f});')
-    # the phone rises in when it first appears, and steps aside for the designed scenes
+            js.append(f'tl.fromTo("#{sid}", {{opacity:0}}, {{opacity:1, duration:0.35}}, {s0 - 0.3:.2f});')
+            js += anim(s0, end - s0)
+            lines[i] = (vo, vis, sid)
+        caps.append((s0, end, LINES[vo]))
+        if i + 1 == len(lines): end = vo_end + 1.8
+        # the scene steps aside for the next one
+        if i + 1 < len(lines):
+            last = lines[i][2] if len(lines[i]) > 2 else None
+            if isinstance(last, list): js.append(f'tl.to({json.dumps(last)}, {{opacity:0, duration:0.3}}, {end - 0.3:.2f});')
+            elif isinstance(last, str): js.append(f'tl.to("#{last}", {{opacity:0, duration:0.3}}, {end - 0.3:.2f});')
+        t = end
+    total = round(t + 0.4, 2)
+    for k, (s, e, text) in enumerate(caps):
+        js.append(f'tl.fromTo("#cap{k}", {{opacity:0, y:14}}, {{opacity:1, y:0, duration:0.35, ease:"power2.out"}}, {s - 0.15:.2f});')
+        if k + 1 < len(caps): js.append(f'tl.to("#cap{k}", {{opacity:0, duration:0.25}}, {e - 0.3:.2f});')
+    # the phone rises in when a demo first shows, and steps aside for the designed scenes
     merged = []
     for s, e in phone_on:
-        if merged and abs(merged[-1][1] - s) < 0.05: merged[-1][1] = e
+        if merged and s - merged[-1][1] < 0.4: merged[-1][1] = e
         else: merged.append([s, e])
-    for k, (s, e) in enumerate(merged):
-        js.append(f'tl.fromTo("#phone", {{opacity:0, y:80}}, {{opacity:1, y:0, duration:0.5, ease:"power3.out"}}, {s - 0.35:.2f});')
+    turns = [s for s, _ in merged]
+    for s, e in merged:
+        js.append(f'tl.fromTo("#phone", {{opacity:0, y:70}}, {{opacity:1, y:0, duration:0.5, ease:"power3.out"}}, {s:.2f});')
         js.append(f'tl.to("#phone", {{opacity:0, y:40, duration:0.3, ease:"power2.in"}}, {e - 0.3:.2f});')
-        sfx_at.append(s - 0.35)
-    for t in sfx_at[1:]:
-        audio.append(f'<audio src="assets/sfx/page-turn.mp3" data-start="{max(0, t):.2f}" data-duration="1.0" data-volume="0.28" data-track-index="11"></audio>')
-    audio += [f'<audio src="assets/sfx/pen-stroke.mp3" data-start="0.00" data-duration="0.9" data-volume="0.6" data-track-index="10"></audio>',
-              f'<audio src="assets/sfx/fountain.mp3" data-start="0.30" data-duration="{total - 0.3:.2f}" data-volume="0.16" data-fade-in="1" data-fade-out="1.2" data-track-index="8"></audio>',
-              f'<audio src="assets/sfx/birds.mp3" data-start="0.60" data-duration="{min(total - 0.6, dur(os.path.join(V6, "sfx-gen/birds.mp3"))):.2f}" data-volume="0.10" data-fade-in="1.5" data-fade-out="1.5" data-track-index="9"></audio>']
-    audio = [x if ' id="' in x else x.replace('<audio ', f'<audio id="sfx{k}" ', 1) for k, x in enumerate(audio)]
-    caps = "".join(f'<div class="cap" id="cap{i}"><p>{cap(r[1])}</p></div>' for i, r in enumerate(rows))
+    turns += [s - 0.3 for s, e, _ in caps if not any(ms <= s <= me for ms, me in merged)]
+    for k, s in enumerate(sorted(turns)[1:]):
+        audio.append(f'<audio id="pt{k}" src="assets/sfx/page-turn.mp3" data-start="{max(0, s):.2f}" data-duration="1.0" data-volume="0.22" data-track-index="11"></audio>')
+    audio += [f'<audio id="pen" src="assets/sfx/pen-stroke.mp3" data-start="0.00" data-duration="0.9" data-volume="0.6" data-track-index="10"></audio>',
+              f'<audio id="amb1" src="assets/sfx/fountain.mp3" data-start="0.30" data-duration="{total - 0.3:.2f}" data-volume="0.12" data-fade-in="1" data-fade-out="1.2" data-track-index="8"></audio>',
+              f'<audio id="amb2" src="assets/sfx/birds.mp3" data-start="0.60" data-duration="{min(total - 0.6, dur(os.path.join(V6, "sfx-gen/birds.mp3"))):.2f}" data-volume="0.08" data-fade-in="1.5" data-fade-out="1.5" data-track-index="9"></audio>']
+    caps_html = "".join(f'<div class="cap" id="cap{k}"><p>{cap(text)}</p></div>' for k, (_, _, text) in enumerate(caps))
 
     doc = f"""<!doctype html>
 <html lang="en">
@@ -232,10 +258,10 @@ def build(vid, title, lines):
       <div id="glow"></div>
       <div id="ink"></div>
       <div id="brand"><div class="tile"><span>ر</span><em></em></div><b>رَفِيق</b></div>
-      <div id="caps">{caps}</div>
-      <div id="phone"><div class="screen">{''.join(shots)}</div></div>
+      <div id="caps">{caps_html}</div>
+      <div id="phone"><div class="screen">{''.join(html_clips)}</div></div>
       {''.join(scenes)}
-      {chr(10).join('      ' + x for x in audio)}
+{chr(10).join('      ' + x for x in audio)}
     </div>
     <script>
       const tl = gsap.timeline({{ paused: true }});
@@ -243,7 +269,7 @@ def build(vid, title, lines):
       tl.to("#ink", {{opacity:0, duration:0.35, ease:"sine.in"}}, 0.55);
       tl.fromTo("#brand", {{opacity:0, y:-12}}, {{opacity:1, y:0, duration:0.6, ease:"power3.out"}}, 0.35);
       tl.fromTo("#glow", {{scale:0.92}}, {{scale:1.08, duration:{total}, ease:"none"}}, 0);
-      {chr(10).join('      ' + x for x in js)}
+{chr(10).join('      ' + x for x in js)}
       window.__timelines = window.__timelines || {{}};
       window.__timelines["main"] = tl;
     </script>
@@ -251,7 +277,9 @@ def build(vid, title, lines):
 </html>
 """
     open(os.path.join(out, "index.html"), "w").write(doc)
-    print(f"{vid}: {title}, {total:.1f}s, {len(rows)} lines")
+    print(f"{vid}: {title}, {total:.1f}s, {len(lines)} lines")
 
 if __name__ == "__main__":
-    for vid, (title, lines) in VIDEOS.items(): build(vid, title, lines)
+    import sys
+    for vid, (title, lines) in VIDEOS.items():
+        if len(sys.argv) < 2 or vid in sys.argv[1:]: build(vid, title, list(lines))
