@@ -1309,6 +1309,34 @@
   "chars": 17
  },
  {
+  "id": "1tnbx9s",
+  "text": "الْمَسْجِدُ كَبِيرٌ · أَرى الْمَسْجِدَ · فِي الْمَسْجِدِ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 56
+ },
+ {
+  "id": "tn0shs",
+  "text": "الْمَسْجِدُ كَبِيرٌ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 19
+ },
+ {
+  "id": "1u0i1w6",
+  "text": "أَرى الْمَسْجِدَ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 16
+ },
+ {
+  "id": "7ssa06",
+  "text": "فِي الْمَسْجِدِ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 15
+ },
+ {
   "id": "yl9m3k",
   "text": "وَالِدِي · وَالِدُكَ · وَالِدُهُ",
   "bucket": "grammar",
@@ -1356,6 +1384,55 @@
   "bucket": "grammar",
   "unit": "02",
   "chars": 11
+ },
+ {
+  "id": "12yzxxs",
+  "text": "ذَهَبْتُ · ذَهَبْتَ · ذَهَبْتِ · ذَهَبَ · ذَهَبَتْ · ذَهَبْنا",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 61
+ },
+ {
+  "id": "1cqlzm5",
+  "text": "ذَهَبْتُ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "1cqlzm4",
+  "text": "ذَهَبْتَ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "1cqlzma",
+  "text": "ذَهَبْتِ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "1kx6h10",
+  "text": "ذَهَبَ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 6
+ },
+ {
+  "id": "1cqlmdo",
+  "text": "ذَهَبَتْ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "1cqm361",
+  "text": "ذَهَبْنا",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
  },
  {
   "id": "1gp4hax",
@@ -1965,6 +2042,55 @@
   "bucket": "grammar",
   "unit": "03",
   "chars": 24
+ },
+ {
+  "id": "pn8dfg",
+  "text": "بَيْتٌ كَبِيرٌ · غُرْفَةٌ كَبِيرَةٌ · الْبَيْتُ الْكَبِيرُ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 58
+ },
+ {
+  "id": "590tr3",
+  "text": "بَيْتٌ كَبِيرٌ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 14
+ },
+ {
+  "id": "1ja1pjw",
+  "text": "غُرْفَةٌ كَبِيرَةٌ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 18
+ },
+ {
+  "id": "spuxmn",
+  "text": "الْبَيْتُ الْكَبِيرُ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 20
+ },
+ {
+  "id": "1j0797k",
+  "text": "هَذا بَيْتٌ · هَذا الْبَيْتُ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 28
+ },
+ {
+  "id": "194ngv7",
+  "text": "هَذا بَيْتٌ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 11
+ },
+ {
+  "id": "l5e7ap",
+  "text": "هَذا الْبَيْتُ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 14
  },
  {
   "id": "11ydtm0",
@@ -15386,13 +15512,6 @@
   "chars": 6
  },
  {
-  "id": "1cqlzm5",
-  "text": "ذَهَبْتُ",
-  "bucket": "tile",
-  "unit": "04",
-  "chars": 8
- },
- {
   "id": "egzt7g",
   "text": "الْحافِلَةِ",
   "bucket": "tile",
@@ -22573,41 +22692,6 @@
   "bucket": "connector-ex",
   "unit": "-",
   "chars": 43
- },
- {
-  "id": "1cqlzm4",
-  "text": "ذَهَبْتَ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
- },
- {
-  "id": "1cqlzma",
-  "text": "ذَهَبْتِ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
- },
- {
-  "id": "1kx6h10",
-  "text": "ذَهَبَ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 6
- },
- {
-  "id": "1cqlmdo",
-  "text": "ذَهَبَتْ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
- },
- {
-  "id": "1cqm361",
-  "text": "ذَهَبْنا",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
  },
  {
   "id": "60e6pl",

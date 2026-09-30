@@ -11,6 +11,8 @@
    session is 's:<yyyy-mm-dd>', which gives the streak and the daily goal. */
 (function(){
   const BATCH = 10;          // words met per step
+  // units that teach before they ask (#156): words first, practice only from what's been taught
+  const TEACH = new Set(['01', '02', '03']);
   // steps (or sessions) a day to meet the daily goal; set at sign-up from minutes a day
   const GOAL  = (() => { try{ const g=parseInt(localStorage.getItem('rafiq_goal'),10); return g>0 ? g : 2; }catch(_){ return 2; } })();
 
@@ -46,14 +48,27 @@
       return {key:'words'+(i+1), kind:'words', batch:i, mins: 5,
         title: `Meet ${n} new ${n === 1 ? (phrases ? 'phrase' : 'word') : (phrases ? 'words & phrases' : 'words')}`};
     };
-    out.push(words(0));
-    out.push({key:'listen',   kind:'listen',   title:'Hear the conversation', mins:4});
-    out.push({key:'grammar',  kind:'grammar',  title:'How it works',          mins:5});
-    for(let i=1;i<nb;i++){
-      out.push(words(i));
-      if(i===1) out.push({key:'practise', kind:'practise', title:'Practise', mins:8});
+    const listen   = {key:'listen',   kind:'listen',   title:'Hear the conversation', mins:4};
+    const grammar  = {key:'grammar',  kind:'grammar',  title:'How it works',          mins:5};
+    const practise = {key:'practise', kind:'practise', title:'Practise',              mins:8};
+    if(TEACH.has(p.n)){
+      /* Teach first (#156): words before sentences. Two lessons of words, then how it
+         works, the rest of the words, practice made from what's been taught, and the
+         conversation last, when most of its words are known. The step keys are the
+         same as before, so progress already saved still counts. */
+      out.push(words(0));
+      if(nb>1) out.push(words(1));
+      out.push(grammar);
+      for(let i=2;i<nb;i++) out.push(words(i));
+      out.push(practise, listen);
+    } else {
+      out.push(words(0), listen, grammar);
+      for(let i=1;i<nb;i++){
+        out.push(words(i));
+        if(i===1) out.push(practise);
+      }
+      if(nb<2) out.push(practise);
     }
-    if(nb<2) out.push({key:'practise', kind:'practise', title:'Practise', mins:8});
     out.push({key:'chat',     kind:'chat',     title:'Have the conversation', mins:6});
     out.push({key:'speak',    kind:'speak',    title:'Say it yourself',       mins:6});
     return out;
@@ -266,7 +281,7 @@
     return ids.map(wordById).filter(Boolean);
   }
 
-  window.RafiqPath = { lateLeft, reviewScope, metWords, sentenceDone, period, wordsByDay, wordsReport, bestStreak, reviewDue, hasLearned, COMING, STREAK_GOALS, streakGoal, BATCH, GOAL, units, skipReading, unitOpen, stepOpen, steps, stepDone, unitDone, placed, currentIndex, next, reached,
+  window.RafiqPath = { teaches: n => TEACH.has(n), lateLeft, reviewScope, metWords, sentenceDone, period, wordsByDay, wordsReport, bestStreak, reviewDue, hasLearned, COMING, STREAK_GOALS, streakGoal, BATCH, GOAL, units, skipReading, unitOpen, stepOpen, steps, stepDone, unitDone, placed, currentIndex, next, reached,
                        complete, place, markDay, wordMet, week, doneToday, streak, wordsOf, unitData, wordById,
                        answerStyle, answered, answerPref };
 })();

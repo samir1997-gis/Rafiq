@@ -660,6 +660,8 @@ footer{border-top:1px solid var(--rule);padding:16px 28px 30px;font-size:12px;co
   .toolbar{width:100%}
   .toolbar .btn{flex:1 1 auto;min-width:0}
 }
+.gcard .gbad{margin-top:10px;padding:8px 10px;border-radius:8px;background:color-mix(in srgb,var(--rubric) 8%,var(--card));color:var(--ink);font-size:.95rem}
+.gcard .gbad s{font-family:var(--ar);font-size:1.15rem;color:var(--rubric)}
 </style>
 
 <style>
@@ -766,7 +768,7 @@ footer{border-top:1px solid var(--rule);padding:16px 28px 30px;font-size:12px;co
   Progress is saved on this device where the browser allows it; otherwise it lasts for the session.
 </footer>
 
-<script src="drills-data.js?v=20260927"></script>
+<script src="drills-data.js?v=20260930"></script>
 <script>
 /* ── merge extra content + derive pools ─────────────────── */
 DATA.forEach(u=>Object.assign(u,EXTRA[u.n]||{}));
@@ -1687,6 +1689,10 @@ function vGrammar(u){
     const h=document.createElement('p');h.className='taphint';h.textContent='🔊 Tap the Arabic to hear it';c.appendChild(h);
     const p=document.createElement('p');p.textContent=g.en;c.appendChild(p);
     if(ENDINGS_RE.test(g.en)) c.insertAdjacentHTML('beforeend',ENDINGS_HTML);
+    if(g.bad){ // a common mistake, crossed out (#156)
+      const b=document.createElement('p');b.className='gbad';
+      const w=document.createElement('s');w.lang='ar';w.dir='rtl';w.textContent=g.bad[0];
+      b.append('✗ ',w,document.createElement('br'),g.bad[1]); c.appendChild(b); }
     panel.appendChild(c);
   });
 }

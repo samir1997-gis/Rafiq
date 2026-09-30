@@ -54,6 +54,17 @@ body{padding-bottom:0!important}
 .pair{padding:10px 0;border-bottom:1px solid var(--rule);cursor:pointer;touch-action:manipulation}
 .pair .mid{font-size:clamp(21px,5.6vw,26px);line-height:1.6}
 .pair .gtr{margin-top:0}
+.gbad{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:10px 12px;border-radius:10px;text-align:left;
+  background:color-mix(in srgb,var(--rubric) 8%,var(--card));border:1px solid color-mix(in srgb,var(--rubric) 30%,transparent)}
+.gbad .gx{color:var(--rubric);font-weight:700;font-size:1.1rem;line-height:1.6}
+.gbad s{font-family:var(--ar);font-size:1.25rem;color:var(--rubric);text-decoration-thickness:2px;display:block;line-height:1.7}
+.gbad p{margin:2px 0 0;font-size:.95rem;color:var(--ink)}
+.wparts{display:flex;flex-direction:row-reverse;flex-wrap:wrap;justify-content:center;gap:8px 14px;margin:12px 0 4px;padding-top:10px;border-top:1px dashed var(--rule)}
+.wparts span{display:flex;flex-direction:column;align-items:center;gap:2px}
+.wparts b{font-family:var(--ar);font-weight:500;font-size:1.3rem;line-height:1.6}
+.wparts i{font-style:normal;font-size:.85rem;color:var(--verdigris);font-weight:600;max-width:9em;text-align:center;line-height:1.2}
+.big-hear{font-size:2.4rem;padding:18px 26px;margin:6px auto}
+.ar-opts .opt{font-family:var(--ar);font-size:1.4rem}
 /* Your salah */
 .salah-ar{line-height:2.1}
 .ar{font-family:var(--ar);font-weight:600}
@@ -227,8 +238,8 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 </div>
 
 <script src="vocab-data.js?v=20260928b"></script>
-<script src="drills-data.js?v=20260927"></script>
-<script src="path-data.js?v=20260928"></script>
+<script src="drills-data.js?v=20260930"></script>
+<script src="path-data.js?v=20260930"></script>
 <script src="alphabet-data.js?v=20260926"></script>
 <script src="scenes-data.js?v=20260922"></script>
 <script src="audio.js?v=904"></script>
@@ -236,9 +247,10 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 <script src="auth.js?v=6"></script>
 <script src="fsrs.js?v=20260929"></script>
 <script src="progress.js?v=20260929"></script>
-<script src="path.js?v=20260928"></script>
+<script src="path.js?v=20260930"></script>
 <script src="plan.js?v=20260927"></script>
 <script src="report.js?v=1"></script>
+<script src="teach.js?v=1"></script>
 <script>RafiqPlan.requirePlan();</script>
 <script src="judge.js?v=20260925"></script>
 <script src="tiles.js?v=3"></script>
@@ -311,9 +323,16 @@ function autoNext(next, text, el){
 function button(label, fn, ghost){ const b=document.createElement('button'); b.className='go'+(ghost?' ghost':''); b.type='button'; b.textContent=label; b.onclick=fn; return b; }
 
 /* ── steps ─────────────────────────────────────────────── */
+/* A phrase taken apart, word by word (teach.js), under its meaning. */
+function partsHTML(ar){
+  const ps=window.RafiqTeach && RafiqTeach.parts(ar);
+  return ps ? `<div class="wparts" aria-label="Word by word">${ps.map(([a,e])=>`<span><b lang="ar">${esc(a)}</b><i>${esc(e)}</i></span>`).join('')}</div>` : '';
+}
 function runWords(p, step){
   const words=RafiqPath.wordsOf(p, step.batch);
-  const total=words.length*2;            // meet each word, then a short check
+  // teach first (#156): after the meaning check, hear a few and pick the word
+  const HEAR=RafiqPath.teaches(p.n) ? Math.min(5, words.length) : 0, heard=shuffle(words).slice(0,HEAR);
+  const total=words.length*2+HEAR;       // meet each word, then a short check
   let i=0;
   const meet=()=>{
     if(i>=words.length) return check(0);
@@ -321,7 +340,7 @@ function runWords(p, step){
     const pic=PIC[w.id]?`<div class="pic" aria-hidden="true">${PIC[w.id]}</div>`:'';
     const body=el(`<div><p class="kicker">New word ${i+1} of ${words.length}</p>
       <div class="card">${pic}<div class="big" id="w">${esc(w.ar)}</div>
-      <div class="tr">${esc(w.tr||'')}</div><div class="en">${esc(w.en)}</div>
+      <div class="tr">${esc(w.tr||'')}</div><div class="en">${esc(w.en)}</div>${partsHTML(w.ar)}
       <button class="hear" type="button" id="h">🔊 Hear it again</button></div>
       <p class="howto">Say it aloud once, then carry on</p></div>`);
     screen(body,[button(i<words.length-1?'Next word':'Check yourself',()=>{i++;meet()})]);
@@ -332,14 +351,40 @@ function runWords(p, step){
   // a miss just shows the answer and moves on.
   const order=shuffle(words);
   const check=k=>{
-    if(k>=order.length){
-      // into daily review; the first time through, every word counts as met today
-      const first=!RafiqPath.stepDone(p.n, step.key);
-      words.forEach(w=>{ if(Progress.isNew('v:'+w.id)) Progress.grade('v:'+w.id,'good'); if(first) RafiqPath.wordMet(); });
-      const br=salahBridge(words);
-      return br ? showBridge(br, ()=>finish(p, step)) : finish(p, step);
-    }
+    if(k>=order.length) return hear(0);
     setBar(words.length+k,total);
+    ask(k);
+  };
+  // hear it, then pick the word you heard, so sound and spelling go together
+  const hear=k=>{
+    if(k>=HEAR) return done();
+    setBar(words.length*2+k,total);
+    const w=heard[k];
+    // no two choices with the same letters (ما اسْمُكَ / ما اسْمُكِ differ only in a vowel you can barely hear)
+    const skel=t=>t.replace(/[\u064B-\u0652\u0670\u0640؟?.]/g,'').trim(), used=new Set([skel(w.ar)]);
+    const pool=shuffle(words).filter(x=>!used.has(skel(x.ar)) && used.add(skel(x.ar))).slice(0,3).concat([w]);
+    const body=el(`<div><p class="kicker">Hear it, pick the word</p>
+      <div class="card"><button class="hear big-hear" type="button" id="h" aria-label="Hear it again">🔊</button></div><div class="opts ar-opts" id="o"></div></div>`);
+    const h=body.querySelector('#h'), play=()=>say(w.ar,h); h.onclick=play;
+    const next=button('Next',()=>hear(k+1)); next.disabled=true;
+    shuffle(pool).forEach(x=>{
+      const b=document.createElement('button'); b.className='opt'; b.type='button'; b.lang='ar'; b.dir='rtl'; b.textContent=x.ar;
+      b.onclick=()=>{ if(!next.disabled) return;
+        b.classList.add(x===w?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(x===w);
+        if(x!==w) [...body.querySelectorAll('.opt')].find(o=>o.textContent===w.ar).classList.add('right');
+        next.disabled=false; if(x===w) autoNext(next, w.ar, h); };
+      body.querySelector('#o').appendChild(b);
+    });
+    screen(body,[next]); play();
+  };
+  const done=()=>{
+    // into daily review; the first time through, every word counts as met today
+    const first=!RafiqPath.stepDone(p.n, step.key);
+    words.forEach(w=>{ if(Progress.isNew('v:'+w.id)) Progress.grade('v:'+w.id,'good'); if(first) RafiqPath.wordMet(); });
+    const br=salahBridge(words);
+    return br ? showBridge(br, ()=>finish(p, step)) : finish(p, step);
+  };
+  const ask=k=>{
     const w=order[k];
     const pool=shuffle(words.filter(x=>x!==w && !tooClose(x.en,w.en))).slice(0,3).concat([w]);
     const body=el(`<div><p class="kicker">What does this mean?</p>
@@ -417,7 +462,8 @@ function runGrammar(p, step){
         ${pairsOf(g) ? `<div class="pairs">${pairsOf(g).map(([ar,en])=>`<div class="pair" data-say="${esc(ar)}"><div class="mid">${esc(ar)}</div><div class="gtr">${esc(en)}</div></div>`).join('')}</div>`
           : `<div class="mid" id="a">${esc(g.ar.replace(/=/g,' '))}</div>${g.tr ? `<div class="gtr">${esc(g.tr)}</div>` : ''}`}
         <p class="taphint">🔊 Tap ${pairsOf(g) ? 'an example' : 'the Arabic'} to hear it again</p>
-        <p>${esc(g.en)}</p>${ENDINGS_RE.test(g.en) ? ENDINGS_HTML : ''}</div></div>`);
+        <p>${esc(g.en)}</p>${ENDINGS_RE.test(g.en) ? ENDINGS_HTML : ''}
+        ${g.bad ? `<div class="gbad"><span class="gx" aria-hidden="true">✗</span><div><s lang="ar" dir="rtl">${esc(g.bad[0])}</s><p>${esc(g.bad[1])}</p></div></div>` : ''}</div></div>`);
     const a=body.querySelector('#a'); if(a) a.onclick=()=>say(g.ar,a);
     const rows=[...body.querySelectorAll('.pair')];
     rows.forEach(r=>r.onclick=()=>say(r.dataset.say,r.querySelector('.mid')));

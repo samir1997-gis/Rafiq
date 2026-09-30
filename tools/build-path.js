@@ -22,6 +22,9 @@ const TOPIC_UNIT = { '01':'01', '08':'02', '10':'03', '06':'04', '09':'05', '07'
 // unit → word ids added late (issue #61: the days and numbers missing from the lessons)
 const LATE = { '03': [780, 781, 782, 35, 783] };        // Sunday, Monday, Wednesday, two, six
 const lateIds = new Set(Object.values(LATE).flat());
+// unit → words it starts with (#156, teach first): unit 1 opens with ten single words, before the
+// greeting phrases, so its first lesson is words a beginner can hold on to (I, you, he, she, this…)
+const FIRST = { '01': [15, 16, 17, 18, 19, 20, 21, 26, 30, 28] };      // أَنا أَنْتَ أَنْتِ هُوَ هِيَ هَذا هَذِهِ صَدِيق مُدَرِّس طالِبَة
 
 function load(file, names) {
   let src = fs.readFileSync(path.join(root, file), 'utf8');
@@ -62,7 +65,8 @@ let PIC = {};
 try { load('path-data.js', ['PATH', 'PIC']); PIC = globalThis.PIC || {}; } catch (_) {}
 
 const PATH = DATA.map((u, i) => {
-  const p = { n: u.n, ar: u.ar, en: u.en, words: byUnit[i] };
+  const first = (FIRST[u.n] || []).filter(id => byUnit[i].includes(id));
+  const p = { n: u.n, ar: u.ar, en: u.en, words: first.concat(byUnit[i].filter(id => !first.includes(id))) };
   const late = (LATE[u.n] || []).filter(id => VOCAB.some(w => w.id === id));
   if (late.length) {
     // late words need a batch (path.js BATCH = 10) of their own, so the steps learners
