@@ -770,69 +770,6 @@
   "chars": 10
  },
  {
-  "id": "1vquzqg",
-  "text": "هُوَ مُدَرِّسٌ · هِيَ مُدَرِّسَةٌ",
-  "bucket": "grammar",
-  "unit": "01",
-  "chars": 33
- },
- {
-  "id": "1csh8vp",
-  "text": "هِيَ مُدَرِّسَةٌ",
-  "bucket": "grammar",
-  "unit": "01",
-  "chars": 16
- },
- {
-  "id": "rt0r3j",
-  "text": "هُوَ مُدَرِّسٌ",
-  "bucket": "grammar",
-  "unit": "01",
-  "chars": 14
- },
- {
-  "id": "1f73o9n",
-  "text": "هَذا طالِبٌ · هَذِهِ طالِبَةٌ.",
-  "bucket": "grammar",
-  "unit": "01",
-  "chars": 30
- },
- {
-  "id": "1p3nxtn",
-  "text": "هَذا طالِبٌ",
-  "bucket": "grammar",
-  "unit": "01",
-  "chars": 11
- },
- {
-  "id": "sow22k",
-  "text": "هَذِهِ طالِبَةٌ",
-  "bucket": "grammar",
-  "unit": "01",
-  "chars": 15
- },
- {
-  "id": "vgpq4g",
-  "text": "مُدَرِّسٌ · الْمُدَرِّسُ",
-  "bucket": "grammar",
-  "unit": "01",
-  "chars": 24
- },
- {
-  "id": "1hdf3zn",
-  "text": "الْمُدَرِّسُ",
-  "bucket": "grammar",
-  "unit": "01",
-  "chars": 12
- },
- {
-  "id": "1itzptt",
-  "text": "مُدَرِّسٌ",
-  "bucket": "grammar",
-  "unit": "01",
-  "chars": 9
- },
- {
   "id": "1xb1yz9",
   "text": "باكِسْتانِيٌّ · باكِسْتانِيَّةٌ",
   "bucket": "grammar",
@@ -852,41 +789,6 @@
   "bucket": "grammar",
   "unit": "01",
   "chars": 15
- },
- {
-  "id": "1p2wrq6",
-  "text": "أُمِّي · أُخْتِي · اسْمِي",
-  "bucket": "grammar",
-  "unit": "01",
-  "chars": 25
- },
- {
-  "id": "g4ue5d",
-  "text": "مَدْرَسَتِي",
-  "bucket": "grammar",
-  "unit": "01",
-  "chars": 11
- },
- {
-  "id": "1u1e5vr",
-  "text": "أُمِّي",
-  "bucket": "grammar",
-  "unit": "01",
-  "chars": 6
- },
- {
-  "id": "19ryen9",
-  "text": "أُخْتِي",
-  "bucket": "grammar",
-  "unit": "01",
-  "chars": 7
- },
- {
-  "id": "e06rjw",
-  "text": "اسْمِي",
-  "bucket": "grammar",
-  "unit": "01",
-  "chars": 6
  },
  {
   "id": "1exs3kc",
@@ -1629,34 +1531,6 @@
   "bucket": "grammar",
   "unit": "02",
   "chars": 15
- },
- {
-  "id": "yl9m3k",
-  "text": "وَالِدِي · وَالِدُكَ · وَالِدُهُ",
-  "bucket": "grammar",
-  "unit": "02",
-  "chars": 32
- },
- {
-  "id": "1nh4p2d",
-  "text": "وَالِدِي",
-  "bucket": "grammar",
-  "unit": "02",
-  "chars": 8
- },
- {
-  "id": "18v9eil",
-  "text": "وَالِدُكَ",
-  "bucket": "grammar",
-  "unit": "02",
-  "chars": 9
- },
- {
-  "id": "18v9em0",
-  "text": "وَالِدُهُ",
-  "bucket": "grammar",
-  "unit": "02",
-  "chars": 9
  },
  {
   "id": "qclquz",
@@ -2478,11 +2352,11 @@
   "chars": 24
  },
  {
-  "id": "pn8dfg",
-  "text": "بَيْتٌ كَبِيرٌ · غُرْفَةٌ كَبِيرَةٌ · الْبَيْتُ الْكَبِيرُ",
+  "id": "10mdf4i",
+  "text": "بَيْتٌ كَبِيرٌ · الْبَيْتُ الْكَبِيرُ",
   "bucket": "grammar",
   "unit": "03",
-  "chars": 58
+  "chars": 37
  },
  {
   "id": "590tr3",
@@ -2490,13 +2364,6 @@
   "bucket": "grammar",
   "unit": "03",
   "chars": 14
- },
- {
-  "id": "1ja1pjw",
-  "text": "غُرْفَةٌ كَبِيرَةٌ",
-  "bucket": "grammar",
-  "unit": "03",
-  "chars": 18
  },
  {
   "id": "spuxmn",
@@ -2546,69 +2413,6 @@
   "bucket": "grammar",
   "unit": "03",
   "chars": 19
- },
- {
-  "id": "1pfkujt",
-  "text": "غُرْفَةٌ · غُرَفٌ",
-  "bucket": "grammar",
-  "unit": "03",
-  "chars": 17
- },
- {
-  "id": "1oinsle",
-  "text": "غُرَفٌ",
-  "bucket": "grammar",
-  "unit": "03",
-  "chars": 6
- },
- {
-  "id": "1mx66xl",
-  "text": "غُرْفَةٌ",
-  "bucket": "grammar",
-  "unit": "03",
-  "chars": 8
- },
- {
-  "id": "17w4inn",
-  "text": "نَحْنُ طُلّابٌ · هُمْ طُلّابٌ",
-  "bucket": "grammar",
-  "unit": "03",
-  "chars": 29
- },
- {
-  "id": "4pdr0g",
-  "text": "أَنْتُمْ طُلّابٌ",
-  "bucket": "grammar",
-  "unit": "03",
-  "chars": 16
- },
- {
-  "id": "1i4k3rp",
-  "text": "نَحْنُ طُلّابٌ",
-  "bucket": "grammar",
-  "unit": "03",
-  "chars": 14
- },
- {
-  "id": "1wnq7pw",
-  "text": "هُمْ طُلّابٌ",
-  "bucket": "grammar",
-  "unit": "03",
-  "chars": 12
- },
- {
-  "id": "1mg5xsr",
-  "text": "الْغُرَفُ كَبِيرَةٌ.",
-  "bucket": "grammar",
-  "unit": "03",
-  "chars": 20
- },
- {
-  "id": "1tcjdjy",
-  "text": "الْبُيُوتُ كَبِيرَةٌ",
-  "bucket": "grammar",
-  "unit": "03",
-  "chars": 20
  },
  {
   "id": "hxrkfy",
@@ -5724,27 +5528,6 @@
   "bucket": "grammar",
   "unit": "08",
   "chars": 17
- },
- {
-  "id": "rr7y2d",
-  "text": "مُمَرِّض · مُمَرِّضَة",
-  "bucket": "grammar",
-  "unit": "08",
-  "chars": 21
- },
- {
-  "id": "10lhj0i",
-  "text": "مُمَرِّض",
-  "bucket": "grammar",
-  "unit": "08",
-  "chars": 8
- },
- {
-  "id": "5n09wl",
-  "text": "مُمَرِّضَة",
-  "bucket": "grammar",
-  "unit": "08",
-  "chars": 10
  },
  {
   "id": "277jwp",
@@ -11018,6 +10801,13 @@
   "chars": 5
  },
  {
+  "id": "10lhj0i",
+  "text": "مُمَرِّض",
+  "bucket": "vocab",
+  "unit": "11 · Body & health",
+  "chars": 8
+ },
+ {
   "id": "1mspty",
   "text": "طَبِيب",
   "bucket": "vocab",
@@ -13713,6 +13503,13 @@
   "chars": 7
  },
  {
+  "id": "e06rjw",
+  "text": "اسْمِي",
+  "bucket": "tile",
+  "unit": "01",
+  "chars": 6
+ },
+ {
   "id": "db39ru",
   "text": "يُوسُفُ",
   "bucket": "tile",
@@ -13767,6 +13564,13 @@
   "bucket": "tile",
   "unit": "01",
   "chars": 6
+ },
+ {
+  "id": "1itzptt",
+  "text": "مُدَرِّسٌ",
+  "bucket": "tile",
+  "unit": "01",
+  "chars": 9
  },
  {
   "id": "xo7k1p",
@@ -14028,6 +13832,13 @@
   "chars": 14
  },
  {
+  "id": "19ryen9",
+  "text": "أُخْتِي",
+  "bucket": "tile",
+  "unit": "01",
+  "chars": 7
+ },
+ {
   "id": "xo73w0",
   "text": "وَهِيَ",
   "bucket": "tile",
@@ -14128,6 +13939,13 @@
  {
   "id": "1qgc5gm",
   "text": "عُمَرُ",
+  "bucket": "tile",
+  "unit": "01",
+  "chars": 6
+ },
+ {
+  "id": "1u1e5vr",
+  "text": "أُمِّي",
   "bucket": "tile",
   "unit": "01",
   "chars": 6
@@ -14506,6 +14324,13 @@
  {
   "id": "1a0h51d",
   "text": "أَكْبَرُ",
+  "bucket": "tile",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "1nh4p2d",
+  "text": "وَالِدِي",
   "bucket": "tile",
   "unit": "02",
   "chars": 8
@@ -15321,6 +15146,13 @@
   "bucket": "tile",
   "unit": "03",
   "chars": 12
+ },
+ {
+  "id": "1oinsle",
+  "text": "غُرَفٌ",
+  "bucket": "tile",
+  "unit": "03",
+  "chars": 6
  },
  {
   "id": "kora85",
@@ -21273,6 +21105,13 @@
   "chars": 6
  },
  {
+  "id": "g4ue5d",
+  "text": "مَدْرَسَتِي",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 11
+ },
+ {
   "id": "16g07jt",
   "text": "بِسْمِ اللهِ",
   "bucket": "alphabet",
@@ -21364,6 +21203,13 @@
   "chars": 6
  },
  {
+  "id": "1mx66xl",
+  "text": "غُرْفَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
   "id": "n9z8st",
   "text": "طَبِيبَةٌ",
   "bucket": "basics",
@@ -21390,6 +21236,13 @@
   "bucket": "basics",
   "unit": "0b",
   "chars": 30
+ },
+ {
+  "id": "rt0r3j",
+  "text": "هُوَ مُدَرِّسٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 14
  },
  {
   "id": "17g4t66",
@@ -21425,6 +21278,13 @@
   "bucket": "basics",
   "unit": "0b",
   "chars": 15
+ },
+ {
+  "id": "1ja1pjw",
+  "text": "غُرْفَةٌ كَبِيرَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 18
  },
  {
   "id": "1ffbnrq",
@@ -21499,6 +21359,20 @@
  {
   "id": "10oe1v6",
   "text": "غُرْفَةٌ، غُرَفٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 16
+ },
+ {
+  "id": "1i4k3rp",
+  "text": "نَحْنُ طُلّابٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 14
+ },
+ {
+  "id": "4pdr0g",
+  "text": "أَنْتُمْ طُلّابٌ",
   "bucket": "basics",
   "unit": "0b",
   "chars": 16

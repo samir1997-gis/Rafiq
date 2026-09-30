@@ -229,3 +229,7 @@ Six short lessons, each 1–2 teaching screens then 8 picks, and a check at the 
 | How do you say ‘my friend’ (a woman)? |  | صَدِيقَتِي | صَدِيقِي / صَدِيقَةِي | |
 | What does it mean? | مَدْرَسَتُها | her school | his school / my school | |
 | Which fits? | هَذا ___ | بَيْتِي | الْبَيْتِي | |
+
+## Changed 30 Sep 2026 (#166): the journey no longer reteaches the basics
+TypeSafe (tools/typesafe-exp/reteach_check.py) checked every "How it works" card against "The basics". These cards were removed because they mainly taught it again (their practice items stay): unit 1 "No word for ‘is’", "Masculine and feminine", "‘This’ m/f", "‘The’ is ال", "‘My’ is ـِي"; unit 2 "‘My’, ‘your’, ‘his’ are endings"; unit 3 "Plurals change inside", "We/you/they", "Plurals of things are ‘she’"; unit 8 "Jobs for women: add ة"; unit 12 "No word for ‘is’ (again)".
+Trimmed to what's new: unit 3 "Describing words copy ال and the ending too" (بَيْتٌ كَبِيرٌ · الْبَيْتُ الْكَبِيرُ; mistake الْبَيْتُ الْكَبِيرٌ), unit 2 "‘We’ verbs start with نَـ". The reading rules "ال is said al-" and "Sun letters" moved out (now in the basics' first lesson). Please check the two trimmed cards.

@@ -84,19 +84,14 @@ const VOWEL_MARKS = [
   ['بو','buu','Waw after damma — a long "oo"',['نُور','n[ū]r','light']],
   ['بٌ','bun','Tanwin — a doubled mark: adds "n" at the end of a word',['كِتابٌ','kitāb[un]','a book']],
 ];
-/* Reading rules (#163), after the vowel marks: five things the marks alone don't tell you, one per
+/* Reading rules (#163), after the vowel marks: three things the marks alone don't tell you, one per
    screen, each followed by a pick. [title, what to know, examples [word, transliteration, meaning],
-   check [question, options, right one, why, the Arabic to hear]]. */
+   check [question, options, right one, why, the Arabic to hear]]. ال and the sun letters are taught
+   in the basics' first lesson (#165, #166), so they aren't here. */
 const READING_RULES = [
   ['The ending ة', 'ة at the end of a word sounds like a soft "a". When an ending or another word follows, it becomes a "t" sound, and before an ending it’s written ت.',
     [['مَدْرَسَة','madras[a]','school'],['مَدْرَسَتِي','madras[at]ī','my school']],
     ['How is مَدْرَسَتِي said?', ['madrasatī','madrasa-ī','madrasahī'], 0, 'Before an ending, ة is said and written as t.', 'مَدْرَسَتِي']],
-  ['ال is said "al-"', 'ال on the front of a word means "the" (more on that in unit 1). Before half the letters, like ق, ب and ف (the "moon letters"), you say it as it looks: al-.',
-    [['القُرْآن','[al]-qurʾān','the Qur’an'],['الفَجْر','[al]-fajr','dawn']],
-    ['How is الفَجْر said?', ['al-fajr','af-fajr','fajr'], 0, '', 'الفَجْر']],
-  ['Sun letters: the ل goes quiet', 'Before 14 letters the ل of ال isn’t said. The next letter doubles instead, which is why it carries ّ: as-salām, not al-salām. They’re called sun letters because الشَّمْس (the sun) starts with one. The 14: ت ث د ذ ر ز س ش ص ض ط ظ ل ن.',
-    [['الشَّمْس','[ash-sh]ams','the sun'],['السَّلامُ عَلَيْكُم','[as-s]alāmu ʿalaykum','peace be upon you']],
-    ['How is الشَّمْس said?', ['ash-shams','al-shams','a-shams'], 0, 'ش is a sun letter: the ل goes quiet and the ش doubles.', 'الشَّمْس']],
   ['In a sentence, ال drops its "a"', 'In a flowing sentence, the a of ال isn’t said: you go straight from the word before to the l. فِي الْبَيْتِ is said "fil-bayti" (the ī of فِي shortens), not "fī al-bayti". The same happens in بِسْمِ اللهِ: bismillāh.',
     [['فِي الْبَيْتِ','f[il]-bayti','in the house'],['بِسْمِ اللهِ','bism[ill]āh','in the name of Allah']],
     ['How is فِي الْبَيْتِ said?', ['fil-bayti','fī al-bayti','fī-bayti'], 0, 'After the vowel of فِي, the a of ال drops out.', 'فِي الْبَيْتِ']],

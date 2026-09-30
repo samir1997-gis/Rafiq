@@ -39,7 +39,8 @@ def main():
         k0 = keys(p, "00")
         ok.append(("reading starter: rules after the vowel marks " + str(k0[-3:]), k0[-3:] == ["vowels", "rules", "hear"]))
         ok.append(("unit 1 has no part 2", "grammar2" not in keys(p, "01")))
-        for n in ("02", "03"):
+        ok.append(("unit 3 has no part 2 now (#166)", "grammar2" not in keys(p, "03")))
+        for n in ("02",):
             k = keys(p, n)
             ok.append((f"unit {n}: part 2 after the last words, before Practise", "grammar2" in k and k.index("grammar2") == k.index("practise") - 1
                        and all(k.index(w) < k.index("grammar2") for w in k if w.startswith("words"))))
@@ -69,7 +70,7 @@ def main():
             elif k.startswith("Quick check"):
                 checks += 1; p.locator(".opt").first.click(); p.wait_for_timeout(150); go(p)
             else: break
-        ok.append(("reading rules: %d rules, %d checks" % (rules, checks), rules == 5 and checks == 5))
+        ok.append(("reading rules: %d rules, %d checks" % (rules, checks), rules == 3 and checks == 3))   # ال and sun letters moved to the basics (#166)
         ok.append(("reading rules step done", p.evaluate("RafiqPath.stepDone('00','rules')")))
         p.close()
 
