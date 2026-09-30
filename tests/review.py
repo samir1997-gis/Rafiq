@@ -1,9 +1,9 @@
 """Review that grows with progress (#158):
   - every unit ends with a unit test; learners already past a unit aren't sent back for it
   - a new word comes back for review tomorrow
-  - every two lessons, the next lesson starts with a 5-word recap of earlier words
+  - every two lessons, the next lesson starts with a 5-word recap of earlier words (counted from the account)
   - the unit test: 18 questions; below 80% the missed ones are reviewed before a retake,
-    missed words come back tomorrow, and a pass opens the next unit
+    missed words come back tomorrow, and a pass opens the next unit; the review is due on any device
 
   python3 .claude/skills/webapp-testing/scripts/with_server.py \
     --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/review.py
@@ -57,18 +57,20 @@ def main():
         ok.append(("a word just met is due tomorrow (" + str(due) + ")", due == TOMORROW)); p.close()
 
         # the recap: two lessons done, so the next one starts with five earlier words
-        met = {**unit1, **seen("p:01|test", "p:02|words1"), **{f"v:{i}": {"box": 3, "seen": 1, "due": "2099-01-01"} for i in range(1, 400)}}
-        p = page_with(b, met, errors, {"rafiq_recap": "2"}); p.goto(BASE + "learn.html?u=02&s=words2"); p.wait_for_timeout(1500)
+        at = lambda m: {"box": 0, "seen": 1, "at": "2026-09-30T%02d:00:00.000Z" % m}
+        met = {**unit1, **seen("p:01|test"), "r:recap": at(8), "p:02|words1": at(9),
+               **{f"v:{i}": {"box": 3, "seen": 1, "due": "2099-01-01"} for i in range(1, 400)}}
+        p = page_with(b, {**met, "p:01|speak": at(10)}, errors); p.goto(BASE + "learn.html?u=02&s=words2"); p.wait_for_timeout(1500)
         heads = []
         for _ in range(5):
             heads.append(kicker(p)); answer(p, True)
-        ok.append(("recap first: " + " / ".join(heads[:2]), all(h.startswith("Quick recap") for h in heads) and heads[4].endswith("5 of 5")))
+        ok.append(("two lessons since the last recap: a recap first: " + " / ".join(heads[:2]), all(h.startswith("Quick recap") for h in heads) and heads[4].endswith("5 of 5")))
         ok.append(("recap result", "5 of 5" in p.inner_text(".done h2")))
         p.locator("button.go").first.click(); p.wait_for_timeout(400)
         ok.append(("then the lesson (" + kicker(p) + ")", kicker(p).startswith("New word")))
-        ok.append(("recap counter reset", p.evaluate("localStorage.getItem('rafiq_recap')") == "0"))
+        ok.append(("the recap is saved with the account", p.evaluate("!RafiqPath.recapDue() && Progress.hasSeen('r:recap')")))
         p.close()
-        p = page_with(b, met, errors, {"rafiq_recap": "1"}); p.goto(BASE + "learn.html?u=02&s=words2"); p.wait_for_timeout(1500)
+        p = page_with(b, met, errors); p.goto(BASE + "learn.html?u=02&s=words2"); p.wait_for_timeout(1500)
         ok.append(("one lesson since the last recap: straight into the lesson", kicker(p).startswith("New word"))); p.close()
 
         # the unit test: fail, review the mistakes, retake, pass
@@ -82,8 +84,9 @@ def main():
         ok.append(("13 of 18 is not a pass", "Not quite" in p.inner_text(".done")))
         ok.append(("a missed word comes back tomorrow", p.evaluate(f"Progress.get('{missed_id}').due") == TOMORROW))
         ok.append(("unit 2 still locked", not p.evaluate("RafiqPath.unitOpen('02')")))
-        p.goto(BASE + "learn.html?u=01&s=test"); p.wait_for_timeout(1200)          # coming back: the review, not the test
-        ok.append(("coming back before the review: the review (" + kicker(p) + ")", kicker(p).startswith("Your mistakes")))
+        account = json.loads(p.evaluate("localStorage.getItem('rafiq_progress_mirror')")); p.close()
+        p = page_with(b, account, errors); p.goto(BASE + "learn.html?u=01&s=test"); p.wait_for_timeout(1200)   # another device, same account
+        ok.append(("on another device before the review: the review (" + kicker(p) + ")", kicker(p).startswith("Your mistakes")))
         n = 0
         for _ in range(12):
             if not kicker(p).startswith("Your mistakes"): break

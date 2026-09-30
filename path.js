@@ -150,20 +150,41 @@
 
   function complete(n, key){
     // a step keeps the date it was first finished; revisiting it only counts the day
-    if(!stepDone(n, key)){ Progress.touch(sid(n, key)); if(n !== '00' && key !== 'test') lessonsSinceRecap(1); }
+    if(!stepDone(n, key)) Progress.touch(sid(n, key));
     markDay();
   }
   /* Recaps (#158): review that grows with progress. Every RECAP lessons finished, the
      next lesson starts with a short recap of words from earlier lessons, so two units
-     in a day bring back far more than one. Kept on the device. */
+     in a day bring back far more than one. Saved with the account: the last recap is
+     the row 'r:recap', and the lessons counted are the steps finished since. */
   const RECAP = 2;
-  function lessonsSinceRecap(add){
-    let n = 0; try{ n = parseInt(localStorage.getItem('rafiq_recap'), 10) || 0; }catch(_){}
-    if(add != null){ n = add ? n + add : 0; try{ localStorage.setItem('rafiq_recap', String(n)); }catch(_){} }
-    return n;
+  const when = r => r && r.at ? new Date(r.at).getTime() : 0;
+  function lessonsSinceRecap(){
+    const since = when(Progress.get('r:recap'));
+    return Progress.ids('p:').filter(id => !id.startsWith('p:00|') && !/\|(test|placed)$/.test(id)
+      && when(Progress.get(id)) > since).length;
   }
   const recapDue = () => lessonsSinceRecap() >= RECAP;
-  const recapDone = () => lessonsSinceRecap(0);
+  const recapDone = () => Progress.touch('r:recap');
+
+  /* A unit test below the pass mark (#158), saved with the account so the review of
+     its mistakes comes first on any device: 't:<unit>' counts failed tries,
+     'tr:<unit>' reviews done, and each try's missed questions are rows
+     'm:<unit>|<try>|<question>' (mean:<word id>, hear:<word id> or cloze:<index>). */
+  const tries = k => { const r = Progress.get(k); return r && r.seen || 0; };
+  const qCode = q => q.t === 'cloze' ? 'cloze:' + q.i : q.t + ':' + q.id;
+  function testFailed(n, missed){
+    const t = Progress.touch('t:' + n).seen;
+    missed.forEach(q => Progress.touch('m:' + n + '|' + t + '|' + qCode(q)));
+  }
+  /* The missed questions still to review, or null. */
+  function testReview(n){
+    const t = tries('t:' + n);
+    if(!t || tries('tr:' + n) >= t) return null;
+    return Progress.ids('m:' + n + '|' + t + '|').map(id => { const [k, v] = id.split('|')[2].split(':');
+      return k === 'cloze' ? {t:'cloze', u:n, i:+v} : {t:k, id:+v}; });
+  }
+  const testReviewed = n => Progress.touch('tr:' + n);
   function place(uptoIndex){          // placement: skip units before this one (index into units())
     UNITS.slice(0, uptoIndex).forEach(p => { if(!unitDone(p)) Progress.touch(sid(p.n, 'placed')); });
   }
@@ -296,7 +317,7 @@
     return ids.map(wordById).filter(Boolean);
   }
 
-  window.RafiqPath = { recapDue, recapDone, teaches: n => TEACH.has(n), lateLeft, reviewScope, metWords, sentenceDone, period, wordsByDay, wordsReport, bestStreak, reviewDue, hasLearned, COMING, STREAK_GOALS, streakGoal, BATCH, GOAL, units, skipReading, unitOpen, stepOpen, steps, stepDone, unitDone, placed, currentIndex, next, reached,
+  window.RafiqPath = { recapDue, recapDone, testFailed, testReview, testReviewed, teaches: n => TEACH.has(n), lateLeft, reviewScope, metWords, sentenceDone, period, wordsByDay, wordsReport, bestStreak, reviewDue, hasLearned, COMING, STREAK_GOALS, streakGoal, BATCH, GOAL, units, skipReading, unitOpen, stepOpen, steps, stepDone, unitDone, placed, currentIndex, next, reached,
                        complete, place, markDay, wordMet, week, doneToday, streak, wordsOf, unitData, wordById,
                        answerStyle, answered, answerPref };
 })();

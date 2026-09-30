@@ -250,7 +250,7 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 <script src="auth.js?v=6"></script>
 <script src="fsrs.js?v=20260929"></script>
 <script src="progress.js?v=20260930c"></script>
-<script src="path.js?v=20260930c"></script>
+<script src="path.js?v=20260930d"></script>
 <script src="plan.js?v=20260927"></script>
 <script src="report.js?v=1"></script>
 <script src="teach.js?v=1"></script>
@@ -976,9 +976,7 @@ function runRecap(p, then){
    the question again until it's right) before a retake; the next unit opens on a
    pass. Chosen with TypeSafe (tools/typesafe-exp/review_progress.py): 18 questions;
    it leaned slightly to 90%, but 80% leaves room for a slip on a sound. */
-const PASS=0.8, TEST_KEY='rafiq_test';
-const testState=()=>{ try{ return JSON.parse(localStorage.getItem(TEST_KEY))||{}; }catch(_){ return {}; } };
-const saveTest=(n,v)=>{ const s=testState(); if(v) s[n]=v; else delete s[n]; try{ localStorage.setItem(TEST_KEY,JSON.stringify(s)); }catch(_){} };
+const PASS=0.8;
 function testQuestions(p){
   const words=shuffle(RafiqPath.wordsOf(p)), u=RafiqPath.unitData(p.n);
   let cl=((u&&u.cloze)||[]).map((d,i)=>({t:'cloze',u:p.n,i,d}));
@@ -990,8 +988,8 @@ function testQuestions(p){
     cl.map(({t,u,i})=>({t,u,i})));
 }
 function runTest(p, step){
-  const pool=RafiqPath.wordsOf(p), saved=testState()[p.n];
-  if(saved && !saved.reviewed) return reviewMistakes(p, step, saved.missed);
+  const pool=RafiqPath.wordsOf(p), missedBefore=RafiqPath.testReview(p.n);
+  if(missedBefore) return reviewMistakes(p, step, missedBefore);
   const qs=testQuestions(p), missed=[];
   let k=0;
   const show=()=>{
@@ -1001,9 +999,9 @@ function runTest(p, step){
   };
   const result=()=>{
     const right=qs.length-missed.length, pct=Math.round(100*right/qs.length);
-    if(right>=Math.ceil(PASS*qs.length)){ saveTest(p.n,null);
-      return finish(p, step, `<div class="wnote up">🎓 <b>${right} of ${qs.length}</b> (${pct}%) — unit ${+p.n} passed</div>`); }
-    saveTest(p.n,{missed, reviewed:false}); setBar(1,1);
+    if(right>=Math.ceil(PASS*qs.length))
+      return finish(p, step, `<div class="wnote up">🎓 <b>${right} of ${qs.length}</b> (${pct}%) — unit ${+p.n} passed</div>`);
+    RafiqPath.testFailed(p.n, missed); setBar(1,1);
     const body=el(`<div class="done"><div class="tick">${right} / ${qs.length}</div><h2>Not quite yet</h2>
       <p>You need ${Math.ceil(PASS*qs.length)} to pass. Go over the ${missed.length} you missed, then try the test again.</p></div>`);
     screen(body,[button('Review my mistakes',()=>reviewMistakes(p, step, missed)), button('Complete',()=>{location.href='dashboard.html'},true)]);
@@ -1013,7 +1011,7 @@ function runTest(p, step){
 function reviewMistakes(p, step, missed){
   const pool=RafiqPath.wordsOf(p), left=missed.slice();
   const show=()=>{
-    if(!left.length){ saveTest(p.n,{missed, reviewed:true}); setBar(1,1);
+    if(!left.length){ RafiqPath.testReviewed(p.n); setBar(1,1);
       const body=el(`<div class="done"><div class="tick">✓</div><h2>Mistakes reviewed</h2><p>Ready when you are.</p></div>`);
       return screen(body,[button('Try the test again',()=>runTest(p, step)), button('Complete',()=>{location.href='dashboard.html'},true)]); }
     setBar(missed.length-left.length, missed.length);

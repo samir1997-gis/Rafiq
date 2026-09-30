@@ -11,7 +11,7 @@
    - Nothing else is touched: sign-in, progress and answer checking always go
      to the network.
    Bump VERSION when the list below changes. */
-const VERSION = 'rafiq-2026-09-30-review';
+const VERSION = 'rafiq-2026-09-30-review2';
 const SHELL = VERSION + '-shell', RUNTIME = 'rafiq-runtime', AUDIO = 'rafiq-audio';
 const PAGES = ['dashboard.html', 'login.html', 'onboarding.html', 'learn.html', 'session.html', 'practise.html', 'tutor.html', 'progress.html',
   'settings.html', 'vocab.html', 'drills.html', 'verbs.html', 'connectors.html', 'index.html', 'reset-password.html',
