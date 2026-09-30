@@ -469,6 +469,20 @@
   "chars": 25
  },
  {
+  "id": "1ietvv4",
+  "text": "هِيَ طَبِيبَةٌ.",
+  "bucket": "cloze",
+  "unit": "01",
+  "chars": 15
+ },
+ {
+  "id": "1m0bf4h",
+  "text": "هَذِهِ مَدْرَسَتِي .",
+  "bucket": "cloze",
+  "unit": "01",
+  "chars": 20
+ },
+ {
   "id": "lrkdw5",
   "text": "هَذِهِ أُخْتِي.",
   "bucket": "fix",
@@ -502,6 +516,13 @@
   "bucket": "fix",
   "unit": "01",
   "chars": 21
+ },
+ {
+  "id": "hu5e0n",
+  "text": "هَذِهِ أُمِّي.",
+  "bucket": "fix",
+  "unit": "01",
+  "chars": 14
  },
  {
   "id": "17aj43",
@@ -609,6 +630,27 @@
   "chars": 74
  },
  {
+  "id": "1vquzqg",
+  "text": "هُوَ مُدَرِّسٌ · هِيَ مُدَرِّسَةٌ",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 33
+ },
+ {
+  "id": "rt0r3j",
+  "text": "هُوَ مُدَرِّسٌ",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 14
+ },
+ {
+  "id": "1csh8vp",
+  "text": "هِيَ مُدَرِّسَةٌ",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 16
+ },
+ {
   "id": "1f73o9n",
   "text": "هَذا طالِبٌ · هَذِهِ طالِبَةٌ.",
   "bucket": "grammar",
@@ -649,6 +691,34 @@
   "bucket": "grammar",
   "unit": "01",
   "chars": 15
+ },
+ {
+  "id": "1p2wrq6",
+  "text": "أُمِّي · أُخْتِي · اسْمِي",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 25
+ },
+ {
+  "id": "1u1e5vr",
+  "text": "أُمِّي",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 6
+ },
+ {
+  "id": "19ryen9",
+  "text": "أُخْتِي",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 7
+ },
+ {
+  "id": "e06rjw",
+  "text": "اسْمِي",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 6
  },
  {
   "id": "1exs3kc",
@@ -13216,13 +13286,6 @@
   "chars": 7
  },
  {
-  "id": "e06rjw",
-  "text": "اسْمِي",
-  "bucket": "tile",
-  "unit": "01",
-  "chars": 6
- },
- {
   "id": "db39ru",
   "text": "يُوسُفُ",
   "bucket": "tile",
@@ -13545,13 +13608,6 @@
   "chars": 14
  },
  {
-  "id": "19ryen9",
-  "text": "أُخْتِي",
-  "bucket": "tile",
-  "unit": "01",
-  "chars": 7
- },
- {
   "id": "xo73w0",
   "text": "وَهِيَ",
   "bucket": "tile",
@@ -13704,13 +13760,6 @@
   "bucket": "tile",
   "unit": "02",
   "chars": 8
- },
- {
-  "id": "1u1e5vr",
-  "text": "أُمِّي",
-  "bucket": "tile",
-  "unit": "02",
-  "chars": 6
  },
  {
   "id": "zhqffz",

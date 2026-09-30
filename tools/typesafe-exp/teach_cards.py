@@ -9,7 +9,8 @@ ROOT = os.path.join(os.path.dirname(__file__), "..", "..")
 EXTRA = json.loads(subprocess.run(["node"], input=open(os.path.join(ROOT, "drills-data.js"), encoding="utf8").read() + "\nprocess.stdout.write(JSON.stringify(EXTRA))",
                                    capture_output=True, text=True, check=True, cwd=ROOT).stdout)
 CARDS = [(n, g) for n in ("01", "02", "03") for g in EXTRA[n]["grammar"]]
-NEW = {"Three endings: -u, -a, -i", "The past: the ending shows who", "Describing words copy the noun", "‘This is a house’ or ‘this house’?"}
+NEW = {"Three endings: -u, -a, -i", "The past: the ending shows who", "Describing words copy the noun", "‘This is a house’ or ‘this house’?",
+       "Masculine and feminine: look for ة", "‘My’ is ـِي on the end", "‘My’, ‘your’, ‘his’ are endings"}   # #162: new and changed
 LEARNER = "an adult UK beginner in Modern Standard Arabic, a few lessons in, who reads Arabic script slowly"
 
 QC = {"clear": Q("A grammar card in a beginner Arabic app. Title: `h`. Examples: `ar` = `tr`. Explanation: `en`. Learner: `learner`. How clear is it?", ["Confusing", "OK", "Clear", "Crystal clear"]),

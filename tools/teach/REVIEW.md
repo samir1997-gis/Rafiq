@@ -68,3 +68,17 @@
 - Later cards (units 2-11) that use -u/-a/-i now end with "(See ‘Three endings’ in unit 2.)"
 - Unit 1 now starts with ten single words: أَنا، أَنْتَ، أَنْتِ، هُوَ، هِيَ، هَذا، هَذِهِ، صَدِيق، مُدَرِّس، طالِبَة
 - The path was rebuilt (#157): nine words changed unit; ما (not) and لا (not, don't) are now placed by topic, not by spelling.
+
+## Added 30 Sep 2026 (#162): masculine/feminine and ‘my’ in unit 1 — for the teacher to check
+Checked with TypeSafe (teach_cards.py: both new cards right 0.80/0.81, mistakes real 0.94–0.96) and CAMeL (nothing new).
+
+| Unit | Card or exercise | Arabic | Note | OK? |
+|---|---|---|---|---|
+| 1 | Masculine and feminine: look for ة (new card) | هُوَ مُدَرِّسٌ · هِيَ مُدَرِّسَةٌ | Also names صَدِيق → صَدِيقَة, and أُمّ, أُخْت as feminine without ة | |
+| 1 | … its crossed-out mistake | هُوَ طالِبَةٌ. → هِيَ طالِبَةٌ. | | |
+| 1 | ‘My’ is ـِي on the end (new card) | أُمِّي · أُخْتِي · اسْمِي | Also مَدْرَسَة → مَدْرَسَتِي, اسْمُكَ / اسْمُكِ | |
+| 1 | … its crossed-out mistake | هَذِهِ مَدْرَسَةِي. → هَذِهِ مَدْرَسَتِي. | | |
+| 1 | New gap-fill | ___ طَبِيبَةٌ. → هِيَ | options هُوَ، هِيَ، هَذا، أَنْتَ | |
+| 1 | New gap-fill | هَذِهِ ___ . → مَدْرَسَتِي | options مَدْرَسَتِي، مَدْرَسَةِي، مَدْرَسَتُ، مَدْرَسِي | |
+| 1 | New "find the mistake" | هَذا أُمِّي. → هَذِهِ أُمِّي. | | |
+| 2 | ‘My’, ‘your’, ‘his’ are endings (wording) | adds أَخ → أَخِي, ـكِ for ‘your’ to a woman, ـها for ‘her’ | | |

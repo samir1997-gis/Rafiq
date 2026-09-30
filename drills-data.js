@@ -1262,8 +1262,10 @@ const EXTRA={
 "01":{
  grammar:[
   {t:"الجملة الاسمية",ar:"أَنا مُهَنْدِسٌ.",h:"No word for ‘am’, ‘is’ or ‘are’",tr:"I am an engineer.",en:"Arabic just puts the two words side by side: ‘I engineer’. There’s no word for ‘is’ in the present.",bad:["أَنا هُوَ مُهَنْدِسٌ.","Don’t add a word for ‘am’: أَنا مُهَنْدِسٌ. is already the whole sentence."]},
+  {t:"المذكر والمؤنث",ar:"هُوَ مُدَرِّسٌ · هِيَ مُدَرِّسَةٌ",h:"Masculine and feminine: look for ة",tr:"He is a teacher · She is a teacher",en:"Every Arabic noun is masculine or feminine. Most feminine words end in ة, and adding ة often makes the female form: صَدِيق → صَدِيقَة, مُدَرِّس → مُدَرِّسَة. A few words are feminine without ة because they mean a woman: أُمّ (mother), أُخْت (sister). The gender changes the words around the noun: هُوَ or هِيَ, هَذا or هَذِهِ, and later describing words and verbs.",bad:["هُوَ طالِبَةٌ.","طالِبَة ends in ة, so it’s a woman: هِيَ طالِبَةٌ."]},
   {t:"هَذا / هَذِهِ",ar:"هَذا طالِبٌ · هَذِهِ طالِبَةٌ.",h:"‘This’ has a male and a female form",tr:"This is a student (m) · This is a student (f).",en:"Use هَذا for a man or a masculine word, and هَذِهِ for a woman or a feminine word (most end in ة).",bad:["هَذا أُخْتِي.","أُخْت (sister) is feminine, so it’s هَذِهِ أُخْتِي."]},
   {t:"النِّسْبَة",ar:"باكِسْتانِيٌّ · باكِسْتانِيَّةٌ",h:"Turning a country into a nationality",tr:"Pakistani (man) · Pakistani (woman)",en:"Add ـِيّ to the country to say where someone is from. For a woman, add ة as well: ـِيَّة.",bad:["هِيَ باكِسْتانِيٌّ.","For a woman, add ة as well: هِيَ باكِسْتانِيَّةٌ."]},
+  {t:"ياء المتكلم",ar:"أُمِّي · أُخْتِي · اسْمِي",h:"‘My’ is ـِي on the end",tr:"my mother · my sister · my name",en:"There’s no separate word for ‘my’: add ـِي to the end of the word. أُمّ → أُمِّي, اسْم → اسْمِي. If the word ends in ة, the ة becomes ت first: مَدْرَسَة → مَدْرَسَتِي (my school). ‘Your’ works the same way, as in اسْمُكَ (to a man) and اسْمُكِ (to a woman).",bad:["هَذِهِ مَدْرَسَةِي.","ة becomes ت before an ending: هَذِهِ مَدْرَسَتِي."]},
   {t:"أدوات الاستفهام",ar:"ما · مَنْ · هَلْ · مِنْ أَيْنَ",h:"Question words",tr:"What? · Who? · Is…? / Are…? · Where from?",en:"ما asks ‘what’, مَنْ asks ‘who’, and مِنْ أَيْنَ asks ‘where from’. Put هَلْ at the start of a sentence to make it a yes/no question.",bad:["مَنْ اسْمُكَ؟","To ask someone’s name, Arabic uses ما (what), not مَنْ (who): ما اسْمُكَ؟"]}
  ],
  cloze:[
@@ -1272,20 +1274,23 @@ const EXTRA={
   {q:"___ اسْمُكَ؟",o:["ما","مَنْ","هَلْ","أَيْنَ"],a:0,w:"ما is used for things, including names — مَنْ would ask 'who'."},
   {q:"___ أَنْتَ طالِبٌ؟",o:["ما","مَنْ","هَلْ","كَيْفَ"],a:2,w:"هَلْ turns a statement into a yes/no question."},
   {q:"أَنا مُهَنْدِسٌ ___ صَدِيقِي مُدَرِّسٌ.",o:["وَ","لِأَنَّ","لَكِنَّ","ثُمَّ"],a:0,w:"Two parallel facts, no contrast or cause — plain وَ."},
-  {q:"كَيْفَ ___ يا أُخْتِي؟",o:["حالُكَ","حالُكِ","حالُهُ","حالُنا"],a:1,w:"Addressing a woman takes the ـكِ ending."}
+  {q:"كَيْفَ ___ يا أُخْتِي؟",o:["حالُكَ","حالُكِ","حالُهُ","حالُنا"],a:1,w:"Addressing a woman takes the ـكِ ending."},
+  {q:"___ طَبِيبَةٌ.",o:["هُوَ","هِيَ","هَذا","أَنْتَ"],a:1,w:"طَبِيبَة ends in ة, so it’s a woman: هِيَ."},
+  {q:"هَذِهِ ___ .",o:["مَدْرَسَتِي","مَدْرَسَةِي","مَدْرَسَتُ","مَدْرَسِي"],a:0,w:"ة becomes ت before ‘my’: مَدْرَسَتِي."}
  ],
  fix:[
   {bad:"هَذا أُخْتِي.",good:"هَذِهِ أُخْتِي.",w:"Feminine noun needs هَذِهِ."},
   {bad:"أَنا مُهَنْدِسًا.",good:"أَنا مُهَنْدِسٌ.",w:"In a sentence with no verb, the describing word ends in -un, not -an."},
   {bad:"هَلْ أَنْتَ طالِبَةٌ يا خالِدُ؟",good:"هَلْ أَنْتَ طالِبٌ يا خالِدُ؟",w:"Khalid is male — drop the ة."},
   {bad:"أَنا مِنْ مِصْرٍ.",good:"أَنا مِنْ مِصْرَ.",w:"مِصْر (Egypt) never adds the extra -n, and takes -a where you’d expect -i."},
-  {bad:"ما اسْمُكِ يا عُمَرُ؟",good:"ما اسْمُكَ يا عُمَرُ؟",w:"Umar is male, so the pronoun ending is ـكَ."}
+  {bad:"ما اسْمُكِ يا عُمَرُ؟",good:"ما اسْمُكَ يا عُمَرُ؟",w:"Umar is male, so the pronoun ending is ـكَ."},
+  {bad:"هَذا أُمِّي.",good:"هَذِهِ أُمِّي.",w:"أُمّ (mother) is feminine even without ة, so it’s هَذِهِ."}
  ]},
 "02":{
  grammar:[
   {t:"الإضافة",ar:"صُورَةُ أُسْرَتِي",h:"‘The X of Y’: two nouns side by side",tr:"a picture of my family",en:"Say the thing first, then whose it is: ‘picture family-my’. The first word never takes ال or the extra -n; the second ends in -i (here hidden under ـِي, ‘my’).",bad:["هَذِهِ صُورَةُ الأُسْرَتِي.","A word with ‘my’ on the end can’t take ال too: صُورَةُ أُسْرَتِي."]},
   {t:"الإعراب",ar:"الْمَسْجِدُ كَبِيرٌ · أَرى الْمَسْجِدَ · فِي الْمَسْجِدِ",h:"Three endings: -u, -a, -i",tr:"The mosque is big · I see the mosque · in the mosque",en:"Most Arabic words can end in -u, -a or -i, and the ending shows the word’s job. -u is the usual one: what the sentence is about. -a is for the thing something is done to. -i comes after words like فِي (in), مِنْ (from) and إِلى (to), and on the second word of ‘the X of Y’. Without ال, add an extra -n: -un, -an, -in. Later cards point back to these three endings.",bad:["فِي الْمَسْجِدُ", "After فِي the word ends in -i: فِي الْمَسْجِدِ."]},
-  {t:"الضمائر المتصلة",ar:"وَالِدِي · وَالِدُكَ · وَالِدُهُ",h:"‘My’, ‘your’, ‘his’ are endings",tr:"my father · your father · his father",en:"Instead of a separate word, Arabic adds an ending: ـِي for ‘my’, ـكَ for ‘your’, ـهُ for ‘his’.",bad:["كَيْفَ حالُكِ يا عُمَرُ؟","Umar is a man, so ‘your’ is ـكَ: كَيْفَ حالُكَ يا عُمَرُ؟"]},
+  {t:"الضمائر المتصلة",ar:"وَالِدِي · وَالِدُكَ · وَالِدُهُ",h:"‘My’, ‘your’, ‘his’ are endings",tr:"my father · your father · his father",en:"Instead of a separate word, Arabic adds an ending: ـِي for ‘my’ (أَخ → أَخِي, my brother), ـكَ or ـكِ for ‘your’ (to a man or a woman), ـهُ for ‘his’ and ـها for ‘her’.",bad:["كَيْفَ حالُكِ يا عُمَرُ؟","Umar is a man, so ‘your’ is ـكَ: كَيْفَ حالُكَ يا عُمَرُ؟"]},
   {t:"المضارع: أنا / هو",ar:"أَتَوَضَّأُ · يَتَوَضَّأُ",h:"Who’s doing it? Look at the first letter",tr:"I make wudu · he makes wudu",en:"In the present tense, the first letter shows who: أ for ‘I’, يـ for ‘he’, تـ for ‘she’ or ‘you’.",bad:["أَنا يَتَوَضَّأُ.","يَـ is for ‘he’. With أَنا (I) the verb starts with أَ: أَنا أَتَوَضَّأُ."]},
   {t:"الماضي",ar:"ذَهَبْتُ · ذَهَبْتَ · ذَهَبْتِ · ذَهَبَ · ذَهَبَتْ · ذَهَبْنا",h:"The past: the ending shows who",tr:"I went · you went (to a man) · you went (to a woman) · he went · she went · we went",en:"In the present, the first letter shows who. In the past, the ending does: ـتُ for ‘I’, ـتَ for ‘you’ (a man), ـتِ for ‘you’ (a woman), nothing extra for ‘he’, ـتْ for ‘she’ and ـنا for ‘we’. To change a sentence to the past, take the verb’s past form and put the right ending on it.",bad:["أَنا ذَهَبَ إِلى الْمَسْجِدِ.", "With أَنا the past verb ends in ـتُ: أَنا ذَهَبْتُ إِلى الْمَسْجِدِ."]},
   {t:"العدد ٣–١٠",ar:"تِسْعَةُ أَوْلادٍ",h:"Counting from 3 to 10",tr:"nine boys",en:"The number comes first, then the thing you’re counting, in the plural and ending in -in. (See ‘Three endings’ in unit 2.)",bad:["تِسْعَةُ أَوْلادٌ","After 3 to 10, the thing you count ends in -in: تِسْعَةُ أَوْلادٍ."]}
