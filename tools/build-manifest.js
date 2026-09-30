@@ -94,9 +94,15 @@ VOWEL_MARKS.forEach(v=>{ if(v[3]) add('alphabet','00',v[3][0]); });
 LISTEN_TEST.forEach(t=>add('alphabet','00',t[0]));
 READING_RULES.forEach(r=>{ r[2].forEach(e=>add('alphabet','00',e[0])); add('alphabet','00',r[3][4]); });
 // the basics (#165): each example, and what's said after each pick (the finished sentence, the right answer, or the word shown)
-eval(fs.readFileSync(path.join(root,'basics-data.js'),'utf8').replace(/const BASICS_GOAL/,'globalThis.BASICS_GOAL').replace(/const BASICS =/,'globalThis.BASICS ='));
+eval(fs.readFileSync(path.join(root,'basics-data.js'),'utf8').replace(/const (BASICS_GOAL|BASICS_NAMES|BASICS) =/g,'globalThis.$1 ='));
 // the goal sentence and each lesson's 'sentence so far' (#168), as a man and as a woman says it
 ['m','f'].forEach(g=>{ add('basics','0b',BASICS_GOAL[g]); BASICS.forEach(l=>add('basics','0b',l.sofar[g])); });
+// with the learner's own name (#169): the pieces around the name, and every name on the list
+['m','f'].forEach(g=>[BASICS_GOAL[g]].concat(BASICS.map(l=>l.sofar[g])).forEach(line=>{
+  const ex=['سَمِير','مَرْيَم'].find(n=>line.includes(n)); if(!ex) return;
+  const [a,b]=line.split(ex); add('basics','0b',a.trim()); const rest=b.replace(/^،\s*/,'').trim(); if(rest) add('basics','0b',rest);
+}));
+[...new Set(Object.values(BASICS_NAMES))].forEach(n=>add('names','0b',n));
 const hasAr=t=>/[\u0600-\u06FF]/.test(t);
 BASICS.forEach(l=>{
   l.teach.forEach(t=>t.pairs.forEach(([a])=>add('basics','0b',a.replace(/ · /g,'، '))));

@@ -248,3 +248,117 @@ Because the basics now teach ‘of’, these journey cards were removed (practic
 | One and many | نَحْنُ طُلّابُ اللُّغَةِ الْعَرَبِيَّةِ | نَحْنُ طُلّابُ اللُّغَةِ الْعَرَبِيَّةِ |
 
 The full list of picks per lesson is in basics-data.js; the ‘Of’ lesson's picks: How do you say ‘a student of the language’?  → طالِبُ اللُّغَةِ · How do you say ‘the student’s book’?  → كِتابُ الطّالِبِ · What does it mean? بابُ الْبَيْتِ → the door of the house · How do you say ‘the Arabic language’?  → اللُّغَةُ الْعَرَبِيَّةُ · How do you say ‘a big room’?  → غُرْفَةٌ كَبِيرَةٌ · How do you say ‘a big house’?  → بَيْتٌ كَبِيرٌ · Which fits? طالِبُ اللُّغَةِ ___ → الْعَرَبِيَّةِ · A woman says ‘I’m a student of the Arabic language’:  → أَنا طالِبَةُ اللُّغَةِ الْعَرَبِيَّةِ
+
+## Added 30 Sep 2026 (#169): the learner's own name in the goal sentence — for the teacher to check
+The goal sentence uses the first name given at sign-up. A common name is written in Arabic from this list (English spellings → Arabic); anything else is shown as typed. CAMeL Tools knows 104 of the 108 (not حَفْصَة، رانِيَة، زَهْراء، شَيْماء); where its vowel marks differ we kept the Quranic or usual form (يُوسُف، يُونُس، عِمْران، سُمَيَّة، مُعاذ، آصِف، سارَة). ياسَمِين became ياسْمِين (the name is said yāsmīn). Please check every spelling.
+
+| Arabic | English spellings | OK? |
+|---|---|---|
+| مُحَمَّد | muhammad, mohammed, mohammad, mohamed, muhammed, mohamad, mohd | |
+| أَحْمَد | ahmed, ahmad | |
+| مَحْمُود | mahmood, mahmoud, mahmud | |
+| عَلِيّ | ali | |
+| عُمَر | omar, umar | |
+| عُثْمان | usman, uthman, osman, othman | |
+| حَسَن | hassan, hasan | |
+| حُسَيْن | hussain, hussein, husain, husein, hossain | |
+| إِبْراهِيم | ibrahim, ebrahim | |
+| يُوسُف | yusuf, yousuf, yousef, yusef, youssef | |
+| آدَم | adam | |
+| إِدْرِيس | idris, idrees | |
+| عِمْران | imran | |
+| عِرْفان | irfan | |
+| فَيْصَل | faisal, faysal | |
+| زَيْد | zaid, zayd | |
+| خالِد | khalid, khaled | |
+| طارِق | tariq, tarik, tareq | |
+| سَمِير | samir, sameer | |
+| أَمِير | amir, ameer | |
+| كَرِيم | karim, kareem | |
+| عَبْدُ اللهِ | abdullah, abdallah | |
+| عَبْدُ الرَّحْمَن | abdulrahman, abdurrahman, abdelrahman | |
+| بِلال | bilal | |
+| حَمْزَة | hamza, hamzah | |
+| إِسْماعِيل | ismail, ismael | |
+| إِلْياس | ilyas, elias | |
+| يُونُس | yunus, younus, younis | |
+| مُوسَى | musa, moosa | |
+| عِيسَى | isa, eesa, issa | |
+| داوُد | dawud, dawood, daud | |
+| سُلَيْمان | sulaiman, sulayman, suleman, suleiman | |
+| زَكَرِيّا | zakariya, zakaria, zakariyya | |
+| يَحْيَى | yahya | |
+| نُوح | nuh, nooh | |
+| هارُون | harun, haroon | |
+| إِسْحاق | ishaq | |
+| يَعْقُوب | yaqub, yakub, yaqoob | |
+| أَيُّوب | ayub, ayoub, ayyub | |
+| سَلْمان | salman | |
+| رَيّان | rayyan, rayan | |
+| زُبَيْر | zubair, zubayr | |
+| سَعِيد | saeed, sayeed | |
+| رَشِيد | rashid, rasheed | |
+| مالِك | malik | |
+| ياسِر | yasir, yasser, yaser | |
+| ناصِر | nasir, nasser, naser | |
+| جَمال | jamal | |
+| كَمال | kamal | |
+| شَرِيف | sharif, shareef | |
+| عادِل | adil, adel | |
+| عارِف | arif | |
+| نَبِيل | nabil, nabeel | |
+| وَسِيم | wasim, waseem | |
+| عَزِيز | aziz | |
+| رَحِيم | rahim, raheem | |
+| أُسامَة | usama, osama, usamah | |
+| مُصْطَفَى | mustafa, mostafa | |
+| أَنَس | anas | |
+| مُعاذ | muadh, muaz, moaz | |
+| سُفْيان | sufyan, sufian | |
+| حامِد | hamid, hamed | |
+| عَمّار | ammar | |
+| عَدْنان | adnan | |
+| هِشام | hisham | |
+| آصِف | asif | |
+| نُعْمان | numan, nouman | |
+| مَرْيَم | maryam, mariam, mariyam, maryum | |
+| عائِشَة | aisha, ayesha, aishah, ayisha, aysha | |
+| فاطِمَة | fatima, fatimah, fatema | |
+| خَدِيجَة | khadija, khadijah | |
+| زَيْنَب | zainab, zaynab | |
+| سارَة | sara, sarah | |
+| آمِنَة | amina, aminah, ameena | |
+| حَفْصَة | hafsa, hafsah | |
+| سُمَيَّة | sumayya, sumayyah, sumaya, sumaiya | |
+| صَفِيَّة | safiya, safiyyah, safia, safiyah | |
+| أَسْماء | asma, asmaa | |
+| نُور | noor, nur, nour | |
+| هُدَى | huda, hoda | |
+| ياسْمِين | yasmin, yasmeen | |
+| لَيْلَى | layla, laila, leila, lailah | |
+| رُقَيَّة | ruqayya, ruqayyah, ruqaiya | |
+| زَهْراء | zahra, zahraa | |
+| سَلْمَى | salma | |
+| إِيمان | iman, eman, imaan | |
+| نادِيَة | nadia, nadiya | |
+| رانِيَة | rania, raniya | |
+| هاجَر | hajar | |
+| حَلِيمَة | halima, halimah | |
+| جَمِيلَة | jamila, jameela | |
+| رَحْمَة | rahma, rahmah | |
+| هِبَة | hiba, heba | |
+| دُعاء | dua, duaa | |
+| شَيْماء | shaima, shaimaa | |
+| عالِيَة | aliya, aaliyah, aliyah, aaliya | |
+| أَمِيرَة | amira, ameera | |
+| نُسَيْبَة | nusaybah, nusaiba | |
+| رَيْحانَة | rehana, raihana, rayhana | |
+| مَلِيكَة | malika | |
+| آسِيَة | asiya, asiyah, aasiya | |
+| بُشْرَى | bushra | |
+| سُعاد | suad | |
+| تَسْنِيم | tasnim, tasneem | |
+| أَنِيسَة | anisa, anisah | |
+| نَبِيلَة | nabila, nabeela | |
+| سَمِيرَة | samira, sameera | |
+| كَرِيمَة | karima, kareema | |

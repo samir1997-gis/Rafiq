@@ -117,3 +117,39 @@ const BASICS = [
     ['Which fits?', 'نَحْنُ ___ اللُّغَةِ الْعَرَبِيَّةِ', ['طُلّابُ','طالِبُ'], 'نَحْنُ is more than one: the plural, طُلّاب.']],
    sofar:{m:'نَحْنُ طُلّابُ اللُّغَةِ الْعَرَبِيَّةِ', f:'نَحْنُ طُلّابُ اللُّغَةِ الْعَرَبِيَّةِ', en:'A bonus: we’re students of the Arabic language.', adds:'نَحْنُ طُلّابُ', bonus:true}},
 ];
+
+/* The learner's own name in the goal sentence (#169): the first name given at sign-up, written in
+   Arabic when it's a common name with a standard spelling (English spellings on the left). Anything
+   else is shown as typed. Each Arabic name has a recorded clip; checked with TypeSafe
+   (tools/typesafe-exp/names_check.py) and listed for the teacher in tools/teach/REVIEW.md. */
+const BASICS_NAMES = (() => {
+  const L = {
+    // men
+    'مُحَمَّد':'muhammad mohammed mohammad mohamed muhammed mohamad mohd', 'أَحْمَد':'ahmed ahmad', 'مَحْمُود':'mahmood mahmoud mahmud',
+    'عَلِيّ':'ali', 'عُمَر':'omar umar', 'عُثْمان':'usman uthman osman othman', 'حَسَن':'hassan hasan', 'حُسَيْن':'hussain hussein husain husein hossain',
+    'إِبْراهِيم':'ibrahim ebrahim', 'يُوسُف':'yusuf yousuf yousef yusef youssef', 'آدَم':'adam', 'إِدْرِيس':'idris idrees', 'عِمْران':'imran',
+    'عِرْفان':'irfan', 'فَيْصَل':'faisal faysal', 'زَيْد':'zaid zayd', 'خالِد':'khalid khaled', 'طارِق':'tariq tarik tareq', 'سَمِير':'samir sameer',
+    'أَمِير':'amir ameer', 'كَرِيم':'karim kareem', 'عَبْدُ اللهِ':'abdullah abdallah', 'عَبْدُ الرَّحْمَن':'abdulrahman abdurrahman abdelrahman',
+    'بِلال':'bilal', 'حَمْزَة':'hamza hamzah', 'إِسْماعِيل':'ismail ismael', 'إِلْياس':'ilyas elias', 'يُونُس':'yunus younus younis',
+    'مُوسَى':'musa moosa', 'عِيسَى':'isa eesa issa', 'داوُد':'dawud dawood daud', 'سُلَيْمان':'sulaiman sulayman suleman suleiman',
+    'زَكَرِيّا':'zakariya zakaria zakariyya', 'يَحْيَى':'yahya', 'نُوح':'nuh nooh', 'هارُون':'harun haroon', 'إِسْحاق':'ishaq', 'يَعْقُوب':'yaqub yakub yaqoob',
+    'أَيُّوب':'ayub ayoub ayyub', 'سَلْمان':'salman', 'رَيّان':'rayyan rayan', 'زُبَيْر':'zubair zubayr', 'سَعِيد':'saeed sayeed', 'رَشِيد':'rashid rasheed',
+    'مالِك':'malik', 'ياسِر':'yasir yasser yaser', 'ناصِر':'nasir nasser naser', 'جَمال':'jamal', 'كَمال':'kamal', 'شَرِيف':'sharif shareef',
+    'عادِل':'adil adel', 'عارِف':'arif', 'نَبِيل':'nabil nabeel', 'وَسِيم':'wasim waseem', 'عَزِيز':'aziz', 'رَحِيم':'rahim raheem',
+    'أُسامَة':'usama osama usamah', 'مُصْطَفَى':'mustafa mostafa', 'أَنَس':'anas', 'مُعاذ':'muadh muaz moaz', 'سُفْيان':'sufyan sufian',
+    'حامِد':'hamid hamed', 'عَمّار':'ammar', 'عَدْنان':'adnan', 'هِشام':'hisham', 'آصِف':'asif', 'نُعْمان':'numan nouman',
+    // women
+    'مَرْيَم':'maryam mariam mariyam maryum', 'عائِشَة':'aisha ayesha aishah ayisha aysha', 'فاطِمَة':'fatima fatimah fatema',
+    'خَدِيجَة':'khadija khadijah', 'زَيْنَب':'zainab zaynab', 'سارَة':'sara sarah', 'آمِنَة':'amina aminah ameena', 'حَفْصَة':'hafsa hafsah',
+    'سُمَيَّة':'sumayya sumayyah sumaya sumaiya', 'صَفِيَّة':'safiya safiyyah safia safiyah', 'أَسْماء':'asma asmaa', 'نُور':'noor nur nour',
+    'هُدَى':'huda hoda', 'ياسْمِين':'yasmin yasmeen', 'لَيْلَى':'layla laila leila lailah', 'رُقَيَّة':'ruqayya ruqayyah ruqaiya',
+    'زَهْراء':'zahra zahraa', 'سَلْمَى':'salma', 'إِيمان':'iman eman imaan', 'نادِيَة':'nadia nadiya', 'رانِيَة':'rania raniya', 'هاجَر':'hajar',
+    'حَلِيمَة':'halima halimah', 'جَمِيلَة':'jamila jameela', 'رَحْمَة':'rahma rahmah', 'هِبَة':'hiba heba', 'دُعاء':'dua duaa', 'شَيْماء':'shaima shaimaa',
+    'عالِيَة':'aliya aaliyah aliyah aaliya', 'أَمِيرَة':'amira ameera', 'نُسَيْبَة':'nusaybah nusaiba', 'رَيْحانَة':'rehana raihana rayhana',
+    'مَلِيكَة':'malika', 'آسِيَة':'asiya asiyah aasiya', 'بُشْرَى':'bushra', 'سُعاد':'suad', 'تَسْنِيم':'tasnim tasneem', 'أَنِيسَة':'anisa anisah',
+    'نَبِيلَة':'nabila nabeela', 'سَمِيرَة':'samira sameera', 'كَرِيمَة':'karima kareema',
+  };
+  const m = {};
+  Object.entries(L).forEach(([ar, en]) => en.split(' ').forEach(k => m[k] = ar));
+  return m;
+})();

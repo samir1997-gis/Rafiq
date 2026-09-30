@@ -78,6 +78,17 @@ def main():
         ok.append(("as a woman: her form of the goal", p.evaluate("basicsG()") == "f"))
         p.close()
 
+        # the learner's own name (#169): a common name in Arabic, anything else as typed
+        for signup, want in (("Aisha Khan", "عائِشَة"), ("Zorro", "Zorro")):
+            c = b.new_context(viewport={"width": 390, "height": 844}); c.route("**/@supabase/**", lambda r: r.abort())
+            c.add_init_script("localStorage.setItem('rafiq_progress_mirror',%s);localStorage.setItem('bay_name',%s)"
+                              % (json.dumps(json.dumps(seen(*[f"p:00|{k}" for k in ALPHA]))), json.dumps(signup)))
+            p = c.new_page(); p.on("pageerror", lambda e: errors.append(str(e)))
+            p.goto(BASE + "learn.html?u=0b&s=b-the"); p.wait_for_timeout(1500)
+            goal = p.inner_text("#g")
+            ok.append((f"signed up as {signup}: the goal says {want}", want in goal and "سَمِير" not in goal))
+            c.close()
+
         # the check at the end, then unit 1 opens
         p = page_with(b, seen(*[f"p:00|{k}" for k in ALPHA], *[f"p:0b|{k}" for k in LESSONS]), errors)
         p.goto(BASE + "learn.html?u=0b&s=test"); p.wait_for_timeout(1500)

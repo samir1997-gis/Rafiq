@@ -21140,6 +21140,720 @@
   "chars": 53
  },
  {
+  "id": "q3y2js",
+  "text": "السَّلامُ عَلَيْكُمْ، اسْمِي",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 28
+ },
+ {
+  "id": "w9wunv",
+  "text": "وَأَنا طالِبُ اللُّغَةِ الْعَرَبِيَّةِ.",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 39
+ },
+ {
+  "id": "ftj4of",
+  "text": "وَأَنا طالِبٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 13
+ },
+ {
+  "id": "59v4ak",
+  "text": "وَأَنا طالِبَةُ اللُّغَةِ الْعَرَبِيَّةِ.",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 41
+ },
+ {
+  "id": "12uetbc",
+  "text": "وَأَنا طالِبَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 15
+ },
+ {
+  "id": "144lcfw",
+  "text": "مَحْمُود",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1qgwrvh",
+  "text": "عَلِيّ",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "g1xse",
+  "text": "عُثْمان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1qdq2bh",
+  "text": "حَسَن",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "sagghw",
+  "text": "حُسَيْن",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1a58lic",
+  "text": "إِبْراهِيم",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 10
+ },
+ {
+  "id": "1c9h3w5",
+  "text": "إِدْرِيس",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1sxyw6j",
+  "text": "عِمْران",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1v6kpv3",
+  "text": "عِرْفان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "16zaaz1",
+  "text": "فَيْصَل",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1pydb3i",
+  "text": "زَيْد",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1kb5sye",
+  "text": "سَمِير",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1tzfufa",
+  "text": "أَمِير",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1ydc7o8",
+  "text": "عَبْدُ اللهِ",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 12
+ },
+ {
+  "id": "45cnx3",
+  "text": "عَبْدُ الرَّحْمَن",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 17
+ },
+ {
+  "id": "1qhoti2",
+  "text": "بِلال",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "rc177o",
+  "text": "حَمْزَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "sptyl0",
+  "text": "إِسْماعِيل",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 10
+ },
+ {
+  "id": "1qs3ud4",
+  "text": "إِلْياس",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "uj9hxu",
+  "text": "يُونُس",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "w6pb6b",
+  "text": "مُوسَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1q8fjsi",
+  "text": "عِيسَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1qf7gw5",
+  "text": "داوُد",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "tvwzqn",
+  "text": "سُلَيْمان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "157ojft",
+  "text": "زَكَرِيّا",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "c6u5cj",
+  "text": "يَحْيَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "y9jaeh",
+  "text": "نُوح",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 4
+ },
+ {
+  "id": "n1wlqt",
+  "text": "هارُون",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1rns2mx",
+  "text": "إِسْحاق",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "wxqf1j",
+  "text": "يَعْقُوب",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1azl658",
+  "text": "أَيُّوب",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "bg0nt6",
+  "text": "سَلْمان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1ljhon4",
+  "text": "رَيّان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1oe0vp3",
+  "text": "زُبَيْر",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1k9xud0",
+  "text": "سَعِيد",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1lk2jh7",
+  "text": "رَشِيد",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1rg4xm8",
+  "text": "مالِك",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1tkr6yi",
+  "text": "ياسِر",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1td406o",
+  "text": "ناصِر",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1qd2hmp",
+  "text": "جَمال",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1tfyajy",
+  "text": "كَمال",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "4tp25x",
+  "text": "شَرِيف",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1q5x95s",
+  "text": "عادِل",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1q5xp6j",
+  "text": "عارِف",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "n71s3f",
+  "text": "نَبِيل",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "xn31u7",
+  "text": "وَسِيم",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1qfskaw",
+  "text": "عَزِيز",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1ljoma0",
+  "text": "رَحِيم",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1bdplhb",
+  "text": "أُسامَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "10ywtw7",
+  "text": "مُصْطَفَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "1q9nng3",
+  "text": "أَنَس",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1rea5vl",
+  "text": "مُعاذ",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "apzr8h",
+  "text": "سُفْيان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1qdy4dx",
+  "text": "حامِد",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1qgyvf4",
+  "text": "عَمّار",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1yv98fc",
+  "text": "عَدْنان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1tcrves",
+  "text": "هِشام",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "y6a4w3",
+  "text": "آصِف",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 4
+ },
+ {
+  "id": "1kkgopv",
+  "text": "نُعْمان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1t5p6fg",
+  "text": "مَرْيَم",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "4achku",
+  "text": "عائِشَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "jisnvq",
+  "text": "فاطِمَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1tjx98b",
+  "text": "خَدِيجَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1ocl1wh",
+  "text": "زَيْنَب",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1t7epzn",
+  "text": "آمِنَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "reur9j",
+  "text": "حَفْصَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "36daem",
+  "text": "سُمَيَّة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "14dibcj",
+  "text": "صَفِيَّة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1auof2i",
+  "text": "أَسْماء",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1tcnzl1",
+  "text": "هُدَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "vmf7io",
+  "text": "ياسْمِين",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "hx5ldg",
+  "text": "لَيْلَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1oyy2vf",
+  "text": "رُقَيَّة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1nx8ufv",
+  "text": "زَهْراء",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "bg0m18",
+  "text": "سَلْمَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "cny1we",
+  "text": "إِيمان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "8lr186",
+  "text": "نادِيَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1n4wy94",
+  "text": "رانِيَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1t9t3au",
+  "text": "هاجَر",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1ea1m2i",
+  "text": "حَلِيمَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1g8ixon",
+  "text": "رَحْمَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1tcrha5",
+  "text": "هِبَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1qcc6ka",
+  "text": "دُعاء",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "g0qof8",
+  "text": "شَيْماء",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "686xgi",
+  "text": "عالِيَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "18teu3l",
+  "text": "أَمِيرَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "khdi5i",
+  "text": "نُسَيْبَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "fat5op",
+  "text": "رَيْحانَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "w4xmac",
+  "text": "مَلِيكَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1utcp61",
+  "text": "آسِيَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "g81cmq",
+  "text": "بُشْرَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1pz04ko",
+  "text": "سُعاد",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "kori49",
+  "text": "تَسْنِيم",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1asp1ts",
+  "text": "أَنِيسَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "189u9lo",
+  "text": "نَبِيلَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "lychrl",
+  "text": "سَمِيرَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "16orjsx",
+  "text": "كَرِيمَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
   "id": "a299hp",
   "text": "الْكِتابُ",
   "bucket": "basics",
@@ -21254,13 +21968,6 @@
  {
   "id": "ilwtug",
   "text": "أَنْتَ طالِبٌ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 13
- },
- {
-  "id": "ftj4of",
-  "text": "وَأَنا طالِبٌ",
   "bucket": "basics",
   "unit": "0b",
   "chars": 13
