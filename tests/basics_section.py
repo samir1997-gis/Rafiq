@@ -68,6 +68,8 @@ def main():
         ok.append(("then your sentence so far (" + so + ")", so.startswith("Your sentence so far · 4 of 5") and "طالِب" in line and p.locator("mark.new").count() == 1))
         go(p)
         ok.append(("lesson done, its words met", p.evaluate("RafiqPath.stepDone('0b','b-gender') && RafiqPath.metWords().has(27) && !Progress.isNew('v:27')")))
+        ok.append(("‘name’ and ‘language’ are in the word list, taught in the basics, in no unit",
+                   p.evaluate("[784, 785].every(id => RafiqPath.wordById(id) && !RafiqPath.units().some(u => !u.basics && u.words.includes(id)) && RafiqPath.units().find(u => u.basics).words.includes(id))")))
         p.close()
 
         # the goal (#168): lesson 1 opens with the sentence you'll build; as a woman here

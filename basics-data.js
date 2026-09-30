@@ -30,7 +30,7 @@ const BASICS = [
     ['How is it said?', 'الْمَسْجِدُ', ['al-masjid','am-masjid'], 'م is a moon letter: you say the ل.']],
    sofar:{m:'السَّلامُ عَلَيْكُمْ', f:'السَّلامُ عَلَيْكُمْ', en:'Peace be upon you. (السَّلامُ: the peace; عَلَيْكُمْ: upon you)', adds:'السَّلامُ عَلَيْكُمْ'}},
 
-  {key:'my', title:'My, your, his, her', words:[50, 32, 75, 150, 90, 26, 27, 149],
+  {key:'my', title:'My, your, his, her', words:[784, 50, 32, 75, 150, 90, 26, 27, 149],
    teach:[
     {h:'Endings for ‘my’, ‘your’, ‘his’, ‘her’', pairs:[['اسْمٌ','a name'],['اسْمِي','my name'],['اسْمُكَ','your name (to a man)'],['اسْمُكِ','your name (to a woman)'],['اسْمُهُ','his name'],['اسْمُها','her name']],
      en:'There’s no separate word: add an ending. ـِي my, ـكَ / ـكِ your, ـهُ his, ـها her.'},
@@ -83,7 +83,7 @@ const BASICS = [
     ['A woman says ‘I’m a student’:', '', ['أَنا طالِبَةٌ','أَنا طالِبٌ','هِيَ طالِبٌ'], 'A woman: طالِبَة, with ة.']],
    sofar:{m:'السَّلامُ عَلَيْكُمْ، اسْمِي سَمِير، وَأَنا طالِبٌ', f:'السَّلامُ عَلَيْكُمْ، اسْمِي مَرْيَم، وَأَنا طالِبَةٌ', en:'Peace be upon you. My name is …, and I’m a student. (A man says طالِبٌ, a woman طالِبَةٌ.)', adds:'طالِب'}},
 
-  {key:'of', title:'‘Of’, and describing words', words:[58, 28, 150, 90, 627, 75, 161, 449],
+  {key:'of', title:'‘Of’, and describing words', words:[785, 58, 28, 150, 90, 627, 75, 161, 449],
    teach:[
     {h:'‘Of’: two nouns side by side', pairs:[['بابُ الْبَيْتِ','the door of the house'],['كِتابُ الطّالِبِ','the student’s book (the book of the student)'],['طالِبُ اللُّغَةِ','a student of the language']],
      en:'There’s no separate word for ‘of’: put the two nouns side by side. The first loses ال and the -un ending; the second ends in -i.'},

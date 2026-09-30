@@ -25,6 +25,8 @@ const lateIds = new Set(Object.values(LATE).flat());
 // words spelt like another word with a different meaning: placed by their topic, not by spelling, so
 // ما 'what' in unit 1 doesn't bring in ما 'not (past)', nor لا 'no' the لا of 'not' and 'don't'
 const BY_TOPIC_ONLY = new Set([127, 163, 213]);
+// words taught in the basics section (#168, basics-data.js), before unit 1: never placed in a unit
+const BASICS_ONLY = new Set([784, 785]);                                   // اسْم name, لُغَة language
 // unit → words it starts with (#156, teach first): unit 1 opens with ten single words, before the
 // greeting phrases, so its first lesson is words a beginner can hold on to (I, you, he, she, this…)
 const FIRST = { '01': [15, 16, 17, 18, 19, 20, 21, 26, 30, 28] };      // أَنا أَنْتَ أَنْتِ هُوَ هِيَ هَذا هَذِهِ صَدِيق مُدَرِّس طالِبَة
@@ -54,12 +56,12 @@ const forms = w => w.ar.split('/').map(f => norm(f).split(' ').map(bare).filter(
 
 const byUnit = DATA.map(() => []), placed = new Set();
 VOCAB.forEach(w => {
-  if (lateIds.has(w.id) || BY_TOPIC_ONLY.has(w.id)) return;
+  if (lateIds.has(w.id) || BY_TOPIC_ONLY.has(w.id) || BASICS_ONLY.has(w.id)) return;
   const i = used.findIndex(set => forms(w).some(f => f.every(t => set.has(t))));
   if (i >= 0 && byUnit[i].length < CAP) { byUnit[i].push(w.id); placed.add(w.id); }
 });
 VOCAB.forEach(w => {
-  if (placed.has(w.id) || lateIds.has(w.id)) return;
+  if (placed.has(w.id) || lateIds.has(w.id) || BASICS_ONLY.has(w.id)) return;
   const u = TOPIC_UNIT[w.unit.slice(0, 2)], i = DATA.findIndex(x => x.n === u);
   if (i >= 0 && byUnit[i].length < CAP) { byUnit[i].push(w.id); placed.add(w.id); }
 });
