@@ -5,7 +5,8 @@
                                  isn't just a sound to copy.
    RafiqTeach.taught(unitN)      the words a learner has been taught by that unit's
                                  Practise step: every word of the unit and the units
-                                 before it, plus a few little words used everywhere.
+                                 before it, the examples on their grammar cards, plus a
+                                 few little words used everywhere.
    RafiqTeach.coverage(text, k)  the share of the words in `text` that are in k (0-1),
                                  allowing for و/ال/بِ/لِ on the front, ‘my’/‘your’ endings,
                                  and present and past verb forms.
@@ -51,8 +52,11 @@
   function taught(unitN){
     const k = new Set(norm(LITTLE).split(/\s+/));
     const units = typeof PATH !== 'undefined' ? PATH : [];
+    const add = ar => norm(ar).split(/[\s/]+/).filter(Boolean).forEach(t => stems(t).forEach(x => k.add(x)));
     for(const p of units){
-      p.words.forEach(id => { const w = byId.get(id); if(w) norm(w.ar).split(/[\s/]+/).filter(Boolean).forEach(t => stems(t).forEach(x => k.add(x))); });
+      p.words.forEach(id => { const w = byId.get(id); if(w) add(w.ar); });
+      // the examples on the unit's grammar cards are taught too (#163: عِنْدِي, كَبِيرَة)
+      ((typeof EXTRA !== 'undefined' && EXTRA[p.n] && EXTRA[p.n].grammar) || []).forEach(g => add(g.ar));
       if(p.n === unitN) break;
     }
     return k;

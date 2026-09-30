@@ -47,6 +47,8 @@ DATA.forEach(u=>{
   (u.prompts||[]).forEach(p=>{add('prompt',u.n,p[0]);add('model',u.n,p[2]);});
   (u.grammar||[]).forEach(g=>{
     add('grammar',u.n,g.ar);
+    // a card's quick check (#163): its right answer is said when it's picked
+    if(g.check && /[\u0600-\u06FF]/.test(g.check[1].join(''))) add('grammar',u.n,g.check[1][g.check[2]]);
     // paired examples show one per row, each with its own play (pairsOf in learn.html / drills.html)
     const a=g.ar.split(' · '), e=(g.tr||'').split(' · ');
     if(g.tr && a.length>1 && a.length===e.length) a.forEach(x=>add('grammar',u.n,x.replace(/[.،]\s*$/,'').trim()));
@@ -78,13 +80,14 @@ DATA.forEach(u=>{
 /* Reading starter: each letter's name, its example words, the vowel-mark
    examples and the listening-test words (said without being shown). */
 eval(fs.readFileSync(path.join(root,'alphabet-data.js'),'utf8')
-      .replace(/const (ALPHABET_GROUPS|VOWEL_MARKS|LISTEN_TEST)/g,'globalThis.$1'));
+      .replace(/const (ALPHABET_GROUPS|VOWEL_MARKS|READING_RULES|LISTEN_TEST)/g,'globalThis.$1'));
 ALPHABET_GROUPS.forEach(g=>g.letters.forEach(l=>{
   add('alphabet','00',l[1]); add('alphabet','00',l[3]);
   (l[5]||[]).forEach(e=>add('alphabet','00',e[0]));
 }));
 VOWEL_MARKS.forEach(v=>{ if(v[3]) add('alphabet','00',v[3][0]); });
 LISTEN_TEST.forEach(t=>add('alphabet','00',t[0]));
+READING_RULES.forEach(r=>{ r[2].forEach(e=>add('alphabet','00',e[0])); add('alphabet','00',r[3][4]); });
 
 /* Everyday essentials (Practise): numbers, days, months, colours (both forms), time. */
 eval(fs.readFileSync(path.join(root,'essentials-data.js'),'utf8').replace(/const ESSENTIALS/,'globalThis.ESSENTIALS'));

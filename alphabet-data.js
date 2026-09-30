@@ -1,5 +1,5 @@
 /* The reading starter (unit 0): the 28 letters in groups that share a shape,
-   then the vowel marks, then a listening test. Each letter: [letter, name, how
+   then the vowel marks, the reading rules, then a listening test. Each letter: [letter, name, how
    it sounds, example word, example meaning, examples]. Letters marked * never
    join to the letter after them.
    examples: three words with the letter at the start, in the middle and at the
@@ -83,6 +83,26 @@ const VOWEL_MARKS = [
   ['بي','bii','Ya after kasra — a long "ee"',['فِيل','f[ī]l','elephant']],
   ['بو','buu','Waw after damma — a long "oo"',['نُور','n[ū]r','light']],
   ['بٌ','bun','Tanwin — a doubled mark: adds "n" at the end of a word',['كِتابٌ','kitāb[un]','a book']],
+];
+/* Reading rules (#163), after the vowel marks: five things the marks alone don't tell you, one per
+   screen, each followed by a pick. [title, what to know, examples [word, transliteration, meaning],
+   check [question, options, right one, why, the Arabic to hear]]. */
+const READING_RULES = [
+  ['The ending ة', 'ة at the end of a word sounds like a soft "a". When an ending or another word follows, it becomes a "t" sound, and before an ending it’s written ت.',
+    [['مَدْرَسَة','madras[a]','school'],['مَدْرَسَتِي','madras[at]ī','my school']],
+    ['How is مَدْرَسَتِي said?', ['madrasatī','madrasa-ī','madrasahī'], 0, 'Before an ending, ة is said and written as t.', 'مَدْرَسَتِي']],
+  ['ال is said "al-"', 'ال on the front of a word means "the" (more on that in unit 1). Before half the letters, like ق, ب and ف (the "moon letters"), you say it as it looks: al-.',
+    [['القُرْآن','[al]-qurʾān','the Qur’an'],['الفَجْر','[al]-fajr','dawn']],
+    ['How is الفَجْر said?', ['al-fajr','af-fajr','fajr'], 0, '', 'الفَجْر']],
+  ['Sun letters: the ل goes quiet', 'Before 14 letters the ل of ال isn’t said. The next letter doubles instead, which is why it carries ّ: as-salām, not al-salām. They’re called sun letters because الشَّمْس (the sun) starts with one. The 14: ت ث د ذ ر ز س ش ص ض ط ظ ل ن.',
+    [['الشَّمْس','[ash-sh]ams','the sun'],['السَّلامُ عَلَيْكُم','[as-s]alāmu ʿalaykum','peace be upon you']],
+    ['How is الشَّمْس said?', ['ash-shams','al-shams','a-shams'], 0, 'ش is a sun letter: the ل goes quiet and the ش doubles.', 'الشَّمْس']],
+  ['In a sentence, ال drops its "a"', 'In a flowing sentence, the a of ال isn’t said: you go straight from the word before to the l. فِي الْبَيْتِ is said "fil-bayti" (the ī of فِي shortens), not "fī al-bayti". The same happens in بِسْمِ اللهِ: bismillāh.',
+    [['فِي الْبَيْتِ','f[il]-bayti','in the house'],['بِسْمِ اللهِ','bism[ill]āh','in the name of Allah']],
+    ['How is فِي الْبَيْتِ said?', ['fil-bayti','fī al-bayti','fī-bayti'], 0, 'After the vowel of فِي, the a of ال drops out.', 'فِي الْبَيْتِ']],
+  ['Stopping: leave off the last vowel', 'At the end of a sentence, or whenever you pause, the last short vowel isn’t said, nor the -n of -un: هَذا بَيْتٌ is "hādhā bayt". Inside a sentence you say them. This app shows every ending, so you always know what they are.',
+    [['بَيْتٌ','bayt (at a stop), bayt[un] (inside a sentence)','a house'],['السَّلامُ عَلَيْكُم','as-salām[u] ʿalaykum','peace be upon you']],
+    ['You end a sentence on بَيْتٌ. How do you say it?', ['bayt','baytun','bayta'], 0, 'At a stop, the last vowel and the -n aren’t said.', 'بَيْتٌ']],
 ];
 /* The listening test at the end of the unit: a word is played, the learner picks
    its first letter from letters that sound alike. [word, first letter, options,

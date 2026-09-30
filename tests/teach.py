@@ -87,6 +87,9 @@ def main():
             if not p.locator(".gh").count(): break
             titles.append(p.inner_text(".gh")); bads += p.locator(".gbad s").count()
             p.locator("button.go:not([disabled])").first.click(timeout=15000); p.wait_for_timeout(250)   # Next opens once the example has played
+            if p.locator(".opt").count():                                                               # a quick check (#163)
+                p.locator(".opt").first.click(); p.wait_for_timeout(150)
+                p.locator("button.go:not([disabled])").first.click(); p.wait_for_timeout(250)
         ok.append(("unit 2 How it works: %d cards, %d with a crossed-out mistake" % (len(titles), bads), len(titles) == 6 and bads == 6))
         ok.append(("three endings and the past are taught", any("Three endings" in t for t in titles) and any("The past" in t for t in titles))); p.close()
 

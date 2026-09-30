@@ -483,6 +483,13 @@
   "chars": 20
  },
  {
+  "id": "172t5d3",
+  "text": "أَنا طالِبٌ .",
+  "bucket": "cloze",
+  "unit": "01",
+  "chars": 13
+ },
+ {
   "id": "lrkdw5",
   "text": "هَذِهِ أُخْتِي.",
   "bucket": "fix",
@@ -637,18 +644,18 @@
   "chars": 33
  },
  {
-  "id": "rt0r3j",
-  "text": "هُوَ مُدَرِّسٌ",
-  "bucket": "grammar",
-  "unit": "01",
-  "chars": 14
- },
- {
   "id": "1csh8vp",
   "text": "هِيَ مُدَرِّسَةٌ",
   "bucket": "grammar",
   "unit": "01",
   "chars": 16
+ },
+ {
+  "id": "rt0r3j",
+  "text": "هُوَ مُدَرِّسٌ",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 14
  },
  {
   "id": "1f73o9n",
@@ -670,6 +677,27 @@
   "bucket": "grammar",
   "unit": "01",
   "chars": 15
+ },
+ {
+  "id": "vgpq4g",
+  "text": "مُدَرِّسٌ · الْمُدَرِّسُ",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 24
+ },
+ {
+  "id": "1hdf3zn",
+  "text": "الْمُدَرِّسُ",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 12
+ },
+ {
+  "id": "1itzptt",
+  "text": "مُدَرِّسٌ",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 9
  },
  {
   "id": "1xb1yz9",
@@ -698,6 +726,13 @@
   "bucket": "grammar",
   "unit": "01",
   "chars": 25
+ },
+ {
+  "id": "g4ue5d",
+  "text": "مَدْرَسَتِي",
+  "bucket": "grammar",
+  "unit": "01",
+  "chars": 11
  },
  {
   "id": "1u1e5vr",
@@ -1246,6 +1281,20 @@
   "chars": 42
  },
  {
+  "id": "41o8jv",
+  "text": "نَحْنُ نَقْرَأُ الْقُرْآنَ.",
+  "bucket": "cloze",
+  "unit": "02",
+  "chars": 27
+ },
+ {
+  "id": "1fp4dmd",
+  "text": "عِنْدِي أُخْتٌ.",
+  "bucket": "cloze",
+  "unit": "02",
+  "chars": 15
+ },
+ {
   "id": "1o654n0",
   "text": "هَذِهِ صُورَةُ أُسْرَتِي.",
   "bucket": "fix",
@@ -1262,6 +1311,13 @@
  {
   "id": "1e0dhq",
   "text": "فِي أُسْرَتِي تِسْعَةُ أَوْلادٍ.",
+  "bucket": "fix",
+  "unit": "02",
+  "chars": 32
+ },
+ {
+  "id": "55ne17",
+  "text": "نَحْنُ نُصَلِّي فِي الْمَسْجِدِ.",
   "bucket": "fix",
   "unit": "02",
   "chars": 32
@@ -1510,6 +1566,62 @@
   "bucket": "grammar",
   "unit": "02",
   "chars": 17
+ },
+ {
+  "id": "45s5dj",
+  "text": "أَدْرُسُ · نَدْرُسُ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 19
+ },
+ {
+  "id": "1of4cia",
+  "text": "نَدْرُسُ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "1p1rnyv",
+  "text": "أَدْرُسُ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "17r1n",
+  "text": "قَرَأَ · يَقْرَأُ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 17
+ },
+ {
+  "id": "1nylcoy",
+  "text": "يَقْرَأُ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "pme9zv",
+  "text": "قَرَأَ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 6
+ },
+ {
+  "id": "a1yp24",
+  "text": "عِنْدِي أَخٌ وَأُخْتٌ.",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 22
+ },
+ {
+  "id": "1cx50mz",
+  "text": "عِنْدِي أُخْتٌ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 14
  },
  {
   "id": "1wnnlyr",
@@ -1995,6 +2107,27 @@
   "chars": 27
  },
  {
+  "id": "azehuj",
+  "text": "الْغُرَفُ كَبِيرَةٌ .",
+  "bucket": "cloze",
+  "unit": "03",
+  "chars": 21
+ },
+ {
+  "id": "9h13ho",
+  "text": "الْبَيْتُ لَيْسَ كَبِيرًا.",
+  "bucket": "cloze",
+  "unit": "03",
+  "chars": 26
+ },
+ {
+  "id": "1rsjdiy",
+  "text": "هُمْ طُلّابٌ.",
+  "bucket": "cloze",
+  "unit": "03",
+  "chars": 13
+ },
+ {
   "id": "qcb1i7",
   "text": "أَسْكُنُ فِي الدَّوْرِ الْخامِسِ.",
   "bucket": "fix",
@@ -2014,6 +2147,13 @@
   "bucket": "fix",
   "unit": "03",
   "chars": 18
+ },
+ {
+  "id": "1s4n1dj",
+  "text": "هَذِهِ غُرَفٌ كَبِيرَةٌ.",
+  "bucket": "fix",
+  "unit": "03",
+  "chars": 24
  },
  {
   "id": "1nw4qr2",
@@ -2182,6 +2322,76 @@
   "bucket": "grammar",
   "unit": "03",
   "chars": 19
+ },
+ {
+  "id": "1pfkujt",
+  "text": "غُرْفَةٌ · غُرَفٌ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 17
+ },
+ {
+  "id": "1oinsle",
+  "text": "غُرَفٌ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 6
+ },
+ {
+  "id": "1mx66xl",
+  "text": "غُرْفَةٌ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 8
+ },
+ {
+  "id": "17w4inn",
+  "text": "نَحْنُ طُلّابٌ · هُمْ طُلّابٌ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 29
+ },
+ {
+  "id": "4pdr0g",
+  "text": "أَنْتُمْ طُلّابٌ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 16
+ },
+ {
+  "id": "1i4k3rp",
+  "text": "نَحْنُ طُلّابٌ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 14
+ },
+ {
+  "id": "1wnq7pw",
+  "text": "هُمْ طُلّابٌ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 12
+ },
+ {
+  "id": "1mg5xsr",
+  "text": "الْغُرَفُ كَبِيرَةٌ.",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 20
+ },
+ {
+  "id": "1tcjdjy",
+  "text": "الْبُيُوتُ كَبِيرَةٌ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 20
+ },
+ {
+  "id": "hxrkfy",
+  "text": "الْغُرْفَةُ لَيْسَتْ كَبِيرَةً",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 30
  },
  {
   "id": "1pklpss",
@@ -5276,13 +5486,6 @@
   "bucket": "grammar",
   "unit": "08",
   "chars": 20
- },
- {
-  "id": "1p1rnyv",
-  "text": "أَدْرُسُ",
-  "bucket": "grammar",
-  "unit": "08",
-  "chars": 8
  },
  {
   "id": "a5ua1w",
@@ -13342,13 +13545,6 @@
   "chars": 6
  },
  {
-  "id": "1itzptt",
-  "text": "مُدَرِّسٌ",
-  "bucket": "tile",
-  "unit": "01",
-  "chars": 9
- },
- {
   "id": "xo7k1p",
   "text": "وَهَذا",
   "bucket": "tile",
@@ -14084,13 +14280,6 @@
   "chars": 9
  },
  {
-  "id": "1nylcoy",
-  "text": "يَقْرَأُ",
-  "bucket": "tile",
-  "unit": "02",
-  "chars": 8
- },
- {
   "id": "1a0h51d",
   "text": "أَكْبَرُ",
   "bucket": "tile",
@@ -14285,6 +14474,20 @@
   "bucket": "tile",
   "unit": "02",
   "chars": 11
+ },
+ {
+  "id": "n7lswr",
+  "text": "نَحْنُ",
+  "bucket": "tile",
+  "unit": "02",
+  "chars": 6
+ },
+ {
+  "id": "oltomw",
+  "text": "نُصَلِّي",
+  "bucket": "tile",
+  "unit": "02",
+  "chars": 8
  },
  {
   "id": "1o1h56p",
@@ -20846,6 +21049,20 @@
   "chars": 6
  },
  {
+  "id": "16g07jt",
+  "text": "بِسْمِ اللهِ",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 12
+ },
+ {
+  "id": "i64m5",
+  "text": "بَيْتٌ",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 6
+ },
+ {
   "id": "qk3rwy",
   "text": "سِتُّونَ",
   "bucket": "essentials",
@@ -22834,13 +23051,6 @@
   "chars": 10
  },
  {
-  "id": "1of4cia",
-  "text": "نَدْرُسُ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
- },
- {
   "id": "1hyngen",
   "text": "سَنَدْرُسُ",
   "bucket": "verb",
@@ -23483,13 +23693,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 8
- },
- {
-  "id": "pme9zv",
-  "text": "قَرَأَ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 6
  },
  {
   "id": "1mdprmr",
@@ -24176,13 +24379,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 10
- },
- {
-  "id": "oltomw",
-  "text": "نُصَلِّي",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
  },
  {
   "id": "g5vw2t",

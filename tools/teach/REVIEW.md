@@ -82,3 +82,34 @@ Checked with TypeSafe (teach_cards.py: both new cards right 0.80/0.81, mistakes 
 | 1 | New gap-fill | هَذِهِ ___ . → مَدْرَسَتِي | options مَدْرَسَتِي، مَدْرَسَةِي، مَدْرَسَتُ، مَدْرَسِي | |
 | 1 | New "find the mistake" | هَذا أُمِّي. → هَذِهِ أُمِّي. | | |
 | 2 | ‘My’, ‘your’, ‘his’ are endings (wording) | adds أَخ → أَخِي, ـكِ for ‘your’ to a woman, ـها for ‘her’ | | |
+
+## Added 30 Sep 2026 (#163): first-lesson basics — for the teacher to check
+Checked with TypeSafe (tools/typesafe-exp/basics_check.py: every card correct 0.70–0.92, every crossed-out mistake a real mistake 0.85–0.98, every quick check has one right answer 0.84–0.98) and CAMeL (all 114 words known).
+Each new card is followed by a quick check (one pick). Units 2 and 3 now have "How it works, part 2" after their later words, so no step teaches too much at once.
+
+**Reading starter, new step "Reading rules"** (after the vowel marks)
+
+| Rule | Examples | Quick check | OK? |
+|---|---|---|---|
+| The ending ة: -a, -at before an ending | مَدْرَسَة madrasa · مَدْرَسَتِي madrasatī | How is مَدْرَسَتِي said? → madrasatī | |
+| ال is said al- (moon letters, e.g. ق ب ف) | القُرْآن al-qurʾān · الفَجْر al-fajr | How is الفَجْر said? → al-fajr | |
+| Sun letters: the ل goes quiet (ت ث د ذ ر ز س ش ص ض ط ظ ل ن) | الشَّمْس ash-shams · السَّلامُ عَلَيْكُم as-salāmu ʿalaykum | How is الشَّمْس said? → ash-shams | |
+| In a sentence, ال drops its a | فِي الْبَيْتِ fil-bayti · بِسْمِ اللهِ bismillāh | How is فِي الْبَيْتِ said? → fil-bayti | |
+| Stopping: leave off the last vowel | بَيْتٌ bayt at a stop, baytun inside · السَّلامُ | بَيْتٌ at the end of a sentence → bayt | |
+
+**Grammar cards**
+
+| Unit | Card | Example | Crossed-out mistake | Quick check | OK? |
+|---|---|---|---|---|---|
+| 1 | ‘The’ is ال; there’s no word for ‘a’ | مُدَرِّسٌ · الْمُدَرِّسُ | أَنا الطّالِبٌ. → أَنا طالِبٌ. | ‘the teacher’ → الْمُدَرِّسُ | |
+| 1 | (#162) Masculine and feminine | — | — | ‘she is a teacher’ → هِيَ مُدَرِّسَةٌ | |
+| 1 | (#162) ‘My’ is ـِي | — | — | ‘my school’ → مَدْرَسَتِي | |
+| 2, part 2 | ‘We’ is نَحْنُ, verb with نَـ | أَدْرُسُ · نَدْرُسُ | نَحْنُ أَدْرُسُ الْعَرَبِيَّةَ. → نَحْنُ نَدْرُسُ الْعَرَبِيَّةَ. | ‘we study’: أَدْرُسُ / نَدْرُسُ / يَدْرُسُ → نَدْرُسُ | |
+| 2, part 2 | Why verbs come in pairs | قَرَأَ · يَقْرَأُ | أَنا قَرَأَ الْقُرْآنَ كُلَّ يَوْمٍ. → أَنا أَقْرَأُ … | ‘he reads’ → يَقْرَأُ | |
+| 2, part 2 | ‘I have’: عِنْدِي | عِنْدِي أَخٌ وَأُخْتٌ. | أَنا أُخْتٌ. (= I am a sister) → عِنْدِي أُخْتٌ. | ‘I have a sister’ → عِنْدِي أُخْتٌ | |
+| 3, part 2 | Many plurals change inside the word | غُرْفَةٌ · غُرَفٌ | هُمْ وَلَدُونَ. → هُمْ أَوْلادٌ. | plural of غُرْفَة → غُرَفٌ | |
+| 3, part 2 | More than one person: نَحْنُ, أَنْتُمْ, هُمْ | نَحْنُ طُلّابٌ · هُمْ طُلّابٌ | هُمْ طالِبٌ. → هُمْ طُلّابٌ. | ‘you are students’ (group) → أَنْتُمْ طُلّابٌ | |
+| 3, part 2 | Plurals of things are ‘she’ | الْغُرَفُ كَبِيرَةٌ. | الْغُرَفُ كَبِيرٌ. → الْغُرَفُ كَبِيرَةٌ. | ‘the houses are big’ → الْبُيُوتُ كَبِيرَةٌ | |
+| 3, part 2 | ‘Is not’: لَيْسَ | الْبَيْتُ لَيْسَ كَبِيرًا. | الْبَيْتُ لا كَبِيرٌ. → الْبَيْتُ لَيْسَ كَبِيرًا. | ‘the room isn’t big’ → الْغُرْفَةُ لَيْسَتْ كَبِيرَةً | |
+
+**New practice** — unit 1: أَنا ___ (طالِبٌ). Unit 2: نَحْنُ ___ الْقُرْآنَ (نَقْرَأُ); ___ أُخْتٌ (عِنْدِي); fix نَحْنُ أُصَلِّي → نَحْنُ نُصَلِّي. Unit 3: الْغُرَفُ ___ (كَبِيرَةٌ); الْبَيْتُ ___ كَبِيرًا (لَيْسَ); ___ طُلّابٌ (هُمْ); fix هَذا غُرَفٌ كَبِيرَةٌ → هَذِهِ غُرَفٌ كَبِيرَةٌ.

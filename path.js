@@ -33,12 +33,14 @@
     {ar:'رَمَضانُ وَالْعِيدُ',      en:'Ramadan & Eid',          d:'Fasting, iftar, Eid visits'},
     {ar:'الْحِكاياتُ',             en:'Telling stories',        d:'What happened — the past tense in use'},
   ];
+  const grammarCards = n => (typeof EXTRA !== 'undefined' && EXTRA[n] && EXTRA[n].grammar) || [];
   const wordById = (() => { const m = new Map(); VOCAB.forEach(w => m.set(w.id, w)); return id => m.get(id); })();
 
   function steps(p){
     if(p.alpha) return ALPHABET_GROUPS.map((g,i) => ({key:'letters'+(i+1), kind:'letters', group:i,
         title:g.title.replace(/^Letters \d+: /,'Letters: '), mins:5}))
       .concat([{key:'vowels', kind:'vowels', title:'The vowel marks', mins:5},
+               {key:'rules', kind:'rules', title:'Reading rules', mins:5},        // #163: ة, ال, sun letters, joining, pauses
                {key:'hear', kind:'hearing', title:'Listening test', mins:6}]);
     const nb = Math.ceil(p.words.length / BATCH), out = [];
     // "Meet 10 new words & phrases": chosen with TypeSafe (tools/typesafe-exp/step_label.py, #116);
@@ -61,6 +63,8 @@
       if(nb>1) out.push(words(1));
       out.push(grammar);
       for(let i=2;i<nb;i++) out.push(words(i));
+      // #163: cards marked part 2 come after the rest of the words, so no one step teaches too much
+      if(grammarCards(p.n).some(g => g.part === 2)) out.push({key:'grammar2', kind:'grammar', part:2, title:'How it works, part 2', mins:5});
       out.push(practise, listen);
     } else {
       out.push(words(0), listen, grammar);
@@ -79,8 +83,8 @@
   const sid = (n, key) => 'p:' + n + '|' + key;
   const stepDone = (n, key) => Progress.hasSeen(sid(n, key));
   const placed = n => Progress.hasSeen(sid(n, 'placed'));
-  /* The listening test was added after some learners had finished the reading
-     starter and moved on to unit 1; it stays open to them but doesn't pull them back. */
+  /* The listening test (and the reading rules, #163) were added after some learners had finished the reading
+     starter and moved on to unit 1; they stay open to them but don't pull them back. */
   const movedOn = () => UNITS.some(u => !u.alpha && (placed(u.n) || steps(u).some(s => stepDone(u.n, s.key))));
   /* The same goes for words added to a unit after it was written (lateFrom in
      path-data.js, e.g. the missing days of the week): their step stays open to
@@ -91,7 +95,8 @@
   // the unit test came later too (#158): learners already past a unit aren't sent back for it
   function unitDone(p){
     return placed(p.n) || steps(p).every(s => stepDone(p.n, s.key)
-      || (p.alpha && s.key === 'hear' && movedOn()) || ((late(p, s) || s.kind === 'test') && movedPast(p)));
+      || (p.alpha && (s.key === 'hear' || s.key === 'rules') && movedOn())
+      || ((late(p, s) || s.kind === 'test' || s.key === 'grammar2') && movedPast(p)));
   }
   // a finished unit with a late step still to do (Home can point it out)
   const lateLeft = p => !placed(p.n) && steps(p).some(s => late(p, s) && !stepDone(p.n, s.key));

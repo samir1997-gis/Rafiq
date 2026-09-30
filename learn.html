@@ -186,6 +186,7 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 .done p{color:var(--ink-soft);font-size:1.05rem}
 .streak{display:inline-block;margin-top:14px;font-family:var(--ut);font-size:12px;background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:6px 14px}
 .hide{display:none}
+.why{font-size:15px;line-height:1.45;color:var(--ink-soft);margin-top:14px;border-left:2px solid var(--gold);padding-left:11px;text-align:left}
 .chat{display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
 .bub{max-width:86%;padding:10px 14px;border-radius:16px;line-height:1.6}
 .bub .a{font-family:var(--ar);direction:rtl;font-size:20px;line-height:1.8}
@@ -241,19 +242,19 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 </div>
 
 <script src="vocab-data.js?v=20260928b"></script>
-<script src="drills-data.js?v=20260930c"></script>
+<script src="drills-data.js?v=20260930d"></script>
 <script src="path-data.js?v=20260930b"></script>
-<script src="alphabet-data.js?v=20260926"></script>
+<script src="alphabet-data.js?v=20260930"></script>
 <script src="scenes-data.js?v=20260922"></script>
 <script src="audio.js?v=904"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=6"></script>
 <script src="fsrs.js?v=20260929"></script>
 <script src="progress.js?v=20260930c"></script>
-<script src="path.js?v=20260930d"></script>
+<script src="path.js?v=20260930e"></script>
 <script src="plan.js?v=20260927"></script>
 <script src="report.js?v=1"></script>
-<script src="teach.js?v=1"></script>
+<script src="teach.js?v=2"></script>
 <script>RafiqPlan.requirePlan();</script>
 <script src="judge.js?v=20260925"></script>
 <script src="tiles.js?v=3"></script>
@@ -454,8 +455,31 @@ function gloss(en){
 }
 /* Two meanings too close to both be offered (the same, or one inside the other: 'yes' / 'yes, of course'). */
 const tooClose=(a,b)=>{ a=gloss(a).toLowerCase(); b=gloss(b).toLowerCase(); return a===b || (' '+a+' ').includes(' '+b+' ') || (' '+b+' ').includes(' '+a+' '); };
+/* A card's quick check (#163): right after the card, one pick (check: [question, options, right one, why]),
+   so a new idea is used straight away. A miss shows the right one and why; nothing is scored. */
+function quickCheck(g, kicker, then){
+  const [q, opts, a, why, word]=g.check, right=opts[a];   // word: Arabic to hear with the question
+  const ar=/[\u0600-\u06FF]/.test(opts.join(''));
+  const body=el(`<div><p class="kicker">${esc(kicker)}</p><div class="card">${word?`<div class="big" id="qw">${esc(word)}</div>`:''}<div class="en" style="margin-top:${word?14:0}px">${esc(q)}</div></div>
+    <div class="opts${ar?' ar-opts':''}" id="o"></div><p class="why hide" id="w">${esc(why||'')}</p></div>`);
+  const next=button('Next',then); next.disabled=true;
+  shuffle(opts).forEach(o=>{
+    const b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=o; if(ar){ b.lang='ar'; b.dir='rtl'; }
+    b.onclick=()=>{ if(!next.disabled) return;
+      const ok=o===right; b.classList.add(ok?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(ok);
+      if(!ok) [...body.querySelectorAll('.opt')].find(e=>e.textContent===right).classList.add('right');
+      if(why) body.querySelector('#w').classList.remove('hide');
+      next.disabled=false;
+      const r=[...body.querySelectorAll('.opt')].find(e=>e.textContent===right);
+      if(ok && !why) autoNext(next, ar?right:null, r); else if(ar) say(right, r); };
+    body.querySelector('#o').appendChild(b);
+  });
+  screen(body,[next]);
+  const qw=body.querySelector('#qw'); if(qw){ qw.onclick=()=>say(word,qw); say(word,qw); }
+}
 function runGrammar(p, step){
-  const notes=RafiqPath.unitData(p.n).grammar||[];
+  // part 2 (#163): the cards marked part 2 get their own step, after the later words
+  const notes=(RafiqPath.unitData(p.n).grammar||[]).filter(g=>(g.part||1)===(step.part||1));
   let i=0;
   const show=()=>{
     if(i>=notes.length) return finish(p, step);
@@ -471,7 +495,8 @@ function runGrammar(p, step){
     const a=body.querySelector('#a'); if(a) a.onclick=()=>say(g.ar,a);
     const rows=[...body.querySelectorAll('.pair')];
     rows.forEach(r=>r.onclick=()=>say(r.dataset.say,r.querySelector('.mid')));
-    screen(body,[button(i<notes.length-1?'Next':'Finish',()=>{i++;show()})]);
+    const on=()=>{i++;show()};
+    screen(body,[button(g.check?'Check yourself':i<notes.length-1?'Next':'Finish',()=>g.check?quickCheck(g,'Quick check · '+g.h,on):on())]);
     // play the example straight away; paired examples one row after another
     const playRow=k=>{ if(k>=rows.length || !rows[k].isConnected || !window.RQ) return;
       RQ.speak(rows[k].dataset.say, rows[k].querySelector('.mid'), ()=>setTimeout(()=>playRow(k+1), 350)); };
@@ -678,6 +703,27 @@ function runVowels(p, step){
     screen(body,[next]);
   };
   meet(0);
+}
+
+/* Reading rules (#163): what the marks alone don't tell you (ة, ال, sun letters, the joining alif,
+   stopping), one rule a screen with examples to tap, each followed by a quick check. */
+function runRules(p, step){
+  const R=READING_RULES;
+  const show=i=>{
+    if(i>=R.length) return finish(p, step);
+    setBar(i,R.length);
+    const [title, what, exs, check]=R[i];
+    const body=el(`<div><p class="kicker">Reading rules · ${i+1} of ${R.length}</p>
+      <div class="card note"><h3 class="gh">${esc(title)}</h3><p style="text-align:left">${esc(what)}</p>
+      <p class="kicker ex-k">Tap to hear</p><div class="exs">${exs.map((e,k)=>`<button type="button" class="ex" data-k="${k}">
+        <span class="ex-ar">${esc(e[0])}</span><span class="ex-tx"><span class="ex-tr">${trHTML(e[1])}</span><span class="ex-en">${esc(e[2])}</span></span></button>`).join('')}</div></div></div>`);
+    const btns=[...body.querySelectorAll('.ex')];
+    btns.forEach(b=>b.onclick=()=>say(exs[+b.dataset.k][0],b));
+    screen(body,[button('Check yourself',()=>quickCheck({check}, 'Quick check · '+title, ()=>show(i+1)))]);
+    const play=k=>{ if(k<btns.length && btns[k].isConnected) say(exs[k][0],btns[k],()=>setTimeout(()=>play(k+1),400)); };
+    play(0);
+  };
+  show(0);
 }
 
 /* Listening test: a word is played (not shown) and the learner picks the letter
@@ -1481,7 +1527,7 @@ function showBridge(b, then){
   if(!RafiqPath.stepOpen(p.n,step.key)) step=steps.find(s=>RafiqPath.stepOpen(p.n,s.key)&&!RafiqPath.stepDone(p.n,s.key))||steps[0];
   document.title=step.title+' — Rafiq';
   const run=()=>({words:runWords,listen:runListen,grammar:runGrammar,practise:runPractise,speak:runSpeak,
-    letters:runLetters,vowels:runVowels,hearing:runHearing,chat:runChat,test:runTest})[step.kind](p,step);
+    letters:runLetters,vowels:runVowels,rules:runRules,hearing:runHearing,chat:runChat,test:runTest})[step.kind](p,step);
   // every two lessons, a short recap before the next new one (#158)
   if(!p.alpha && step.kind!=='test' && !RafiqPath.stepDone(p.n,step.key) && RafiqPath.recapDue()) runRecap(p, run); else run();
 })();
