@@ -243,7 +243,7 @@ bdi[lang=ar]{white-space:nowrap;font-family:var(--ar)}
 </div>
 
 <script src="vocab-data.js?v=20260928b"></script>
-<script src="drills-data.js?v=20260930d"></script>
+<script src="drills-data.js?v=20260930e"></script>
 <script src="path-data.js?v=20260930b"></script>
 <script src="alphabet-data.js?v=20260930"></script>
 <script src="scenes-data.js?v=20260922"></script>
@@ -1079,7 +1079,88 @@ function runPractise(p){
   location.href='session.html?unit='+p.n+'&n=10';
 }
 
+/* "Say it yourself" in units 1-3 (#164): no writing from scratch. Build your own sentences one gap at
+   a time, picking the word that's true for you (all from words already taught), hear each one, then see
+   and say them all. A task with gender:true first asks whether you're talking as a man or a woman, and a
+   frame with sets:true (a house or a flat) sets which forms follow. An ask:true task shows an answer and
+   you pick the question that goes with it. Chosen with TypeSafe (tools/typesafe-exp/say_it_early.py). */
+function runSayOwn(p, step){
+  const tasks=RafiqPath.unitData(p.n).say;
+  let ti=0, fi=0, g=null, mine=[];
+  const total=tasks.reduce((n,t)=>n+t.frames.length,0);
+  const done=()=>tasks.slice(0,ti).reduce((n,t)=>n+t.frames.length,0)+fi;
+  const task=()=>{
+    if(ti>=tasks.length) return finish(p, step);
+    fi=0; g=null; mine=[];
+    tasks[ti].gender ? who() : frame();
+  };
+  const who=()=>{
+    const t=tasks[ti];
+    const body=el(`<div><p class="kicker">Say it yourself · ${esc(t.en)}</p>
+      <div class="card"><div class="en" style="margin-top:0">Are you talking as a man or a woman?</div>
+      <p class="howto" style="margin-top:10px">Some Arabic words change for each.</p></div></div>`);
+    screen(body,[button('A man',()=>{g='m';frame()}), button('A woman',()=>{g='f';frame()})]);
+  };
+  const frame=()=>{
+    const t=tasks[ti];
+    if(fi>=t.frames.length) return mineScreen();
+    setBar(done(),total);
+    const f=t.frames[fi], head=`Say it yourself · ${t.en} · ${fi+1} of ${t.frames.length}`;
+    if(t.ask){
+      const body=el(`<div><p class="kicker">${esc(head)}</p><div class="card"><p class="howto" style="margin:0 0 6px">They say:</p>
+        <div class="mid" id="q">${esc(f.q)}</div><div class="gtr">${esc(f.qen)}</div>
+        <p class="howto" style="margin-top:12px">What did you ask?</p></div><div class="opts ar-opts" id="o"></div></div>`);
+      const q=body.querySelector('#q'); q.onclick=()=>say(f.q,q);
+      const next=button('Next',()=>{fi++;frame()}); next.disabled=true;
+      shuffle(f.o).forEach(o=>{
+        const b=document.createElement('button'); b.className='opt'; b.type='button'; b.lang='ar'; b.dir='rtl'; b.textContent=o;
+        b.onclick=()=>{ if(!next.disabled) return;
+          const right=f.o[f.a], ok=o===right; b.classList.add(ok?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(ok);
+          const r=[...body.querySelectorAll('.opt')].find(e=>e.textContent===right); if(!ok) r.classList.add('right');
+          mine.push([right, '']); next.disabled=false; say(right, r); };
+        body.querySelector('#o').appendChild(b);
+      });
+      screen(body,[next]); say(f.q,q);
+      return;
+    }
+    const pattern=typeof f.ar==='string' ? f.ar : f.ar[g||'m'];
+    const opts=f.o.filter(o=>!o[2] || !g || f.sets || o[2]===g);
+    const body=el(`<div><p class="kicker">${esc(head)}</p><div class="card">
+      <div class="mid" id="s">${pattern==='___'?'<span class="gap">___</span>':esc(pattern).replace('___','<span class="gap">___</span>')}</div>
+      <div class="gtr" id="e">${esc(f.en)}</div><p class="howto" style="margin-top:12px">Pick what’s true for you</p></div>
+      <div class="opts" id="o"></div></div>`);
+    const s=body.querySelector('#s'), e=body.querySelector('#e');
+    const next=button('Next',()=>{fi++;frame()}); next.disabled=true;
+    opts.forEach(o=>{
+      const b=document.createElement('button'); b.className='opt'; b.type='button';
+      b.innerHTML=`<span lang="ar" dir="rtl" style="font-family:var(--ar);font-size:1.3rem">${esc(o[0])}</span> <span style="color:var(--ink-soft);font-size:.9rem">· ${esc(o[1])}</span>`;
+      b.onclick=()=>{
+        [...body.querySelectorAll('.opt')].forEach(x=>x.classList.remove('right')); b.classList.add('right');
+        if(f.sets) g=o[2];
+        const line=pattern==='___' ? o[0] : pattern.replace('___',o[0]);
+        s.textContent=line; e.textContent=o[1];
+        mine[fi]=[line, o[1]]; next.disabled=false; say(line, s); };
+      body.querySelector('#o').appendChild(b);
+    });
+    s.onclick=()=>{ if(mine[fi]) say(mine[fi][0], s); };
+    screen(body,[next]);
+  };
+  const mineScreen=()=>{
+    const t=tasks[ti], lines=mine.filter(Boolean);
+    const body=el(`<div><p class="kicker">Say it yourself · ${esc(t.en)}</p><div class="card note">
+      <h3 class="gh">${t.ask?'Your questions':'In your own words'}</h3>
+      <div class="pairs">${lines.map(([ar,en])=>`<div class="pair" data-say="${esc(ar)}"><div class="mid">${esc(ar)}</div>${en?`<div class="gtr">${esc(en)}</div>`:''}</div>`).join('')}</div>
+      <p class="taphint">🔊 Tap a sentence to hear it</p><p>Now say them aloud, one after another.</p></div></div>`);
+    const rows=[...body.querySelectorAll('.pair')];
+    rows.forEach(r=>r.onclick=()=>say(r.dataset.say, r.querySelector('.mid')));
+    const playAll=k=>{ if(k<rows.length && rows[k].isConnected) say(rows[k].dataset.say, rows[k].querySelector('.mid'), ()=>setTimeout(()=>playAll(k+1),400)); };
+    screen(body,[button(ti<tasks.length-1?'Next task':'Finish',()=>{ti++;task()}), button('Hear them all',()=>playAll(0),true)]);
+    playAll(0);
+  };
+  task();
+}
 function runSpeak(p, step){
+  if(RafiqPath.teaches(p.n) && (RafiqPath.unitData(p.n).say||[]).length) return runSayOwn(p, step);
   const u=RafiqPath.unitData(p.n), prompts=(u.prompts||[]).slice(0,2);
   let i=0;
   const judge=window.RafiqJudge&&RafiqJudge.on;

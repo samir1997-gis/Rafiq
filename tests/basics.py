@@ -3,6 +3,7 @@
     one rule a screen, each followed by a quick check; learners already past it aren't sent back
   - units 2 and 3 get "How it works, part 2" after their later words; learners past the unit aren't sent back
   - a card with a quick check asks it straight after the card: "How do you say ‘we study’?" → نَدْرُسُ
+  - "Say it yourself" in units 1-3 builds your own sentences from picks, no typing (#164); unit 4 unchanged
 
   python3 .claude/skills/webapp-testing/scripts/with_server.py \
     --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/basics.py
@@ -93,6 +94,32 @@ def main():
                    bool(found) and found[0] == sorted(["أَدْرُسُ", "نَدْرُسُ", "يَدْرُسُ"]) and found[1] == "نَدْرُسُ" and found[2] == 0))
         ok.append(("part 2 done", p.evaluate("RafiqPath.stepDone('02','grammar2')")))
         p.close()
+
+        # "Say it yourself" in unit 1 (#164): no typing; build your own sentences, as a woman here
+        before = seen("p:00|placed", *[f"p:01|{k}" for k in U1[:8]])
+        p = page_with(b, before, errors); p.goto(BASE + "learn.html?u=01&s=speak"); p.wait_for_timeout(1500)
+        ok.append(("unit 1 Say it yourself: no box to type in", p.locator("textarea").count() == 0))
+        p.locator("button.go", has_text="A woman").click(); p.wait_for_timeout(250)
+        opts = p.eval_on_selector_all(".opt", "o => o.map(x => x.innerText)")
+        ok.append(("as a woman: only the feminine forms " + str(opts), len(opts) == 3 and all("ة" in o for o in opts)))
+        lines = []
+        for _ in range(3):
+            p.locator(".opt").first.click(); p.wait_for_timeout(150); lines.append(p.inner_text("#s")); go(p)
+        mine = p.eval_on_selector_all(".pair .mid", "m => m.map(x => x.textContent)")
+        ok.append(("your three sentences " + " / ".join(mine), mine == lines and mine[0].startswith("أَنا")))
+        go(p)                                                            # Next task: pick the questions
+        asked = 0
+        while kicker(p).startswith("Say it yourself") and p.locator("#q").count():
+            p.evaluate("(() => { const f = RafiqPath.unitData('01').say[1].frames.find(f => f.q === document.querySelector('#q').textContent);"
+                       " [...document.querySelectorAll('.opt')].find(o => o.textContent === f.o[f.a]).click(); })()")
+            p.wait_for_timeout(150); asked += 1; go(p)
+        ok.append(("then pick the question for 4 answers (%d)" % asked, asked == 4 and p.locator(".pair").count() == 4))
+        go(p)
+        ok.append(("Say it yourself done", p.evaluate("RafiqPath.stepDone('01','speak')")))
+        p.close()
+        p = page_with(b, seen("p:00|placed", *[f"p:0{n}|placed" for n in (1, 2, 3)], *[f"p:04|{k}" for k in ["words1", "listen", "grammar", "words2", "practise", "words3", "words4", "chat"]]), errors)
+        p.goto(BASE + "learn.html?u=04&s=speak"); p.wait_for_timeout(1500)
+        ok.append(("unit 4 still writes its own answer", p.locator("textarea").count() == 1)); p.close()
         b.close()
     ok.append(("no page errors " + "; ".join(e[:120] for e in errors[:3]), not errors))
     for name, good in ok: print(("ok   " if good else "FAIL ") + name)

@@ -45,6 +45,11 @@ DATA.forEach(u=>{
   (u.fix||[]).forEach(f=>add('fix',u.n,f.good));
   (u.builds||[]).forEach(b=>add('build',u.n,J(b.parts)));
   (u.prompts||[]).forEach(p=>{add('prompt',u.n,p[0]);add('model',u.n,p[2]);});
+  // build-your-own "Say it yourself" (units 1-3, #164): every sentence a learner can make, and each answer and question
+  (u.say||[]).forEach(t=>t.frames.forEach(f=>{
+    if(t.ask){ add('prompt',u.n,f.q); add('prompt',u.n,f.o[f.a]); return; }
+    f.o.forEach(o=>{ const pat=typeof f.ar==='string' ? f.ar : f.ar[o[2]||'m']; add('prompt',u.n, pat==='___' ? o[0] : pat.replace('___',o[0])); });
+  }));
   (u.grammar||[]).forEach(g=>{
     add('grammar',u.n,g.ar);
     // a card's quick check (#163): its right answer is said when it's picked

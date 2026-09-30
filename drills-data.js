@@ -1287,6 +1287,17 @@ const EXTRA={
   {bad:"أَنا مِنْ مِصْرٍ.",good:"أَنا مِنْ مِصْرَ.",w:"مِصْر (Egypt) never adds the extra -n, and takes -a where you’d expect -i."},
   {bad:"ما اسْمُكِ يا عُمَرُ؟",good:"ما اسْمُكَ يا عُمَرُ؟",w:"Umar is male, so the pronoun ending is ـكَ."},
   {bad:"هَذا أُمِّي.",good:"هَذِهِ أُمِّي.",w:"أُمّ (mother) is feminine even without ة, so it’s هَذِهِ."}
+ ],
+ say:[
+  {en:"Introduce yourself",ar:"عَرِّفْ بِنَفْسِكَ",gender:true,frames:[
+   {ar:"أَنا ___.",en:"I’m …",o:[["طالِبٌ","a student","m"],["مُدَرِّسٌ","a teacher","m"],["طَبِيبٌ","a doctor","m"],["طالِبَةٌ","a student","f"],["مُدَرِّسَةٌ","a teacher","f"],["طَبِيبَةٌ","a doctor","f"]]},
+   {ar:"أَنا ___.",en:"I’m … (where you’re from)",o:[["بِرِيطانِيٌّ","British","m"],["باكِسْتانِيٌّ","Pakistani","m"],["بَنْغْلادِيشِيٌّ","Bangladeshi","m"],["صُومالِيٌّ","Somali","m"],["بِرِيطانِيَّةٌ","British","f"],["باكِسْتانِيَّةٌ","Pakistani","f"],["بَنْغْلادِيشِيَّةٌ","Bangladeshi","f"],["صُومالِيَّةٌ","Somali","f"]]},
+   {ar:"___",en:"Someone you know",o:[["هَذا صَدِيقِي.","This is my friend (a man)."],["هَذِهِ صَدِيقَتِي.","This is my friend (a woman)."],["هَذِهِ أُمِّي.","This is my mother."],["هَذِهِ أُخْتِي.","This is my sister."]]}]},
+  {en:"Ask the questions",ar:"اسْأَلِ الأَسْئِلَةَ",ask:true,frames:[
+   {q:"اسْمِي عُمَرُ.",qen:"My name is Umar.",o:["ما اسْمُكَ؟","مِنْ أَيْنَ أَنْتَ؟","كَيْفَ حالُكَ؟"],a:0},
+   {q:"الْحَمْدُ لِلَّهِ.",qen:"Praise be to Allah (I’m well).",o:["ما اسْمُكَ؟","كَيْفَ حالُكَ؟","هَلْ أَنْتَ طالِبٌ؟"],a:1},
+   {q:"نَعَمْ، أَنا طالِبٌ.",qen:"Yes, I’m a student.",o:["هَلْ أَنْتَ طالِبٌ؟","ما جِنْسِيَّتُكَ؟","مَنْ هَذا؟"],a:0},
+   {q:"هَذا صَدِيقِي.",qen:"This is my friend.",o:["مَنْ هَذا؟","ما اسْمُكَ؟","مِنْ أَيْنَ أَنْتَ؟"],a:0}]}
  ]},
 "02":{
  grammar:[
@@ -1317,6 +1328,12 @@ const EXTRA={
   {bad:"أُصَلِّي فِي الْمَسْجِدُ.",good:"أُصَلِّي فِي الْمَسْجِدِ.",w:"The word after فِي (in) always ends in -i."},
   {bad:"هَذِهِ جَدِّي.",good:"هَذا جَدِّي.",w:"جَدّ is masculine."},
   {bad:"نَحْنُ أُصَلِّي فِي الْمَسْجِدِ.",good:"نَحْنُ نُصَلِّي فِي الْمَسْجِدِ.",w:"With نَحْنُ the verb starts with نُـ: نُصَلِّي."}
+ ],
+ say:[
+  {en:"Talk about your family",ar:"تَكَلَّمْ عَنْ أُسْرَتِكَ",frames:[
+   {ar:"عِنْدِي ___.",en:"I have …",o:[["أَخٌ","a brother"],["أُخْتٌ","a sister"],["أَخٌ وَأُخْتٌ","a brother and a sister"],["ثَلاثَةُ أَوْلادٍ","three children"]]},
+   {ar:"___",en:"Someone in your family",o:[["هَذا جَدِّي.","This is my grandfather."],["هَذِهِ أُمِّي.","This is my mother."],["هَذا أَخِي.","This is my brother."]]},
+   {ar:"نَحْنُ نُصَلِّي فِي ___.",en:"We pray in …",o:[["الْمَسْجِدِ","the mosque"],["الْبَيْتِ","the house"],["الْمُصَلَّى","the prayer room"]]}]}
  ]},
 "03":{
  grammar:[
@@ -1349,6 +1366,12 @@ const EXTRA={
   {bad:"الشَّقَّةُ جَمِيلٌ.",good:"الشَّقَّةُ جَمِيلَةٌ.",w:"Feminine noun, feminine adjective."},
   {bad:"أَنا مُسْتَأْجِرُ.",good:"أَنا مُسْتَأْجِرٌ.",w:"With no ال, it needs the extra -n: -un."},
   {bad:"هَذا غُرَفٌ كَبِيرَةٌ.",good:"هَذِهِ غُرَفٌ كَبِيرَةٌ.",w:"A plural of things takes هَذِهِ."}
+ ],
+ say:[
+  {en:"Talk about your home",ar:"تَكَلَّمْ عَنْ بَيْتِكَ",frames:[
+   {ar:"أَسْكُنُ فِي ___.",en:"I live in …",sets:true,o:[["بَيْتٍ","a house","m"],["شَقَّةٍ","a flat","f"]]},
+   {ar:{m:"بَيْتِي ___.",f:"شَقَّتِي ___."},en:"My home is …",o:[["كَبِيرٌ","big","m"],["قَرِيبٌ مِنَ الْمَسْجِدِ","near the mosque","m"],["كَبِيرَةٌ","big","f"],["قَرِيبَةٌ مِنَ الْمَسْجِدِ","near the mosque","f"]]},
+   {ar:"فِي غُرْفَتِي ___.",en:"In my room there’s …",o:[["سَرِيرٌ وَسَجَّادَةٌ","a bed and a rug"],["سَرِيرٌ وَمِرْآةٌ","a bed and a mirror"],["سَرِيرٌ وَنافِذَةٌ","a bed and a window"]]}]}
  ]},
 "04":{
  grammar:[

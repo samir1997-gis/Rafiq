@@ -637,6 +637,139 @@
   "chars": 74
  },
  {
+  "id": "1azsiv",
+  "text": "أَنا طالِبٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 12
+ },
+ {
+  "id": "di98js",
+  "text": "أَنا طَبِيبٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 13
+ },
+ {
+  "id": "zie80",
+  "text": "أَنا طالِبَةٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 14
+ },
+ {
+  "id": "jk2b44",
+  "text": "أَنا مُدَرِّسَةٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 17
+ },
+ {
+  "id": "5w3rov",
+  "text": "أَنا طَبِيبَةٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 15
+ },
+ {
+  "id": "x9wf51",
+  "text": "أَنا بِرِيطانِيٌّ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 18
+ },
+ {
+  "id": "18pbrrs",
+  "text": "أَنا بَنْغْلادِيشِيٌّ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 22
+ },
+ {
+  "id": "ib1npw",
+  "text": "أَنا صُومالِيٌّ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 16
+ },
+ {
+  "id": "aslxz6",
+  "text": "أَنا بِرِيطانِيَّةٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 20
+ },
+ {
+  "id": "10do581",
+  "text": "أَنا باكِسْتانِيَّةٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 21
+ },
+ {
+  "id": "q0k8hr",
+  "text": "أَنا بَنْغْلادِيشِيَّةٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 24
+ },
+ {
+  "id": "1bjzrw3",
+  "text": "أَنا صُومالِيَّةٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 18
+ },
+ {
+  "id": "1urk1yb",
+  "text": "هَذا صَدِيقِي.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 14
+ },
+ {
+  "id": "11nwcav",
+  "text": "هَذِهِ صَدِيقَتِي.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 18
+ },
+ {
+  "id": "10o9re9",
+  "text": "اسْمِي عُمَرُ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 14
+ },
+ {
+  "id": "6au2ty",
+  "text": "الْحَمْدُ لِلَّهِ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 18
+ },
+ {
+  "id": "qj1z58",
+  "text": "كَيْفَ حالُكَ؟",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 14
+ },
+ {
+  "id": "8zivtv",
+  "text": "نَعَمْ، أَنا طالِبٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 20
+ },
+ {
+  "id": "1qt686z",
+  "text": "مَنْ هَذا؟",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 10
+ },
+ {
   "id": "1vquzqg",
   "text": "هُوَ مُدَرِّسٌ · هِيَ مُدَرِّسَةٌ",
   "bucket": "grammar",
@@ -1190,13 +1323,6 @@
   "chars": 12
  },
  {
-  "id": "1qt686z",
-  "text": "مَنْ هَذا؟",
-  "bucket": "transform",
-  "unit": "02",
-  "chars": 10
- },
- {
   "id": "lw6eo",
   "text": "أُصَلِّي فِي الْمَسْجِدِ.",
   "bucket": "transform",
@@ -1428,6 +1554,48 @@
   "chars": 70
  },
  {
+  "id": "zx5nsc",
+  "text": "عِنْدِي أَخٌ.",
+  "bucket": "prompt",
+  "unit": "02",
+  "chars": 13
+ },
+ {
+  "id": "a1yp24",
+  "text": "عِنْدِي أَخٌ وَأُخْتٌ.",
+  "bucket": "prompt",
+  "unit": "02",
+  "chars": 22
+ },
+ {
+  "id": "atln1s",
+  "text": "عِنْدِي ثَلاثَةُ أَوْلادٍ.",
+  "bucket": "prompt",
+  "unit": "02",
+  "chars": 26
+ },
+ {
+  "id": "1bflp9o",
+  "text": "هَذا أَخِي.",
+  "bucket": "prompt",
+  "unit": "02",
+  "chars": 11
+ },
+ {
+  "id": "19mvrfq",
+  "text": "نَحْنُ نُصَلِّي فِي الْبَيْتِ.",
+  "bucket": "prompt",
+  "unit": "02",
+  "chars": 30
+ },
+ {
+  "id": "1xhlh8h",
+  "text": "نَحْنُ نُصَلِّي فِي الْمُصَلَّى.",
+  "bucket": "prompt",
+  "unit": "02",
+  "chars": 32
+ },
+ {
   "id": "19ho4do",
   "text": "صُورَةُ أُسْرَتِي",
   "bucket": "grammar",
@@ -1608,13 +1776,6 @@
   "bucket": "grammar",
   "unit": "02",
   "chars": 6
- },
- {
-  "id": "a1yp24",
-  "text": "عِنْدِي أَخٌ وَأُخْتٌ.",
-  "bucket": "grammar",
-  "unit": "02",
-  "chars": 22
  },
  {
   "id": "1cx50mz",
@@ -2245,6 +2406,69 @@
   "bucket": "model",
   "unit": "03",
   "chars": 131
+ },
+ {
+  "id": "t6asf4",
+  "text": "أَسْكُنُ فِي بَيْتٍ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 20
+ },
+ {
+  "id": "2rhiyi",
+  "text": "أَسْكُنُ فِي شَقَّةٍ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 21
+ },
+ {
+  "id": "160tizr",
+  "text": "بَيْتِي كَبِيرٌ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 16
+ },
+ {
+  "id": "d2o4eb",
+  "text": "بَيْتِي قَرِيبٌ مِنَ الْمَسْجِدِ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 33
+ },
+ {
+  "id": "1c9tvuh",
+  "text": "شَقَّتِي كَبِيرَةٌ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 19
+ },
+ {
+  "id": "mnbdjx",
+  "text": "شَقَّتِي قَرِيبَةٌ مِنَ الْمَسْجِدِ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 36
+ },
+ {
+  "id": "1vanxh5",
+  "text": "فِي غُرْفَتِي سَرِيرٌ وَسَجَّادَةٌ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 35
+ },
+ {
+  "id": "c84f9h",
+  "text": "فِي غُرْفَتِي سَرِيرٌ وَمِرْآةٌ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 32
+ },
+ {
+  "id": "gz0ren",
+  "text": "فِي غُرْفَتِي سَرِيرٌ وَنافِذَةٌ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 33
  },
  {
   "id": "1ci0v6y",
