@@ -1,5 +1,7 @@
 """The basics (#165), a section between the reading starter and unit 1:
   - it comes after the reading starter and before unit 1; unit 1 opens once it's done (lessons + check)
+  - it has a goal (#168): lesson 1 opens with the sentence you'll say by the end, and each lesson ends
+    with your sentence so far, the new piece marked
   - Home calls it "Before unit 1" and still numbers the units 1, 2, 3 …
   - a lesson: teaching screens, then 8 picks; a missed pick comes back until it's right; its words become met
   - the check at the end: 18 questions, 80% to pass
@@ -15,7 +17,7 @@ BASE = "http://localhost:8765/"
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 seen = lambda *ks: {k: {"box": 0, "seen": 1} for k in ks}
 ALPHA = ["letters1", "letters2", "letters3", "letters4", "letters5", "letters6", "letters7", "vowels", "rules", "hear"]
-LESSONS = ["b-the", "b-gender", "b-people", "b-this", "b-many", "b-my"]
+LESSONS = ["b-the", "b-my", "b-people", "b-gender", "b-of", "b-many"]
 
 def page_with(b, mirror, errors):
     c = b.new_context(viewport={"width": 390, "height": 844})
@@ -46,14 +48,14 @@ def main():
         p.close()
 
         # a lesson: teach, 8 picks, a miss comes back
-        p = page_with(b, seen(*[f"p:00|{k}" for k in ALPHA], "p:0b|b-the"), errors); p.goto(BASE + "learn.html?u=0b&s=b-gender"); p.wait_for_timeout(1500)
+        p = page_with(b, seen(*[f"p:00|{k}" for k in ALPHA], "p:0b|b-the", "p:0b|b-my", "p:0b|b-people"), errors); p.goto(BASE + "learn.html?u=0b&s=b-gender"); p.wait_for_timeout(1500)
         teach = 0
         while kicker(p).startswith("Masculine and feminine ·") and "practise" not in kicker(p):
             teach += 1; go(p)
         picks, missed = 0, False
         for _ in range(20):
             if "practise" not in kicker(p): break
-            right = p.evaluate("""(() => { const L = BASICS[1], card = document.querySelector('.card').innerText;
+            right = p.evaluate("""(() => { const L = BASICS[3], card = document.querySelector('.card').innerText;
               const d = L.drills.find(d => card.includes(d[0]) && (!d[1] || card.includes(d[1].replace('___','').trim()))); return d ? d[2][0] : null; })()""")
             opts = p.locator(".opt")
             if not missed:                                               # the first one wrong on purpose
@@ -61,8 +63,19 @@ def main():
             else:
                 [o for o in opts.all() if o.inner_text() == right][0].click()
             p.wait_for_timeout(120); picks += 1; go(p)
-        ok.append(("gender lesson: %d teaching screens, %d picks (8 + the one missed)" % (teach, picks), teach == 2 and picks == 9))
+        ok.append(("gender lesson: %d teaching screens, %d picks (8 + the one missed)" % (teach, picks), teach == 3 and picks == 9))
+        so = kicker(p); line = p.inner_text("#s")
+        ok.append(("then your sentence so far (" + so + ")", so.startswith("Your sentence so far · 4 of 5") and "طالِب" in line and p.locator("mark.new").count() == 1))
+        go(p)
         ok.append(("lesson done, its words met", p.evaluate("RafiqPath.stepDone('0b','b-gender') && RafiqPath.metWords().has(27) && !Progress.isNew('v:27')")))
+        p.close()
+
+        # the goal (#168): lesson 1 opens with the sentence you'll build; as a woman here
+        p = page_with(b, seen(*[f"p:00|{k}" for k in ALPHA]), errors); p.goto(BASE + "learn.html?u=0b&s=b-the"); p.wait_for_timeout(1500)
+        ok.append(("lesson 1 opens with the goal (" + kicker(p) + ")", kicker(p) == "The basics · your goal" and "طالِبُ اللُّغَةِ الْعَرَبِيَّةِ" in p.inner_text("#g")))
+        p.locator("button.go", has_text="As a woman").click(); p.wait_for_timeout(300)
+        ok.append(("then the lesson", kicker(p).startswith("‘The’ and ‘a’ ·")))
+        ok.append(("as a woman: her form of the goal", p.evaluate("basicsG()") == "f"))
         p.close()
 
         # the check at the end, then unit 1 opens
@@ -72,6 +85,7 @@ def main():
         while kicker(p).startswith("Unit test") and n < 30:
             p.evaluate("[...document.querySelectorAll('.opt')].find(b => b.textContent === asking.right).click()"); p.wait_for_timeout(100); go(p); n += 1
         ok.append(("the check: %d questions, passed" % n, n == 18 and "the basics passed" in p.inner_text(".done")))
+        ok.append(("…and it shows the whole sentence", "اللُّغَةِ الْعَرَبِيَّةِ" in p.inner_text(".done")))
         ok.append(("unit 1 open", p.evaluate("RafiqPath.unitOpen('01')")))
         p.close()
 

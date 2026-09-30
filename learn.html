@@ -186,6 +186,7 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 .done p{color:var(--ink-soft);font-size:1.05rem}
 .streak{display:inline-block;margin-top:14px;font-family:var(--ut);font-size:12px;background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:6px 14px}
 .hide{display:none}
+mark.new{background:color-mix(in srgb,var(--gold) 28%,transparent);color:inherit;border-radius:6px;padding:0 4px}
 .why{font-size:15px;line-height:1.45;color:var(--ink-soft);margin-top:14px;border-left:2px solid var(--gold);padding-left:11px;text-align:left}
 bdi[lang=ar]{white-space:nowrap;font-family:var(--ar)}
 .chat{display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
@@ -243,7 +244,7 @@ bdi[lang=ar]{white-space:nowrap;font-family:var(--ar)}
 </div>
 
 <script src="vocab-data.js?v=20260928b"></script>
-<script src="drills-data.js?v=20260930g"></script>
+<script src="drills-data.js?v=20260930h"></script>
 <script src="path-data.js?v=20260930b"></script>
 <script src="alphabet-data.js?v=20260930b"></script>
 <script src="scenes-data.js?v=20260922"></script>
@@ -252,7 +253,7 @@ bdi[lang=ar]{white-space:nowrap;font-family:var(--ar)}
 <script src="auth.js?v=6"></script>
 <script src="fsrs.js?v=20260929"></script>
 <script src="progress.js?v=20260930c"></script>
-<script src="basics-data.js?v=1"></script>
+<script src="basics-data.js?v=2"></script>
 <script src="path.js?v=20260930f"></script>
 <script src="plan.js?v=20260927"></script>
 <script src="report.js?v=1"></script>
@@ -1058,7 +1059,8 @@ function runTest(p, step){
   const result=()=>{
     const right=qs.length-missed.length, pct=Math.round(100*right/qs.length);
     if(right>=Math.ceil(PASS*qs.length))
-      return finish(p, step, `<div class="wnote up">🎓 <b>${right} of ${qs.length}</b> (${pct}%) — ${p.basics?'the basics':'unit '+(+p.n)} passed</div>`);
+      return finish(p, step, `<div class="wnote up">🎓 <b>${right} of ${qs.length}</b> (${pct}%) — ${p.basics?'the basics':'unit '+(+p.n)} passed</div>`
+        + (p.basics ? `<div class="wnote"><span lang="ar" dir="rtl" style="font-family:var(--ar);font-size:1.2rem">${esc(BASICS_GOAL[basicsG()])}</span><br>You can say it, with your own name.</div>` : ''));
     RafiqPath.testFailed(p.n, missed); setBar(1,1);
     const body=el(`<div class="done"><div class="tick">${right} / ${qs.length}</div><h2>Not quite yet</h2>
       <p>You need ${Math.ceil(PASS*qs.length)} to pass. Go over the ${missed.length} you missed, then try the test again.</p></div>`);
@@ -1118,6 +1120,32 @@ function basicsDrill(d, head, onAnswer, onNext){
   screen(body,[next]);
   if(w && !gap && !ar) say(shown,w);
 }
+/* The basics' goal (#168): the sentence the section builds up, as a man or a woman says it. */
+const basicsG=()=>{ try{ return localStorage.getItem('rafiq_basics_g')==='f' ? 'f' : 'm'; }catch(_){ return 'm'; } };
+const setBasicsG=g=>{ try{ localStorage.setItem('rafiq_basics_g', g); }catch(_){} };
+function basicsGoal(then){
+  const body=el(`<div><p class="kicker">The basics · your goal</p><div class="card note">
+    <h3 class="gh">By the end of the basics, you’ll say</h3>
+    <div class="mid" id="g" style="line-height:1.9">${esc(BASICS_GOAL[basicsG()])}</div><div class="gtr">${esc(BASICS_GOAL.en)}</div>
+    <p style="margin-top:14px">Each lesson teaches one building block and adds a piece of this sentence. The name is an example: you’ll say your own.</p>
+    <p class="howto" style="margin-top:10px">Are you saying it as a man or a woman?</p></div></div>`);
+  const g=body.querySelector('#g'); g.onclick=()=>say(g.textContent,g);
+  const pick=x=>{ setBasicsG(x); then(); };
+  screen(body,[button('As a man',()=>pick('m')), button('As a woman',()=>pick('f'))]);
+  say(g.textContent,g);
+}
+function basicsSoFar(L, i, then){
+  const so=L.sofar, line=so[basicsG()];
+  const shown=esc(line).replace(esc(so.adds), `<mark class="new">${esc(so.adds)}</mark>`);
+  const pieces=BASICS.filter(l=>!l.sofar.bonus).length;
+  const body=el(`<div><p class="kicker">${so.bonus?'A bonus':`Your sentence so far · ${Math.min(i+1,pieces)} of ${pieces}`}</p><div class="card note">
+    <h3 class="gh">${so.bonus?'You can also say':i+1>=pieces?'You can say the whole sentence':'You can now say'}</h3>
+    <div class="mid" id="s" style="line-height:1.9">${shown}</div><div class="gtr">${withAr(so.en)}</div>
+    <p class="taphint">🔊 Tap to hear it, then say it aloud${so.bonus||i===0?'':' with your own name'}</p></div></div>`);
+  const sEl=body.querySelector('#s'); sEl.onclick=()=>say(line,sEl);
+  screen(body,[button('Continue',then)]);
+  say(line,sEl);
+}
 function runBasics(p, step){
   const L=BASICS[step.lesson], T=L.teach;
   const teach=i=>{
@@ -1145,9 +1173,10 @@ function runBasics(p, step){
   const done=()=>{
     const first=!RafiqPath.stepDone(p.n, step.key);
     L.words.forEach(id=>{ if(Progress.isNew('v:'+id)){ Progress.grade('v:'+id,'good',1); if(first) RafiqPath.wordMet(); } });
-    finish(p, step);
+    basicsSoFar(L, step.lesson, ()=>finish(p, step));
   };
-  teach(0);
+  // the first lesson opens with the goal (#168)
+  if(step.lesson===0 && !RafiqPath.stepDone(p.n, step.key)) basicsGoal(()=>teach(0)); else teach(0);
 }
 
 /* "Say it yourself" in units 1-3 (#164): no writing from scratch. Build your own sentences one gap at

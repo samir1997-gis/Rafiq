@@ -21126,6 +21126,55 @@
   "chars": 6
  },
  {
+  "id": "ikrde1",
+  "text": "السَّلامُ عَلَيْكُمْ، اسْمِي سَمِير، وَأَنا طالِبُ اللُّغَةِ الْعَرَبِيَّةِ.",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 76
+ },
+ {
+  "id": "yocntn",
+  "text": "السَّلامُ عَلَيْكُمْ، اسْمِي سَمِير",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 35
+ },
+ {
+  "id": "1b7j34t",
+  "text": "السَّلامُ عَلَيْكُمْ، اسْمِي سَمِير، وَأَنا طالِبٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 50
+ },
+ {
+  "id": "8r5hlb",
+  "text": "نَحْنُ طُلّابُ اللُّغَةِ الْعَرَبِيَّةِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 39
+ },
+ {
+  "id": "1vojzhw",
+  "text": "السَّلامُ عَلَيْكُمْ، اسْمِي مَرْيَم، وَأَنا طالِبَةُ اللُّغَةِ الْعَرَبِيَّةِ.",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 79
+ },
+ {
+  "id": "1n0r9sx",
+  "text": "السَّلامُ عَلَيْكُمْ، اسْمِي مَرْيَم",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 36
+ },
+ {
+  "id": "h05bkw",
+  "text": "السَّلامُ عَلَيْكُمْ، اسْمِي مَرْيَم، وَأَنا طالِبَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 53
+ },
+ {
   "id": "a299hp",
   "text": "الْكِتابُ",
   "bucket": "basics",
@@ -21154,18 +21203,102 @@
   "chars": 7
  },
  {
-  "id": "8vi4es",
-  "text": "الطّالِبُ",
+  "id": "1qufroq",
+  "text": "اسْمٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "zzjc5d",
+  "text": "اسْمُهُ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "zzjc4p",
+  "text": "اسْمُها",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "qbglh0",
+  "text": "مَدْرَسَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 10
+ },
+ {
+  "id": "qkmujw",
+  "text": "غُرْفَتِي",
   "bucket": "basics",
   "unit": "0b",
   "chars": 9
  },
  {
-  "id": "1baukau",
-  "text": "مُدَرِّسَةٌ",
+  "id": "14lphkf",
+  "text": "كِتابُكِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1gflm1q",
+  "text": "بَيْتُها",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "z824us",
+  "text": "مَدْرَسَتُها",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 12
+ },
+ {
+  "id": "rt0r3j",
+  "text": "هُوَ مُدَرِّسٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 14
+ },
+ {
+  "id": "1t1b479",
+  "text": "أَنا طالِبٌ وَهُوَ مُدَرِّسٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 28
+ },
+ {
+  "id": "rvn8a3",
+  "text": "هُوَ طالِبٌ",
   "bucket": "basics",
   "unit": "0b",
   "chars": 11
+ },
+ {
+  "id": "wvyztw",
+  "text": "هُوَ طَبِيبٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 12
+ },
+ {
+  "id": "ilwtug",
+  "text": "أَنْتَ طالِبٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 13
+ },
+ {
+  "id": "ftj4of",
+  "text": "وَأَنا طالِبٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 13
  },
  {
   "id": "pgtvtx",
@@ -21203,11 +21336,11 @@
   "chars": 6
  },
  {
-  "id": "1mx66xl",
-  "text": "غُرْفَةٌ",
+  "id": "8mi1wn",
+  "text": "هَذِهِ غُرْفَةٌ",
   "bucket": "basics",
   "unit": "0b",
-  "chars": 8
+  "chars": 15
  },
  {
   "id": "n9z8st",
@@ -21217,88 +21350,11 @@
   "chars": 9
  },
  {
-  "id": "ybk8x9",
-  "text": "أَنا مُدَرِّسٌ",
+  "id": "1baukau",
+  "text": "مُدَرِّسَةٌ",
   "bucket": "basics",
   "unit": "0b",
-  "chars": 14
- },
- {
-  "id": "tafv9t",
-  "text": "هِيَ طالِبَةٌ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 13
- },
- {
-  "id": "92b0e7",
-  "text": "أَنا مُدَرِّسٌ وَهِيَ طالِبَةٌ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 30
- },
- {
-  "id": "rt0r3j",
-  "text": "هُوَ مُدَرِّسٌ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 14
- },
- {
-  "id": "17g4t66",
-  "text": "أَنْتِ طَبِيبَةٌ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 16
- },
- {
-  "id": "wvyztw",
-  "text": "هُوَ طَبِيبٌ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 12
- },
- {
-  "id": "ilwtug",
-  "text": "أَنْتَ طالِبٌ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 13
- },
- {
-  "id": "a9b7r2",
-  "text": "هِيَ طَبِيبَةٌ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 14
- },
- {
-  "id": "8mi1wn",
-  "text": "هَذِهِ غُرْفَةٌ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 15
- },
- {
-  "id": "1ja1pjw",
-  "text": "غُرْفَةٌ كَبِيرَةٌ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 18
- },
- {
-  "id": "1ffbnrq",
-  "text": "هَذِهِ كُتُبٌ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 13
- },
- {
-  "id": "rxaby4",
-  "text": "هَذِهِ غُرَفٌ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 13
+  "chars": 11
  },
  {
   "id": "14zvx0u",
@@ -21315,25 +21371,60 @@
   "chars": 17
  },
  {
-  "id": "95eu49",
-  "text": "هَذِهِ أُمِّي",
+  "id": "172uacu",
+  "text": "أَنا طالِبَةٌ",
   "bucket": "basics",
   "unit": "0b",
   "chars": 13
  },
  {
-  "id": "wwckli",
-  "text": "هَذا وَلَدٌ وَهَذِهِ بِنْتٌ",
+  "id": "13l59x4",
+  "text": "بابُ الْبَيْتِ",
   "bucket": "basics",
   "unit": "0b",
-  "chars": 27
+  "chars": 14
  },
  {
-  "id": "v0nczz",
-  "text": "هَذِهِ مَدْرَسَةٌ كَبِيرَةٌ",
+  "id": "186vj4i",
+  "text": "كِتابُ الطّالِبِ",
   "bucket": "basics",
   "unit": "0b",
-  "chars": 27
+  "chars": 16
+ },
+ {
+  "id": "1fuzo2a",
+  "text": "طالِبُ اللُّغَةِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 16
+ },
+ {
+  "id": "1ja1pjw",
+  "text": "غُرْفَةٌ كَبِيرَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 18
+ },
+ {
+  "id": "9pognw",
+  "text": "اللُّغَةُ الْعَرَبِيَّةُ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 24
+ },
+ {
+  "id": "asgfmn",
+  "text": "طالِبُ اللُّغَةِ الْعَرَبِيَّةِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 31
+ },
+ {
+  "id": "vwmx1w",
+  "text": "أَنا طالِبَةُ اللُّغَةِ الْعَرَبِيَّةِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 38
  },
  {
   "id": "1h23rl3",
@@ -21392,74 +21483,11 @@
   "chars": 7
  },
  {
-  "id": "1cdf0ai",
-  "text": "أُمُّهُ",
+  "id": "1ffbnrq",
+  "text": "هَذِهِ كُتُبٌ",
   "bucket": "basics",
   "unit": "0b",
-  "chars": 7
- },
- {
-  "id": "1cdf0b6",
-  "text": "أُمُّها",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 7
- },
- {
-  "id": "qbglh0",
-  "text": "مَدْرَسَةٌ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 10
- },
- {
-  "id": "qkmujw",
-  "text": "غُرْفَتِي",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 9
- },
- {
-  "id": "14lphkf",
-  "text": "كِتابُكِ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 8
- },
- {
-  "id": "1gflm1q",
-  "text": "بَيْتُها",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 8
- },
- {
-  "id": "w21gi6",
-  "text": "صَدِيقُهُ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 9
- },
- {
-  "id": "1rfqwmv",
-  "text": "صَدِيقَتِي",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 10
- },
- {
-  "id": "z824us",
-  "text": "مَدْرَسَتُها",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 12
- },
- {
-  "id": "1wn9dg5",
-  "text": "هَذا بَيْتِي",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 12
+  "chars": 13
  },
  {
   "id": "qk3rwy",

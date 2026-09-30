@@ -90,7 +90,7 @@ def main():
             if p.locator(".opt").count():                                                               # a quick check (#163)
                 p.locator(".opt").first.click(); p.wait_for_timeout(150)
                 p.locator("button.go:not([disabled])").first.click(); p.wait_for_timeout(250)
-        ok.append(("unit 2 How it works: %d cards, %d with a crossed-out mistake" % (len(titles), bads), len(titles) == 5 and bads == 5))   # ‘My’ endings now taught in the basics (#166)
+        ok.append(("unit 2 How it works: %d cards, %d with a crossed-out mistake" % (len(titles), bads), len(titles) == 4 and bads == 4))   # ‘My’ endings and ‘X of Y’ now taught in the basics (#166, #168)
         ok.append(("three endings and the past are taught", any("Three endings" in t for t in titles) and any("The past" in t for t in titles))); p.close()
 
         # Practise: only exercises made from taught words

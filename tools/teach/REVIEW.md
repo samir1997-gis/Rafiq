@@ -233,3 +233,18 @@ Six short lessons, each 1–2 teaching screens then 8 picks, and a check at the 
 ## Changed 30 Sep 2026 (#166): the journey no longer reteaches the basics
 TypeSafe (tools/typesafe-exp/reteach_check.py) checked every "How it works" card against "The basics". These cards were removed because they mainly taught it again (their practice items stay): unit 1 "No word for ‘is’", "Masculine and feminine", "‘This’ m/f", "‘The’ is ال", "‘My’ is ـِي"; unit 2 "‘My’, ‘your’, ‘his’ are endings"; unit 3 "Plurals change inside", "We/you/they", "Plurals of things are ‘she’"; unit 8 "Jobs for women: add ة"; unit 12 "No word for ‘is’ (again)".
 Trimmed to what's new: unit 3 "Describing words copy ال and the ending too" (بَيْتٌ كَبِيرٌ · الْبَيْتُ الْكَبِيرُ; mistake الْبَيْتُ الْكَبِيرٌ), unit 2 "‘We’ verbs start with نَـ". The reading rules "ال is said al-" and "Sun letters" moved out (now in the basics' first lesson). Please check the two trimmed cards.
+
+## Changed 30 Sep 2026 (#168): the basics now build up a goal sentence — for the teacher to check
+The section opens with the goal: **السَّلامُ عَلَيْكُمْ، اسْمِي سَمِير، وَأَنا طالِبُ اللُّغَةِ الْعَرَبِيَّةِ.** (a woman: السَّلامُ عَلَيْكُمْ، اسْمِي مَرْيَم، وَأَنا طالِبَةُ اللُّغَةِ الْعَرَبِيَّةِ.). Names are examples. Each lesson ends with the sentence so far. Lessons are now: ‘The’ and ‘a’, My, your, his, her, I, you, he, she, Masculine and feminine, ‘Of’, and describing words, One and many. The new lesson ‘Of’, and describing words teaches two nouns side by side (طالِبُ اللُّغَةِ) and matching describing words (اللُّغَةُ الْعَرَبِيَّةُ). TypeSafe: the goal sentences are correct (0.83–0.91).
+Because the basics now teach ‘of’, these journey cards were removed (practice stays): unit 2 ‘The X of Y’, unit 3 ‘Describing words copy ال and the ending too’, unit 7 ‘College of Education’, unit 10 ‘The season of spring’.
+
+| Lesson | Sentence so far (man) | (woman) |
+|---|---|---|
+| ‘The’ and ‘a’ | السَّلامُ عَلَيْكُمْ | السَّلامُ عَلَيْكُمْ |
+| My, your, his, her | السَّلامُ عَلَيْكُمْ، اسْمِي سَمِير | السَّلامُ عَلَيْكُمْ، اسْمِي مَرْيَم |
+| I, you, he, she | السَّلامُ عَلَيْكُمْ، اسْمِي سَمِير، وَأَنا طالِبٌ | السَّلامُ عَلَيْكُمْ، اسْمِي مَرْيَم، وَأَنا طالِبَةٌ |
+| Masculine and feminine | السَّلامُ عَلَيْكُمْ، اسْمِي سَمِير، وَأَنا طالِبٌ | السَّلامُ عَلَيْكُمْ، اسْمِي مَرْيَم، وَأَنا طالِبَةٌ |
+| ‘Of’, and describing words | السَّلامُ عَلَيْكُمْ، اسْمِي سَمِير، وَأَنا طالِبُ اللُّغَةِ الْعَرَبِيَّةِ. | السَّلامُ عَلَيْكُمْ، اسْمِي مَرْيَم، وَأَنا طالِبَةُ اللُّغَةِ الْعَرَبِيَّةِ. |
+| One and many | نَحْنُ طُلّابُ اللُّغَةِ الْعَرَبِيَّةِ | نَحْنُ طُلّابُ اللُّغَةِ الْعَرَبِيَّةِ |
+
+The full list of picks per lesson is in basics-data.js; the ‘Of’ lesson's picks: How do you say ‘a student of the language’?  → طالِبُ اللُّغَةِ · How do you say ‘the student’s book’?  → كِتابُ الطّالِبِ · What does it mean? بابُ الْبَيْتِ → the door of the house · How do you say ‘the Arabic language’?  → اللُّغَةُ الْعَرَبِيَّةُ · How do you say ‘a big room’?  → غُرْفَةٌ كَبِيرَةٌ · How do you say ‘a big house’?  → بَيْتٌ كَبِيرٌ · Which fits? طالِبُ اللُّغَةِ ___ → الْعَرَبِيَّةِ · A woman says ‘I’m a student of the Arabic language’:  → أَنا طالِبَةُ اللُّغَةِ الْعَرَبِيَّةِ

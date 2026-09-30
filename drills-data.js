@@ -1296,7 +1296,6 @@ const EXTRA={
  ]},
 "02":{
  grammar:[
-  {t:"الإضافة",ar:"صُورَةُ أُسْرَتِي",h:"‘The X of Y’: two nouns side by side",tr:"a picture of my family",en:"Say the thing first, then whose it is: ‘picture family-my’. The first word never takes ال or the extra -n; the second ends in -i (here hidden under ـِي, ‘my’).",bad:["هَذِهِ صُورَةُ الأُسْرَتِي.","A word with ‘my’ on the end can’t take ال too: صُورَةُ أُسْرَتِي."]},
   {t:"الإعراب",ar:"الْمَسْجِدُ كَبِيرٌ · أَرى الْمَسْجِدَ · فِي الْمَسْجِدِ",h:"Three endings: -u, -a, -i",tr:"The mosque is big · I see the mosque · in the mosque",en:"Most Arabic words can end in -u, -a or -i, and the ending shows the word’s job. -u is the usual one: what the sentence is about. -a is for the thing something is done to. -i comes after words like فِي (in), مِنْ (from) and إِلى (to), and on the second word of ‘the X of Y’. Without ال, add an extra -n: -un, -an, -in. Later cards point back to these three endings.",bad:["فِي الْمَسْجِدُ", "After فِي the word ends in -i: فِي الْمَسْجِدِ."]},
   {t:"المضارع: أنا / هو",ar:"أَتَوَضَّأُ · يَتَوَضَّأُ",h:"Who’s doing it? Look at the first letter",tr:"I make wudu · he makes wudu",en:"In the present tense, the first letter shows who: أ for ‘I’, يـ for ‘he’, تـ for ‘she’ or ‘you’.",bad:["أَنا يَتَوَضَّأُ.","يَـ is for ‘he’. With أَنا (I) the verb starts with أَ: أَنا أَتَوَضَّأُ."]},
   {t:"الماضي",ar:"ذَهَبْتُ · ذَهَبْتَ · ذَهَبْتِ · ذَهَبَ · ذَهَبَتْ · ذَهَبْنا",h:"The past: the ending shows who",tr:"I went · you went (to a man) · you went (to a woman) · he went · she went · we went",en:"In the present, the first letter shows who. In the past, the ending does: ـتُ for ‘I’, ـتَ for ‘you’ (a man), ـتِ for ‘you’ (a woman), nothing extra for ‘he’, ـتْ for ‘she’ and ـنا for ‘we’. To change a sentence to the past, take the verb’s past form and put the right ending on it.",bad:["أَنا ذَهَبَ إِلى الْمَسْجِدِ.", "With أَنا the past verb ends in ـتُ: أَنا ذَهَبْتُ إِلى الْمَسْجِدِ."]},
@@ -1332,7 +1331,6 @@ const EXTRA={
 "03":{
  grammar:[
   {t:"خبر مقدّم",ar:"فِي الْغُرْفَةِ سَرِيرٌ.",h:"Saying ‘there is’",tr:"There is a bed in the room.",en:"Start with the place, then the thing: ‘in the room, a bed’. There’s no separate word for ‘there is’.",bad:["فِي الْغُرْفَةِ هُوَ سَرِيرٌ.","Don’t add هُوَ for ‘is’. The place, then the thing: فِي الْغُرْفَةِ سَرِيرٌ."]},
-  {t:"الصفة",ar:"بَيْتٌ كَبِيرٌ · الْبَيْتُ الْكَبِيرُ",h:"Describing words copy ال and the ending too",tr:"a big house · the big house",en:"A describing word copies ال from its noun, and its ending: بَيْتٌ كَبِيرٌ, a big house; الْبَيْتُ الْكَبِيرُ, the big house.",bad:["الْبَيْتُ الْكَبِيرٌ","With ال on the noun, the describing word takes ال too, and no -un: الْبَيْتُ الْكَبِيرُ."]},
   {t:"هذا + نكرة / معرفة",ar:"هَذا بَيْتٌ · هَذا الْبَيْتُ",h:"‘This is a house’ or ‘this house’?",tr:"This is a house · this house",en:"Without ال, هَذا بَيْتٌ is a whole sentence: ‘This is a house.’ With ال, هَذا الْبَيْتُ is just ‘this house’, and the sentence goes on: هَذا الْبَيْتُ كَبِيرٌ, ‘This house is big.’",bad:["هَذا الْبَيْتُ.", "To say ‘This is a house’, leave off ال: هَذا بَيْتٌ."]},
   {t:"العدد ٣–١٠ ومعدوده",ar:"خَمْسُ غُرَفٍ",h:"Numbers 3 to 10 work backwards",tr:"five rooms",en:"With a feminine word (most end in ة, like غُرْفَة), say the number without ة: خَمْسُ غُرَفٍ. With a masculine word, add ة: خَمْسَةُ أَوْلادٍ. It feels backwards, but that’s the rule. (See ‘Three endings’ in unit 2.)",bad:["خَمْسَةُ غُرَفٍ","غُرْفَة (room) is feminine, so the number goes without ة: خَمْسُ غُرَفٍ."]},
   {t:"كَمْ + تمييز",ar:"كَمْ غُرْفَةً؟",h:"‘How many?’ takes one, not many",tr:"How many rooms?",en:"After كَمْ, use the singular word ending in -an: ‘how many room?’. Never the plural. (See ‘Three endings’ in unit 2.)",bad:["كَمْ غُرَفٍ؟","After كَمْ, say ‘room’, not ‘rooms’, ending in -an: كَمْ غُرْفَةً؟"]},
@@ -1434,7 +1432,6 @@ const EXTRA={
  grammar:[
   {t:"لام التعليل + المنصوب",ar:"أَذْهَبُ لِأَدْرُسَ",h:"‘In order to’: لِـ + a verb",tr:"I go (in order) to study.",en:"Put لِـ on a present-tense verb to say ‘in order to’. The verb then ends in -a: أَدْرُسَ, not أَدْرُسُ."},
   {t:"كَمْ + تمييز",ar:"كَمْ حِصَّةً؟",h:"‘How many?’ again: one, ending in -an",tr:"How many lessons?",en:"The same rule as before: after كَمْ, use the singular word ending in -an. (See ‘Three endings’ in unit 2.)"},
-  {t:"الإضافة",ar:"كُلِّيَّةُ التَّرْبِيَةِ",h:"‘College of Education’",tr:"the College of Education",en:"Two nouns side by side mean ‘X of Y’. Only the second one takes ال, and it ends in -i. (See ‘Three endings’ in unit 2.)"},
   {t:"جمع المذكر السالم",ar:"يَدْرُسُونَ",h:"‘They’ (men) study: ـُونَ",tr:"they (men) study",en:"For ‘they’ meaning men or a mixed group, the present verb starts with يَـ and ends in ـُونَ."}
  ],
  cloze:[
@@ -1499,8 +1496,7 @@ const EXTRA={
  grammar:[
   {t:"كانَ + خبر منصوب",ar:"كانَ الْجَوُّ بارِدًا.",h:"‘Was’: كانَ",tr:"The weather was cold.",en:"Use كانَ for ‘was’. It makes the describing word end in -an: بارِدًا. (See ‘Three endings’ in unit 2.)"},
   {t:"لَيْسَ",ar:"الْجَوُّ لَيْسَ حارًّا.",h:"‘Isn’t’: لَيْسَ",tr:"The weather isn’t hot.",en:"لَيْسَ means ‘is not’. Like كانَ, it makes the describing word end in -an. (See ‘Three endings’ in unit 2.)"},
-  {t:"لِذَلِكَ",ar:"تُمْطِرُ، لِذَلِكَ أَخَذْتُ الْمِظَلَّةَ.",h:"‘So’ and ‘because’",tr:"It’s raining, so I took the umbrella.",en:"لِذَلِكَ means ‘so’ (what happened as a result). لِأَنَّ means ‘because’ (the reason). Don’t mix them up."},
-  {t:"فَصْل + الفصل",ar:"فَصْلُ الرَّبِيعِ",h:"‘The season of spring’",tr:"spring (the season of spring)",en:"Arabic says ‘season (of) the spring’: two nouns side by side, the second with ال and ending in -i. (See ‘Three endings’ in unit 2.)"}
+  {t:"لِذَلِكَ",ar:"تُمْطِرُ، لِذَلِكَ أَخَذْتُ الْمِظَلَّةَ.",h:"‘So’ and ‘because’",tr:"It’s raining, so I took the umbrella.",en:"لِذَلِكَ means ‘so’ (what happened as a result). لِأَنَّ means ‘because’ (the reason). Don’t mix them up."}
  ],
  cloze:[
   {q:"كانَ الْجَوُّ ___ أَمْسِ.",o:["بارِدٌ","بارِدًا","بارِدٍ","الْبارِدُ"],a:1,w:"After كانَ, the describing word ends in -an."},
