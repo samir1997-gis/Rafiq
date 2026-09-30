@@ -22,6 +22,9 @@ const TOPIC_UNIT = { '01':'01', '08':'02', '10':'03', '06':'04', '09':'05', '07'
 // unit → word ids added late (issue #61: the days and numbers missing from the lessons)
 const LATE = { '03': [780, 781, 782, 35, 783] };        // Sunday, Monday, Wednesday, two, six
 const lateIds = new Set(Object.values(LATE).flat());
+// words spelt like another word with a different meaning: placed by their topic, not by spelling, so
+// ما 'what' in unit 1 doesn't bring in ما 'not (past)', nor لا 'no' the لا of 'not' and 'don't'
+const BY_TOPIC_ONLY = new Set([127, 163, 213]);
 // unit → words it starts with (#156, teach first): unit 1 opens with ten single words, before the
 // greeting phrases, so its first lesson is words a beginner can hold on to (I, you, he, she, this…)
 const FIRST = { '01': [15, 16, 17, 18, 19, 20, 21, 26, 30, 28] };      // أَنا أَنْتَ أَنْتِ هُوَ هِيَ هَذا هَذِهِ صَدِيق مُدَرِّس طالِبَة
@@ -51,7 +54,7 @@ const forms = w => w.ar.split('/').map(f => norm(f).split(' ').map(bare).filter(
 
 const byUnit = DATA.map(() => []), placed = new Set();
 VOCAB.forEach(w => {
-  if (lateIds.has(w.id)) return;
+  if (lateIds.has(w.id) || BY_TOPIC_ONLY.has(w.id)) return;
   const i = used.findIndex(set => forms(w).some(f => f.every(t => set.has(t))));
   if (i >= 0 && byUnit[i].length < CAP) { byUnit[i].push(w.id); placed.add(w.id); }
 });

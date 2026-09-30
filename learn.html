@@ -63,7 +63,9 @@ body{padding-bottom:0!important}
 .wparts span{display:flex;flex-direction:column;align-items:center;gap:2px}
 .wparts b{font-family:var(--ar);font-weight:500;font-size:1.3rem;line-height:1.6}
 .wparts i{font-style:normal;font-size:.85rem;color:var(--verdigris);font-weight:600;max-width:9em;text-align:center;line-height:1.2}
-.big-hear{font-size:2.4rem;padding:18px 26px;margin:6px auto}
+.big-hear{font-size:2.4rem;padding:18px 26px;margin:6px auto;min-width:96px;min-height:96px;touch-action:manipulation;transition:transform 100ms ease-out}
+.big-hear:active{transform:scale(.94)}
+@media (prefers-contrast:more){.gbad{background:var(--card);border:2px solid var(--rubric)}.wparts{border-top-style:solid}}
 .ar-opts .opt{font-family:var(--ar);font-size:1.4rem}
 /* Your salah */
 .salah-ar{line-height:2.1}
@@ -238,8 +240,8 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 </div>
 
 <script src="vocab-data.js?v=20260928b"></script>
-<script src="drills-data.js?v=20260930"></script>
-<script src="path-data.js?v=20260930"></script>
+<script src="drills-data.js?v=20260930b"></script>
+<script src="path-data.js?v=20260930b"></script>
 <script src="alphabet-data.js?v=20260926"></script>
 <script src="scenes-data.js?v=20260922"></script>
 <script src="audio.js?v=904"></script>
@@ -247,7 +249,7 @@ textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;
 <script src="auth.js?v=6"></script>
 <script src="fsrs.js?v=20260929"></script>
 <script src="progress.js?v=20260929"></script>
-<script src="path.js?v=20260930"></script>
+<script src="path.js?v=20260930b"></script>
 <script src="plan.js?v=20260927"></script>
 <script src="report.js?v=1"></script>
 <script src="teach.js?v=1"></script>
@@ -463,7 +465,7 @@ function runGrammar(p, step){
           : `<div class="mid" id="a">${esc(g.ar.replace(/=/g,' '))}</div>${g.tr ? `<div class="gtr">${esc(g.tr)}</div>` : ''}`}
         <p class="taphint">🔊 Tap ${pairsOf(g) ? 'an example' : 'the Arabic'} to hear it again</p>
         <p>${esc(g.en)}</p>${ENDINGS_RE.test(g.en) ? ENDINGS_HTML : ''}
-        ${g.bad ? `<div class="gbad"><span class="gx" aria-hidden="true">✗</span><div><s lang="ar" dir="rtl">${esc(g.bad[0])}</s><p>${esc(g.bad[1])}</p></div></div>` : ''}</div></div>`);
+        ${g.bad ? `<div class="gbad" role="note" aria-label="A common mistake, crossed out"><span class="gx" aria-hidden="true">✗</span><div><s lang="ar" dir="rtl">${esc(g.bad[0])}</s><p>${esc(g.bad[1])}</p></div></div>` : ''}</div></div>`);
     const a=body.querySelector('#a'); if(a) a.onclick=()=>say(g.ar,a);
     const rows=[...body.querySelectorAll('.pair')];
     rows.forEach(r=>r.onclick=()=>say(r.dataset.say,r.querySelector('.mid')));
