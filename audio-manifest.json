@@ -1498,13 +1498,6 @@
   "chars": 32
  },
  {
-  "id": "19ho4do",
-  "text": "صُورَةُ أُسْرَتِي",
-  "bucket": "grammar",
-  "unit": "02",
-  "chars": 17
- },
- {
   "id": "1tnbx9s",
   "text": "الْمَسْجِدُ كَبِيرٌ · أَرى الْمَسْجِدَ · فِي الْمَسْجِدِ",
   "bucket": "grammar",
@@ -2350,27 +2343,6 @@
   "bucket": "grammar",
   "unit": "03",
   "chars": 24
- },
- {
-  "id": "10mdf4i",
-  "text": "بَيْتٌ كَبِيرٌ · الْبَيْتُ الْكَبِيرُ",
-  "bucket": "grammar",
-  "unit": "03",
-  "chars": 37
- },
- {
-  "id": "590tr3",
-  "text": "بَيْتٌ كَبِيرٌ",
-  "bucket": "grammar",
-  "unit": "03",
-  "chars": 14
- },
- {
-  "id": "spuxmn",
-  "text": "الْبَيْتُ الْكَبِيرُ",
-  "bucket": "grammar",
-  "unit": "03",
-  "chars": 20
  },
  {
   "id": "1j0797k",
@@ -4914,13 +4886,6 @@
   "chars": 13
  },
  {
-  "id": "cws21b",
-  "text": "كُلِّيَّةُ التَّرْبِيَةِ",
-  "bucket": "grammar",
-  "unit": "07",
-  "chars": 24
- },
- {
   "id": "peiqam",
   "text": "يَدْرُسُونَ",
   "bucket": "grammar",
@@ -6795,13 +6760,6 @@
   "bucket": "model",
   "unit": "10",
   "chars": 109
- },
- {
-  "id": "e7b11s",
-  "text": "فَصْلُ الرَّبِيعِ",
-  "bucket": "grammar",
-  "unit": "10",
-  "chars": 17
  },
  {
   "id": "a3vy3n",
@@ -14329,6 +14287,13 @@
   "chars": 8
  },
  {
+  "id": "19ho4do",
+  "text": "صُورَةُ أُسْرَتِي",
+  "bucket": "tile",
+  "unit": "02",
+  "chars": 17
+ },
+ {
   "id": "1nh4p2d",
   "text": "وَالِدِي",
   "bucket": "tile",
@@ -21397,6 +21362,13 @@
   "bucket": "basics",
   "unit": "0b",
   "chars": 16
+ },
+ {
+  "id": "590tr3",
+  "text": "بَيْتٌ كَبِيرٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 14
  },
  {
   "id": "1ja1pjw",
