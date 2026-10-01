@@ -90,10 +90,21 @@ async function requireLogin(){
       return null;
     }
     markActive();                             // fresh activity: reset the idle clock
+    saveSource(data.session.user);
     return data.session;
   } catch(_) {
     return null;                              // on error, fail open rather than trap the user
   }
+}
+
+// a new account (made in the last day) keeps where its person first came from (source.js, #186).
+// Email sign-ups already send it with signUp; this catches Google sign-ups.
+function saveSource(user){
+  try {
+    const s = localStorage.getItem('rafiq_src');
+    if (!s || (user.user_metadata || {}).source || Date.now() - new Date(user.created_at) > 864e5) return;
+    sb.auth.updateUser({ data: { source: JSON.parse(s) } }).catch(()=>{});
+  } catch(_) {}
 }
 
 // keep the "last active" time fresh while the person is actually using the app

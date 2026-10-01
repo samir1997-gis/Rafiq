@@ -181,7 +181,10 @@ select u.id as user_id,
   exists (select 1 from public.item_progress p where p.user_id = u.id and p.item_id like 's:%'
           and p.item_id >= 's:' || to_char(u.created_at::date + 7, 'YYYY-MM-DD')) as back_after_week,
   b.stripe_subscription_id is not null as chose_plan,      -- went through checkout (card given)
-  coalesce(b.status = 'active', false) as paying
+  coalesce(b.status = 'active', false) as paying,
+  -- where they first came from (#186): a link's utm_source, the site that linked, or 'direct'; saved at sign-up
+  coalesce(nullif(u.raw_user_meta_data->'source'->>'src', ''), 'unknown') as source,
+  nullif(u.raw_user_meta_data->'source'->>'campaign', '') as campaign
 from auth.users u left join public.billing b on b.user_id = u.id;
 
 -- "Back the next day" only counts people who joined at least a day ago, and "back after
@@ -201,3 +204,15 @@ language sql stable security definer set search_path = private, public as $$
   group by 1 order by 1 desc
 $$;
 revoke all on function private.funnel() from public, anon, authenticated;
+
+-- The same steps by where people came from (#186), for people who joined in the last N days:
+-- which post or ad brings people who sign up, study and pay. select * from private.funnel_by_source(30);
+create or replace function private.funnel_by_source(days int default 30) returns table (
+  source text, campaign text, joined bigint, first_lesson bigint, back_next_day bigint, chose_plan bigint, paying bigint)
+language sql stable security definer set search_path = private, public as $$
+  select f.source, f.campaign, count(*), count(*) filter (where f.first_lesson), count(*) filter (where f.back_next_day),
+    count(*) filter (where f.chose_plan), count(*) filter (where f.paying)
+  from private.funnel_people f where f.joined > current_date - days
+  group by 1, 2 order by 3 desc, 1
+$$;
+revoke all on function private.funnel_by_source(int) from public, anon, authenticated;

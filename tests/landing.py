@@ -85,6 +85,20 @@ def main():
         left = p.evaluate("[...document.querySelectorAll('.reveal')].filter(e => getComputedStyle(e).opacity !== '1').length")
         ok.append(("reduced motion: everything there at once", left == 0 and not p.evaluate("document.documentElement.classList.contains('js-motion')")))
         c.close()
+
+        # where they came from (#186): a tagged link is kept on the first visit and not replaced by later ones
+        c, p = page_for(b, errors, viewport={"width": 390, "height": 844})
+        p.goto(BASE + "index.html?utm_source=TikTok&utm_campaign=meet-rafiq"); p.wait_for_timeout(200)
+        first = p.evaluate("JSON.parse(localStorage.getItem('rafiq_src'))")
+        p.goto(BASE + "login.html?utm_source=instagram"); p.wait_for_timeout(200)
+        kept = p.evaluate("JSON.parse(localStorage.getItem('rafiq_src'))")
+        ok.append(("a tagged link is kept on the first visit (%s), not replaced by a later one" % first,
+                   first and first["src"] == "tiktok" and first["campaign"] == "meet-rafiq" and kept == first))
+        c.close()
+        c, p = page_for(b, errors, viewport={"width": 390, "height": 844})
+        p.goto(BASE + "index.html"); p.wait_for_timeout(200)
+        ok.append(("no tag and no other site: direct", p.evaluate("JSON.parse(localStorage.getItem('rafiq_src')).src") == "direct"))
+        c.close()
         b.close()
     ok.append(("no page errors " + "; ".join(e[:120] for e in errors[:3]), not errors))
     for name, good in ok: print(("ok   " if good else "FAIL ") + name)
