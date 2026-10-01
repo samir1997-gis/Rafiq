@@ -58,6 +58,10 @@ insert into public.billing (user_id, trial_ends_at)
 
 -- "Your free week has ended" email (#177), sent once, the day after.
 alter table public.billing add column if not exists trial_ended_sent_at timestamptz;
+-- "Thank you for subscribing" and "payment received" (#178): which subscription and which invoice
+-- each was last sent for, so a repeated Stripe event never sends it twice.
+alter table public.billing add column if not exists subscribed_email_sub text;
+alter table public.billing add column if not exists paid_email_invoice text;
 
 -- Welcome email: when an address is confirmed, call the emails function. Google (and Apple)
 -- accounts are created already confirmed, so a new account that arrives confirmed counts too (#177).
