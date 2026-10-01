@@ -58,34 +58,58 @@
   function setRate(r){ try{localStorage.setItem(RKEY,r)}catch(e){} }
   function setVoice(uri){ try{localStorage.setItem(VKEY,uri)}catch(e){} }
 
+  /* One audio player for every clip. iPhone only lets a player start by itself
+     (the next line, after the last one ends) once a tap has started that same
+     player, so a fresh Audio() per clip needed a tap every time. The first tap
+     anywhere unlocks this one; after that lines follow each other on their own. */
+  let player=null;
+  const SILENT='data:audio/wav;base64,UklGRrQBAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YZABAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA';
+  function getPlayer(){ if(!player){ player=new Audio(); player.preload='auto'; } return player; }
+  function unlock(){
+    const a=getPlayer();
+    if(a.src) return;                            // already used by a real clip (inside this tap)
+    a.src=SILENT; a.play().catch(()=>{});
+  }
+  ['touchend','click','keydown'].forEach(ev=>document.addEventListener(ev,unlock,{capture:true,passive:true}));
+
   function stop(){
-    if(curAudio){curAudio.pause();curAudio=null}
+    if(curAudio){curAudio.onended=curAudio.onerror=null; curAudio.pause(); curAudio=null}
     if(window.speechSynthesis) speechSynthesis.cancel();
     document.querySelectorAll('.speaking').forEach(e=>e.classList.remove('speaking'));
   }
   /* after(): called once the line has finished playing (or couldn't play) */
   let seq=0;
-  function speak(text,el,after){
+  /* opts (optional): src plays that file instead of the text's clip (a licensed
+     recitation), at normal speed; onStart(audio) runs once it is playing, so a page
+     can follow audio.currentTime (the word-by-word highlight). */
+  function speak(text,el,after,opts){
+    opts=opts||{};
     const my=++seq;
     // the list of recordings is still loading (the first word on a page): wait for it,
     // rather than falling back to the device voice
-    if(CLIPS===null){ if(el)el.classList.add('speaking'); clipsReady.then(()=>{ if(my===seq) speak(text,el,after); }); return; }
+    if(CLIPS===null){ if(el)el.classList.add('speaking'); clipsReady.then(()=>{ if(my===seq) speak(text,el,after,opts); }); return; }
     stop();
     if(el)el.classList.add('speaking');
     let ended=false;
     const done=()=>{if(el)el.classList.remove('speaking'); if(!ended){ended=true; if(after)after();}};
-    const id=clipId(text);
-    if(id){
-      const a=new Audio('audio/'+id+'.mp3');
-      a.playbackRate=Math.max(0.6,Math.min(1.3,rate()+0.15));
-      curAudio=a; a.onended=()=>{curAudio=null;done()};
-      a.onerror=()=>{curAudio=null;tts(text,done)};
-      a.play().catch(err=>{
+    const id=opts.src?null:clipId(text);
+    if(id||opts.src){
+      const a=getPlayer();
+      a.onended=a.onerror=null; a.pause();
+      a.src=opts.src||('audio/'+id+'.mp3');
+      const r=opts.src?1:Math.max(0.6,Math.min(1.3,rate()+0.15));
+      a.defaultPlaybackRate=r; a.playbackRate=r;          // a new src resets the rate to the default
+      curAudio=a;
+      const mine=()=>my===seq;                            // this line is still the one playing
+      a.onended=()=>{ if(!mine()) return; curAudio=null; done(); };
+      a.onerror=()=>{ if(!mine()) return; curAudio=null; if(opts.src) done(); else tts(text,done); };
+      a.play().then(()=>{ if(mine() && opts.onStart) opts.onStart(a); }).catch(err=>{
+        if(!mine()) return;                               // replaced by a newer line: not a failure
         curAudio=null;
         // the browser won't play sound before the first tap on the page (strict on iPhone):
         // keep this line and play it on that tap, with a cue so it doesn't seem silent
-        if(err && err.name==='NotAllowedError'){ if(el)el.classList.remove('speaking'); waitForTap({text,el,after}); return; }
-        tts(text,done);
+        if(err && err.name==='NotAllowedError'){ if(el)el.classList.remove('speaking'); waitForTap({text,el,after,opts}); return; }
+        if(opts.src) done(); else tts(text,done);   // never a device voice for a recitation
       });
       return;
     }
@@ -129,7 +153,7 @@
     if(!blocked) return;
     const b=blocked; blocked=null;
     if(b.el && !b.el.isConnected) return;       // that screen has gone
-    speak(b.text,b.el,b.after);                 // inside the tap, so the browser allows it
+    speak(b.text,b.el,b.after,b.opts);          // inside the tap, so the browser allows it
   }
   ['click','touchend','keydown'].forEach(ev=>document.addEventListener(ev,playBlocked,{capture:true,passive:true}));
   let unlocked=false;
@@ -139,5 +163,5 @@
     setTimeout(sync,350);
   },{once:true,passive:true}));
 
-  window.RQ={speak,stop,mount,sync,available,aid,rate,list,chosen};
+  window.RQ={speak,stop,mount,sync,available,aid,clipId,rate,list,chosen};
 })();

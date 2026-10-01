@@ -13,25 +13,26 @@
 </script>
 <script src="theme.js?v=2"></script>
 <script src="pwa.js?v=2"></script>
+<script>try{ if(!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) document.documentElement.classList.add('js-motion'); }catch(_){}</script>
 
 <title>Rafiq — your Arabic study companion</title>
-<meta name="description" content="Learn to read, understand and speak Modern Standard Arabic in short daily lessons, with instant feedback on what you say. Audio, spaced repetition, and conversations that get you speaking, not just recognising.">
+<meta name="description" content="Understand every word of your salah, and learn to read, understand and speak Modern Standard Arabic in short daily lessons. Audio, review timed to how you remember, and conversations that get you speaking.">
 
 <!-- link previews (WhatsApp, Discord, Facebook, X) -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Rafiq — your Arabic study companion">
-<meta property="og:description" content="779 vocabulary words, spaced repetition, and 36 spoken conversations.">
+<meta property="og:description" content="Understand every word of your salah, and learn Arabic in short daily lessons: 785 words, 36 conversations, review that remembers for you.">
 <meta property="og:image" content="icon-512.png">
 <meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Rafiq — your Arabic study companion">
-<meta name="twitter:description" content="779 vocabulary words, spaced repetition, and 36 spoken conversations.">
+<meta name="twitter:description" content="Understand every word of your salah, and learn Arabic in short daily lessons: 785 words, 36 conversations, review that remembers for you.">
 <meta name="twitter:image" content="icon-512.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=901">
+<link rel="stylesheet" href="site.css?v=902">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317262B'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23F1ECE0' font-family='serif'%3E%D8%B1%3C/text%3E%3Ccircle cx='46' cy='19' r='4' fill='%23B4322A'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1ECE0">
@@ -57,13 +58,6 @@
 .section{max-width:900px;margin:0 auto;padding:44px 26px}
 .section h2{font-size:22px;font-weight:700;margin-bottom:6px}
 .section > p{color:var(--ink-soft);font-size:15px;max-width:62ch;line-height:1.65}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:24px}
-.lcard{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:22px}
-.lcard .ci{font-family:var(--ar);direction:rtl;font-size:26px;color:var(--rubric);line-height:1}
-.lcard h3{font-size:16px;font-weight:600;margin-top:10px}
-.lcard p{font-size:13.5px;color:var(--ink-soft);margin-top:6px;line-height:1.6}
-.note{background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--gold);border-radius:6px;padding:18px 20px;margin-top:26px}
-.note p{font-size:13.5px;color:var(--ink-soft);line-height:1.65}
 .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:18px}
 .plan{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:22px;display:flex;flex-direction:column}
 .plan.best{border:2px solid var(--verdigris)}
@@ -76,11 +70,7 @@
 .soon .sl{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
 .soon .sl span{background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:5px 12px;font-size:13.5px}
 .soon .sn{color:var(--verdigris)!important}
-.beta{margin-top:14px;font-size:13.5px;background:var(--card);border:1px dashed var(--verdigris);border-radius:8px;padding:12px 14px}
-.steps{counter-reset:s;display:grid;gap:10px;margin-top:14px}
-.steps div{counter-increment:s;background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px 14px 12px 46px;position:relative;font-size:14px;color:var(--ink-soft)}
-.steps div::before{content:counter(s);position:absolute;left:14px;top:12px;width:22px;height:22px;border-radius:50%;background:var(--verdigris);color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center}
-.steps b{color:var(--ink)}
+.plan li.cs{color:var(--ink-soft)}   /* coming soon */
 /* the one-minute film: a poster with a floating glass play control; press shows feedback instantly */
 .film{max-width:960px;margin:6px auto 0;padding:0 20px}
 .film.film-how{margin:22px auto 0;padding:0}
@@ -102,6 +92,95 @@
 @media (max-width:600px){.film{padding:0 14px}.film-frame{border-radius:16px}.film-play{left:10px;bottom:10px;gap:9px;padding:5px 14px 5px 5px}.film-play .fp-icon{width:34px;height:34px}.film-play .fp-icon::before{border-width:7px 0 7px 11px;margin-left:3px}.film-play .fp-text{font-size:13.5px}.film-play small{display:none}}
 @media (prefers-reduced-motion:reduce){.film-play,.film.playing .film-play{transition:opacity 200ms ease;transform:none;filter:none}}
 @media (prefers-reduced-transparency:reduce){.film-play{background:var(--card);-webkit-backdrop-filter:none;backdrop-filter:none}}
+/* ---- #176: compact blocks, and a page that answers the pointer ---- */
+.hero{position:relative;isolation:isolate}
+/* the eight-point star pattern from the login page, drifting slowly behind the top */
+.hero::before{content:'';position:absolute;inset:-40px 0 0;z-index:-1;pointer-events:none;background:var(--ink);opacity:.05;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cg fill='none' stroke='%23000'%3E%3Crect x='17' y='17' width='22' height='22'/%3E%3Crect x='17' y='17' width='22' height='22' transform='rotate(45 28 28)'/%3E%3Cpath d='M0 28h9M47 28h9M28 0v9M28 47v9'/%3E%3C/g%3E%3C/svg%3E") 0 0/56px 56px,linear-gradient(#000 40%,transparent);
+  -webkit-mask-composite:source-in;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cg fill='none' stroke='%23000'%3E%3Crect x='17' y='17' width='22' height='22'/%3E%3Crect x='17' y='17' width='22' height='22' transform='rotate(45 28 28)'/%3E%3Cpath d='M0 28h9M47 28h9M28 0v9M28 47v9'/%3E%3C/g%3E%3C/svg%3E") 0 0/56px 56px,linear-gradient(#000 40%,transparent);
+  mask-composite:intersect;animation:drift 70s linear infinite}
+.hero::after{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(50% 60% at 50% 30%,color-mix(in srgb,var(--verdigris) 13%,transparent),transparent 70%)}
+@keyframes drift{to{-webkit-mask-position:56px 56px,0 0;mask-position:56px 56px,0 0}}
+.hero .ar span{background:linear-gradient(100deg,var(--rubric) 35%,color-mix(in srgb,var(--gold) 80%,var(--rubric)) 50%,var(--rubric) 65%);background-size:250% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s ease-in-out infinite}
+@keyframes shine{0%,60%{background-position:100% 0}100%{background-position:-50% 0}}
+
+/* every box that responds: lifts, glows and lights up under the pointer (computer); a gentle press (phone) */
+.hov{position:relative;transition:transform 260ms var(--ease-out),box-shadow 260ms var(--ease-out),border-color 200ms ease;-webkit-tap-highlight-color:transparent}
+.hov::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity 200ms ease;
+  background:radial-gradient(220px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--verdigris) 16%,transparent),transparent 70%)}
+.hov:active{transform:scale(.98)}
+@media (hover:hover) and (pointer:fine){
+  .hov:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--verdigris) 55%,var(--rule));
+    box-shadow:0 14px 34px -14px color-mix(in srgb,var(--verdigris) 55%,transparent),0 0 0 1px color-mix(in srgb,var(--verdigris) 25%,transparent)}
+  .hov:hover::after{opacity:1}
+  .hov:hover .em{animation:wiggle 520ms var(--ease-out)}
+  .cta .btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px -10px color-mix(in srgb,var(--verdigris) 70%,transparent)}
+}
+@keyframes wiggle{0%{transform:none}30%{transform:rotate(-12deg) scale(1.15)}60%{transform:rotate(8deg) scale(1.1)}100%{transform:none}}
+.cta .btn{transition:transform 220ms var(--ease-out),box-shadow 220ms var(--ease-out)}
+.em{display:inline-block;font-size:26px;line-height:1}
+
+/* How a day works: five short steps in a row (two across on a phone) */
+.steps{list-style:none;padding:0;margin:16px 0 0;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;counter-reset:s}
+.steps li{counter-increment:s;background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:14px 12px;display:flex;flex-direction:column;gap:4px}
+.steps li b{font-size:15px}
+.steps li b::before{content:counter(s) '. ';color:var(--verdigris)}
+.steps li span:last-child{font-size:13px;color:var(--ink-soft);line-height:1.45}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.pills span{background:var(--card);border:1px solid var(--rule);border-radius:999px;padding:7px 14px;font-size:13.5px}
+@media (max-width:720px){.steps{grid-template-columns:1fr 1fr}.steps li:last-child{grid-column:1/-1}}
+
+/* What's inside: eight compact tiles; more on hover (computer) or tap (phone) */
+.hint{font-size:13px!important;margin-top:2px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px;align-items:start}
+.tile{font:inherit;color:inherit;text-align:left;cursor:pointer;background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:16px 14px;
+  display:flex;flex-direction:column;gap:4px;touch-action:manipulation}
+.tile b{font-size:15.5px;margin-top:6px}
+.tile .one{font-size:13px;color:var(--ink-soft);line-height:1.45}
+.tile .more{display:grid;grid-template-rows:0fr;transition:grid-template-rows 320ms var(--ease-out)}
+.tile .more>span{overflow:hidden;min-height:0;font-size:13px;line-height:1.55;color:var(--ink)}
+/* phone: a tap opens the tile in place */
+@media (hover:none),(pointer:coarse){
+  .tile[aria-expanded="true"] .more{grid-template-rows:1fr}
+  .tile[aria-expanded="true"] .more>span{padding-top:8px;border-top:1px solid var(--rule);margin-top:6px}
+}
+/* computer: the detail drops down over the row below, so nothing on the page moves */
+@media (hover:hover) and (pointer:fine){
+  .tiles{align-items:stretch}
+  .tile{overflow:visible}
+  .tile .more{display:block;position:absolute;left:-1px;right:-1px;top:calc(100% - 14px);z-index:3;background:var(--card);
+    border:1px solid color-mix(in srgb,var(--verdigris) 55%,var(--rule));border-top:0;border-radius:0 0 16px 16px;padding:0 14px 14px;
+    box-shadow:0 18px 30px -16px color-mix(in srgb,var(--verdigris) 55%,transparent);
+    opacity:0;translate:0 -6px;pointer-events:none;transition:opacity 220ms ease,translate 300ms var(--ease-out)}
+  .tile .more>span{display:block;padding-top:10px;border-top:1px solid var(--rule)}
+  .tile:hover,.tile:focus-visible{z-index:4;border-bottom-left-radius:0;border-bottom-right-radius:0}
+  .tile:hover .more,.tile:focus-visible .more{opacity:1;translate:none}
+}
+@media (max-width:720px){.tiles{grid-template-columns:1fr 1fr;gap:10px}.tile{padding:14px 12px}}
+
+/* Good to know: two folding notes */
+.note{display:block;background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--gold);border-radius:12px;padding:0;margin-top:12px}
+.note summary{cursor:pointer;list-style:none;padding:14px 18px;font-weight:700;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+.note summary::-webkit-details-marker{display:none}
+.note summary::after{content:'+';font-size:20px;color:var(--verdigris);transition:transform 260ms var(--ease-out)}
+.note[open] summary::after{transform:rotate(45deg)}
+.note p{font-size:13.5px;color:var(--ink-soft);line-height:1.65;padding:0 18px 16px}
+
+.plan{transition:transform 260ms var(--ease-out),box-shadow 260ms var(--ease-out)}
+.soon .sl span{transition:transform 200ms var(--ease-out),border-color 200ms}
+@media (hover:hover) and (pointer:fine){.soon .sl span:hover{transform:translateY(-2px) rotate(-1.5deg);border-color:var(--verdigris)}}
+
+/* sections arrive as you scroll to them (only once the script has said motion is fine) */
+.js-motion .reveal{opacity:0;translate:0 18px;transition:opacity 600ms var(--ease-out) var(--d,0ms),translate 700ms var(--ease-out) var(--d,0ms),
+  transform 260ms var(--ease-out),box-shadow 260ms var(--ease-out),border-color 200ms ease}
+.js-motion .reveal.in{opacity:1;translate:none}
+@media (prefers-reduced-motion:reduce){
+  .hero::before,.hero .ar span{animation:none}
+  .hov,.hov:hover{transform:none!important}
+  .hov:hover .em{animation:none}
+  .tile .more{transition:none}
+}
 footer.land{border-top:1px solid var(--rule);padding:26px;text-align:center;color:var(--ink-soft);font-size:12.5px;line-height:1.7}
 </style>
 </head>
@@ -114,12 +193,12 @@ footer.land{border-top:1px solid var(--rule);padding:26px;text-align:center;colo
 
 <header class="hero">
   <div class="ar">رَفِيقُكَ فِي تَعَلُّمِ <span>الْعَرَبِيَّةِ</span></div>
-  <h1>Learn to read, understand and speak Arabic</h1>
-  <p class="lede">
-    Short daily lessons in Modern Standard Arabic, fully vowelled. Meet new words with audio and pictures,
-    hear real conversations, then have them yourself — Rafiq tells you straight away whether what you
-    said makes sense and what to fix.
-  </p>
+  <h1>Learn Arabic, and understand every word of your salah</h1>
+    <p class="lede">
+      Short daily lessons in Modern Standard Arabic, fully vowelled, from the very first letter. Learn what each
+      word of your prayer means, meet new words with audio and pictures, and remember them with reviews timed
+      for just before you'd forget.
+    </p>
   <div class="cta">
     <a class="btn" href="login.html">Start your free week</a>
     <a class="btn ghost" href="login.html">Sign in</a>
@@ -153,36 +232,41 @@ document.addEventListener('DOMContentLoaded',function(){
   });
 });
 </script>
-<div class="stats">
-  <div class="stat"><b>12</b><span>units, plus a reading starter</span></div>
-  <div class="stat"><b>779</b><span>words with audio</span></div>
-  <div class="stat"><b>36</b><span>conversations</span></div>
+<div class="stats reveal">
+  <div class="stat"><b data-count="12">12</b><span>units, after the letters and the basics</span></div>
+  <div class="stat"><b data-count="785">785</b><span>words with audio</span></div>
+  <div class="stat"><b>Every</b><span>word of your salah, and 10 short surahs</span></div>
   <div class="stat"><b>5–10</b><span>minutes a day</span></div>
 </div>
+
 <section class="section">
-  <h2>How a day works</h2>
-  <p>Open the app and press Continue. Each step takes about five to ten minutes.</p>
-  <div class="steps">
-    <div><b>Meet</b> — new words with audio, transliteration and a picture, then a quick check.</div>
-    <div><b>Listen</b> — a short conversation, line by line, read aloud.</div>
-    <div><b>Understand</b> — one grammar idea at a time, with examples.</div>
-    <div><b>Practise</b> — build, fix and say sentences; answers are checked on meaning, so other correct wordings count.</div>
-    <div><b>Speak</b> — have the conversation yourself, in your own words, and get feedback on each reply.</div>
+  <h2 class="reveal">How a day works</h2>
+  <p class="reveal">Open the app and press Continue. Each step takes five to ten minutes.</p>
+  <ol class="steps">
+    <li class="hov reveal"><span class="em" aria-hidden="true">👂</span><b>Meet</b><span>new words with audio and pictures</span></li>
+    <li class="hov reveal"><span class="em" aria-hidden="true">🎧</span><b>Listen</b><span>a short conversation, line by line</span></li>
+    <li class="hov reveal"><span class="em" aria-hidden="true">💡</span><b>Understand</b><span>one grammar idea at a time</span></li>
+    <li class="hov reveal"><span class="em" aria-hidden="true">✍️</span><b>Practise</b><span>build, fix and say sentences</span></li>
+    <li class="hov reveal"><span class="em" aria-hidden="true">🗣️</span><b>Speak</b><span>your own replies, with feedback</span></li>
+  </ol>
+  <div class="pills reveal">
+    <span class="hov">🔁 Reviews just before you'd forget</span>
+    <span class="hov">✅ A check at the end of each unit</span>
+    <span class="hov">🧭 New to Arabic? Start with the letters</span>
   </div>
-  <p style="margin-top:14px">Everything you learn comes back for review just before you'd forget it. Can't read Arabic yet?
-     Start with the reading starter. Already know some? A three-minute check puts you in the right place.</p>
 </section>
 <section class="section">
-  <h2>What's inside</h2>
-  <div class="cards">
-    <div class="lcard"><div class="ci">الْحُرُوف</div><h3>Reading starter</h3>
-      <p>The 28 letters in shape families, how they join, and the vowel marks — enough to read every lesson.</p></div>
-    <div class="lcard"><div class="ci">الدُّرُوس</div><h3>12 units</h3>
-      <p>Greetings, family, home, daily life, food, prayer, study, work, shopping, weather, places and hobbies.</p></div>
-    <div class="lcard"><div class="ci">مُحادَثَة</div><h3>Conversation partner</h3>
-      <p>Reply to the other speaker in your own words. Rafiq checks your reply fits and points out grammar slips.</p></div>
-    <div class="lcard"><div class="ci">تَدْرِيب</div><h3>Extra practice</h3>
-      <p>Words, sentences, 21 verbs across three tenses, and the joining words that link ideas together.</p></div>
+  <h2 class="reveal">What's inside</h2>
+  <p class="reveal hint">Hover or tap a box for more.</p>
+  <div class="tiles">
+    <button class="tile hov reveal" type="button" aria-expanded="false"><span class="em" aria-hidden="true">🔤</span><b>Reading starter</b><span class="one">The letters, how they join, the vowel marks</span><span class="more"><span>The 28 letters in shape families, how they join, the vowel marks and the first reading rules. Enough to read every lesson.</span></span></button>
+    <button class="tile hov reveal" type="button" aria-expanded="false"><span class="em" aria-hidden="true">🌱</span><b>The basics</b><span class="one">Your first Arabic sentence, with your name</span><span class="more"><span>Before unit 1: “the”, “my”, he and she, masculine and feminine, and plurals. By the end you can say <i>as-salāmu ʿalaykum, my name is …, and I'm a student of Arabic</i>.</span></span></button>
+    <button class="tile hov reveal" type="button" aria-expanded="false"><span class="em" aria-hidden="true">🤲</span><b>Your salah</b><span class="one">Every word of the prayer, and 10 surahs</span><span class="more"><span>From the opening takbīr to the closing salām, word by word, and 10 short surahs. Pray along line by line, with short drills so the meanings stay.</span></span></button>
+    <button class="tile hov reveal" type="button" aria-expanded="false"><span class="em" aria-hidden="true">📚</span><b>12 units</b><span class="one">Everyday topics, 36 conversations</span><span class="more"><span>Greetings, family, home, daily life, food, prayer, study, work, shopping, weather, places and hobbies, each ending with a short check.</span></span></button>
+    <button class="tile hov reveal" type="button" aria-expanded="false"><span class="em" aria-hidden="true">💬</span><b>Conversation partner</b><span class="one">Reply in your own words</span><span class="more"><span>Answer the other speaker your way. Rafiq checks your reply fits and points out grammar slips.</span></span></button>
+    <button class="tile hov reveal" type="button" aria-expanded="false"><span class="em" aria-hidden="true">✈️</span><b>Real-life scenes</b><span class="one">The airport, the doctor, the masjid…</span><span class="more"><span>Six everyday situations: the airport, the doctor, the masjid, ordering a meal, a taxi and visiting a friend's family.</span></span></button>
+    <button class="tile hov reveal" type="button" aria-expanded="false"><span class="em" aria-hidden="true">🐝</span><b>Extra practice</b><span class="one">Verbs, spelling bee, numbers and more</span><span class="more"><span>Words, sentences, 21 verbs in three tenses, joining words, a spelling bee, and everyday essentials: numbers, days, Hijri months, colours and the time.</span></span></button>
+    <button class="tile hov reveal" type="button" aria-expanded="false"><span class="em" aria-hidden="true">🧠</span><b>Smart review</b><span class="one">Remember what you learn</span><span class="more"><span>Words come back just before you'd forget them, and a weak-spots review is built from the mistakes you keep making.</span></span></button>
   </div>
   <div class="film film-how" id="how-section" aria-label="How Rafiq works">
     <div class="film-frame">
@@ -198,48 +282,79 @@ document.addEventListener('DOMContentLoaded',function(){
   </div>
 </section>
 <section class="section" id="pricing">
-  <h2>Pricing</h2>
+  <h2 class="reveal">Pricing</h2>
   <p>Start with a free week of everything, no card needed. Then pick a plan. Cancel any time.</p>
   <div class="plans">
-    <div class="plan"><div class="pn">Essentials</div><div class="pp">£6.99 <small>/ month</small></div>
+    <div class="plan hov reveal"><div class="pn">Essentials</div><div class="pp">£6.99 <small>/ month</small></div>
       <div class="ps">or £49.99 a year — save 40%</div>
-      <ul><li>All 12 units and the reading starter</li><li>Audio, pictures and daily review</li>
-          <li>Every practice area — words, sentences, verbs, joining words</li><li>25 smart checks a day</li></ul></div>
-    <div class="plan best"><div class="pn">Complete · most popular</div><div class="pp">£11.99 <small>/ month</small></div>
+      <ul><li>The reading starter, the basics and all 12 units</li><li>Audio, pictures and daily review</li>
+        <li>Every practice area: words, sentences, verbs, joining words, spelling bee, everyday essentials</li><li>25 smart checks a day</li>
+        <li>Your salah taster: the 20 words you say most in the prayer</li></ul></div>
+    <div class="plan best hov reveal"><div class="pn">Complete · most popular</div><div class="pp">£11.99 <small>/ month</small></div>
       <div class="ps">or £79.99 a year — save 44%</div>
-      <ul><li>Everything in Essentials</li><li>Unlimited smart checking</li><li>Conversation partner — reply in your own words</li>
-          <li>Feedback on free speaking</li><li>Real-life scenes — the airport, the doctor, the masjid and more</li>
-          <li>Weak-spots review built from your own mistakes</li><li>First access to new units</li></ul></div>
+      <ul><li>Everything in Essentials</li><li><b>Your salah:</b> every word of the prayer and 10 short surahs, with Pray along and salah drills</li>
+        <li>Unlimited smart checking</li><li>Conversation partner: reply in your own words</li>
+        <li>Real-life scenes: the airport, the doctor, the masjid and more</li>
+        <li>Weak-spots review built from your own mistakes</li><li>First access to new units</li>
+        <li class="cs"><b>Coming soon:</b> your AI tutor. Ask anything about Arabic, and tap “Why?” after a mistake</li></ul></div>
   </div>
-  <div class="soon">
+  <div class="soon reveal">
     <div class="sh">Coming next</div>
-    <p>Rafiq keeps growing. The next units in the works:</p>
-    <div class="sl"><span>✨ Travel &amp; directions</span><span>✨ Health &amp; the body</span><span>✨ Ramadan &amp; Eid</span><span>✨ Telling stories</span></div>
+    <p>Rafiq keeps growing. Coming soon to Complete, and the next units in the works:</p>
+    <div class="sl"><span>🧑‍🏫 AI tutor</span><span>✨ Travel &amp; directions</span><span>✨ Health &amp; the body</span><span>✨ Ramadan &amp; Eid</span><span>✨ Telling stories</span></div>
     <p class="sn">Complete members get new units as soon as they're ready.</p>
   </div>
-  <div class="beta"><b>Free during the beta.</b> While Rafiq is in beta every account gets Complete at no cost — no card needed.</div>
 </section>
 <section class="section">
-  <h2>Good to know</h2>
-  <div class="note">
-    <p><b>A smart check</b> is when Rafiq judges something you wrote on its meaning — a sentence, a reply, a
-      spoken answer — rather than matching it letter by letter. When you use one, what you typed is sent to our
-      checking service and on to TypeSafe, which does the judging. Nothing else about you is sent.</p>
-  </div>
-  <div class="note">
-    <p><b>A study aid, not an authority.</b> Vowel marks, model answers and grammar notes are carefully written but
-      worth checking with a teacher, especially case endings. Built-in speech is good for rhythm and listening,
-      not a pronunciation model.</p>
-  </div>
+  <h2 class="reveal">Good to know</h2>
+  <details class="note hov reveal"><summary>🔍 What's a smart check?</summary>
+    <p>Rafiq judges something you wrote on its meaning (a sentence, a reply, a spoken answer) rather than matching it letter
+      by letter. When you use one, what you typed is sent to our checking service and on to TypeSafe, which does the judging.
+      Nothing else about you is sent.</p></details>
+  <details class="note hov reveal"><summary>👩‍🏫 Who checks the Arabic?</summary>
+    <p>The Arabic, its vowel marks and the meanings are written carefully and checked by a teacher. Rafiq teaches language, though:
+      for questions about how to pray, ask a scholar. The audio is a clear, natural voice, good for listening and rhythm. For fine
+      pronunciation, nothing beats a teacher.</p></details>
 </section>
 <footer class="land">
   Rafiq — رَفِيق · learn Arabic, a little every day.<br>
-  <a href="#pricing">Pricing</a> · <a href="help.html">Help</a> · <a href="privacy.html">Privacy</a>
+  <a href="#pricing">Pricing</a> · <a href="help.html">Help</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a>
 </footer>
+<script>
+/* #176: tiles open on tap (on a computer, hover opens them); the light follows the pointer;
+   sections arrive as they scroll into view, a little after each other; the numbers count up. */
+(function(){
+  document.querySelectorAll('.tile').forEach(t => t.addEventListener('click', () =>
+    t.setAttribute('aria-expanded', String(t.getAttribute('aria-expanded') !== 'true'))));
+  document.addEventListener('pointermove', e => {
+    const h = e.target.closest && e.target.closest('.hov'); if(!h) return;
+    const r = h.getBoundingClientRect();
+    h.style.setProperty('--mx', (e.clientX - r.left) + 'px'); h.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  }, { passive: true });
+  if(!document.documentElement.classList.contains('js-motion')) return;
+  const seen = new Map();
+  document.querySelectorAll('.reveal').forEach(el => {
+    const i = seen.get(el.parentElement) || 0; seen.set(el.parentElement, i + 1);
+    el.style.setProperty('--d', Math.min(i, 7) * 70 + 'ms');
+  });
+  const count = box => box.querySelectorAll('[data-count]').forEach(b => {
+    const to = +b.dataset.count, t0 = performance.now();
+    const step = now => { const k = Math.min(1, (now - t0) / 1100); b.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if(k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  });
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if(!e.isIntersecting) return;
+    e.target.classList.add('in'); io.unobserve(e.target);
+    if(e.target.classList.contains('stats')) count(e.target);
+  }), { rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+</script>
+
 <!-- already signed in? go straight to Home -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth.js?v=6"></script>
-<script src="plan.js?v=20260927"></script>
+<script src="auth.js?v=8"></script>
+<script src="plan.js?v=20261001live"></script>
 <script>
 (async ()=>{
   try{

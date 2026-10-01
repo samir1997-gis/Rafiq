@@ -1,0 +1,107 @@
+{
+ "keep": [
+  [
+   1.42,
+   4.72
+  ],
+  [
+   6.352,
+   7.852
+  ],
+  [
+   11.055,
+   17.615
+  ],
+  [
+   18.455,
+   21.815
+  ],
+  [
+   22.135,
+   22.775
+  ],
+  [
+   23.175,
+   24.905
+  ]
+ ],
+ "zoom": 1.08,
+ "captions": [
+  [
+   1.5,
+   2.64,
+   "Have you tried to learn"
+  ],
+  [
+   2.64,
+   3.82,
+   "the {Arabic} language before"
+  ],
+  [
+   3.82,
+   4.72,
+   "and {given up}?"
+  ],
+  [
+   6.412,
+   7.852,
+   "Well, so did I."
+  ],
+  [
+   11.115,
+   11.915,
+   "For someone"
+  ],
+  [
+   11.915,
+   12.395,
+   "who was learning"
+  ],
+  [
+   12.395,
+   13.215,
+   "the Arabic language"
+  ],
+  [
+   13.215,
+   14.635,
+   "to understand what they were saying"
+  ],
+  [
+   14.635,
+   15.235,
+   "in {salah}"
+  ],
+  [
+   15.235,
+   16.415,
+   "and understand the {Quran}"
+  ],
+  [
+   16.415,
+   17.615,
+   "a little bit better"
+  ],
+  [
+   18.455,
+   19.395,
+   "I found that there were"
+  ],
+  [
+   19.395,
+   20.495,
+   "{no good tools}"
+  ],
+  [
+   20.495,
+   21.815,
+   "that were fit for purpose"
+  ],
+  [
+   22.135,
+   23.915,
+   "So I {built this}"
+  ]
+ ],
+ "demo_from": 0.5
+}

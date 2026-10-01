@@ -1261,10 +1261,8 @@ const DATA=[
 const EXTRA={
 "01":{
  grammar:[
-  {t:"الجملة الاسمية",ar:"أَنا مُهَنْدِسٌ.",h:"No word for ‘am’, ‘is’ or ‘are’",tr:"I am an engineer.",en:"Arabic just puts the two words side by side: ‘I engineer’. There’s no word for ‘is’ in the present."},
-  {t:"هَذا / هَذِهِ",ar:"هَذا طالِبٌ · هَذِهِ طالِبَةٌ.",h:"‘This’ has a male and a female form",tr:"This is a student (m) · This is a student (f).",en:"Use هَذا for a man or a masculine word, and هَذِهِ for a woman or a feminine word (most end in ة)."},
-  {t:"النِّسْبَة",ar:"باكِسْتانِيٌّ · باكِسْتانِيَّةٌ",h:"Turning a country into a nationality",tr:"Pakistani (man) · Pakistani (woman)",en:"Add ـِيّ to the country to say where someone is from. For a woman, add ة as well: ـِيَّة."},
-  {t:"أدوات الاستفهام",ar:"ما · مَنْ · هَلْ · مِنْ أَيْنَ",h:"Question words",tr:"What? · Who? · Is…? / Are…? · Where from?",en:"ما asks ‘what’, مَنْ asks ‘who’, and مِنْ أَيْنَ asks ‘where from’. Put هَلْ at the start of a sentence to make it a yes/no question."}
+  {t:"النِّسْبَة",ar:"باكِسْتانِيٌّ · باكِسْتانِيَّةٌ",h:"Turning a country into a nationality",tr:"Pakistani (man) · Pakistani (woman)",en:"Add ـِيّ to the country to say where someone is from. For a woman, add ة as well: ـِيَّة.",bad:["هِيَ باكِسْتانِيٌّ.","For a woman, add ة as well: هِيَ باكِسْتانِيَّةٌ."]},
+  {t:"أدوات الاستفهام",ar:"ما · مَنْ · هَلْ · مِنْ أَيْنَ",h:"Question words",tr:"What? · Who? · Is…? / Are…? · Where from?",en:"ما asks ‘what’, مَنْ asks ‘who’, and مِنْ أَيْنَ asks ‘where from’. Put هَلْ at the start of a sentence to make it a yes/no question.",bad:["مَنْ اسْمُكَ؟","To ask someone’s name, Arabic uses ما (what), not مَنْ (who): ما اسْمُكَ؟"]}
  ],
  cloze:[
   {q:"___ أُخْتِي، وَهِيَ طَبِيبَةٌ.",o:["هَذا","هَذِهِ","ذَلِكَ","هُوَ"],a:1,w:"أُخْت (sister) is feminine, so ‘this’ is هَذِهِ."},
@@ -1272,21 +1270,39 @@ const EXTRA={
   {q:"___ اسْمُكَ؟",o:["ما","مَنْ","هَلْ","أَيْنَ"],a:0,w:"ما is used for things, including names — مَنْ would ask 'who'."},
   {q:"___ أَنْتَ طالِبٌ؟",o:["ما","مَنْ","هَلْ","كَيْفَ"],a:2,w:"هَلْ turns a statement into a yes/no question."},
   {q:"أَنا مُهَنْدِسٌ ___ صَدِيقِي مُدَرِّسٌ.",o:["وَ","لِأَنَّ","لَكِنَّ","ثُمَّ"],a:0,w:"Two parallel facts, no contrast or cause — plain وَ."},
-  {q:"كَيْفَ ___ يا أُخْتِي؟",o:["حالُكَ","حالُكِ","حالُهُ","حالُنا"],a:1,w:"Addressing a woman takes the ـكِ ending."}
+  {q:"كَيْفَ ___ يا أُخْتِي؟",o:["حالُكَ","حالُكِ","حالُهُ","حالُنا"],a:1,w:"Addressing a woman takes the ـكِ ending."},
+  {q:"___ طَبِيبَةٌ.",o:["هُوَ","هِيَ","هَذا","أَنْتَ"],a:1,w:"طَبِيبَة ends in ة, so it’s a woman: هِيَ."},
+  {q:"هَذِهِ ___ .",o:["مَدْرَسَتِي","مَدْرَسَةِي","مَدْرَسَتُ","مَدْرَسِي"],a:0,w:"ة becomes ت before ‘my’: مَدْرَسَتِي."},
+  {q:"أَنا ___ .",o:["طالِبٌ","الطّالِبٌ","طالِبُ"],a:0,w:"‘A student’: no ال, and the -un ending."}
  ],
  fix:[
   {bad:"هَذا أُخْتِي.",good:"هَذِهِ أُخْتِي.",w:"Feminine noun needs هَذِهِ."},
   {bad:"أَنا مُهَنْدِسًا.",good:"أَنا مُهَنْدِسٌ.",w:"In a sentence with no verb, the describing word ends in -un, not -an."},
   {bad:"هَلْ أَنْتَ طالِبَةٌ يا خالِدُ؟",good:"هَلْ أَنْتَ طالِبٌ يا خالِدُ؟",w:"Khalid is male — drop the ة."},
   {bad:"أَنا مِنْ مِصْرٍ.",good:"أَنا مِنْ مِصْرَ.",w:"مِصْر (Egypt) never adds the extra -n, and takes -a where you’d expect -i."},
-  {bad:"ما اسْمُكِ يا عُمَرُ؟",good:"ما اسْمُكَ يا عُمَرُ؟",w:"Umar is male, so the pronoun ending is ـكَ."}
+  {bad:"ما اسْمُكِ يا عُمَرُ؟",good:"ما اسْمُكَ يا عُمَرُ؟",w:"Umar is male, so the pronoun ending is ـكَ."},
+  {bad:"هَذا أُمِّي.",good:"هَذِهِ أُمِّي.",w:"أُمّ (mother) is feminine even without ة, so it’s هَذِهِ."}
+ ],
+ say:[
+  {en:"Introduce yourself",ar:"عَرِّفْ بِنَفْسِكَ",gender:true,frames:[
+   {ar:"أَنا ___.",en:"I’m …",o:[["طالِبٌ","a student","m"],["مُدَرِّسٌ","a teacher","m"],["طَبِيبٌ","a doctor","m"],["طالِبَةٌ","a student","f"],["مُدَرِّسَةٌ","a teacher","f"],["طَبِيبَةٌ","a doctor","f"]]},
+   {ar:"أَنا ___.",en:"I’m …",o:[["بِرِيطانِيٌّ","British","m"],["باكِسْتانِيٌّ","Pakistani","m"],["بَنْغْلادِيشِيٌّ","Bangladeshi","m"],["صُومالِيٌّ","Somali","m"],["بِرِيطانِيَّةٌ","British","f"],["باكِسْتانِيَّةٌ","Pakistani","f"],["بَنْغْلادِيشِيَّةٌ","Bangladeshi","f"],["صُومالِيَّةٌ","Somali","f"]]},
+   {ar:"___",en:"Someone you know",o:[["هَذا صَدِيقِي.","This is my friend (a man)."],["هَذِهِ صَدِيقَتِي.","This is my friend (a woman)."],["هَذِهِ أُمِّي.","This is my mother."],["هَذِهِ أُخْتِي.","This is my sister."]]}]},
+  {en:"Ask the questions",ar:"اسْأَلِ الأَسْئِلَةَ",ask:true,frames:[
+   {q:"اسْمِي عُمَرُ.",qen:"My name is Umar.",o:["ما اسْمُكَ؟","مِنْ أَيْنَ أَنْتَ؟","كَيْفَ حالُكَ؟"],a:0},
+   {q:"الْحَمْدُ لِلَّهِ.",qen:"Praise be to Allah (I’m well).",o:["ما اسْمُكَ؟","كَيْفَ حالُكَ؟","هَلْ أَنْتَ طالِبٌ؟"],a:1},
+   {q:"نَعَمْ، أَنا طالِبٌ.",qen:"Yes, I’m a student.",o:["هَلْ أَنْتَ طالِبٌ؟","ما جِنْسِيَّتُكَ؟","مَنْ هَذا؟"],a:0},
+   {q:"هَذا صَدِيقِي.",qen:"This is my friend.",o:["مَنْ هَذا؟","ما اسْمُكَ؟","مِنْ أَيْنَ أَنْتَ؟"],a:0}]}
  ]},
 "02":{
  grammar:[
-  {t:"الإضافة",ar:"صُورَةُ أُسْرَتِي",h:"‘The X of Y’: two nouns side by side",tr:"a picture of my family",en:"Say the thing first, then whose it is: ‘picture family-my’. The first word never takes ال or the extra -n; the second ends in -i (here hidden under ـِي, ‘my’)."},
-  {t:"الضمائر المتصلة",ar:"وَالِدِي · وَالِدُكَ · وَالِدُهُ",h:"‘My’, ‘your’, ‘his’ are endings",tr:"my father · your father · his father",en:"Instead of a separate word, Arabic adds an ending: ـِي for ‘my’, ـكَ for ‘your’, ـهُ for ‘his’."},
-  {t:"المضارع: أنا / هو",ar:"أَتَوَضَّأُ · يَتَوَضَّأُ",h:"Who’s doing it? Look at the first letter",tr:"I make wudu · he makes wudu",en:"In the present tense, the first letter shows who: أ for ‘I’, يـ for ‘he’, تـ for ‘she’ or ‘you’."},
-  {t:"العدد ٣–١٠",ar:"تِسْعَةُ أَوْلادٍ",h:"Counting from 3 to 10",tr:"nine boys",en:"The number comes first, then the thing you’re counting, in the plural and ending in -in."}
+  {t:"الإعراب",ar:"الْمَسْجِدُ كَبِيرٌ · أَرى الْمَسْجِدَ · فِي الْمَسْجِدِ",h:"Three endings: -u, -a, -i",tr:"The mosque is big · I see the mosque · in the mosque",en:"Most Arabic words can end in -u, -a or -i, and the ending shows the word’s job. -u is the usual one: what the sentence is about. -a is for the thing something is done to. -i comes after words like فِي (in), مِنْ (from) and إِلى (to), and on the second word of ‘the X of Y’. Without ال, add an extra -n: -un, -an, -in. Later cards point back to these three endings.",bad:["فِي الْمَسْجِدُ", "After فِي the word ends in -i: فِي الْمَسْجِدِ."]},
+  {t:"المضارع: أنا / هو",ar:"أَتَوَضَّأُ · يَتَوَضَّأُ",h:"Who’s doing it? Look at the first letter",tr:"I make wudu · he makes wudu",en:"In the present tense, the first letter shows who: أ for ‘I’, يـ for ‘he’, تـ for ‘she’ or ‘you’.",bad:["أَنا يَتَوَضَّأُ.","يَـ is for ‘he’. With أَنا (I) the verb starts with أَ: أَنا أَتَوَضَّأُ."]},
+  {t:"الماضي",ar:"ذَهَبْتُ · ذَهَبْتَ · ذَهَبْتِ · ذَهَبَ · ذَهَبَتْ · ذَهَبْنا",h:"The past: the ending shows who",tr:"I went · you went (to a man) · you went (to a woman) · he went · she went · we went",en:"In the present, the first letter shows who. In the past, the ending does: ـتُ for ‘I’, ـتَ for ‘you’ (a man), ـتِ for ‘you’ (a woman), nothing extra for ‘he’, ـتْ for ‘she’ and ـنا for ‘we’. To change a sentence to the past, take the verb’s past form and put the right ending on it.",bad:["أَنا ذَهَبَ إِلى الْمَسْجِدِ.", "With أَنا the past verb ends in ـتُ: أَنا ذَهَبْتُ إِلى الْمَسْجِدِ."]},
+  {t:"العدد ٣–١٠",ar:"تِسْعَةُ أَوْلادٍ",h:"Counting from 3 to 10",tr:"nine boys",en:"The number comes first, then the thing you’re counting, in the plural and ending in -in. (See ‘Three endings’ in unit 2.)",bad:["تِسْعَةُ أَوْلادٌ","After 3 to 10, the thing you count ends in -in: تِسْعَةُ أَوْلادٍ."]},
+  {t:"نحن",ar:"أَدْرُسُ · نَدْرُسُ",h:"‘We’ verbs start with نَـ",tr:"I study · we study",en:"With نَحْنُ (we), a present verb starts with نَـ, just as an ‘I’ verb starts with أَ: أَدْرُسُ, I study; نَدْرُسُ, we study. The rest of the verb stays the same.",bad:["نَحْنُ أَدْرُسُ الْعَرَبِيَّةَ.","With نَحْنُ the verb starts with نَـ: نَحْنُ نَدْرُسُ الْعَرَبِيَّةَ."],check:["How do you say ‘we study’?",["نَدْرُسُ","أَدْرُسُ","يَدْرُسُ"],0,"‘We’ starts with نَـ."],part:2},
+  {t:"الماضي والمضارع",ar:"قَرَأَ · يَقْرَأُ",h:"Why verbs come in pairs",tr:"he read · he reads",en:"Verbs are shown as two words: قَرَأَ, ‘he read’ (the past), and يَقْرَأُ, ‘he reads’ (the present). Dictionaries list a verb by its past. For ‘I read’ or ‘we read’ now, change the first letter of the second word: أَقْرَأُ, نَقْرَأُ.",bad:["أَنا قَرَأَ الْقُرْآنَ كُلَّ يَوْمٍ.","قَرَأَ is ‘he read’. For ‘I read (every day)’, use the present with أَ: أَنا أَقْرَأُ الْقُرْآنَ كُلَّ يَوْمٍ."],check:["Which one means ‘he reads’?",["يَقْرَأُ","قَرَأَ"],0,"The second word of the pair is the present: يَقْرَأُ."],part:2},
+  {t:"عند",ar:"عِنْدِي أَخٌ وَأُخْتٌ.",h:"‘I have’: عِنْدِي",tr:"I have a brother and a sister.",en:"Arabic has no verb for ‘have’. Say عِنْدِي, literally ‘with me’, then the thing. It takes the same endings as ‘my’: عِنْدَكَ you have (to a man), عِنْدَكِ (to a woman), عِنْدَهُ he has, عِنْدَها she has.",bad:["أَنا أُخْتٌ.","That says ‘I am a sister’. For ‘I have a sister’: عِنْدِي أُخْتٌ."],check:["How do you say ‘I have a sister’?",["عِنْدِي أُخْتٌ","أَنا أُخْتٌ","أُخْتِي"],0,"عِنْدِي, then the thing."],part:2}
  ],
  cloze:[
   {q:"هَذِهِ صُورَةُ ___ .",o:["أُسْرَتِي","أُسْرَةٌ","الأُسْرَةُ","أُسْرَةً"],a:0,w:"It’s the second word of an ‘X of Y’ pair, and the ‘my / your’ ending already makes it ‘the’."},
@@ -1294,21 +1310,32 @@ const EXTRA={
   {q:"أَتَوَضَّأُ ___ أَذْهَبُ إِلى الْمَسْجِدِ.",o:["وَ","ثُمَّ","لِأَنَّ","لَكِنَّ"],a:1,w:"Sequence in time — ثُمَّ marks 'and then'."},
   {q:"فِي أُسْرَتِي تِسْعَةُ ___ .",o:["أَوْلادٍ","وَلَدٍ","أَوْلادٌ","الأَوْلادِ"],a:0,w:"After 3 to 10: plural, no ال, ending in -in."},
   {q:"___ هَذا؟ — هَذا جَدِّي.",o:["ما","مَنْ","أَيْنَ","كَيْفَ"],a:1,w:"مَنْ asks about people."},
-  {q:"هُوَ ___ الْقُرْآنَ بَعْدَ الْفَجْرِ.",o:["أَقْرَأُ","يَقْرَأُ","تَقْرَأُ","نَقْرَأُ"],a:1,w:"هُوَ takes the يـ prefix."}
+  {q:"هُوَ ___ الْقُرْآنَ بَعْدَ الْفَجْرِ.",o:["أَقْرَأُ","يَقْرَأُ","تَقْرَأُ","نَقْرَأُ"],a:1,w:"هُوَ takes the يـ prefix."},
+  {q:"نَحْنُ ___ الْقُرْآنَ.",o:["نَقْرَأُ","أَقْرَأُ","يَقْرَأُ"],a:0,w:"With نَحْنُ the verb starts with نَـ."},
+  {q:"___ أُخْتٌ.",o:["عِنْدِي","أَنا","أُخْتِي"],a:0,w:"‘I have’ is عِنْدِي, then the thing."}
  ],
  fix:[
   {bad:"هَذِهِ صُورَةُ الأُسْرَتِي.",good:"هَذِهِ صُورَةُ أُسْرَتِي.",w:"A word with ‘my’, ‘your’ etc. on the end can’t take ال as well."},
   {bad:"أَنا يَتَوَضَّأُ.",good:"أَنا أَتَوَضَّأُ.",w:"'I' takes the أ prefix."},
   {bad:"فِي أُسْرَتِي تِسْعَةُ أَوْلادٌ.",good:"فِي أُسْرَتِي تِسْعَةُ أَوْلادٍ.",w:"After 3 to 10, the word you’re counting ends in -in."},
   {bad:"أُصَلِّي فِي الْمَسْجِدُ.",good:"أُصَلِّي فِي الْمَسْجِدِ.",w:"The word after فِي (in) always ends in -i."},
-  {bad:"هَذِهِ جَدِّي.",good:"هَذا جَدِّي.",w:"جَدّ is masculine."}
+  {bad:"هَذِهِ جَدِّي.",good:"هَذا جَدِّي.",w:"جَدّ is masculine."},
+  {bad:"نَحْنُ أُصَلِّي فِي الْمَسْجِدِ.",good:"نَحْنُ نُصَلِّي فِي الْمَسْجِدِ.",w:"With نَحْنُ the verb starts with نُـ: نُصَلِّي."}
+ ],
+ say:[
+  {en:"Talk about your family",ar:"تَكَلَّمْ عَنْ أُسْرَتِكَ",frames:[
+   {ar:"عِنْدِي ___.",en:"I have …",o:[["أَخٌ","a brother"],["أُخْتٌ","a sister"],["أَخٌ وَأُخْتٌ","a brother and a sister"],["ثَلاثَةُ أَوْلادٍ","three children"]]},
+   {ar:"___",en:"Someone in your family",o:[["هَذا جَدِّي.","This is my grandfather."],["هَذِهِ أُمِّي.","This is my mother."],["هَذا أَخِي.","This is my brother."]]},
+   {ar:"نَحْنُ نُصَلِّي فِي ___.",en:"We pray in …",o:[["الْمَسْجِدِ","the mosque"],["الْبَيْتِ","the house"],["الْمُصَلَّى","the prayer room"]]}]}
  ]},
 "03":{
  grammar:[
-  {t:"خبر مقدّم",ar:"فِي الْغُرْفَةِ سَرِيرٌ.",h:"Saying ‘there is’",tr:"There is a bed in the room.",en:"Start with the place, then the thing: ‘in the room, a bed’. There’s no separate word for ‘there is’."},
-  {t:"العدد ٣–١٠ ومعدوده",ar:"خَمْسُ غُرَفٍ",h:"Numbers 3 to 10 work backwards",tr:"five rooms",en:"With a feminine word (most end in ة, like غُرْفَة), say the number without ة: خَمْسُ غُرَفٍ. With a masculine word, add ة: خَمْسَةُ أَوْلادٍ. It feels backwards, but that’s the rule."},
-  {t:"كَمْ + تمييز",ar:"كَمْ غُرْفَةً؟",h:"‘How many?’ takes one, not many",tr:"How many rooms?",en:"After كَمْ, use the singular word ending in -an: ‘how many room?’. Never the plural."},
-  {t:"الترتيب",ar:"الدَّوْرُ الْخامِسُ",h:"‘First’, ‘fifth’ come after the noun",tr:"the fifth floor",en:"Arabic says ‘the floor the fifth’: the number word comes after the noun and copies it, so if the noun has ال, so does the number."}
+  {t:"خبر مقدّم",ar:"فِي الْغُرْفَةِ سَرِيرٌ.",h:"Saying ‘there is’",tr:"There is a bed in the room.",en:"Start with the place, then the thing: ‘in the room, a bed’. There’s no separate word for ‘there is’.",bad:["فِي الْغُرْفَةِ هُوَ سَرِيرٌ.","Don’t add هُوَ for ‘is’. The place, then the thing: فِي الْغُرْفَةِ سَرِيرٌ."]},
+  {t:"هذا + نكرة / معرفة",ar:"هَذا بَيْتٌ · هَذا الْبَيْتُ",h:"‘This is a house’ or ‘this house’?",tr:"This is a house · this house",en:"Without ال, هَذا بَيْتٌ is a whole sentence: ‘This is a house.’ With ال, هَذا الْبَيْتُ is just ‘this house’, and the sentence goes on: هَذا الْبَيْتُ كَبِيرٌ, ‘This house is big.’",bad:["هَذا الْبَيْتُ.", "To say ‘This is a house’, leave off ال: هَذا بَيْتٌ."]},
+  {t:"العدد ٣–١٠ ومعدوده",ar:"خَمْسُ غُرَفٍ",h:"Numbers 3 to 10 work backwards",tr:"five rooms",en:"With a feminine word (most end in ة, like غُرْفَة), say the number without ة: خَمْسُ غُرَفٍ. With a masculine word, add ة: خَمْسَةُ أَوْلادٍ. It feels backwards, but that’s the rule. (See ‘Three endings’ in unit 2.)",bad:["خَمْسَةُ غُرَفٍ","غُرْفَة (room) is feminine, so the number goes without ة: خَمْسُ غُرَفٍ."]},
+  {t:"كَمْ + تمييز",ar:"كَمْ غُرْفَةً؟",h:"‘How many?’ takes one, not many",tr:"How many rooms?",en:"After كَمْ, use the singular word ending in -an: ‘how many room?’. Never the plural. (See ‘Three endings’ in unit 2.)",bad:["كَمْ غُرَفٍ؟","After كَمْ, say ‘room’, not ‘rooms’, ending in -an: كَمْ غُرْفَةً؟"]},
+  {t:"الترتيب",ar:"الدَّوْرُ الْخامِسُ",h:"‘First’, ‘fifth’ come after the noun",tr:"the fifth floor",en:"Arabic says ‘the floor the fifth’: the number word comes after the noun and copies it, so if the noun has ال, so does the number. (See ‘Three endings’ in unit 2.)",bad:["فِي الدَّوْرِ الْخامِسُ","The number word copies the noun’s ending too: فِي الدَّوْرِ الْخامِسِ."]},
+  {t:"ليس",ar:"الْبَيْتُ لَيْسَ كَبِيرًا.",h:"‘Is not’: لَيْسَ",tr:"The house isn’t big.",en:"لَيْسَ means ‘is not’. The word after it ends in -an: كَبِيرٌ → لَيْسَ كَبِيرًا. For a feminine word it’s لَيْسَتْ: الْغُرْفَةُ لَيْسَتْ كَبِيرَةً. (‘I’m not’ is لَسْتُ.)",bad:["الْبَيْتُ لا كَبِيرٌ.","لا is for verbs. For ‘is not’, use لَيْسَ, with -an: الْبَيْتُ لَيْسَ كَبِيرًا."],check:["How do you say ‘the room isn’t big’?",["الْغُرْفَةُ لَيْسَتْ كَبِيرَةً","الْغُرْفَةُ لَيْسَ كَبِيرَةٌ","الْغُرْفَةُ لا كَبِيرَةٌ"],0,"Feminine: لَيْسَتْ, and the word after ends in -an."]}
  ],
  cloze:[
   {q:"كَمْ ___ فِي الشَّقَّةِ؟",o:["غُرْفَةً","غُرَفٍ","غُرْفَةٌ","الْغُرْفَةِ"],a:0,w:"After كَمْ: one (singular), ending in -an. The most common slip at this stage."},
@@ -1316,19 +1343,29 @@ const EXTRA={
   {q:"أَسْكُنُ فِي الدَّوْرِ ___ .",o:["الْخامِسُ","الْخامِسِ","خامِسٍ","الْخامِسَ"],a:1,w:"The describing word copies the noun’s ending: -i after فِي."},
   {q:"___ الْغُرْفَةِ سَرِيرٌ وَمِرْآةٌ.",o:["فِي","عَلى","إِلى","مِنْ"],a:0,w:"Containment — فِي."},
   {q:"الشَّقَّةُ ___ .",o:["جَمِيلٌ","جَمِيلَةٌ","جَمِيلَةً","جَمِيلاتٌ"],a:1,w:"شَقَّة (flat) is feminine, so the describing word takes ة, and it ends in -un."},
-  {q:"___ دَوْرٍ شَقَّتُكَ؟",o:["فِي أَيِّ","فِي أَيَّ","أَيُّ","كَمْ"],a:0,w:"After فِي, أَيّ ends in -i, and so does the word after it."}
+  {q:"___ دَوْرٍ شَقَّتُكَ؟",o:["فِي أَيِّ","فِي أَيَّ","أَيُّ","كَمْ"],a:0,w:"After فِي, أَيّ ends in -i, and so does the word after it."},
+  {q:"الْغُرَفُ ___ .",o:["كَبِيرَةٌ","كَبِيرٌ","كَبِيرُونَ"],a:0,w:"A plural of things takes the feminine: كَبِيرَةٌ."},
+  {q:"الْبَيْتُ ___ كَبِيرًا.",o:["لَيْسَ","لا","لَيْسَتْ"],a:0,w:"‘Is not’ is لَيْسَ; بَيْت is masculine."},
+  {q:"___ طُلّابٌ.",o:["هُمْ","هُوَ","هِيَ"],a:0,w:"طُلّاب is more than one person: هُمْ."}
  ],
  fix:[
   {bad:"كَمْ غُرَفٍ فِي الشَّقَّةِ؟",good:"كَمْ غُرْفَةً فِي الشَّقَّةِ؟",w:"After كَمْ: singular, ending in -an."},
   {bad:"فِي الشَّقَّةِ خَمْسُ غُرْفَةً.",good:"فِي الشَّقَّةِ خَمْسُ غُرَفٍ.",w:"After 3 to 10: plural, ending in -in."},
   {bad:"أَسْكُنُ فِي الدَّوْرِ الْخامِسُ.",good:"أَسْكُنُ فِي الدَّوْرِ الْخامِسِ.",w:"The describing word must copy the noun’s -i ending."},
   {bad:"الشَّقَّةُ جَمِيلٌ.",good:"الشَّقَّةُ جَمِيلَةٌ.",w:"Feminine noun, feminine adjective."},
-  {bad:"أَنا مُسْتَأْجِرُ.",good:"أَنا مُسْتَأْجِرٌ.",w:"With no ال, it needs the extra -n: -un."}
+  {bad:"أَنا مُسْتَأْجِرُ.",good:"أَنا مُسْتَأْجِرٌ.",w:"With no ال, it needs the extra -n: -un."},
+  {bad:"هَذا غُرَفٌ كَبِيرَةٌ.",good:"هَذِهِ غُرَفٌ كَبِيرَةٌ.",w:"A plural of things takes هَذِهِ."}
+ ],
+ say:[
+  {en:"Talk about your home",ar:"تَكَلَّمْ عَنْ بَيْتِكَ",frames:[
+   {ar:"أَسْكُنُ فِي ___.",en:"I live in …",sets:true,o:[["بَيْتٍ","a house","m"],["شَقَّةٍ","a flat","f"]]},
+   {ar:{m:"بَيْتِي ___.",f:"شَقَّتِي ___."},en:"My home is …",o:[["كَبِيرٌ","big","m"],["قَرِيبٌ مِنَ الْمَسْجِدِ","near the mosque","m"],["كَبِيرَةٌ","big","f"],["قَرِيبَةٌ مِنَ الْمَسْجِدِ","near the mosque","f"]]},
+   {ar:"فِي غُرْفَتِي ___.",en:"In my room there’s …",o:[["سَرِيرٌ وَسَجَّادَةٌ","a bed and a rug"],["سَرِيرٌ وَمِرْآةٌ","a bed and a mirror"],["سَرِيرٌ وَنافِذَةٌ","a bed and a window"]]}]}
  ]},
 "04":{
  grammar:[
   {t:"المضارع للعادة",ar:"أَسْتَيْقِظُ مُبَكِّرًا.",h:"The present tense for habits",tr:"I wake up early.",en:"The same verb means ‘I wake up’, ‘I’m waking up’ and ‘I usually wake up’. The situation tells you which."},
-  {t:"الحال / الظرف",ar:"مُبَكِّرًا · مُتَأَخِّرًا",h:"Words for ‘how’ or ‘when’ end in -an",tr:"early · late",en:"Words that say how or when you do something usually end in -an (ـًا)."},
+  {t:"الحال / الظرف",ar:"مُبَكِّرًا · مُتَأَخِّرًا",h:"Words for ‘how’ or ‘when’ end in -an",tr:"early · late",en:"Words that say how or when you do something usually end in -an (ـًا). (See ‘Three endings’ in unit 2.)"},
   {t:"باء الاستعانة",ar:"بِالْحافِلَةِ",h:"‘By bus’: بِـ",tr:"by bus",en:"Put بِـ on the front of the transport. The word after it ends in -i."},
   {t:"النفي بـ لا",ar:"لا أُشاهِدُ التِّلْفازَ.",h:"Saying ‘don’t’",tr:"I don’t watch TV.",en:"Put لا before a present-tense verb. (For the past you’ll use ما later on.)"}
  ],
@@ -1349,8 +1386,8 @@ const EXTRA={
  ]},
 "05":{
  grammar:[
-  {t:"المفعول به",ar:"آكُلُ الأَرُزَّ.",h:"‘I eat rice’: verb, then the thing",tr:"I eat rice.",en:"Say the verb, then the thing: ‘I eat the rice’. Small detail: the thing gets an -a sound at the end, as in الأَرُزَّ."},
-  {t:"فَضَّلَ ... عَلى ...",ar:"أُفَضِّلُ الشَّايَ عَلى الْقَهْوَةِ.",h:"‘I prefer X to Y’",tr:"I prefer tea to coffee.",en:"أُفَضِّلُ + what you like more + عَلى + the other thing. The first ends in -a, the one after عَلى in -i."},
+  {t:"المفعول به",ar:"آكُلُ الأَرُزَّ.",h:"‘I eat rice’: verb, then the thing",tr:"I eat rice.",en:"Say the verb, then the thing: ‘I eat the rice’. Small detail: the thing gets an -a sound at the end, as in الأَرُزَّ. (See ‘Three endings’ in unit 2.)"},
+  {t:"فَضَّلَ ... عَلى ...",ar:"أُفَضِّلُ الشَّايَ عَلى الْقَهْوَةِ.",h:"‘I prefer X to Y’",tr:"I prefer tea to coffee.",en:"أُفَضِّلُ + what you like more + عَلى + the other thing. The first ends in -a, the one after عَلى in -i. (See ‘Three endings’ in unit 2.)"},
   {t:"لِأَنَّ",ar:"لِأَنَّ وَزْنِي كَثِيرٌ",h:"‘Because’: لِأَنَّ",tr:"because I weigh a lot",en:"لِأَنَّ means ‘because’. It’s followed by a noun, or by an ending like ـها (‘it’), rather than straight by a verb."},
   {t:"جَوْعانُ",ar:"أَنا جَوْعانُ.",h:"‘Hungry’ and ‘thirsty’: no extra -n",tr:"I’m hungry.",en:"Words like جَوْعان (hungry) and عَطْشان (thirsty) never add the extra -n sound: جَوْعانُ, not جَوْعانٌ."}
  ],
@@ -1372,7 +1409,7 @@ const EXTRA={
 "06":{
  grammar:[
   {t:"اسم الفاعل",ar:"ذاهِبٌ · ذاهِبَةٌ",h:"‘I’m going’ uses a describing word",tr:"going (said by a man) · going (said by a woman)",en:"أَنا ذاهِبٌ is literally ‘I (am) going’. It works like a describing word, so a woman adds ة: أَنا ذاهِبَةٌ."},
-  {t:"لام التعليل",ar:"لِصَلاةِ الظُّهْرِ",h:"‘For’ something: لِـ",tr:"for the Dhuhr prayer",en:"لِـ on the front of a word means ‘for’. The word after it ends in -i."},
+  {t:"لام التعليل",ar:"لِصَلاةِ الظُّهْرِ",h:"‘For’ something: لِـ",tr:"for the Dhuhr prayer",en:"لِـ on the front of a word means ‘for’. The word after it ends in -i. (See ‘Three endings’ in unit 2.)"},
   {t:"الممنوع من الصرف",ar:"إِلى مَكَّةَ",h:"Makkah and other names",tr:"to Makkah",en:"Some names, like مَكَّة, keep a simple ending: you say إِلى مَكَّةَ (to Makkah), never مَكَّةٍ."},
   {t:"ظروف المكان",ar:"بِجانِبِ الْبَيْتِ",h:"‘Next to’, ‘in front of’",tr:"next to the house",en:"These place words go straight before the noun, and the noun ends in -i."}
  ],
@@ -1394,8 +1431,7 @@ const EXTRA={
 "07":{
  grammar:[
   {t:"لام التعليل + المنصوب",ar:"أَذْهَبُ لِأَدْرُسَ",h:"‘In order to’: لِـ + a verb",tr:"I go (in order) to study.",en:"Put لِـ on a present-tense verb to say ‘in order to’. The verb then ends in -a: أَدْرُسَ, not أَدْرُسُ."},
-  {t:"كَمْ + تمييز",ar:"كَمْ حِصَّةً؟",h:"‘How many?’ again: one, ending in -an",tr:"How many lessons?",en:"The same rule as before: after كَمْ, use the singular word ending in -an."},
-  {t:"الإضافة",ar:"كُلِّيَّةُ التَّرْبِيَةِ",h:"‘College of Education’",tr:"the College of Education",en:"Two nouns side by side mean ‘X of Y’. Only the second one takes ال, and it ends in -i."},
+  {t:"كَمْ + تمييز",ar:"كَمْ حِصَّةً؟",h:"‘How many?’ again: one, ending in -an",tr:"How many lessons?",en:"The same rule as before: after كَمْ, use the singular word ending in -an. (See ‘Three endings’ in unit 2.)"},
   {t:"جمع المذكر السالم",ar:"يَدْرُسُونَ",h:"‘They’ (men) study: ـُونَ",tr:"they (men) study",en:"For ‘they’ meaning men or a mixed group, the present verb starts with يَـ and ends in ـُونَ."}
  ],
  cloze:[
@@ -1417,7 +1453,6 @@ const EXTRA={
  grammar:[
   {t:"دَرَسَ / دَرَّسَ",ar:"أَدْرُسُ · أُدَرِّسُ",h:"Doubling a letter changes the meaning",tr:"I study · I teach",en:"The shadda (ّ) doubles the middle letter and often means ‘make someone do it’: study → teach."},
   {t:"الاسم المقصور",ar:"فِي الْمُسْتَشْفى",h:"Words ending in ى don’t change",tr:"in the hospital",en:"Words ending in ى, like مُسْتَشْفى (hospital), keep the same ending whatever comes before them."},
-  {t:"تأنيث المهن",ar:"مُمَرِّض · مُمَرِّضَة",h:"Jobs for women: add ة",tr:"nurse (man) · nurse (woman)",en:"Most job words become feminine by adding ة, just like nationalities."},
   {t:"كَمْ ساعَةً",ar:"كَمْ ساعَةً تَعْمَلُ؟",h:"How many hours?",tr:"How many hours do you work?",en:"The same كَمْ rule: one hour, ending in -an: ساعَةً."}
  ],
  cloze:[
@@ -1438,9 +1473,9 @@ const EXTRA={
 "09":{
  grammar:[
   {t:"بِكَمْ؟",ar:"بِكَمْ هَذا الْقَمِيصُ؟",h:"‘How much is it?’",tr:"How much is this shirt?",en:"For prices, say بِكَمْ (‘for how much?’). كَمْ on its own asks ‘how many?’."},
-  {t:"أُرِيدُ + منصوب",ar:"أُرِيدُ قَمِيصًا أَبْيَضَ.",h:"What you want ends in -a",tr:"I want a white shirt.",en:"The thing you want takes the -a ending, and so does its colour: قَمِيصًا أَبْيَضَ."},
+  {t:"أُرِيدُ + منصوب",ar:"أُرِيدُ قَمِيصًا أَبْيَضَ.",h:"What you want ends in -a",tr:"I want a white shirt.",en:"The thing you want takes the -a ending, and so does its colour: قَمِيصًا أَبْيَضَ. (See ‘Three endings’ in unit 2.)"},
   {t:"ألوان ممنوعة من الصرف",ar:"أَبْيَضُ · أَزْرَقَ",h:"Colours never add the extra -n",tr:"white · blue",en:"Colours like أَبْيَض and أَزْرَق never end in -un or -an. Where other words take -an, they just take -a."},
-  {t:"تمييز العدد",ar:"خَمْسِينَ رِيالًا",h:"From 11 to 99: one riyal",tr:"fifty riyals",en:"After numbers from 11 to 99, the thing you’re counting is singular and ends in -an: ‘fifty riyal’."}
+  {t:"تمييز العدد",ar:"خَمْسِينَ رِيالًا",h:"From 11 to 99: one riyal",tr:"fifty riyals",en:"After numbers from 11 to 99, the thing you’re counting is singular and ends in -an: ‘fifty riyal’. (See ‘Three endings’ in unit 2.)"}
  ],
  cloze:[
   {q:"___ هَذا الْقَمِيصُ؟",o:["كَمْ","بِكَمْ","ما","أَيْنَ"],a:1,w:"Asking a price always uses بِكَمْ."},
@@ -1459,10 +1494,9 @@ const EXTRA={
  ]},
 "10":{
  grammar:[
-  {t:"كانَ + خبر منصوب",ar:"كانَ الْجَوُّ بارِدًا.",h:"‘Was’: كانَ",tr:"The weather was cold.",en:"Use كانَ for ‘was’. It makes the describing word end in -an: بارِدًا."},
-  {t:"لَيْسَ",ar:"الْجَوُّ لَيْسَ حارًّا.",h:"‘Isn’t’: لَيْسَ",tr:"The weather isn’t hot.",en:"لَيْسَ means ‘is not’. Like كانَ, it makes the describing word end in -an."},
-  {t:"لِذَلِكَ",ar:"تُمْطِرُ، لِذَلِكَ أَخَذْتُ الْمِظَلَّةَ.",h:"‘So’ and ‘because’",tr:"It’s raining, so I took the umbrella.",en:"لِذَلِكَ means ‘so’ (what happened as a result). لِأَنَّ means ‘because’ (the reason). Don’t mix them up."},
-  {t:"فَصْل + الفصل",ar:"فَصْلُ الرَّبِيعِ",h:"‘The season of spring’",tr:"spring (the season of spring)",en:"Arabic says ‘season (of) the spring’: two nouns side by side, the second with ال and ending in -i."}
+  {t:"كانَ + خبر منصوب",ar:"كانَ الْجَوُّ بارِدًا.",h:"‘Was’: كانَ",tr:"The weather was cold.",en:"Use كانَ for ‘was’. It makes the describing word end in -an: بارِدًا. (See ‘Three endings’ in unit 2.)"},
+  {t:"لَيْسَ",ar:"الْجَوُّ لَيْسَ حارًّا.",h:"‘Isn’t’: لَيْسَ",tr:"The weather isn’t hot.",en:"لَيْسَ means ‘is not’. Like كانَ, it makes the describing word end in -an. (See ‘Three endings’ in unit 2.)"},
+  {t:"لِذَلِكَ",ar:"تُمْطِرُ، لِذَلِكَ أَخَذْتُ الْمِظَلَّةَ.",h:"‘So’ and ‘because’",tr:"It’s raining, so I took the umbrella.",en:"لِذَلِكَ means ‘so’ (what happened as a result). لِأَنَّ means ‘because’ (the reason). Don’t mix them up."}
  ],
  cloze:[
   {q:"كانَ الْجَوُّ ___ أَمْسِ.",o:["بارِدٌ","بارِدًا","بارِدٍ","الْبارِدُ"],a:1,w:"After كانَ, the describing word ends in -an."},
@@ -1481,7 +1515,7 @@ const EXTRA={
  ]},
 "11":{
  grammar:[
-  {t:"لَكِنَّ + اسم منصوب",ar:"لَكِنَّ فِيها ضَوْضاءَ",h:"Two ways to say ‘but’",tr:"but there’s noise in it",en:"لَكِنَّ (with a shadda) is followed by a noun ending in -a. لَكِنْ (without one) can go before anything and changes nothing."},
+  {t:"لَكِنَّ + اسم منصوب",ar:"لَكِنَّ فِيها ضَوْضاءَ",h:"Two ways to say ‘but’",tr:"but there’s noise in it",en:"لَكِنَّ (with a shadda) is followed by a noun ending in -a. لَكِنْ (without one) can go before anything and changes nothing. (See ‘Three endings’ in unit 2.)"},
   {t:"نفي الوجود",ar:"لَيْسَ فِي الْقَرْيَةِ ازْدِحامٌ.",h:"Saying ‘there isn’t’",tr:"There isn’t any crowding in the village.",en:"Start with لَيْسَ, then the place, then the thing. Don’t use لا for this."},
   {t:"الألوان المؤنثة",ar:"بَيْضاءُ · زَرْقاءُ",h:"Colours for feminine words",tr:"white · blue (for feminine words)",en:"For a feminine word the colour changes: أَبْيَض → بَيْضاء, أَزْرَق → زَرْقاء. These never add the extra -n either."},
   {t:"المثنى في النصب والجر",ar:"ساعَتَيْنِ",h:"Two of something",tr:"two hours",en:"Add ـانِ to mean ‘two’: ساعَة → ساعَتانِ, ‘two hours’. In some sentences it becomes ـَيْنِ instead, as here. You’ll hear both."}
@@ -1503,7 +1537,6 @@ const EXTRA={
  ]},
 "12":{
  grammar:[
-  {t:"الجملة الاسمية",ar:"هِوايَتِي الْقِراءَةُ.",h:"No word for ‘is’ (again)",tr:"My hobby is reading.",en:"As in unit 1, just put the two parts side by side. Both keep their usual -u ending."},
   {t:"جمع المؤنث السالم",ar:"أَقْرَأُ مَجَلَّاتٍ",h:"Plurals ending in ـات",tr:"I read magazines.",en:"Many feminine words make their plural with ـات: مَجَلَّة → مَجَلَّات (magazines). Small detail: these never end in -an; you’ll hear -in instead."},
   {t:"لِأَنَّها",ar:"لِأَنَّها مُفِيدَةٌ",h:"‘Because it…’: لِأَنَّها",tr:"because it’s useful",en:"Join ‘it’, ‘he’ or ‘I’ straight onto لِأَنَّ: لِأَنَّها ‘because it (f)’, لِأَنَّهُ ‘because he / it’, لِأَنَّنِي ‘because I’."},
   {t:"أَهْوى",ar:"أَهْوى جَمْعَ الطَّوابِعِ",h:"Verbs ending in ى",tr:"I love collecting stamps.",en:"Some verbs end in ى, like أَهْوى (‘I love doing’). The ى stays the same."}

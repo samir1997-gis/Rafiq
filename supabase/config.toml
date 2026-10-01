@@ -13,3 +13,7 @@ verify_jwt = false
 verify_jwt = false
 [functions.support]
 verify_jwt = false
+[functions.quran]
+verify_jwt = false
+[functions.tutor]
+verify_jwt = false

@@ -22,6 +22,14 @@ const TOPIC_UNIT = { '01':'01', '08':'02', '10':'03', '06':'04', '09':'05', '07'
 // unit → word ids added late (issue #61: the days and numbers missing from the lessons)
 const LATE = { '03': [780, 781, 782, 35, 783] };        // Sunday, Monday, Wednesday, two, six
 const lateIds = new Set(Object.values(LATE).flat());
+// words spelt like another word with a different meaning: placed by their topic, not by spelling, so
+// ما 'what' in unit 1 doesn't bring in ما 'not (past)', nor لا 'no' the لا of 'not' and 'don't'
+const BY_TOPIC_ONLY = new Set([127, 163, 213]);
+// words taught in the basics section (#168, basics-data.js), before unit 1: never placed in a unit
+const BASICS_ONLY = new Set([784, 785]);                                   // اسْم name, لُغَة language
+// unit → words it starts with (#156, teach first): unit 1 opens with ten single words, before the
+// greeting phrases, so its first lesson is words a beginner can hold on to (I, you, he, she, this…)
+const FIRST = { '01': [15, 16, 17, 18, 19, 20, 21, 26, 30, 28] };      // أَنا أَنْتَ أَنْتِ هُوَ هِيَ هَذا هَذِهِ صَدِيق مُدَرِّس طالِبَة
 
 function load(file, names) {
   let src = fs.readFileSync(path.join(root, file), 'utf8');
@@ -48,12 +56,12 @@ const forms = w => w.ar.split('/').map(f => norm(f).split(' ').map(bare).filter(
 
 const byUnit = DATA.map(() => []), placed = new Set();
 VOCAB.forEach(w => {
-  if (lateIds.has(w.id)) return;
+  if (lateIds.has(w.id) || BY_TOPIC_ONLY.has(w.id) || BASICS_ONLY.has(w.id)) return;
   const i = used.findIndex(set => forms(w).some(f => f.every(t => set.has(t))));
   if (i >= 0 && byUnit[i].length < CAP) { byUnit[i].push(w.id); placed.add(w.id); }
 });
 VOCAB.forEach(w => {
-  if (placed.has(w.id) || lateIds.has(w.id)) return;
+  if (placed.has(w.id) || lateIds.has(w.id) || BASICS_ONLY.has(w.id)) return;
   const u = TOPIC_UNIT[w.unit.slice(0, 2)], i = DATA.findIndex(x => x.n === u);
   if (i >= 0 && byUnit[i].length < CAP) { byUnit[i].push(w.id); placed.add(w.id); }
 });
@@ -62,7 +70,8 @@ let PIC = {};
 try { load('path-data.js', ['PATH', 'PIC']); PIC = globalThis.PIC || {}; } catch (_) {}
 
 const PATH = DATA.map((u, i) => {
-  const p = { n: u.n, ar: u.ar, en: u.en, words: byUnit[i] };
+  const first = (FIRST[u.n] || []).filter(id => byUnit[i].includes(id));
+  const p = { n: u.n, ar: u.ar, en: u.en, words: first.concat(byUnit[i].filter(id => !first.includes(id))) };
   const late = (LATE[u.n] || []).filter(id => VOCAB.some(w => w.id === id));
   if (late.length) {
     // late words need a batch (path.js BATCH = 10) of their own, so the steps learners

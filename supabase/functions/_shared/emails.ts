@@ -41,7 +41,9 @@ export function welcome(name: string | null | undefined, trialEnds: Date) {
     h('1. Watch the two short videos') +
     p(`<b>How Rafiq works</b> (79 seconds) shows your path, reviews, practice and feedback. The <b>one-minute film</b> shows why Rafiq helps words stick. Both are on the <a href="${SITE}/#how-section" style="color:#2E7263">Rafiq home page</a>, and they’ll save you a lot of guessing.`) +
     h('2. Just press Continue') +
-    p('Each day, Home shows one <b>Continue</b> button. It takes you to the next step: new words, a conversation, a short grammar note or practice. Five to ten minutes a day is plenty.') +
+    p('Each day, Home shows one <b>Continue</b> button. It takes you to the next step: the letters, then the basics (by the end you can introduce yourself in Arabic), then the units, with new words, conversations, short grammar notes and practice. Five to ten minutes a day is plenty.') +
+    h('Your salah') +
+    p('On Home you’ll also find <b>Your salah</b>: what every word of the prayer means, starting with the words you say most, plus ten short surahs. Pray along line by line, and the meanings stay with you.') +
     h('3. Let the reviews do their job') +
     p('Words come back for review just as you’re likely to forget them. Doing your reviews is what makes them stay. Missed a day? Just carry on.') +
     h('4. Explore Practise when you want more') +
@@ -54,13 +56,16 @@ export function welcome(name: string | null | undefined, trialEnds: Date) {
     `<p style="margin:0 0 22px">JazakAllahu khayran,<br>The Rafiq team</p>`) };
 }
 
+// the two plans, as on the Plans page
+const PLANS = `<ul style="margin:0 0 20px;padding-left:20px"><li><b>Essentials</b> £6.99 a month or £49.99 a year: the whole course, reviews, audio and practice, and the 20 words you say most in salah</li>` +
+  `<li><b>Complete</b> £11.99 a month or £79.99 a year: everything, plus <b>Your salah</b> in full (every word of the prayer and 10 short surahs, with Pray along), the conversation partner, unlimited smart checks, real-life scenes and the weak-spots review</li></ul>`;
+
 export function trialSoon(name: string | null | undefined, trialEnds: Date) {
   return { subject: 'Your free week of Rafiq ends in 2 days', html: frame(
     `<p style="margin:0 0 14px">${hi(name)}</p>` +
     p(`Your free week ends on <b>${endDay(trialEnds)}</b>. To keep learning after that, choose a plan. It takes a minute, and you can cancel any time.`) +
     h('Two plans') +
-    `<ul style="margin:0 0 20px;padding-left:20px"><li><b>Essentials</b> £6.99 a month or £49.99 a year: the whole course, reviews, audio and practice</li>` +
-    `<li><b>Complete</b> £11.99 a month or £79.99 a year: everything, plus the conversation partner, unlimited smart checks, real-life scenes and the weak-spots review</li></ul>` +
+    PLANS +
     btn('Choose a plan', `${SITE}/plans.html`) +
     p('Your progress, streak and words are kept whatever you decide.') + p(support) +
     `<p style="margin:0 0 22px">The Rafiq team</p>`) };
@@ -71,5 +76,17 @@ export function trialLast(name: string | null | undefined) {
     `<p style="margin:0 0 14px">${hi(name)}</p>` +
     p('Today is the last day of your free week. Choose a plan to carry on from where you are. Everything you’ve learned is saved.') +
     btn('Choose a plan', `${SITE}/plans.html`) + p(support) +
+    `<p style="margin:0 0 22px">The Rafiq team</p>`) };
+}
+
+// the day after the free week ends (#177): once, not paying
+export function trialEnded(name: string | null | undefined) {
+  return { subject: 'Your free week of Rafiq has ended', html: frame(
+    `<p style="margin:0 0 14px">${hi(name)}</p>` +
+    p('Your free week has ended. Everything you’ve learned is saved: your words, your progress and your streak are waiting where you left them.') +
+    p('To carry on with your lessons and your salah, choose a plan. It takes a minute, and you can cancel any time.') +
+    PLANS +
+    btn('Choose a plan', `${SITE}/plans.html`) +
+    p('Not happy after paying? Email us within 14 days and we’ll refund you in full.') + p(support) +
     `<p style="margin:0 0 22px">The Rafiq team</p>`) };
 }

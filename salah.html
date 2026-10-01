@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>
+(function(){
+  if (location.hostname === 'sal716eh-spec.github.io') {
+    var path = location.pathname.replace(/^\/Rafiq/, '') || '/';
+    location.replace('https://rafiq-arabic.com' + path + location.search + location.hash);
+  }
+})();
+</script>
+<script src="theme.js?v=2"></script>
+<script src="pwa.js?v=2"></script>
+<title>Your salah — Rafiq</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=902">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317262B'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23F1ECE0' font-family='serif'%3E%D8%B1%3C/text%3E%3Ccircle cx='46' cy='19' r='4' fill='%23B4322A'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1ECE0">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1B1815">
+<meta name="color-scheme" content="light dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+.hero{padding:40px 0 6px;text-align:center}
+.hero .greet{font-family:var(--ar);direction:rtl;font-size:clamp(26px,6vw,36px);font-weight:600;line-height:1.7;margin:0 0 10px;padding:4px 0}
+.hero h1{font-size:clamp(21px,4.4vw,26px);font-weight:700}
+.hero p{color:var(--ink-soft);font-size:14.5px;margin:8px auto 0;max-width:52ch}
+.acctbar{max-width:1000px;margin:34px auto 0;padding:16px 30px 0;border-top:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (max-width:860px){ .acctbar{padding:14px 16px 0;margin-top:26px} .acctbar .btn{min-height:44px} }
+@media (min-width:861px){ .acctbar{display:none} }
+.sec{font-size:16px;font-weight:700;margin:28px 0 10px}
+.go{display:flex;gap:10px;margin:18px 0 0}
+.go a{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;font-weight:700;border-radius:12px;padding:14px;min-height:48px}
+.go .c{background:var(--verdigris);color:var(--paper)}
+.go .r{background:var(--card);border:1px solid var(--rule);color:var(--ink)}
+.parts{display:grid;gap:8px}
+.part{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:12px 14px;color:var(--ink);text-decoration:none}
+.part .st{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;font-size:14px;background:var(--paper-deep,var(--paper))}
+.part.done .st{background:var(--verdigris);color:var(--paper)}
+.part.next{border-color:var(--verdigris);border-width:2px;padding:11px 13px}
+.part.locked{opacity:.6}
+.part .nm{flex:1;display:flex;flex-direction:column;min-width:0}
+.part .nm b{font-size:15px}
+.part .nm span{font-size:12.5px;color:var(--ink-soft)}
+.part .ua{font-family:var(--ar);direction:rtl;font-size:17px;color:var(--rubric)}
+.gh{font-family:var(--ut);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:16px 0 8px}
+.note{font-size:12.5px;color:var(--ink-soft);margin-top:14px;line-height:1.55}
+.preview{margin:16px 0 0;padding:10px 14px;border-radius:10px;font-size:13px;background:color-mix(in srgb,var(--gold) 16%,var(--card));border:1px solid color-mix(in srgb,var(--gold) 60%,transparent)}
+.pback{display:inline-block;margin:26px 0 6px;color:var(--verdigris);text-decoration:none;font-size:15px;padding:6px 0}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="dashboard.html"><span class="bmark"></span>رَفِيق</a>
+  <div class="navlinks">
+    <a class="active" href="dashboard.html">Dashboard</a>
+    <a href="vocab.html">Words</a>
+    <a href="drills.html">Sentences</a><a href="verbs.html">Verbs</a><a href="connectors.html">Connectors</a>
+    <a href="settings.html">Settings</a>
+    <a href="login.html" class="logout-link" onclick="logout();return false;">Log out</a>
+  </div>
+</nav>
+<main class="wrap">
+  <a class="pback" id="back" href="dashboard.html">‹ Home</a>
+  <section class="hero">
+    <div class="greet">صَلاتُكَ</div>
+    <h1>Your salah</h1>
+    <p>Understand every word you say in the prayer, part by part, and see how it connects to the Arabic you're learning.</p>
+  </section>
+  <div id="salah"><p class="note" style="text-align:center">Loading…</p></div>
+</main>
+<div class="acctbar">
+  <span class="label" id="whoami">Account</span>
+  <button class="btn logout-link" type="button">Sign out</button>
+</div>
+
+<nav class="tabbar" aria-label="Sections">
+  <a class="on" href="dashboard.html"><span class="ti">الرَّئِيسَة</span>Home</a>
+  <a href="vocab.html"><span class="ti">مُفْرَدات</span>Words</a>
+  <a href="drills.html"><span class="ti">جُمَل</span>Sentences</a>
+  <a href="verbs.html"><span class="ti">أَفْعال</span>Verbs</a>
+  <a href="connectors.html"><span class="ti">رَوابِط</span>Links</a>
+  <a href="settings.html"><span class="ti">إِعْدادات</span>Settings</a>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js?v=8"></script>
+<script src="plan.js?v=20261001live"></script>
+<script src="progress.js?v=20261001c"></script>
+<script src="vocab-data.js?v=20260930"></script>
+<script src="salah-data.js?v=1"></script>
+<script src="salah.js?v=6"></script>
+<script src="nav.js?v=20261001"></script>
+<script>
+requireLogin();
+(async function(){
+  const el=document.getElementById('salah'), S=RafiqSalah, esc=S.esc;
+  if(!S.enabled()){ location.replace('dashboard.html'); return; }
+  try{ await Progress.init(); }catch(e){ console.error(e); }
+  try{ await RafiqPlan.load(); }catch(_){}
+  S.styles();
+  // drawn again when newer progress or the plan arrive from the server (#171)
+  const draw=()=>{
+  const n=S.next(), c=S.counts(), due=S.due().length;
+  const row=p=>{ const st=S.stateOf(p), k=S.counts(p);
+    const sub= st==='done' ? `Done · ${k.known} of ${k.total} words` : st==='next' ? `Next · ${k.total} words · about 5 minutes` : st==='plan' ? `Complete · ${k.total} words` : `${k.total} words`;
+    if(st==='plan') return `<a class="part locked" href="plans.html"><span class="st">🔒</span><span class="nm"><b>${esc(p.title)}</b><span>${sub}</span></span><span class="ua">${esc(p.ar_title)}</span></a>`;
+    const inner=`<span class="st">${st==='done'?'✓':st==='next'?'▶':'🔒'}</span><span class="nm"><b>${esc(p.title)}</b><span>${sub}</span></span><span class="ua">${esc(p.ar_title)}</span>`;
+    return st==='locked' ? `<div class="part locked" aria-disabled="true">${inner}</div>` : `<a class="part ${st}" href="learn.html?salah=${p.id}">${inner}</a>`; };
+  const prayer=S.parts().filter(p=>p.group==='prayer'), surahs=S.parts().filter(p=>p.group==='surah');
+  el.innerHTML=(S.LIVE?'':`<div class="preview">Preview: the meanings are waiting for a teacher's review, so this isn't switched on for learners yet.</div>`)+
+    `<div class="go">${n&&!S.open(n)?`<a class="c" href="plans.html">Carry on with Complete</a>`:n?`<a class="c" href="learn.html?salah=${n.id}">${S.done(S.parts()[0].id)?'Continue':'Start'}: ${esc(n.title)}</a>`:''}
+      <a class="r" href="learn.html?salah=review">Review${due?` · ${due} due`:''}</a></div>
+    <div class="go" style="margin-top:10px"><a class="r" href="${S.complete()?'learn.html?salah=prayalong':'plans.html'}">🤲 Pray along${S.complete()?'':' · Complete'}</a><a class="r" href="practise.html#salah">Practise</a></div>
+    <p class="note" style="text-align:center">${c.known} of ${c.total} words of your salah understood</p>
+    <div class="sec">Start here</div><div class="parts">${S.parts().filter(p=>p.kind==='common').map(row).join('')}</div>
+    <div class="sec">The prayer, in order</div><div class="parts">${prayer.map(row).join('')}</div>
+    <div class="gh">Then the short surahs</div><div class="parts">${surahs.map(row).join('')}</div>
+    <div class="sec">Your salah map</div><div id="map"></div>
+    <p class="note">Quran recitation: a licensed human recitation from the Quran Foundation (Quran.com), streamed as you listen; if it can't be reached, Al-Fatiha and the surahs are read along without audio. Word timings follow the recitation.
+      ${(SALAH.sources||[]).map(esc).join(' ')}</p>`;
+  S.mountMap(document.getElementById('map'));
+  };
+  draw();
+  addEventListener('rafiq:progress', draw); addEventListener('rafiq:plan', draw);
+})();
+</script>
+<script>
+/* Back to where Your salah was opened from: Home, Practise's salah menu or Progress. Remembered
+   for the visit, so coming back from a lesson (✕) still goes there, not into the lesson; Home
+   when it was opened directly. */
+(function(){
+  const b=document.getElementById('back'), KEY='rafiq_salah_from';
+  const PAGES={'dashboard.html':['dashboard.html','Home'], 'practise.html':['practise.html#salah','Your salah practice'],
+               'progress.html':['progress.html','Progress']};
+  let from=null;
+  try{ const r=new URL(document.referrer); if(r.origin===location.origin) from=PAGES[r.pathname.split('/').pop()||'dashboard.html'] || null; }catch(_){}
+  if(location.hash==='#back'){ from=null; history.replaceState(null,'',location.pathname); }   // a return trip from its own practice menu
+  try{ if(from) sessionStorage.setItem(KEY, JSON.stringify(from)); else from=JSON.parse(sessionStorage.getItem(KEY)); }catch(_){}
+  if(from){ b.href=from[0]; b.textContent='‹ '+from[1]; }
+})();
+</script>
+</body>
+</html>

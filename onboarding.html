@@ -17,13 +17,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=901">
+<link rel="stylesheet" href="site.css?v=902">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317262B'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23F1ECE0' font-family='serif'%3E%D8%B1%3C/text%3E%3Ccircle cx='46' cy='19' r='4' fill='%23B4322A'/%3E%3C/svg%3E">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1ECE0">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1B1815">
 <meta name="color-scheme" content="light dark">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth.js?v=6"></script>
+<script src="auth.js?v=8"></script>
 <style>
 .screen{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px}
 .card{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:34px 38px;width:min(520px,100%)}
@@ -172,14 +172,15 @@
   </div>
 </main>
 
-<script src="vocab-data.js?v=20260928b"></script>
-<script src="drills-data.js?v=20260927"></script>
-<script src="path-data.js?v=20260928"></script>
-<script src="alphabet-data.js?v=20260926"></script>
+<script src="vocab-data.js?v=20260930"></script>
+<script src="drills-data.js?v=20260930h"></script>
+<script src="path-data.js?v=20260930b"></script>
+<script src="alphabet-data.js?v=20260930b"></script>
 <script src="fsrs.js?v=20260929"></script>
-<script src="progress.js?v=20260929"></script>
-<script src="path.js?v=20260928"></script>
-<script src="plan.js?v=20260927"></script>
+<script src="progress.js?v=20261001c"></script>
+<script src="basics-data.js?v=4"></script>
+<script src="path.js?v=20260930f"></script>
+<script src="plan.js?v=20261001live"></script>
 <script src="reminders.js?v=2"></script>
 <script src="judge.js?v=20260922"></script>
 <script src="arkb.js?v=3" defer></script>
@@ -265,7 +266,7 @@ function placement(){
   const en=document.getElementById('plEn'), inp=document.getElementById('plIn'), msg=document.getElementById('plMsg');
   const go=document.getElementById('plGo'), skip=document.getElementById('plSkip');
   const start=n=>{
-    const units=RafiqPath.units(), idx=units.findIndex(u=>u.n===n);
+    const units=RafiqPath.units(), idx=units.findIndex(u=>u.n===(n==='01' && units.some(x=>x.basics) ? '0b' : n));   // unit 1: the basics first (#165)
     RafiqPath.place(idx<0?units.length-1:idx);
     home();
   };

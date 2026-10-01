@@ -786,4 +786,6 @@ const VOCAB = [
   { id: 781, ar: "الاِثْنَيْن", en: "Monday", tr: "al-ithnayn", unit: "06 · Numbers & time" },
   { id: 782, ar: "الأَرْبِعاء", en: "Wednesday", tr: "al-arbiʿāʾ", unit: "06 · Numbers & time" },
   { id: 783, ar: "سِتَّة", en: "six", tr: "sitta", unit: "02 · Core sentence-building" },
+  { id: 784, ar: "اسْم", en: "name", tr: "ism", unit: "02 · Core sentence-building" },        // taught in the basics (#168)
+  { id: 785, ar: "لُغَة", en: "language", tr: "lugha", unit: "02 · Core sentence-building" },   // taught in the basics (#168)
 ];

@@ -27,11 +27,12 @@ create schema if not exists private;
 revoke all on schema private from anon, authenticated;
 create table if not exists private.config (key text primary key, value text not null);
 
--- The free week never ends before a week after launch (10 Oct 2026), so
--- everyone who joined before launch gets a full week of the paid app.
+-- The free week: 7 days from joining (#170, kept at 7). From the soft launch (1 Oct 2026)
+-- new accounts get exactly that; accounts from the beta already have their row, ending
+-- 17 Oct (a week after the planned 10 Oct launch), and keep it.
 create or replace function private.trial_end_for(joined timestamptz) returns timestamptz
 language sql immutable as $$
-  select greatest(joined + interval '7 days', timestamptz '2026-10-17 23:00:00+00')
+  select joined + interval '7 days'
 $$;
 
 -- every new account starts its free week
@@ -55,13 +56,17 @@ insert into public.billing (user_id, trial_ends_at)
   select id, private.trial_end_for(created_at) from auth.users
   on conflict (user_id) do nothing;
 
--- Welcome email: when an address is confirmed, call the emails function.
+-- "Your free week has ended" email (#177), sent once, the day after.
+alter table public.billing add column if not exists trial_ended_sent_at timestamptz;
+
+-- Welcome email: when an address is confirmed, call the emails function. Google (and Apple)
+-- accounts are created already confirmed, so a new account that arrives confirmed counts too (#177).
 create extension if not exists pg_net;
 create or replace function private.welcome_on_confirm() returns trigger
 language plpgsql security definer set search_path = public, private as $$
 declare url text; secret text;
 begin
-  if old.email_confirmed_at is null and new.email_confirmed_at is not null then
+  if new.email_confirmed_at is not null and (tg_op = 'INSERT' or old.email_confirmed_at is null) then
     select value into url from private.config where key = 'emails_url';
     select value into secret from private.config where key = 'hook_secret';
     -- never let the email block confirming an address
@@ -78,6 +83,11 @@ end $$;
 drop trigger if exists welcome_on_confirm on auth.users;
 create trigger welcome_on_confirm after update of email_confirmed_at on auth.users
   for each row execute function private.welcome_on_confirm();
+-- after billing_new_user (triggers fire in name order), so the billing row is there; the email
+-- itself goes out after the sign-up commits (pg_net), and the function sends it only once
+drop trigger if exists welcome_on_signup on auth.users;
+create trigger welcome_on_signup after insert on auth.users
+  for each row when (new.email_confirmed_at is not null) execute function private.welcome_on_confirm();
 
 -- Free-week reminder emails: once a day at 09:00 UTC.
 create extension if not exists pg_cron;
@@ -129,3 +139,58 @@ create index if not exists reports_recent on public.reports (created_at desc);
 -- FSRS memory state per reviewed item (stability, difficulty, state, reps, lapses,
 -- last review), written by progress.js. box and due stay as before.
 alter table public.item_progress add column if not exists fsrs jsonb;
+
+-- The AI tutor (supabase/functions/tutor, #127): one row per question, for the daily
+-- limit, the cost per learner, and checking a sample of answers. Only the server reads or writes it.
+create table if not exists public.tutor_usage (
+  id bigserial primary key,
+  created_at timestamptz not null default now(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  mode text not null,                 -- chat | why
+  model text not null,
+  input_tokens int not null default 0,
+  output_tokens int not null default 0,
+  cache_read_tokens int not null default 0,
+  cache_write_tokens int not null default 0,
+  question text,
+  answer text
+);
+alter table public.tutor_usage enable row level security;
+create index if not exists tutor_usage_user_day on public.tutor_usage (user_id, created_at desc);
+
+-- Where learners drop off (#26), worked out from what the app already saves, so
+-- nothing new is tracked: 'p:<unit>|<step>' rows are lessons finished, and
+-- 's:<YYYY-MM-DD>' rows are the days someone studied (UTC, like the account's
+-- join date). One row per account here; private.funnel() adds them up by the
+-- week people joined. Server only. In the SQL editor: select * from private.funnel();
+create or replace view private.funnel_people as
+select u.id as user_id,
+  u.created_at::date as joined,
+  u.email_confirmed_at is not null as confirmed,
+  exists (select 1 from public.item_progress p where p.user_id = u.id
+          and p.item_id like 'p:%' and p.item_id not like '%|placed') as first_lesson,
+  exists (select 1 from public.item_progress p where p.user_id = u.id
+          and p.item_id = 's:' || to_char(u.created_at::date + 1, 'YYYY-MM-DD')) as back_next_day,
+  exists (select 1 from public.item_progress p where p.user_id = u.id and p.item_id like 's:%'
+          and p.item_id >= 's:' || to_char(u.created_at::date + 7, 'YYYY-MM-DD')) as back_after_week,
+  b.stripe_subscription_id is not null as chose_plan,      -- went through checkout (card given)
+  coalesce(b.status = 'active', false) as paying
+from auth.users u left join public.billing b on b.user_id = u.id;
+
+-- "Back the next day" only counts people who joined at least a day ago, and "back after
+-- a week" people who joined at least a week ago, so a new week doesn't look like a drop.
+create or replace function private.funnel() returns table (
+  week_of date, joined bigint, confirmed bigint, first_lesson bigint,
+  could_be_back_next_day bigint, back_next_day bigint,
+  could_be_back_after_week bigint, back_after_week bigint,
+  chose_plan bigint, paying bigint)
+language sql stable security definer set search_path = private, public as $$
+  select date_trunc('week', f.joined)::date,
+    count(*), count(*) filter (where f.confirmed), count(*) filter (where f.first_lesson),
+    count(*) filter (where f.joined <= current_date - 1), count(*) filter (where f.back_next_day),
+    count(*) filter (where f.joined <= current_date - 7), count(*) filter (where f.back_after_week),
+    count(*) filter (where f.chose_plan), count(*) filter (where f.paying)
+  from private.funnel_people f
+  group by 1 order by 1 desc
+$$;
+revoke all on function private.funnel() from public, anon, authenticated;

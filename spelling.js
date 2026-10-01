@@ -53,7 +53,7 @@
   function saveBest(score, total){ try{ localStorage.setItem(BEST_KEY, JSON.stringify({score, total})); }catch(_){} }
   const shuffle = a => { for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
   const canHear = () => !!(window.RQ && RQ.available());
-  const say = (t, el) => { if(window.RQ) RQ.speak(t, el); };
+  const say = (t, el, after) => { if(window.RQ) RQ.speak(t, el, after); else if(after) after(); };
   const sound = ok => { if(window.RafiqSound) RafiqSound.answer(ok); };
 
   function mount(el){
@@ -86,8 +86,9 @@
       const mode = (turn++ % 2 === 0 && canHear()) ? 'hear' : 'see';
       const pic = (typeof PIC !== 'undefined' && PIC[w.id]) || '';
       const prompt = mode === 'hear'
-        ? `<button class="sb-listen" type="button" aria-label="Play the word again">🔊</button>
-           <div class="sb-how">Listen, then type the word in Arabic</div>
+        ? `<div class="pa-cue listen" aria-live="polite"><span class="ic">🔊</span><b>Listen</b></div>
+           <button class="sb-listen" type="button" aria-label="Play the word again">🔊</button>
+           <div class="sb-how">Type the word you hear, in Arabic</div>
            <div class="sb-links"><a class="sb-hint" role="button" data-act="en">Show the English</a> · <a class="sb-hint" role="button" data-act="give">Show me the answer</a></div>
            <div class="sb-en" hidden>${esc(w.en)}</div>`
         : `${pic ? `<div class="sb-pic">${pic}</div>` : ''}<div class="sb-en">${esc(w.en)}</div>
@@ -107,8 +108,11 @@
         </div>`;
       const inp = el.querySelector('input'), out = el.querySelector('.sb-out'), msg = el.querySelector('.sb-msgline');
       if(mode === 'hear'){
-        const b = el.querySelector('.sb-listen');
-        b.onclick = () => say(w.ar, b); say(w.ar, b);
+        // the Pray along cue: Listen while the word plays, then it's your turn to type
+        const b = el.querySelector('.sb-listen'), cue = el.querySelector('.pa-cue');
+        const set = (cls, ic, txt) => { cue.className = 'pa-cue ' + cls; cue.firstChild.textContent = ic; cue.lastChild.textContent = txt; };
+        const hear = () => { set('listen', '🔊', 'Listen'); say(w.ar, b, () => { if(cue.isConnected) set('repeat', '⌨️', 'Now type it'); }); };
+        b.onclick = hear; hear();
         const en = el.querySelector('[data-act="en"]');
         en.onclick = () => { el.querySelector('.sb-prompt .sb-en').hidden = false; en.nextSibling.remove(); en.remove(); };
       }

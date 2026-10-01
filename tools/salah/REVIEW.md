@@ -4,7 +4,7 @@
 
 Please check each line: the Arabic wording, the English meaning of the line and of each word, and the root. Mark ✅ or write the correction next to it. Where a part has a note, please choose the wording you want taught.
 
-Sources: Quran text: Tanzil Project (tanzil.net), Tanzil Quran Text (Simple), CC BY 3.0, used verbatim. Roots of Quran words: Quranic Arabic Corpus (corpus.quran.com), morphology v0.4. Meanings: Rafiq drafts, awaiting teacher review.
+Sources: Quran text: Tanzil Project (tanzil.net), Tanzil Quran Text (Simple), CC BY 3.0, used verbatim. Roots of Quran words: Quranic Arabic Corpus (corpus.quran.com), morphology v0.4. Quran meanings: shown in the app from the Quran Foundation (translation: Saheeh International; word by word: Quran.com), loaded live; the ones here are only the fallback when it can't be reached. Prayer phrases (not Quran): Rafiq drafts, awaiting teacher review.
 
 ## Opening takbir · تَكْبِيرَةُ الإِحْرامِ
 
@@ -1066,3 +1066,17 @@ After a lesson, learners will see "🕌 You'll hear this in your salah" for thes
 | بَلَد | و-ل-د | بلد is from ب-ل-د |
 
 </details>
+
+## Added for the "most-said words" opener and frequency tags (#124)
+
+Please check these too:
+
+1. **How often each phrase is said in a normal four-rakah prayer** (used for "You say this N times" and to pick the 20 most-said words):
+   takbir 22 · opening supplication 1 · seeking refuge 1 · Al-Fatiha 4 · bowing tasbih 12 (3 × 4) · rising 4 · prostration tasbih 24 (3 × 8) ·
+   "رَبِّ اغْفِرْ لِي" between prostrations 4 · tashahhud 2 · salawat 1 · salam 2. Surahs vary, so they aren't counted.
+   Change them in `REPS` in `salah.js` if your school counts differently.
+2. **A course-word link that may feel out of place:** سُبْحانَ ("Glory be") shows "In your course: سِباحَة (swimming)". Both share the root س ب ح, whose first meaning is to float or glide, and many scholars connect the two. Keep it, or remove it (the link is in `tools/salah/links.json`)?
+
+## Quran meanings now come from an official translation (#147)
+
+In the app, the Quran parts (Al-Fatiha and the surahs) now show the **Saheeh International** translation for each verse and **Quran.com's word-by-word English** for each word, loaded from the Quran Foundation. The Quran meanings above are only a fallback for when that can't be reached, so **you don't need to correct them**. Please focus on the prayer phrases (takbir to salam), their roots, and the notes.

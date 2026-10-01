@@ -60,6 +60,10 @@ async function logoutEverywhere(){
    everyone signs in again (and meets the new password rule and questions).
    Set on 26 Sep 2026 for the beta reset; move it forward to sign everyone out again. */
 const SIGN_IN_AGAIN_BEFORE = '2026-09-26T18:13:00Z';
+
+/* The AI tutor (#127) is off for the soft launch (#174): no Tutor tab, no tutor page, no "Why?".
+   true brings all three back. */
+const TUTOR_ON = false;
 function staleSession(session){
   const at = session && session.user && session.user.last_sign_in_at;
   return !!(at && new Date(at) < new Date(SIGN_IN_AGAIN_BEFORE));
@@ -121,8 +125,11 @@ function _isoToDay(iso){
 }
 
 // current user's id, or null if not logged in
+/* The signed-in user's id. From the login saved on this device (no network call, #171): the server
+   checks the token itself on every request, so this only says whose rows to ask for. */
 async function currentUserId(){
   if (!sb) return null;
+  try { const { data } = await sb.auth.getSession(); if (data && data.session && data.session.user) return data.session.user.id; } catch(_) {}
   try { const { data } = await sb.auth.getUser(); return data && data.user ? data.user.id : null; }
   catch(_) { return null; }
 }

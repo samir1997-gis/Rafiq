@@ -1,9 +1,9 @@
 // emails — called only by the database (x-rafiq-hook secret):
 //   {kind:'welcome', user_id}   when an address is confirmed (trigger on auth.users)
-//   {kind:'trial_reminders'}    daily at 09:00 UTC (pg_cron): "2 days left" and "last day"
+//   {kind:'trial_reminders'}    daily at 09:00 UTC (pg_cron): "2 days left", "last day", and "has ended" (the day after)
 // Each email is sent at most once per account (billing.*_sent_at).
 import { admin, fromHook, sendEmail } from '../_shared/common.ts';
-import { welcome, trialSoon, trialLast, text } from '../_shared/emails.ts';
+import { welcome, trialSoon, trialLast, trialEnded, text } from '../_shared/emails.ts';
 
 const PAYING = ['active', 'trialing', 'past_due'];
 const H = 3600_000;
@@ -44,6 +44,18 @@ Deno.serve(async (req) => {
       if (!a) continue;
       await admin.from('billing').update({ [col]: iso(now) }).eq('user_id', b.user_id);
       await send(a.email, left <= 24 * H ? trialLast(a.name) : trialSoon(a.name, new Date(b.trial_ends_at)));
+      n++;
+    }
+    // "has ended": the free week ended in the last two days, no plan, not sent yet. The two-day window
+    // means a missed run still sends it, but accounts whose week ended long ago are never emailed.
+    const { data: ended } = await admin.from('billing').select('*')
+      .lte('trial_ends_at', iso(now)).gt('trial_ends_at', iso(now - 48 * H)).is('trial_ended_sent_at', null);
+    for (const b of ended || []) {
+      if (b.plan && PAYING.includes(b.status)) continue;
+      const a = await account(b.user_id);
+      if (!a) continue;
+      await admin.from('billing').update({ trial_ended_sent_at: iso(now) }).eq('user_id', b.user_id);
+      await send(a.email, trialEnded(a.name));
       n++;
     }
     return new Response(`sent ${n}`);

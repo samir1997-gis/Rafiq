@@ -12,7 +12,7 @@
 <script src="theme.js?v=2"></script>
 <script src="pwa.js?v=2"></script>
 <title>Today's session — Rafiq</title>
-<link rel="stylesheet" href="site.css?v=901">
+<link rel="stylesheet" href="site.css?v=902">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1ECE0">
@@ -26,10 +26,20 @@
 
 <style>
 .sess-head{display:flex;align-items:center;gap:14px;margin:22px 0 18px}
+/* Like Pray along: the item's label pinned at the top, the exercise in the middle of the
+   space above the tab bar, its instruction beneath it (instructionUnder()) */
+main.wrap{display:flex;flex-direction:column;min-height:calc(100dvh - 95px)}
+@media (max-width:860px){ main.wrap{min-height:calc(100dvh - 83px - 68px)} }
+#panel{flex:1;display:flex;flex-direction:column}
+#panel>.card,#panel>.done{margin:auto 0;padding-bottom:3vh}
+#panel>.card{padding-bottom:22px}
+.taskbar.under{margin:18px 0 14px;padding:0;background:none;border:0;border-radius:0;flex-direction:column;align-items:center;gap:2px;text-align:center}
+.taskbar.under .t-en{font-size:1.05rem}
+.taskbar.under .t-ar{font-size:1rem}
 .sess-prog{flex:1;height:6px;background:var(--paper-deep);border-radius:3px;overflow:hidden}
 .sess-prog i{display:block;height:100%;background:var(--verdigris);transition:width .3s ease}
-.sess-n{font-family:var(--ut);font-size:11px;color:var(--ink-soft);white-space:nowrap}
-.sess-from{font-family:var(--ut);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+.sess-n{font-family:var(--ut);font-size:12px;color:var(--ink-soft);white-space:nowrap}
+.sess-from{font-family:var(--ut);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
   color:var(--ink-soft);margin-bottom:10px;display:flex;gap:8px;align-items:center}
 .pill{background:var(--paper-deep);border-radius:10px;padding:2px 9px;letter-spacing:.08em}
 .pill.words{color:var(--verdigris)} .pill.sentences{color:var(--rubric)}
@@ -39,40 +49,40 @@
 .taskbar{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;background:var(--bg);
   border-left:3px solid var(--rubric);border-radius:0 4px 4px 0;padding:11px 14px;margin:-20px -20px 16px;
   border-bottom:1px solid var(--rule)}
-.taskbar .t-en{font-size:15.5px;font-weight:700}
-.taskbar .t-ar{font-family:var(--ar);font-size:16px;direction:rtl;color:var(--rubric);line-height:1.7}
-.qar{font-family:var(--ar);font-size:26px;direction:rtl;text-align:right;line-height:1.95}
-.qen{font-size:15px;margin:6px 0 0}
-.big-ar{font-family:var(--ar);font-size:clamp(30px,7vw,44px);direction:rtl;text-align:center;line-height:1.7;padding:10px 0;transition:opacity .1s;touch-action:manipulation}
+.taskbar .t-en{font-size:17px;font-weight:700}
+.taskbar .t-ar{font-family:var(--ar);font-size:17px;direction:rtl;color:var(--rubric);line-height:1.7}
+.qar{font-family:var(--ar);font-size:29px;direction:rtl;text-align:right;line-height:1.95}
+.qen{font-size:1.3rem;line-height:1.4;font-weight:600;text-align:center;margin:6px 0 0}
+.big-ar{font-family:var(--ar);font-size:clamp(34px,8.5vw,50px);direction:rtl;text-align:center;line-height:1.7;padding:10px 0;transition:opacity .1s;touch-action:manipulation}
 .big-ar:active{opacity:.55}
 .reveal{border-top:1px dashed var(--rule);margin-top:14px;padding-top:14px;text-align:center}
-.reveal .en{font-size:17px}
-.reveal .tr{font-family:var(--ut);font-size:12px;color:var(--ink-soft);margin-top:4px}
+.reveal .en{font-size:18.5px}
+.reveal .tr{font-family:var(--ut);font-size:13.5px;color:var(--ink-soft);margin-top:4px}
 .gap{color:var(--rubric);border-bottom:2px solid var(--rubric);padding:0 14px}
 .gap.filled{border-bottom-color:var(--verdigris);color:var(--verdigris)}
 .opts{display:flex;gap:7px;flex-wrap:wrap;direction:rtl;margin-top:14px}
-.opt{font-family:var(--ar);font-size:19px;direction:rtl;background:var(--bg);border:1px solid var(--rule);
+.opt{font-family:var(--ar);font-size:21px;direction:rtl;background:var(--bg);border:1px solid var(--rule);
   border-radius:5px;padding:6px 14px;cursor:pointer;line-height:1.8;min-height:44px;display:inline-flex;align-items:center;
   transition:border-color .15s,transform var(--press,120ms) var(--ease-out,ease-out);touch-action:manipulation;
   -webkit-user-select:none;user-select:none}
 .opt.right{background:var(--verdigris);border-color:var(--verdigris);color:#fff}
 .opt.wrong{background:var(--rubric);border-color:var(--rubric);color:#fff}
 .opt:active{transform:scale(.96)}
-.why{font-size:12.5px;color:var(--ink-soft);margin-top:12px;border-left:2px solid var(--gold);padding-left:11px}
-.tr{font-size:13px;color:var(--ink);margin-top:8px;padding-top:8px;border-top:1px dashed var(--rule)}
+.why{font-size:14px;color:var(--ink-soft);margin-top:12px;border-left:2px solid var(--gold);padding-left:11px}
+.tr{font-size:14.5px;color:var(--ink);margin-top:8px;padding-top:8px;border-top:1px dashed var(--rule)}
 
-.good{font-family:var(--ar);font-size:24px;direction:rtl;text-align:right;line-height:1.9;color:var(--verdigris);cursor:pointer;transition:opacity .1s;touch-action:manipulation}
+.good{font-family:var(--ar);font-size:27px;direction:rtl;text-align:right;line-height:1.9;color:var(--verdigris);cursor:pointer;transition:opacity .1s;touch-action:manipulation}
 .good:active{opacity:.55}
 .vprompt{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0 10px;justify-content:center}
-.vp-pron,.vp-verb{font-family:var(--ar);font-size:26px;direction:rtl;line-height:1.75}
-.vp-tense{font-family:var(--ar);font-size:17px;direction:rtl;color:var(--rubric);background:var(--bg);
+.vp-pron,.vp-verb{font-family:var(--ar);font-size:29px;direction:rtl;line-height:1.75}
+.vp-tense{font-family:var(--ar);font-size:18.5px;direction:rtl;color:var(--rubric);background:var(--bg);
   border-radius:4px;padding:3px 10px;line-height:1.7}
 .ansrow{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 input.ar-in{flex:1;min-width:200px;font-family:var(--ar);font-size:21px;line-height:1.7;direction:rtl;text-align:right;
   background:var(--bg);border:1px solid var(--rule);border-radius:4px;padding:10px 34px 10px 12px;color:var(--ink)}
 .ansrow{position:relative}
 .ansrow::after{content:'⌨';position:absolute;left:20px;top:50%;transform:translateY(-50%);
-  font-size:15px;color:var(--ink-soft);pointer-events:none}
+  font-size:16.5px;color:var(--ink-soft);pointer-events:none}
 /* Arabic virtual keyboard (arkb.js) */
 .arkb{position:absolute;z-index:200;background:rgba(var(--paper-rgb,241,236,224),.85);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);
   border:1px solid var(--rule);border-radius:10px;
@@ -95,24 +105,24 @@ input.ar-in{flex:1;min-width:200px;font-family:var(--ar);font-size:21px;line-hei
 
 .diff{font-family:var(--ar);font-size:21px;direction:rtl;text-align:right;line-height:1.95;margin-top:12px}
 .diff .ok{color:var(--verdigris)} .diff .no{color:var(--rubric);text-decoration:line-through}
-.score{font-family:var(--ut);font-size:11px;color:var(--ink-soft);margin-top:8px}
+.score{font-family:var(--ut);font-size:12px;color:var(--ink-soft);margin-top:8px}
 .score.v-ok{color:var(--verdigris)} .score.v-no{color:var(--rubric)}
 .rate{display:flex;gap:6px;margin-top:16px;align-items:center;flex-wrap:wrap}
-.rb{font-family:var(--la);font-size:13px;border:1px solid var(--rule);background:var(--bg);border-radius:5px;
+.rb{font-family:var(--la);font-size:14.5px;border:1px solid var(--rule);background:var(--bg);border-radius:5px;
   padding:9px 18px;cursor:pointer;color:var(--ink);min-height:44px;flex:1 1 auto;touch-action:manipulation;
   transition:transform var(--press,120ms) var(--ease-out,ease-out),border-color .15s}
 .rb:active{transform:scale(.96)}
 .done{text-align:center;padding:40px 20px}
-.done .big{font-family:var(--ar);font-size:36px;color:var(--verdigris);line-height:1.6}
+.done .big{font-family:var(--ar);font-size:40px;color:var(--verdigris);line-height:1.6}
 .done h2{margin:10px 0 4px}
 .done p{color:var(--ink-soft);margin:0 0 20px}
 .tally{display:flex;justify-content:center;gap:26px;margin:20px 0 24px;flex-wrap:wrap}
-.tally div{font-family:var(--ut);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
-.tally b{display:block;font-size:22px;color:var(--ink);letter-spacing:0;margin-bottom:2px}
+.tally div{font-family:var(--ut);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.tally b{display:block;font-size:24px;color:var(--ink);letter-spacing:0;margin-bottom:2px}
 .nextrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.focus-head{font-family:var(--ut);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+.focus-head{font-family:var(--ut);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--ink-soft);margin:22px 0 10px;text-align:center}
-.focus-ok{font-size:14px;color:var(--verdigris);text-align:center;margin:18px 0 22px}
+.focus-ok{font-size:15.5px;color:var(--verdigris);text-align:center;margin:18px 0 22px}
 .focus-list{display:flex;flex-direction:column;gap:8px;max-width:420px;margin:0 auto 22px}
 .focus-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--rule);
   border-radius:8px;background:var(--card);text-decoration:none;color:var(--ink);touch-action:manipulation;
@@ -120,26 +130,26 @@ input.ar-in{flex:1;min-width:200px;font-family:var(--ar);font-size:21px;line-hei
 .focus-row:active{transform:scale(.98)}
 /* was ungated — outside any hover:hover block, so it stuck open after the first tap on touch */
 @media (hover:hover) and (pointer:fine){ .focus-row:hover{border-color:var(--verdigris)} }
-.focus-ar{font-family:var(--ar);font-size:19px;direction:rtl;line-height:1.6;color:var(--rubric);flex:0 0 auto}
+.focus-ar{font-family:var(--ar);font-size:21px;direction:rtl;line-height:1.6;color:var(--rubric);flex:0 0 auto}
 .focus-txt{flex:1;display:flex;flex-direction:column;text-align:left;min-width:0}
-.focus-txt b{font-size:14px}
-.focus-txt span{font-size:12px;color:var(--ink-soft)}
-.focus-go{font-size:12.5px;color:var(--verdigris);white-space:nowrap;flex:0 0 auto}
+.focus-txt b{font-size:15.5px}
+.focus-txt span{font-size:13.5px;color:var(--ink-soft)}
+.focus-go{font-size:14px;color:var(--verdigris);white-space:nowrap;flex:0 0 auto}
 @media (max-width:860px){ .focus-row{padding:11px 12px} }
 .nextrow a,.nextrow button{padding:12px 20px;border:1px solid var(--rule);border-radius:5px;background:var(--card);
-  color:var(--ink);text-decoration:none;font-family:var(--la);font-size:14px;cursor:pointer;touch-action:manipulation;
+  color:var(--ink);text-decoration:none;font-family:var(--la);font-size:15.5px;cursor:pointer;touch-action:manipulation;
   transition:transform var(--press,120ms) var(--ease-out,ease-out)}
 .nextrow a:active,.nextrow button:active{transform:scale(.96)}
 .nextrow .primary{background:var(--verdigris);border-color:var(--verdigris);color:#fff}
-.nextrow small{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
-.swap{display:block;margin:12px auto 0;background:none;border:0;padding:6px 8px;font-family:var(--la);font-size:13.5px;
+.nextrow small{display:block;font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+.swap{display:block;margin:12px auto 0;background:none;border:0;padding:6px 8px;font-family:var(--la);font-size:15px;
   color:var(--verdigris);text-decoration:underline;cursor:pointer;touch-action:manipulation}
 .swap:active{opacity:.55}
-.stage-note{margin-top:12px;padding:10px 12px;border-radius:8px;font-size:14px;color:var(--ink);
+.stage-note{margin-top:12px;padding:10px 12px;border-radius:8px;font-size:15.5px;color:var(--ink);
   background:color-mix(in srgb,var(--gold) 14%,var(--card));border:1px solid color-mix(in srgb,var(--gold) 50%,transparent)}
 @media (max-width:860px){
   #signout{font-size:12px;padding:8px 10px}
-  .card{padding:16px}.taskbar{margin:-16px -16px 14px;padding:10px 12px}
+  .card{padding:16px}.taskbar{margin:-16px -16px 14px;padding:10px 12px}.taskbar.under{margin:16px 0 12px;padding:0}
   .ansrow{flex-direction:column}.ansrow .btn,.ansrow input{width:100%}
   .nextrow{flex-direction:column}.nextrow a,.nextrow button{width:100%;text-align:center}
 }
@@ -173,28 +183,31 @@ input.ar-in{flex:1;min-width:200px;font-family:var(--ar);font-size:21px;line-hei
 </nav>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth.js?v=6"></script>
+<script src="auth.js?v=8"></script>
 <script src="fsrs.js?v=20260929"></script>
-<script src="progress.js?v=20260929"></script>
+<script src="progress.js?v=20261001c"></script>
 <script src="arkb.js?v=3" defer></script>
 <script src="translations.js?v=1"></script>
-<script src="plan.js?v=20260927"></script>
+<script src="plan.js?v=20261001live"></script>
 <script src="report.js?v=1"></script>
 <script>RafiqPlan.requirePlan();</script>
 <script src="judge.js?v=20260922"></script>
 <script>requireLogin();</script>
-<script src="vocab-data.js?v=20260928b"></script>
+<script src="vocab-data.js?v=20260930"></script>
 <script src="toolkit-data.js?v=901"></script>
-<script src="drills-data.js?v=20260927"></script>
-<script src="audio.js?v=901"></script>
-<script src="path-data.js?v=20260928"></script>
-<script src="alphabet-data.js?v=20260926"></script>
-<script src="path.js?v=20260928"></script>
-<script src="tiles.js?v=1"></script>
+<script src="drills-data.js?v=20260930h"></script>
+<script src="audio.js?v=904"></script>
+<script src="path-data.js?v=20260930b"></script>
+<script src="alphabet-data.js?v=20260930b"></script>
+<script src="basics-data.js?v=4"></script>
+<script src="path.js?v=20260930f"></script>
+<script src="tiles.js?v=3"></script>
 <script src="mistakes.js?v=20260922"></script>
 <script src="item-tags.js?v=20260922"></script>
-<script src="nav.js?v=20260924"></script>
+<script src="teach.js?v=3"></script>
+<script src="nav.js?v=20261001"></script>
 <script src="sounds.js?v=1"></script>
+<script src="tutor.js?v=3"></script>
 <script>
 DATA.forEach(u=>Object.assign(u,EXTRA[u.n]||{}));
 const glue=(a,s)=>a+(s.startsWith('،')?'':' ')+s, joinAr=a=>a.reduce(glue);
@@ -231,7 +244,15 @@ function buildUnit(n){
   const words = shuffle(wDue).slice(0, share(0.35))
     .concat(shuffle(met.filter(w=>!Progress.isDue(ID.word(w)))).slice(0, Math.max(0, share(0.35)-wDue.length)))
     .map(w=>({kind:'words', mode:'word', w}));
-  const dp   = drillPool().filter(x=>x.unit.n===UNIT);
+  let dp     = drillPool().filter(x=>x.unit.n===UNIT);
+  // teach first (#156): in the early units, only exercises made (almost) entirely of words already taught
+  if(RafiqPath.teaches(UNIT) && window.RafiqTeach){
+    const k=RafiqTeach.taught(UNIT), d=x=>x.d;
+    const text=x=>x.mode==='cloze'?d(x).q.replace('___',' ')+' '+(d(x).o||[]).join(' ')
+      :x.mode==='fix'?d(x).bad+' '+d(x).good:x.mode==='transform'?d(x).src+' '+d(x).ans
+      :x.mode==='build'?d(x).parts.join(' '):(d(x).ar||'');
+    dp=dp.filter(x=>RafiqTeach.coverage(text(x),k)>=0.8);
+  }
   const dDue = dp.filter(x=>Progress.isDue(ID.drill(x)));
   // a normal Practise step tops up with new exercises; redoing a finished
   // unit (?redo=1, from Practise) draws on all of the unit's exercises
@@ -369,6 +390,16 @@ function render(){
                  (it.unit?`<span>Unit ${it.unit.n} · ${it.unit.en}</span>`:'');
   panel.appendChild(from);
   ({word:vWord,verb:vVerb,link:vLink,intro:vIntro}[it.mode]||vDrill)(it);
+  instructionUnder(panel);
+}
+/* Like Pray along: what to do sits beneath the thing to do it with. The task line moves from
+   the top of the card to just before its first button or answer box. */
+function instructionUnder(root){
+  const card=root.querySelector(':scope > .card'), tb=card&&card.querySelector(':scope > .taskbar');
+  if(!tb) return;
+  const at=[...card.children].find(ch=>ch!==tb && (ch.matches('button,input,textarea') || ch.querySelector('button,input,textarea')));
+  tb.classList.add('under');
+  if(at) card.insertBefore(tb, at); else card.appendChild(tb);
 }
 /* Where to send someone for each section, and what to call it on screen. */
 const FOCUS_PAGE={

@@ -10,7 +10,7 @@ from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get("BASE", "http://localhost:8765/")
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
-PUBLIC = ["index.html", "login.html", "plans.html", "privacy.html", "help.html", "reset-password.html"]
+PUBLIC = ["index.html", "login.html", "privacy.html", "help.html", "reset-password.html", "terms.html"]   # plans.html needs sign-in
 # third-party noise we can't fix from here (offline CDNs, analytics, Supabase with no session)
 IGNORE = ("Failed to load resource", "net::ERR", "supabase", "Supabase", "favicon")
 
@@ -25,7 +25,7 @@ def main():
         for name in pages:
             page = ctx.new_page()
             errors = []
-            page.on("pageerror", lambda e: errors.append(str(e)))
+            page.on("pageerror", lambda e: any(s in str(e) for s in IGNORE[-1:]) or errors.append(str(e)))
             page.on("console", lambda m: m.type == "error" and not any(s in m.text for s in IGNORE)
                     and errors.append(m.text))
             try:

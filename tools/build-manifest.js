@@ -45,8 +45,15 @@ DATA.forEach(u=>{
   (u.fix||[]).forEach(f=>add('fix',u.n,f.good));
   (u.builds||[]).forEach(b=>add('build',u.n,J(b.parts)));
   (u.prompts||[]).forEach(p=>{add('prompt',u.n,p[0]);add('model',u.n,p[2]);});
+  // build-your-own "Say it yourself" (units 1-3, #164): every sentence a learner can make, and each answer and question
+  (u.say||[]).forEach(t=>t.frames.forEach(f=>{
+    if(t.ask){ add('prompt',u.n,f.q); add('prompt',u.n,f.o[f.a]); return; }
+    f.o.forEach(o=>{ const pat=typeof f.ar==='string' ? f.ar : f.ar[o[2]||'m']; add('prompt',u.n, pat==='___' ? o[0] : pat.replace('___',o[0])); });
+  }));
   (u.grammar||[]).forEach(g=>{
     add('grammar',u.n,g.ar);
+    // a card's quick check (#163): its right answer is said when it's picked
+    if(g.check && /[\u0600-\u06FF]/.test(g.check[1].join(''))) add('grammar',u.n,g.check[1][g.check[2]]);
     // paired examples show one per row, each with its own play (pairsOf in learn.html / drills.html)
     const a=g.ar.split(' · '), e=(g.tr||'').split(' · ');
     if(g.tr && a.length>1 && a.length===e.length) a.forEach(x=>add('grammar',u.n,x.replace(/[.،]\s*$/,'').trim()));
@@ -78,19 +85,49 @@ DATA.forEach(u=>{
 /* Reading starter: each letter's name, its example words, the vowel-mark
    examples and the listening-test words (said without being shown). */
 eval(fs.readFileSync(path.join(root,'alphabet-data.js'),'utf8')
-      .replace(/const (ALPHABET_GROUPS|VOWEL_MARKS|LISTEN_TEST)/g,'globalThis.$1'));
+      .replace(/const (ALPHABET_GROUPS|VOWEL_MARKS|READING_RULES|LISTEN_TEST)/g,'globalThis.$1'));
 ALPHABET_GROUPS.forEach(g=>g.letters.forEach(l=>{
   add('alphabet','00',l[1]); add('alphabet','00',l[3]);
   (l[5]||[]).forEach(e=>add('alphabet','00',e[0]));
 }));
 VOWEL_MARKS.forEach(v=>{ if(v[3]) add('alphabet','00',v[3][0]); });
 LISTEN_TEST.forEach(t=>add('alphabet','00',t[0]));
+READING_RULES.forEach(r=>{ r[2].forEach(e=>add('alphabet','00',e[0])); add('alphabet','00',r[3][4]); });
+// the basics (#165): each example, and what's said after each pick (the finished sentence, the right answer, or the word shown)
+eval(fs.readFileSync(path.join(root,'basics-data.js'),'utf8').replace(/const (BASICS_GOAL|BASICS_NAMES|BASICS) =/g,'globalThis.$1 ='));
+// the goal sentence and each lesson's 'sentence so far' (#168), as a man and as a woman says it
+['m','f'].forEach(g=>{ add('basics','0b',BASICS_GOAL[g]); BASICS.forEach(l=>add('basics','0b',l.sofar[g])); });
+// with the learner's own name (#169): the pieces around the name, and every name on the list
+['m','f'].forEach(g=>[BASICS_GOAL[g]].concat(BASICS.map(l=>l.sofar[g])).forEach(line=>{
+  const ex=['سَمِير','مَرْيَم'].find(n=>line.includes(n)); if(!ex) return;
+  const [a,b]=line.split(ex); add('basics','0b',a.trim()); const rest=b.replace(/^،\s*/,'').trim(); if(rest) add('basics','0b',rest);
+}));
+[...new Set(Object.values(BASICS_NAMES))].forEach(n=>add('names','0b',n));
+const hasAr=t=>/[\u0600-\u06FF]/.test(t);
+BASICS.forEach(l=>{
+  l.teach.forEach(t=>t.pairs.forEach(([a])=>add('basics','0b',a.replace(/ · /g,'، '))));
+  l.drills.forEach(([q,shown,opts])=>{ const gap=shown.includes('___');
+    add('basics','0b', gap ? shown.replace('___',opts[0]) : hasAr(opts[0]) ? opts[0] : shown); });
+});
 
 /* Everyday essentials (Practise): numbers, days, months, colours (both forms), time. */
 eval(fs.readFileSync(path.join(root,'essentials-data.js'),'utf8').replace(/const ESSENTIALS/,'globalThis.ESSENTIALS'));
 ESSENTIALS.forEach(s=>s.items.forEach(it=>{ add('essentials',s.id,it[0]); if(s.id==='colours') add('essentials',s.id,it[2]); }));
 
 SCENES.forEach(sc=>sc.lines.forEach(l=>add('scene',sc.id,l[1])));
+
+/* "Your salah" (salah.js): the prayer phrases and their words, in the app's voice.
+   Never the Quran (Al-Fatiha, the surahs): that only ever plays a licensed human
+   recitation. Render the 'salah' bucket once the teacher has signed off (#38). */
+load('salah-data.js', ['SALAH']);
+// A line with a verse reference is Quran; any other line is a prayer phrase, including
+// the ones inside a Quran part (آمِين after Al-Fatiha).
+SALAH.parts.forEach(p=>p.lines.filter(l=>!l.ref && p.group!=='surah').forEach(l=>{
+  add('salah',p.id,l.ar); l.words.forEach(w=>add('salah',p.id,w.ar));
+  // "Put it together" tiles on long lines: groups of words (build() in learn.html)
+  const w=l.words.map(x=>x.ar), size=Math.ceil(w.length/7);
+  if(size>1) for(let i=0;i<w.length;i+=size) add('salah',p.id,w.slice(i,i+size).join(' '));
+}));
 
 CONNECTORS.forEach(cat=>cat.items.forEach(it=>{
   add('connector','-',it.ar);

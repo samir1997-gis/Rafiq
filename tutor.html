@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>
+(function(){
+  if (location.hostname === 'sal716eh-spec.github.io') {
+    var path = location.pathname.replace(/^\/Rafiq/, '') || '/';
+    location.replace('https://rafiq-arabic.com' + path + location.search + location.hash);
+  }
+})();
+</script>
+<script src="theme.js?v=2"></script>
+<script src="pwa.js?v=2"></script>
+<title>Tutor — Rafiq</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=902">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317262B'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23F1ECE0' font-family='serif'%3E%D8%B1%3C/text%3E%3Ccircle cx='46' cy='19' r='4' fill='%23B4322A'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1ECE0">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1B1815">
+<meta name="color-scheme" content="light dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+main.wrap{max-width:720px;padding-bottom:150px}
+.hero{padding:34px 0 8px;text-align:center}
+.hero .greet{font-family:var(--ar);direction:rtl;font-size:clamp(26px,6vw,36px);font-weight:600;line-height:1.7;margin:0 0 6px;padding:4px 0}
+.hero h1{font-size:clamp(21px,4.4vw,26px);font-weight:700}
+.hero p{color:var(--ink-soft);font-size:15px;margin:8px auto 0;max-width:46ch;line-height:1.5}
+.starts{display:grid;gap:10px;margin:26px 0 0}
+.starts button{text-align:left;border:1px solid var(--rule);background:var(--card);color:var(--ink);border-radius:14px;padding:14px 16px;
+  font-family:var(--la);font-size:16px;line-height:1.45;cursor:pointer;touch-action:manipulation;transition:transform var(--press,.12s) var(--ease-out,ease-out)}
+.starts button:active{transform:scale(.98)}
+.starts bdi{font-family:var(--ar);font-size:1.15em}
+.log{display:flex;flex-direction:column;gap:14px;margin-top:22px}
+.msg{max-width:88%;border-radius:18px;padding:12px 16px}
+.msg.me{align-self:flex-end;background:var(--verdigris);color:var(--paper);border-bottom-right-radius:6px;font-size:16px;line-height:1.5;white-space:pre-wrap;unicode-bidi:plaintext}
+.msg.me bdi{font-family:var(--ar);font-size:1.15em}
+.msg.tu{align-self:flex-start;background:var(--card);border:1px solid var(--rule);border-bottom-left-radius:6px}
+.msg.tu .rep{display:block;margin-top:8px;border:0;background:none;padding:4px 0;font-family:var(--la);font-size:13px;color:var(--ink-soft);cursor:pointer}
+.msg.err{align-self:center;background:none;color:var(--rubric);font-size:14.5px;text-align:center;padding:4px 8px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--paper);border-top:1px solid var(--rule);padding:10px 16px 12px}
+@media (max-width:860px){ .bar{bottom:calc(68px + env(safe-area-inset-bottom,0px))} }
+.bar form{max-width:720px;margin:0 auto;display:flex;gap:10px;align-items:flex-end}
+.bar textarea{flex:1;min-height:48px;max-height:140px;resize:none;border:1px solid var(--rule);border-radius:14px;background:var(--card);color:var(--ink);
+  font-family:var(--la);font-size:16px;line-height:1.4;padding:12px 14px;unicode-bidi:plaintext}
+.bar textarea:focus{outline:none;border-color:var(--verdigris)}
+.bar .btn{min-height:48px;padding:0 18px}
+.bar small{display:block;max-width:720px;margin:6px auto 0;font-size:12px;color:var(--ink-soft);text-align:center}
+.bar .new{border:0;background:none;color:var(--verdigris);font-family:var(--la);font-size:12px;cursor:pointer;padding:0 0 0 4px}
+.lock{margin:28px auto 0;max-width:460px;text-align:center;background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:22px 20px}
+.lock p{color:var(--ink-soft);font-size:15px;line-height:1.5;margin:8px 0 16px}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="dashboard.html"><span class="bmark"></span>رَفِيق</a>
+  <div class="navlinks"></div>
+</nav>
+<main class="wrap">
+  <section class="hero">
+    <div class="greet">مُعَلِّمُكَ</div>
+    <h1>Ask your tutor</h1>
+    <p>Anything about Arabic or your lessons: what a word means, why a sentence works the way it does, how to say something.</p>
+  </section>
+  <div id="body"><p class="note" style="text-align:center;color:var(--ink-soft)">Loading…</p></div>
+</main>
+<div class="bar" id="bar" hidden>
+  <form id="f">
+    <textarea id="q" rows="1" placeholder="Ask a question…" aria-label="Your question" maxlength="1500"></textarea>
+    <button class="btn" type="submit" id="send">Ask</button>
+  </form>
+  <small>AI answers, built on Rafiq’s teacher-checked lessons. It can make mistakes; for religious rulings ask your imam.<button class="new" id="new" type="button" hidden>New chat</button></small>
+</div>
+
+<nav class="tabbar" aria-label="Sections"></nav>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js?v=8"></script>
+<script src="plan.js?v=20261001live"></script>
+<script src="fsrs.js?v=20260929"></script>
+<script src="progress.js?v=20261001c"></script>
+<script src="vocab-data.js?v=20260930"></script>
+<script src="drills-data.js?v=20260930h"></script>
+<script src="path-data.js?v=20260930b"></script>
+<script src="alphabet-data.js?v=20260930b"></script>
+<script src="basics-data.js?v=4"></script>
+<script src="path.js?v=20260930f"></script>
+<script src="mistakes.js?v=20260922"></script>
+<script src="salah-data.js?v=1"></script>
+<script src="salah.js?v=6"></script>
+<script src="report.js?v=1"></script>
+<script src="tutor.js?v=3"></script>
+<script src="nav.js?v=20261001"></script>
+<script>
+if(!TUTOR_ON) location.replace('dashboard.html');
+requireLogin();
+(function(){
+  const KEY = 'rafiq_tutor_chat';
+  const STARTS = ['What’s the difference between هَذا and هَذِهِ?', 'Why do some words start with ال?',
+                  'What does سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ mean, word by word?', 'How do I say “I’m going to the mosque”?'];
+  const body = document.getElementById('body'), bar = document.getElementById('bar');
+  const q = document.getElementById('q'), send = document.getElementById('send'), again = document.getElementById('new');
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const withAr = t => esc(t).replace(/[؀-ۿ]+(?:\s+[؀-ۿ]+)*/g, m => `<bdi lang="ar" dir="rtl">${m}</bdi>`);
+  let chat = (() => { try{ return JSON.parse(localStorage.getItem(KEY)) || []; }catch(_){ return []; } })();
+  const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(chat.slice(-30))); }catch(_){} };
+  let busy = false;
+
+  function bubble(role, text){
+    const d = document.createElement('div');
+    d.className = 'msg ' + (role === 'user' ? 'me' : 'tu');
+    if(role === 'user') d.innerHTML = withAr(text);
+    else { d.innerHTML = `<div class="tu-ans">${RafiqTutor.html(text)}</div>`; addReport(d, text); }
+    return d;
+  }
+  function addReport(d, text){
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'rep'; b.textContent = '⚑ Report this answer';
+    const i = chat.findIndex(m => m.content === text), asked = i > 0 ? chat[i - 1].content : '';
+    b.onclick = () => RafiqReport.open({ kind:'answer', context:`Asked the tutor: ${asked}\n\nTutor's answer:\n${text}`.slice(0, 2900) });
+    d.appendChild(b);
+  }
+  function paint(){
+    again.hidden = !chat.length;
+    if(!chat.length){
+      body.innerHTML = `<div class="starts">${STARTS.map(s => `<button type="button">${withAr(s)}</button>`).join('')}</div>`;
+      body.querySelectorAll('.starts button').forEach((b, i) => b.onclick = () => ask(STARTS[i]));
+      return;
+    }
+    const log = document.createElement('div'); log.className = 'log';
+    chat.forEach(m => log.appendChild(bubble(m.role, m.content)));
+    body.innerHTML = ''; body.appendChild(log);
+  }
+  const bottom = () => window.scrollTo({ top:document.body.scrollHeight, behavior:'smooth' });
+
+  async function ask(text){
+    text = text.trim();
+    if(!text || busy) return;
+    busy = true; send.disabled = true; q.value = ''; fit();
+    chat.push({ role:'user', content:text }); paint();
+    const log = body.querySelector('.log');
+    const d = document.createElement('div'); d.className = 'msg tu';
+    d.innerHTML = '<div class="tu-ans"><p class="tu-dots" style="color:var(--ink-soft)">Thinking</p></div>';
+    log.appendChild(d); bottom();
+    const context = await RafiqTutor.learner(text);
+    const r = await RafiqTutor.ask('chat', chat.slice(-10), context, t => { d.firstChild.innerHTML = RafiqTutor.html(t); });
+    if(r.error){
+      chat.pop();                                   // not answered: give the question back to try again
+      d.className = 'msg err'; d.textContent = RafiqTutor.problem(r.error);
+      if(r.error === 'plan') d.innerHTML += ' <a href="plans.html">See plans</a>';
+      q.value = text; fit();
+    } else {
+      chat.push({ role:'assistant', content:r.text }); save();
+      d.firstChild.innerHTML = RafiqTutor.html(r.text); addReport(d, r.text);
+      again.hidden = false;
+    }
+    busy = false; send.disabled = false; bottom();
+  }
+
+  function fit(){ q.style.height = 'auto'; q.style.height = Math.min(q.scrollHeight, 140) + 'px'; }
+  q.addEventListener('input', fit);
+  q.addEventListener('keydown', e => { if(e.key === 'Enter' && !e.shiftKey && !e.isComposing){ e.preventDefault(); ask(q.value); } });
+  document.getElementById('f').onsubmit = e => { e.preventDefault(); ask(q.value); };
+  again.onclick = () => { chat = []; save(); paint(); q.focus(); };
+
+  (async () => {
+    try{ await Progress.init(); }catch(_){}
+    await RafiqPlan.load().catch(() => {});
+    if(!RafiqPlan.isComplete()){
+      body.innerHTML = `<div class="lock"><b>Your tutor is part of Rafiq Complete</b>
+        <p>Ask anything about Arabic or your lessons, any time, and get a clear answer built on the course.</p>
+        <a class="btn" href="plans.html">See plans</a></div>`;
+      return;
+    }
+    bar.hidden = false; paint(); if(chat.length) bottom();
+  })();
+})();
+</script>
+</body>
+</html>

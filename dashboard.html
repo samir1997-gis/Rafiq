@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=901">
+<link rel="stylesheet" href="site.css?v=902">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317262B'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23F1ECE0' font-family='serif'%3E%D8%B1%3C/text%3E%3Ccircle cx='46' cy='19' r='4' fill='%23B4322A'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -168,10 +168,10 @@
   <div id="remPrompt"></div>
   <div id="home"></div>
 </main>
-<script src="vocab-data.js?v=20260928b"></script>
-<script src="drills-data.js?v=20260927"></script>
-<script src="path-data.js?v=20260928"></script>
-<script src="alphabet-data.js?v=20260926"></script>
+<script src="vocab-data.js?v=20260930"></script>
+<script src="drills-data.js?v=20260930h"></script>
+<script src="path-data.js?v=20260930b"></script>
+<script src="alphabet-data.js?v=20260930b"></script>
 <script>
 /* Both apps keep their own schedule; the dashboard just reports on each. */
 const DAY=86400000, dayNow=Math.floor(Date.now()/DAY), iso=new Date().toISOString().slice(0,10);
@@ -213,7 +213,7 @@ function paintHome(){
   const card = n.finishedAll
     ? `<div class="today-card"><div class="k">All units done</div><div class="t">Mabrook — you've finished the path 🎉</div>
        <div class="m">Keep what you've learned fresh with a daily review.</div><a class="cont" href="session.html">Daily review</a></div>`
-    : `<div class="today-card"><div class="k">${n.unit.alpha?'Start here':'Unit '+cur+' of '+(U.length-1)} · step ${doneN+1} of ${steps.length}</div>
+    : `<div class="today-card"><div class="k">${n.unit.alpha?'Start here':n.unit.basics?'Before unit 1':'Unit '+(+n.unit.n)+' of '+U.filter(u=>!u.pre).length} · step ${doneN+1} of ${steps.length}</div>
        <div class="u">${esc(n.unit.ar)}</div><div class="t">${esc(n.step.title)}</div>
        <div class="m">${esc(n.unit.en)} · about ${n.step.mins} minutes</div>
        <a class="cont" href="learn.html?u=${n.unit.n}&s=${n.step.key}">Continue</a>
@@ -250,17 +250,19 @@ function paintHome(){
     const done=RafiqPath.unitDone(p), now=i===cur&&!done, later=i>cur;
     const st=RafiqPath.steps(p), k=st.filter(x=>RafiqPath.stepDone(p.n,x.key)).length;
     const sub = done ? (RafiqPath.placed(p.n)?'Skipped — you already know this':RafiqPath.lateLeft(p)?'Done · new words added':'Done') : now ? `${k} of ${st.length} steps` : 'Locked';
-    const inner=`<span class="st">${done?'✓':now?'▶':'🔒'}</span><span class="nm"><b>${p.alpha?'':i+'. '}${esc(p.en)}</b><span>${sub}</span></span>
+    const inner=`<span class="st">${done?'✓':now?'▶':'🔒'}</span><span class="nm"><b>${p.pre?'':(+p.n)+'. '}${esc(p.en)}</b><span>${sub}</span></span>
       <span class="ua">${esc(p.ar)}</span>`;
     return later
-      ? `<button type="button" class="unit later" data-lock="${esc(U[cur].alpha?'the reading starter':'unit '+cur)}">${inner}</button>`
+      ? `<button type="button" class="unit later" data-lock="${esc(U[cur].alpha?'the reading starter':U[cur].basics?'the basics':'unit '+(+U[cur].n))}">${inner}</button>`
       : `<a class="unit ${done?'done':'now'}" href="learn.html?u=${p.n}">${inner}</a>`;
   }).join('');
   const coming=`<div class="ph" style="margin-top:4px">More units coming</div>
     <p class="csub">New units are added regularly — Complete members get them first.</p>
     <div class="units">${RafiqPath.COMING.map(c=>`<div class="unit soon"><span class="st">✨</span>
       <span class="nm"><b>${esc(c.en)}</b><span>${esc(c.d)}</span></span><span class="ua">${esc(c.ar)}</span></div>`).join('')}</div>`;
-  el.innerHTML=card+wtoday+stats+'<div id="pwaInstall"></div>'+week+focus+review+`<div class="ph">Your path</div><div class="units">${units}</div>`+coming;
+  // "Your salah": its own track, right under the daily path (salah.js; off until the teacher signs off)
+  const salah = window.RafiqSalah && RafiqSalah.enabled() ? (RafiqSalah.styles(), RafiqSalah.cardHTML()) : '';
+  el.innerHTML=card+salah+wtoday+stats+'<div id="pwaInstall"></div>'+week+focus+review+`<div class="ph">Your path</div><div class="units">${units}</div>`+coming;
   // "Get a daily reminder / put Rafiq on your home screen" (pwa.js), once a first lesson step is done
   if(window.RafiqPWA) RafiqPWA.card(document.getElementById('pwaInstall'), { ready: U.some(p => RafiqPath.steps(p).some(x => RafiqPath.stepDone(p.n, x.key))) });
   el.querySelectorAll('[data-lock]').forEach(b=>b.onclick=()=>{
@@ -288,8 +290,8 @@ function paintHome(){
   <a href="settings.html"><span class="ti">إِعْدادات</span>Settings</a>
 </nav>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth.js?v=6"></script>
-<script src="plan.js?v=20260927"></script>
+<script src="auth.js?v=8"></script>
+<script src="plan.js?v=20261001live"></script>
 <script src="reminders.js?v=2"></script>
 <script>addEventListener("load", () => { if(window.RafiqReminders) RafiqReminders.prompt(document.getElementById("remPrompt")); });</script>
 <script>
@@ -305,14 +307,17 @@ function paintHome(){
       <p>Choose a plan to carry on from where you are. Your progress, streak and words are all saved.</p><a class="cont" href="plans.html">Choose a plan</a></div>`;
     else el.innerHTML = '';
   }
-  paint(); P.load().then(paint);
+  paint(); P.load().then(paint); addEventListener('rafiq:plan', paint);
 })();
 </script>
 <script src="fsrs.js?v=20260929"></script>
-<script src="progress.js?v=20260929"></script>
-<script src="path.js?v=20260928"></script>
+<script src="progress.js?v=20261001c"></script>
+<script src="basics-data.js?v=4"></script>
+<script src="path.js?v=20260930f"></script>
+<script src="salah-data.js?v=1"></script>
+<script src="salah.js?v=6"></script>
 <script src="mistakes.js?v=20260922"></script>
-<script src="nav.js?v=20260924"></script>
+<script src="nav.js?v=20261001"></script>
 <script>
 requireLogin();
 /* Never leave Home blank: show that it's loading, and if anything fails say
@@ -324,6 +329,7 @@ requireLogin();
     <div class="m">Pull down to refresh, or try again in a minute. If it keeps happening, send us this: <code>${String(e&&e.message||e).replace(/</g,'&lt;')}</code></div>
     <a class="cont" href="dashboard.html">Try again</a></div>`; };
   Progress.init().then(()=>{ try{ paintHome(); }catch(e){ fail(e); } }).catch(fail);
+  addEventListener('rafiq:progress', ()=>{ try{ paintHome(); }catch(_){} });   // newer progress from the server (#171)
 })();
 // send brand-new users to onboarding once (skips silently if already done or offline)
 (async ()=>{

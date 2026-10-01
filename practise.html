@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=901">
+<link rel="stylesheet" href="site.css?v=902">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317262B'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23F1ECE0' font-family='serif'%3E%D8%B1%3C/text%3E%3Ccircle cx='46' cy='19' r='4' fill='%23B4322A'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -89,6 +89,8 @@
 .prow .pm b{color:var(--rubric)}
 .prow .pgo{font-size:26px;color:var(--verdigris);flex:0 0 auto}
 .prow:first-child{border-color:var(--verdigris)}
+/* the salah menu: the track itself is the main thing, outlined like the first row of the menu */
+.salah-grid .qcard:first-child{border-color:var(--verdigris)}
 .pback{display:inline-block;margin:26px 0 6px;color:var(--verdigris);text-decoration:none;font-size:15px;padding:6px 0}
 .ph1{font-size:clamp(21px,4.4vw,26px);font-weight:700;margin:4px 0 6px}
 .pintro{color:var(--ink-soft);font-size:14.5px;margin:0 0 18px;max-width:60ch}
@@ -116,7 +118,17 @@
 .sb-prompt{text-align:center;margin-bottom:6px}
 .sb-pic{font-size:44px;line-height:1.2}
 .sb-en{font-size:20px;font-weight:600;margin-top:4px}
-.sb-how{font-size:13px;color:var(--ink-soft);margin-top:6px}
+.sb-how{font-size:1rem;font-weight:600;color:var(--ink);margin-top:10px}
+/* the Pray along cue (learn.html): Listen, then whose turn it is */
+.pa-cue{display:flex;align-items:center;justify-content:center;gap:10px;width:max-content;margin:0 auto 14px;padding:8px 20px;
+  border:2px solid var(--ink);border-radius:999px;background:var(--card);color:var(--ink);font-size:1.2rem;line-height:1.2;
+  transition:background var(--settle) var(--ease-out),color var(--settle) var(--ease-out),transform var(--settle) var(--ease-out)}
+.pa-cue b{font-weight:800;letter-spacing:-.01em}
+.pa-cue .ic{font-size:1.2em;line-height:1}
+.pa-cue.listen .ic{animation:cue-pulse 1.1s ease-in-out infinite}
+.pa-cue.repeat{background:var(--ink);color:var(--paper);transform:scale(1.05)}
+@keyframes cue-pulse{50%{transform:scale(1.25)}}
+@media (prefers-reduced-motion:reduce){.pa-cue.listen .ic{animation:none}.pa-cue.repeat{transform:none}}
 .sb-listen{font-size:34px;width:76px;height:76px;border-radius:50%;border:1px solid var(--verdigris);background:var(--paper);cursor:pointer;touch-action:manipulation}
 .sb-listen.speaking{background:var(--verdigris)}
 .sb-hint{display:inline-block;margin-top:8px;font-size:13px;color:var(--verdigris);text-decoration:underline;cursor:pointer}
@@ -202,7 +214,7 @@
   </section>
   <div id="picker"></div>
 </main>
-<script src="vocab-data.js?v=20260928b"></script>
+<script src="vocab-data.js?v=20260930"></script>
 <script src="scenes-data.js?v=20260922"></script>
 <script>
 /* Both apps keep their own schedule; the dashboard just reports on each. */
@@ -240,7 +252,7 @@ const seen=id=>typeof Progress!=='undefined'&&Progress.hasSeen(id);
      d:'Flashcards and a quick test on the words you\u2019ve met in your lessons, plus the full word list.',
      m: met.size ? (wDue?`<b>${wDue}</b> due \u00b7 `:'')+`${met.size} words met` : 'Words from your lessons show up here'}
   ];
-  const done=window.RafiqPath?RafiqPath.units().filter(p=>!p.alpha && RafiqPath.unitDone(p)):[];
+  const done=window.RafiqPath?RafiqPath.units().filter(p=>!p.pre && RafiqPath.unitDone(p)):[];
   const redo = done.length
     ? `<div class="qgrid">${done.map(p=>`<a class="qcard" href="session.html?unit=${p.n}&redo=1">
         <div class="qa">${esc(p.ar)}</div><div class="qt">Unit ${+p.n}: ${esc(p.en)}</div>
@@ -276,6 +288,21 @@ const seen=id=>typeof Progress!=='undefined'&&Progress.hasSeen(id);
       intro:'Spell words from your lessons. Right letters pass; vowel marks earn a bonus.',
       body:()=>`<div id="spelling"></div>`,
       mount:()=>RafiqSpelling.mount(document.getElementById('spelling'))},
+    salah:{icon:'🕌', t:'Your salah', cx:'',
+      d:'Practise the words of your prayer',
+      get m(){ const S=RafiqSalah, n=S.next(), c=S.counts(); return n ? `Next: ${n.title} · <b>${c.known}</b> of ${c.total} words understood` : `Every part done · <b>${c.known}</b> of ${c.total} words`; },
+      intro:'Keep the words of your prayer fresh. Each answer feeds your salah review.',
+      body:()=>{ const S=RafiqSalah, n=S.next(), b=(()=>{ try{ return +localStorage.getItem('rafiq_salah_top50')||0; }catch(_){ return 0; } })();
+        const cards=[
+          {href:'salah.html', ar:'🕌 صَلاتُكَ', t:n?'Continue your salah':'Your salah', d:n?`Next: ${n.title}`:'Every part done: reopen any part', m:'The track, the map and review'},
+          {href:'learn.html?salah=prayalong', ar:'🤲 مَعَ الصَّلاةِ', t:'Pray along', d:'The whole prayer at praying pace, each word lit with its meaning', m:'Open it just before you pray'},
+          {href:'learn.html?salah=top50', ar:'⭐ ٥٠', t:'Your 50 most-said words', d:'They make up three-quarters of what you say', m:b?`Best: <b>${b}</b> of 20`:'20 questions'},
+          {href:'learn.html?salah=quiz', ar:'💬 الْمَعْنى', t:'Pick the meaning', d:'Words from the parts you’ve done', m:'10 questions'},
+          {href:'learn.html?salah=listen', ar:'👂 اسْمَعْ', t:'Hear it, pick the word', d:'Listen and choose the word you heard', m:'10 questions'}];
+        // everything but the track itself is Complete (salah.js); Essentials sees what it would get
+        if(!S.complete()) cards.slice(1).forEach(c=>{ c.href='plans.html'; c.m='Complete'; });
+        return `<div class="qgrid salah-grid">`+cards.map(c=>`<a class="qcard" href="${c.href}"><div class="qa">${c.ar}</div><div class="qt">${c.t}</div>
+          <div class="qd">${c.d}</div><div class="qm">${c.m}</div></a>`).join('')+`</div>`; }},
     essentials:{icon:'📅', t:'Everyday essentials', cx:'',
       d:'Numbers, days, months, colours and telling the time',
       get m(){ const n=ESSENTIALS.reduce((a,s)=>a+RafiqEssentials.known(s),0);
@@ -297,12 +324,18 @@ const seen=id=>typeof Progress!=='undefined'&&Progress.hasSeen(id);
         <h1 class="ph1">${sec.icon} ${sec.t}${sec.cx?` <span class="cx">${sec.cx}</span>`:''}</h1>
         <p class="pintro">${sec.intro}</p>`+sec.body();
       // back to the menu: undo the step we took from it, or replace this view if we landed here directly
-      el.querySelector('.pback').onclick=e=>{ e.preventDefault();
+      // the salah menu opened from Your salah goes back there, not to the Practise list
+      // (unless Your salah was itself opened from here: then this menu's back is Practise, so the two don't loop)
+      let fromSalah=false; try{ fromSalah = k==='salah' && !fromMenu && new URL(document.referrer).pathname.endsWith('/salah.html')
+        && !String((JSON.parse(sessionStorage.getItem('rafiq_salah_from'))||[''])[0]).startsWith('practise'); }catch(_){}
+      if(fromSalah){ const bk=el.querySelector('.pback'); bk.textContent='‹ Your salah'; bk.href='salah.html#back'; }   // #back: a return trip, keep where salah came from
+      else el.querySelector('.pback').onclick=e=>{ e.preventDefault();
         if(fromMenu){ history.back(); } else { history.replaceState(null,'',location.pathname); paint(); } };
       if(sec.mount) sec.mount();
       scrollTo(0,0); return;
     }
-    el.innerHTML=`<div class="plist">`+
+    const S=window.RafiqSalah, salah = S && S.enabled() ? row('#salah',SECTIONS.salah) : '';
+    el.innerHTML=`<div class="plist">`+salah+
       row('session.html?focus=weak',{icon:'🎯', t:'Weak-spots review', cx:'Complete',
         d:'Exercises picked for the mistakes you keep making', m:'About 5 minutes'})+
       row('#spelling',SECTIONS.spelling)+row('#essentials',SECTIONS.essentials)+row('#beyond',SECTIONS.beyond)+row('#scenes',SECTIONS.scenes)+row('#redo',SECTIONS.redo)+`</div>`;
@@ -329,22 +362,25 @@ const seen=id=>typeof Progress!=='undefined'&&Progress.hasSeen(id);
   <a href="settings.html"><span class="ti">إِعْدادات</span>Settings</a>
 </nav>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth.js?v=6"></script>
-<script src="plan.js?v=20260927"></script>
+<script src="auth.js?v=8"></script>
+<script src="plan.js?v=20261001live"></script>
 <script src="fsrs.js?v=20260929"></script>
-<script src="progress.js?v=20260929"></script>
-<script src="drills-data.js?v=20260927"></script>
-<script src="path-data.js?v=20260928"></script>
-<script src="alphabet-data.js?v=20260926"></script>
-<script src="path.js?v=20260928"></script>
-<script src="audio.js?v=901"></script>
+<script src="progress.js?v=20261001c"></script>
+<script src="drills-data.js?v=20260930h"></script>
+<script src="path-data.js?v=20260930b"></script>
+<script src="alphabet-data.js?v=20260930b"></script>
+<script src="basics-data.js?v=4"></script>
+<script src="path.js?v=20260930f"></script>
+<script src="salah-data.js?v=1"></script>
+<script src="salah.js?v=6"></script>
+<script src="audio.js?v=904"></script>
 <script src="sounds.js?v=1"></script>
-<script src="spelling.js?v=3"></script>
+<script src="spelling.js?v=4"></script>
 <script src="essentials-data.js?v=1"></script>
 <script src="essentials.js?v=1"></script>
 <script src="arkb.js?v=3" defer></script>
 <script>RafiqPlan.requirePlan();</script>
-<script src="nav.js?v=20260924"></script>
+<script src="nav.js?v=20261001"></script>
 <script>
 requireLogin();
 </script>

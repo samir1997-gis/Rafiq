@@ -1,9 +1,12 @@
 /* sw.js — the service worker (issue #31): lets the installed app open and work
    offline, and shows the daily reminder notifications.
 
-   - Pages, scripts and styles: from the network first, so every change to the
-     site shows up straight away; the cached copy is used when there's no
-     connection (or the network takes more than 4 seconds).
+   - Scripts and styles with a version (auth.js?v=6): from the cache at once (#171). A new
+     version has a new address, so it's fetched (and saved) the first time a page asks for it.
+   - Pages and anything without a version: from the network first, so a change to the
+     site shows up straight away; the cached copy is used when there's no connection,
+     or when the network takes more than 1.5 seconds (a weak signal shouldn't feel like
+     no access).
    - Audio clips never change (their names are content hashes): from the cache
      first, saved the first time each one plays.
    - Fonts and the Supabase library (other sites): the cached copy at once,
@@ -11,15 +14,15 @@
    - Nothing else is touched: sign-in, progress and answer checking always go
      to the network.
    Bump VERSION when the list below changes. */
-const VERSION = 'rafiq-2026-09-29a';
-const SHELL = VERSION + '-shell', RUNTIME = 'rafiq-runtime', AUDIO = 'rafiq-audio';
-const PAGES = ['dashboard.html', 'login.html', 'onboarding.html', 'learn.html', 'session.html', 'practise.html', 'progress.html',
+const VERSION = 'rafiq-2026-10-01-fast';
+const SHELL = VERSION + '-shell', RUNTIME = 'rafiq-runtime', AUDIO = 'rafiq-audio', VERSIONED = 'rafiq-versioned';
+const PAGES = ['dashboard.html', 'login.html', 'onboarding.html', 'learn.html', 'session.html', 'practise.html', 'tutor.html', 'progress.html',
   'settings.html', 'vocab.html', 'drills.html', 'verbs.html', 'connectors.html', 'index.html', 'reset-password.html',
-  'plans.html', 'help.html', 'privacy.html'];
-const FILES = ['site.css', 'theme.js', 'pwa.js', 'auth.js', 'nav.js', 'plan.js', 'fsrs.js', 'progress.js', 'path.js', 'path-data.js', 'audio.js',
+  'plans.html', 'help.html', 'privacy.html', 'salah.html'];
+const FILES = ['site.css', 'theme.js', 'pwa.js', 'auth.js', 'nav.js', 'plan.js', 'fsrs.js', 'progress.js', 'path.js', 'basics-data.js', 'path-data.js', 'audio.js',
   'sounds.js', 'judge.js', 'mistakes.js', 'arkb.js', 'tiles.js', 'spelling.js', 'translations.js', 'reminders.js',
   'alphabet-data.js', 'vocab-data.js', 'drills-data.js', 'toolkit-data.js', 'scenes-data.js', 'essentials.js', 'essentials-data.js',
-  'item-tags.js', 'report.js', 'manifest.json', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'badge-96.png',
+  'item-tags.js', 'report.js', 'tutor.js', 'teach.js', 'salah.js', 'salah-data.js', 'salah-timings.js', 'manifest.json', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'badge-96.png',
   'sounds/correct.mp3', 'sounds/wrong.mp3'];
 const REMOTE = ['https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2',
   'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap'];
@@ -37,7 +40,7 @@ self.addEventListener('install', e => {
 
 self.addEventListener('activate', e => {
   e.waitUntil((async () => {
-    for (const k of await caches.keys()) if (![SHELL, RUNTIME, AUDIO].includes(k)) await caches.delete(k);
+    for (const k of await caches.keys()) if (![SHELL, RUNTIME, AUDIO, VERSIONED].includes(k)) await caches.delete(k);
     await self.clients.claim();
   })());
 });
@@ -53,6 +56,7 @@ self.addEventListener('fetch', e => {
     const rel = url.pathname.slice(new URL(scope).pathname.length);
     if (/^(audio|sounds)\/[^/]+\.mp3$/.test(rel)) return e.respondWith(cacheFirst(req, AUDIO));
     if (rel.startsWith('media/')) return;                     // videos stream with range requests: leave them alone
+    if (req.mode !== 'navigate' && url.searchParams.has('v')) return e.respondWith(versioned(req, e));
     return e.respondWith(networkFirst(req, e));
   }
   if (REMOTE_HOSTS.includes(url.hostname)) e.respondWith(staleWhileRevalidate(req, e));
@@ -73,7 +77,8 @@ async function networkFirst(req, e) {
     return res;
   });
   e.waitUntil(net.catch(() => {}));
-  const slow = new Promise(r => setTimeout(r, 4000, 'slow'));
+  if (self.navigator && self.navigator.onLine === false) { const hit = await cached(req); if (hit) return hit; }   // offline: don't wait
+  const slow = new Promise(r => setTimeout(r, 1500, 'slow'));
   try {
     const res = await Promise.race([net, slow]);
     if (res !== 'slow') return res;
@@ -83,6 +88,24 @@ async function networkFirst(req, e) {
     if (hit) return hit;
     if (req.mode === 'navigate') return (await caches.match('dashboard.html', { ignoreSearch: true })) || Response.error();
     return Response.error();
+  }
+}
+/* A versioned file (auth.js?v=6) never changes: the saved copy at once; otherwise fetch it, save it under
+   its full address (dropping older versions of the same file) and as the newest copy of the file. */
+async function versioned(req, e) {
+  const c = await caches.open(VERSIONED), hit = await c.match(req);
+  if (hit) return hit;
+  try {
+    const res = await fetch(req);
+    if (res.ok && res.type === 'basic') { const a = res.clone(), b = res.clone(); e.waitUntil((async () => {   // copies taken before the page reads it
+      const path = new URL(req.url).pathname;
+      for (const k of await c.keys()) if (new URL(k.url).pathname === path) await c.delete(k);
+      await c.put(req, a);
+      await (await caches.open(RUNTIME)).put(stripped(req), b);
+    })()); }
+    return res;
+  } catch (_) {
+    return (await cached(req)) || Response.error();
   }
 }
 const stripped = req => { const u = new URL(req.url); return u.origin + u.pathname; };

@@ -469,6 +469,27 @@
   "chars": 25
  },
  {
+  "id": "1ietvv4",
+  "text": "هِيَ طَبِيبَةٌ.",
+  "bucket": "cloze",
+  "unit": "01",
+  "chars": 15
+ },
+ {
+  "id": "1m0bf4h",
+  "text": "هَذِهِ مَدْرَسَتِي .",
+  "bucket": "cloze",
+  "unit": "01",
+  "chars": 20
+ },
+ {
+  "id": "172t5d3",
+  "text": "أَنا طالِبٌ .",
+  "bucket": "cloze",
+  "unit": "01",
+  "chars": 13
+ },
+ {
   "id": "lrkdw5",
   "text": "هَذِهِ أُخْتِي.",
   "bucket": "fix",
@@ -502,6 +523,13 @@
   "bucket": "fix",
   "unit": "01",
   "chars": 21
+ },
+ {
+  "id": "hu5e0n",
+  "text": "هَذِهِ أُمِّي.",
+  "bucket": "fix",
+  "unit": "01",
+  "chars": 14
  },
  {
   "id": "17aj43",
@@ -609,25 +637,137 @@
   "chars": 74
  },
  {
-  "id": "1f73o9n",
-  "text": "هَذا طالِبٌ · هَذِهِ طالِبَةٌ.",
-  "bucket": "grammar",
+  "id": "1azsiv",
+  "text": "أَنا طالِبٌ.",
+  "bucket": "prompt",
   "unit": "01",
-  "chars": 30
+  "chars": 12
  },
  {
-  "id": "1p3nxtn",
-  "text": "هَذا طالِبٌ",
-  "bucket": "grammar",
+  "id": "di98js",
+  "text": "أَنا طَبِيبٌ.",
+  "bucket": "prompt",
   "unit": "01",
-  "chars": 11
+  "chars": 13
  },
  {
-  "id": "sow22k",
-  "text": "هَذِهِ طالِبَةٌ",
-  "bucket": "grammar",
+  "id": "zie80",
+  "text": "أَنا طالِبَةٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 14
+ },
+ {
+  "id": "jk2b44",
+  "text": "أَنا مُدَرِّسَةٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 17
+ },
+ {
+  "id": "5w3rov",
+  "text": "أَنا طَبِيبَةٌ.",
+  "bucket": "prompt",
   "unit": "01",
   "chars": 15
+ },
+ {
+  "id": "x9wf51",
+  "text": "أَنا بِرِيطانِيٌّ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 18
+ },
+ {
+  "id": "18pbrrs",
+  "text": "أَنا بَنْغْلادِيشِيٌّ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 22
+ },
+ {
+  "id": "ib1npw",
+  "text": "أَنا صُومالِيٌّ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 16
+ },
+ {
+  "id": "aslxz6",
+  "text": "أَنا بِرِيطانِيَّةٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 20
+ },
+ {
+  "id": "10do581",
+  "text": "أَنا باكِسْتانِيَّةٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 21
+ },
+ {
+  "id": "q0k8hr",
+  "text": "أَنا بَنْغْلادِيشِيَّةٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 24
+ },
+ {
+  "id": "1bjzrw3",
+  "text": "أَنا صُومالِيَّةٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 18
+ },
+ {
+  "id": "1urk1yb",
+  "text": "هَذا صَدِيقِي.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 14
+ },
+ {
+  "id": "11nwcav",
+  "text": "هَذِهِ صَدِيقَتِي.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 18
+ },
+ {
+  "id": "10o9re9",
+  "text": "اسْمِي عُمَرُ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 14
+ },
+ {
+  "id": "6au2ty",
+  "text": "الْحَمْدُ لِلَّهِ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 18
+ },
+ {
+  "id": "qj1z58",
+  "text": "كَيْفَ حالُكَ؟",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 14
+ },
+ {
+  "id": "8zivtv",
+  "text": "نَعَمْ، أَنا طالِبٌ.",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 20
+ },
+ {
+  "id": "1qt686z",
+  "text": "مَنْ هَذا؟",
+  "bucket": "prompt",
+  "unit": "01",
+  "chars": 10
  },
  {
   "id": "1xb1yz9",
@@ -1085,13 +1225,6 @@
   "chars": 12
  },
  {
-  "id": "1qt686z",
-  "text": "مَنْ هَذا؟",
-  "bucket": "transform",
-  "unit": "02",
-  "chars": 10
- },
- {
   "id": "lw6eo",
   "text": "أُصَلِّي فِي الْمَسْجِدِ.",
   "bucket": "transform",
@@ -1176,6 +1309,20 @@
   "chars": 42
  },
  {
+  "id": "41o8jv",
+  "text": "نَحْنُ نَقْرَأُ الْقُرْآنَ.",
+  "bucket": "cloze",
+  "unit": "02",
+  "chars": 27
+ },
+ {
+  "id": "1fp4dmd",
+  "text": "عِنْدِي أُخْتٌ.",
+  "bucket": "cloze",
+  "unit": "02",
+  "chars": 15
+ },
+ {
   "id": "1o654n0",
   "text": "هَذِهِ صُورَةُ أُسْرَتِي.",
   "bucket": "fix",
@@ -1192,6 +1339,13 @@
  {
   "id": "1e0dhq",
   "text": "فِي أُسْرَتِي تِسْعَةُ أَوْلادٍ.",
+  "bucket": "fix",
+  "unit": "02",
+  "chars": 32
+ },
+ {
+  "id": "55ne17",
+  "text": "نَحْنُ نُصَلِّي فِي الْمَسْجِدِ.",
   "bucket": "fix",
   "unit": "02",
   "chars": 32
@@ -1302,39 +1456,74 @@
   "chars": 70
  },
  {
-  "id": "19ho4do",
-  "text": "صُورَةُ أُسْرَتِي",
-  "bucket": "grammar",
+  "id": "zx5nsc",
+  "text": "عِنْدِي أَخٌ.",
+  "bucket": "prompt",
   "unit": "02",
-  "chars": 17
+  "chars": 13
  },
  {
-  "id": "yl9m3k",
-  "text": "وَالِدِي · وَالِدُكَ · وَالِدُهُ",
-  "bucket": "grammar",
+  "id": "a1yp24",
+  "text": "عِنْدِي أَخٌ وَأُخْتٌ.",
+  "bucket": "prompt",
+  "unit": "02",
+  "chars": 22
+ },
+ {
+  "id": "atln1s",
+  "text": "عِنْدِي ثَلاثَةُ أَوْلادٍ.",
+  "bucket": "prompt",
+  "unit": "02",
+  "chars": 26
+ },
+ {
+  "id": "1bflp9o",
+  "text": "هَذا أَخِي.",
+  "bucket": "prompt",
+  "unit": "02",
+  "chars": 11
+ },
+ {
+  "id": "19mvrfq",
+  "text": "نَحْنُ نُصَلِّي فِي الْبَيْتِ.",
+  "bucket": "prompt",
+  "unit": "02",
+  "chars": 30
+ },
+ {
+  "id": "1xhlh8h",
+  "text": "نَحْنُ نُصَلِّي فِي الْمُصَلَّى.",
+  "bucket": "prompt",
   "unit": "02",
   "chars": 32
  },
  {
-  "id": "1nh4p2d",
-  "text": "وَالِدِي",
+  "id": "1tnbx9s",
+  "text": "الْمَسْجِدُ كَبِيرٌ · أَرى الْمَسْجِدَ · فِي الْمَسْجِدِ",
   "bucket": "grammar",
   "unit": "02",
-  "chars": 8
+  "chars": 56
  },
  {
-  "id": "18v9eil",
-  "text": "وَالِدُكَ",
+  "id": "tn0shs",
+  "text": "الْمَسْجِدُ كَبِيرٌ",
   "bucket": "grammar",
   "unit": "02",
-  "chars": 9
+  "chars": 19
  },
  {
-  "id": "18v9em0",
-  "text": "وَالِدُهُ",
+  "id": "1u0i1w6",
+  "text": "أَرى الْمَسْجِدَ",
   "bucket": "grammar",
   "unit": "02",
-  "chars": 9
+  "chars": 16
+ },
+ {
+  "id": "7ssa06",
+  "text": "فِي الْمَسْجِدِ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 15
  },
  {
   "id": "qclquz",
@@ -1358,11 +1547,109 @@
   "chars": 11
  },
  {
+  "id": "12yzxxs",
+  "text": "ذَهَبْتُ · ذَهَبْتَ · ذَهَبْتِ · ذَهَبَ · ذَهَبَتْ · ذَهَبْنا",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 61
+ },
+ {
+  "id": "1cqlzm5",
+  "text": "ذَهَبْتُ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "1cqlzm4",
+  "text": "ذَهَبْتَ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "1cqlzma",
+  "text": "ذَهَبْتِ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "1kx6h10",
+  "text": "ذَهَبَ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 6
+ },
+ {
+  "id": "1cqlmdo",
+  "text": "ذَهَبَتْ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "1cqm361",
+  "text": "ذَهَبْنا",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
   "id": "1gp4hax",
   "text": "تِسْعَةُ أَوْلادٍ",
   "bucket": "grammar",
   "unit": "02",
   "chars": 17
+ },
+ {
+  "id": "45s5dj",
+  "text": "أَدْرُسُ · نَدْرُسُ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 19
+ },
+ {
+  "id": "1of4cia",
+  "text": "نَدْرُسُ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "1p1rnyv",
+  "text": "أَدْرُسُ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "17r1n",
+  "text": "قَرَأَ · يَقْرَأُ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 17
+ },
+ {
+  "id": "1nylcoy",
+  "text": "يَقْرَأُ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 8
+ },
+ {
+  "id": "pme9zv",
+  "text": "قَرَأَ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 6
+ },
+ {
+  "id": "1cx50mz",
+  "text": "عِنْدِي أُخْتٌ",
+  "bucket": "grammar",
+  "unit": "02",
+  "chars": 14
  },
  {
   "id": "1wnnlyr",
@@ -1848,6 +2135,27 @@
   "chars": 27
  },
  {
+  "id": "azehuj",
+  "text": "الْغُرَفُ كَبِيرَةٌ .",
+  "bucket": "cloze",
+  "unit": "03",
+  "chars": 21
+ },
+ {
+  "id": "9h13ho",
+  "text": "الْبَيْتُ لَيْسَ كَبِيرًا.",
+  "bucket": "cloze",
+  "unit": "03",
+  "chars": 26
+ },
+ {
+  "id": "1rsjdiy",
+  "text": "هُمْ طُلّابٌ.",
+  "bucket": "cloze",
+  "unit": "03",
+  "chars": 13
+ },
+ {
   "id": "qcb1i7",
   "text": "أَسْكُنُ فِي الدَّوْرِ الْخامِسِ.",
   "bucket": "fix",
@@ -1867,6 +2175,13 @@
   "bucket": "fix",
   "unit": "03",
   "chars": 18
+ },
+ {
+  "id": "1s4n1dj",
+  "text": "هَذِهِ غُرَفٌ كَبِيرَةٌ.",
+  "bucket": "fix",
+  "unit": "03",
+  "chars": 24
  },
  {
   "id": "1nw4qr2",
@@ -1960,11 +2275,95 @@
   "chars": 131
  },
  {
+  "id": "t6asf4",
+  "text": "أَسْكُنُ فِي بَيْتٍ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 20
+ },
+ {
+  "id": "2rhiyi",
+  "text": "أَسْكُنُ فِي شَقَّةٍ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 21
+ },
+ {
+  "id": "160tizr",
+  "text": "بَيْتِي كَبِيرٌ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 16
+ },
+ {
+  "id": "d2o4eb",
+  "text": "بَيْتِي قَرِيبٌ مِنَ الْمَسْجِدِ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 33
+ },
+ {
+  "id": "1c9tvuh",
+  "text": "شَقَّتِي كَبِيرَةٌ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 19
+ },
+ {
+  "id": "mnbdjx",
+  "text": "شَقَّتِي قَرِيبَةٌ مِنَ الْمَسْجِدِ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 36
+ },
+ {
+  "id": "1vanxh5",
+  "text": "فِي غُرْفَتِي سَرِيرٌ وَسَجَّادَةٌ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 35
+ },
+ {
+  "id": "c84f9h",
+  "text": "فِي غُرْفَتِي سَرِيرٌ وَمِرْآةٌ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 32
+ },
+ {
+  "id": "gz0ren",
+  "text": "فِي غُرْفَتِي سَرِيرٌ وَنافِذَةٌ.",
+  "bucket": "prompt",
+  "unit": "03",
+  "chars": 33
+ },
+ {
   "id": "1ci0v6y",
   "text": "فِي الْغُرْفَةِ سَرِيرٌ.",
   "bucket": "grammar",
   "unit": "03",
   "chars": 24
+ },
+ {
+  "id": "1j0797k",
+  "text": "هَذا بَيْتٌ · هَذا الْبَيْتُ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 28
+ },
+ {
+  "id": "194ngv7",
+  "text": "هَذا بَيْتٌ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 11
+ },
+ {
+  "id": "l5e7ap",
+  "text": "هَذا الْبَيْتُ",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 14
  },
  {
   "id": "11ydtm0",
@@ -1986,6 +2385,13 @@
   "bucket": "grammar",
   "unit": "03",
   "chars": 19
+ },
+ {
+  "id": "hxrkfy",
+  "text": "الْغُرْفَةُ لَيْسَتْ كَبِيرَةً",
+  "bucket": "grammar",
+  "unit": "03",
+  "chars": 30
  },
  {
   "id": "1pklpss",
@@ -4480,13 +4886,6 @@
   "chars": 13
  },
  {
-  "id": "cws21b",
-  "text": "كُلِّيَّةُ التَّرْبِيَةِ",
-  "bucket": "grammar",
-  "unit": "07",
-  "chars": 24
- },
- {
   "id": "peiqam",
   "text": "يَدْرُسُونَ",
   "bucket": "grammar",
@@ -5082,13 +5481,6 @@
   "chars": 20
  },
  {
-  "id": "1p1rnyv",
-  "text": "أَدْرُسُ",
-  "bucket": "grammar",
-  "unit": "08",
-  "chars": 8
- },
- {
   "id": "a5ua1w",
   "text": "أُدَرِّسُ",
   "bucket": "grammar",
@@ -5101,27 +5493,6 @@
   "bucket": "grammar",
   "unit": "08",
   "chars": 17
- },
- {
-  "id": "rr7y2d",
-  "text": "مُمَرِّض · مُمَرِّضَة",
-  "bucket": "grammar",
-  "unit": "08",
-  "chars": 21
- },
- {
-  "id": "10lhj0i",
-  "text": "مُمَرِّض",
-  "bucket": "grammar",
-  "unit": "08",
-  "chars": 8
- },
- {
-  "id": "5n09wl",
-  "text": "مُمَرِّضَة",
-  "bucket": "grammar",
-  "unit": "08",
-  "chars": 10
  },
  {
   "id": "277jwp",
@@ -6389,13 +6760,6 @@
   "bucket": "model",
   "unit": "10",
   "chars": 109
- },
- {
-  "id": "e7b11s",
-  "text": "فَصْلُ الرَّبِيعِ",
-  "bucket": "grammar",
-  "unit": "10",
-  "chars": 17
  },
  {
   "id": "a3vy3n",
@@ -10395,6 +10759,13 @@
   "chars": 5
  },
  {
+  "id": "10lhj0i",
+  "text": "مُمَرِّض",
+  "bucket": "vocab",
+  "unit": "11 · Body & health",
+  "chars": 8
+ },
+ {
   "id": "1mspty",
   "text": "طَبِيب",
   "bucket": "vocab",
@@ -13034,6 +13405,20 @@
   "chars": 6
  },
  {
+  "id": "y6vrvq",
+  "text": "اسْم",
+  "bucket": "vocab",
+  "unit": "02 · Core sentence-building",
+  "chars": 4
+ },
+ {
+  "id": "1tdd53n",
+  "text": "لُغَة",
+  "bucket": "vocab",
+  "unit": "02 · Core sentence-building",
+  "chars": 5
+ },
+ {
   "id": "1xvhh9f",
   "text": "السَّلامُ",
   "bucket": "tile",
@@ -13531,6 +13916,13 @@
   "chars": 6
  },
  {
+  "id": "1u1e5vr",
+  "text": "أُمِّي",
+  "bucket": "tile",
+  "unit": "01",
+  "chars": 6
+ },
+ {
   "id": "1q5kaf9",
   "text": "عِيدٌ",
   "bucket": "tile",
@@ -13578,13 +13970,6 @@
   "bucket": "tile",
   "unit": "02",
   "chars": 8
- },
- {
-  "id": "1u1e5vr",
-  "text": "أُمِّي",
-  "bucket": "tile",
-  "unit": "02",
-  "chars": 6
  },
  {
   "id": "zhqffz",
@@ -13909,15 +14294,22 @@
   "chars": 9
  },
  {
-  "id": "1nylcoy",
-  "text": "يَقْرَأُ",
+  "id": "1a0h51d",
+  "text": "أَكْبَرُ",
   "bucket": "tile",
   "unit": "02",
   "chars": 8
  },
  {
-  "id": "1a0h51d",
-  "text": "أَكْبَرُ",
+  "id": "19ho4do",
+  "text": "صُورَةُ أُسْرَتِي",
+  "bucket": "tile",
+  "unit": "02",
+  "chars": 17
+ },
+ {
+  "id": "1nh4p2d",
+  "text": "وَالِدِي",
   "bucket": "tile",
   "unit": "02",
   "chars": 8
@@ -14110,6 +14502,20 @@
   "bucket": "tile",
   "unit": "02",
   "chars": 11
+ },
+ {
+  "id": "n7lswr",
+  "text": "نَحْنُ",
+  "bucket": "tile",
+  "unit": "02",
+  "chars": 6
+ },
+ {
+  "id": "oltomw",
+  "text": "نُصَلِّي",
+  "bucket": "tile",
+  "unit": "02",
+  "chars": 8
  },
  {
   "id": "1o1h56p",
@@ -14719,6 +15125,13 @@
   "bucket": "tile",
   "unit": "03",
   "chars": 12
+ },
+ {
+  "id": "1oinsle",
+  "text": "غُرَفٌ",
+  "bucket": "tile",
+  "unit": "03",
+  "chars": 6
  },
  {
   "id": "kora85",
@@ -15384,13 +15797,6 @@
   "bucket": "tile",
   "unit": "04",
   "chars": 6
- },
- {
-  "id": "1cqlzm5",
-  "text": "ذَهَبْتُ",
-  "bucket": "tile",
-  "unit": "04",
-  "chars": 8
  },
  {
   "id": "egzt7g",
@@ -20678,6 +21084,1105 @@
   "chars": 6
  },
  {
+  "id": "g4ue5d",
+  "text": "مَدْرَسَتِي",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 11
+ },
+ {
+  "id": "16g07jt",
+  "text": "بِسْمِ اللهِ",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 12
+ },
+ {
+  "id": "i64m5",
+  "text": "بَيْتٌ",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 6
+ },
+ {
+  "id": "ikrde1",
+  "text": "السَّلامُ عَلَيْكُمْ، اسْمِي سَمِير، وَأَنا طالِبُ اللُّغَةِ الْعَرَبِيَّةِ.",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 76
+ },
+ {
+  "id": "yocntn",
+  "text": "السَّلامُ عَلَيْكُمْ، اسْمِي سَمِير",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 35
+ },
+ {
+  "id": "1b7j34t",
+  "text": "السَّلامُ عَلَيْكُمْ، اسْمِي سَمِير، وَأَنا طالِبٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 50
+ },
+ {
+  "id": "8r5hlb",
+  "text": "نَحْنُ طُلّابُ اللُّغَةِ الْعَرَبِيَّةِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 39
+ },
+ {
+  "id": "1vojzhw",
+  "text": "السَّلامُ عَلَيْكُمْ، اسْمِي مَرْيَم، وَأَنا طالِبَةُ اللُّغَةِ الْعَرَبِيَّةِ.",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 79
+ },
+ {
+  "id": "1n0r9sx",
+  "text": "السَّلامُ عَلَيْكُمْ، اسْمِي مَرْيَم",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 36
+ },
+ {
+  "id": "h05bkw",
+  "text": "السَّلامُ عَلَيْكُمْ، اسْمِي مَرْيَم، وَأَنا طالِبَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 53
+ },
+ {
+  "id": "q3y2js",
+  "text": "السَّلامُ عَلَيْكُمْ، اسْمِي",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 28
+ },
+ {
+  "id": "w9wunv",
+  "text": "وَأَنا طالِبُ اللُّغَةِ الْعَرَبِيَّةِ.",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 39
+ },
+ {
+  "id": "ftj4of",
+  "text": "وَأَنا طالِبٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 13
+ },
+ {
+  "id": "59v4ak",
+  "text": "وَأَنا طالِبَةُ اللُّغَةِ الْعَرَبِيَّةِ.",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 41
+ },
+ {
+  "id": "12uetbc",
+  "text": "وَأَنا طالِبَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 15
+ },
+ {
+  "id": "144lcfw",
+  "text": "مَحْمُود",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1qgwrvh",
+  "text": "عَلِيّ",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "g1xse",
+  "text": "عُثْمان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1qdq2bh",
+  "text": "حَسَن",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "sagghw",
+  "text": "حُسَيْن",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1a58lic",
+  "text": "إِبْراهِيم",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 10
+ },
+ {
+  "id": "1c9h3w5",
+  "text": "إِدْرِيس",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1sxyw6j",
+  "text": "عِمْران",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1v6kpv3",
+  "text": "عِرْفان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "16zaaz1",
+  "text": "فَيْصَل",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1pydb3i",
+  "text": "زَيْد",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1kb5sye",
+  "text": "سَمِير",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1tzfufa",
+  "text": "أَمِير",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1ydc7o8",
+  "text": "عَبْدُ اللهِ",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 12
+ },
+ {
+  "id": "45cnx3",
+  "text": "عَبْدُ الرَّحْمَن",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 17
+ },
+ {
+  "id": "1qhoti2",
+  "text": "بِلال",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "rc177o",
+  "text": "حَمْزَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "sptyl0",
+  "text": "إِسْماعِيل",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 10
+ },
+ {
+  "id": "1qs3ud4",
+  "text": "إِلْياس",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "uj9hxu",
+  "text": "يُونُس",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "w6pb6b",
+  "text": "مُوسَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1q8fjsi",
+  "text": "عِيسَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1qf7gw5",
+  "text": "داوُد",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "tvwzqn",
+  "text": "سُلَيْمان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "157ojft",
+  "text": "زَكَرِيّا",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "c6u5cj",
+  "text": "يَحْيَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "y9jaeh",
+  "text": "نُوح",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 4
+ },
+ {
+  "id": "n1wlqt",
+  "text": "هارُون",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1rns2mx",
+  "text": "إِسْحاق",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "wxqf1j",
+  "text": "يَعْقُوب",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1azl658",
+  "text": "أَيُّوب",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "bg0nt6",
+  "text": "سَلْمان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1ljhon4",
+  "text": "رَيّان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1oe0vp3",
+  "text": "زُبَيْر",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1k9xud0",
+  "text": "سَعِيد",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1lk2jh7",
+  "text": "رَشِيد",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1rg4xm8",
+  "text": "مالِك",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1tkr6yi",
+  "text": "ياسِر",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1td406o",
+  "text": "ناصِر",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1qd2hmp",
+  "text": "جَمال",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1tfyajy",
+  "text": "كَمال",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "4tp25x",
+  "text": "شَرِيف",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1q5x95s",
+  "text": "عادِل",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1q5xp6j",
+  "text": "عارِف",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "n71s3f",
+  "text": "نَبِيل",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "xn31u7",
+  "text": "وَسِيم",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1qfskaw",
+  "text": "عَزِيز",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1ljoma0",
+  "text": "رَحِيم",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1bdplhb",
+  "text": "أُسامَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "10ywtw7",
+  "text": "مُصْطَفَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "1q9nng3",
+  "text": "أَنَس",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1rea5vl",
+  "text": "مُعاذ",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "apzr8h",
+  "text": "سُفْيان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1qdy4dx",
+  "text": "حامِد",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1qgyvf4",
+  "text": "عَمّار",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "1yv98fc",
+  "text": "عَدْنان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1tcrves",
+  "text": "هِشام",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "y6a4w3",
+  "text": "آصِف",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 4
+ },
+ {
+  "id": "1kkgopv",
+  "text": "نُعْمان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1t5p6fg",
+  "text": "مَرْيَم",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "4achku",
+  "text": "عائِشَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "jisnvq",
+  "text": "فاطِمَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1tjx98b",
+  "text": "خَدِيجَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1ocl1wh",
+  "text": "زَيْنَب",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1t7epzn",
+  "text": "آمِنَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "reur9j",
+  "text": "حَفْصَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "36daem",
+  "text": "سُمَيَّة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "14dibcj",
+  "text": "صَفِيَّة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1auof2i",
+  "text": "أَسْماء",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1tcnzl1",
+  "text": "هُدَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "vmf7io",
+  "text": "ياسْمِين",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "hx5ldg",
+  "text": "لَيْلَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1oyy2vf",
+  "text": "رُقَيَّة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1nx8ufv",
+  "text": "زَهْراء",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "bg0m18",
+  "text": "سَلْمَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "cny1we",
+  "text": "إِيمان",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "8lr186",
+  "text": "نادِيَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1n4wy94",
+  "text": "رانِيَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1t9t3au",
+  "text": "هاجَر",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1ea1m2i",
+  "text": "حَلِيمَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1g8ixon",
+  "text": "رَحْمَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1tcrha5",
+  "text": "هِبَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1qcc6ka",
+  "text": "دُعاء",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "g0qof8",
+  "text": "شَيْماء",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "686xgi",
+  "text": "عالِيَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "18teu3l",
+  "text": "أَمِيرَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "khdi5i",
+  "text": "نُسَيْبَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "fat5op",
+  "text": "رَيْحانَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "w4xmac",
+  "text": "مَلِيكَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1utcp61",
+  "text": "آسِيَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "g81cmq",
+  "text": "بُشْرَى",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1pz04ko",
+  "text": "سُعاد",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "kori49",
+  "text": "تَسْنِيم",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1asp1ts",
+  "text": "أَنِيسَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "189u9lo",
+  "text": "نَبِيلَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "lychrl",
+  "text": "سَمِيرَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "16orjsx",
+  "text": "كَرِيمَة",
+  "bucket": "names",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "a299hp",
+  "text": "الْكِتابُ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "19dkrgm",
+  "text": "الشَّمْسُ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "fj1du8",
+  "text": "مَسْجِدٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "fnxpto",
+  "text": "الْبابُ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1qufroq",
+  "text": "اسْمٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "zzjc5d",
+  "text": "اسْمُهُ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "zzjc4p",
+  "text": "اسْمُها",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "qbglh0",
+  "text": "مَدْرَسَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 10
+ },
+ {
+  "id": "qkmujw",
+  "text": "غُرْفَتِي",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "14lphkf",
+  "text": "كِتابُكِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "1gflm1q",
+  "text": "بَيْتُها",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 8
+ },
+ {
+  "id": "z824us",
+  "text": "مَدْرَسَتُها",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 12
+ },
+ {
+  "id": "rt0r3j",
+  "text": "هُوَ مُدَرِّسٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 14
+ },
+ {
+  "id": "1t1b479",
+  "text": "أَنا طالِبٌ وَهُوَ مُدَرِّسٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 28
+ },
+ {
+  "id": "rvn8a3",
+  "text": "هُوَ طالِبٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 11
+ },
+ {
+  "id": "wvyztw",
+  "text": "هُوَ طَبِيبٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 12
+ },
+ {
+  "id": "ilwtug",
+  "text": "أَنْتَ طالِبٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 13
+ },
+ {
+  "id": "pgtvtx",
+  "text": "صَدِيقٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "w21g0y",
+  "text": "صَدِيقَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "1q9ppm9",
+  "text": "أُمٌّ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1tyl3bn",
+  "text": "أُخْتٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "2bjwzz",
+  "text": "بِنْتٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "8mi1wn",
+  "text": "هَذِهِ غُرْفَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 15
+ },
+ {
+  "id": "n9z8st",
+  "text": "طَبِيبَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "1baukau",
+  "text": "مُدَرِّسَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 11
+ },
+ {
+  "id": "14zvx0u",
+  "text": "هَذا مَسْجِدٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 13
+ },
+ {
+  "id": "18sda4q",
+  "text": "هَذِهِ مَدْرَسَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 17
+ },
+ {
+  "id": "172uacu",
+  "text": "أَنا طالِبَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 13
+ },
+ {
+  "id": "13l59x4",
+  "text": "بابُ الْبَيْتِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 14
+ },
+ {
+  "id": "186vj4i",
+  "text": "كِتابُ الطّالِبِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 16
+ },
+ {
+  "id": "1fuzo2a",
+  "text": "طالِبُ اللُّغَةِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 16
+ },
+ {
+  "id": "590tr3",
+  "text": "بَيْتٌ كَبِيرٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 14
+ },
+ {
+  "id": "1ja1pjw",
+  "text": "غُرْفَةٌ كَبِيرَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 18
+ },
+ {
+  "id": "9pognw",
+  "text": "اللُّغَةُ الْعَرَبِيَّةُ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 24
+ },
+ {
+  "id": "asgfmn",
+  "text": "طالِبُ اللُّغَةِ الْعَرَبِيَّةِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 31
+ },
+ {
+  "id": "vwmx1w",
+  "text": "أَنا طالِبَةُ اللُّغَةِ الْعَرَبِيَّةِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 38
+ },
+ {
+  "id": "1h23rl3",
+  "text": "طالِبٌ، طُلّابٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 15
+ },
+ {
+  "id": "1nmezdd",
+  "text": "وَلَدٌ، أَوْلادٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 16
+ },
+ {
+  "id": "19icfku",
+  "text": "كِتابٌ، كُتُبٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 14
+ },
+ {
+  "id": "10oe1v6",
+  "text": "غُرْفَةٌ، غُرَفٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 16
+ },
+ {
+  "id": "1i4k3rp",
+  "text": "نَحْنُ طُلّابٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 14
+ },
+ {
+  "id": "4pdr0g",
+  "text": "أَنْتُمْ طُلّابٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 16
+ },
+ {
+  "id": "1pm6jf1",
+  "text": "هُمْ أَوْلادٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 13
+ },
+ {
+  "id": "1l2sgi3",
+  "text": "طُلّابٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1ffbnrq",
+  "text": "هَذِهِ كُتُبٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 13
+ },
+ {
   "id": "qk3rwy",
   "text": "سِتُّونَ",
   "bucket": "essentials",
@@ -21420,6 +22925,629 @@
   "chars": 34
  },
  {
+  "id": "runbw1",
+  "text": "اللَّهُ أَكْبَرُ",
+  "bucket": "salah",
+  "unit": "takbir",
+  "chars": 16
+ },
+ {
+  "id": "fuja5x",
+  "text": "اللَّهُ",
+  "bucket": "salah",
+  "unit": "takbir",
+  "chars": 7
+ },
+ {
+  "id": "1fauxi5",
+  "text": "سُبْحانَكَ اللَّهُمَّ وَبِحَمْدِكَ وَتَبارَكَ اسْمُكَ وَتَعالى جَدُّكَ وَلا إِلٰهَ غَيْرُكَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 91
+ },
+ {
+  "id": "9xm1rg",
+  "text": "سُبْحانَكَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 10
+ },
+ {
+  "id": "bdqx1r",
+  "text": "اللَّهُمَّ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 10
+ },
+ {
+  "id": "1ab0u9p",
+  "text": "وَبِحَمْدِكَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 12
+ },
+ {
+  "id": "1q11ui",
+  "text": "وَتَبارَكَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 10
+ },
+ {
+  "id": "1oziv6c",
+  "text": "وَتَعالى",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 8
+ },
+ {
+  "id": "y9vpsw",
+  "text": "وَلا",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 4
+ },
+ {
+  "id": "cnwmz1",
+  "text": "إِلٰهَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 6
+ },
+ {
+  "id": "vuziqi",
+  "text": "غَيْرُكَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 8
+ },
+ {
+  "id": "xfue2u",
+  "text": "سُبْحانَكَ اللَّهُمَّ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 21
+ },
+ {
+  "id": "uu4eaq",
+  "text": "وَبِحَمْدِكَ وَتَبارَكَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 23
+ },
+ {
+  "id": "1vjqpf9",
+  "text": "اسْمُكَ وَتَعالى",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 16
+ },
+ {
+  "id": "475exq",
+  "text": "جَدُّكَ وَلا",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 12
+ },
+ {
+  "id": "dlav6a",
+  "text": "إِلٰهَ غَيْرُكَ",
+  "bucket": "salah",
+  "unit": "opening",
+  "chars": 15
+ },
+ {
+  "id": "1euje57",
+  "text": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطانِ الرَّجِيمِ",
+  "bucket": "salah",
+  "unit": "refuge",
+  "chars": 45
+ },
+ {
+  "id": "1b84ort",
+  "text": "أَعُوذُ",
+  "bucket": "salah",
+  "unit": "refuge",
+  "chars": 7
+ },
+ {
+  "id": "fvszpu",
+  "text": "بِاللَّهِ",
+  "bucket": "salah",
+  "unit": "refuge",
+  "chars": 9
+ },
+ {
+  "id": "19e1gk3",
+  "text": "الشَّيْطانِ",
+  "bucket": "salah",
+  "unit": "refuge",
+  "chars": 11
+ },
+ {
+  "id": "1hs346j",
+  "text": "الرَّجِيمِ",
+  "bucket": "salah",
+  "unit": "refuge",
+  "chars": 10
+ },
+ {
+  "id": "1q8sz9a",
+  "text": "آمِين",
+  "bucket": "salah",
+  "unit": "fatiha2",
+  "chars": 5
+ },
+ {
+  "id": "1x2jwn6",
+  "text": "سُبْحانَ رَبِّيَ الْعَظِيمِ",
+  "bucket": "salah",
+  "unit": "ruku",
+  "chars": 27
+ },
+ {
+  "id": "1l7mydd",
+  "text": "سُبْحانَ",
+  "bucket": "salah",
+  "unit": "ruku",
+  "chars": 8
+ },
+ {
+  "id": "1gotsfr",
+  "text": "رَبِّيَ",
+  "bucket": "salah",
+  "unit": "ruku",
+  "chars": 7
+ },
+ {
+  "id": "1q4pzg4",
+  "text": "الْعَظِيمِ",
+  "bucket": "salah",
+  "unit": "ruku",
+  "chars": 10
+ },
+ {
+  "id": "11506se",
+  "text": "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ",
+  "bucket": "salah",
+  "unit": "rising",
+  "chars": 30
+ },
+ {
+  "id": "1kb5whm",
+  "text": "سَمِعَ",
+  "bucket": "salah",
+  "unit": "rising",
+  "chars": 6
+ },
+ {
+  "id": "qbo432",
+  "text": "لِمَنْ",
+  "bucket": "salah",
+  "unit": "rising",
+  "chars": 6
+ },
+ {
+  "id": "1dqvvdm",
+  "text": "حَمِدَهُ",
+  "bucket": "salah",
+  "unit": "rising",
+  "chars": 8
+ },
+ {
+  "id": "1qpgkrs",
+  "text": "رَبَّنا وَلَكَ الْحَمْدُ",
+  "bucket": "salah",
+  "unit": "rising",
+  "chars": 24
+ },
+ {
+  "id": "1go6g0c",
+  "text": "رَبَّنا",
+  "bucket": "salah",
+  "unit": "rising",
+  "chars": 7
+ },
+ {
+  "id": "xo7mxw",
+  "text": "وَلَكَ",
+  "bucket": "salah",
+  "unit": "rising",
+  "chars": 6
+ },
+ {
+  "id": "e33ve1",
+  "text": "سُبْحانَ رَبِّيَ الْأَعْلى",
+  "bucket": "salah",
+  "unit": "sujud",
+  "chars": 26
+ },
+ {
+  "id": "vn1tzz",
+  "text": "الْأَعْلى",
+  "bucket": "salah",
+  "unit": "sujud",
+  "chars": 9
+ },
+ {
+  "id": "u6yt00",
+  "text": "رَبِّ اغْفِرْ لِي",
+  "bucket": "salah",
+  "unit": "sujud",
+  "chars": 17
+ },
+ {
+  "id": "1q0gq0j",
+  "text": "رَبِّ",
+  "bucket": "salah",
+  "unit": "sujud",
+  "chars": 5
+ },
+ {
+  "id": "10nocrc",
+  "text": "اغْفِرْ",
+  "bucket": "salah",
+  "unit": "sujud",
+  "chars": 7
+ },
+ {
+  "id": "36vd4r",
+  "text": "لِي",
+  "bucket": "salah",
+  "unit": "sujud",
+  "chars": 3
+ },
+ {
+  "id": "278dcc",
+  "text": "التَّحِيّاتُ لِلَّهِ وَالصَّلَواتُ وَالطَّيِّباتُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 49
+ },
+ {
+  "id": "1m6c97b",
+  "text": "التَّحِيّاتُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 12
+ },
+ {
+  "id": "p7bwdm",
+  "text": "وَالصَّلَواتُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 13
+ },
+ {
+  "id": "1snjurt",
+  "text": "وَالطَّيِّباتُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 14
+ },
+ {
+  "id": "mh3v86",
+  "text": "السَّلامُ عَلَيْكَ أَيُّها النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكاتُهُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 69
+ },
+ {
+  "id": "1j2onsd",
+  "text": "عَلَيْكَ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 8
+ },
+ {
+  "id": "1azl5ks",
+  "text": "أَيُّها",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 7
+ },
+ {
+  "id": "j7vacz",
+  "text": "النَّبِيُّ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 10
+ },
+ {
+  "id": "ika2y6",
+  "text": "وَرَحْمَةُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 10
+ },
+ {
+  "id": "fuja5m",
+  "text": "اللَّهِ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 7
+ },
+ {
+  "id": "1umjhyr",
+  "text": "وَبَرَكاتُهُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 12
+ },
+ {
+  "id": "9y5o92",
+  "text": "السَّلامُ عَلَيْنا وَعَلى عِبادِ اللَّهِ الصّالِحِينَ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 53
+ },
+ {
+  "id": "1j2ontt",
+  "text": "عَلَيْنا",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 8
+ },
+ {
+  "id": "xna93t",
+  "text": "وَعَلى",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 6
+ },
+ {
+  "id": "1qbof30",
+  "text": "عِبادِ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 6
+ },
+ {
+  "id": "4w6zla",
+  "text": "الصّالِحِينَ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 12
+ },
+ {
+  "id": "tqip3",
+  "text": "أَشْهَدُ أَنْ لا إِلٰهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 87
+ },
+ {
+  "id": "1jv21qf",
+  "text": "أَشْهَدُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 8
+ },
+ {
+  "id": "cnx7gs",
+  "text": "إِلَّا",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 6
+ },
+ {
+  "id": "1iw9if5",
+  "text": "وَأَشْهَدُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 10
+ },
+ {
+  "id": "1q9nndd",
+  "text": "أَنَّ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 5
+ },
+ {
+  "id": "5hxnv9",
+  "text": "مُحَمَّدًا",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 10
+ },
+ {
+  "id": "1r3c9og",
+  "text": "عَبْدُهُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 8
+ },
+ {
+  "id": "bqd3hn",
+  "text": "وَرَسُولُهُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 11
+ },
+ {
+  "id": "10tw7vi",
+  "text": "أَشْهَدُ أَنْ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 13
+ },
+ {
+  "id": "u0kpla",
+  "text": "لا إِلٰهَ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 9
+ },
+ {
+  "id": "10hr2gs",
+  "text": "إِلَّا اللَّهُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 14
+ },
+ {
+  "id": "13gkmj9",
+  "text": "وَأَشْهَدُ أَنَّ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 16
+ },
+ {
+  "id": "1uze1zk",
+  "text": "مُحَمَّدًا عَبْدُهُ",
+  "bucket": "salah",
+  "unit": "tashahhud",
+  "chars": 19
+ },
+ {
+  "id": "ehfqjl",
+  "text": "اللَّهُمَّ صَلِّ عَلى مُحَمَّدٍ وَعَلى آلِ مُحَمَّدٍ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 52
+ },
+ {
+  "id": "1qiebbv",
+  "text": "صَلِّ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 5
+ },
+ {
+  "id": "d2xe5w",
+  "text": "مُحَمَّدٍ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 9
+ },
+ {
+  "id": "36rnbn",
+  "text": "آلِ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 3
+ },
+ {
+  "id": "wy2u9y",
+  "text": "كَما صَلَّيْتَ عَلى إِبْراهِيمَ وَعَلى آلِ إِبْراهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 78
+ },
+ {
+  "id": "y9psh6",
+  "text": "كَما",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 4
+ },
+ {
+  "id": "v5ilgq",
+  "text": "إِبْراهِيمَ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 11
+ },
+ {
+  "id": "1qqgobo",
+  "text": "إِنَّكَ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 7
+ },
+ {
+  "id": "rc1noa",
+  "text": "حَمِيدٌ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 7
+ },
+ {
+  "id": "1tt1wyj",
+  "text": "مَجِيدٌ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 7
+ },
+ {
+  "id": "3vas9i",
+  "text": "كَما صَلَّيْتَ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 14
+ },
+ {
+  "id": "j2l6gg",
+  "text": "عَلى إِبْراهِيمَ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 16
+ },
+ {
+  "id": "1hpmj0v",
+  "text": "وَعَلى آلِ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 10
+ },
+ {
+  "id": "12obqyz",
+  "text": "إِبْراهِيمَ إِنَّكَ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 19
+ },
+ {
+  "id": "1xylykk",
+  "text": "حَمِيدٌ مَجِيدٌ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 15
+ },
+ {
+  "id": "1gwirpc",
+  "text": "اللَّهُمَّ بارِكْ عَلى مُحَمَّدٍ وَعَلى آلِ مُحَمَّدٍ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 53
+ },
+ {
+  "id": "1yh8l4q",
+  "text": "بارِكْ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 6
+ },
+ {
+  "id": "1yxggm7",
+  "text": "كَما بارَكْتَ عَلى إِبْراهِيمَ وَعَلى آلِ إِبْراهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 77
+ },
+ {
+  "id": "11r3c8w",
+  "text": "بارَكْتَ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 8
+ },
+ {
+  "id": "53xxjj",
+  "text": "كَما بارَكْتَ",
+  "bucket": "salah",
+  "unit": "salawat",
+  "chars": 13
+ },
+ {
+  "id": "13r9q0p",
+  "text": "السَّلامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ",
+  "bucket": "salah",
+  "unit": "taslim",
+  "chars": 39
+ },
+ {
   "id": "bzrynq",
   "text": "أَدْرُسُ الْعَرَبِيَّةَ وَالتَّارِيخَ.",
   "bucket": "connector-ex",
@@ -21952,41 +24080,6 @@
   "chars": 43
  },
  {
-  "id": "1cqlzm4",
-  "text": "ذَهَبْتَ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
- },
- {
-  "id": "1cqlzma",
-  "text": "ذَهَبْتِ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
- },
- {
-  "id": "1kx6h10",
-  "text": "ذَهَبَ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 6
- },
- {
-  "id": "1cqlmdo",
-  "text": "ذَهَبَتْ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
- },
- {
-  "id": "1cqm361",
-  "text": "ذَهَبْنا",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
- },
- {
   "id": "60e6pl",
   "text": "سَأَذْهَبُ",
   "bucket": "verb",
@@ -22076,13 +24169,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 10
- },
- {
-  "id": "1of4cia",
-  "text": "نَدْرُسُ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
  },
  {
   "id": "1hyngen",
@@ -22568,13 +24654,6 @@
   "chars": 8
  },
  {
-  "id": "1kb5whm",
-  "text": "سَمِعَ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 6
- },
- {
   "id": "m1c1he",
   "text": "سَمِعَتْ",
   "bucket": "verb",
@@ -22734,13 +24813,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 8
- },
- {
-  "id": "pme9zv",
-  "text": "قَرَأَ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 6
  },
  {
   "id": "1mdprmr",
@@ -23427,13 +25499,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 10
- },
- {
-  "id": "oltomw",
-  "text": "نُصَلِّي",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 8
  },
  {
   "id": "g5vw2t",

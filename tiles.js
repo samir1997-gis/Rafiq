@@ -10,6 +10,7 @@
      en         the English, for the word-order check
      say(t,el)  speak a piece or the sentence
      onCorrect({firstTry, text})  once, when the answer is right
+     strict     only the exact order counts (the words of the prayer, the Quran)
      reveal()   put the right answer on the line (for "Show the answer")
 
    A different order gets a second opinion from RafiqJudge.build(): Arabic
@@ -36,7 +37,7 @@
     });
   }
 
-  function create({parts, extra=[], en='', say, onCorrect, okText, checkLabel='Check'}){
+  function create({parts, extra=[], en='', say, onCorrect, okText, checkLabel='Check', strict=false}){
     let order=shuffle(parts.map(t=>({t, real:true})).concat(extra.map(t=>({t, real:false}))));
     if(!extra.length && parts.length>1 && order.every((p,i)=>p.t===parts[i])) order=order.slice(1).concat(order[0]);
     const el=document.createElement('div'); el.className='tl';
@@ -81,7 +82,7 @@
       if(p.some(x=>!x.real)) return notYet('Not yet. One of these pieces doesn\'t belong in this sentence.');
       const model=joinAr(parts), mine=joinAr(p.map(x=>x.t));
       if(mine===model) return right(model);
-      if(!(window.RafiqJudge && RafiqJudge.on)) return notYet();
+      if(strict || !(window.RafiqJudge && RafiqJudge.on)) return notYet();
       const mySeq=++seq; note('Checking…');
       RafiqJudge.build(en, model, mine).then(ok=>{
         if(mySeq!==seq || done) return;                 // tiles moved while we waited

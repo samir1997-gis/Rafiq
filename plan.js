@@ -17,10 +17,10 @@
    the server: supabase/functions). It's cached in localStorage so pages can
    decide straight away, and refreshed on every page.
 
-   BETA = true gives everyone Complete and never asks anyone to pay. Set it to
-   false at launch, once Stripe is set up (README → "Taking payments"). */
+   BETA = true gives everyone Complete and never asks anyone to pay. It's false since
+   the soft launch (1 Oct 2026), with Stripe live (#70). */
 (function(){
-  const BETA = true;
+  const BETA = false;   // payments live (soft launch, 1 Oct 2026, #70)
   const ESSENTIALS_CHECKS = 25;
   const PRICES = {
     essentials: { monthly:'£6.99',  yearly:'£49.99' },
@@ -62,16 +62,26 @@
   const checksLeft = () => isComplete() ? Infinity : tier() ? Math.max(0, ESSENTIALS_CHECKS - read().n) : 0;
 
   /* Fetch this account's billing row (needs auth.js). Resolves to state(). */
+  /* Local-first (#171): with a saved copy, resolve straight away and refresh behind it
+     ('rafiq:plan' when it changes); without one, wait for the server. */
   let loading = null;
+  const CHECKED = 'rafiq_billing_checked';   // the server has answered at least once on this device
   function load(){
+    let known = !!row; try{ known = known || !!localStorage.getItem(CHECKED); }catch(_){}
+    if(known) { fetchRow(); return Promise.resolve(state()); }
+    return fetchRow();
+  }
+  function fetchRow(){
     if(loading) return loading;
+    const before = JSON.stringify(row);
     loading = (async () => {
       if(typeof sb==='undefined' || !sb || typeof currentUserId!=='function') return state();
       const uid = await currentUserId(); if(!uid) return state();
       const { data, error } = await sb.from('billing').select('*').eq('user_id', uid).maybeSingle();
       if(!error){
         row = data || null;
-        try{ row ? localStorage.setItem(CACHE, JSON.stringify(row)) : localStorage.removeItem(CACHE); }catch(_){}
+        try{ row ? localStorage.setItem(CACHE, JSON.stringify(row)) : localStorage.removeItem(CACHE); localStorage.setItem(CHECKED, '1'); }catch(_){}
+        if(JSON.stringify(row) !== before) try{ window.dispatchEvent(new Event('rafiq:plan')); }catch(_){}
       }
       return state();
     })().finally(() => { loading = null; });   // shares one request between callers, then fetches fresh next time
@@ -106,7 +116,7 @@
   function requirePlan(){
     if(BETA) return true;
     const go = () => { if(!tier()) location.replace('plans.html'); };
-    go(); load().then(go);
+    go(); load().then(go); addEventListener('rafiq:plan', go);   // the saved plan first, the server's when it comes (#171)
     return !!tier();
   }
 
