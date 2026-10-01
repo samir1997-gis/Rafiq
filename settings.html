@@ -544,7 +544,9 @@ async function resetProgress(){
         : `Renews on ${P.dateText(s.periodEnd)}.`;
       if(s.cancelAtPeriodEnd) acts.append(btn('Resume my plan', async e => { const r = await act('resume', e.target); if(r && r.ok){ await P.load(); loading(); } }));
       else acts.append(btn('Cancel subscription', () => { $('cancelText').innerHTML =
-        `Your plan will stop on <b>${P.dateText(s.periodEnd)}</b>, the end of the period you’ve paid for. You won’t be charged again, and you can resume any time before then.`;
+        s.status === 'trialing'
+          ? `You’re still in your free week, so you won’t be charged. You can keep using everything until <b>${P.dateText(s.periodEnd)}</b>.`
+          : `If this is within 14 days of your first payment (or of a yearly renewal), it’s refunded in full and your plan ends now. Otherwise your plan stops on <b>${P.dateText(s.periodEnd)}</b>, the end of the period you’ve paid for, and you won’t be charged again. We’ll email you to confirm.`;
         $('cancelBox').hidden = false; $('cancelErr').textContent = ''; }, 'danger'));
       acts.append(btn('Manage billing', e => act('portal', e.target), 'ghost'));
     } else if(s.kind === 'trial'){
@@ -566,7 +568,7 @@ async function resetProgress(){
     const b = $('cancelYes'); b.disabled = true; b.textContent = 'Cancelling…';
     const r = await P.call('billing', { action:'cancel' });
     b.disabled = false; b.textContent = 'Cancel my plan';
-    if(r && r.ok){ await P.load(); paint(); }
+    if(r && r.ok){ await P.load(); paint(); setTimeout(() => P.load().then(paint), 4000); }   // a refund ends the plan a moment later
     else $('cancelErr').textContent = 'That didn’t work. Please try again, or email support@rafiq-arabic.com.';
   };
   paint();

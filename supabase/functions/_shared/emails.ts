@@ -87,7 +87,7 @@ export function trialEnded(name: string | null | undefined) {
     p('To carry on with your lessons and your salah, choose a plan. It takes a minute, and you can cancel any time.') +
     PLANS +
     btn('Choose a plan', `${SITE}/plans.html`) +
-    p('Not happy after paying? Email us within 14 days and we’ll refund you in full.') + p(support) +
+    p('Not happy after paying? Cancel within 14 days of your first payment and you’ll be refunded in full, automatically.') + p(support) +
     `<p style="margin:0 0 22px">The Rafiq team</p>`) };
 }
 
@@ -108,7 +108,29 @@ export function subscribed(name: string | null | undefined, plan: 'essentials' |
     `<ul style="margin:0 0 20px;padding-left:20px"><li><b>${NAMES[plan]}</b>, paid ${per === 'year' ? 'yearly' : 'monthly'}</li>` +
     `<li><b>${money(pence)}</b> a ${per}, renewing every ${per} until you cancel</li></ul>` +
     p(when) +
-    p(`You can cancel any time in <b>Settings → Your plan</b>, and nothing more will be charged. Not happy? Email us within 14 days of a payment and we’ll refund it in full.`) +
+    p(`You can cancel any time in <b>Settings → Your plan</b>, and nothing more will be charged. Not happy? Cancel within 14 days of this first payment and you’ll be refunded in full, automatically.`) +
     btn('Continue learning', `${SITE}/login.html`) + p(support) +
+    `<p style="margin:0 0 22px">The Rafiq team</p>`) };
+}
+
+// When someone cancels (#182): 'free' in the free week, 'refund' within 14 days (refunded, ended now),
+// 'keep' otherwise (runs to the end of the period). askRefund: the automatic refund didn't go through.
+export function cancelled(name: string | null | undefined, plan: 'essentials' | 'complete', kind: 'free' | 'refund' | 'keep',
+                          o: { until?: Date | null; pence?: number; askRefund?: boolean } = {}) {
+  const body = kind === 'free'
+    ? p(`You’ve cancelled <b>${NAMES[plan]}</b> during your free week, so <b>you won’t be charged</b>.`) +
+      (o.until ? p(`You can keep using everything until <b>${endDay(o.until)}</b>, when your free week ends.`) : '')
+    : kind === 'refund'
+    ? p(`You’ve cancelled <b>${NAMES[plan]}</b>, and because it was within 14 days of your payment, we’ve <b>refunded ${money(o.pence || 0)}</b> in full. It usually shows on your statement within 5–10 working days.`) +
+      p('Your plan has ended. Your progress, words and streak are saved if you ever come back.')
+    : p(`You’ve cancelled <b>${NAMES[plan]}</b>. Nothing more will be charged.`) +
+      (o.until ? p(`You keep everything until <b>${endDay(o.until)}</b>, the end of the period you’ve paid for.`) : '') +
+      (o.askRefund ? p('If you’d like a refund, just reply to this email and we’ll sort it out.') : '');
+  const again = kind === 'refund'
+    ? p(`Changed your mind? You can choose a plan again any time.`) + btn('See the plans', `${SITE}/plans.html`)
+    : p(`Changed your mind? You can resume any time before then in <b>Settings → Your plan</b>.`) + btn('Open Settings', `${SITE}/settings.html`);
+  return { subject: `You’ve cancelled ${NAMES[plan]}`, html: frame(
+    `<p style="margin:0 0 14px">${hi(name)}</p>` + body + again +
+    p('We’d love to know why you cancelled: just reply to this email. It really helps.') + p(support) +
     `<p style="margin:0 0 22px">The Rafiq team</p>`) };
 }
