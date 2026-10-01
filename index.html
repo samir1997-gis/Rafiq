@@ -76,7 +76,7 @@
 .soon .sl{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
 .soon .sl span{background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:5px 12px;font-size:13.5px}
 .soon .sn{color:var(--verdigris)!important}
-.beta{margin-top:14px;font-size:13.5px;background:var(--card);border:1px dashed var(--verdigris);border-radius:8px;padding:12px 14px}
+.plan li.cs{color:var(--ink-soft)}   /* coming soon */
 .steps{counter-reset:s;display:grid;gap:10px;margin-top:14px}
 .steps div{counter-increment:s;background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px 14px 12px 46px;position:relative;font-size:14px;color:var(--ink-soft)}
 .steps div::before{content:counter(s);position:absolute;left:14px;top:12px;width:22px;height:22px;border-radius:50%;background:var(--verdigris);color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center}
@@ -114,12 +114,12 @@ footer.land{border-top:1px solid var(--rule);padding:26px;text-align:center;colo
 
 <header class="hero">
   <div class="ar">رَفِيقُكَ فِي تَعَلُّمِ <span>الْعَرَبِيَّةِ</span></div>
-  <h1>Learn to read, understand and speak Arabic</h1>
-  <p class="lede">
-    Short daily lessons in Modern Standard Arabic, fully vowelled. Meet new words with audio and pictures,
-    hear real conversations, then have them yourself — Rafiq tells you straight away whether what you
-    said makes sense and what to fix.
-  </p>
+  <h1>Learn Arabic, and understand every word of your salah</h1>
+    <p class="lede">
+      Short daily lessons in Modern Standard Arabic, fully vowelled, from the very first letter. Learn what each
+      word of your prayer means, meet new words with audio and pictures, and remember them with reviews timed
+      for just before you'd forget.
+    </p>
   <div class="cta">
     <a class="btn" href="login.html">Start your free week</a>
     <a class="btn ghost" href="login.html">Sign in</a>
@@ -154,11 +154,12 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 <div class="stats">
-  <div class="stat"><b>12</b><span>units, plus a reading starter</span></div>
-  <div class="stat"><b>779</b><span>words with audio</span></div>
-  <div class="stat"><b>36</b><span>conversations</span></div>
+  <div class="stat"><b>12</b><span>units, after the letters and the basics</span></div>
+  <div class="stat"><b>785</b><span>words with audio</span></div>
+  <div class="stat"><b>Every</b><span>word of your salah, and 10 short surahs</span></div>
   <div class="stat"><b>5–10</b><span>minutes a day</span></div>
 </div>
+
 <section class="section">
   <h2>How a day works</h2>
   <p>Open the app and press Continue. Each step takes about five to ten minutes.</p>
@@ -169,20 +170,33 @@ document.addEventListener('DOMContentLoaded',function(){
     <div><b>Practise</b> — build, fix and say sentences; answers are checked on meaning, so other correct wordings count.</div>
     <div><b>Speak</b> — have the conversation yourself, in your own words, and get feedback on each reply.</div>
   </div>
-  <p style="margin-top:14px">Everything you learn comes back for review just before you'd forget it. Can't read Arabic yet?
-     Start with the reading starter. Already know some? A three-minute check puts you in the right place.</p>
+  <p style="margin-top:14px">Everything you learn comes back for review just before you'd forget it. Each unit ends with a short
+      check: score under 80% and you go over your common mistakes before trying again, so gaps don't pile up.
+      Can't read Arabic yet? Start with the reading starter. Already know some? A three-minute check puts you in the right place.</p>
 </section>
 <section class="section">
   <h2>What's inside</h2>
   <div class="cards">
     <div class="lcard"><div class="ci">الْحُرُوف</div><h3>Reading starter</h3>
-      <p>The 28 letters in shape families, how they join, and the vowel marks — enough to read every lesson.</p></div>
+      <p>The 28 letters in shape families, how they join, the vowel marks and the first reading rules. Enough to read every lesson.</p></div>
+    <div class="lcard"><div class="ci">الْأَساسِيّات</div><h3>The basics</h3>
+      <p>Before unit 1: “the”, “my”, he and she, masculine and feminine, and plurals, in simple sentences. By the end you can say
+        <i>as-salāmu ʿalaykum, my name is …, and I'm a student of Arabic</i>, with your own name.</p></div>
+    <div class="lcard"><div class="ci">صَلاتُك</div><h3>Your salah</h3>
+      <p>Every word of the prayer, from the opening takbīr to the closing salām, and 10 short surahs, word by word.
+        Pray along line by line, and short drills so the meanings stay with you.</p></div>
     <div class="lcard"><div class="ci">الدُّرُوس</div><h3>12 units</h3>
-      <p>Greetings, family, home, daily life, food, prayer, study, work, shopping, weather, places and hobbies.</p></div>
+      <p>Greetings, family, home, daily life, food, prayer, study, work, shopping, weather, places and hobbies,
+        with 36 conversations to listen to, and a check at the end of each unit.</p></div>
     <div class="lcard"><div class="ci">مُحادَثَة</div><h3>Conversation partner</h3>
       <p>Reply to the other speaker in your own words. Rafiq checks your reply fits and points out grammar slips.</p></div>
+    <div class="lcard"><div class="ci">مَواقِف</div><h3>Real-life scenes</h3>
+      <p>The airport, the doctor, the masjid, ordering a meal, a taxi and visiting a friend's family.</p></div>
     <div class="lcard"><div class="ci">تَدْرِيب</div><h3>Extra practice</h3>
-      <p>Words, sentences, 21 verbs across three tenses, and the joining words that link ideas together.</p></div>
+      <p>Words, sentences, 21 verbs across three tenses, joining words, a spelling bee, and everyday essentials:
+        numbers, days, months (Hijri too), colours and telling the time.</p></div>
+    <div class="lcard"><div class="ci">مُراجَعَة</div><h3>Review that remembers for you</h3>
+      <p>Words come back just before you'd forget them, and a weak-spots review is built from the mistakes you keep making.</p></div>
   </div>
   <div class="film film-how" id="how-section" aria-label="How Rafiq works">
     <div class="film-frame">
@@ -203,21 +217,23 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="plans">
     <div class="plan"><div class="pn">Essentials</div><div class="pp">£6.99 <small>/ month</small></div>
       <div class="ps">or £49.99 a year — save 40%</div>
-      <ul><li>All 12 units and the reading starter</li><li>Audio, pictures and daily review</li>
-          <li>Every practice area — words, sentences, verbs, joining words</li><li>25 smart checks a day</li></ul></div>
+      <ul><li>The reading starter, the basics and all 12 units</li><li>Audio, pictures and daily review</li>
+        <li>Every practice area: words, sentences, verbs, joining words, spelling bee, everyday essentials</li><li>25 smart checks a day</li>
+        <li>Your salah taster: the 20 words you say most in the prayer</li></ul></div>
     <div class="plan best"><div class="pn">Complete · most popular</div><div class="pp">£11.99 <small>/ month</small></div>
       <div class="ps">or £79.99 a year — save 44%</div>
-      <ul><li>Everything in Essentials</li><li>Unlimited smart checking</li><li>Conversation partner — reply in your own words</li>
-          <li>Feedback on free speaking</li><li>Real-life scenes — the airport, the doctor, the masjid and more</li>
-          <li>Weak-spots review built from your own mistakes</li><li>First access to new units</li></ul></div>
+      <ul><li>Everything in Essentials</li><li><b>Your salah:</b> every word of the prayer and 10 short surahs, with Pray along and salah drills</li>
+        <li>Unlimited smart checking</li><li>Conversation partner: reply in your own words</li>
+        <li>Real-life scenes: the airport, the doctor, the masjid and more</li>
+        <li>Weak-spots review built from your own mistakes</li><li>First access to new units</li>
+        <li class="cs"><b>Coming soon:</b> your AI tutor. Ask anything about Arabic, and tap “Why?” after a mistake</li></ul></div>
   </div>
   <div class="soon">
     <div class="sh">Coming next</div>
-    <p>Rafiq keeps growing. The next units in the works:</p>
-    <div class="sl"><span>✨ Travel &amp; directions</span><span>✨ Health &amp; the body</span><span>✨ Ramadan &amp; Eid</span><span>✨ Telling stories</span></div>
+    <p>Rafiq keeps growing. Coming soon to Complete, and the next units in the works:</p>
+    <div class="sl"><span>🧑‍🏫 AI tutor</span><span>✨ Travel &amp; directions</span><span>✨ Health &amp; the body</span><span>✨ Ramadan &amp; Eid</span><span>✨ Telling stories</span></div>
     <p class="sn">Complete members get new units as soon as they're ready.</p>
   </div>
-  <div class="beta"><b>Free during the beta.</b> While Rafiq is in beta every account gets Complete at no cost — no card needed.</div>
 </section>
 <section class="section">
   <h2>Good to know</h2>
@@ -227,9 +243,9 @@ document.addEventListener('DOMContentLoaded',function(){
       checking service and on to TypeSafe, which does the judging. Nothing else about you is sent.</p>
   </div>
   <div class="note">
-    <p><b>A study aid, not an authority.</b> Vowel marks, model answers and grammar notes are carefully written but
-      worth checking with a teacher, especially case endings. Built-in speech is good for rhythm and listening,
-      not a pronunciation model.</p>
+    <p><b>Checked by a teacher, still a study aid.</b> The Arabic, its vowel marks and the meanings are written carefully and
+      checked by a teacher, but Rafiq teaches language: for questions about how to pray, ask a scholar. The audio is a clear,
+      natural voice, good for listening and rhythm. For fine pronunciation, nothing beats a teacher.</p>
   </div>
 </section>
 <footer class="land">
