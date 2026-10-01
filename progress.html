@@ -111,10 +111,10 @@ table.per{width:100%;border-collapse:collapse;font-size:14.5px}
   <a href="settings.html"><span class="ti">إِعْدادات</span>Settings</a>
 </nav>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth.js?v=6"></script>
-<script src="plan.js?v=20260927"></script>
+<script src="auth.js?v=7"></script>
+<script src="plan.js?v=20261001b"></script>
 <script src="fsrs.js?v=20260929"></script>
-<script src="progress.js?v=20260930c"></script>
+<script src="progress.js?v=20261001c"></script>
 <script src="vocab-data.js?v=20260930"></script>
 <script src="drills-data.js?v=20260930h"></script>
 <script src="path-data.js?v=20260930b"></script>
@@ -132,6 +132,7 @@ requireLogin();
   try{
     await Progress.init();
     paint(el);
+    addEventListener('rafiq:progress', ()=>{ try{ paint(el); }catch(_){} });   // newer progress from the server (#171)
   }catch(e){ el.innerHTML='<p class="note" style="text-align:center">Couldn\'t load your progress — try again in a moment.</p>'; console.error(e); }
 })();
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));

@@ -121,8 +121,11 @@ function _isoToDay(iso){
 }
 
 // current user's id, or null if not logged in
+/* The signed-in user's id. From the login saved on this device (no network call, #171): the server
+   checks the token itself on every request, so this only says whose rows to ask for. */
 async function currentUserId(){
   if (!sb) return null;
+  try { const { data } = await sb.auth.getSession(); if (data && data.session && data.session.user) return data.session.user.id; } catch(_) {}
   try { const { data } = await sb.auth.getUser(); return data && data.user ? data.user.id : null; }
   catch(_) { return null; }
 }

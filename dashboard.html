@@ -290,8 +290,8 @@ function paintHome(){
   <a href="settings.html"><span class="ti">إِعْدادات</span>Settings</a>
 </nav>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth.js?v=6"></script>
-<script src="plan.js?v=20260927"></script>
+<script src="auth.js?v=7"></script>
+<script src="plan.js?v=20261001b"></script>
 <script src="reminders.js?v=2"></script>
 <script>addEventListener("load", () => { if(window.RafiqReminders) RafiqReminders.prompt(document.getElementById("remPrompt")); });</script>
 <script>
@@ -307,11 +307,11 @@ function paintHome(){
       <p>Choose a plan to carry on from where you are. Your progress, streak and words are all saved.</p><a class="cont" href="plans.html">Choose a plan</a></div>`;
     else el.innerHTML = '';
   }
-  paint(); P.load().then(paint);
+  paint(); P.load().then(paint); addEventListener('rafiq:plan', paint);
 })();
 </script>
 <script src="fsrs.js?v=20260929"></script>
-<script src="progress.js?v=20260930c"></script>
+<script src="progress.js?v=20261001c"></script>
 <script src="basics-data.js?v=4"></script>
 <script src="path.js?v=20260930f"></script>
 <script src="salah-data.js?v=1"></script>
@@ -329,6 +329,7 @@ requireLogin();
     <div class="m">Pull down to refresh, or try again in a minute. If it keeps happening, send us this: <code>${String(e&&e.message||e).replace(/</g,'&lt;')}</code></div>
     <a class="cont" href="dashboard.html">Try again</a></div>`; };
   Progress.init().then(()=>{ try{ paintHome(); }catch(e){ fail(e); } }).catch(fail);
+  addEventListener('rafiq:progress', ()=>{ try{ paintHome(); }catch(_){} });   // newer progress from the server (#171)
 })();
 // send brand-new users to onboarding once (skips silently if already done or offline)
 (async ()=>{

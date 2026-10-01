@@ -45,39 +45,56 @@
   let mem   = {};        // id -> {box, due, seen, at}  (at: when it was last saved)
   let dirty = new Set();
   let ready = false;
+  let starting = null;
   let timer = null;
   let hasFsrsCol = true; // false until the fsrs column exists (supabase/sql/backend.sql)
 
   const readLS  = (k,d) => { try{ return JSON.parse(localStorage.getItem(k)) || d }catch(_){ return d } };
   const writeLS = (k,v) => { try{ localStorage.setItem(k, JSON.stringify(v)) }catch(_){} };
 
+  /* Local-first (#171): a page shows straight away from the copy on this device (when it's this
+     account's), and the server's copy is fetched in the background. When it arrives, it replaces the
+     local copy, keeping anything changed here that hasn't been saved yet, and pages that show
+     progress repaint on 'rafiq:progress'. With no local copy (a new device), the page waits for it. */
+  const OWNER='rafiq_progress_owner';
   async function init(){
     if(ready) return mem;
-    mem = readLS(MIRROR, {});                       // show something immediately
-    if(typeof sb!=='undefined' && sb){
-      const uid = await currentUserId();
-      if(uid){
-        let { data, error } = await sb.from('item_progress')
-          .select('item_id, box, due, seen, updated_at, fsrs').eq('user_id', uid);
-        if(error){                                   // table without the fsrs column yet
-          hasFsrsCol = false;
-          ({ data, error } = await sb.from('item_progress').select('item_id, box, due, seen, updated_at').eq('user_id', uid));
-        }
-        if(error)                                    // older table without the timestamp
-          ({ data, error } = await sb.from('item_progress').select('item_id, box, due, seen').eq('user_id', uid));
-        if(error){ console.warn('[progress] load failed:', error.message); }
-        else{
-          mem = {};
-          (data||[]).forEach(r => { mem[r.item_id] = {box:r.box, due:r.due, seen:r.seen, at:r.updated_at||null,
-                                                      ...(r.fsrs ? {fsrs:r.fsrs} : {})}; });
-          writeLS(MIRROR, mem);
-        }
-        await flushQueue(uid);                      // anything written while offline
-        await migrateLegacy(uid);
-      }
+    if(starting) return starting;
+    starting = (async () => {
+      const uid = (typeof sb!=='undefined' && sb && typeof currentUserId==='function') ? await currentUserId() : null;
+      const local = readLS(MIRROR, {}), owner = (() => { try{ return localStorage.getItem(OWNER); }catch(_){ return null; } })();
+      const mine = !uid || !owner || owner === uid;              // an older copy has no owner yet: it was this device's
+      mem = mine ? local : {};
+      const sync = uid ? refresh(uid).catch(e => console.warn('[progress] sync failed:', e && e.message)) : Promise.resolve();
+      // nothing here yet, and the server hasn't answered for this account on this device: wait for it
+      if(!Object.keys(mem).length && !(uid && owner === uid)) await sync;
+      ready = true;
+      return mem;
+    })();
+    return starting;
+  }
+  async function refresh(uid){
+    let { data, error } = await sb.from('item_progress')
+      .select('item_id, box, due, seen, updated_at, fsrs').eq('user_id', uid);
+    if(error){                                   // table without the fsrs column yet
+      hasFsrsCol = false;
+      ({ data, error } = await sb.from('item_progress').select('item_id, box, due, seen, updated_at').eq('user_id', uid));
     }
-    ready = true;
-    return mem;
+    if(error)                                    // older table without the timestamp
+      ({ data, error } = await sb.from('item_progress').select('item_id, box, due, seen').eq('user_id', uid));
+    if(error){ console.warn('[progress] load failed:', error.message); return; }
+    const fresh = {};
+    (data||[]).forEach(r => { fresh[r.item_id] = {box:r.box, due:r.due, seen:r.seen, at:r.updated_at||null,
+                                                  ...(r.fsrs ? {fsrs:r.fsrs} : {})}; });
+    // keep what changed here and hasn't reached the server yet
+    dirty.forEach(id => { if(mem[id]) fresh[id] = mem[id]; });
+    readLS(QUEUE, []).forEach(r => { if(mem[r.item_id]) fresh[r.item_id] = mem[r.item_id]; });
+    const changed = JSON.stringify(fresh) !== JSON.stringify(mem);
+    mem = fresh; writeLS(MIRROR, mem);
+    try{ localStorage.setItem(OWNER, uid); }catch(_){}
+    await flushQueue(uid);                      // anything written while offline
+    await migrateLegacy(uid);
+    if(changed && ready) try{ window.dispatchEvent(new Event('rafiq:progress')); }catch(_){}
   }
 
   const get    = id => mem[id] || null;
@@ -216,12 +233,14 @@
   /* One-time import of the two old localStorage stores, per account. */
   async function migrateLegacy(uid){
     if(!sb || !uid) return;
+    try{ if(localStorage.getItem('rafiq_migrated_v2_'+uid)) return; }catch(_){}   // checked once per device (#171)
     let done=false;
     try{
       const { data } = await sb.from('settings').select('migrated_v2').eq('user_id',uid).maybeSingle();
       done = !!(data && data.migrated_v2);
     }catch(_){}
-    if(done) return;
+    const mark = () => { try{ localStorage.setItem('rafiq_migrated_v2_'+uid, '1'); }catch(_){} };
+    if(done){ mark(); return; }
 
     const rows=[];
     const vp = readLS('bay_vocab_progress_v1', null);
@@ -250,6 +269,7 @@
     try{
       await sb.from('settings').upsert({user_id:uid, migrated_v2:true,
         updated_at:new Date().toISOString()}, {onConflict:'user_id'});
+      mark();
     }catch(_){}
   }
 

@@ -89,9 +89,9 @@
   <a href="settings.html"><span class="ti">إِعْدادات</span>Settings</a>
 </nav>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth.js?v=6"></script>
-<script src="plan.js?v=20260927"></script>
-<script src="progress.js?v=20260928"></script>
+<script src="auth.js?v=7"></script>
+<script src="plan.js?v=20261001b"></script>
+<script src="progress.js?v=20261001c"></script>
 <script src="vocab-data.js?v=20260930"></script>
 <script src="salah-data.js?v=1"></script>
 <script src="salah.js?v=6"></script>
@@ -104,6 +104,8 @@ requireLogin();
   try{ await Progress.init(); }catch(e){ console.error(e); }
   try{ await RafiqPlan.load(); }catch(_){}
   S.styles();
+  // drawn again when newer progress or the plan arrive from the server (#171)
+  const draw=()=>{
   const n=S.next(), c=S.counts(), due=S.due().length;
   const row=p=>{ const st=S.stateOf(p), k=S.counts(p);
     const sub= st==='done' ? `Done · ${k.known} of ${k.total} words` : st==='next' ? `Next · ${k.total} words · about 5 minutes` : st==='plan' ? `Complete · ${k.total} words` : `${k.total} words`;
@@ -123,6 +125,9 @@ requireLogin();
     <p class="note">Quran recitation: a licensed human recitation from the Quran Foundation (Quran.com), streamed as you listen; if it can't be reached, Al-Fatiha and the surahs are read along without audio. Word timings follow the recitation.
       ${(SALAH.sources||[]).map(esc).join(' ')}</p>`;
   S.mountMap(document.getElementById('map'));
+  };
+  draw();
+  addEventListener('rafiq:progress', draw); addEventListener('rafiq:plan', draw);
 })();
 </script>
 <script>
