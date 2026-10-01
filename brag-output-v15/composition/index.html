@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Rafiq — Which means brother? (v15 background, #188)</title>
+    <script src="assets/lib/gsap.min.js"></script>
+    <style>
+@font-face { font-family: "Plex Arabic"; src: url("assets/fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "Plex Arabic"; src: url("assets/fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "Karla"; src: url("assets/fonts/karla-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Karla"; src: url("assets/fonts/karla-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+/* the app's own colours (site.css, light) */
+:root { --paper:#f1ece0; --card:#f7f3ea; --ink:#17262b; --ink-soft:#4f6163; --rubric:#b4322a; --verdigris:#2e7263; --gold:#a8842c; --ok:#e3efe9; --no:#f6e1de;
+  --ar:"Plex Arabic","Karla",sans-serif; --la:"Karla",sans-serif; --ut:"JetBrains Mono",monospace; }
+body { margin:0; background:var(--paper); font-family:var(--la); color:var(--ink); }
+#root { position:relative; width:1080px; height:1920px; overflow:hidden; background:var(--paper); }
+#glow { position:absolute; width:1500px; height:1500px; left:-210px; top:-650px; border-radius:50%;
+  background:radial-gradient(circle, rgba(168,132,44,.20) 0%, rgba(168,132,44,.05) 45%, rgba(241,236,224,0) 70%); }
+/* the app's top bar: close, progress, flag */
+#bar { position:absolute; top:70px; left:60px; right:60px; display:flex; align-items:center; gap:28px; }
+#bar .x { font-size:44px; color:var(--ink-soft); }
+#bar .track { flex:1; height:16px; border-radius:8px; background:rgba(23,38,43,.1); overflow:hidden; }
+#bar .fill { width:62%; height:100%; background:var(--verdigris); border-radius:8px; }
+#bar .brand { display:flex; align-items:center; gap:12px; font-family:var(--ar); font-weight:700; font-size:38px; }
+.tile { width:52px; height:52px; border-radius:13px; background:var(--ink); display:grid; place-items:center; position:relative; }
+.tile span { font-family:var(--ar); font-weight:700; font-size:32px; color:var(--paper); margin-top:-5px; }
+.tile em { position:absolute; right:9px; top:8px; width:9px; height:9px; border-radius:50%; background:var(--rubric); }
+#kicker { position:absolute; top:170px; left:0; right:0; text-align:center; font-family:var(--ut); font-size:28px; letter-spacing:.14em; color:var(--ink-soft); }
+#q { position:absolute; top:220px; left:60px; right:60px; text-align:center; font-size:76px; font-weight:700; line-height:1.12; letter-spacing:-.015em; }
+#q b { color:var(--rubric); }
+/* four options, 2 x 2, like the app's pick buttons */
+#grid { position:absolute; top:430px; left:70px; right:70px; display:grid; grid-template-columns:1fr 1fr; gap:30px; }
+.opt { position:relative; height:270px; border-radius:34px; background:var(--card); border:4px solid rgba(23,38,43,.14);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 10px 24px -14px rgba(23,38,43,.35); }
+.opt b { font-family:var(--ar); font-weight:700; font-size:110px; line-height:1.25; margin-top:-34px; }
+.opt i { position:absolute; bottom:18px; font-style:normal; font-size:36px; font-weight:700; opacity:0; }
+.opt .tr { position:absolute; top:8px; font-family:var(--ut); font-size:24px; color:var(--ink-soft); opacity:0; }
+/* countdown */
+#count { position:absolute; top:1040px; left:50%; width:150px; height:150px; margin-left:-75px; }
+#count svg { position:absolute; inset:0; transform:rotate(-90deg); }
+#count circle { fill:none; stroke-width:12; }
+#count .bg { stroke:rgba(23,38,43,.12); }
+#count .fg { stroke:var(--rubric); stroke-linecap:round; stroke-dasharray:408; stroke-dashoffset:0; }
+#count .n { position:absolute; inset:0; display:grid; place-items:center; }
+#count .n span { position:absolute; font-size:76px; font-weight:700; opacity:0; }
+/* the lesson, then the end card */
+#rule { position:absolute; top:1050px; left:80px; right:80px; text-align:center; font-size:46px; font-weight:700; line-height:1.3; opacity:0; }
+#rule .ar { font-family:var(--ar); color:var(--verdigris); }
+#rule .ya { color:var(--rubric); }
+#end { position:absolute; top:240px; left:0; right:0; display:flex; flex-direction:column; align-items:center; gap:26px; opacity:0; }
+#end .tile { width:150px; height:150px; border-radius:36px; }
+#end .tile span { font-size:96px; margin-top:-14px; }
+#end .tile em { width:22px; height:22px; right:24px; top:22px; }
+#end .url { font-size:64px; font-weight:700; color:var(--paper); background:var(--verdigris); border-radius:999px; padding:26px 62px; }
+#end .sub { font-size:42px; color:var(--ink-soft); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="15">
+      <div id="glow"></div>
+      <div id="bar"><span class="x">✕</span><div class="track"><div class="fill"></div></div><span class="brand"><span class="tile"><span>ر</span><em></em></span></span></div>
+      <div id="kicker">PICK THE ARABIC</div>
+      <div id="q">Which of these means <b>“brother”</b>?</div>
+      <div id="grid">
+        <div class="opt" id="o1"><span class="tr">akhī</span><b>أَخِي</b><i style="color:var(--rubric)">my brother</i></div>
+        <div class="opt" id="o2"><span class="tr">ukht</span><b>أُخْت</b><i>sister</i></div>
+        <div class="opt" id="o3"><span class="tr">akh</span><b>أَخ</b><i style="color:var(--verdigris)">brother ✓</i></div>
+        <div class="opt" id="o4"><span class="tr">ikhwa</span><b>إِخْوَة</b><i>brothers</i></div>
+      </div>
+      <div id="count"><svg viewBox="0 0 150 150"><circle class="bg" cx="75" cy="75" r="65"/><circle class="fg" cx="75" cy="75" r="65"/></svg>
+        <div class="n"><span id="n5">5</span><span id="n4">4</span><span id="n3">3</span><span id="n2">2</span><span id="n1">1</span></div></div>
+      <div id="rule"><span class="ar">أَخ</span> = brother · <span class="ar">أَخ<span class="ya">ِي</span></span> = <span class="ya">my</span> brother<br>the <span class="ya">ـِي</span> on the end means “my”</div>
+      <div id="end"><div class="tile"><span>ر</span><em></em></div><div class="url">rafiq-arabic.com</div><div class="sub">Free for a week · no card needed</div></div>
+
+      <audio id="t5" src="assets/sfx/tap.mp3" data-start="2.30" data-duration="0.4" data-volume="0.5" data-track-index="10"></audio>
+      <audio id="t4" src="assets/sfx/tap.mp3" data-start="3.30" data-duration="0.4" data-volume="0.5" data-track-index="11"></audio>
+      <audio id="t3" src="assets/sfx/tap.mp3" data-start="4.30" data-duration="0.4" data-volume="0.5" data-track-index="10"></audio>
+      <audio id="t2" src="assets/sfx/tap.mp3" data-start="5.30" data-duration="0.4" data-volume="0.5" data-track-index="11"></audio>
+      <audio id="t1" src="assets/sfx/tap.mp3" data-start="6.30" data-duration="0.4" data-volume="0.5" data-track-index="10"></audio>
+      <audio id="w" src="assets/sfx/wrong.mp3" data-start="7.45" data-duration="0.6" data-volume="0.6" data-track-index="12"></audio>
+      <audio id="akhi" src="assets/sfx/1q9or3w.mp3" data-start="8.10" data-duration="1.0" data-volume="0.8" data-track-index="13"></audio>
+      <audio id="c" src="assets/sfx/correct.mp3" data-start="9.60" data-duration="0.6" data-volume="0.6" data-track-index="12"></audio>
+      <audio id="akh" src="assets/sfx/36ro6e.mp3" data-start="10.00" data-duration="1.0" data-volume="0.8" data-track-index="13"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#glow", {scale:0.94}, {scale:1.08, duration:15, ease:"none"}, 0);
+      tl.fromTo("#bar", {opacity:0, y:-20}, {opacity:1, y:0, duration:0.4, ease:"power3.out"}, 0);
+      tl.fromTo("#kicker", {opacity:0}, {opacity:1, duration:0.3}, 0.1);
+      tl.fromTo("#q", {opacity:0, scale:0.9}, {opacity:1, scale:1, duration:0.4, ease:"back.out(2)"}, 0.15);
+      tl.fromTo(".opt", {opacity:0, y:40, scale:0.92}, {opacity:1, y:0, scale:1, duration:0.4, ease:"back.out(1.8)", stagger:0.12}, 0.6);
+      // 5, 4, 3, 2, 1 (one a second from 2.3s), the ring running down with it
+      tl.fromTo("#count", {opacity:0, scale:0.6}, {opacity:1, scale:1, duration:0.3, ease:"back.out(2)"}, 2.1);
+      tl.fromTo("#count .fg", {strokeDashoffset:0}, {strokeDashoffset:408, duration:5, ease:"none"}, 2.3);
+      [5,4,3,2,1].forEach((n, i) => {
+        tl.fromTo("#n" + n, {opacity:0, scale:1.6}, {opacity:1, scale:1, duration:0.25, ease:"power3.out"}, 2.3 + i);
+        tl.to("#n" + n, {opacity:0, duration:0.15}, 3.15 + i);
+        tl.fromTo("#grid", {scale:1}, {scale:1.012, duration:0.12, yoyo:true, repeat:1}, 2.3 + i);
+      });
+      tl.to("#count", {opacity:0, scale:0.6, duration:0.25}, 7.3);
+      // "most people pick akhi": it goes red and shakes, "my brother" under it
+      tl.to("#o1", {backgroundColor:"#f6e1de", borderColor:"#b4322a", duration:0.15}, 7.45);
+      tl.fromTo("#o1", {x:0}, {x:16, duration:0.06, yoyo:true, repeat:5, ease:"none"}, 7.45);
+      tl.to("#o1 .tr", {opacity:1, duration:0.2}, 7.5);
+      tl.fromTo("#o1 i", {opacity:0, y:10}, {opacity:1, y:0, duration:0.3}, 8.1);
+      // "brother is just akh": green
+      tl.to("#o3", {backgroundColor:"#e3efe9", borderColor:"#2e7263", duration:0.15}, 9.6);
+      tl.fromTo("#o3", {scale:1}, {scale:1.08, duration:0.18, yoyo:true, repeat:1, ease:"power2.out"}, 9.6);
+      tl.to("#o3 .tr", {opacity:1, duration:0.2}, 9.65);
+      tl.fromTo("#o3 i", {opacity:0, y:10}, {opacity:1, y:0, duration:0.3}, 9.7);
+      tl.to(["#o2", "#o4"], {opacity:0.35, duration:0.4}, 9.8);
+      tl.fromTo("#rule", {opacity:0, y:20}, {opacity:1, y:0, duration:0.4, ease:"power3.out"}, 10.4);
+      // the end card takes over the top
+      tl.to(["#kicker", "#q", "#grid", "#rule", "#bar"], {opacity:0, y:-30, duration:0.35, ease:"power2.in"}, 12.0);
+      tl.fromTo("#end", {opacity:0, y:40}, {opacity:1, y:0, duration:0.5, ease:"back.out(1.6)"}, 12.3);
+      tl.fromTo("#end .url", {scale:1}, {scale:1.05, duration:0.6, yoyo:true, repeat:2, ease:"sine.inOut"}, 12.9);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
