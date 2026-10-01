@@ -17,6 +17,7 @@ The owner's Kanban board is this repo's GitHub issues. Every piece of work goes 
 - Lesson layout (heading at the top, exercise centred, Listen cue): `... -- python3 tests/lesson_layout.py` (same server command as the smoke test).
 - Start-up speed (pages show within 600 ms online and offline; background sync keeps local changes): `... -- python3 tests/startup_speed.py` (same server command as the smoke test).
 - Login page (opening, Sign in / Create account switch, field messages, spinner and tick): `... -- python3 tests/login_page.py` (same server command as the smoke test).
+- Landing page (compact tiles, hover and tap, scroll-in, reduced motion): `... -- python3 tests/landing.py` (same server command as the smoke test).
 - `python3 tests/funnel.py`: after changing the funnel in `supabase/sql/backend.sql` (runs it on a throwaway Postgres).
 - `python3 tools/camel-check.py`: after changing Arabic in the word list, see `tools/camel-report.md`.
 
