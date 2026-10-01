@@ -3,6 +3,8 @@
    The repo is public, so Action logs are public: emails are always masked.
 
      node tools/supabase-users.js list [days]      accounts created in the last N days (default 3)
+     node tools/supabase-users.js billing-test     billing rows with Stripe details (read only)
+     node tools/supabase-users.js billing-clear-test CLEAR-TEST-BILLING   empty them, when going live (#70)
      node tools/supabase-users.js active [days]    how many people studied each day, last N days (default 14; read only)
      node tools/supabase-users.js delete id1,id2   delete these accounts (max 5) and their rows
      node tools/supabase-users.js reset-preview    who a beta reset would wipe (changes nothing)
@@ -79,6 +81,24 @@ async function userTables() {
     people.forEach(p => console.log(`${mask(p.email)}  studied on ${p.days} day(s), last ${p.last}, joined ${p.joined}`));
     return;
   }
+  if (cmd === 'billing-test' || cmd === 'billing-clear-test') {
+    // Going live (#70): billing rows still carrying Stripe *test-mode* details (customer, subscription,
+    // plan) would point the live checkout at customers that don't exist there. billing-test lists them;
+    // billing-clear-test CLEAR-TEST-BILLING empties those fields. The free-week dates are kept.
+    const rows = await sql(`select b.user_id, u.email, b.plan, b.status, b.stripe_customer_id is not null as has_customer
+                            from public.billing b join auth.users u on u.id = b.user_id
+                            where b.stripe_customer_id is not null or b.stripe_subscription_id is not null or b.plan is not null or b.status is not null`);
+    console.log(`${rows.length} billing row(s) with Stripe details:`);
+    rows.forEach(r => console.log(`${r.user_id}  ${mask(r.email)}  plan ${r.plan || '—'}  status ${r.status || '—'}  customer ${r.has_customer ? 'yes' : 'no'}`));
+    if (cmd === 'billing-test') return;
+    if (arg !== 'CLEAR-TEST-BILLING') { console.error('to clear them, the arg must be CLEAR-TEST-BILLING'); process.exit(1); }
+    const r = await sql(`with d as (update public.billing set plan = null, status = null, interval = null, current_period_end = null,
+                           cancel_at_period_end = false, stripe_customer_id = null, stripe_subscription_id = null, updated_at = now()
+                         where stripe_customer_id is not null or stripe_subscription_id is not null or plan is not null or status is not null
+                         returning 1) select count(*)::int as n from d`);
+    console.log(`${r[0].n} billing row(s) cleared; free-week dates kept`);
+    return;
+  }
   if (cmd === 'delete') {
     const ids = String(arg || '').split(',').map(s => s.trim()).filter(Boolean);
     if (!ids.length || ids.length > 5 || !ids.every(i => UUID.test(i))) { console.error('give 1-5 account ids (uuids), comma-separated'); process.exit(1); }
@@ -129,5 +149,5 @@ async function userTables() {
     console.log(`${r[0].n} sessions and ${t[0].n} refresh tokens ended; everyone signs in again`);
     return;
   }
-  console.error('use: list [days] | active [days] | delete id1,id2 | reset-preview | reset RESET-BETA | signout SIGN-OUT-ALL'); process.exit(1);
+  console.error('use: list [days] | active [days] | billing-test | billing-clear-test CLEAR-TEST-BILLING | delete id1,id2 | reset-preview | reset RESET-BETA | signout SIGN-OUT-ALL'); process.exit(1);
 })();
