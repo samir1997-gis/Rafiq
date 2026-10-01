@@ -56,13 +56,17 @@ insert into public.billing (user_id, trial_ends_at)
   select id, private.trial_end_for(created_at) from auth.users
   on conflict (user_id) do nothing;
 
--- Welcome email: when an address is confirmed, call the emails function.
+-- "Your free week has ended" email (#177), sent once, the day after.
+alter table public.billing add column if not exists trial_ended_sent_at timestamptz;
+
+-- Welcome email: when an address is confirmed, call the emails function. Google (and Apple)
+-- accounts are created already confirmed, so a new account that arrives confirmed counts too (#177).
 create extension if not exists pg_net;
 create or replace function private.welcome_on_confirm() returns trigger
 language plpgsql security definer set search_path = public, private as $$
 declare url text; secret text;
 begin
-  if old.email_confirmed_at is null and new.email_confirmed_at is not null then
+  if new.email_confirmed_at is not null and (tg_op = 'INSERT' or old.email_confirmed_at is null) then
     select value into url from private.config where key = 'emails_url';
     select value into secret from private.config where key = 'hook_secret';
     -- never let the email block confirming an address
@@ -79,6 +83,11 @@ end $$;
 drop trigger if exists welcome_on_confirm on auth.users;
 create trigger welcome_on_confirm after update of email_confirmed_at on auth.users
   for each row execute function private.welcome_on_confirm();
+-- after billing_new_user (triggers fire in name order), so the billing row is there; the email
+-- itself goes out after the sign-up commits (pg_net), and the function sends it only once
+drop trigger if exists welcome_on_signup on auth.users;
+create trigger welcome_on_signup after insert on auth.users
+  for each row when (new.email_confirmed_at is not null) execute function private.welcome_on_confirm();
 
 -- Free-week reminder emails: once a day at 09:00 UTC.
 create extension if not exists pg_cron;
