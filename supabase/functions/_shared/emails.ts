@@ -90,3 +90,25 @@ export function trialEnded(name: string | null | undefined) {
     p('Not happy after paying? Email us within 14 days and we’ll refund you in full.') + p(support) +
     `<p style="margin:0 0 22px">The Rafiq team</p>`) };
 }
+
+// Subscribing (#178). Plans renew until cancelled; yearly is one payment a year.
+const NAMES = { essentials: 'Rafiq Essentials', complete: 'Rafiq Complete' } as const;
+const money = (pence: number) => `£${(pence / 100).toFixed(2)}`;
+const every = (interval: string) => interval === 'year' ? 'year' : 'month';
+
+// as soon as someone subscribes, whenever that is
+export function subscribed(name: string | null | undefined, plan: 'essentials' | 'complete', interval: string, pence: number, firstCharge: Date | null) {
+  const per = every(interval), when = firstCharge
+    ? `Your first payment of <b>${money(pence)}</b> will be taken on <b>${endDay(firstCharge)}</b>, when your free week ends. Until then, everything stays free.`
+    : `Your first payment of <b>${money(pence)}</b> has been taken today.`;
+  return { subject: `Thank you for subscribing to ${NAMES[plan]}`, html: frame(
+    `<p style="margin:0 0 14px">${hi(name)}</p>` +
+    p(`Thank you for subscribing to <b>${NAMES[plan]}</b>. JazakAllahu khayran for supporting Rafiq.`) +
+    h('Your plan') +
+    `<ul style="margin:0 0 20px;padding-left:20px"><li><b>${NAMES[plan]}</b>, paid ${per === 'year' ? 'yearly' : 'monthly'}</li>` +
+    `<li><b>${money(pence)}</b> a ${per}, renewing every ${per} until you cancel</li></ul>` +
+    p(when) +
+    p(`You can cancel any time in <b>Settings → Your plan</b>, and nothing more will be charged. Not happy? Email us within 14 days of a payment and we’ll refund it in full.`) +
+    btn('Continue learning', `${SITE}/login.html`) + p(support) +
+    `<p style="margin:0 0 22px">The Rafiq team</p>`) };
+}
