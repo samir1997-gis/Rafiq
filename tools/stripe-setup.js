@@ -64,7 +64,8 @@ async function stripe(method, url, body) {
       payment_method_update: { enabled: 'true' }, invoice_history: { enabled: 'true' },
       customer_update: { enabled: 'true', allowed_updates: { 0: 'email' } },
       subscription_cancel: { enabled: 'true', mode: 'at_period_end' },
-      subscription_update: { enabled: 'true', default_allowed_updates: { 0: 'price' }, proration_behavior: 'create_prorations',
+      // changing plan in the free week keeps the free week (Stripe's default ends it and charges at once, #180)
+      subscription_update: { enabled: 'true', default_allowed_updates: { 0: 'price' }, proration_behavior: 'create_prorations', trial_update_behavior: 'continue_trial',
         products: Object.fromEntries(portalProducts.map((x, n) => [n, { product: x.product, prices: Object.fromEntries(x.prices.map((id, m) => [m, id])) }])) },
     },
     default_return_url: 'https://rafiq-arabic.com/settings.html',
@@ -72,7 +73,7 @@ async function stripe(method, url, body) {
   const configs = (await stripe('GET', '/billing_portal/configurations?is_default=true')).data;
   if (configs.length) await stripe('POST', `/billing_portal/configurations/${configs[0].id}`, portal);
   else await stripe('POST', '/billing_portal/configurations', portal);
-  console.log('customer portal: set (card, invoices, switch plan, cancel at period end)');
+  console.log('customer portal: set (card, invoices, switch plan keeping the free week, cancel at period end)');
 
   // the signing secret is only shown when an endpoint is created, so replace ours each run
   for (const w of (await stripe('GET', '/webhook_endpoints?limit=100')).data)
