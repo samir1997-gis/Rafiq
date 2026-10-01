@@ -28,10 +28,10 @@ def ass(captions, keep):
              "[V4+ Styles]",
              "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, "
              "ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-             # white, with a dark ink outline and soft shadow; top centre, on the wall above the speaker's head
-             # (clear of the face, and below Reels' and TikTok's own top bar); CAP_Y moves it (pixels from the top)
-             "Style: Cap,Karla ExtraBold,96,&H00FFFFFF,&H00FFFFFF,&H002B2617,&H64000000,0,0,0,0,100,100,0,0,1,7,3,8,80,80,%d,1"
-             % int(os.environ.get("CAP_Y", 470)),
+             # white, with a dark ink outline and soft shadow; bottom centre, low on the screen but just above the
+             # strip Reels and TikTok cover with the username and caption; CAP_BOTTOM moves it (pixels up from the bottom)
+             "Style: Cap,Karla ExtraBold,96,&H00FFFFFF,&H00FFFFFF,&H002B2617,&H64000000,0,0,0,0,100,100,0,0,1,7,3,2,80,80,%d,1"
+             % int(os.environ.get("CAP_BOTTOM", 260)),
              "", "[Events]", "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text"]
     for a, b, text in captions:
         text = re.sub(r"\{([^}]*)\}", r"{\\c&H4CB6E8&}\1{\\c&HFFFFFF&}", text)   # highlight: warm gold
