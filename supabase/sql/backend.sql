@@ -147,3 +147,40 @@ create table if not exists public.tutor_usage (
 );
 alter table public.tutor_usage enable row level security;
 create index if not exists tutor_usage_user_day on public.tutor_usage (user_id, created_at desc);
+
+-- Where learners drop off (#26), worked out from what the app already saves, so
+-- nothing new is tracked: 'p:<unit>|<step>' rows are lessons finished, and
+-- 's:<YYYY-MM-DD>' rows are the days someone studied (UTC, like the account's
+-- join date). One row per account here; private.funnel() adds them up by the
+-- week people joined. Server only. In the SQL editor: select * from private.funnel();
+create or replace view private.funnel_people as
+select u.id as user_id,
+  u.created_at::date as joined,
+  u.email_confirmed_at is not null as confirmed,
+  exists (select 1 from public.item_progress p where p.user_id = u.id
+          and p.item_id like 'p:%' and p.item_id not like '%|placed') as first_lesson,
+  exists (select 1 from public.item_progress p where p.user_id = u.id
+          and p.item_id = 's:' || to_char(u.created_at::date + 1, 'YYYY-MM-DD')) as back_next_day,
+  exists (select 1 from public.item_progress p where p.user_id = u.id and p.item_id like 's:%'
+          and p.item_id >= 's:' || to_char(u.created_at::date + 7, 'YYYY-MM-DD')) as back_after_week,
+  b.stripe_subscription_id is not null as chose_plan,      -- went through checkout (card given)
+  coalesce(b.status = 'active', false) as paying
+from auth.users u left join public.billing b on b.user_id = u.id;
+
+-- "Back the next day" only counts people who joined at least a day ago, and "back after
+-- a week" people who joined at least a week ago, so a new week doesn't look like a drop.
+create or replace function private.funnel() returns table (
+  week_of date, joined bigint, confirmed bigint, first_lesson bigint,
+  could_be_back_next_day bigint, back_next_day bigint,
+  could_be_back_after_week bigint, back_after_week bigint,
+  chose_plan bigint, paying bigint)
+language sql stable security definer set search_path = private, public as $$
+  select date_trunc('week', f.joined)::date,
+    count(*), count(*) filter (where f.confirmed), count(*) filter (where f.first_lesson),
+    count(*) filter (where f.joined <= current_date - 1), count(*) filter (where f.back_next_day),
+    count(*) filter (where f.joined <= current_date - 7), count(*) filter (where f.back_after_week),
+    count(*) filter (where f.chose_plan), count(*) filter (where f.paying)
+  from private.funnel_people f
+  group by 1 order by 1 desc
+$$;
+revoke all on function private.funnel() from public, anon, authenticated;
