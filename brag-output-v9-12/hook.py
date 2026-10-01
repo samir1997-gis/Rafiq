@@ -1,10 +1,14 @@
 """Put the owner's filmed hook in front of a demo video, for the ads (#160).
 
-  python3 brag-output-v9-12/hook.py HOOK.mov DEMO.mp4 OUT.mp4 CUTS.json
+  python3 brag-output-v9-12/hook.py HOOK.mov[,MORE.mov,...] DEMO.mp4 OUT.mp4 CUTS.json
+
+Several clips (comma-separated) are joined in that order first; the times in CUTS.json are then on the
+joined timeline (clip 2 starts where clip 1 ends).
 
 CUTS.json says which parts of the hook to keep and the captions:
-  {"keep": [[0.62, 9.25], [10.40, 18.20]],     # seconds in the hook; each later part is punched in a little
+  {"keep": [[0.62, 9.25], [10.40, 18.20]],     # seconds in the hook; every other part is punched in a little
    "zoom": 1.08,
+   "demo_from": 0.5,                             # optional: skip the demo's first moments (its blank opening frame)
    "captions": [[0.70, 2.26, "I spent {26 years}"], ...]}   # hook times; {braces} are highlighted
 
 The hook's phone footage (4K, any rotation) becomes 1080x1920 at 30 fps like the demos, its sound is
@@ -45,13 +49,17 @@ def main(hook, demo, out, cuts):
     tmp = tempfile.mkdtemp()
     # first, one pass down from 4K (a little above 1080p, so the punch-in stays sharp): editing 4K directly runs out of memory
     mezz = os.path.join(tmp, "hook.mp4")
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", hook, "-vf", "scale=1296:2304:flags=lanczos,fps=30", "-c:v", "libx264",
-                    "-preset", "fast", "-crf", "14", "-c:a", "pcm_s16le", "-f", "mov", mezz], check=True)
+    clips = hook.split(",")
+    join = "".join(f"[{i}:v]scale=1296:2304:flags=lanczos,fps=30,setsar=1[v{i}];[{i}:a]aresample=48000[a{i}];" for i in range(len(clips)))
+    join += "".join(f"[v{i}][a{i}]" for i in range(len(clips))) + f"concat=n={len(clips)}:v=1:a=1[v][a]"
+    subprocess.run(["ffmpeg", "-v", "error", "-y", *sum((["-i", c] for c in clips), []), "-filter_complex", join,
+                    "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "fast", "-crf", "14", "-c:a", "pcm_s16le", "-f", "mov", mezz],
+                   check=True)
     hook = mezz
     open(os.path.join(tmp, "caps.ass"), "w").write(ass(c["captions"], keep))
     parts, f = [], []
     for i, (a, b) in enumerate(keep):
-        z = 1.0 if i == 0 else zoom
+        z = zoom if i % 2 else 1.0                # in, out, in: each jump cut changes the framing
         f.append(f"[s{i}]trim={a}:{b},setpts=PTS-STARTPTS,crop=iw/{z}:ih/{z}:(iw-iw/{z})/2:(ih-ih/{z})*0.4,"
                  f"scale=1080:1920:flags=lanczos,fps=30,setsar=1[v{i}];"
                  f"[t{i}]atrim={a}:{b},asetpts=PTS-STARTPTS,aresample=48000[a{i}];")
@@ -67,7 +75,7 @@ def main(hook, demo, out, cuts):
     enc = ["-c:v", "libx264", "-preset", "slow", "-crf", "19", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart"]
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", hook, "-filter_complex", "".join(f).rstrip(";"),
                     "-map", "[hvc]", "-map", "[ha]", *enc, hook_only], check=True)
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", hook_only, "-i", demo, "-filter_complex",
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", hook_only, "-ss", str(c.get("demo_from", 0)), "-i", demo, "-filter_complex",
                     "[0:v]fps=30,setsar=1[a];[1:v]fps=30,scale=1080:1920,setsar=1[b];[1:a]aresample=48000[ba];"
                     "[a][0:a][b][ba]concat=n=2:v=1:a=1[v][au]", "-map", "[v]", "-map", "[au]", *enc, out], check=True)
     print(out, "and", hook_only)
