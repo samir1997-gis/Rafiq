@@ -28,17 +28,17 @@ async function firstTime(uid: string, subId: string) {
 // Once per cancellation: the billing row records which one the email was for.
 async function firstCancel(customer: string, key: string) {
   const { data } = await admin.from('billing').update({ cancel_email_for: key }).eq('stripe_customer_id', customer)
-    .or(`cancel_email_for.is.null,cancel_email_for.neq.${key}`).select('user_id');
-  return data?.[0]?.user_id as string | undefined;
+    .or(`cancel_email_for.is.null,cancel_email_for.neq.${key}`).select('user_id, refunded_at');
+  return data?.[0] as { user_id: string; refunded_at: string | null } | undefined;
 }
 async function onCancelled(sub: Stripe.Subscription) {
   const customer = typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
-  const uid = await firstCancel(customer, `${sub.id}:${sub.canceled_at ?? sub.cancel_at ?? ''}`);
-  const i = subInfo(sub);
+  const b = await firstCancel(customer, `${sub.id}:${sub.canceled_at ?? sub.cancel_at ?? ''}`);
+  const i = subInfo(sub), uid = b?.user_id;
   if (!uid || !i.plan) return;
   // the key needs Invoices: Read and Refunds: Write; without them, the email still goes and offers a refund by reply
   const paid = await stripe!.invoices.list({ subscription: sub.id, status: 'paid', limit: 24 }).then(r => r.data, e => { console.error(e); return null; });
-  const d = paid ? onCancel(sub, paid) : { kind: sub.status === 'trialing' ? 'free' as const : 'keep' as const, invoices: [], pence: 0 };
+  const d = paid ? onCancel(sub, paid, Date.now(), !!b?.refunded_at) : { kind: sub.status === 'trialing' ? 'free' as const : 'keep' as const, invoices: [], pence: 0 };
   const item = sub.items.data[0] as unknown as { current_period_end?: number };
   const end = item?.current_period_end ?? (sub as unknown as { current_period_end?: number }).current_period_end;
   let kind = d.kind, askRefund = !paid && d.kind === 'keep';
@@ -46,7 +46,9 @@ async function onCancelled(sub: Stripe.Subscription) {
     try {
       for (const inv of d.invoices)
         await stripe!.refunds.create(inv.payment_intent ? { payment_intent: String(inv.payment_intent) } : { charge: String(inv.charge) },
-                                     { idempotencyKey: `rafiq-refund-${inv.id}` });
+                                     { idempotencyKey: `rafiq-refund-${inv.id}` })
+          .catch((e: { code?: string }) => { if (e?.code !== 'charge_already_refunded') throw e; });   // refunded by hand already: done
+      await admin.from('billing').update({ refunded_at: new Date().toISOString() }).eq('user_id', uid);   // once per account
       await stripe!.subscriptions.cancel(sub.id);   // ends now; the 'deleted' event updates the billing row
     } catch (e) { console.error('refund failed', e); kind = 'keep'; askRefund = true; }
   }

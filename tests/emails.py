@@ -45,6 +45,7 @@ def render():
         "  secondMonthly: onCancel(mon, [inv('i2', 2, 699), inv('i1', 33, 699)], now).kind,\n"
         "  yearlyRenewal: onCancel(newSub, [inv('y2', 5, 7999), inv('y1', 370, 7999)], now),\n"
         "  planChange: onCancel(mon, [inv('u1', 2, 1199, 'subscription_update')], now),\n"
+        "  again: onCancel(mon, [inv('i9', 2, 699)], now, true).kind,\n"
         "  withTopUp: onCancel(mon, [inv('u1', 1, 500, 'subscription_update'), inv('i1', 4, 699), inv('i0', 9, 0, 'subscription_create')], now) };\n"
         "Object.assign(all, { cFree: cancelled('Sam', 'essentials', 'free', { until: new Date('2026-10-17T23:00:00Z') }),\n"
         "  cRefund: cancelled('Sam', 'complete', 'refund', { pence: 1199 }),\n"
@@ -98,6 +99,7 @@ def main():
     ok.append(("cancel 2 days after a second monthly payment: not refunded", c["secondMonthly"] == "keep"))
     ok.append(("cancel 5 days after a yearly renewal: £79.99 refunded", c["yearlyRenewal"]["kind"] == "refund" and c["yearlyRenewal"]["pence"] == 7999))
     ok.append(("first payment made by a plan change (the owner's test): refunded", c["planChange"]["kind"] == "refund" and c["planChange"]["pence"] == 1199))
+    ok.append(("refunded before, subscribed again, cancelled within 14 days: no second refund", c["again"] == "keep"))
     ok.append(("first payment plus a plan-change top-up since: both refunded " + str(c["withTopUp"]["pence"]),
                c["withTopUp"]["kind"] == "refund" and c["withTopUp"]["pence"] == 1199))
     cf, cr, ck = m["cFree"], m["cRefund"], m["cKeep"]
@@ -139,7 +141,7 @@ def main():
         ok.append(("cancellation email: once per cancellation", claim("cancel_email_for", "sub_1:100") == g and claim("cancel_email_for", "sub_1:100") == ""
                    and claim("cancel_email_for", "sub_1:200") == g))
         ok.append(("the columns that stop repeat emails exist", psql("select count(*) from information_schema.columns where table_name = 'billing' and column_name in "
-                   "('trial_ended_sent_at', 'subscribed_email_sub', 'cancel_email_for')") == "3"))
+                   "('trial_ended_sent_at', 'subscribed_email_sub', 'cancel_email_for', 'refunded_at')") == "4"))
     finally:
         run(BIN + "/pg_ctl", "-D", d + "/data", "-m", "fast", "stop")
     for name, good in ok: print(("ok   " if good else "FAIL ") + name)
