@@ -17,10 +17,10 @@
    the server: supabase/functions). It's cached in localStorage so pages can
    decide straight away, and refreshed on every page.
 
-   BETA = true gives everyone Complete and never asks anyone to pay. Set it to
-   false at launch, once Stripe is set up (README → "Taking payments"). */
+   BETA = true gives everyone Complete and never asks anyone to pay. It's false since
+   the soft launch (1 Oct 2026), with Stripe live (#70). */
 (function(){
-  const BETA = true;
+  const BETA = false;   // payments live (soft launch, 1 Oct 2026, #70)
   const ESSENTIALS_CHECKS = 25;
   const PRICES = {
     essentials: { monthly:'£6.99',  yearly:'£49.99' },
