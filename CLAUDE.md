@@ -10,6 +10,13 @@ The owner's Kanban board is this repo's GitHub issues. Every piece of work goes 
 - Label every issue with a priority: `priority: before launch`, `priority: next` or `priority: later`.
 - Big pieces of work: a parent issue with sub-issues.
 
+## Accounts and services (what we already have)
+- **GitHub Pages** hosts rafiq-arabic.com. Secrets for the workflows are in GitHub → Settings → Secrets: `SUPABASE_ACCESS_TOKEN`, `STRIPE_SECRET_KEY` (live, restricted), `RESEND_API_KEY`, `ELEVENLABS_API_KEY`, `QF_CLIENT_ID`/`QF_CLIENT_SECRET`, `ANTHROPIC_API_KEY`.
+- **Cloudflare** (the owner's account): the `rafiq-judge` worker (`worker/`, deployed by Cloudflare's GitHub link; its `TYPESAFE_API_KEY` is a Cloudflare secret) and Web Analytics for visits (the beacon on every page, #186). There's no Cloudflare API token anywhere: dashboard changes are the owner's.
+- **Supabase** project `gaajfahtrbdybjuunfhe`: accounts, progress, billing, edge functions; deployed by the backend workflow on pushes to main.
+- **Stripe** live (`tools/stripe-setup.js` via the Stripe setup workflow); **Resend** sends the emails; **ElevenLabs** voices; **Quran Foundation** recitation (reciter 12).
+- **TypeSafe**: `TYPE_SAFE_KEY` in the session's environment; check copy, scripts and product decisions with it (`tools/typesafe-exp/`) before shipping.
+
 ## Tests: run before pushing
 - `node tests/progress-fsrs.test.js`: review scheduling (FSRS) and the boxes pages read.
 - Browser smoke test (webapp-testing skill): every page loads with no JavaScript errors.

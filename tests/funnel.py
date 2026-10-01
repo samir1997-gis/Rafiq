@@ -15,7 +15,7 @@ FUNNEL = SQL[SQL.index("-- Where learners drop off"):]
 SETUP = """
 create schema auth; create schema private;
 create role anon; create role authenticated;
-create table auth.users (id uuid primary key, created_at timestamptz, email_confirmed_at timestamptz);
+create table auth.users (id uuid primary key, created_at timestamptz, email_confirmed_at timestamptz, raw_user_meta_data jsonb default '{}');
 create table public.item_progress (user_id uuid, item_id text, primary key (user_id, item_id));
 create table public.billing (user_id uuid primary key, status text, stripe_subscription_id text);
 """
@@ -39,6 +39,9 @@ insert into public.item_progress values
 insert into public.billing values
   ('00000000-0000-0000-0000-000000000003', 'trialing', 'sub_3'),
   ('00000000-0000-0000-0000-000000000004', 'active', 'sub_4');
+update auth.users set raw_user_meta_data = '{"source": {"src": "tiktok", "campaign": "meet-rafiq"}}'
+  where id in ('00000000-0000-0000-0000-000000000003', '00000000-0000-0000-0000-000000000004');
+update auth.users set raw_user_meta_data = '{"name": "A", "source": {"src": "instagram.com"}}' where id = '00000000-0000-0000-0000-000000000001';
 """
 
 def main():
@@ -53,12 +56,17 @@ def main():
         psql(SETUP); psql(FUNNEL); psql(DATA)
         rows = [r.split("|") for r in psql("select * from private.funnel()").splitlines()]
         new, old = (list(map(int, r[1:])) for r in (rows[0], rows[-1]))   # newest week first
+        src = {r.split("|")[0]: r.split("|")[1:] for r in psql("select * from private.funnel_by_source(30)").splitlines()}
         ok = [
             ("the week three weeks back: 4 joined, 3 confirmed, 2 finished a lesson (placed doesn't count) " + str(old[:3]), old[:3] == [4, 3, 2]),
             ("…all 4 could be back the next day, 1 was " + str(old[3:5]), old[3:5] == [4, 1]),
             ("…all 4 could be back after a week, 1 was " + str(old[5:7]), old[5:7] == [4, 1]),
             ("…2 chose a plan, 1 paying " + str(old[7:]), old[7:] == [2, 1]),
             ("this week: 1 joined today, not yet counted as able to come back " + str(new), new[0] == 1 and new[3] == 0 and new[5] == 0),
+            ("by source: tiktok (meet-rafiq) 2 joined, 2 lessons, 1 next day, 2 chose a plan, 1 paying " + str(src.get("tiktok")),
+             src.get("tiktok") == ["meet-rafiq", "2", "2", "1", "2", "1"]),
+            ("…instagram.com 1 joined, nothing else; no source saved shows as unknown (2) " + str(src.get("instagram.com")) + str(src.get("unknown")),
+             src.get("instagram.com") == ["", "1", "0", "0", "0", "0"] and src.get("unknown", [None, None])[1] == "2"),
             ("the learner's own key can't run it", "permission denied" in subprocess.run(pg + ["psql", "-h", sock, "-p", "54329", "-d", "postgres", "-c",
                 "set role authenticated; select * from private.funnel()"], capture_output=True, text=True).stderr),
         ]

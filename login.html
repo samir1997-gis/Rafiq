@@ -13,6 +13,8 @@
 </script>
 <script src="theme.js?v=2"></script>
 <script src="pwa.js?v=2"></script>
+<script src="source.js?v=1"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "f18a63c922fa4e15952e791d19df7b06"}'></script><!-- Cloudflare Web Analytics: visits, no cookies (#186) -->
 <script>
 // the opening plays once a visit, and never for people who've asked for less motion
 try { if (!sessionStorage.getItem('rafiq_intro') && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('intro'); } catch(_) {}
@@ -437,6 +439,8 @@ function fieldErr(input, text){
   e.textContent = text; input.focus(); shake();
 }
 function clearErr(f){ f.classList.remove('bad'); const e = f.querySelector('.ferr'); if(e) e.remove(); }
+// where they first came from (source.js), kept with the new account for the funnel (#186)
+function firstSource(){ try { return JSON.parse(localStorage.getItem('rafiq_src')) || null; } catch(_) { return null; } }
 form.addEventListener('input', (e)=>{ const f = e.target.closest('.field.bad'); if(f) clearErr(f); });
 function shake(){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -640,7 +644,7 @@ form.addEventListener('submit', async (e)=>{
       btn.textContent = 'Creating…';
       const { data, error } = await sb.auth.signUp({
         email, password: pw,
-        options: { data: { name: name || null }, emailRedirectTo: pageUrl('login.html') }
+        options: { data: { name: name || null, source: firstSource() }, emailRedirectTo: pageUrl('login.html') }
       });
       if(error){ showMsg(friendly(error)); done(); shake(); return; }
       // If email confirmation is OFF, a session exists now → go straight in.

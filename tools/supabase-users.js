@@ -6,6 +6,7 @@
      node tools/supabase-users.js billing-test     billing rows with Stripe details (read only)
      node tools/supabase-users.js billing-clear-test CLEAR-TEST-BILLING   empty them, when going live (#70)
      node tools/supabase-users.js active [days]    how many people studied each day, last N days (default 14; read only)
+     node tools/supabase-users.js sources [days]   where people who joined in the last N days came from (default 30; read only)
      node tools/supabase-users.js delete id1,id2   delete these accounts (max 5) and their rows
      node tools/supabase-users.js reset-preview    who a beta reset would wipe (changes nothing)
      node tools/supabase-users.js reset RESET-BETA wipe progress + onboarding answers for them
@@ -79,6 +80,17 @@ async function userTables() {
                               group by u.email order by days desc, last desc`);
     console.log(`\n${people.length} people studied in the last ${days} days:`);
     people.forEach(p => console.log(`${mask(p.email)}  studied on ${p.days} day(s), last ${p.last}, joined ${p.joined}`));
+    return;
+  }
+  if (cmd === 'sources') {
+    // which post or ad brings people who sign up, study and pay (#186): private.funnel_by_source in backend.sql
+    const days = Math.max(1, Math.min(365, parseInt(arg, 10) || 30));
+    const rows = await sql(`select * from private.funnel_by_source(${days})`);
+    console.log(`People who joined in the last ${days} days, by where they first came from:`);
+    console.log('source (campaign)                     joined  1st lesson  next day  chose plan  paying');
+    for (const r of rows) console.log(`${(r.source + (r.campaign ? ` (${r.campaign})` : '')).slice(0, 36).padEnd(38)}${String(r.joined).padStart(6)}` +
+      `${String(r.first_lesson).padStart(12)}${String(r.back_next_day).padStart(10)}${String(r.chose_plan).padStart(12)}${String(r.paying).padStart(8)}`);
+    console.log("\n'unknown' = joined before this was tracked (2 Oct 2026). Tag links: rafiq-arabic.com/?utm_source=tiktok&utm_campaign=meet-rafiq");
     return;
   }
   if (cmd === 'billing-test' || cmd === 'billing-clear-test') {
