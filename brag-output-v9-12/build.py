@@ -108,6 +108,15 @@ VIDEOS = {
    ("v12-s6", ("scene", "review")),
    ("v12-s7", END("Rafiq")),
  ]),
+ # v12, fast (#183): no tutor (hidden at launch), the demos play while Sara speaks
+ "v13": ("Meet Rafiq (fast)", [
+   ("v12-s1", ("scene", "forget")),
+   ("v12-s2", ("scene", "meet")),
+   ("v12-s3", [("words", "with", 0.3, 6.7, "")]),
+   ("v12-s4", [("mostsaid", "with", 0, 2.0, ""), ("prayalong", "with", 2.9, 6.6, "")]),
+   ("v12-s6", ("scene", "review")),
+   ("v12-s7", END("Rafiq")),
+ ]),
  "v9": ("Your salah", [
    ("v9-s1", ("scene", "prayer_words")),
    ("v9-s2", [("mostsaid", "with", 0, 4.6, "")]),
@@ -140,6 +149,9 @@ VIDEOS = {
    ("v11-s10", END("Rafiq")),
  ]),
 }
+# the owner on v12: "pick up the pace, it's still so slow and boring" (#183). Sara 15% quicker (same pitch),
+# almost no pauses, quick cuts, designed scenes animated faster, captions that pop, a push on the phone at each cut
+FAST = {"v13": dict(tempo=1.15, lead=0.3, gap=0.1, tail=0.05, fade=0.12, scene=1.6, outro=1.0, duck=0.6)}
 # sounds the recorder missed or doubled, per clip: [seconds, file]
 SOUNDS = {"listen": [[1.05, "audio/1u2523z.mp3"]]}
 
@@ -171,13 +183,16 @@ def build(vid, title, lines):
     shutil.copy(os.path.join(V6, "lib/gsap.min.js"), os.path.join(a, "lib"))
     for f in ("page-turn.mp3", "pen-stroke.mp3"): shutil.copy(os.path.join(V6, "sfx-gen", f), os.path.join(a, "sfx"))
 
+    p = FAST.get(vid, {}); gap, tail, fd = p.get("gap", GAP), p.get("tail", TAIL), p.get("fade", 0.3)
     html_clips, scenes, js, audio, caps = [], [], [], [], []
-    phone_on, t, n = [], LEAD, 0
+    phone_on, t, n = [], p.get("lead", LEAD), 0
     for i, (vo, vis) in enumerate(lines):
-        src = os.path.join(HERE, "vo-sara", vo + ".mp3"); shutil.copy(src, os.path.join(a, "vo"))
-        d = dur(src); s0 = t; vo_end = s0 + d
+        src = os.path.join(HERE, "vo-sara", vo + ".mp3"); dst = os.path.join(a, "vo", vo + ".mp3")
+        if p.get("tempo"): subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", src, "-filter:a", f"atempo={p['tempo']}", "-b:a", "160k", dst], check=True)
+        else: shutil.copy(src, dst)
+        d = dur(dst); s0 = t; vo_end = s0 + d
         audio.append(f'<audio id="a-{vo}" src="assets/vo/{vo}.mp3" data-start="{s0:.2f}" data-duration="{d:.2f}" data-track-index="20"></audio>')
-        end = vo_end + GAP
+        end = vo_end + gap
         if isinstance(vis, list):                              # demos, one after another
             at = s0 - 0.3
             for j, (clip, how, c_in, c_out, zoom, *rest) in enumerate(vis):
@@ -194,7 +209,8 @@ def build(vid, title, lines):
                     js.append(f'tl.fromTo("#{cid}s", {{opacity:0}}, {{opacity:1, duration:0.3}}, {show:.2f});')
                     js.append(f'tl.set("#{cid}s", {{opacity:0}}, {play + 0.1:.2f});')
                 html_clips.append(f'<video class="cl" id="{cid}" src="assets/clips/{clip}.mp4" muted playsinline data-start="{play:.2f}" data-duration="{L:.2f}" data-media-start="{c_in:.2f}" data-track-index="{5 + n % 2}"></video>')
-                js.append(f'tl.fromTo("#{cid}", {{opacity:0}}, {{opacity:1, duration:{0.3 if how != "after" else 0.01}}}, {play:.2f});')
+                js.append(f'tl.fromTo("#{cid}", {{opacity:0}}, {{opacity:1, duration:{fd if how != "after" else 0.01}}}, {play:.2f});')
+                if p: js.append(f'tl.fromTo("#phone", {{scale:1.035}}, {{scale:1, duration:0.4, ease:"power3.out"}}, {play:.2f});')
                 if zoom:
                     x, y, z = [float(v) for v in zoom.split(",")]
                     js.append(f'tl.set("#{cid}", {{transformOrigin:"{x / SW * 100:.1f}% {y / SH * 100:.1f}%"}}, 0);')
@@ -204,14 +220,14 @@ def build(vid, title, lines):
                         shutil.copy(os.path.join(ROOT, f), os.path.join(a, "app"))
                         at_s = play + (st - c_in)
                         vol = 0.55 if f.startswith("sounds/") else 1.0
-                        if s0 - 0.2 <= at_s <= vo_end: vol = round(vol * 0.35, 2)      # under Sara's line: quieter
+                        if s0 - 0.2 <= at_s <= vo_end: vol = round(vol * p.get("duck", 0.35), 2)      # under Sara's line: quieter
                         audio.append(f'<audio id="s{len(audio)}" src="assets/app/{os.path.basename(f)}" data-start="{max(at_s, play):.2f}" data-duration="{dur(os.path.join(ROOT, f)):.2f}" data-volume="{vol}" data-track-index="12"></audio>')
                 clip_end = play + L
                 last = j + 1 == len(vis)
                 if not last:
-                    js.append(f'tl.to("#{cid}", {{opacity:0, duration:0.3}}, {clip_end - 0.05:.2f});')
+                    js.append(f'tl.to("#{cid}", {{opacity:0, duration:{fd}}}, {clip_end - 0.05:.2f});')
                     at = clip_end - 0.05
-                end = max(end, clip_end + TAIL)
+                end = max(end, clip_end + tail)
             # the last demo's final frame stays on screen until the scene ends (a video shows only while it plays)
             held = f"{clip}-end-{c_out:.1f}.jpg"
             subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-ss", f"{max(c_in, c_out - 0.12):.2f}", "-i", os.path.join(HERE, "clips", clip + ".mp4"),
@@ -224,21 +240,25 @@ def build(vid, title, lines):
             sid = f"s{i}"; make = SCENES[vis[1]] if isinstance(vis[1], str) else vis[1]
             body, anim = make(sid)
             scenes.append(f'<section id="{sid}" class="scene">{body}</section>')
-            js.append(f'tl.fromTo("#{sid}", {{opacity:0}}, {{opacity:1, duration:0.35}}, {s0 - 0.3:.2f});')
-            js += anim(s0, end - s0)
+            js.append(f'tl.fromTo("#{sid}", {{opacity:0}}, {{opacity:1, duration:{fd if p else 0.35}}}, {s0 - 0.3:.2f});')
+            if p.get("scene"):                                 # the scene's own timeline, played faster
+                js.append("{ const main = tl; { const tl = gsap.timeline(); " + " ".join(anim(0, (end - s0) * p["scene"]))
+                          + f' tl.timeScale({p["scene"]}); main.add(tl, {s0:.2f}); }} }}')
+            else: js += anim(s0, end - s0)
             lines[i] = (vo, vis, sid)
         caps.append((s0, end, LINES[vo]))
-        if i + 1 == len(lines): end = vo_end + 1.8
+        if i + 1 == len(lines): end = vo_end + p.get("outro", 1.8)
         # the scene steps aside for the next one
         if i + 1 < len(lines):
             last = lines[i][2] if len(lines[i]) > 2 else None
-            if isinstance(last, list): js.append(f'tl.to({json.dumps(last)}, {{opacity:0, duration:0.3}}, {end - 0.3:.2f});')
-            elif isinstance(last, str): js.append(f'tl.to("#{last}", {{opacity:0, duration:0.3}}, {end - 0.3:.2f});')
+            if isinstance(last, list): js.append(f'tl.to({json.dumps(last)}, {{opacity:0, duration:{fd}}}, {end - fd:.2f});')
+            elif isinstance(last, str): js.append(f'tl.to("#{last}", {{opacity:0, duration:{fd}}}, {end - fd:.2f});')
         t = end
     total = round(t + 0.4, 2)
     for k, (s, e, text) in enumerate(caps):
-        js.append(f'tl.fromTo("#cap{k}", {{opacity:0, y:14}}, {{opacity:1, y:0, duration:0.35, ease:"power2.out"}}, {s - 0.15:.2f});')
-        if k + 1 < len(caps): js.append(f'tl.to("#cap{k}", {{opacity:0, duration:0.25}}, {e - 0.3:.2f});')
+        if p: js.append(f'tl.fromTo("#cap{k}", {{opacity:0, scale:0.88}}, {{opacity:1, scale:1, duration:0.25, ease:"back.out(2.2)"}}, {s - 0.1:.2f});')
+        else: js.append(f'tl.fromTo("#cap{k}", {{opacity:0, y:14}}, {{opacity:1, y:0, duration:0.35, ease:"power2.out"}}, {s - 0.15:.2f});')
+        if k + 1 < len(caps): js.append(f'tl.to("#cap{k}", {{opacity:0, duration:{min(fd, 0.25)}}}, {e - min(fd, 0.25) - 0.05:.2f});')
     # the phone rises in when a demo first shows, and steps aside for the designed scenes
     merged = []
     for s, e in phone_on:
