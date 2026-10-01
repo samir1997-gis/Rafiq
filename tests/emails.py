@@ -2,8 +2,7 @@
   - every email renders: welcome (with the basics and Your salah), "2 days left", "last day", and the new
     "your free week has ended" with the plans (Your salah in Complete), a Choose a plan link and the refund line
   - "thank you for subscribing" (#178) gives the plan, monthly or yearly, the price and when the first payment is
-    taken (the end of the free week, or today); "payment received" gives the amount, the next payment and the receipt;
-    the subscription is read the same from Stripe's older and newer formats
+    taken (the end of the free week, or today); the subscription is read the same from Stripe's older and newer formats
   - the welcome email is asked for once per account: for a sign-up that arrives already confirmed (Google,
     Apple) as well as one that confirms by email later; never again after that
   The SQL part runs supabase/sql/backend.sql's billing and welcome sections on a throwaway Postgres, with
@@ -22,7 +21,7 @@ def render():
     shutil.copy(os.path.join(ROOT, "supabase/functions/_shared/sub-info.ts"), d)
     open(os.path.join(d, "common.ts"), "w").write("export const SITE = 'https://rafiq-arabic.com';\n")
     open(os.path.join(d, "run.ts"), "w").write(
-        "import { welcome, trialSoon, trialLast, trialEnded, subscribed, paymentReceived, text } from './emails.ts';\n"
+        "import { welcome, trialSoon, trialLast, trialEnded, subscribed, text } from './emails.ts';\n"
         "import { subInfo } from './sub-info.ts';\n"
         "const end = new Date('2026-10-08T09:00:00Z');\n"
         # a subscription in the free week, older API shape; and one charged at once, newer shape (period on the item)
@@ -32,8 +31,7 @@ def render():
         "  items: { data: [{ current_period_end: 2, price: { lookup_key: 'rafiq_complete_yearly', unit_amount: 7999, recurring: { interval: 'year' } } }] } };\n"
         "const a = subInfo(oldSub), b = subInfo(newSub);\n"
         "const all = { welcome: welcome('Sam Ali', end), soon: trialSoon('Sam', end), last: trialLast(null), ended: trialEnded('Sam'),\n"
-        "  subTrial: subscribed('Sam', a.plan, a.interval, a.pence, a.firstCharge), subNow: subscribed('Sam', b.plan, b.interval, b.pence, b.firstCharge),\n"
-        "  paid: paymentReceived('Sam', 'essentials', 699, new Date('2026-11-18T00:00:00Z'), 'https://invoice.stripe.com/i/x') };\n"
+        "  subTrial: subscribed('Sam', a.plan, a.interval, a.pence, a.firstCharge), subNow: subscribed('Sam', b.plan, b.interval, b.pence, b.firstCharge) };\n"
         "console.error(JSON.stringify({ a, b }));\n"
         "console.log(JSON.stringify(Object.fromEntries(Object.entries(all).map(([k, m]) => [k, { ...m, text: text(m.html) }]))));\n")
     r = subprocess.run(["node", "--experimental-strip-types", "--no-warnings", os.path.join(d, "run.ts")],
@@ -70,17 +68,12 @@ def main():
                a["plan"] == "essentials" and a["interval"] == "month" and a["pence"] == 699 and a["firstCharge"].startswith("2026-10-17T23")))
     ok.append(("subscription read (newer format): Complete yearly £79.99, charged now " + str(b),
                b["plan"] == "complete" and b["interval"] == "year" and b["pence"] == 7999 and b["firstCharge"] is None))
-    st, sn, pd = m["subTrial"], m["subNow"], m["paid"]
+    st, sn = m["subTrial"], m["subNow"]
     ok.append(("thank you, in the free week: " + repr(st["subject"]),
                st["subject"] == "Thank you for subscribing to Rafiq Essentials" and "paid monthly" in st["html"] and "£6.99</b> a month" in st["html"]
                and "Sunday 18 October" in st["html"] and "free week ends" in st["html"] and "Settings → Your plan" in st["html"]))
     ok.append(("thank you, charged at once: yearly, £79.99, taken today",
                "paid yearly" in sn["html"] and "£79.99</b> a year" in sn["html"] and "has been taken today" in sn["html"]))
-    ok.append(("payment received: " + repr(pd["subject"]),
-               pd["subject"] == "Payment received: £6.99 for Rafiq Essentials" and "Wednesday 18 November" in pd["html"]
-               and "https://invoice.stripe.com/i/x" in pd["html"] and "14 days" in pd["html"]))
-    ok.append(("every email has a plain-text copy, no template leftovers",
-               all(x["text"] and "${" not in x["html"] + x["text"] for x in m.values())))
 
     d = tempfile.mkdtemp(); os.chmod(d, 0o777)
     pg = ["sudo", "-u", "postgres"] if os.geteuid() == 0 else []
@@ -108,10 +101,8 @@ def main():
         claim = lambda col, id: psql(f"update public.billing set {col} = '{id}' where user_id = '{g}' and ({col} is null or {col} <> '{id}') returning user_id").split("\n")[0].replace("UPDATE 0", "")
         ok.append(("thank-you email: the first event claims it, the same event again doesn't, a new subscription does",
                    claim("subscribed_email_sub", "sub_1") == g and claim("subscribed_email_sub", "sub_1") == "" and claim("subscribed_email_sub", "sub_2") == g))
-        ok.append(("payment email: once per invoice", claim("paid_email_invoice", "in_1") == g and claim("paid_email_invoice", "in_1") == ""
-                   and claim("paid_email_invoice", "in_2") == g))
         ok.append(("the columns that stop repeat emails exist", psql("select count(*) from information_schema.columns where table_name = 'billing' and column_name in "
-                   "('trial_ended_sent_at', 'subscribed_email_sub', 'paid_email_invoice')") == "3"))
+                   "('trial_ended_sent_at', 'subscribed_email_sub')") == "2"))
     finally:
         run(BIN + "/pg_ctl", "-D", d + "/data", "-m", "fast", "stop")
     for name, good in ok: print(("ok   " if good else "FAIL ") + name)

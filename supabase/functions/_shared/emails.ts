@@ -91,7 +91,7 @@ export function trialEnded(name: string | null | undefined) {
     `<p style="margin:0 0 22px">The Rafiq team</p>`) };
 }
 
-// Subscribing and paying (#178). Plans renew until cancelled; yearly is one payment a year.
+// Subscribing (#178). Plans renew until cancelled; yearly is one payment a year.
 const NAMES = { essentials: 'Rafiq Essentials', complete: 'Rafiq Complete' } as const;
 const money = (pence: number) => `£${(pence / 100).toFixed(2)}`;
 const every = (interval: string) => interval === 'year' ? 'year' : 'month';
@@ -110,16 +110,5 @@ export function subscribed(name: string | null | undefined, plan: 'essentials' |
     p(when) +
     p(`You can cancel any time in <b>Settings → Your plan</b>, and nothing more will be charged. Not happy? Email us within 14 days of a payment and we’ll refund it in full.`) +
     btn('Continue learning', `${SITE}/login.html`) + p(support) +
-    `<p style="margin:0 0 22px">The Rafiq team</p>`) };
-}
-
-// each successful charge (not the one confirmed by the email above)
-export function paymentReceived(name: string | null | undefined, plan: 'essentials' | 'complete', pence: number, nextCharge: Date | null, receiptUrl: string | null) {
-  return { subject: `Payment received: ${money(pence)} for ${NAMES[plan]}`, html: frame(
-    `<p style="margin:0 0 14px">${hi(name)}</p>` +
-    p(`We’ve received your payment of <b>${money(pence)}</b> for <b>${NAMES[plan]}</b>. Thank you.`) +
-    (nextCharge ? p(`Your next payment of ${money(pence)} will be taken on <b>${endDay(nextCharge)}</b>, unless you cancel before then in <b>Settings → Your plan</b>.`) : '') +
-    (receiptUrl ? btn('View your receipt', receiptUrl) : '') +
-    p(`Not happy? Email us within 14 days of this payment and we’ll refund it in full.`) + p(support) +
     `<p style="margin:0 0 22px">The Rafiq team</p>`) };
 }
