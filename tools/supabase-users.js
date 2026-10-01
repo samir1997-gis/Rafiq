@@ -3,6 +3,7 @@
    The repo is public, so Action logs are public: emails are always masked.
 
      node tools/supabase-users.js list [days]      accounts created in the last N days (default 3)
+     node tools/supabase-users.js active [days]    how many people studied each day, last N days (default 14; read only)
      node tools/supabase-users.js delete id1,id2   delete these accounts (max 5) and their rows
      node tools/supabase-users.js reset-preview    who a beta reset would wipe (changes nothing)
      node tools/supabase-users.js reset RESET-BETA wipe progress + onboarding answers for them
@@ -52,6 +53,30 @@ async function userTables() {
       console.log(`${u.id}  ${mask(u.email)}  created ${u.created_at.slice(0, 16)}  ` +
                   `confirmed ${u.email_confirmed_at ? 'yes' : 'no'}  last sign-in ${(u.last_sign_in_at || '—').slice(0, 16)}  rows ${n}`);
     }
+    return;
+  }
+  if (cmd === 'active') {
+    // who's actually studying: an 's:<YYYY-MM-DD>' progress row is a day someone finished a lesson step,
+    // a review or a scene (UTC dates, written by the app). Counts only, plus masked emails.
+    const days = Math.max(1, Math.min(60, parseInt(arg, 10) || 14));
+    const total = (await sql('select count(*)::int as n from auth.users'))[0].n;
+    const perDay = await sql(`select substr(item_id, 3) as day, count(distinct user_id)::int as n from public.item_progress
+                              where item_id like 's:%' and substr(item_id, 3) >= to_char(current_date - ${days - 1}, 'YYYY-MM-DD')
+                              group by 1 order by 1`);
+    const within = async d => (await sql(`select count(distinct user_id)::int as n from public.item_progress where item_id like 's:%'
+                              and substr(item_id, 3) >= to_char(current_date - ${d - 1}, 'YYYY-MM-DD')`))[0].n;
+    const signedIn = (await sql(`select count(*)::int as n from auth.users where last_sign_in_at > now() - interval '7 days'`))[0].n;
+    console.log(`${total} accounts. Studied today: ${await within(1)} · last 7 days: ${await within(7)} · last 30 days: ${await within(30)}` +
+                ` · signed in during the last 7 days: ${signedIn}`);
+    console.log(`\nPeople who studied, each day (UTC), last ${days} days:`);
+    const n = Object.fromEntries(perDay.map(r => [r.day, r.n]));
+    for (let i = days - 1; i >= 0; i--) { const d = new Date(Date.now() - i * 864e5).toISOString().slice(0, 10); console.log(`${d}  ${n[d] || 0}`); }
+    const people = await sql(`select u.email, count(*)::int as days, max(substr(p.item_id, 3)) as last, min(u.created_at)::date::text as joined
+                              from public.item_progress p join auth.users u on u.id = p.user_id
+                              where p.item_id like 's:%' and substr(p.item_id, 3) >= to_char(current_date - ${days - 1}, 'YYYY-MM-DD')
+                              group by u.email order by days desc, last desc`);
+    console.log(`\n${people.length} people studied in the last ${days} days:`);
+    people.forEach(p => console.log(`${mask(p.email)}  studied on ${p.days} day(s), last ${p.last}, joined ${p.joined}`));
     return;
   }
   if (cmd === 'delete') {
@@ -104,5 +129,5 @@ async function userTables() {
     console.log(`${r[0].n} sessions and ${t[0].n} refresh tokens ended; everyone signs in again`);
     return;
   }
-  console.error('use: list [days] | delete id1,id2 | reset-preview | reset RESET-BETA | signout SIGN-OUT-ALL'); process.exit(1);
+  console.error('use: list [days] | active [days] | delete id1,id2 | reset-preview | reset RESET-BETA | signout SIGN-OUT-ALL'); process.exit(1);
 })();
