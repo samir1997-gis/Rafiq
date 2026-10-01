@@ -151,7 +151,10 @@ VIDEOS = {
 }
 # the owner on v12: "pick up the pace, it's still so slow and boring" (#183). Sara 15% quicker (same pitch),
 # almost no pauses, quick cuts, designed scenes animated faster, captions that pop, a push on the phone at each cut
-FAST = {"v13": dict(tempo=1.15, lead=0.3, gap=0.1, tail=0.05, fade=0.12, scene=1.6, outro=1.0, duck=0.6)}
+FAST = {"v13": dict(tempo=1.15, lead=0.3, gap=0.1, tail=0.05, fade=0.12, scene=1.6, outro=1.0, duck=0.6),
+        # TypeSafe found v13 a little too fast (launch_day_review.py): Sara at her own speed, a little more air
+        "v14": dict(lead=0.3, gap=0.25, tail=0.1, fade=0.12, scene=1.4, outro=1.2, duck=0.6)}
+VIDEOS["v14"] = ("Meet Rafiq (32s)", VIDEOS["v13"][1])
 # sounds the recorder missed or doubled, per clip: [seconds, file]
 SOUNDS = {"listen": [[1.05, "audio/1u2523z.mp3"]]}
 
