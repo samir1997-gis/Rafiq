@@ -61,6 +61,10 @@ alter table public.billing add column if not exists trial_ended_sent_at timestam
 -- "Thank you for subscribing" (#178): which subscription it was last sent for, so a repeated
 -- Stripe event never sends it twice.
 alter table public.billing add column if not exists subscribed_email_sub text;
+-- "You've cancelled" (#182): which cancellation it was sent for.
+alter table public.billing add column if not exists cancel_email_for text;
+-- when this account was last refunded automatically: the automatic refund is once per account
+alter table public.billing add column if not exists refunded_at timestamptz;
 
 -- Welcome email: when an address is confirmed, call the emails function. Google (and Apple)
 -- accounts are created already confirmed, so a new account that arrives confirmed counts too (#177).

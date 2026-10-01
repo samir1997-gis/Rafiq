@@ -3,11 +3,13 @@
 // Email (#178): "thank you for subscribing" when checkout completes, sent once per subscription (the
 // billing row records which one it was for, so a repeated event sends nothing). Payments themselves
 // get Stripe's own receipt.
+// Cancelling (#182), in Settings or in Stripe's Manage billing: within 14 days of the first payment (or
+// a yearly one) it's refunded automatically and the plan ends now; then a "you've cancelled" email.
 import Stripe from 'npm:stripe@17';
 import { stripe, sync } from '../_shared/stripe.ts';
 import { admin, sendEmail } from '../_shared/common.ts';
-import { subscribed, text } from '../_shared/emails.ts';
-import { subInfo } from '../_shared/sub-info.ts';
+import { subscribed, cancelled, text } from '../_shared/emails.ts';
+import { subInfo, onCancel } from '../_shared/sub-info.ts';
 
 const SECRET = Deno.env.get('STRIPE_WEBHOOK_SECRET');
 const crypto = Stripe.createSubtleCryptoProvider();
@@ -23,6 +25,38 @@ async function firstTime(uid: string, subId: string) {
     .or(`subscribed_email_sub.is.null,subscribed_email_sub.neq.${subId}`).select('user_id');
   return !!data?.length;
 }
+// Once per cancellation: the billing row records which one the email was for.
+async function firstCancel(customer: string, key: string) {
+  const { data } = await admin.from('billing').update({ cancel_email_for: key }).eq('stripe_customer_id', customer)
+    .or(`cancel_email_for.is.null,cancel_email_for.neq.${key}`).select('user_id, refunded_at');
+  return data?.[0] as { user_id: string; refunded_at: string | null } | undefined;
+}
+async function onCancelled(sub: Stripe.Subscription) {
+  const customer = typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
+  const b = await firstCancel(customer, `${sub.id}:${sub.canceled_at ?? sub.cancel_at ?? ''}`);
+  const i = subInfo(sub), uid = b?.user_id;
+  if (!uid || !i.plan) return;
+  // the key needs Invoices: Read and Refunds: Write; without them, the email still goes and offers a refund by reply
+  const paid = await stripe!.invoices.list({ subscription: sub.id, status: 'paid', limit: 24 }).then(r => r.data, e => { console.error(e); return null; });
+  const d = paid ? onCancel(sub, paid, Date.now(), !!b?.refunded_at) : { kind: sub.status === 'trialing' ? 'free' as const : 'keep' as const, invoices: [], pence: 0 };
+  const item = sub.items.data[0] as unknown as { current_period_end?: number };
+  const end = item?.current_period_end ?? (sub as unknown as { current_period_end?: number }).current_period_end;
+  let kind = d.kind, askRefund = !paid && d.kind === 'keep';
+  if (kind === 'refund') {
+    try {
+      for (const inv of d.invoices)
+        await stripe!.refunds.create(inv.payment_intent ? { payment_intent: String(inv.payment_intent) } : { charge: String(inv.charge) },
+                                     { idempotencyKey: `rafiq-refund-${inv.id}` })
+          .catch((e: { code?: string }) => { if (e?.code !== 'charge_already_refunded') throw e; });   // refunded by hand already: done
+      await admin.from('billing').update({ refunded_at: new Date().toISOString() }).eq('user_id', uid);   // once per account
+      await stripe!.subscriptions.cancel(sub.id);   // ends now; the 'deleted' event updates the billing row
+    } catch (e) { console.error('refund failed', e); kind = 'keep'; askRefund = true; }
+  }
+  const a = await account(uid);
+  if (a) await send(a.email, cancelled(a.name, i.plan, kind, {
+    until: kind === 'free' ? (sub.trial_end ? new Date(sub.trial_end * 1000) : null) : end ? new Date(end * 1000) : null,
+    pence: d.pence, askRefund }));
+}
 async function send(to: string, m: { subject: string; html: string }) {
   try { await sendEmail(to, m.subject, m.html, text(m.html)); } catch (e) { console.error(e); }   // never fail the webhook over an email
 }
@@ -36,7 +70,12 @@ Deno.serve(async (req) => {
   } catch { return new Response('bad signature', { status: 400 }); }
 
   if (event.type.startsWith('customer.subscription.')) {
-    await sync(event.data.object as Stripe.Subscription);
+    const sub = event.data.object as Stripe.Subscription;
+    await sync(sub);
+    // just cancelled: it now ends at the period's end, and before this event it didn't
+    const before = (event.data as { previous_attributes?: { cancel_at_period_end?: boolean; cancel_at?: number | null } }).previous_attributes;
+    if (event.type === 'customer.subscription.updated' && before && (sub.cancel_at_period_end || sub.cancel_at)
+        && (before.cancel_at_period_end === false || before.cancel_at === null)) await onCancelled(sub);
   } else if (event.type === 'checkout.session.completed') {
     const s = event.data.object as Stripe.Checkout.Session;
     if (s.subscription) {
