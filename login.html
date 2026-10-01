@@ -13,6 +13,10 @@
 </script>
 <script src="theme.js?v=2"></script>
 <script src="pwa.js?v=2"></script>
+<script>
+// the opening plays once a visit, and never for people who've asked for less motion
+try { if (!sessionStorage.getItem('rafiq_intro') && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('intro'); } catch(_) {}
+</script>
 <title>Rafiq — your Arabic pal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,12 +43,82 @@
   width:clamp(7px,1.5vw,9px);height:clamp(7px,1.5vw,9px);border-radius:50%;background:var(--rubric)}
 .word span{color:var(--rubric)}
 .sub{font-family:var(--ar);direction:rtl;font-size:clamp(16px,3.4vw,21px);line-height:1.75;color:var(--verdigris);margin-top:12px}
-.card{background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:32px 36px;margin-top:38px;width:min(380px,100%);text-align:left}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:28px 28px 24px;margin-top:34px;width:min(380px,100%);text-align:left;
+  box-shadow:0 1px 2px rgba(var(--ink-rgb),.06),0 24px 48px -24px rgba(var(--ink-rgb),.28);position:relative}
 .card .label{margin-bottom:20px;text-align:center}
 .field{margin-bottom:16px}
 .field label{font-size:11px;color:var(--ink-soft);display:block;margin-bottom:5px}
-.field input{width:100%;border:1px solid var(--rule);border-radius:3px;background:var(--paper);height:40px;padding:0 12px;font-family:var(--la);font-size:16px;color:var(--ink)}
-.field input:focus{outline:none;border-color:var(--verdigris)}
+.field input{width:100%;border:1px solid var(--rule);border-radius:9px;background:var(--paper);height:46px;padding:0 12px;font-family:var(--la);font-size:16px;color:var(--ink);
+  transition:border-color var(--settle) var(--ease-out),box-shadow var(--settle) var(--ease-out)}
+.field input:focus{outline:none;border-color:var(--verdigris);box-shadow:0 0 0 4px color-mix(in srgb,var(--verdigris) 18%,transparent)}
+/* an icon in each field, coloured while you're in it; red with its own message when something's wrong */
+.inp{position:relative}
+.inp>svg{position:absolute;left:13px;top:50%;width:18px;height:18px;transform:translateY(-50%);color:var(--ink-soft);pointer-events:none;transition:color var(--settle) var(--ease-out)}
+.inp input{padding-left:40px}
+.inp:focus-within>svg{color:var(--verdigris)}
+.eye{position:absolute;right:3px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;background:none;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;border-radius:8px;touch-action:manipulation}
+.eye svg{width:18px;height:18px}
+.eye .off,.eye[aria-pressed="true"] .on{display:none}
+.eye[aria-pressed="true"] .off{display:block}
+#pw{padding-right:44px}
+.field.bad input{border-color:var(--rubric)}
+.field.bad input:focus{box-shadow:0 0 0 4px color-mix(in srgb,var(--rubric) 16%,transparent)}
+.field.bad .inp>svg{color:var(--rubric)}
+.ferr{font-size:12.5px;color:var(--rubric);margin-top:6px;animation:ferrIn 260ms var(--ease-out) both}
+@keyframes ferrIn{from{opacity:0;transform:translateY(-4px)}}
+/* Sign in | Create account: a sliding switch */
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;background:var(--paper-deep);border-radius:10px;padding:3px;margin-bottom:22px}
+.seg button{position:relative;z-index:1;border:0;background:none;height:38px;font:500 14px var(--la);color:var(--ink-soft);cursor:pointer;touch-action:manipulation;transition:color var(--settle) var(--ease-out)}
+.seg button[aria-pressed="true"]{color:var(--ink)}
+.seg .pill{position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:8px;background:var(--card);
+  box-shadow:0 1px 3px rgba(var(--ink-rgb),.16);transition:transform 340ms var(--ease-out)}
+.card.signup .seg .pill{transform:translateX(100%)}
+.card.reset .seg,.card:not(.reset) #formTitle,.card:not(.reset) #toggle{display:none}
+/* fields that come and go between modes fold open and shut */
+.reveal{display:grid;grid-template-rows:1fr;transition:grid-template-rows 340ms var(--ease-out),opacity 240ms ease,margin 340ms var(--ease-out)}
+.reveal>div{overflow:hidden;min-height:0;padding:4px;margin:-4px}
+.card:not(.signup) #nameField,.card.reset #pwField{grid-template-rows:0fr;opacity:0;margin-bottom:0}
+/* the button: shrinks to a spinner while it works, then a tick */
+#submitBtn{display:block;position:relative;width:100%;max-width:100%;margin:8px auto 0;min-height:48px;border-radius:10px;white-space:nowrap;overflow:hidden;
+  transition:max-width 420ms var(--ease-out),border-radius 420ms var(--ease-out),transform var(--press) var(--ease-out)}
+#submitBtn.busy,#submitBtn.ok{max-width:48px;border-radius:24px;padding:0;color:transparent;opacity:1}
+#submitBtn.busy::after{content:'';position:absolute;inset:0;margin:auto;width:20px;height:20px;border-radius:50%;
+  border:2px solid color-mix(in srgb,var(--paper) 35%,transparent);border-top-color:var(--paper);animation:spin .7s linear infinite}
+#submitBtn.ok::after{content:'';position:absolute;left:50%;top:50%;width:7px;height:14px;margin:-9px 0 0 -4px;border:solid var(--paper);border-width:0 2.5px 2.5px 0;
+  transform:rotate(45deg);animation:tick 300ms var(--ease-out) both}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes tick{from{opacity:0;transform:rotate(45deg) scale(.4)}}
+/* a quiet eight-point star pattern drifting behind everything */
+body::before{content:'';position:fixed;inset:-56px;z-index:-1;pointer-events:none;background:var(--ink);opacity:.055;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cg fill='none' stroke='%23000'%3E%3Crect x='17' y='17' width='22' height='22'/%3E%3Crect x='17' y='17' width='22' height='22' transform='rotate(45 28 28)'/%3E%3Cpath d='M0 28h9M47 28h9M28 0v9M28 47v9'/%3E%3C/g%3E%3C/svg%3E") 0 0/56px 56px;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cg fill='none' stroke='%23000'%3E%3Crect x='17' y='17' width='22' height='22'/%3E%3Crect x='17' y='17' width='22' height='22' transform='rotate(45 28 28)'/%3E%3Cpath d='M0 28h9M47 28h9M28 0v9M28 47v9'/%3E%3C/g%3E%3C/svg%3E") 0 0/56px 56px;
+  animation:drift 90s linear infinite}
+body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(60% 45% at 50% 22%,color-mix(in srgb,var(--verdigris) 14%,transparent),transparent 70%),
+             radial-gradient(120% 80% at 50% 50%,transparent 55%,var(--paper) 100%)}
+@keyframes drift{to{transform:translate(56px,56px)}}
+/* the opening, once a visit: the mark draws itself, رَفِيق is written right to left,
+   then both settle into the header and the card rises in. Tap anywhere to skip. */
+.mark .outline{display:none}
+.intro .mark{animation:fillIn 260ms 380ms ease both}
+.intro .mark .outline{display:block;position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.intro .mark .outline rect{fill:none;stroke:var(--ink);stroke-width:2;stroke-dasharray:1;animation:draw 520ms cubic-bezier(.65,0,.35,1) both}
+.intro .mark::before{animation:rIn 420ms 520ms var(--ease-out) both}
+.intro .mark::after{animation:dotIn 380ms 760ms cubic-bezier(.34,1.56,.64,1) both}
+.intro .word{animation:write 520ms 560ms cubic-bezier(.65,0,.35,1) both}
+.intro .sub{animation:upIn 560ms 1150ms var(--ease-out) both}
+.intro .card{animation:upIn 640ms 1220ms var(--ease-out) both}
+@keyframes fillIn{from{background-color:transparent}}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes rIn{from{opacity:0;transform:translateY(5px) scale(.85)}}
+@keyframes dotIn{from{transform:scale(0)}}
+@keyframes write{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0)}}
+@keyframes upIn{from{opacity:0;transform:translateY(18px)}}
+@media (prefers-reduced-motion:reduce){
+  body::before{animation:none}
+  #submitBtn,.seg .pill,.reveal{transition:none}
+  .ferr{animation:none}
+}
 .toggle a{transition:opacity .12s}
 .toggle a:active{opacity:.6}
 .card .btn{width:100%;margin-top:6px}
@@ -55,9 +129,6 @@
 .msg.ok{color:var(--verdigris)}
 .toggle{margin-top:18px;text-align:center;font-size:13px;color:var(--ink-soft)}
 .toggle a{color:var(--verdigris);cursor:pointer;text-decoration:underline}
-#nameField{display:none}
-.card.signup #nameField{display:block}
-.card.reset #pwField{display:none}
 .forgot{display:block;text-align:right;margin-top:6px;font-size:12px;color:var(--verdigris);cursor:pointer;text-decoration:underline}
 .card.signup .forgot,.card.reset .forgot{display:none}
 .alt{text-align:center;margin-top:4px}
@@ -119,15 +190,26 @@
 <body>
 <main class="screen">
   <div class="wordmark">
-    <span class="mark" aria-hidden="true"></span>
+    <span class="mark" aria-hidden="true"><svg class="outline" viewBox="0 0 64 64"><rect x="1" y="1" width="62" height="62" rx="15" pathLength="1"/></svg></span>
     <span class="word">رَفِيق</span>
   </div>
   <div class="sub">رَفِيقُكَ فِي تَعَلُّمِ الْعَرَبِيَّةِ</div>
-  <form class="card" id="authForm" method="post" action="#">
-    <div class="label" id="formTitle">Sign in to continue</div>
-    <div class="field" id="nameField"><label for="nm">Your name</label><input id="nm" name="name" type="text" placeholder="What should we call you?" autocomplete="given-name"></div>
-    <div class="field"><label for="email">Email</label><input id="email" name="username" type="email" inputmode="email" placeholder="you@example.com" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>
-    <div class="field" id="pwField"><label for="pw">Password</label><input id="pw" name="password" type="password" placeholder="••••••••" autocomplete="current-password" required><a class="forgot" id="forgotLink">Forgot password?</a></div>
+  <form class="card" id="authForm" method="post" action="#" novalidate>
+    <div class="seg" id="seg"><button type="button" data-mode="signin" aria-pressed="true">Sign in</button><button type="button" data-mode="signup" aria-pressed="false">Create account</button><span class="pill" aria-hidden="true"></span></div>
+    <div class="label" id="formTitle">Reset your password</div>
+    <div class="field reveal" id="nameField"><div><label for="nm">Your name</label><div class="inp">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <input id="nm" name="name" type="text" placeholder="What should we call you?" autocomplete="given-name"></div></div></div>
+    <div class="field"><label for="email">Email</label><div class="inp">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg>
+      <input id="email" name="username" type="email" inputmode="email" placeholder="you@example.com" autocomplete="username" autocapitalize="none" spellcheck="false" required></div></div>
+    <div class="field reveal" id="pwField"><div><label for="pw">Password</label><div class="inp">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+      <input id="pw" name="password" type="password" placeholder="••••••••" autocomplete="current-password" required>
+      <button class="eye" type="button" id="eye" aria-label="Show password" aria-pressed="false">
+        <svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>
+      </button></div><a class="forgot" id="forgotLink">Forgot password?</a></div></div>
     <button class="btn" type="submit" id="submitBtn">Sign in</button>
     <div class="alt"><button class="linkbtn" type="button" id="codeLink">Email me a sign-in code instead</button></div>
     <div class="msg" id="msg"></div>
@@ -195,6 +277,24 @@
   </form>
 </main>
 
+<script>
+/* The opening: the wordmark starts in the middle of the screen, a little larger, and glides up into the
+   header once the mark and the word are drawn. Before the Supabase script so it starts on first paint. */
+(function(){
+  const root = document.documentElement;
+  if (!root.classList.contains('intro')) return;
+  try { sessionStorage.setItem('rafiq_intro', '1'); } catch(_) {}
+  const wm = document.querySelector('.wordmark'), r = wm.getBoundingClientRect();
+  const dx = innerWidth / 2 - (r.left + r.width / 2), dy = innerHeight / 2 - (r.top + r.height / 2);
+  const at = `translate(${dx}px,${dy}px) scale(1.3)`;
+  const glide = wm.animate([{ transform: at }, { transform: at, offset: .55, easing: 'cubic-bezier(.16,1,.3,1)' }, { transform: 'none' }],
+                           { duration: 1750, fill: 'backwards' });
+  const end = () => { glide.finish(); root.classList.remove('intro'); removeEventListener('pointerdown', end); removeEventListener('keydown', end); };
+  addEventListener('pointerdown', end); addEventListener('keydown', end);
+  setTimeout(end, 1900);
+})();
+</script>
+
 <!-- Supabase client library -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -211,6 +311,7 @@ const btn    = document.getElementById('submitBtn');
 const toggle = document.getElementById('toggle');
 const msgEl  = document.getElementById('msg');
 const pwEl   = document.getElementById('pw');
+const seg    = document.getElementById('seg');
 
 const pageUrl = (name) => new URL(name, location.href).href;
 const BTN_TEXT = { signin: 'Sign in', signup: 'Create account', reset: 'Send reset link' };
@@ -228,7 +329,8 @@ function linkError(){
 
 /* Where a signed-in learner goes: the questions if this account hasn't answered
    them yet (a new account arriving from its confirmation link), otherwise Home. */
-async function goIn(){
+async function goIn(wait){
+  const shown = new Promise(r => setTimeout(r, wait || 0));   // long enough to see the tick, alongside the lookup below
   let dest = 'dashboard.html';
   try {
     const { data } = await sb.auth.getUser();
@@ -238,6 +340,7 @@ async function goIn(){
       if (!r.error && !(r.data && r.data.onboarded)) dest = 'onboarding.html';
     }
   } catch(_) {}
+  await shown;
   window.location.href = dest;
 }
 
@@ -298,6 +401,10 @@ function setMode(m, keepMsg){
     pwEl.setAttribute('autocomplete','current-password');
     pwEl.placeholder = '••••••••';
   }
+  seg.querySelectorAll('[data-mode]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+  document.getElementById('nameField').inert = m !== 'signup';
+  document.getElementById('pwField').inert = m === 'reset';
+  form.querySelectorAll('.field.bad').forEach(clearErr);
   if(!keepMsg) showMsg('');
 }
 
@@ -306,9 +413,34 @@ toggle.addEventListener('click', (e)=>{
   const a = e.target.closest('[data-mode]');
   if(a) setMode(a.dataset.mode);
 });
+seg.addEventListener('click', (e)=>{
+  const b = e.target.closest('[data-mode]');
+  if(b && b.dataset.mode !== mode) setMode(b.dataset.mode);
+});
+document.getElementById('eye').addEventListener('click', (e)=>{
+  const b = e.currentTarget, show = pwEl.type === 'password';
+  pwEl.type = show ? 'text' : 'password';
+  b.setAttribute('aria-pressed', String(show)); b.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+});
+
+/* What's wrong with a field shows under it, and goes as soon as you change it. */
+function fieldErr(input, text){
+  const f = input.closest('.field'), box = input.closest('.inp').parentElement;
+  f.classList.add('bad');
+  let e = box.querySelector('.ferr');
+  if(!e){ e = document.createElement('div'); e.className = 'ferr'; e.setAttribute('role', 'alert'); box.appendChild(e); }
+  e.textContent = text; input.focus(); shake();
+}
+function clearErr(f){ f.classList.remove('bad'); const e = f.querySelector('.ferr'); if(e) e.remove(); }
+form.addEventListener('input', (e)=>{ const f = e.target.closest('.field.bad'); if(f) clearErr(f); });
+function shake(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  form.animate([{transform:'none'},{transform:'translateX(-8px)'},{transform:'translateX(7px)'},{transform:'translateX(-4px)'},{transform:'translateX(2px)'},{transform:'none'}],
+               {duration: 380, easing: 'ease-out'});
+}
 document.getElementById('forgotLink').addEventListener('click', ()=> setMode('reset'));
 
-if (new URLSearchParams(location.search).get('mode') === 'reset') setMode('reset');
+setMode(new URLSearchParams(location.search).get('mode') === 'reset' ? 'reset' : 'signin', true);
 
 function showMsg(text, kind){
   msgEl.textContent = text || '';
@@ -387,7 +519,7 @@ function friendly(err){
   return err && err.message ? err.message : 'Something went wrong. Please try again.';
 }
 
-function done(){ btn.disabled = false; btn.textContent = BTN_TEXT[mode]; }
+function done(){ btn.disabled = false; btn.classList.remove('busy', 'ok'); btn.textContent = BTN_TEXT[mode]; }
 
 /* Passwords now need at least 8 characters. Someone whose old password is shorter
    is signed in as normal, then asked once for a new one before going in. */
@@ -479,11 +611,14 @@ form.addEventListener('submit', async (e)=>{
   const email = document.getElementById('email').value.trim();
   const pw    = pwEl.value;
   const name  = (document.getElementById('nm').value||'').trim();
-  if(!email){ showMsg('Please enter your email.'); return; }
-  if(mode!=='reset' && !pw){ showMsg('Please enter your email and password.'); return; }
-  if(mode==='signup' && pw.length < MIN_PW){ showMsg(`Use a password of at least ${MIN_PW} characters.`); return; }
+  const emailEl = document.getElementById('email');
+  if(!email) return fieldErr(emailEl, 'Enter your email address.');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fieldErr(emailEl, 'That email doesn’t look right. Please check it.');
+  if(mode!=='reset' && !pw) return fieldErr(pwEl, 'Enter your password.');
+  if(mode==='signup' && pw.length < MIN_PW) return fieldErr(pwEl, `Use at least ${MIN_PW} characters.`);
 
   btn.disabled = true;
+  btn.classList.add('busy');
   showMsg('');
 
   try {
@@ -500,7 +635,7 @@ form.addEventListener('submit', async (e)=>{
         email, password: pw,
         options: { data: { name: name || null }, emailRedirectTo: pageUrl('login.html') }
       });
-      if(error){ showMsg(friendly(error)); done(); return; }
+      if(error){ showMsg(friendly(error)); done(); shake(); return; }
       // If email confirmation is OFF, a session exists now → go straight in.
       try{ if(name) localStorage.setItem('bay_name', name); }catch(_){}
       if(data.session){
@@ -515,7 +650,7 @@ form.addEventListener('submit', async (e)=>{
       const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
       if(error){
         if((error.message||'').toLowerCase().includes('email not confirmed')) showUnconfirmed(email, pw);
-        else showMsg(friendly(error));
+        else { showMsg(friendly(error)); shake(); }
         done(); return;
       }
       // keep the display name handy for the dashboard greeting
@@ -524,10 +659,11 @@ form.addEventListener('submit', async (e)=>{
       // reset auth.js's idle clock so a stale timestamp can't log a fresh sign-in straight out
       try{ localStorage.setItem('bay_last_active', String(Date.now())); }catch(_){}
       if (needsNewPassword(pw, data)) { done(); return askNewPassword(form); }
-      goIn();
+      btn.classList.replace('busy', 'ok');
+      goIn(600);
     }
   } catch(err){
-    showMsg(friendly(err)); done();
+    showMsg(friendly(err)); done(); shake();
   }
 });
 </script>
