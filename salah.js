@@ -23,7 +23,7 @@
    Needs salah-data.js (SALAH) and progress.js (Progress); vocab-data.js (VOCAB)
    for the links to course words. */
 (function(){
-  const LIVE = true;   // on in this branch for testing: set back to false (or get the teacher's sign-off) before merging into main
+  const LIVE = true;   // the teacher has checked it (owner, 1 Oct 2026): on for the soft launch
   /* The licensed recitation comes from the Quran Foundation API through our own
      function (supabase/functions/quran, #135): one file per verse, with word timings.
      Kept in memory for the page only, since QF's terms allow no more than a week of

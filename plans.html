@@ -14,7 +14,7 @@
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1B1815">
 <meta name="color-scheme" content="light dark">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth.js?v=7"></script>
+<script src="auth.js?v=8"></script>
 <script src="plan.js?v=20261001b"></script>
 <style>
 main.wrap{max-width:620px;padding-bottom:48px}
@@ -86,7 +86,7 @@ main.wrap{max-width:620px;padding-bottom:48px}
       <ul>
         <li>Everything in Essentials</li>
         <li><b>Your salah:</b> understand every word of the prayer and the short surahs, with Pray along and salah drills</li>
-        <li><b>Your AI tutor:</b> ask anything about Arabic, and tap Why? after a mistake</li>
+        <li class="tutor-only"><b>Your AI tutor:</b> ask anything about Arabic, and tap Why? after a mistake</li>
         <li>Unlimited smart checking</li>
         <li>Conversation partner: reply in your own words</li>
         <li>Real-life scenes: the airport, the doctor, the masjid and more</li>
@@ -99,10 +99,12 @@ main.wrap{max-width:620px;padding-bottom:48px}
   <div class="msg" id="msg" role="alert"></div>
 
   <p class="fine">Payments are handled securely by Stripe. Cancel any time in Settings: your plan runs to the end of the period you've paid for.
-    <br>Questions? <a href="help.html?kind=billing">Get help</a> or email <a href="mailto:support@rafiq-arabic.com">support@rafiq-arabic.com</a> · <a href="privacy.html">Privacy policy</a></p>
+    <br>Questions? <a href="help.html?kind=billing">Get help</a> or email <a href="mailto:support@rafiq-arabic.com">support@rafiq-arabic.com</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy policy</a>
+    <br>Plans renew until you cancel. Choosing one means you agree to our <a href="terms.html">Terms</a>, which include a full refund if you ask within 14 days of a payment.</p>
 </main>
 <script>
 requireLogin();
+if(!TUTOR_ON) document.querySelectorAll('.tutor-only').forEach(e => e.remove());   // #174
 const P = RafiqPlan, $ = s => document.querySelector(s);
 const AMOUNTS = { essentials:{month:6.99, year:49.99}, complete:{month:11.99, year:79.99} };
 let interval = 'year';
@@ -130,7 +132,7 @@ function paint(){
 document.querySelectorAll('.seg button').forEach(b => b.onclick = () => { interval = b.dataset.i; paint(); });
 
 const ERR = {
-  not_ready: 'Payments open when Rafiq launches on 10 October, in shā’ Allāh. You can keep learning until then.',
+  not_ready: 'Payments aren’t open just yet, in shā’ Allāh very soon. You can keep learning until then.',
   already_subscribed: 'You already have a plan. Taking you to Settings…',
   signin: 'Please sign in again.', offline: 'You seem to be offline. Check your connection and try again.',
 };

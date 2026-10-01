@@ -10,10 +10,9 @@ from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get("BASE", "http://localhost:8765/")
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
-PUBLIC = ["index.html", "login.html", "privacy.html", "help.html", "reset-password.html"]   # plans.html needs sign-in
+PUBLIC = ["index.html", "login.html", "privacy.html", "help.html", "reset-password.html", "terms.html"]   # plans.html needs sign-in
 # third-party noise we can't fix from here (offline CDNs, analytics, Supabase with no session)
-IGNORE = ("Failed to load resource", "net::ERR", "supabase", "Supabase", "favicon",
-          "supabase is not defined")   # login.html when the CDN fails: #142
+IGNORE = ("Failed to load resource", "net::ERR", "supabase", "Supabase", "favicon")
 
 def main():
     pages = sorted(os.path.basename(p) for p in glob.glob("*.html"))

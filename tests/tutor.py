@@ -7,6 +7,8 @@ Claude API key) and a signed-in stand-in for Supabase:
   - the daily limit gives a clear message and hands the question back
   - "Why?" appears only after a wrong answer, explains it from what's on screen, and
     goes once the next question is on screen
+  - switched off (TUTOR_ON = false in auth.js, the soft launch, #174): no Tutor tab, the
+    tutor page goes Home, no "Why?" and no tutor line on Plans. The checks above switch it on.
 
   python3 .claude/skills/webapp-testing/scripts/with_server.py \
     --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/tutor.py
@@ -46,7 +48,7 @@ def main():
     with sync_playwright() as p:
         b = p.chromium.launch(executable_path=CHROME if os.path.exists(CHROME) else None,
                               args=["--proxy-server=" + proxy, "--proxy-bypass-list=localhost,127.0.0.1"] if proxy else [])
-        ctx = b.new_context(viewport={"width": 390, "height": 844}, ignore_https_errors=bool(proxy))
+        ctx = b.new_context(viewport={"width": 390, "height": 844}, ignore_https_errors=bool(proxy), service_workers="block")   # so the auth.js swap below reaches the page
         ctx.route("**/@supabase/**", lambda r: r.fulfill(status=200, content_type="application/javascript", body=FAKE_SUPABASE))
         ctx.route("**/functions/v1/tutor", tutor)
         ctx.route("**/functions/v1/quran", lambda r: r.fulfill(status=503, content_type="application/json", body='{"error":"stub"}'))
@@ -54,6 +56,25 @@ def main():
         page = ctx.new_page()
         errors = []
         page.on("pageerror", lambda e: errors.append(str(e)))
+
+        # switched off, as shipped (#174)
+        page.goto(BASE + "progress.html", wait_until="domcontentloaded"); page.wait_for_timeout(800)
+        ok.append(("off: no Tutor tab", page.locator(".tabbar a[href='tutor.html']").count() == 0 and page.locator(".tabbar a").count() == 4))
+        nav = []; page.on("framenavigated", lambda f: nav.append(f.url) if f == page.main_frame else None)
+        page.goto(BASE + "tutor.html", wait_until="domcontentloaded"); page.wait_for_timeout(800)
+        ok.append(("off: the tutor page goes Home " + str([u.split('/')[-1] for u in nav]), "tutor.html" not in page.url and any(u.endswith("dashboard.html") for u in nav)))
+        page.goto(BASE + "plans.html", wait_until="domcontentloaded"); page.wait_for_timeout(800)
+        ok.append(("off: no tutor line on Plans", "AI tutor" not in page.inner_text("body")))
+        page.goto(BASE + "learn.html?salah=quiz", wait_until="domcontentloaded"); page.wait_for_selector(".opt")
+        for _ in range(10):
+            page.locator(".opt").last.click(); page.wait_for_timeout(400)
+            if page.locator(".opt.wrong").count(): break
+            page.click("button.go"); page.wait_for_timeout(300)
+        ok.append(("off: no Why? after a wrong answer", page.locator(".opt.wrong").count() == 1 and page.locator(".tu-why").count() == 0))
+
+        # the rest with it switched on
+        ON = open("auth.js").read().replace("const TUTOR_ON = false;", "const TUTOR_ON = true;")
+        ctx.route("**/auth.js*", lambda r: r.fulfill(status=200, content_type="application/javascript", body=ON))
 
         # the tab
         page.goto(BASE + "progress.html", wait_until="domcontentloaded")

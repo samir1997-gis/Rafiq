@@ -11,7 +11,8 @@
                  ['practise','practise.html','تَدْرِيب','Practise'],
                  ['tutor','tutor.html','مُعَلِّم','Tutor'],
                  ['progress','progress.html','التَّقَدُّم','Progress'],
-                 ['settings','settings.html','إِعْدادات','Settings']];
+                 ['settings','settings.html','إِعْدادات','Settings']]
+                .filter(([k]) => k !== 'tutor' || (typeof TUTOR_ON !== 'undefined' && TUTOR_ON));   // auth.js
   function draw(){
     const links = document.querySelector('.navlinks');
     if(links) links.innerHTML = ITEMS.map(([k,h,,en]) => `<a href="${h}"${k===on?' class="active"':''}>${en}</a>`).join('') +

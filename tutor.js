@@ -134,6 +134,7 @@
   function hideWhy(){ if(why){ why.remove(); why = null; } if(watch){ watch.disconnect(); watch = null; } }
   function showWhy(){
     hideWhy();
+    if(typeof TUTOR_ON === 'undefined' || !TUTOR_ON) return;   // auth.js
     const head = document.querySelector('.lhead, .sess-head');
     if(!head || !window.RafiqPlan || !RafiqPlan.isComplete()) return;
     why = document.createElement('button');

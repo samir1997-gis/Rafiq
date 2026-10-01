@@ -27,11 +27,12 @@ create schema if not exists private;
 revoke all on schema private from anon, authenticated;
 create table if not exists private.config (key text primary key, value text not null);
 
--- The free week never ends before a week after launch (10 Oct 2026), so
--- everyone who joined before launch gets a full week of the paid app.
+-- The free week: 7 days from joining (#170, kept at 7). From the soft launch (1 Oct 2026)
+-- new accounts get exactly that; accounts from the beta already have their row, ending
+-- 17 Oct (a week after the planned 10 Oct launch), and keep it.
 create or replace function private.trial_end_for(joined timestamptz) returns timestamptz
 language sql immutable as $$
-  select greatest(joined + interval '7 days', timestamptz '2026-10-17 23:00:00+00')
+  select joined + interval '7 days'
 $$;
 
 -- every new account starts its free week

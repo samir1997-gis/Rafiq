@@ -5,6 +5,7 @@
   - a missing or wrong-looking email shows under the field, without asking the server
   - signing in: the button becomes a spinner, then a tick, then you're in; a wrong password shakes the card
   - show / hide password
+  - if the Supabase script can't load, it says so instead of doing nothing (#142)
 
   python3 .claude/skills/webapp-testing/scripts/with_server.py \
     --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/login_page.py
@@ -102,6 +103,17 @@ def main():
         c = ctx_for(b); p = c.new_page(); p.on("pageerror", lambda e: errors.append(str(e)))
         p.goto(BASE + "login.html"); p.wait_for_timeout(300); p.mouse.click(20, 20); p.wait_for_timeout(50)
         ok.append(("a tap skips the opening", not intro()))
+        c.close()
+
+        # the Supabase script doesn't load (#142): it says so, on load and on Sign in, instead of doing nothing
+        c = b.new_context(viewport={"width": 390, "height": 844}, reduced_motion="reduce")
+        c.route("**/@supabase/**", lambda r: r.abort()); c.route("https://fonts.googleapis.com/**", lambda r: r.abort())
+        p = c.new_page(); p.on("pageerror", lambda e: errors.append(str(e)))
+        p.goto(BASE + "login.html"); p.wait_for_timeout(400)
+        ok.append(("no Supabase: says it can't reach Rafiq", "Can’t reach Rafiq" in p.inner_text("#msg")))
+        p.fill("#email", "sam@example.com"); p.fill("#pw", "right-password"); p.click("#submitBtn"); p.wait_for_timeout(200)
+        p.click("#codeLink"); p.wait_for_timeout(200)
+        ok.append(("…and again on Sign in, or asking for a code, without errors", "Can’t reach Rafiq" in p.inner_text("#msg")))
         c.close()
         b.close()
     ok.append(("no page errors " + "; ".join(e[:120] for e in errors[:3]), not errors))

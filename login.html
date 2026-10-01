@@ -129,6 +129,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
 .msg.ok{color:var(--verdigris)}
 .toggle{margin-top:18px;text-align:center;font-size:13px;color:var(--ink-soft)}
 .toggle a{color:var(--verdigris);cursor:pointer;text-decoration:underline}
+.card:not(.signup) .agree{display:none}
 .forgot{display:block;text-align:right;margin-top:6px;font-size:12px;color:var(--verdigris);cursor:pointer;text-decoration:underline}
 .card.signup .forgot,.card.reset .forgot{display:none}
 .alt{text-align:center;margin-top:4px}
@@ -224,7 +225,8 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
         Continue with Apple</button>
     </div>
     <div class="toggle" id="toggle">New here? <a data-mode="signup">Create an account</a></div>
-    <p class="note"><a href="privacy.html" style="color:var(--ink-soft)">Privacy policy</a> · <a href="help.html" style="color:var(--ink-soft)">Help</a></p>
+    <p class="note agree">By creating an account you agree to our <a href="terms.html" style="color:var(--ink-soft)">Terms</a> and <a href="privacy.html" style="color:var(--ink-soft)">Privacy policy</a>.</p>
+    <p class="note"><a href="terms.html" style="color:var(--ink-soft)">Terms</a> · <a href="privacy.html" style="color:var(--ink-soft)">Privacy policy</a> · <a href="help.html" style="color:var(--ink-soft)">Help</a></p>
   </form>
 
   <section class="card sent" id="sent" hidden aria-labelledby="sentTitle">
@@ -301,7 +303,9 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
 // --- your project's SAFE public values ---
 const SUPABASE_URL = 'https://gaajfahtrbdybjuunfhe.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_nFs-UJyKpTsCtHRn4WZJGg_c14-cM4e';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// the Supabase script can fail to load (no signal, a content blocker): say so instead of a form that does nothing (#142)
+const sb = window.supabase ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+const NO_SB = 'Can’t reach Rafiq right now. Check your connection and try again.';
 
 let mode = 'signin'; // or 'signup' or 'reset'
 const form   = document.getElementById('authForm');
@@ -348,6 +352,7 @@ async function goIn(wait){
 (async () => {
   const err = linkError();
   if (err) { showMsg(err); return; }
+  if (!sb) { showMsg(NO_SB); return; }
   const { data } = await sb.auth.getSession();
   // a session from before the beta reset (see SIGN_IN_AGAIN_BEFORE in auth.js) doesn't count
   const at = data && data.session && data.session.user && data.session.user.last_sign_in_at;
@@ -555,6 +560,7 @@ function codeCooldown(sec){
   draw(); codeTick = setInterval(() => { codeWait--; draw(); if (codeWait <= 0) clearInterval(codeTick); }, 1000);
 }
 async function sendCode(email){
+  if (!sb) return NO_SB;
   const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false } });
   if (!error) return '';
   const m = (error.message || '').toLowerCase();
@@ -608,6 +614,7 @@ codeCard.addEventListener('submit', async (e) => {
 
 form.addEventListener('submit', async (e)=>{
   e.preventDefault();
+  if (!sb) { showMsg(NO_SB); shake(); return; }
   const email = document.getElementById('email').value.trim();
   const pw    = pwEl.value;
   const name  = (document.getElementById('nm').value||'').trim();
