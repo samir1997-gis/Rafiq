@@ -131,7 +131,7 @@ async function userTables() {
     // Rafiq's copy of each plan next to Stripe's own record (#191): does a cancelled plan show as cancelled?
     const KEY = process.env.STRIPE_SECRET_KEY;
     if (!KEY) { console.error('STRIPE_SECRET_KEY is needed'); process.exit(1); }
-    const day = t => t ? new Date(typeof t === 'number' ? t * 1000 : t).toISOString().slice(0, 10) : '—';
+    const day = t => t ? new Date(typeof t === 'number' ? t * 1000 : t).toISOString().slice(0, 16).replace('T', ' ') : '—';   // UTC, to the minute
     const rows = await sql(`select b.user_id, u.email, b.plan, b.status, b.cancel_at_period_end, b.current_period_end, b.updated_at,
                               b.stripe_customer_id, b.stripe_subscription_id from public.billing b join auth.users u on u.id = b.user_id
                             where b.stripe_customer_id is not null order by u.email`);
