@@ -7,6 +7,9 @@
      node tools/supabase-users.js billing-clear-test CLEAR-TEST-BILLING   empty them, when going live (#70)
      node tools/supabase-users.js active [days]    how many people studied each day, last N days (default 14; read only)
      node tools/supabase-users.js sources [days]   where people who joined in the last N days came from (default 30; read only)
+     node tools/supabase-users.js visits [days]    website visits from Cloudflare Web Analytics: by day, referrer, country, page, device
+                                                   (default 7; needs CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID; read only)
+     node tools/supabase-users.js make-admin id    let this account open the owner dashboard (admin.html)
      node tools/supabase-users.js delete id1,id2   delete these accounts (max 5) and their rows
      node tools/supabase-users.js reset-preview    who a beta reset would wipe (changes nothing)
      node tools/supabase-users.js reset RESET-BETA wipe progress + onboarding answers for them
@@ -91,6 +94,36 @@ async function userTables() {
     for (const r of rows) console.log(`${(r.source + (r.campaign ? ` (${r.campaign})` : '')).slice(0, 36).padEnd(38)}${String(r.joined).padStart(6)}` +
       `${String(r.first_lesson).padStart(12)}${String(r.back_next_day).padStart(10)}${String(r.chose_plan).padStart(12)}${String(r.paying).padStart(8)}`);
     console.log("\n'unknown' = joined before this was tracked (2 Oct 2026). Tag links: rafiq-arabic.com/?utm_source=tiktok&utm_campaign=meet-rafiq");
+    return;
+  }
+  if (cmd === 'visits') {
+    // the same numbers the owner dashboard shows (#189): Cloudflare's GraphQL API, Web Analytics (RUM) page loads
+    const days = Math.max(1, Math.min(30, parseInt(arg, 10) || 7));
+    const CF = process.env.CLOUDFLARE_API_TOKEN, ACC = process.env.CLOUDFLARE_ACCOUNT_ID;
+    if (!CF || !ACC) { console.error('CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID are needed (GitHub secrets)'); process.exit(1); }
+    const by = d => `rumPageloadEventsAdaptiveGroups(limit: 15, filter: $f, orderBy: [sum_visits_DESC]) { count sum { visits } dimensions { ${d} } }`;
+    const query = `query($acc: string, $f: AccountRumPageloadEventsAdaptiveGroupsFilter_InputObject) { viewer { accounts(filter: {accountTag: $acc}) {
+      total: rumPageloadEventsAdaptiveGroups(limit: 1, filter: $f) { count sum { visits } }
+      days: rumPageloadEventsAdaptiveGroups(limit: 31, filter: $f, orderBy: [date_ASC]) { count sum { visits } dimensions { date } }
+      refs: ${by('refererHost')} countries: ${by('countryName')} paths: ${by('requestPath')} devices: ${by('deviceType')} } } }`;
+    const f = { datetime_geq: new Date(Date.now() - days * 864e5).toISOString(), datetime_leq: new Date().toISOString() };
+    const r = await fetch('https://api.cloudflare.com/client/v4/graphql', { method: 'POST',
+      headers: { Authorization: `Bearer ${CF}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ query, variables: { acc: ACC, f } }) });
+    const j = await r.json();
+    if (!r.ok || j.errors) { console.error('Cloudflare:', r.status, JSON.stringify(j.errors || j).slice(0, 500)); process.exit(1); }
+    const a = j.data.viewer.accounts[0], t = a.total[0] || { count: 0, sum: { visits: 0 } };
+    console.log(`Last ${days} days: ${t.sum.visits} visits, ${t.count} page views\n`);
+    console.log('Per day:'); a.days.forEach(x => console.log(`  ${x.dimensions.date}  ${String(x.sum.visits).padStart(4)} visits  ${String(x.count).padStart(4)} views`));
+    for (const [k, name, d] of [['refs', 'Where they came from', 'refererHost'], ['countries', 'Countries', 'countryName'], ['paths', 'Pages', 'requestPath'], ['devices', 'Devices', 'deviceType']]) {
+      console.log(`\n${name}:`); a[k].forEach(x => console.log(`  ${String(x.sum.visits).padStart(4)}  ${x.dimensions[d] || '(direct / none)'}`));
+    }
+    return;
+  }
+  if (cmd === 'make-admin') {
+    if (!UUID.test(arg || '')) { console.error('give the account id (from the list command)'); process.exit(1); }
+    const r = await sql(`update auth.users set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb) || '{"admin": true}'
+                         where id = '${arg}' returning email`);
+    console.log(r.length ? `${mask(r[0].email)} can now open admin.html (sign out and in again)` : 'no such account');
     return;
   }
   if (cmd === 'billing-test' || cmd === 'billing-clear-test') {
