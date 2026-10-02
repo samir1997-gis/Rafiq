@@ -5,6 +5,7 @@
 // get Stripe's own receipt.
 // Cancelling (#182), in Settings or in Stripe's Manage billing: within 14 days of the first payment (or
 // a yearly one) it's refunded automatically and the plan ends now; then a "you've cancelled" email.
+// A refund made by hand in Stripe (#193): a fully refunded payment ends the plan now, too.
 import Stripe from 'npm:stripe@17';
 import { stripe, sync } from '../_shared/stripe.ts';
 import { admin, sendEmail } from '../_shared/common.ts';
@@ -45,7 +46,8 @@ async function onCancelled(sub: Stripe.Subscription) {
   if (kind === 'refund') {
     try {
       for (const inv of d.invoices)
-        await stripe!.refunds.create(inv.payment_intent ? { payment_intent: String(inv.payment_intent) } : { charge: String(inv.charge) },
+        await stripe!.refunds.create({ ...(inv.payment_intent ? { payment_intent: String(inv.payment_intent) } : { charge: String(inv.charge) }),
+                                       metadata: { rafiq: 'auto' } },     // onRefunded leaves these alone: this path ends the plan itself
                                      { idempotencyKey: `rafiq-refund-${inv.id}` })
           .catch((e: { code?: string }) => { if (e?.code !== 'charge_already_refunded') throw e; });   // refunded by hand already: done
       await admin.from('billing').update({ refunded_at: new Date().toISOString() }).eq('user_id', uid);   // once per account
@@ -56,6 +58,19 @@ async function onCancelled(sub: Stripe.Subscription) {
   if (a) await send(a.email, cancelled(a.name, i.plan, kind, {
     until: kind === 'free' ? (sub.trial_end ? new Date(sub.trial_end * 1000) : null) : end ? new Date(end * 1000) : null,
     pence: d.pence, askRefund }));
+}
+// A payment refunded in full by hand in Stripe: end the customer's plan now, not at the end of the period.
+// Counts as their refund (refunded_at), like the automatic one. No email: a hand refund follows a conversation.
+async function onRefunded(ch: Stripe.Charge) {
+  const refunds = await stripe!.refunds.list({ charge: ch.id, limit: 1 }).catch(e => { console.error(e); return null; });
+  if (refunds?.data[0]?.metadata?.rafiq === 'auto') return;
+  const customer = typeof ch.customer === 'string' ? ch.customer : ch.customer?.id;
+  const { data: b } = await admin.from('billing').select('user_id, stripe_subscription_id').eq('stripe_customer_id', customer!).maybeSingle();
+  if (!b?.stripe_subscription_id) return;
+  const sub = await stripe!.subscriptions.retrieve(b.stripe_subscription_id).catch(() => null);
+  if (!sub || ['canceled', 'incomplete_expired'].includes(sub.status)) return;
+  await admin.from('billing').update({ refunded_at: new Date().toISOString() }).eq('user_id', b.user_id);
+  await stripe!.subscriptions.cancel(sub.id);   // ends now; the 'deleted' event updates the billing row
 }
 async function send(to: string, m: { subject: string; html: string }) {
   try { await sendEmail(to, m.subject, m.html, text(m.html)); } catch (e) { console.error(e); }   // never fail the webhook over an email
@@ -76,6 +91,9 @@ Deno.serve(async (req) => {
     const before = (event.data as { previous_attributes?: { cancel_at_period_end?: boolean; cancel_at?: number | null } }).previous_attributes;
     if (event.type === 'customer.subscription.updated' && before && (sub.cancel_at_period_end || sub.cancel_at)
         && (before.cancel_at_period_end === false || before.cancel_at === null)) await onCancelled(sub);
+  } else if (event.type === 'charge.refunded') {
+    const ch = event.data.object as Stripe.Charge;
+    if (ch.refunded && ch.customer) await onRefunded(ch);     // refunded in full
   } else if (event.type === 'checkout.session.completed') {
     const s = event.data.object as Stripe.Checkout.Session;
     if (s.subscription) {
