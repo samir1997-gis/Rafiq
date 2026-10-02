@@ -13,7 +13,8 @@ const PLANS = {
   essentials: { name: 'Rafiq Essentials', desc: 'The whole course, reviews, audio and practice.', monthly: 699, yearly: 4999 },
   complete:   { name: 'Rafiq Complete', desc: 'Everything, plus the conversation partner, unlimited smart checks, real-life scenes and the weak-spots review.', monthly: 1199, yearly: 7999 },
 };
-const EVENTS = ['checkout.session.completed', 'customer.subscription.created', 'customer.subscription.updated', 'customer.subscription.deleted'];
+const EVENTS = ['checkout.session.completed', 'customer.subscription.created', 'customer.subscription.updated', 'customer.subscription.deleted',
+  'charge.refunded'];   // a refund made by hand in Stripe ends the plan (#193)
 
 // Stripe's API takes form encoding; nested keys like a[b][0]=c
 function form(obj, pre = '', out = []) {
