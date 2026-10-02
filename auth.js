@@ -91,6 +91,8 @@ async function requireLogin(){
     }
     markActive();                             // fresh activity: reset the idle clock
     saveSource(data.session.user);
+    // the Rafiq team's own devices aren't counted in the visits (the beacon in each page checks this, #191)
+    if ((data.session.user.app_metadata || {}).admin === true) { try { localStorage.setItem('rafiq_team', '1'); } catch(_) {} }
     return data.session;
   } catch(_) {
     return null;                              // on error, fail open rather than trap the user

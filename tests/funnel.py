@@ -15,7 +15,7 @@ FUNNEL = SQL[SQL.index("-- Where learners drop off"):]
 SETUP = """
 create schema auth; create schema private;
 create role anon; create role authenticated; create role service_role;
-create table auth.users (id uuid primary key, created_at timestamptz, email_confirmed_at timestamptz, raw_user_meta_data jsonb default '{}');
+create table auth.users (id uuid primary key, created_at timestamptz, email_confirmed_at timestamptz, raw_user_meta_data jsonb default '{}', raw_app_meta_data jsonb default '{}');
 create table public.item_progress (user_id uuid, item_id text, primary key (user_id, item_id));
 create table public.billing (user_id uuid primary key, status text, stripe_subscription_id text);
 """
@@ -42,6 +42,11 @@ insert into public.billing values
 update auth.users set raw_user_meta_data = '{"source": {"src": "tiktok", "campaign": "meet-rafiq"}}'
   where id in ('00000000-0000-0000-0000-000000000003', '00000000-0000-0000-0000-000000000004');
 update auth.users set raw_user_meta_data = '{"name": "A", "source": {"src": "instagram.com"}}' where id = '00000000-0000-0000-0000-000000000001';
+-- an admin (the Rafiq team) who studied and paid: never counted
+insert into auth.users values ('00000000-0000-0000-0000-0000000000aa', date_trunc('week', current_date - 21), date_trunc('week', current_date - 21),
+  '{"source": {"src": "tiktok", "campaign": "meet-rafiq"}}', '{"admin": true}');
+insert into public.item_progress values ('00000000-0000-0000-0000-0000000000aa', 'p:00|letters1');
+insert into public.billing values ('00000000-0000-0000-0000-0000000000aa', 'active', 'sub_admin');
 """
 
 def main():
@@ -58,7 +63,7 @@ def main():
         new, old = (list(map(int, r[1:])) for r in (rows[0], rows[-1]))   # newest week first
         src = {r.split("|")[0]: r.split("|")[1:] for r in psql("select * from private.funnel_by_source(30)").splitlines()}
         ok = [
-            ("the week three weeks back: 4 joined, 3 confirmed, 2 finished a lesson (placed doesn't count) " + str(old[:3]), old[:3] == [4, 3, 2]),
+            ("the week three weeks back (the admin who studied and paid isn't counted): 4 joined, 3 confirmed, 2 finished a lesson (placed doesn't count) " + str(old[:3]), old[:3] == [4, 3, 2]),
             ("…all 4 could be back the next day, 1 was " + str(old[3:5]), old[3:5] == [4, 1]),
             ("…all 4 could be back after a week, 1 was " + str(old[5:7]), old[5:7] == [4, 1]),
             ("…2 chose a plan, 1 paying " + str(old[7:]), old[7:] == [2, 1]),
