@@ -100,6 +100,17 @@ def main():
         ok.append(("no tag and no other site: direct", p.evaluate("JSON.parse(localStorage.getItem('rafiq_src')).src") == "direct"))
         ok.append(("an ordinary visitor's visit is counted (the beacon loads)", p.locator("script[src*='cloudflareinsights']").count() == 1))
         c.close()
+        # the short bio links: rafiq-arabic.com/ig and /tt land on the home page, tagged
+        c, p = page_for(b, errors, viewport={"width": 390, "height": 844})
+        p.goto(BASE + "tt/?utm_campaign=givenup"); p.wait_for_url("**/?utm_source=tiktok*"); p.wait_for_timeout(200)
+        tt = p.evaluate("JSON.parse(localStorage.getItem('rafiq_src'))")
+        c.close()
+        c, p = page_for(b, errors, viewport={"width": 390, "height": 844})
+        p.goto(BASE + "ig/"); p.wait_for_url("**/?utm_source=instagram*"); p.wait_for_timeout(200)
+        ig = p.evaluate("JSON.parse(localStorage.getItem('rafiq_src'))")
+        ok.append(("short links /ig and /tt land on the home page as instagram and tiktok (%s, %s)" % (ig, tt),
+                   ig["src"] == "instagram" and tt["src"] == "tiktok" and tt["campaign"] == "givenup" and p.locator(".tile").count() > 0))
+        c.close()
         b.close()
     ok.append(("no page errors " + "; ".join(e[:120] for e in errors[:3]), not errors))
     for name, good in ok: print(("ok   " if good else "FAIL ") + name)
