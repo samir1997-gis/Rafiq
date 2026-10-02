@@ -84,3 +84,35 @@ if __name__ == "__main__" and "whole" in sys.argv: whole_versions()
 #   A 74s 1.99/2.08/2.83 -> 43s 2.29/2.11/2.74;  B 81s 1.79/1.96/2.88 -> 50s 2.08/1.99/2.82;  C 52s 2.17/2.12/2.80 -> 38s 2.34/2.17/2.83
 # Cut (seconds in the originals): A 7.70-14.67, 23.06-36.12, 46.10-56.75 -> 43.2s;
 #   B 10.85-14.23, 22.70-28.70, 43.74-60.28, 63.94-69.05 -> 49.8s;  C 4.55-15.98, 19.95-21.85, 38.92-46.85 -> 37.8s
+
+# ---- second pass: the owner's intros stay whole; only the app parts are trimmed. And: what raises "visit the site"?
+CUTS2 = {"A_26years": {"intro kept, cut A4 A5 A7 (50s)": ["A4", "A5", "A7"], "intro kept, cut A4 A5 A6 A7 (40s)": ["A4", "A5", "A6", "A7"]},
+         "B_builder": {"intro kept, cut B5 B8 B9 B11 (53s)": ["B5", "B8", "B9", "B11"], "intro kept, cut B5 B6 B8 B9 B11 (48s)": ["B5", "B6", "B8", "B9", "B11"]},
+         "C_given_up": {"intro kept, cut C5 (49s)": ["C5"], "intro kept, cut C4 C5 (45s)": ["C4", "C5"]}}
+ENDS = {"now": "End card: 'A few minutes a day, and words that stay. Start free at rafiq-arabic.com.'",
+        "offer": "End card: 'Try the full app free for 7 days, no card needed. Link in bio: rafiq-arabic.com.'",
+        "founder": "The founder back on camera for 3 seconds: 'I built this for people like me. It's free for a week, link's in my bio.' then the end card with rafiq-arabic.com",
+        "first_win": "End card: 'In your first week: read the letters and say your first Arabic sentence. Free, no card. rafiq-arabic.com'"}
+def second_pass():
+    ex = ThreadPoolExecutor(8)
+    for ad, versions in CUTS2.items():
+        runs = []
+        for name, cut in versions.items():
+            txt = CTX + " | ".join(t for p, t in ADS[ad] if p not in cut)
+            runs += [(name, txt, v) for v in VIEWERS for _ in range(2)]
+        res = list(ex.map(lambda r: ask({"ad": r[1], "viewer": VIEWERS[r[2]]}, WQ)["answers"], runs))
+        print(ad)
+        for name in versions:
+            rs = [a for (n, _, _), a in zip(runs, res) if n == name]
+            print(f"  {name:<38}" + "  ".join(f"{q} {sum(a[q]['score'] for a in rs)/len(rs):.2f}" for q in WQ))
+    base = " | ".join(t for p, t in ADS["A_26years"] if p not in ("A4", "A5", "A7", "A9"))
+    runs = [(k, CTX + base + " | " + e, v) for k, e in ENDS.items() for v in VIEWERS for _ in range(2)]
+    res = list(ex.map(lambda r: ask({"ad": r[1], "viewer": VIEWERS[r[2]]}, WQ)["answers"]["try"]["score"], runs))
+    print("endings (on the 26-years ad), visit the site:")
+    for k in ENDS: print(f"  {k:<10} {sum(s for (n, _, _), s in zip(runs, res) if n == k)/10:.2f}")
+if __name__ == "__main__" and "second" in sys.argv: second_pass()
+# Second pass (owner: keep my intros whole, trim only the app parts) — watch / visit / flow:
+#   A cut A4 A5 A7 (50s) 2.34/2.10/2.81  [+A6 (40s) 2.36/2.07/2.87];  B cut B5 B8 B9 B11 (53s) 2.24/2.02/2.89  [+B6 (48s) 2.25/2.02/2.86]
+#   C cut C5 (+tutor) (49s) 2.31/2.13/2.77  [+C4 (45s) 2.28/2.10/2.84].  Intros kept watch as well or better than intros cut.
+# Endings don't move "visit the site" (2.07-2.10 for all four): the click comes from the link/button, not the words.
+# Final cuts: A 23.06-36.12, 46.10-56.75 -> 50.1s;  B 22.70-28.70, 43.74-60.28, 63.94-69.05 -> 53.2s;  C 19.95-21.85, 38.92-46.85 -> 49.2s
