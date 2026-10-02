@@ -181,11 +181,12 @@ select u.id as user_id,
   exists (select 1 from public.item_progress p where p.user_id = u.id and p.item_id like 's:%'
           and p.item_id >= 's:' || to_char(u.created_at::date + 7, 'YYYY-MM-DD')) as back_after_week,
   b.stripe_subscription_id is not null as chose_plan,      -- went through checkout (card given)
-  coalesce(b.status = 'active', false) as paying,
+  coalesce(b.status = 'active' and not b.cancel_at_period_end, false) as paying,   -- cancelled plans run to the period's end, but aren't counted (#191)
   -- where they first came from (#186): a link's utm_source, the site that linked, or 'direct'; saved at sign-up
   coalesce(nullif(u.raw_user_meta_data->'source'->>'src', ''), 'unknown') as source,
   nullif(u.raw_user_meta_data->'source'->>'campaign', '') as campaign
-from auth.users u left join public.billing b on b.user_id = u.id;
+from auth.users u left join public.billing b on b.user_id = u.id
+where coalesce(u.raw_app_meta_data->>'admin', '') <> 'true';   -- the Rafiq team's own accounts aren't counted (#191)
 
 -- "Back the next day" only counts people who joined at least a day ago, and "back after
 -- a week" people who joined at least a week ago, so a new week doesn't look like a drop.
@@ -223,7 +224,8 @@ create or replace function public.admin_funnel_by_source(days int default 7) ret
   source text, campaign text, joined bigint, first_lesson bigint, back_next_day bigint, chose_plan bigint, paying bigint)
 language sql stable security definer set search_path = private, public as $$ select * from private.funnel_by_source(days) $$;
 create or replace function public.admin_account_count() returns bigint
-language sql stable security definer set search_path = public as $$ select count(*) from auth.users $$;
+language sql stable security definer set search_path = public as $$
+  select count(*) from auth.users where coalesce(raw_app_meta_data->>'admin', '') <> 'true' $$;
 revoke all on function public.admin_funnel_by_source(int) from public, anon, authenticated;
 revoke all on function public.admin_account_count() from public, anon, authenticated;
 grant execute on function public.admin_funnel_by_source(int) to service_role;

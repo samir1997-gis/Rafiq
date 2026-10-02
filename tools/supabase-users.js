@@ -4,6 +4,7 @@
 
      node tools/supabase-users.js list [days]      accounts created in the last N days (default 3)
      node tools/supabase-users.js billing-test     billing rows with Stripe details (read only)
+     node tools/supabase-users.js billing-check    each billing row next to what Stripe itself says (needs STRIPE_SECRET_KEY; read only)
      node tools/supabase-users.js billing-clear-test CLEAR-TEST-BILLING   empty them, when going live (#70)
      node tools/supabase-users.js active [days]    how many people studied each day, last N days (default 14; read only)
      node tools/supabase-users.js sources [days]   where people who joined in the last N days came from (default 30; read only)
@@ -124,6 +125,31 @@ async function userTables() {
     const r = await sql(`update auth.users set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb) || '{"admin": true}'
                          where id = '${arg}' returning email`);
     console.log(r.length ? `${mask(r[0].email)} can now open admin.html (sign out and in again)` : 'no such account');
+    return;
+  }
+  if (cmd === 'billing-check') {
+    // Rafiq's copy of each plan next to Stripe's own record (#191): does a cancelled plan show as cancelled?
+    const KEY = process.env.STRIPE_SECRET_KEY;
+    if (!KEY) { console.error('STRIPE_SECRET_KEY is needed'); process.exit(1); }
+    const day = t => t ? new Date(typeof t === 'number' ? t * 1000 : t).toISOString().slice(0, 10) : '—';
+    const rows = await sql(`select b.user_id, u.email, b.plan, b.status, b.cancel_at_period_end, b.current_period_end, b.updated_at,
+                              b.stripe_customer_id, b.stripe_subscription_id from public.billing b join auth.users u on u.id = b.user_id
+                            where b.stripe_customer_id is not null order by u.email`);
+    for (const r of rows) {
+      console.log(`\n${mask(r.email)}`);
+      console.log(`  Rafiq:  plan ${r.plan || '—'}, status ${r.status || '—'}, cancels at period end ${r.cancel_at_period_end ? 'yes' : 'no'}, ` +
+                  `period ends ${day(r.current_period_end)}, last updated ${day(r.updated_at)}`);
+      const res = await fetch(`https://api.stripe.com/v1/subscriptions?customer=${r.stripe_customer_id}&status=all&limit=10`, { headers: { Authorization: `Bearer ${KEY}` } });
+      const j = await res.json();
+      if (!res.ok) { console.log(`  Stripe: couldn't read (${j.error && j.error.message})`); continue; }
+      if (!j.data.length) console.log('  Stripe: no subscriptions');
+      for (const x of j.data) {
+        const it = x.items.data[0] || {};
+        console.log(`  Stripe: ${x.id === r.stripe_subscription_id ? '(this one) ' : ''}${(it.price && it.price.lookup_key) || '?'}, status ${x.status}` +
+                    `${x.cancel_at_period_end || x.cancel_at ? `, set to cancel on ${day(x.cancel_at || it.current_period_end || x.current_period_end)}` : ''}` +
+                    `${x.canceled_at ? `, cancelled ${day(x.canceled_at)}` : ''}${x.ended_at ? `, ended ${day(x.ended_at)}` : ''}${x.trial_end ? `, trial ends ${day(x.trial_end)}` : ''}`);
+      }
+    }
     return;
   }
   if (cmd === 'billing-test' || cmd === 'billing-clear-test') {

@@ -14,7 +14,7 @@ SHOTS = os.environ.get("SHOTS")
 FAKE = """
 window.supabase = { createClient: () => {
   const q = () => { const o = new Proxy(function(){}, { get: (t, k) => k === 'then' ? (res => Promise.resolve({ data: null, error: null }).then(res)) : () => o }); return o; };
-  const session = { access_token: 't', expires_at: Date.now() / 1000 + 3600, user: { id: 'u1', email: 't@example.com', user_metadata: {} } };
+  const session = { access_token: 't', expires_at: Date.now() / 1000 + 3600, user: { id: 'u1', email: 't@example.com', user_metadata: {}, app_metadata: { admin: true } } };
   return { from: q, rpc: q, auth: { getSession: async () => ({ data: { session } }), getUser: async () => ({ data: { user: session.user } }),
     onAuthStateChange: () => ({ data: { subscription: { unsubscribe() {} } } }), updateUser: async () => ({}), signOut: async () => ({}) } };
 } };
@@ -55,6 +55,10 @@ def main():
                 ok.append(("sign-ups by source in a table", "Before tracking" in p.inner_text("#sources") and p.locator("#sources tr").count() == 3))
                 p.click(".range button[data-d='30']"); p.wait_for_timeout(300)
                 ok.append(("30 days asks for 30 and draws 30 days", asked[-1] == 30 and p.locator(".day").count() == 30))
+                p.goto(BASE + "index.html"); p.wait_for_timeout(300)
+                ok.append(("a team member's device is marked, and the visits beacon doesn't load on it",
+                           p.evaluate("localStorage.getItem('rafiq_team')") == "1" and p.locator("script[src*='cloudflareinsights']").count() == 0))
+                p.goto(BASE + "admin.html"); p.wait_for_selector("#out:not([hidden])", timeout=8000)
                 wide = p.evaluate("document.documentElement.scrollWidth <= innerWidth")
                 ok.append(("nothing wider than a phone screen", wide))
             if SHOTS: p.screenshot(path=f"{SHOTS}/admin-{scheme}.png", full_page=True)

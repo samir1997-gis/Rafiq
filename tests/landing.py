@@ -98,6 +98,7 @@ def main():
         c, p = page_for(b, errors, viewport={"width": 390, "height": 844})
         p.goto(BASE + "index.html"); p.wait_for_timeout(200)
         ok.append(("no tag and no other site: direct", p.evaluate("JSON.parse(localStorage.getItem('rafiq_src')).src") == "direct"))
+        ok.append(("an ordinary visitor's visit is counted (the beacon loads)", p.locator("script[src*='cloudflareinsights']").count() == 1))
         c.close()
         b.close()
     ok.append(("no page errors " + "; ".join(e[:120] for e in errors[:3]), not errors))
