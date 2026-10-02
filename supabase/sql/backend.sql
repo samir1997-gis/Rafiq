@@ -181,7 +181,7 @@ select u.id as user_id,
   exists (select 1 from public.item_progress p where p.user_id = u.id and p.item_id like 's:%'
           and p.item_id >= 's:' || to_char(u.created_at::date + 7, 'YYYY-MM-DD')) as back_after_week,
   b.stripe_subscription_id is not null as chose_plan,      -- went through checkout (card given)
-  coalesce(b.status = 'active', false) as paying,
+  coalesce(b.status = 'active' and not b.cancel_at_period_end, false) as paying,   -- cancelled plans run to the period's end, but aren't counted (#191)
   -- where they first came from (#186): a link's utm_source, the site that linked, or 'direct'; saved at sign-up
   coalesce(nullif(u.raw_user_meta_data->'source'->>'src', ''), 'unknown') as source,
   nullif(u.raw_user_meta_data->'source'->>'campaign', '') as campaign

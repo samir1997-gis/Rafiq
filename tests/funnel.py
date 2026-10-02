@@ -17,7 +17,7 @@ create schema auth; create schema private;
 create role anon; create role authenticated; create role service_role;
 create table auth.users (id uuid primary key, created_at timestamptz, email_confirmed_at timestamptz, raw_user_meta_data jsonb default '{}', raw_app_meta_data jsonb default '{}');
 create table public.item_progress (user_id uuid, item_id text, primary key (user_id, item_id));
-create table public.billing (user_id uuid primary key, status text, stripe_subscription_id text);
+create table public.billing (user_id uuid primary key, status text, stripe_subscription_id text, cancel_at_period_end boolean not null default false);
 """
 # a fixed Monday three weeks back, so the made-up people all land in one week
 DATA = """
@@ -47,6 +47,8 @@ insert into auth.users values ('00000000-0000-0000-0000-0000000000aa', date_trun
   '{"source": {"src": "tiktok", "campaign": "meet-rafiq"}}', '{"admin": true}');
 insert into public.item_progress values ('00000000-0000-0000-0000-0000000000aa', 'p:00|letters1');
 insert into public.billing values ('00000000-0000-0000-0000-0000000000aa', 'active', 'sub_admin');
+-- someone who joined today, paid, then cancelled: chose a plan, but not paying any more
+insert into public.billing values ('00000000-0000-0000-0000-000000000005', 'active', 'sub_5', true);
 """
 
 def main():
@@ -67,7 +69,8 @@ def main():
             ("…all 4 could be back the next day, 1 was " + str(old[3:5]), old[3:5] == [4, 1]),
             ("…all 4 could be back after a week, 1 was " + str(old[5:7]), old[5:7] == [4, 1]),
             ("…2 chose a plan, 1 paying " + str(old[7:]), old[7:] == [2, 1]),
-            ("this week: 1 joined today, not yet counted as able to come back " + str(new), new[0] == 1 and new[3] == 0 and new[5] == 0),
+            ("this week: 1 joined today, not yet counted as able to come back; chose a plan but cancelled, so not paying " + str(new),
+             new[0] == 1 and new[3] == 0 and new[5] == 0 and new[7] == 1 and new[8] == 0),
             ("by source: tiktok (meet-rafiq) 2 joined, 2 lessons, 1 next day, 2 chose a plan, 1 paying " + str(src.get("tiktok")),
              src.get("tiktok") == ["meet-rafiq", "2", "2", "1", "2", "1"]),
             ("…instagram.com 1 joined, nothing else; no source saved shows as unknown (2) " + str(src.get("instagram.com")) + str(src.get("unknown")),
