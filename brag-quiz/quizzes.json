@@ -1,0 +1,55 @@
+[
+  {
+    "id": "q1-samia",
+    "kicker": "YOUR SALAH · QUICK QUIZ",
+    "question": "What does this word in your salah mean?",
+    "word": "سَمِعَ",
+    "word_audio": "سَمِعَ",
+    "options": [
+      "sees",
+      "hears",
+      "knows",
+      "forgives"
+    ],
+    "rtl": false,
+    "answer": 1,
+    "reveal_audio": "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ",
+    "explain_ar": "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ",
+    "explain": "“Allah hears the one who praises Him.” You say it rising from ruku."
+  },
+  {
+    "id": "q2-rabbana",
+    "kicker": "YOUR SALAH · QUICK QUIZ",
+    "question": "Which of these means “our Lord”?",
+    "options": [
+      "رَبِّ",
+      "رَبِّيَ",
+      "رَبَّنا"
+    ],
+    "rtl": true,
+    "answer": 2,
+    "option_audio": [
+      "رَبِّ",
+      "رَبِّيَ",
+      "رَبَّنا"
+    ],
+    "reveal_audio": "رَبَّنا وَلَكَ الْحَمْدُ",
+    "explain_ar": "رَبَّنا وَلَكَ الْحَمْدُ",
+    "explain": "ـنا on the end means “our”. رَبِّ and رَبِّيَ both mean “my Lord”."
+  },
+  {
+    "id": "q3-sujood",
+    "kicker": "YOUR SALAH · QUICK QUIZ",
+    "question": "In ruku you say\nسُبْحانَ رَبِّيَ الْعَظِيمِ\nWhat do you say in sujood?",
+    "lead_audio": "سُبْحانَ رَبِّيَ الْعَظِيمِ",
+    "options": [
+      "سُبْحانَ رَبِّيَ الْعَظِيمِ",
+      "سُبْحانَ رَبِّيَ الْأَعْلى",
+      "اللَّهُ أَكْبَرُ"
+    ],
+    "rtl": true,
+    "answer": 1,
+    "reveal_audio": "سُبْحانَ رَبِّيَ الْأَعْلى",
+    "explain": "Ruku: “Glory be to my Lord, the Magnificent.” Sujood: “Glory be to my Lord, the Most High.”"
+  }
+]
