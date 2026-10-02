@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<script src="theme.js?v=2"></script>
+<script src="pwa.js?v=2"></script>
+<!-- no Cloudflare beacon here: the owner checking the numbers shouldn't add to them -->
+<title>Dashboard — Rafiq</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=902">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1ECE0">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1B1815">
+<meta name="color-scheme" content="light dark">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js?v=9"></script>
+<style>
+/* The owner dashboard (#189): website visits from Cloudflare Web Analytics, and sign-ups by where people came from. */
+main.wrap{max-width:720px;padding-bottom:56px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0 4px}
+.top a{color:var(--verdigris);font-size:14px;text-decoration:none;padding:10px 0}
+h1{font-size:28px;letter-spacing:-.02em;margin:10px 0 4px}
+.sub{color:var(--ink-soft);font-size:14px;margin:0 0 16px}
+.range{display:flex;gap:6px;margin:0 0 18px}
+.range button{font:inherit;font-size:14px;font-weight:700;padding:8px 14px;border-radius:999px;border:1px solid var(--rule);background:var(--card);color:var(--ink);cursor:pointer}
+.range button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 18px}
+@media (max-width:560px){.tiles{grid-template-columns:repeat(2,1fr)}}
+.tile{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:14px 14px 12px}
+.tile b{display:block;font-size:30px;letter-spacing:-.02em;line-height:1.1}
+.tile span{font-size:13px;color:var(--ink-soft)}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:16px 16px 12px;margin:0 0 14px}
+.card h2{font-size:16px;margin:0 0 12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:560px){.grid2{grid-template-columns:1fr}}
+.grid2 .card{margin:0}
+/* visits per day: one series, so no legend; the value sits on each bar and in its tooltip */
+.days{display:flex;align-items:flex-end;gap:2px;height:150px;padding-top:18px}
+.day{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0;position:relative}
+.day i{display:block;width:100%;max-width:34px;background:var(--verdigris);border-radius:4px 4px 0 0;min-height:2px}
+.day em{font-style:normal;font-size:11px;color:var(--ink);margin-bottom:3px}
+.day small{font-size:10px;color:var(--ink-soft);margin-top:4px;white-space:nowrap}
+.day:hover i{opacity:.8}
+.axis{border-top:1px solid var(--rule)}
+/* ranked lists: label, bar, value */
+.list{display:grid;gap:7px}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 34px;gap:8px;align-items:center;font-size:14px}
+.row .l{position:relative;padding:5px 8px;border-radius:6px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.row .l i{position:absolute;inset:0 auto 0 0;background:color-mix(in srgb,var(--verdigris) 22%,transparent);border-radius:6px}
+.row .l span{position:relative}
+.row b{text-align:right;font-variant-numeric:tabular-nums}
+.empty{color:var(--ink-soft);font-size:14px;padding:6px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:right;padding:7px 6px;border-bottom:1px solid var(--rule);font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{text-align:left}
+th{font-size:12px;color:var(--ink-soft);font-weight:700}
+.note{font-size:13px;color:var(--ink-soft);line-height:1.55;margin:14px 0 0}
+#msg{padding:30px 0;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><a href="dashboard.html">‹ Home</a><a href="#" id="reload">Refresh</a></div>
+  <h1>Dashboard</h1>
+  <p class="sub">Who's visiting rafiq-arabic.com, where they come from, and who signs up.</p>
+  <div class="range" role="group" aria-label="Time range">
+    <button data-d="1">Today</button><button data-d="7" aria-pressed="true">7 days</button><button data-d="30">30 days</button>
+  </div>
+  <div id="msg">Loading…</div>
+  <div id="out" hidden>
+    <div class="tiles">
+      <div class="tile"><b id="tVisits">–</b><span>visits</span></div>
+      <div class="tile"><b id="tViews">–</b><span>page views</span></div>
+      <div class="tile"><b id="tJoined">–</b><span>sign-ups</span></div>
+      <div class="tile"><b id="tAcc">–</b><span>accounts in total</span></div>
+    </div>
+    <div class="card"><h2>Visits each day</h2><div id="days"></div></div>
+    <div class="grid2">
+      <div class="card"><h2>Where they came from</h2><div class="list" id="refs"></div></div>
+      <div class="card"><h2>Countries</h2><div class="list" id="countries"></div></div>
+      <div class="card"><h2>Pages</h2><div class="list" id="paths"></div></div>
+      <div class="card"><h2>Devices</h2><div class="list" id="devices"></div></div>
+    </div>
+    <div class="card" style="margin-top:14px"><h2>Sign-ups by where they came from</h2><div id="sources"></div></div>
+    <p class="note">Visits come from Cloudflare Web Analytics, with no cookies, so one person on two devices counts twice, and your own visits count too.
+      A visit is someone arriving; page views are every page they open. Sign-ups are tracked from 2 Oct 2026. Tag the links you post
+      (rafiq-arabic.com/?utm_source=tiktok) and they show up by name here.</p>
+  </div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+let days = 7;
+// friendlier names for where visitors came from
+const REF = { 'instagram':'Instagram', 'tiktok':'TikTok', 'facebook':'Facebook', 'youtube':'YouTube', 'l.instagram.com':'Instagram', 'instagram.com':'Instagram', 'www.instagram.com':'Instagram', 'tiktok.com':'TikTok', 'www.tiktok.com':'TikTok',
+  'm.facebook.com':'Facebook', 'l.facebook.com':'Facebook', 'lm.facebook.com':'Facebook', 'facebook.com':'Facebook', 't.co':'X (Twitter)',
+  'www.google.com':'Google', 'google.com':'Google', 'www.youtube.com':'YouTube', 'rafiq-arabic.com':'Rafiq itself' };
+const refName = h => !h ? 'Direct or in-app (no link info)' : (REF[h] || h);
+let country = c => c;
+try { const n = new Intl.DisplayNames(['en-GB'], { type:'region' }); country = c => { try { return n.of(c) || c; } catch(_) { return c; } }; } catch(_) {}
+const flag = c => /^[A-Z]{2}$/.test(c) ? String.fromCodePoint(...[...c].map(x => 0x1F1A5 + x.charCodeAt(0))) + ' ' : '';
+const PAGE = { '/':'Home page', '/index.html':'Home page', '/login.html':'Log in / sign up', '/plans.html':'Plans', '/dashboard.html':'App: Home', '/learn.html':'App: lesson' };
+
+function list(el, rows, name){
+  if(!rows || !rows.length){ $(el).innerHTML = '<div class="empty">Nothing yet</div>'; return; }
+  const max = Math.max(...rows.map(r => r.visits), 1);
+  $(el).innerHTML = rows.map(r => `<div class="row" title="${esc(name(r.name))}: ${r.visits} visits, ${r.views} page views">
+    <div class="l"><i style="width:${Math.max(3, r.visits / max * 100)}%"></i><span>${esc(name(r.name))}</span></div><b>${r.visits}</b></div>`).join('');
+}
+function perDay(rows){
+  // every day in the range, including the empty ones
+  const by = Object.fromEntries((rows || []).map(r => [r.name, r]));
+  const out = [];
+  for(let i = days - 1; i >= 0; i--){ const d = new Date(Date.now() - i * 864e5).toISOString().slice(0, 10); out.push({ d, v: by[d] ? by[d].visits : 0, p: by[d] ? by[d].views : 0 }); }
+  const max = Math.max(...out.map(x => x.v), 1), label = days > 10;
+  $('days').innerHTML = `<div class="days">${out.map((x, i) => `<div class="day" title="${x.d}: ${x.v} visits, ${x.p} page views">
+    ${x.v && !label ? `<em>${x.v}</em>` : ''}<i style="height:${x.v / max * 100}%"></i>
+    <small>${!label || i % 5 === 0 || i === out.length - 1 ? new Date(x.d + 'T12:00Z').toLocaleDateString('en-GB', { day:'numeric', month:'short' }) : '&nbsp;'}</small></div>`).join('')}</div><div class="axis"></div>`;
+}
+function sources(rows){
+  if(!rows.length){ $('sources').innerHTML = '<div class="empty">No sign-ups in this time.</div>'; return; }
+  $('sources').innerHTML = `<table><tr><th>Came from</th><th>Joined</th><th>Did a lesson</th><th>Chose a plan</th><th>Paying</th></tr>${rows.map(r =>
+    `<tr><td>${esc(r.source === 'unknown' ? 'Before tracking' : r.source === 'direct' ? 'Direct' : refName(r.source))}${r.campaign ? ` · ${esc(r.campaign)}` : ''}</td>
+     <td>${r.joined}</td><td>${r.first_lesson}</td><td>${r.chose_plan}</td><td>${r.paying}</td></tr>`).join('')}</table>`;
+}
+async function load(){
+  $('msg').hidden = false; $('msg').textContent = 'Loading…';
+  const { data } = await sb.auth.getSession();
+  const token = data && data.session && data.session.access_token;
+  let j;
+  try {
+    const r = await fetch(`${SUPABASE_URL}/functions/v1/admin-stats`, { method:'POST',
+      headers:{ 'Content-Type':'application/json', Authorization:`Bearer ${token}`, apikey:SUPABASE_KEY }, body: JSON.stringify({ days }) });
+    j = await r.json();
+  } catch(_) { $('msg').textContent = 'Can’t reach the server. Check your connection and refresh.'; return; }
+  if(j.error === 'not_admin'){ $('msg').textContent = 'This page is only for the Rafiq team.'; return; }
+  $('msg').hidden = true; $('out').hidden = false;
+  const w = j.web || {};
+  $('tVisits').textContent = w.error ? '–' : w.visits;
+  $('tViews').textContent = w.error ? '–' : w.views;
+  $('tJoined').textContent = (j.sources || []).reduce((n, r) => n + Number(r.joined), 0);
+  $('tAcc').textContent = j.accounts ?? '–';
+  if(w.error){ ['days','refs','countries','paths','devices'].forEach(id => $(id).innerHTML = '<div class="empty">Visits aren’t available right now (Cloudflare).</div>'); }
+  else {
+    perDay(w.days);
+    list('refs', w.refs, refName);
+    list('countries', w.countries, c => c ? flag(c) + country(c) : 'Unknown');
+    list('paths', w.paths, p => PAGE[p] || p);
+    list('devices', w.devices, d => d ? d[0].toUpperCase() + d.slice(1) : 'Unknown');
+  }
+  sources(j.sources || []);
+}
+document.querySelectorAll('.range button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.range button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  days = +b.dataset.d; load();
+});
+$('reload').onclick = e => { e.preventDefault(); load(); };
+requireLogin().then(s => { if(s) load(); });
+</script>
+</body>
+</html>

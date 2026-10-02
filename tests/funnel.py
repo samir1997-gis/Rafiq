@@ -14,7 +14,7 @@ FUNNEL = SQL[SQL.index("-- Where learners drop off"):]
 
 SETUP = """
 create schema auth; create schema private;
-create role anon; create role authenticated;
+create role anon; create role authenticated; create role service_role;
 create table auth.users (id uuid primary key, created_at timestamptz, email_confirmed_at timestamptz, raw_user_meta_data jsonb default '{}');
 create table public.item_progress (user_id uuid, item_id text, primary key (user_id, item_id));
 create table public.billing (user_id uuid primary key, status text, stripe_subscription_id text);
@@ -67,6 +67,11 @@ def main():
              src.get("tiktok") == ["meet-rafiq", "2", "2", "1", "2", "1"]),
             ("…instagram.com 1 joined, nothing else; no source saved shows as unknown (2) " + str(src.get("instagram.com")) + str(src.get("unknown")),
              src.get("instagram.com") == ["", "1", "0", "0", "0", "0"] and src.get("unknown", [None, None])[1] == "2"),
+            ("the dashboard's wrappers: the service key gets the same rows and the account count, a learner gets nothing",
+             psql("set role service_role; select count(*) from public.admin_funnel_by_source(30)").splitlines()[-1] == str(len(src))
+             and psql("set role service_role; select public.admin_account_count()").splitlines()[-1] == "5"
+             and "permission denied" in subprocess.run(pg + ["psql", "-h", sock, "-p", "54329", "-d", "postgres", "-c",
+                "set role authenticated; select * from public.admin_funnel_by_source(30)"], capture_output=True, text=True).stderr),
             ("the learner's own key can't run it", "permission denied" in subprocess.run(pg + ["psql", "-h", sock, "-p", "54329", "-d", "postgres", "-c",
                 "set role authenticated; select * from private.funnel()"], capture_output=True, text=True).stderr),
         ]
