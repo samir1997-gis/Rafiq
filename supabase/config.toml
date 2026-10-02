@@ -17,3 +17,5 @@ verify_jwt = false
 verify_jwt = false
 [functions.tutor]
 verify_jwt = false
+[functions.admin-stats]
+verify_jwt = false

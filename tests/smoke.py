@@ -12,7 +12,7 @@ BASE = os.environ.get("BASE", "http://localhost:8765/")
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 PUBLIC = ["index.html", "login.html", "privacy.html", "help.html", "reset-password.html", "terms.html"]   # plans.html needs sign-in
 # third-party noise we can't fix from here (offline CDNs, analytics, Supabase with no session)
-IGNORE = ("Failed to load resource", "net::ERR", "supabase", "Supabase", "favicon")
+IGNORE = ("Failed to load resource", "net::ERR", "cloudflareinsights", "supabase", "Supabase", "favicon")   # the visits beacon only reports from rafiq-arabic.com
 
 def main():
     pages = sorted(os.path.basename(p) for p in glob.glob("*.html"))

@@ -44,6 +44,11 @@ const lit = s => `'${String(s).replace(/'/g, "''")}'`;
       console.log('secrets: reciter set to recitation ' + process.env.QF_RECITATION_ID);
     }
   } else console.log('secrets: no Quran Foundation client yet (Quran parts stay read-along)');
+  if (process.env.CLOUDFLARE_API_TOKEN && process.env.CLOUDFLARE_ACCOUNT_ID) {   // the owner dashboard's visits (#189)
+    await call('POST', '/secrets', [{ name: 'CLOUDFLARE_API_TOKEN', value: process.env.CLOUDFLARE_API_TOKEN },
+                                    { name: 'CLOUDFLARE_ACCOUNT_ID', value: process.env.CLOUDFLARE_ACCOUNT_ID }]);
+    console.log('secrets: Cloudflare Web Analytics (read only) set');
+  } else console.log('secrets: no Cloudflare token yet (the dashboard shows sign-ups only)');
   if (process.env.ANTHROPIC_API_KEY) {
     await call('POST', '/secrets', [{ name: 'ANTHROPIC_API_KEY', value: process.env.ANTHROPIC_API_KEY }]);
     console.log('secrets: Claude API key set (AI tutor)');

@@ -216,3 +216,16 @@ language sql stable security definer set search_path = private, public as $$
   group by 1, 2 order by 3 desc, 1
 $$;
 revoke all on function private.funnel_by_source(int) from public, anon, authenticated;
+
+-- For the owner dashboard (admin-stats, #189): the service key can call these through the API;
+-- learners (anon, authenticated) can't. The function itself checks the caller is an admin.
+create or replace function public.admin_funnel_by_source(days int default 7) returns table (
+  source text, campaign text, joined bigint, first_lesson bigint, back_next_day bigint, chose_plan bigint, paying bigint)
+language sql stable security definer set search_path = private, public as $$ select * from private.funnel_by_source(days) $$;
+create or replace function public.admin_account_count() returns bigint
+language sql stable security definer set search_path = public as $$ select count(*) from auth.users $$;
+revoke all on function public.admin_funnel_by_source(int) from public, anon, authenticated;
+revoke all on function public.admin_account_count() from public, anon, authenticated;
+grant execute on function public.admin_funnel_by_source(int) to service_role;
+grant execute on function public.admin_account_count() to service_role;
+
