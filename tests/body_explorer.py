@@ -2,7 +2,7 @@
   - the essentials menu has a card for it: "46 words · tap to hear"
   - the words: every zone the words name is in the drawing, every word is in a view, and the
     words also in vocab-data.js spell them as it does (with ال)
-  - tap a region (label or shape) → it's said and the drawing zooms in (the chest onto the organs); the breadcrumb and
+  - tap a region (label or shape) → it's said and the drawing zooms in; the breadcrumb and
     ← Back take you out again; the back turns the figure round
   - tap a part → it's said (both forms of a pair), lit up, and named at the end of the breadcrumb
   - in every view, on a phone and a wide screen: labels inside the drawing, none overlapping
@@ -17,7 +17,7 @@ BASE = "http://localhost:8765/"
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 # every view, and the taps from the whole body that reach it
 ROUTES = {"body": [], "back": ["back"], "head": ["head"], "arm": ["arm"], "hand": ["arm", "hand"],
-          "leg": ["leg"], "foot": ["leg", "foot"], "torso": ["torso"], "inside": ["torso", "inside"], "chest": ["chest"]}
+          "leg": ["leg"], "foot": ["leg", "foot"], "torso": ["torso"], "inside": ["torso", "inside"]}
 
 def open_body(ctx, reduce=False):
     p = ctx.new_page(); errors = []
@@ -76,7 +76,7 @@ def main():
         ok.append(("entries have id, ar, en, tr, level, parent, svgZoneId, audioId", data["shape"]))
         ok.append(("the head's Arabic comes from vocab-data.js: " + data["head"], data["head"] == "الرَّأْس"))
 
-        ok.append(("whole body: 10 regions", len(labels(p)) == 10 and crumbs(p) == "Body"))
+        ok.append(("whole body: 8 regions (the chest and belly are in the torso)", len(labels(p)) == 8 and "chest" not in labels(p) and crumbs(p) == "Body"))
         ok.append(("no ← Back at the top", p.is_hidden(".bx-up")))
 
         tap(p, "head")
@@ -90,7 +90,7 @@ def main():
         tap(p, "teeth", 200)
         ok.append(("a pair says both forms: " + said(p), said(p) == "السِّنّ، الأَسْنان"))
         p.click(".bx-up"); p.wait_for_timeout(1200)
-        ok.append(("← Back zooms out: " + crumbs(p), crumbs(p) == "Body" and len(labels(p)) == 10))
+        ok.append(("← Back zooms out: " + crumbs(p), crumbs(p) == "Body" and len(labels(p)) == 8))
 
         tap(p, "arm"); tap(p, "hand")
         ok.append(("arm, then hand: " + crumbs(p), crumbs(p) == "Body › Arm › Hand"))
@@ -104,16 +104,6 @@ def main():
                    and p.evaluate("getComputedStyle(document.querySelector('[data-in=\"back\"]')).opacity") == "1"))
         p.keyboard.press("Escape"); p.wait_for_timeout(1200)
         ok.append(("Escape zooms out", crumbs(p) == "Body"))
-
-        tap(p, "chest")
-        ok.append(("the chest opens onto the organs: " + crumbs(p), crumbs(p) == "Body › Chest" and said(p) == "الصَّدْر"
-                   and sorted(labels(p)) == ["heart", "intestines", "kidneys", "liver", "lungs", "stomach"]
-                   and p.evaluate("getComputedStyle(document.querySelector('.organs')).opacity") == "1"))
-        tap(p, "liver", 200)
-        ok.append(("… the liver: " + said(p), said(p) == "الكَبِد" and crumbs(p) == "Body › Chest › liver"))
-        p.click(".bx-up"); p.wait_for_timeout(1200)
-        ok.append(("… and back out, the organs hidden again", crumbs(p) == "Body"
-                   and p.evaluate("getComputedStyle(document.querySelector('.organs')).opacity") == "0"))
 
         tap(p, "torso"); tap(p, "inside"); tap(p, "heart", 200)
         ok.append(("torso, inside, the heart: " + crumbs(p), crumbs(p) == "Body › Torso / trunk › Internal organs › heart" and said(p) == "القَلْب"))

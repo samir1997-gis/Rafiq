@@ -19,11 +19,9 @@ const BODY_WORDS = [
   // Level 1: the whole body
   { id:'head',      vocab:508,                 en:'the head',              tr:'ar-raʾs',        level:1, parent:'body',   svgZoneId:'z-head' },
   { id:'neck',      ar:'الرَّقَبة',             en:'the neck',              tr:'ar-raqaba',      level:1, parent:'body',   svgZoneId:'z-neck' },
-  { id:'chest',     vocab:564,                 en:'the chest',             tr:'aṣ-ṣadr',        level:1, parent:'body',   svgZoneId:'z-chest' },
   { id:'torso',     ar:'الجِذْع',              en:'the torso / trunk',     tr:'al-jidhʿ',       level:1, parent:'body',   svgZoneId:'z-torso' },
   { id:'arm',       vocab:652,                 en:'the arm',               tr:'adh-dhirāʿ',     level:1, parent:'body',   svgZoneId:'z-arm' },
   { id:'hand',      vocab:752,                 en:'the hand',              tr:'al-yad',         level:1, parent:'body',   svgZoneId:'z-hand' },
-  { id:'belly',     ar:'البَطْن',              en:'the belly / abdomen',   tr:'al-baṭn',        level:1, parent:'body',   svgZoneId:'z-belly' },
   { id:'back',      ar:'الظَّهْر',             en:'the back',              tr:'aẓ-ẓahr',        level:1, parent:'body',   svgZoneId:'z-back' },
   { id:'leg',       ar:'السّاق',               en:'the leg',               tr:'as-sāq',         level:1, parent:'body',   svgZoneId:'z-leg' },
   { id:'foot',      ar:'القَدَم',              en:'the foot',              tr:'al-qadam',       level:1, parent:'body',   svgZoneId:'z-foot' },
@@ -62,6 +60,8 @@ const BODY_WORDS = [
   { id:'toe',       ar:'أُصْبُع القَدَم',      en:'the toe',               tr:'uṣbuʿ al-qadam', level:2, parent:'foot',   svgZoneId:'z-toe' },
 
   // Level 2: the torso
+  { id:'chest',     vocab:564,                 en:'the chest',             tr:'aṣ-ṣadr',        level:2, parent:'torso',  svgZoneId:'z-chest' },
+  { id:'belly',     ar:'البَطْن',              en:'the belly / abdomen',   tr:'al-baṭn',        level:2, parent:'torso',  svgZoneId:'z-belly' },
   { id:'waist',     ar:'الخاصِرة',             en:'the waist / side',      tr:'al-khāṣira',     level:2, parent:'torso',  svgZoneId:'z-waist' },
   { id:'navel',     ar:'السُّرّة',             en:'the navel',             tr:'as-surra',       level:2, parent:'torso',  svgZoneId:'z-navel' },
   { id:'inside',    ar:'الأَعْضاء الدّاخِلِيّة', en:'the internal organs', tr:'al-aʿḍāʾ ad-dākhiliyya', level:2, parent:'torso', svgZoneId:'z-inside' },

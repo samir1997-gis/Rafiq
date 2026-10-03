@@ -22526,13 +22526,6 @@
   "chars": 9
  },
  {
-  "id": "138b734",
-  "text": "الصَّدْر",
-  "bucket": "body",
-  "unit": "body",
-  "chars": 8
- },
- {
   "id": "gs8ly9",
   "text": "الجِذْع",
   "bucket": "body",
@@ -22552,13 +22545,6 @@
   "bucket": "body",
   "unit": "body",
   "chars": 5
- },
- {
-  "id": "g7w9c3",
-  "text": "البَطْن",
-  "bucket": "body",
-  "unit": "body",
-  "chars": 7
  },
  {
   "id": "11ja1wl",
@@ -22762,6 +22748,20 @@
   "bucket": "body",
   "unit": "foot",
   "chars": 15
+ },
+ {
+  "id": "138b734",
+  "text": "الصَّدْر",
+  "bucket": "body",
+  "unit": "torso",
+  "chars": 8
+ },
+ {
+  "id": "g7w9c3",
+  "text": "البَطْن",
+  "bucket": "body",
+  "unit": "torso",
+  "chars": 7
  },
  {
   "id": "1gq19ma",
