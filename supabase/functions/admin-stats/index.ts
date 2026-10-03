@@ -8,7 +8,8 @@ const by = (d: string) => `rumPageloadEventsAdaptiveGroups(limit: 15, filter: $f
 const QUERY = `query($acc: string, $f: AccountRumPageloadEventsAdaptiveGroupsFilter_InputObject) { viewer { accounts(filter: {accountTag: $acc}) {
   total: rumPageloadEventsAdaptiveGroups(limit: 1, filter: $f) { count sum { visits } }
   days: rumPageloadEventsAdaptiveGroups(limit: 31, filter: $f, orderBy: [date_ASC]) { count sum { visits } dimensions { date } }
-  refs: ${by('refererHost')} countries: ${by('countryName')} paths: ${by('requestPath')} devices: ${by('deviceType')} } } }`;
+  refs: ${by('refererHost')} countries: ${by('countryName')} devices: ${by('deviceType')}
+  paths: rumPageloadEventsAdaptiveGroups(limit: 15, filter: $f, orderBy: [count_DESC]) { count sum { visits } dimensions { requestPath } } } } }`;   // pages by views: a visit counts only where it starts
 
 type Row = { count: number; sum: { visits: number }; dimensions: Record<string, string> };
 const rows = (xs: Row[], d: string) => xs.map(x => ({ name: x.dimensions[d] || '', visits: x.sum.visits, views: x.count }));

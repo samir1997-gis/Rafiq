@@ -81,7 +81,7 @@ th{font-size:12px;color:var(--ink-soft);font-weight:700}
     <div class="grid2">
       <div class="card"><h2>Where they came from</h2><div class="list" id="refs"></div></div>
       <div class="card"><h2>Countries</h2><div class="list" id="countries"></div></div>
-      <div class="card"><h2>Pages</h2><div class="list" id="paths"></div></div>
+      <div class="card"><h2>Pages <small>page views</small></h2><div class="list" id="paths"></div></div>
       <div class="card"><h2>Devices</h2><div class="list" id="devices"></div></div>
     </div>
     <div class="card" style="margin-top:14px"><h2>Sign-ups by where they came from</h2><div id="sources"></div></div>
@@ -104,11 +104,11 @@ try { const n = new Intl.DisplayNames(['en-GB'], { type:'region' }); country = c
 const flag = c => /^[A-Z]{2}$/.test(c) ? String.fromCodePoint(...[...c].map(x => 0x1F1A5 + x.charCodeAt(0))) + ' ' : '';
 const PAGE = { '/':'Home page', '/index.html':'Home page', '/login.html':'Log in / sign up', '/plans.html':'Plans', '/dashboard.html':'App: Home', '/learn.html':'App: lesson' };
 
-function list(el, rows, name){
+function list(el, rows, name, key = 'visits'){
   if(!rows || !rows.length){ $(el).innerHTML = '<div class="empty">Nothing yet</div>'; return; }
-  const max = Math.max(...rows.map(r => r.visits), 1);
+  const max = Math.max(...rows.map(r => r[key]), 1);
   $(el).innerHTML = rows.map(r => `<div class="row" title="${esc(name(r.name))}: ${r.visits} visits, ${r.views} page views">
-    <div class="l"><i style="width:${Math.max(3, r.visits / max * 100)}%"></i><span>${esc(name(r.name))}</span></div><b>${r.visits}</b></div>`).join('');
+    <div class="l"><i style="width:${Math.max(3, r[key] / max * 100)}%"></i><span>${esc(name(r.name))}</span></div><b>${r[key]}</b></div>`).join('');
 }
 function perDay(rows){
   // every day in the range, including the empty ones
@@ -148,7 +148,7 @@ async function load(){
     perDay(w.days);
     list('refs', w.refs, refName);
     list('countries', w.countries, c => c ? flag(c) + country(c) : 'Unknown');
-    list('paths', w.paths, p => PAGE[p] || p);
+    list('paths', w.paths, p => PAGE[p] || p, 'views');   // a visit counts only where it starts, so pages go by views
     list('devices', w.devices, d => d ? d[0].toUpperCase() + d.slice(1) : 'Unknown');
   }
   sources(j.sources || []);

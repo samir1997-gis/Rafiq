@@ -112,7 +112,8 @@ async function userTables() {
     const query = `query($acc: string, $f: AccountRumPageloadEventsAdaptiveGroupsFilter_InputObject) { viewer { accounts(filter: {accountTag: $acc}) {
       total: rumPageloadEventsAdaptiveGroups(limit: 1, filter: $f) { count sum { visits } }
       days: rumPageloadEventsAdaptiveGroups(limit: 31, filter: $f, orderBy: [date_ASC]) { count sum { visits } dimensions { date } }
-      refs: ${by('refererHost')} countries: ${by('countryName')} paths: ${by('requestPath')} devices: ${by('deviceType')} } } }`;
+      refs: ${by('refererHost')} countries: ${by('countryName')} devices: ${by('deviceType')}
+      paths: rumPageloadEventsAdaptiveGroups(limit: 15, filter: $f, orderBy: [count_DESC]) { count sum { visits } dimensions { requestPath } } } } }`;
     const f = { datetime_geq: new Date(Date.now() - days * 864e5).toISOString(), datetime_leq: new Date().toISOString() };
     const r = await fetch('https://api.cloudflare.com/client/v4/graphql', { method: 'POST',
       headers: { Authorization: `Bearer ${CF}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ query, variables: { acc: ACC, f } }) });
@@ -122,7 +123,9 @@ async function userTables() {
     console.log(`Last ${days} days: ${t.sum.visits} visits, ${t.count} page views\n`);
     console.log('Per day:'); a.days.forEach(x => console.log(`  ${x.dimensions.date}  ${String(x.sum.visits).padStart(4)} visits  ${String(x.count).padStart(4)} views`));
     for (const [k, name, d] of [['refs', 'Where they came from', 'refererHost'], ['countries', 'Countries', 'countryName'], ['paths', 'Pages', 'requestPath'], ['devices', 'Devices', 'deviceType']]) {
-      console.log(`\n${name}:`); a[k].forEach(x => console.log(`  ${String(x.sum.visits).padStart(4)}  ${x.dimensions[d] || '(direct / none)'}`));
+      // a page reached from another page is part of the same visit, so pages are counted by page views (a visit counts only where it starts)
+      console.log(`\n${name}${k === 'paths' ? ' (page views)' : ''}:`);
+      a[k].forEach(x => console.log(`  ${String(k === 'paths' ? x.count : x.sum.visits).padStart(4)}  ${x.dimensions[d] || '(direct / none)'}`));
     }
     return;
   }
