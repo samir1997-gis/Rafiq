@@ -114,7 +114,8 @@ async function userTables() {
       days: rumPageloadEventsAdaptiveGroups(limit: 31, filter: $f, orderBy: [date_ASC]) { count sum { visits } dimensions { date } }
       refs: ${by('refererHost')} countries: ${by('countryName')} devices: ${by('deviceType')}
       paths: rumPageloadEventsAdaptiveGroups(limit: 15, filter: $f, orderBy: [count_DESC]) { count sum { visits } dimensions { requestPath } } } } }`;
-    const f = { datetime_geq: new Date(Date.now() - days * 864e5).toISOString(), datetime_leq: new Date().toISOString() };
+    // only the real site: test copies (raw.githack.com previews, localhost) were counted before the pages stopped reporting from them
+    const f = { datetime_geq: new Date(Date.now() - days * 864e5).toISOString(), datetime_leq: new Date().toISOString(), requestHost: 'rafiq-arabic.com' };
     const r = await fetch('https://api.cloudflare.com/client/v4/graphql', { method: 'POST',
       headers: { Authorization: `Bearer ${CF}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ query, variables: { acc: ACC, f } }) });
     const j = await r.json();

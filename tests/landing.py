@@ -105,7 +105,15 @@ def main():
         c, p = page_for(b, errors, viewport={"width": 390, "height": 844})
         p.goto(BASE + "index.html"); p.wait_for_timeout(200)
         ok.append(("no tag and no other site: direct", p.evaluate("JSON.parse(localStorage.getItem('rafiq_src')).src") == "direct"))
-        ok.append(("an ordinary visitor's visit is counted (the beacon loads)", p.locator("script[src*='cloudflareinsights']").count() == 1))
+        ok.append(("a test copy (here localhost; also raw.githack.com previews) isn't counted: no beacon", p.locator("script[src*='cloudflareinsights']").count() == 0))
+        c.close()
+        # the real site: rafiq-arabic.com served from this folder
+        c, p = page_for(b, errors, viewport={"width": 390, "height": 844})
+        c.route("https://rafiq-arabic.com/**", lambda r: r.fulfill(path=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                (r.request.url.split("rafiq-arabic.com/")[1].split("?")[0] or "index.html"))))
+        c.route("https://static.cloudflareinsights.com/**", lambda r: r.abort())
+        p.goto("https://rafiq-arabic.com/"); p.wait_for_timeout(300)
+        ok.append(("an ordinary visitor on rafiq-arabic.com is counted (the beacon loads)", p.locator("script[src*='cloudflareinsights']").count() == 1))
         c.close()
         # the short bio links: rafiq-arabic.com/ig and /tt land on the home page, tagged
         c, p = page_for(b, errors, viewport={"width": 390, "height": 844})
