@@ -1,6 +1,7 @@
 /* body.js — Practise → Everyday essentials → The body (#202): a drawing of a
    person to explore. Tap a region (the head, the arm…) to zoom in and see its
    parts; tap any part to hear it. ← Back and the breadcrumb zoom out again.
+   The chest opens onto the organs inside.
    Words: body-data.js (BODY_WORDS). This file is only the drawing, which shape
    is which part (svgZoneId), where each label's line points, and what each
    view frames. Uses audio.js (RQ) when present. Mounted by essentials.js.
@@ -82,7 +83,7 @@
     <path class="teeth" d="${TEETH}"/><ellipse class="tongue" cx="100" cy="78" rx="4.4" ry="1.9"/>
   </g>
   <path data-in="back" class="hair ink" d="M70.6,52 C69.5,20 88,12 100,12.5 C116,12.5 131,22 129.4,52 C129.4,68 124,79 116,83 L84,83 C76,79 70.6,68 70.6,52 Z"/>
-  <g data-in="inside" class="organs">
+  <g data-in="inside chest" class="organs">
     <path class="org brainc ink" d="${BRAIN}"/>
     <path class="crease" d="M84,28.5 q4,-4 8,0 t8,0 t8,0 M81,37 q5,-4 9.5,0 t9.5,0 t9.5,0"/>
     <path class="crease" d="M100,100 L100,124 M100,124 L92,131 M100,124 L108,131"/>
@@ -167,7 +168,8 @@
     leg:   { box:[50,286,150,506], l:['thigh','knee','shin'], r:['ankle','foot'], at:{ thigh:[89,328], knee:[79,383], shin:[82,428] } },
     foot:  { box:[106,458,156,506], l:['heel'], r:['ankle','toe'] },
     torso: { box:[52,100,148,300], l:['chest','waist'], r:['inside','belly','navel'] },
-    inside:{ box:[64,14,136,266], l:['brain','lungs','liver','kidneys'], r:['heart','stomach','intestines'] }
+    inside:{ box:[64,14,136,266], l:['brain','lungs','liver','kidneys'], r:['heart','stomach','intestines'] },
+    chest: { box:[58,100,142,266], l:['lungs','liver','kidneys'], r:['heart','stomach','intestines'] }      // the chest opens onto the organs
   };
 
   /* ---------- styles ---------- */
@@ -218,8 +220,8 @@
 .bx-svg .peek path{stroke:var(--dv);stroke-width:1.6;vector-effect:non-scaling-stroke}
 .bx-svg [data-in],.bx-svg [data-out]{transition:opacity .35s}
 .bx-svg [data-in]{opacity:0}
-.bx-stage.v-inside .shorts,.bx-stage.v-inside .crease:not(.organs .crease){opacity:.35}
-.bx-stage.v-inside .skin{fill-opacity:.55}
+.bx-stage:is(.v-inside,.v-chest) .shorts,.bx-stage:is(.v-inside,.v-chest) .crease:not(.organs .crease){opacity:.35}
+.bx-stage:is(.v-inside,.v-chest) .skin{fill-opacity:.55}
 .bx-svg .zone{fill:transparent;stroke:none;pointer-events:none}
 .bx-svg .zone.live{pointer-events:all;cursor:pointer}
 .bx-svg .zone.on,.bx-svg .zone.on *{fill:var(--verdigris);fill-opacity:.28;stroke:var(--verdigris);stroke-width:2;vector-effect:non-scaling-stroke}
