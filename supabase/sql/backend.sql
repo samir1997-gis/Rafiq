@@ -184,7 +184,9 @@ select u.id as user_id,
   coalesce(b.status = 'active' and not b.cancel_at_period_end, false) as paying,   -- cancelled plans run to the period's end, but aren't counted (#191)
   -- where they first came from (#186): a link's utm_source, the site that linked, or 'direct'; saved at sign-up
   coalesce(nullif(u.raw_user_meta_data->'source'->>'src', ''), 'unknown') as source,
-  nullif(u.raw_user_meta_data->'source'->>'campaign', '') as campaign
+  nullif(u.raw_user_meta_data->'source'->>'campaign', '') as campaign,
+  -- the landing page's taster (#207), noted with the source: 'done', 'started', or 'no'
+  coalesce(nullif(u.raw_user_meta_data->'source'->>'taster', ''), 'no') as taster
 from auth.users u left join public.billing b on b.user_id = u.id
 where coalesce(u.raw_app_meta_data->>'admin', '') <> 'true';   -- the Rafiq team's own accounts aren't counted (#191)
 
@@ -217,6 +219,18 @@ language sql stable security definer set search_path = private, public as $$
   group by 1, 2 order by 3 desc, 1
 $$;
 revoke all on function private.funnel_by_source(int) from public, anon, authenticated;
+
+-- The same steps by whether people did the landing page's taster first (#207), for people who
+-- joined in the last N days. select * from private.funnel_by_taster(30);
+create or replace function private.funnel_by_taster(days int default 30) returns table (
+  taster text, joined bigint, first_lesson bigint, back_next_day bigint, chose_plan bigint, paying bigint)
+language sql stable security definer set search_path = private, public as $$
+  select f.taster, count(*), count(*) filter (where f.first_lesson), count(*) filter (where f.back_next_day),
+    count(*) filter (where f.chose_plan), count(*) filter (where f.paying)
+  from private.funnel_people f where f.joined > current_date - days
+  group by 1 order by 2 desc, 1
+$$;
+revoke all on function private.funnel_by_taster(int) from public, anon, authenticated;
 
 -- For the owner dashboard (admin-stats, #189): the service key can call these through the API;
 -- learners (anon, authenticated) can't. The function itself checks the caller is an admin.

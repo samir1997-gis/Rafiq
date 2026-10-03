@@ -195,6 +195,41 @@
   .tile .more{transition:none}
 }
 footer.land{border-top:1px solid var(--rule);padding:26px;text-align:center;color:var(--ink-soft);font-size:12.5px;line-height:1.7}
+/* ---- #207: the one-minute taster under the hero ---- */
+.taster{padding-top:10px;padding-bottom:30px}
+.taster h2,.taster > p{text-align:center;margin-inline:auto}
+.tst-card{min-height:340px;max-width:460px;margin:16px auto 0;background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:18px 18px 20px;text-align:center}
+.tst-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--ut);font-size:11px;letter-spacing:.08em;color:var(--ink-soft);text-transform:uppercase}
+.tst-wait{color:var(--ink-soft);font-size:14px;padding-top:140px}
+.tst-dots{display:flex;gap:5px}.tst-dots i{width:8px;height:8px;border-radius:50%;background:var(--rule)}
+.tst-dots i.did{background:var(--verdigris)}.tst-dots i.now{background:var(--gold)}
+.tst-word{display:inline-flex;align-items:center;gap:12px;margin:14px auto 2px;padding:4px 14px;border:0;background:none;cursor:pointer;color:var(--ink);
+  font-family:var(--ar);font-size:52px;line-height:1.6;border-radius:12px;touch-action:manipulation;transition:transform var(--press,120ms) var(--ease-out)}
+.tst-word:active{transform:scale(.96)}
+.tst-word.speaking{color:var(--verdigris)}
+.tst-hear{font-size:20px;opacity:.8}
+.tst-q{font-size:15px;color:var(--ink-soft);margin:0}
+.tst-opts{display:grid;gap:8px;margin-top:14px}
+.tst-opt{min-height:50px;border:1px solid var(--rule);border-radius:12px;background:var(--paper);color:var(--ink);font:500 16px var(--la);cursor:pointer;
+  touch-action:manipulation;transition:transform var(--press,120ms) var(--ease-out),background .2s,border-color .2s}
+.tst-opt:active{transform:scale(.97)}
+.tst-opt:disabled{cursor:default;opacity:1}
+.tst-opt.right{background:var(--verdigris);border-color:var(--verdigris);color:#fff;font-weight:700}
+.tst-opt.picked{border-style:dashed;color:var(--ink-soft)}
+.tst-say{min-height:24px;margin:12px 0 0;font-size:15.5px;font-weight:700}
+.tst-say.yes{color:var(--verdigris)}.tst-say.soft{color:var(--ink)}
+.tst-next[hidden]{display:none}
+.tst-next{margin-top:10px;height:44px;padding:0 22px;font-size:15px}
+.tst-end h3{font-size:19px;line-height:1.4;margin:4px 0 12px}
+.tst-big{font-size:38px;line-height:1}
+.tst-learned{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.tst-chip{border:1px solid color-mix(in srgb,var(--verdigris) 45%,var(--rule));background:var(--paper);border-radius:999px;padding:4px 14px;font:500 14px var(--la);color:var(--ink-soft);cursor:pointer}
+.tst-chip span{font-family:var(--ar);font-size:20px;color:var(--ink);margin-right:4px}
+.tst-chip.speaking span{color:var(--verdigris)}
+.tst-month{margin:14px 0 14px;font-size:16px;color:var(--ink-soft)}
+.tst-go{height:46px;padding:0 24px;font-size:15px;display:inline-flex;align-items:center}
+.tst-free{margin-top:10px;font-size:14px;font-weight:700;color:var(--verdigris)}
+@media (prefers-reduced-motion:reduce){.tst-word,.tst-opt{transition:none}}
 </style>
 </head>
 <body>
@@ -217,6 +252,11 @@ footer.land{border-top:1px solid var(--rule);padding:26px;text-align:center;colo
   </div>
   <p class="nocard">7 days free, no card. Nothing is charged when it ends.</p>
 </header>
+<section class="section taster" id="taster" aria-label="Try it: your first Arabic words">
+  <h2>Try it: your first Arabic words</h2>
+  <p>Four words, under a minute. Pick what each one means, and hear it said.</p>
+  <div class="tst-card"><p class="tst-wait">Getting your first words ready…</p></div>
+</section>
 <section class="film" id="film-section" aria-label="Rafiq in one minute">
   <div class="film-frame">
     <video id="film" preload="none" playsinline poster="media/rafiq-intro.jpg?v=6">
@@ -366,6 +406,7 @@ document.addEventListener('DOMContentLoaded',function(){
 </script>
 
 <!-- already signed in? go straight to Home -->
+<script src="taster.js?v=1" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=10"></script>
 <script src="plan.js?v=20261001live"></script>
