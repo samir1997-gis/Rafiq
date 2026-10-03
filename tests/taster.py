@@ -1,11 +1,11 @@
 """The landing page's one-minute taster (#207):
   - under the hero: four words, each said with its recording: two everyday ones from the word list
-    (vocab-data.js) and two from the prayer's own phrases (salah-data.js, never the Quran), in turn;
+    (vocab-data.js) and two from the prayer's own phrases (salah-data.js, never the Quran), in turn, a prayer word first;
     a prayer word shows the phrase it's said in once answered
   - a wrong pick isn't marked wrong: the right meaning lights up and "Now you know it!", then Next
   - a right pick: "✓ Nice!", and it moves on by itself once the word's been said; the answer's room
     is kept, so the card doesn't change height when it appears
-  - no score anywhere; it ends on "You just learned 4 Arabic words" and "Keep the momentum going →",
+  - no score anywhere; it ends on "You just learned 4 Arabic words" and "Start your free week →",
     which goes to Create account (the free week)
   - doing it is noted with where they came from (rafiq_src: started, then done), saved with a new account
   - no sideways scroll on a phone, no page errors
@@ -68,18 +68,19 @@ def main():
                 say = p.inner_text(".tst-say")
                 if i == 1:
                     ok.append(("a right pick: " + say, "Nice" in say and p.inner_text(".tst-opt.right").strip().startswith(en)))
+                if i == 2:   # the second prayer word (the first is answered wrong above)
                     frm = " ".join(p.inner_text(".tst-from").split())
                     ok.append(("…a prayer word shows the phrase it's said in: " + frm, "You say it" in frm and ar in frm))
                 p.wait_for_timeout(2600)                               # moves on by itself
         ok.append(("the answer appearing doesn't change the card's height " + str(jumps), all(h0 == h1 for _, h0, h1 in jumps)))
-        ok.append(("two everyday words, then a prayer word, in turn " + str(seen),
-                   len(set(seen)) == 4 and seen[0] in POOL and seen[2] in POOL and seen[1] in SALAH and seen[3] in SALAH))
+        ok.append(("a prayer word first, then everyday and prayer in turn " + str(seen),
+                   len(set(seen)) == 4 and seen[0] in SALAH and seen[2] in SALAH and seen[1] in POOL and seen[3] in POOL))
         p.wait_for_selector(".tst-end", timeout=5000); p.wait_for_timeout(900)
         end = p.inner_text(".tst-end")
         ok.append(("ends on the win: " + " ".join(end.split())[:110], "You just learned 4 Arabic words in under a minute, including 2 you say in every prayer" in end
                    and "Imagine what you’d know in a month" in end and "/" not in end.split("learned")[0]))
         go = p.get_attribute(".tst-go", "href")
-        ok.append(("'Keep the momentum going →' goes to Create account: " + go, go == "login.html?mode=signup" and "Keep the momentum going" in p.inner_text(".tst-go")))
+        ok.append(("'Start your free week →' goes to Create account: " + go, go == "login.html?mode=signup" and "Start your free week" in p.inner_text(".tst-go")))
         ok.append(("…with 'no card' under it", "no card" in p.inner_text(".tst-free")))
         ok.append(("the words learned are there to hear again", p.locator(".tst-chip").count() == 4))
         p.click(".tst-chip >> nth=0")

@@ -5,6 +5,8 @@
   - with reduced motion, everything is there at once, nothing moves
   - no sideways scroll on a phone, no page errors
   - "Start your free week" goes to Create account, with "no card" right under it on the first screen; the pricing says it too (#200)
+  - on a phone, once the top button has scrolled away, a bar keeps "Start your free week" on screen, except over the
+    taster and the pricing box; never on a computer (#210)
 
   python3 .claude/skills/webapp-testing/scripts/with_server.py \
     --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/landing.py
@@ -42,6 +44,19 @@ def main():
         ok.append(("one button at the top, to Create account", cta.count() == 1 and cta.get_attribute("href") == "login.html?mode=signup"))
         nc = p.evaluate("(() => { const r = document.querySelector('.nocard').getBoundingClientRect(); return [r.bottom, document.querySelector('.nocard').textContent]; })()")
         ok.append(("'no card' right under it, on the first screen of a short in-app browser (bottom %dpx)" % nc[0], nc[0] < 664 and "no card" in nc[1]))
+        # the bar that keeps the button in reach (#210)
+        on = lambda: p.evaluate("document.getElementById('stick').classList.contains('on')")
+        at = lambda sel: (p.evaluate(f"document.querySelector('{sel}').scrollIntoView({{block:'center'}})"), p.wait_for_timeout(500))
+        p.evaluate("scrollTo(0,0)"); p.wait_for_timeout(400); top_off = not on()
+        at(".steps"); mid_on = on()
+        bar = p.evaluate("(() => { const r = document.getElementById('stick').getBoundingClientRect(); return [r.top, r.bottom, innerHeight]; })()")
+        go = p.get_attribute("#stick .btn", "href")
+        at("#taster .tst-card"); taster_off = not on()
+        at("#pricing .freeweek"); pricing_off = not on()
+        ok.append(("phone: no bar at the top; after scrolling past the button it's there, at the bottom, to Create account (%s)" % bar,
+                   top_off and mid_on and abs(bar[1] - bar[2]) < 2 and go == "login.html?mode=signup"))
+        ok.append(("…and it steps aside over the taster and the pricing box", taster_off and pricing_off))
+        p.evaluate("scrollTo(0,0)")
         ok.append(("the pricing starts with the free week, no card", "no card" in p.inner_text("#pricing .freeweek")
                    and p.get_attribute("#pricing .freeweek a", "href") == "login.html?mode=signup"))
         hidden = p.evaluate("[...document.querySelectorAll('.reveal')].filter(e => getComputedStyle(e).opacity === '0').length")
@@ -69,6 +84,7 @@ def main():
         p.goto(BASE + "index.html"); p.wait_for_timeout(600); scroll_through(p)
         cols = p.evaluate("getComputedStyle(document.querySelector('.tiles')).gridTemplateColumns.split(' ').length")
         ok.append(("computer: 4 tiles across", cols == 4))
+        ok.append(("computer: no bar at the bottom (the button is easy to reach)", p.evaluate("getComputedStyle(document.getElementById('stick')).display") == "none"))
         t = p.locator(".tile").nth(1); t.scroll_into_view_if_needed(); p.wait_for_timeout(300)
         box = t.bounding_box(); p.mouse.move(box["x"] + 30, box["y"] + 30); p.wait_for_timeout(500)
         lift = p.evaluate("(() => { const m = getComputedStyle(document.querySelectorAll('.tile')[1]).transform; return m === 'none' ? 0 : new DOMMatrix(m).m42; })()")
