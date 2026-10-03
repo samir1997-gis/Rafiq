@@ -38,10 +38,10 @@
   const FOOT = 'M116,466 C115.5,480 112,489 111.5,496 C111.5,501 115,503.5 121,503.5 L146,503.5 C151,503.5 153.5,501 152.5,497.5 C151.5,494 146,492 140,490 C134,488 129.5,482 128,466 Z';
   const TRUNK = 'M90,102 C78,104 60,106 55,118 C56,130 59,140 61,150 C63,190 67,215 70,236 C67,255 65,272 66,290 L134,290 C135,272 133,255 130,236 C133,215 137,190 139,150 C141,140 144,130 145,118 C140,106 122,104 110,102 Z';
   const UPPER = 'M90,102 C78,104 60,106 55,118 C56,130 59,140 61,150 C63,190 67,215 69.5,238 L130.5,238 C133,215 137,190 139,150 C141,140 144,130 145,118 C140,106 122,104 110,102 Z';   // the trunk down to the waistband
-  const HAIR = 'M70.5,54 C67,24 86,11 101,11.5 C117,12 135,22 129.5,54 C127,42 121,33 108,30.5 C100,33.5 88,32 80,36 C74,40 71.5,47 70.5,54 Z';
-  const LIPS = 'M87,70.5 C92,68 96,69 100,70 C104,69 108,68 113,70.5 C110,79 105,82 100,82 C95,82 90,79 87,70.5 Z';
-  const OPEN = 'M90,71.5 C95,71 105,71 110,71.5 C107,77.5 104,79 100,79 C96,79 93,77.5 90,71.5 Z';
-  const TEETH = 'M91,71.6 C95,71.2 105,71.2 109,71.6 L108.2,74 C104,74.6 96,74.6 91.8,74 Z';
+  const HAIR = 'M70.5,55 C66,25 85,10 101,10.5 C119,11 136,24 129.5,55 C128.5,46 126,39 121,34 C114,38 101,38.5 92,33.5 C86,38.5 78,42 74.5,48 C72.8,50.5 71.5,52.5 70.5,55 Z';
+  const LIPS = 'M90,70.6 C95,71.6 105,71.6 110,70.6 C109.5,77.5 105,81.2 100,81.2 C95,81.2 90.5,77.5 90,70.6 Z';     // a small, soft open smile
+  const OPEN = 'M91.6,71.7 C96,72.4 104,72.4 108.4,71.7 C107.8,76.8 104.4,79.7 100,79.7 C95.6,79.7 92.2,76.8 91.6,71.7 Z';
+  const TEETH = 'M92.2,72 C96,72.6 104,72.6 107.8,72 L107.3,74 C104,74.6 96,74.6 92.7,74 Z';
   const mirror = s => `<g transform="translate(200 0) scale(-1 1)">${s}</g>`;
   const both = s => s + mirror(s);
 
@@ -63,7 +63,7 @@
     <path class="crease" d="M127.5,473 q3.2,2.4 0,5.4"/><path class="crease" d="M113,381 q9,4 18,0"/>`)}</g>
   ${both('<path class="crease" d="M148.6,194.5 q3.4,2.6 7.4,1.4"/>')}
   <path class="skin ink" d="${TRUNK}"/>
-  <g data-out="back"><path class="crease" d="M88,110 Q78,113 66,114 M112,110 Q122,113 134,114"/>
+  <g data-out="back">
     <ellipse class="navel" cx="100" cy="226" rx="1.5" ry="2.2"/></g>
   <g data-in="back"><path class="crease" d="M100,112 L100,232"/>
     <path class="crease" d="M80,128 C75,140 78,152 87,156 M120,128 C125,140 122,152 113,156"/></g>
@@ -74,12 +74,12 @@
   <ellipse class="skin ink" cx="100" cy="52" rx="29" ry="35"/>
   <g data-out="back">
     <path class="hair ink" d="${HAIR}"/>
-    ${both(`<path class="brow" d="M83,41.5 Q89,38 95,41"/>
-      <ellipse class="eyew fine" cx="89" cy="49" rx="4.3" ry="3"/><circle class="pupil" cx="89.4" cy="49.2" r="1.8"/>
-      <circle class="blush" cx="83" cy="63" r="5"/>`)}
-    <path class="crease" d="M100,50 C99,56 97,60 96,62.5 C98,64.5 102,64.5 104,62.5"/>
-    <path class="lips fine" d="${LIPS}"/><path class="mouthin" d="${OPEN}"/>
-    <path class="teeth" d="${TEETH}"/><ellipse class="tongue" cx="100" cy="77" rx="5.2" ry="2.2"/>
+    ${both(`<path class="brow" d="M85,42.6 Q89,40.6 93,42.2"/>
+      <ellipse class="pupil" cx="89" cy="49.5" rx="2.6" ry="3.2"/><circle class="glint" cx="90" cy="48.3" r="0.9"/>
+      <circle class="blush" cx="83.5" cy="62.5" r="4.6"/>`)}
+    <path class="crease" d="M100.6,55.5 C99.8,58.6 98.4,60.4 98.8,61.6 C99.6,62.6 101.6,62.4 102.6,61.6"/>
+    <path class="lips" d="${LIPS}"/><path class="mouthin" d="${OPEN}"/>
+    <path class="teeth" d="${TEETH}"/><ellipse class="tongue" cx="100" cy="78" rx="4.4" ry="1.9"/>
   </g>
   <path data-in="back" class="hair ink" d="M70.6,52 C69.5,20 88,12 100,12.5 C116,12.5 131,22 129.4,52 C129.4,68 124,79 116,83 L84,83 C76,79 70.6,68 70.6,52 Z"/>
   <g data-in="inside" class="organs">
@@ -110,13 +110,13 @@
   <ellipse id="z-forehead" class="zone" cx="100" cy="35.5" rx="16" ry="4.2"/>
   <g id="z-ear" class="zone">${both('<ellipse cx="71" cy="55" rx="6" ry="10"/>')}</g>
   <g id="z-cheek" class="zone">${both('<circle cx="83" cy="63" r="6.5"/>')}</g>
-  <g id="z-eyebrow" class="zone">${both('<ellipse cx="89" cy="40.5" rx="7.4" ry="2.8"/>')}</g>
+  <g id="z-eyebrow" class="zone">${both('<ellipse cx="89" cy="41.6" rx="6.4" ry="2.6"/>')}</g>
   <g id="z-eye" class="zone">${both('<ellipse cx="89" cy="49" rx="6" ry="4.4"/>')}</g>
   <ellipse id="z-nose" class="zone" cx="100" cy="57.5" rx="5.5" ry="8"/>
-  <ellipse id="z-mouth" class="zone" cx="100" cy="75.5" rx="16" ry="9.5"/>
+  <ellipse id="z-mouth" class="zone" cx="100" cy="75.8" rx="13" ry="8"/>
   <path id="z-lip" class="zone" fill-rule="evenodd" d="${LIPS} ${OPEN}"/>
-  <path id="z-teeth" class="zone" d="M90.5,71.2 C95,70.6 105,70.6 109.5,71.2 L108.6,74.8 C104,75.4 96,75.4 91.4,74.8 Z"/>
-  <ellipse id="z-tongue" class="zone" cx="100" cy="77.2" rx="6" ry="2.6"/>
+  <path id="z-teeth" class="zone" d="M91.6,71.6 C96,72.2 104,72.2 108.4,71.6 L107.8,74.8 C104,75.4 96,75.4 92.2,74.8 Z"/>
+  <ellipse id="z-tongue" class="zone" cx="100" cy="78" rx="5" ry="2.3"/>
   <ellipse id="z-chin" class="zone" cx="100" cy="85" rx="9" ry="3.6"/>
   <ellipse id="z-shoulder" class="zone" cx="145" cy="116" rx="10" ry="9"/>
   <path id="z-upperarm" class="zone" d="M141,128 L153.4,128 L159.3,188 L147,189.5 Z"/>
@@ -146,8 +146,8 @@
   const AT = {
     head:[76,32], neck:[93,96], chest:[84,148], torso:[124,196], arm:[157,172], hand:handPt(1,14), belly:[90,212],
     back:[123,108], leg:[124,410], foot:[140,497],
-    hair:[82,20], forehead:[92,35], eyebrow:[86,40.5], eye:[87,49], ear:[69.5,60], cheek:[82,64],
-    nose:[101.5,60], mouth:[112,71], teeth:[104,72.6], tongue:[103,77.4], lip:[95,80.8], chin:[103,86],
+    hair:[82,20], forehead:[92,35], eyebrow:[86,41.6], eye:[87.5,50], ear:[69.5,60], cheek:[82,64],
+    nose:[101.5,60], mouth:[109.6,72], teeth:[103,73.2], tongue:[102,78.2], lip:[96,80.6], chin:[103,86],
     shoulder:[146,113], upperarm:[156,156], elbow:[149,198], forearm:[164,228], wrist:handPt(-6,0.5),
     palm:handPt(-2,10), fingers:handPt(-1.9,27), thumb:handPt(12.2,15), nail:handPt(5.4,30.6),
     thigh:[111,328], knee:[121,383], shin:[118,428], ankle:[127,474], heel:[112.5,497], toe:[150,499],
@@ -190,22 +190,22 @@
 .bx-stage.still .bx-cam,.bx-stage.still .bx-fig{transition:none}
 .bx-fig{transform-box:fill-box;transform-origin:center;transition:transform .22s ease-in}
 /* the drawing keeps its own colours in dark mode too, like a printed picture: the light theme's ink, paper and accents */
-.bx-svg{--di:#17262B;--dp:#F1ECE0;--dr:#B4322A;--dv:#2E7263;--dg:#A8842C}
+.bx-svg{--di:#3B3431;--dp:#F1ECE0;--dr:#B4322A;--dv:#2E7263;--dg:#A8842C}      /* a warm brown ink: softer than the page's */
 .bx-svg .ink{stroke:var(--di);stroke-width:1.5;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .bx-svg .fine{stroke:var(--di);stroke-width:1;vector-effect:non-scaling-stroke}
-.bx-svg .skin{fill:color-mix(in srgb,var(--dg) 22%,var(--dp))}
-.bx-svg .hair{fill:#2F3B3E}
+.bx-svg .skin{fill:#F0D6B4}
+.bx-svg .hair{fill:#4A3A31}
 .bx-svg .shorts{fill:color-mix(in srgb,var(--dv) 32%,var(--dp))}
 .bx-svg .crease,.bx-svg .brow{fill:none;stroke:var(--di);stroke-width:1;stroke-linecap:round;vector-effect:non-scaling-stroke}
-.bx-svg .brow{stroke-width:2}
-.bx-svg .eyew{fill:#fff}
+.bx-svg .brow{stroke:#4A3A31;stroke-width:1.8}
+.bx-svg .glint{fill:#fff}
 .bx-svg .pupil,.bx-svg .navel{fill:var(--di)}
-.bx-svg .blush{fill:var(--dr);opacity:.16}
-.bx-svg .lips{fill:color-mix(in srgb,var(--dr) 60%,var(--dp))}
-.bx-svg .mouthin{fill:color-mix(in srgb,var(--di) 80%,var(--dr))}
+.bx-svg .blush{fill:#E8907A;opacity:.35}
+.bx-svg .lips{fill:#D98B7E}
+.bx-svg .mouthin{fill:#7A3A35}
 .bx-svg .teeth{fill:#fff}
-.bx-svg .tongue{fill:color-mix(in srgb,var(--dr) 70%,#f2a0a0)}
-.bx-svg .nailc{fill:color-mix(in srgb,#fff 70%,var(--dr))}
+.bx-svg .tongue{fill:#E58C86}
+.bx-svg .nailc{fill:#F8E6D4}
 .bx-svg .org{stroke-width:1.2}
 .bx-svg .brainc{fill:color-mix(in srgb,var(--dr) 22%,var(--dp))}
 .bx-svg .lung{fill:color-mix(in srgb,var(--dr) 32%,var(--dp))}
