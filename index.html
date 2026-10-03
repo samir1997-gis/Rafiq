@@ -17,19 +17,26 @@
 <script>(function(){var t;try{t=localStorage.getItem('rafiq_team')}catch(_){}if(t)return;var b=document.createElement('script');b.defer=true;b.src='https://static.cloudflareinsights.com/beacon.min.js';b.setAttribute('data-cf-beacon','{"token": "f18a63c922fa4e15952e791d19df7b06"}');document.head.appendChild(b)})()</script><!-- Cloudflare Web Analytics: visits, no cookies (#186); not on the Rafiq team's own devices (#191) -->
 <script>try{ if(!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) document.documentElement.classList.add('js-motion'); }catch(_){}</script>
 
-<title>Rafiq — your Arabic study companion</title>
-<meta name="description" content="Understand every word of your salah, and learn to read, understand and speak Modern Standard Arabic in short daily lessons. Audio, review timed to how you remember, and conversations that get you speaking.">
+<title>Rafiq Arabic: learn Arabic and understand your salah</title>
+<link rel="canonical" href="https://rafiq-arabic.com/">
+<meta name="description" content="Understand every word of your salah, and learn Arabic in short daily lessons with native audio. Free for 7 days, no card needed.">
 
 <!-- link previews (WhatsApp, Discord, Facebook, X) -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Rafiq — your Arabic study companion">
+<meta property="og:title" content="Rafiq Arabic: learn Arabic and understand your salah">
+<meta property="og:url" content="https://rafiq-arabic.com/">
+<meta property="og:site_name" content="Rafiq Arabic">
 <meta property="og:description" content="Understand every word of your salah, and learn Arabic in short daily lessons: 785 words, 36 conversations, review that remembers for you.">
-<meta property="og:image" content="icon-512.png">
+<meta property="og:image" content="https://rafiq-arabic.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Rafiq — your Arabic study companion">
+<!-- who we are, for Google (#199) -->
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://rafiq-arabic.com/#org", "name": "Rafiq", "alternateName": "Rafiq Arabic", "url": "https://rafiq-arabic.com/", "logo": "https://rafiq-arabic.com/icon-512.png", "email": "support@rafiq-arabic.com", "sameAs": ["https://www.instagram.com/rafiqarabic/"]}, {"@type": "WebSite", "@id": "https://rafiq-arabic.com/#site", "name": "Rafiq Arabic", "alternateName": "Rafiq", "url": "https://rafiq-arabic.com/", "publisher": {"@id": "https://rafiq-arabic.com/#org"}}, {"@type": "WebApplication", "name": "Rafiq", "alternateName": "Rafiq Arabic", "url": "https://rafiq-arabic.com/", "applicationCategory": "EducationalApplication", "operatingSystem": "Any (web app for phone and computer)", "inLanguage": "en-GB", "description": "Understand every word of your salah, and learn Arabic in short daily lessons with native audio. Free for 7 days, no card needed.", "publisher": {"@id": "https://rafiq-arabic.com/#org"}, "offers": [{"@type": "Offer", "name": "Essentials, monthly", "price": "6.99", "priceCurrency": "GBP"}, {"@type": "Offer", "name": "Essentials, yearly", "price": "49.99", "priceCurrency": "GBP"}, {"@type": "Offer", "name": "Complete, monthly", "price": "11.99", "priceCurrency": "GBP"}, {"@type": "Offer", "name": "Complete, yearly", "price": "79.99", "priceCurrency": "GBP"}]}]}</script>
+<meta name="twitter:title" content="Rafiq Arabic: learn Arabic and understand your salah">
 <meta name="twitter:description" content="Understand every word of your salah, and learn Arabic in short daily lessons: 785 words, 36 conversations, review that remembers for you.">
-<meta name="twitter:image" content="icon-512.png">
+<meta name="twitter:image" content="https://rafiq-arabic.com/og-image.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,7 +58,11 @@
 .hero p.lede{color:var(--ink-soft);font-size:clamp(15px,2.2vw,17px);margin-top:14px;max-width:60ch;margin-inline:auto;line-height:1.65}
 .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px}
 .cta .btn{height:46px;padding:0 26px;font-size:15px;display:inline-flex;align-items:center}
-.cta .btn.ghost{background:transparent;color:var(--verdigris);border:1px solid var(--verdigris)}
+.nocard{margin-top:12px;font-size:14px;font-weight:700;color:var(--verdigris)}   /* #200: say it by the button */
+.freeweek{display:inline-block;margin-top:8px;background:color-mix(in srgb,var(--verdigris) 12%,var(--card));border:1px solid color-mix(in srgb,var(--verdigris) 40%,var(--rule));
+  border-radius:12px;padding:12px 16px;font-size:15px;line-height:1.5;color:var(--ink)}
+.freeweek b{color:var(--verdigris)}
+.freeweek a{display:inline-block;margin-left:6px;color:var(--verdigris);font-weight:700}
 .stats{display:flex;justify-content:center;flex-wrap:wrap;margin:38px auto 0;max-width:760px;border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--card)}
 .stat{flex:1 1 160px;padding:18px 14px;text-align:center;border-right:1px solid var(--rule)}
 .stat:last-child{border-right:none}
@@ -202,9 +213,9 @@ footer.land{border-top:1px solid var(--rule);padding:26px;text-align:center;colo
       for just before you'd forget.
     </p>
   <div class="cta">
-    <a class="btn" href="login.html">Start your free week</a>
-    <a class="btn ghost" href="login.html">Sign in</a>
+    <a class="btn" href="login.html?mode=signup">Start your free week</a>
   </div>
+  <p class="nocard">7 days free, no card. Nothing is charged when it ends.</p>
 </header>
 <section class="film" id="film-section" aria-label="Rafiq in one minute">
   <div class="film-frame">
@@ -285,7 +296,8 @@ document.addEventListener('DOMContentLoaded',function(){
 </section>
 <section class="section" id="pricing">
   <h2 class="reveal">Pricing</h2>
-  <p>Start with a free week of everything, no card needed. Then pick a plan. Cancel any time.</p>
+  <p class="freeweek"><b>Free for 7 days, no card needed.</b> Try everything, then pick a plan if you want to carry on. Cancel any time.
+    <a href="login.html?mode=signup">Start your free week →</a></p>
   <div class="plans">
     <div class="plan hov reveal"><div class="pn">Essentials</div><div class="pp">£6.99 <small>/ month</small></div>
       <div class="ps">or £49.99 a year — save 40%</div>

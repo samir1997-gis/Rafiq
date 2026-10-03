@@ -1,0 +1,23 @@
+# rafiq-arabic.com (#199): the public pages are for search engines; the app's own pages need an account.
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /dashboard.html
+Disallow: /learn.html
+Disallow: /session.html
+Disallow: /progress.html
+Disallow: /practise.html
+Disallow: /salah.html
+Disallow: /settings.html
+Disallow: /onboarding.html
+Disallow: /tutor.html
+Disallow: /vocab.html
+Disallow: /verbs.html
+Disallow: /drills.html
+Disallow: /connectors.html
+Disallow: /reset-password.html
+Disallow: /unsubscribe.html
+Disallow: /ig/
+Disallow: /tt/
+
+Sitemap: https://rafiq-arabic.com/sitemap.xml

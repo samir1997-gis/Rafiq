@@ -1,0 +1,12 @@
+[
+  {"id": "s1-samia", "word": "سَمِعَ", "options": ["sees", "hears", "knows", "forgives"], "answer": 1,
+   "line": "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ", "line_en": "“Allah hears the one who praises Him.”", "where": "Said rising from ruku"},
+  {"id": "s2-ighfir", "word": "اغْفِرْ", "options": ["guide", "forgive", "bless", "protect"], "answer": 1,
+   "line": "رَبِّ اغْفِرْ لِي", "line_en": "“My Lord, forgive me.”", "where": "Said between the two sujood"},
+  {"id": "s3-azim", "word": "الْعَظِيمِ", "options": ["the Most High", "the Merciful", "the Magnificent", "the Greatest"], "answer": 2,
+   "line": "سُبْحانَ رَبِّيَ الْعَظِيمِ", "line_en": "“Glory be to my Lord, the Magnificent.”", "where": "Said in ruku"},
+  {"id": "s4-tahiyyat", "word": "التَّحِيّاتُ", "options": ["all praise", "all greetings", "all prayers", "all blessings"], "answer": 1,
+   "line": "التَّحِيّاتُ لِلَّهِ", "line_en": "“All greetings are for Allah.”", "where": "The first words of the tashahhud"},
+  {"id": "s5-ashhadu", "word": "أَشْهَدُ", "options": ["I believe", "I know", "I bear witness", "I promise"], "answer": 2,
+   "line": "أَشْهَدُ أَنْ لا إِلٰهَ إِلَّا اللَّهُ", "line_en": "“I bear witness that there is no god but Allah.”", "where": "Said in the tashahhud"}
+]
