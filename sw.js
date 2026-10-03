@@ -14,14 +14,14 @@
    - Nothing else is touched: sign-in, progress and answer checking always go
      to the network.
    Bump VERSION when the list below changes. */
-const VERSION = 'rafiq-2026-10-01-fast';
+const VERSION = 'rafiq-2026-10-03-body';
 const SHELL = VERSION + '-shell', RUNTIME = 'rafiq-runtime', AUDIO = 'rafiq-audio', VERSIONED = 'rafiq-versioned';
 const PAGES = ['dashboard.html', 'login.html', 'onboarding.html', 'learn.html', 'session.html', 'practise.html', 'tutor.html', 'progress.html',
   'settings.html', 'vocab.html', 'drills.html', 'verbs.html', 'connectors.html', 'index.html', 'reset-password.html',
   'plans.html', 'help.html', 'privacy.html', 'salah.html'];
 const FILES = ['site.css', 'theme.js', 'pwa.js', 'auth.js', 'nav.js', 'plan.js', 'fsrs.js', 'progress.js', 'path.js', 'basics-data.js', 'path-data.js', 'audio.js',
   'sounds.js', 'judge.js', 'mistakes.js', 'arkb.js', 'tiles.js', 'spelling.js', 'translations.js', 'reminders.js',
-  'alphabet-data.js', 'vocab-data.js', 'drills-data.js', 'toolkit-data.js', 'scenes-data.js', 'essentials.js', 'essentials-data.js',
+  'alphabet-data.js', 'vocab-data.js', 'drills-data.js', 'toolkit-data.js', 'scenes-data.js', 'essentials.js', 'essentials-data.js', 'body.js', 'body-data.js',
   'item-tags.js', 'report.js', 'tutor.js', 'teach.js', 'salah.js', 'salah-data.js', 'salah-timings.js', 'manifest.json', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'badge-96.png',
   'sounds/correct.mp3', 'sounds/wrong.mp3'];
 const REMOTE = ['https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2',

@@ -305,9 +305,9 @@ const seen=id=>typeof Progress!=='undefined'&&Progress.hasSeen(id);
         return `<div class="qgrid salah-grid">`+cards.map(c=>`<a class="qcard" href="${c.href}"><div class="qa">${c.ar}</div><div class="qt">${c.t}</div>
           <div class="qd">${c.d}</div><div class="qm">${c.m}</div></a>`).join('')+`</div>`; }},
     essentials:{icon:'📅', t:'Everyday essentials', cx:'',
-      d:'Numbers, days, months, colours and telling the time',
+      d:'Numbers, days, months, colours, telling the time and the body',
       get m(){ const n=ESSENTIALS.reduce((a,s)=>a+RafiqEssentials.known(s),0);
-        return `${ESSENTIALS.length} sets · tap to hear`+(n?` · <b>${n}</b> known`:''); },
+        return `${ESSENTIALS.length+(window.RafiqBody?1:0)} sets · tap to hear`+(n?` · <b>${n}</b> known`:''); },
       intro:'The everyday basics in one place: a table to look things up in, and a short drill for each.',
       body:()=>`<div id="essentials"></div>`,
       mount:()=>RafiqEssentials.mount(document.getElementById('essentials'))}
@@ -378,7 +378,9 @@ const seen=id=>typeof Progress!=='undefined'&&Progress.hasSeen(id);
 <script src="sounds.js?v=1"></script>
 <script src="spelling.js?v=4"></script>
 <script src="essentials-data.js?v=1"></script>
-<script src="essentials.js?v=1"></script>
+<script src="body-data.js?v=1"></script>
+<script src="body.js?v=1"></script>
+<script src="essentials.js?v=2"></script>
 <script src="arkb.js?v=3" defer></script>
 <script>RafiqPlan.requirePlan();</script>
 <script src="nav.js?v=20261001"></script>

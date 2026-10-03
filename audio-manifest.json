@@ -22505,6 +22505,335 @@
   "chars": 7
  },
  {
+  "id": "gs8mu6",
+  "text": "الجِسْم",
+  "bucket": "body",
+  "unit": "-",
+  "chars": 7
+ },
+ {
+  "id": "15nvc4q",
+  "text": "الرَّأْس",
+  "bucket": "body",
+  "unit": "body",
+  "chars": 8
+ },
+ {
+  "id": "p8gd2d",
+  "text": "الرَّقَبة",
+  "bucket": "body",
+  "unit": "body",
+  "chars": 9
+ },
+ {
+  "id": "138b734",
+  "text": "الصَّدْر",
+  "bucket": "body",
+  "unit": "body",
+  "chars": 8
+ },
+ {
+  "id": "gs8ly9",
+  "text": "الجِذْع",
+  "bucket": "body",
+  "unit": "body",
+  "chars": 7
+ },
+ {
+  "id": "16l1jiw",
+  "text": "الذِّراع",
+  "bucket": "body",
+  "unit": "body",
+  "chars": 8
+ },
+ {
+  "id": "1qrfn71",
+  "text": "اليَد",
+  "bucket": "body",
+  "unit": "body",
+  "chars": 5
+ },
+ {
+  "id": "g7w9c3",
+  "text": "البَطْن",
+  "bucket": "body",
+  "unit": "body",
+  "chars": 7
+ },
+ {
+  "id": "11ja1wl",
+  "text": "الظَّهْر",
+  "bucket": "body",
+  "unit": "body",
+  "chars": 8
+ },
+ {
+  "id": "b9bnr5",
+  "text": "السّاق",
+  "bucket": "body",
+  "unit": "body",
+  "chars": 6
+ },
+ {
+  "id": "g0ks6m",
+  "text": "القَدَم",
+  "bucket": "body",
+  "unit": "body",
+  "chars": 7
+ },
+ {
+  "id": "ic9lv3",
+  "text": "العَيْن",
+  "bucket": "body",
+  "unit": "head",
+  "chars": 7
+ },
+ {
+  "id": "gnyubi",
+  "text": "الأَنْف",
+  "bucket": "body",
+  "unit": "head",
+  "chars": 7
+ },
+ {
+  "id": "1qrff64",
+  "text": "الفَم",
+  "bucket": "body",
+  "unit": "head",
+  "chars": 5
+ },
+ {
+  "id": "gnxhxv",
+  "text": "الأُذُن",
+  "bucket": "body",
+  "unit": "head",
+  "chars": 7
+ },
+ {
+  "id": "169v5xz",
+  "text": "الشَّعْر",
+  "bucket": "body",
+  "unit": "head",
+  "chars": 8
+ },
+ {
+  "id": "1kuz32o",
+  "text": "الجَبِين",
+  "bucket": "body",
+  "unit": "head",
+  "chars": 8
+ },
+ {
+  "id": "b9kptk",
+  "text": "الخَدّ",
+  "bucket": "body",
+  "unit": "head",
+  "chars": 6
+ },
+ {
+  "id": "18pbzfj",
+  "text": "الذَّقْن",
+  "bucket": "body",
+  "unit": "head",
+  "chars": 8
+ },
+ {
+  "id": "gcj605",
+  "text": "الشَّفة",
+  "bucket": "body",
+  "unit": "head",
+  "chars": 7
+ },
+ {
+  "id": "11byhmv",
+  "text": "السِّنّ، الأَسْنان",
+  "bucket": "body",
+  "unit": "head",
+  "chars": 18
+ },
+ {
+  "id": "rlsqa9",
+  "text": "اللِّسان",
+  "bucket": "body",
+  "unit": "head",
+  "chars": 8
+ },
+ {
+  "id": "gsltmg",
+  "text": "الحاجِب",
+  "bucket": "body",
+  "unit": "head",
+  "chars": 7
+ },
+ {
+  "id": "fzwyb4",
+  "text": "الكَتِف",
+  "bucket": "body",
+  "unit": "arm",
+  "chars": 7
+ },
+ {
+  "id": "ic66pz",
+  "text": "العَضُد",
+  "bucket": "body",
+  "unit": "arm",
+  "chars": 7
+ },
+ {
+  "id": "dlaj0g",
+  "text": "الكوع، المِرْفَق",
+  "bucket": "body",
+  "unit": "arm",
+  "chars": 16
+ },
+ {
+  "id": "17qg1s5",
+  "text": "السّاعِد",
+  "bucket": "body",
+  "unit": "arm",
+  "chars": 8
+ },
+ {
+  "id": "15susna",
+  "text": "المِعْصَم",
+  "bucket": "body",
+  "unit": "arm",
+  "chars": 9
+ },
+ {
+  "id": "b8w4yj",
+  "text": "الكَفّ",
+  "bucket": "body",
+  "unit": "hand",
+  "chars": 6
+ },
+ {
+  "id": "1ho66t6",
+  "text": "الإِصْبَع، الأَصابِع",
+  "bucket": "body",
+  "unit": "hand",
+  "chars": 20
+ },
+ {
+  "id": "1jhj24s",
+  "text": "الإِبْهام",
+  "bucket": "body",
+  "unit": "hand",
+  "chars": 9
+ },
+ {
+  "id": "11nyvky",
+  "text": "الظُّفْر",
+  "bucket": "body",
+  "unit": "hand",
+  "chars": 8
+ },
+ {
+  "id": "fz7io7",
+  "text": "الفَخِذ",
+  "bucket": "body",
+  "unit": "leg",
+  "chars": 7
+ },
+ {
+  "id": "pvq2bd",
+  "text": "الرُّكْبة",
+  "bucket": "body",
+  "unit": "leg",
+  "chars": 9
+ },
+ {
+  "id": "fx0lkr",
+  "text": "الكاحِل",
+  "bucket": "body",
+  "unit": "foot",
+  "chars": 7
+ },
+ {
+  "id": "fzzhzc",
+  "text": "الكَعْب",
+  "bucket": "body",
+  "unit": "foot",
+  "chars": 7
+ },
+ {
+  "id": "azl4pn",
+  "text": "أُصْبُع القَدَم",
+  "bucket": "body",
+  "unit": "foot",
+  "chars": 15
+ },
+ {
+  "id": "1gq19ma",
+  "text": "الخاصِرة",
+  "bucket": "body",
+  "unit": "torso",
+  "chars": 8
+ },
+ {
+  "id": "16ygf2a",
+  "text": "السُّرّة",
+  "bucket": "body",
+  "unit": "torso",
+  "chars": 8
+ },
+ {
+  "id": "1r5d4r6",
+  "text": "الأَعْضاء الدّاخِلِيّة",
+  "bucket": "body",
+  "unit": "torso",
+  "chars": 22
+ },
+ {
+  "id": "g0mltg",
+  "text": "القَلْب",
+  "bucket": "body",
+  "unit": "inside",
+  "chars": 7
+ },
+ {
+  "id": "1mkxmud",
+  "text": "الرِّئة، الرِّئَتان",
+  "bucket": "body",
+  "unit": "inside",
+  "chars": 19
+ },
+ {
+  "id": "rm26ki",
+  "text": "المَعِدة",
+  "bucket": "body",
+  "unit": "inside",
+  "chars": 8
+ },
+ {
+  "id": "fzwwrg",
+  "text": "الكَبِد",
+  "bucket": "body",
+  "unit": "inside",
+  "chars": 7
+ },
+ {
+  "id": "ok5p7v",
+  "text": "الكُلْيَة، الكُلْيَتان",
+  "bucket": "body",
+  "unit": "inside",
+  "chars": 22
+ },
+ {
+  "id": "104hzc3",
+  "text": "الأَمْعاء",
+  "bucket": "body",
+  "unit": "inside",
+  "chars": 9
+ },
+ {
+  "id": "pfnxre",
+  "text": "الدِّماغ، المُخّ",
+  "bucket": "body",
+  "unit": "inside",
+  "chars": 16
+ },
+ {
   "id": "1lnnvrj",
   "text": "السَّلامُ عَلَيْكُمْ. أَعْطِنِي جَوازَ السَّفَرِ، مِنْ فَضْلِكَ.",
   "bucket": "scene",
