@@ -95,6 +95,12 @@ async function userTables() {
     for (const r of rows) console.log(`${(r.source + (r.campaign ? ` (${r.campaign})` : '')).slice(0, 36).padEnd(38)}${String(r.joined).padStart(6)}` +
       `${String(r.first_lesson).padStart(12)}${String(r.back_next_day).padStart(10)}${String(r.chose_plan).padStart(12)}${String(r.paying).padStart(8)}`);
     console.log("\n'unknown' = joined before this was tracked (2 Oct 2026). Tag links: rafiq-arabic.com/?utm_source=tiktok&utm_campaign=meet-rafiq");
+    // and by whether they did the landing page's taster first (#207)
+    const t = await sql(`select * from private.funnel_by_taster(${days})`);
+    console.log('\nBy the landing page taster (done / started / no):');
+    console.log('taster      joined  1st lesson  next day  chose plan  paying');
+    for (const r of t) console.log(`${r.taster.padEnd(10)}${String(r.joined).padStart(8)}${String(r.first_lesson).padStart(12)}${String(r.back_next_day).padStart(10)}` +
+      `${String(r.chose_plan).padStart(12)}${String(r.paying).padStart(8)}`);
     return;
   }
   if (cmd === 'visits') {

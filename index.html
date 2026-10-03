@@ -195,6 +195,70 @@
   .tile .more{transition:none}
 }
 footer.land{border-top:1px solid var(--rule);padding:26px;text-align:center;color:var(--ink-soft);font-size:12.5px;line-height:1.7}
+/* ---- #207: the one-minute taster under the hero ----
+   Apple-style (apple-design skill): press feedback on touch-down, room kept for the answer so
+   nothing jumps, words slide the way the dots go, tight tracking on the big type, a card with depth. */
+.taster{padding-top:6px;padding-bottom:34px}
+.taster h2,.taster > p{text-align:center;margin-inline:auto}
+.taster h2{font-size:clamp(22px,4.6vw,27px);letter-spacing:-.02em;line-height:1.2}
+.tst-card{position:relative;overflow:hidden;min-height:520px;max-width:440px;margin:18px auto 0;background:var(--card);border:1px solid var(--rule);
+  border-radius:22px;padding:18px 18px 20px;text-align:center;
+  box-shadow:0 1px 2px rgba(var(--ink-rgb),.05),0 14px 36px -18px rgba(var(--ink-rgb),.28)}
+.tst-pane{will-change:transform,opacity}
+.tst-wait{color:var(--ink-soft);font-size:14px;padding-top:220px}
+.tst-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--ut);font-size:11px;letter-spacing:.08em;color:var(--ink-soft);text-transform:uppercase}
+/* a page control: the current word is a longer pill */
+.tst-dots{display:flex;gap:6px;align-items:center}
+.tst-dots i{width:7px;height:7px;border-radius:99px;background:var(--rule);transition:width 320ms var(--ease-out),background 320ms}
+.tst-dots i.did{background:var(--verdigris)}.tst-dots i.now{width:20px;background:var(--gold)}
+.tst-tag{margin:16px 0 0;font-size:12.5px;font-weight:700;letter-spacing:.02em;color:var(--ink-soft)}
+.tst-word{display:inline-flex;align-items:center;gap:14px;margin:2px auto 0;padding:2px 12px;border:0;background:none;cursor:pointer;color:var(--ink);
+  font-family:var(--ar);font-size:clamp(50px,14vw,62px);line-height:1.5;border-radius:14px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  transition:transform 100ms ease-out,color 200ms}
+.tst-word:active{transform:scale(.96)}
+.tst-word.speaking{color:var(--verdigris)}
+.tst-hear{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;font-size:17px;
+  background:color-mix(in srgb,var(--verdigris) 12%,var(--paper));border:1px solid color-mix(in srgb,var(--verdigris) 30%,var(--rule))}
+.tst-q{font-size:15px;color:var(--ink-soft);margin:0}
+.tst-opts{display:grid;gap:9px;margin-top:14px}
+.tst-opt{position:relative;min-height:52px;border:1px solid var(--rule);border-radius:14px;background:var(--paper);color:var(--ink);font:500 16.5px var(--la);
+  cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  transition:transform 100ms ease-out,background 220ms var(--ease-out),border-color 220ms,color 220ms,opacity 220ms}
+.tst-opt:active{transform:scale(.97)}
+.tst-opt:disabled{cursor:default}
+.tst-opt.right{background:var(--verdigris);border-color:var(--verdigris);color:#fff;font-weight:700}
+.tst-opt.right::after{content:'✓';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-weight:700}
+.tst-opt.quiet{opacity:.55}
+.tst-opt.picked{border-style:dashed;opacity:.8}
+@media (hover:hover) and (pointer:fine){.tst-opt:not(:disabled):hover{border-color:color-mix(in srgb,var(--verdigris) 55%,var(--rule))}}
+/* the answer's room is kept from the start, so showing it moves nothing */
+.tst-after{min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;visibility:hidden;opacity:0;
+  transform:translateY(6px);transition:opacity 260ms var(--ease-out),transform 360ms var(--ease-out),visibility 0s 260ms}
+.tst-after.on{visibility:visible;opacity:1;transform:none;transition:opacity 260ms var(--ease-out),transform 360ms var(--ease-out),visibility 0s}
+.tst-say{min-height:22px;margin:12px 0 0;font-size:15.5px;font-weight:700;letter-spacing:-.005em}
+.tst-say.yes{color:var(--verdigris)}.tst-say.soft{color:var(--ink)}
+.tst-from{margin:8px 0 0;display:flex;flex-direction:column;gap:2px;font-size:13px;color:var(--ink-soft);line-height:1.45}
+.tst-from .lab{font-weight:700;letter-spacing:.01em}
+.tst-from .ar{font-family:var(--ar);font-size:20px;line-height:1.7;color:var(--ink)}
+.tst-from .ar b{color:var(--rubric);font-weight:600}
+.tst-next{margin-top:12px;height:44px;padding:0 22px;font-size:15px;border-radius:12px}
+.tst-end{padding-top:18px}
+.tst-end h3{font-size:20px;line-height:1.3;letter-spacing:-.015em;margin:6px 0 14px}
+.tst-big{font-size:42px;line-height:1}
+.tst-learned{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.tst-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid color-mix(in srgb,var(--verdigris) 40%,var(--rule));background:var(--paper);border-radius:999px;
+  padding:4px 14px;font:500 14px var(--la);color:var(--ink-soft);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:transform 100ms ease-out}
+.tst-chip:active{transform:scale(.95)}
+.tst-chip i{font-style:normal;font-size:13px}
+.tst-chip span{font-family:var(--ar);font-size:20px;color:var(--ink)}
+.tst-chip.speaking span{color:var(--verdigris)}
+.tst-month{margin:16px 0 16px;font-size:16px;color:var(--ink-soft)}
+.tst-go{height:48px;padding:0 26px;font-size:15.5px;display:inline-flex;align-items:center;border-radius:12px;transition:transform 100ms ease-out}
+.tst-go:active{transform:scale(.97)}
+.tst-free{margin-top:10px;font-size:14px;font-weight:700;color:var(--verdigris)}
+@media (prefers-reduced-motion:reduce){.tst-word,.tst-opt,.tst-chip,.tst-go,.tst-dots i{transition:none}
+  .tst-after,.tst-after.on{transform:none;transition:opacity 160ms ease,visibility 0s}}
+@media (prefers-contrast:more){.tst-opt,.tst-card{border-color:var(--ink)}.tst-opt.quiet{opacity:.8}}
 </style>
 </head>
 <body>
@@ -217,6 +281,11 @@ footer.land{border-top:1px solid var(--rule);padding:26px;text-align:center;colo
   </div>
   <p class="nocard">7 days free, no card. Nothing is charged when it ends.</p>
 </header>
+<section class="section taster" id="taster" aria-label="Try it: your first Arabic words">
+  <h2>Try it: your first Arabic words</h2>
+  <p>Four words, under a minute: two you’ll use every day, and two you say in every prayer.</p>
+  <div class="tst-card"><p class="tst-wait">Getting your first words ready…</p></div>
+</section>
 <section class="film" id="film-section" aria-label="Rafiq in one minute">
   <div class="film-frame">
     <video id="film" preload="none" playsinline poster="media/rafiq-intro.jpg?v=6">
@@ -366,6 +435,7 @@ document.addEventListener('DOMContentLoaded',function(){
 </script>
 
 <!-- already signed in? go straight to Home -->
+<script src="taster.js?v=1" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=10"></script>
 <script src="plan.js?v=20261001live"></script>

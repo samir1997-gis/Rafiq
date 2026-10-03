@@ -2,7 +2,8 @@
 Postgres with a handful of made-up accounts, one per case:
   joined, confirmed, finished a first lesson (a 'placed' row doesn't count), studied the next day,
   studied a week or more later, went through checkout, paying; and the "could be back" counts
-  leave out people who joined too recently to have come back.
+  leave out people who joined too recently to have come back. And the same steps by where people
+  came from (#186) and by whether they did the landing page's taster first (#207).
 
   python3 tests/funnel.py          (needs Postgres 16 installed: /usr/lib/postgresql/16/bin)
 """
@@ -42,6 +43,8 @@ insert into public.billing values
 update auth.users set raw_user_meta_data = '{"source": {"src": "tiktok", "campaign": "meet-rafiq"}}'
   where id in ('00000000-0000-0000-0000-000000000003', '00000000-0000-0000-0000-000000000004');
 update auth.users set raw_user_meta_data = '{"name": "A", "source": {"src": "instagram.com"}}' where id = '00000000-0000-0000-0000-000000000001';
+-- did the landing page's taster before signing up (#207)
+update auth.users set raw_user_meta_data = '{"source": {"src": "tiktok", "campaign": "meet-rafiq", "taster": "done"}}' where id = '00000000-0000-0000-0000-000000000003';
 -- an admin (the Rafiq team) who studied and paid: never counted
 insert into auth.users values ('00000000-0000-0000-0000-0000000000aa', date_trunc('week', current_date - 21), date_trunc('week', current_date - 21),
   '{"source": {"src": "tiktok", "campaign": "meet-rafiq"}}', '{"admin": true}');
@@ -64,6 +67,7 @@ def main():
         rows = [r.split("|") for r in psql("select * from private.funnel()").splitlines()]
         new, old = (list(map(int, r[1:])) for r in (rows[0], rows[-1]))   # newest week first
         src = {r.split("|")[0]: r.split("|")[1:] for r in psql("select * from private.funnel_by_source(30)").splitlines()}
+        tst = {r.split("|")[0]: r.split("|")[1:] for r in psql("select * from private.funnel_by_taster(30)").splitlines()}
         ok = [
             ("the week three weeks back (the admin who studied and paid isn't counted): 4 joined, 3 confirmed, 2 finished a lesson (placed doesn't count) " + str(old[:3]), old[:3] == [4, 3, 2]),
             ("…all 4 could be back the next day, 1 was " + str(old[3:5]), old[3:5] == [4, 1]),
@@ -75,6 +79,10 @@ def main():
              src.get("tiktok") == ["meet-rafiq", "2", "2", "1", "2", "1"]),
             ("…instagram.com 1 joined, nothing else; no source saved shows as unknown (2) " + str(src.get("instagram.com")) + str(src.get("unknown")),
              src.get("instagram.com") == ["", "1", "0", "0", "0", "0"] and src.get("unknown", [None, None])[1] == "2"),
+            ("by taster (#207): did it 1 joined, 1 lesson, 1 next day, 1 chose a plan " + str(tst.get("done")), tst.get("done") == ["1", "1", "1", "1", "0"]),
+            ("…didn't (no taster noted) 4 joined, 2 lessons, 0 next day, 2 chose a plan, 1 paying " + str(tst.get("no")), tst.get("no") == ["4", "2", "0", "2", "1"]),
+            ("the learner's own key can't run the taster numbers", "permission denied" in subprocess.run(pg + ["psql", "-h", sock, "-p", "54329", "-d", "postgres", "-c",
+                "set role authenticated; select * from private.funnel_by_taster(30)"], capture_output=True, text=True).stderr),
             ("the dashboard's wrappers: the service key gets the same rows and the account count, a learner gets nothing",
              psql("set role service_role; select count(*) from public.admin_funnel_by_source(30)").splitlines()[-1] == str(len(src))
              and psql("set role service_role; select public.admin_account_count()").splitlines()[-1] == "5"
