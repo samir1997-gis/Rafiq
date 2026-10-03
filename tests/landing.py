@@ -4,6 +4,7 @@
   - sections fade in as they're scrolled to, and every one ends up visible; the numbers count up to the real values
   - with reduced motion, everything is there at once, nothing moves
   - no sideways scroll on a phone, no page errors
+  - "Start your free week" goes to Create account, with "no card" right under it on the first screen; the pricing says it too (#200)
 
   python3 .claude/skills/webapp-testing/scripts/with_server.py \
     --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/landing.py
@@ -37,6 +38,12 @@ def main():
         c, p = page_for(b, errors, viewport={"width": 390, "height": 844}, has_touch=True)
         p.goto(BASE + "index.html"); p.wait_for_timeout(600)
         ok.append(("phone: no sideways scroll", p.evaluate("document.documentElement.scrollWidth") <= 390))
+        cta = p.locator(".hero .cta .btn")
+        ok.append(("one button at the top, to Create account", cta.count() == 1 and cta.get_attribute("href") == "login.html?mode=signup"))
+        nc = p.evaluate("(() => { const r = document.querySelector('.nocard').getBoundingClientRect(); return [r.bottom, document.querySelector('.nocard').textContent]; })()")
+        ok.append(("'no card' right under it, on the first screen of a short in-app browser (bottom %dpx)" % nc[0], nc[0] < 664 and "no card" in nc[1]))
+        ok.append(("the pricing starts with the free week, no card", "no card" in p.inner_text("#pricing .freeweek")
+                   and p.get_attribute("#pricing .freeweek a", "href") == "login.html?mode=signup"))
         hidden = p.evaluate("[...document.querySelectorAll('.reveal')].filter(e => getComputedStyle(e).opacity === '0').length")
         ok.append(("phone: sections further down wait to fade in (%d)" % hidden, hidden > 5))
         cols = p.evaluate("getComputedStyle(document.querySelector('.tiles')).gridTemplateColumns.split(' ').length")

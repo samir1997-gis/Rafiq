@@ -132,6 +132,8 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
 .toggle{margin-top:18px;text-align:center;font-size:13px;color:var(--ink-soft)}
 .toggle a{color:var(--verdigris);cursor:pointer;text-decoration:underline}
 .card:not(.signup) .agree{display:none}
+.freewk{margin:-4px 0 14px;font-size:14px;font-weight:700;color:var(--verdigris)}   /* #200 */
+.card:not(.signup) .freewk{display:none}
 .forgot{display:block;text-align:right;margin-top:6px;font-size:12px;color:var(--verdigris);cursor:pointer;text-decoration:underline}
 .card.signup .forgot,.card.reset .forgot{display:none}
 .alt{text-align:center;margin-top:4px}
@@ -200,6 +202,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
   <form class="card" id="authForm" method="post" action="#" novalidate>
     <div class="seg" id="seg"><button type="button" data-mode="signin" aria-pressed="true">Sign in</button><button type="button" data-mode="signup" aria-pressed="false">Create account</button><span class="pill" aria-hidden="true"></span></div>
     <div class="label" id="formTitle">Reset your password</div>
+    <p class="freewk">Free for 7 days. No card, nothing to cancel.</p>
     <div class="field reveal" id="nameField"><div><label for="nm">Your name</label><div class="inp">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
       <input id="nm" name="name" type="text" placeholder="What should we call you?" autocomplete="given-name"></div></div></div>
@@ -377,6 +380,8 @@ async function goIn(wait){
   try {
     const r = await fetch(SUPABASE_URL + '/auth/v1/settings', { headers: { apikey: SUPABASE_KEY } });
     const on = ((await r.json()) || {}).external || {};
+    // Google blocks its sign-in inside TikTok, Instagram and Facebook's own browsers ("403 disallowed_useragent", #200)
+    if (/TikTok|musical_ly|Bytedance|Instagram|FBAN|FBAV/i.test(navigator.userAgent)) on.google = false;
     box.querySelectorAll('[data-provider]').forEach(b => { b.hidden = !on[b.dataset.provider]; });
     box.hidden = !box.querySelector('[data-provider]:not([hidden])');
   } catch(_) {}
@@ -449,7 +454,7 @@ function shake(){
 }
 document.getElementById('forgotLink').addEventListener('click', ()=> setMode('reset'));
 
-setMode(new URLSearchParams(location.search).get('mode') === 'reset' ? 'reset' : 'signin', true);
+{ const m = new URLSearchParams(location.search).get('mode'); setMode(m === 'reset' || m === 'signup' ? m : 'signin', true); }
 
 function showMsg(text, kind){
   msgEl.textContent = text || '';

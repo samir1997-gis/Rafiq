@@ -6,6 +6,8 @@
   - signing in: the button becomes a spinner, then a tick, then you're in; a wrong password shakes the card
   - show / hide password
   - if the Supabase script can't load, it says so instead of doing nothing (#142)
+  - "Start your free week" (?mode=signup) opens on Create account with "no card" above the form; Sign in doesn't show it (#200)
+  - inside TikTok / Instagram's own browser the Google button is hidden (Google blocks it there)
 
   python3 .claude/skills/webapp-testing/scripts/with_server.py \
     --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/login_page.py
@@ -103,6 +105,22 @@ def main():
         c = ctx_for(b); p = c.new_page(); p.on("pageerror", lambda e: errors.append(str(e)))
         p.goto(BASE + "login.html"); p.wait_for_timeout(300); p.mouse.click(20, 20); p.wait_for_timeout(50)
         ok.append(("a tap skips the opening", not intro()))
+        c.close()
+
+        # from "Start your free week" (#200): Create account, with the free week said above the form; Google offered in a normal browser
+        c = ctx_for(b, reduced_motion="reduce"); p = c.new_page(); p.on("pageerror", lambda e: errors.append(str(e)))
+        p.goto(BASE + "login.html?mode=signup"); p.wait_for_timeout(400)
+        ok.append(("?mode=signup opens on Create account", p.locator("#submitBtn").inner_text() == "Create account"
+                   and p.get_attribute("#seg [data-mode=signup]", "aria-pressed") == "true"))
+        ok.append(("…saying 'Free for 7 days. No card'", p.locator(".freewk").is_visible() and "No card" in p.inner_text(".freewk")))
+        ok.append(("…and Continue with Google in a normal browser", p.locator(".obtn.google").is_visible()))
+        p.click("#seg [data-mode=signin]"); p.wait_for_timeout(300)
+        ok.append(("Sign in doesn't show the free-week line", not p.locator(".freewk").is_visible()))
+        c.close()
+        tiktok = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 musical_ly_35.1.0 BytedanceWebview/d8a21c6"
+        c = ctx_for(b, reduced_motion="reduce", user_agent=tiktok); p = c.new_page(); p.on("pageerror", lambda e: errors.append(str(e)))
+        p.goto(BASE + "login.html?mode=signup"); p.wait_for_timeout(400)
+        ok.append(("in TikTok's browser: no Google button (Google blocks it there)", not p.locator(".obtn.google").is_visible()))
         c.close()
 
         # the Supabase script doesn't load (#142): it says so, on load and on Sign in, instead of doing nothing
