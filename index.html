@@ -195,6 +195,20 @@
   .tile .more{transition:none}
 }
 footer.land{border-top:1px solid var(--rule);padding:26px;text-align:center;color:var(--ink-soft);font-size:12.5px;line-height:1.7}
+/* #210: on a phone, once the top button has scrolled away, a slim bar keeps "Start your free week" in reach
+   (not over the taster or the pricing box, which have their own) */
+.stick{display:none}
+@media (max-width:720px){
+  .stick{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:50;align-items:center;gap:12px;
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--paper) 92%,transparent);
+    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--rule);
+    transform:translateY(110%);visibility:hidden;transition:transform 320ms var(--ease-out),visibility 0s 320ms}
+  .stick.on{transform:none;visibility:visible;transition:transform 320ms var(--ease-out)}
+  .stick .btn{flex:1;height:46px;display:inline-flex;align-items:center;justify-content:center;font-size:15px}
+  .stick small{font-size:12.5px;font-weight:700;color:var(--verdigris);line-height:1.25;text-align:center;flex:0 0 auto}
+  footer.land{padding-bottom:96px}
+}
+@media (prefers-reduced-motion:reduce){.stick,.stick.on{transition:none}}
 /* ---- #207: the one-minute taster under the hero ----
    Apple-style (apple-design skill): press feedback on touch-down, room kept for the answer so
    nothing jumps, words slide the way the dots go, tight tracking on the big type, a card with depth. */
@@ -403,6 +417,20 @@ document.addEventListener('DOMContentLoaded',function(){
   Rafiq — رَفِيق · learn Arabic, a little every day.<br>
   <a href="#pricing">Pricing</a> · <a href="help.html">Help</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a>
 </footer>
+<div class="stick" id="stick"><a class="btn" href="login.html?mode=signup">Start your free week</a><small>7 days free<br>no card</small></div>
+<script>
+/* #210: the bar shows once the top button has scrolled up out of view, and steps aside while
+   the taster or the pricing box (each with its own start button) is on screen */
+(function(){
+  const bar = document.getElementById('stick'), top = document.querySelector('.hero .cta');
+  if(!bar || !top || !('IntersectionObserver' in window)) return;
+  let gone = false; const near = new Set();
+  const draw = () => bar.classList.toggle('on', gone && !near.size);
+  new IntersectionObserver(es => es.forEach(e => { gone = !e.isIntersecting && e.boundingClientRect.top < 0; draw(); })).observe(top);
+  const io = new IntersectionObserver(es => es.forEach(e => { e.isIntersecting ? near.add(e.target) : near.delete(e.target); draw(); }));
+  document.querySelectorAll('#taster, #pricing .freeweek').forEach(el => io.observe(el));
+})();
+</script>
 <script>
 /* #176: tiles open on tap (on a computer, hover opens them); the light follows the pointer;
    sections arrive as they scroll into view, a little after each other; the numbers count up. */
@@ -435,7 +463,7 @@ document.addEventListener('DOMContentLoaded',function(){
 </script>
 
 <!-- already signed in? go straight to Home -->
-<script src="taster.js?v=1" defer></script>
+<script src="taster.js?v=2" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=10"></script>
 <script src="plan.js?v=20261001live"></script>
