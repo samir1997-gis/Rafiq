@@ -35,4 +35,6 @@ frame that causes them, no music. After rendering, `--level` sets t1 and t2 to a
 t3, which is mostly the fountain, to -20 so it stays calm; the words sit about 10 dB above the bed. The earlier quiz videos are
 much quieter (#217).
 
+Silent copies (`out/<id>/<id>-silent.mp4`, same picture, no audio track) are there for posting with a sound picked in TikTok.
+
 Not checked with TypeSafe (no key in this session): check the captions with it before posting (CLAUDE.md).
