@@ -89,8 +89,8 @@ def word(pieces, cls=""):
     return f'<span class="{cls}" lang="ar" dir="rtl">' + "".join(f'<span class="p{k}">{e(t)}</span>' if k else e(t) for t, k in pieces) + '</span>'
 
 class Comp:
-    def __init__(self, vid, kicker):
-        self.id, self.kicker = vid, kicker
+    def __init__(self, vid, kicker, bed=True):
+        self.id, self.kicker, self.bed = vid, kicker, bed       # bed=False: no fountain (build_ten.py: the reading voice only)
         self.out = os.path.join(HERE, "out", vid, "composition"); self.a = os.path.join(self.out, "assets")
         if os.path.exists(self.out): shutil.rmtree(self.out)
         for d in ("fonts", "lib", "sfx", "audio"): os.makedirs(os.path.join(self.a, d))
@@ -118,21 +118,23 @@ class Comp:
         return f'<div id="end"><div class="tile"><span>ر</span><em></em></div><h2>{mixed(line)}</h2><div class="url">rafiq-arabic.com</div><p>Free for a week · no card needed</p></div>'
     def write(self, body, total):
         # the fountain, played on past its 22s if needed (two copies crossfaded): a soft bed, heard but well under the words
-        bed = os.path.join(self.a, "sfx", "fountain.mp3"); src = os.path.join(V6, "sfx-gen/fountain.mp3")
-        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", src, "-i", src, "-filter_complex",
-                        f"[0][1]acrossfade=d=2:c1=tri:c2=tri,volume=6dB,atrim=0:{total + 0.5:.2f},afade=t=in:d=0.6,afade=t=out:st={total - 1.4:.2f}:d=1.4",
-                        "-c:a", "libmp3lame", "-q:a", "3", bed], check=True)
-        self.audio.append(f'<audio id="bed" src="assets/sfx/fountain.mp3" data-start="0" data-duration="{total:.2f}" data-volume="0.1" data-track-index="8"></audio>')
+        if self.bed:
+            bed = os.path.join(self.a, "sfx", "fountain.mp3"); src = os.path.join(V6, "sfx-gen/fountain.mp3")
+            subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", src, "-i", src, "-filter_complex",
+                            f"[0][1]acrossfade=d=2:c1=tri:c2=tri,volume=6dB,atrim=0:{total + 0.5:.2f},afade=t=in:d=0.6,afade=t=out:st={total - 1.4:.2f}:d=1.4",
+                            "-c:a", "libmp3lame", "-q:a", "3", bed], check=True)
+            self.audio.append(f'<audio id="bed" src="assets/sfx/fountain.mp3" data-start="0" data-duration="{total:.2f}" data-volume="0.1" data-track-index="8"></audio>')
         head = ['tl.fromTo("#glow", {scale:0.94}, {scale:1.08, duration:' + f'{total}' + ', ease:"none"}, 0);',
                 'tl.fromTo("#brand", {opacity:0, y:-10}, {opacity:1, y:0, duration:0.4, ease:"power3.out"}, 0);',
                 'tl.fromTo("#kicker", {opacity:0}, {opacity:1, duration:0.3}, 0.05);']
+        css = CSS + getattr(self, "css", "")
         doc = f"""<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" /><meta name="viewport" content="width=1080, height=1920" />
     <title>Rafiq: {e(self.id)}</title>
     <script src="assets/lib/gsap.min.js"></script>
-    <style>{CSS}</style>
+    <style>{css}</style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="{total}">
