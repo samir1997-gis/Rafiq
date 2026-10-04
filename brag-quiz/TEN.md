@@ -82,7 +82,7 @@ Sunday is "day one", Monday "day two", all the way to Thursday, "day five". Frid
 Add ة to the end of a word and it's usually feminine: grandfather → grandmother, son → daughter, father → mother. But watch out for brother → sister 👀 Spot the pattern and learn faster with Rafiq, link in bio (free for a week). #learnarabic #arabic #arabicgrammar #arabicforbeginners #languagelearning
 
 **i5-salah-words**: *What you're really saying in every prayer 🤲*
-Allāhu akbar. Samiʿa llāhu liman ḥamidah. Rabbanā wa laka l-ḥamd. You say them every day. Here's what each word means. Which one did you not know? 👇 Understand every word of your salah with Rafiq, link in bio (free for a week). #salah #learnarabic #arabic #islam #muslim #prayer #quranwords
+Allāhu akbar. Samiʿa llāhu liman ḥamidah. Rabbanā wa laka l-ḥamd. You say them every day. Here's what each word means. Which one did you not know? 👇 Understand every word of your salah with Rafiq, link in bio (free for a week). #salah #learnarabic #arabic #islam #muslim #prayer #namaz
 
 Bio link for TikTok: rafiq-arabic.com/tt (tags visits as TikTok in the funnel).
 
