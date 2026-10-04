@@ -7,7 +7,7 @@ Built by `brag-quiz/build_teach.py` (see its header for the commands). Every Ara
 |---|---|---|---|
 | `t1-masjid` | 26.2s | مَـ at the start of a word often means "the place of": مَسْجِد is the place of السُّجُودُ; then مَدْرَسَة, مَكْتَبَة, مَطْعَم | Ends on "Your turn": مَطْبَخ, a 3-2-1, then the answer. People guess in the comments. |
 | `t2-subhana` | 26.7s | You say سُبْحانَ 36 times in a four-rakʿah prayer (12 in rukūʿ + 24 in sujūd), what it means word by word, and that the 20 words you say most are about 56% of the prayer | A number most people have never counted. |
-| `t3-remember` | 21.9s | New words fade fast without review; Rafiq brings each one back just before you'd forget it, and the gap grows: 3 days → 2 weeks → 2 months → 6 months | "Learnt a new Arabic word yesterday? It's already fading." |
+| `t3-remember` | 22.0s | New words fade fast without review; Rafiq brings each one back just before you'd forget it, and the gap grows: 3 days → 2 weeks → 2 months → 6 months | "Learnt a new Arabic word yesterday? It's already fading." |
 
 ## Where every fact comes from
 
@@ -31,8 +31,9 @@ Bio link for TikTok: rafiq-arabic.com/tt (tags visits as TikTok in the funnel).
 ## The sound
 
 The fountain from `brag-output-v6` under everything, the app's recordings for the Arabic, `tap.mp3` and `correct.mp3` on the
-frame that causes them, no music. After rendering, `--level` sets t1 and t2 to about -16 LUFS (a normal TikTok loudness) and
-t3, which is mostly the fountain, to -20 so it stays calm; the words sit about 10 dB above the bed. The earlier quiz videos are
+frame that causes them, no music. The fountain is a soft bed: still heard, 8-11 dB quieter than the first cut. After
+rendering, `--level` sets t1 and t2 to about -16 LUFS (a normal TikTok loudness) and t3, which is mostly the fountain, to -25 so
+its fountain is no louder than t1's; the words sit well above the bed. The earlier quiz videos are
 much quieter (#217).
 
 Silent copies (`out/<id>/<id>-silent.mp4`, same picture, no audio track) are there for posting with a sound picked in TikTok.

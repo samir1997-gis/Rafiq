@@ -15,13 +15,13 @@ from the app's data (vocab-data.js, salah-data.js, salah.js, progress.js), excep
   python3 brag-quiz/build_teach.py [id ...]            writes brag-quiz/out/<id>/composition
   then in each:  npx hyperframes render -o ../<id>.mp4
   python3 brag-quiz/build_teach.py --level [id ...]    levels each rendered video: -16 LUFS for the voiced two (TikTok plays near -14),
-                                                       -20 for t3, which is mostly the fountain
+                                                       -25 for t3, which is mostly the fountain
 """
 import json, os, shutil, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import build_quiz as Q                                         # house CSS tokens, helpers, recordings, asset folders
 ROOT, V6, e, mixed, dur, AUDIO = Q.ROOT, Q.V6, Q.e, Q.mixed, Q.dur, Q.AUDIO
-LUFS = {"t1-masjid": -16.0, "t2-subhana": -16.0, "t3-remember": -20.0}   # t3 is mostly the fountain: levelled softer so it stays calm
+LUFS = {"t1-masjid": -16.0, "t2-subhana": -16.0, "t3-remember": -25.0}   # t3 is mostly the fountain: levelled softer so the fountain stays as soft as in t1
 GREEN, RED, INK = "#2e7263", "#b4322a", "#17262b"
 
 CSS = Q.CSS + """
@@ -117,12 +117,12 @@ class Comp:
         self.t(f'tl.fromTo("#end", {{opacity:0, y:30}}, {{opacity:1, y:0, duration:0.5, ease:"power3.out"}}, {at:.2f});')
         return f'<div id="end"><div class="tile"><span>ر</span><em></em></div><h2>{mixed(line)}</h2><div class="url">rafiq-arabic.com</div><p>Free for a week · no card needed</p></div>'
     def write(self, body, total):
-        # the fountain, played on past its 22s if needed (two copies crossfaded), lifted so it's heard under the words
+        # the fountain, played on past its 22s if needed (two copies crossfaded): a soft bed, heard but well under the words
         bed = os.path.join(self.a, "sfx", "fountain.mp3"); src = os.path.join(V6, "sfx-gen/fountain.mp3")
         subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", src, "-i", src, "-filter_complex",
                         f"[0][1]acrossfade=d=2:c1=tri:c2=tri,volume=6dB,atrim=0:{total + 0.5:.2f},afade=t=in:d=0.6,afade=t=out:st={total - 1.4:.2f}:d=1.4",
                         "-c:a", "libmp3lame", "-q:a", "3", bed], check=True)
-        self.audio.append(f'<audio id="bed" src="assets/sfx/fountain.mp3" data-start="0" data-duration="{total:.2f}" data-volume="0.25" data-track-index="8"></audio>')
+        self.audio.append(f'<audio id="bed" src="assets/sfx/fountain.mp3" data-start="0" data-duration="{total:.2f}" data-volume="0.1" data-track-index="8"></audio>')
         head = ['tl.fromTo("#glow", {scale:0.94}, {scale:1.08, duration:' + f'{total}' + ', ease:"none"}, 0);',
                 'tl.fromTo("#brand", {opacity:0, y:-10}, {opacity:1, y:0, duration:0.4, ease:"power3.out"}, 0);',
                 'tl.fromTo("#kicker", {opacity:0}, {opacity:1, duration:0.3}, 0.05);']
