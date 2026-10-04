@@ -50,27 +50,39 @@ Every Arabic word is said with the app's own recording, and all ten are levelled
     - ة at the end of a word is "usually feminine".
     - أُخْت ends in ت.
 
-## Captions to post with them
+## Titles and descriptions to post with them
 
-**q1-guess-food:** Can you get 3 out of 3? Comment your score 👇 #learnarabic #arabic #arabicquiz #quiz
+Each ends on "link in bio" because links in TikTok descriptions can't be tapped.
 
-**q2-loanwords:** You already speak more Arabic than you think ☕ Which one surprised you? #learnarabic #arabic #etymology #languages
+**q1-guess-food**: *Can you guess these 3 Arabic words? 🍞*
+Three everyday Arabic words, three choices each, and 3 seconds to answer ⏱️ No pressure 😅 Comment your score 👇 1, 2 or 3 out of 3? Learn the Arabic you'll actually use with Rafiq, link in bio (free for a week). #learnarabic #arabic #arabicquiz #quiz #arabicwords #languagelearning
 
-**q3-listen:** Sound on 🔊 Which animal did you hear? #learnarabic #arabic #arabicquiz #listening
+**q2-loanwords**: *You already speak Arabic (you just don't know it) ☕*
+Sugar, coffee, giraffe and zero all came into English from Arabic: sukkar, qahwa, zarāfa and ṣifr. How many did you guess before the timer ran out? 👇 Which one surprised you most? Learn Arabic with Rafiq, link in bio (free for a week). #learnarabic #arabic #etymology #languages #didyouknow #arabicwords
 
-**q4-salah-where:** You say these in every prayer, but do you know when? 🕌 #salah #learnarabic #arabic #islam #muslim
+**q3-listen**: *Sound on 🔊 Which animal is it?*
+You'll hear an animal's name in Arabic. Pick the right one before the timer ends 🐴🦁🐱 3 out of 3? Tell me in the comments 👇 Every word in Rafiq is said by a real voice. Link in bio (free for a week). #learnarabic #arabic #arabicquiz #listening #arabicwords #quiz
 
-**q5-numbers:** Count to five in Arabic, then test yourself #learnarabic #arabic #arabicnumbers
+**q4-salah-where**: *You say these in every prayer, but when? 🕌*
+Three phrases you say in every salah. Do you know which part of the prayer each one belongs to? Careful: the last two differ by just one word 👀 How many did you get? 👇 Understand every word of your salah with Rafiq, link in bio (free for a week). #salah #learnarabic #arabic #islam #muslim #prayer #namaz
 
-**i1-salam-reply:** How to answer salam, and the one vowel that changes for a man or a woman #learnarabic #arabic #salam #islam
+**q5-numbers**: *Count to 5 in Arabic, then test yourself 🔢*
+Wāḥid, ithnān, thalātha, arbaʿa, khamsa. Then two quick rounds: which number did you hear? Did you get both? 👇 Learn numbers, times and dates with Rafiq, link in bio (free for a week). #learnarabic #arabic #arabicnumbers #arabicforbeginners #languagelearning
 
-**i2-sun-letters:** Why do we say as-salām and not al-salām? ☀️🌙 #learnarabic #arabic #arabicreading #tajweed
+**i1-salam-reply**: *How to answer "as-salāmu ʿalaykum" 👋*
+Someone greets you with salam. What do you say back? And did you know "how are you?" changes by one vowel for a man or a woman? Kayfa ḥāluka / kayfa ḥāluki. Save this for later 📌 Say it right from day one with Rafiq, link in bio (free for a week). #learnarabic #arabic #salam #islam #muslim #arabicforbeginners
 
-**i3-days:** Arabic days of the week are just numbers 🤯 #learnarabic #arabic #languagefacts
+**i2-sun-letters**: *Why "ash-shams" and not "al-shams"? ☀️🌙*
+Before 14 Arabic letters, the "sun letters", the L in "al-" disappears and the next letter doubles. That's why it's as-salām, not al-salām. Did you get sun or moon right at the end? 👇 Read Arabic the way it's said with Rafiq, link in bio (free for a week). #learnarabic #arabic #arabicreading #sunletters #tajweed #arabicforbeginners
 
-**i4-ta-marbuta:** One letter turns "he" into "she" in Arabic #learnarabic #arabic #arabicgrammar
+**i3-days**: *Arabic days of the week are just numbers 🤯*
+Sunday is "day one", Monday "day two", all the way to Thursday, "day five". Friday is different: al-jumuʿa, the day of gathering 🕌 Did you know this? 👇 Learn the words behind the words with Rafiq, link in bio (free for a week). #learnarabic #arabic #languagefacts #didyouknow #jummah #arabicwords
 
-**i5-salah-words:** What you're really saying in every prayer, word by word 🤲 #salah #learnarabic #arabic #islam #muslim
+**i4-ta-marbuta**: *One letter turns "he" into "she" in Arabic ✨*
+Add ة to the end of a word and it's usually feminine: grandfather → grandmother, son → daughter, father → mother. But watch out for brother → sister 👀 Spot the pattern and learn faster with Rafiq, link in bio (free for a week). #learnarabic #arabic #arabicgrammar #arabicforbeginners #languagelearning
+
+**i5-salah-words**: *What you're really saying in every prayer 🤲*
+Allāhu akbar. Samiʿa llāhu liman ḥamidah. Rabbanā wa laka l-ḥamd. You say them every day. Here's what each word means. Which one did you not know? 👇 Understand every word of your salah with Rafiq, link in bio (free for a week). #salah #learnarabic #arabic #islam #muslim #prayer #quranwords
 
 Bio link for TikTok: rafiq-arabic.com/tt (tags visits as TikTok in the funnel).
 
