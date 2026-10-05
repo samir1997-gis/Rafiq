@@ -61,7 +61,7 @@ Three everyday Arabic words, three choices each, and 3 seconds to answer ⏱️ 
 Sugar, coffee, giraffe and zero all came into English from Arabic: sukkar, qahwa, zarāfa and ṣifr. How many did you guess before the timer ran out? 👇 Which one surprised you most? Learn Arabic with Rafiq, link in bio (free for a week). #learnarabic #arabic #etymology #languages #didyouknow #arabicwords
 
 **q3-listen**: *Sound on 🔊 Which animal is it?*
-You'll hear an animal's name in Arabic. Pick the right one before the timer ends 🐴🦁🐱 3 out of 3? Tell me in the comments 👇 Every word in Rafiq is said by a real voice. Link in bio (free for a week). #learnarabic #arabic #arabicquiz #listening #arabicwords #quiz
+You'll hear an animal's name in Arabic. Pick the right one before the timer ends 🐴🦁🐱 3 out of 3? Tell me in the comments 👇 Every word in Rafiq comes with clear audio. Link in bio (free for a week). #learnarabic #arabic #arabicquiz #listening #arabicwords #quiz
 
 **q4-salah-where**: *You say these in every prayer, but when? 🕌*
 Three phrases you say in every salah. Do you know which part of the prayer each one belongs to? Careful: the last two differ by just one word 👀 How many did you get? 👇 Understand every word of your salah with Rafiq, link in bio (free for a week). #salah #learnarabic #arabic #islam #muslim #prayer #namaz

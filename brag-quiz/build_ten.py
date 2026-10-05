@@ -204,7 +204,7 @@ def q3():
     body.append('<div class="ques" id="score" style="top:720px">3 out of 3?</div><div class="ques" id="score2" style="top:830px"><b>Your ears are learning.</b></div>')
     c.inn("#score", t); c.inn("#score2", t + 0.3); c.out_("#score, #score2", t + 2.0)
     E = t + 2.4
-    body.append(c.end(E, "Hear every word, said by a real voice"))
+    body.append(c.end(E, "Hear every word, said clearly"))
     c.write("\n".join("      " + b for b in body), round(E + 2.9, 2))
 
 # ---------------------------------------------------------------- q4: where in the prayer
