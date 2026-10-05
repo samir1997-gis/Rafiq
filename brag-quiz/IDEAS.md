@@ -17,3 +17,18 @@ All have the app's native audio (`audio-manifest.json`, bucket `salah`); meaning
 
 Avoid: "which means my Lord?" (رَبِّ and رَبِّيَ both do), and rapid-fire "comment your score" (TypeSafe: flippant, 1.80/3 respect).
 Already made: videos سَمِعَ (q1), رَبَّنا (q2), ruku → sujood (q3); stills سَمِعَ, اغْفِرْ, الْعَظِيمِ, التَّحِيّاتُ, أَشْهَدُ (stills/).
+
+## Ramadan countdown (parked by the owner, 4 Oct 2026, to come back to)
+
+Facts: Ramadan 1448 expected to start about 8 Feb 2027 (moon-dependent: say "in shā' Allāh"/"expected"); on 4 Oct that's 127 days.
+The salah from the opening takbīr to the salām, incl. al-Fātiḥah, has **93 different words** (salah-data.js); with the 10 short
+surahs about 240. 93 words < the days left: "less than one a day". Full salah is in Complete: from 4 Oct, 4 payments of £11.99
+before Ramadan = £47.96 (~38p/day); yearly £79.99 covers Ramadan.
+
+TypeSafe (tools/typesafe-exp/ramadan_angle.py): **don't lead with the price**. "£47.96 until Ramadan" scored 0.95/3 sincere
+(0.69 with a viewer wary of businesses using Ramadan). Best: a free daily series, "one word of your salah a day until
+Ramadan" (believable 2.69, share 1.79), or the single post "127 days. 93 words. Less than one a day." Even the best reach
+only ~1.5/3 sincere, so keep the tone humble and the sale soft.
+
+Options: (1) one countdown post; (2) a daily template, "Day N · X days to Ramadan", one salah word with its audio and where
+it's said, built from salah-data.js like build_stills.py.

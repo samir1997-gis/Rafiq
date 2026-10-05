@@ -17,7 +17,9 @@ const rows = (xs: Row[], d: string) => xs.map(x => ({ name: x.dimensions[d] || '
 async function visits(days: number) {
   if (!CF || !ACC) return { error: 'no_cloudflare' };
   // only the real site: test copies (raw.githack.com previews, localhost) were counted before the pages stopped reporting from them
-  const f = { datetime_geq: new Date(Date.now() - days * 864e5).toISOString(), datetime_leq: new Date().toISOString(), requestHost: 'rafiq-arabic.com' };
+  // "Today" is since midnight (UTC, as the per-day chart and the sign-ups count it), not the last 24 hours
+  const from = days === 1 ? new Date(new Date().toISOString().slice(0, 10) + 'T00:00:00Z') : new Date(Date.now() - days * 864e5);
+  const f = { datetime_geq: from.toISOString(), datetime_leq: new Date().toISOString(), requestHost: 'rafiq-arabic.com' };
   const r = await fetch('https://api.cloudflare.com/client/v4/graphql', { method: 'POST',
     headers: { Authorization: `Bearer ${CF}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ query: QUERY, variables: { acc: ACC, f } }) });
   const j = await r.json().catch(() => ({}));
