@@ -15,6 +15,7 @@ The owner's Kanban board is this repo's GitHub issues. Every piece of work goes 
 - **Cloudflare** (the owner's account): the `rafiq-judge` worker (`worker/`, deployed by Cloudflare's GitHub link; its `TYPESAFE_API_KEY` is a Cloudflare secret) and Web Analytics for visits (the beacon on every page, #186). There's no Cloudflare API token anywhere: dashboard changes are the owner's.
 - **Supabase** project `gaajfahtrbdybjuunfhe`: accounts, progress, billing, edge functions; deployed by the backend workflow on pushes to main.
 - **Stripe** live (`tools/stripe-setup.js` via the Stripe setup workflow); **Resend** sends the emails; **ElevenLabs** voices; **Quran Foundation** recitation (reciter 12).
+- **Social posts**: mostly content for reach and follows, about 1 in 5 points to the site; see `brag-quiz/IDEAS.md` (How we post).
 - **TypeSafe**: `TYPE_SAFE_KEY` in the session's environment; check copy, scripts and product decisions with it (`tools/typesafe-exp/`) before shipping.
 
 ## Tests: run before pushing
