@@ -3,7 +3,8 @@ Postgres with a handful of made-up accounts, one per case:
   joined, confirmed, finished a first lesson (a 'placed' row doesn't count), studied the next day,
   studied a week or more later, went through checkout, paying; and the "could be back" counts
   leave out people who joined too recently to have come back. And the same steps by where people
-  came from (#186) and by whether they did the landing page's taster first (#207).
+  came from (#186) and by whether they did the landing page's taster first (#207); and the taps counted on the
+  way to an account (#225).
 
   python3 tests/funnel.py          (needs Postgres 16 installed: /usr/lib/postgresql/16/bin)
 """
@@ -67,6 +68,8 @@ def main():
         rows = [r.split("|") for r in psql("select * from private.funnel()").splitlines()]
         new, old = (list(map(int, r[1:])) for r in (rows[0], rows[-1]))   # newest week first
         src = {r.split("|")[0]: r.split("|")[1:] for r in psql("select * from private.funnel_by_source(30)").splitlines()}
+        psql("set role anon; select public.tap('signup_page'); select public.tap('signup_page'); select public.tap('create'); select public.tap('anything')")
+        taps = dict(r.split("|") for r in psql("set role service_role; select * from public.admin_taps(7)").splitlines() if "|" in r)
         tst = {r.split("|")[0]: r.split("|")[1:] for r in psql("select * from private.funnel_by_taster(30)").splitlines()}
         ok = [
             ("the week three weeks back (the admin who studied and paid isn't counted): 4 joined, 3 confirmed, 2 finished a lesson (placed doesn't count) " + str(old[:3]), old[:3] == [4, 3, 2]),
@@ -88,6 +91,10 @@ def main():
              and psql("set role service_role; select public.admin_account_count()").splitlines()[-1] == "5"
              and "permission denied" in subprocess.run(pg + ["psql", "-h", sock, "-p", "54329", "-d", "postgres", "-c",
                 "set role authenticated; select * from public.admin_funnel_by_source(30)"], capture_output=True, text=True).stderr),
+            ("taps on the way to an account (#225): anyone can count a known step, an unknown one is ignored; the dashboard gets the sums",
+             taps == {"signup_page": "2", "create": "1"}),
+            ("…but the public key can't read them", all("permission denied" in subprocess.run(pg + ["psql", "-h", sock, "-p", "54329", "-d", "postgres", "-c",
+                f"set role anon; {q}"], capture_output=True, text=True).stderr for q in ("select * from public.admin_taps(7)", "select * from private.taps"))),
             ("the learner's own key can't run it", "permission denied" in subprocess.run(pg + ["psql", "-h", sock, "-p", "54329", "-d", "postgres", "-c",
                 "set role authenticated; select * from private.funnel()"], capture_output=True, text=True).stderr),
         ]

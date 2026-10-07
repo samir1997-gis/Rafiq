@@ -1,5 +1,6 @@
 // admin-stats — the owner dashboard (admin.html, #189): {days} → website visits from Cloudflare Web Analytics
-// (per day, where from, countries, pages, devices) and sign-ups by where people came from (private.funnel_by_source).
+// (per day, where from, countries, pages, devices), sign-ups by where people came from (private.funnel_by_source)
+// and the taps on the way to an account (public.admin_taps, #225).
 // Only accounts with app_metadata.admin (set by the Supabase users workflow's make-admin; learners can't set it).
 import { admin, caller, cors, json } from '../_shared/common.ts';
 
@@ -35,8 +36,8 @@ Deno.serve(async (req) => {
   if (!user || user.app_metadata?.admin !== true) return json(req, { error: 'not_admin' }, 403);
   const body = await req.json().catch(() => ({}));
   const days = Math.max(1, Math.min(30, parseInt(body.days, 10) || 7));
-  const [web, src, acc] = await Promise.all([visits(days),
-    admin.rpc('admin_funnel_by_source', { days }), admin.rpc('admin_account_count')]);
-  if (src.error || acc.error) console.error(src.error || acc.error);
-  return json(req, { days, web, sources: src.data ?? [], accounts: acc.data ?? null });
+  const [web, src, acc, taps] = await Promise.all([visits(days),
+    admin.rpc('admin_funnel_by_source', { days }), admin.rpc('admin_account_count'), admin.rpc('admin_taps', { days })]);
+  if (src.error || acc.error || taps.error) console.error(src.error || acc.error || taps.error);
+  return json(req, { days, web, sources: src.data ?? [], accounts: acc.data ?? null, taps: taps.data ?? [] });
 });
