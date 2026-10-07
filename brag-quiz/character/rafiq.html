@@ -75,4 +75,68 @@ function sheet() {
       ${card ? `<div class="wcard" style="top:20px;transform:translateX(-50%)"><div class="ar"><b>دَ</b>رَسَ</div><div class="m">DARASA · TO STUDY</div></div>` : ''}
       <div style="margin-top:${card ? 110 : 60}px">${rafiq(s, card ? 330 : 400)}</div><div class="lab">${l}</div><div class="sub">${sub}</div></div>`).join('') + `</div>`;
 }
+
+// ---------- the demo (1080×1920): Rafiq says salam, offers help, answers a question ----------
+const LINES = {'r1-salam': 'As-salāmu ʿalaykum! I’m Rafiq.', 'r2-help': 'I’m here to help you understand every word of your salah.',
+  'r3-ask': 'Got a question? Just ask me.', 'r4-darasa': '<span class="ar">دَرَسَ</span> means “to study”. And <span class="ar">أَدْرُسُ</span>? “I study.”',
+  'r5-together': 'Let’s learn it together, one word at a time.'};
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), eo = x => 1 - Math.pow(1 - cl(x), 3);
+function demoInit() {
+  const root = document.getElementById('root');
+  root.style.cssText = 'position:relative;width:1080px;height:1920px';
+  root.innerHTML = `<div id="rf" style="position:absolute;left:115px;top:470px;width:850px;height:850px"></div>
+    <div id="card" class="wcard" style="top:170px;opacity:0;padding:14px 56px 26px;border-radius:44px"><div class="ar" id="cw" style="font-size:130px"></div><div class="m" id="cm" style="font-size:40px"></div></div>
+    <div id="ask" class="bubble" style="right:70px;top:1300px;font-size:50px;opacity:0;border-radius:30px 30px 8px 30px;background:var(--acc);color:#fff;border:0"></div>
+    <div id="dots" style="position:absolute;left:800px;top:560px;font-family:KA;font-weight:700;font-size:80px;color:var(--soft);opacity:0">…</div>
+    <div id="cap" style="position:absolute;left:90px;right:90px;top:1500px;text-align:center;font-family:KA;font-weight:700;font-size:58px;line-height:1.3;letter-spacing:-1px;color:var(--ink)"></div>
+    <div id="lock" style="position:absolute;left:0;right:0;top:1300px;text-align:center;opacity:0">
+      <div id="title" style="font-size:110px">Rafiq <span>·</span> <span class="ar" style="color:var(--ink);font-size:100px">رَفِيق</span></div>
+      <div style="font-family:KA;font-weight:500;font-size:44px;color:var(--soft);margin-top:10px">Your companion in learning Arabic</div></div>`;
+}
+function demo(t, SEGS) {
+  let seg = null, v = 0;
+  for (const g of SEGS) if (t >= g.t0 && t < g.t0 + g.dur) { seg = g; v = g.amp[Math.min(g.amp.length - 1, Math.floor((t - g.t0) * 30))] || 0; }
+  const st = {mood: 'neutral', voice: v, y: 0, lean: 0, squash: 0, hands: {}};
+  st.y = -v * 7; st.squash = v * .035 + Math.sin(t * 2.4) * .01;               // breathing, and a little lift with each word
+  // arrives: drops in with a spring and lands with a squash
+  if (t < 1.2) { const k = spring(t / .7, .85); st.y += -500 * (1 - k); if (t > .45) st.squash += .14 * Math.exp(-(t - .5) * 9) * Math.cos((t - .5) * 22); }
+  const g = n => SEGS.find(x => x.file === n);
+  // salam: waves
+  const s1 = g('r1-salam'); if (t >= s1.t0 - .2 && t < s1.t0 + s1.dur + .2) { const w = Math.sin((t - s1.t0) * 11); st.mood = 'happy'; st.hands.r = [170 + w * 6, 82 + w * 6, w * 25]; st.lean = -3; }
+  // "just ask me": leans in, hands open
+  const s3 = g('r3-ask'); if (t >= s3.t0 && t < s3.t0 + s3.dur + .1) { st.lean = 5 * eo((t - s3.t0) / .3); st.hands = {l: [28, 118, 0], r: [172, 118, 0]}; }
+  // the question: listens, then thinks
+  const ask = document.getElementById('ask'), q = 'Rafiq, what does <span class="ar">دَرَسَ</span> mean?';
+  const a0 = 9.25, s4 = g('r4-darasa');
+  if (t >= a0 && t < s4.t0 + .3) {
+    const k = spring((t - a0) / .45, 1), n = Math.floor(cl((t - a0 - .2) / .9) * 30);
+    ask.style.opacity = cl((s4.t0 + .3 - t) / .3); ask.style.transform = `translateY(${(1 - k) * 120}px)`;
+    ask.innerHTML = n >= 30 ? q : 'Rafiq, what does ' + (n > 17 ? '<span class="ar">دَرَسَ</span>' : '') + (n > 22 ? ' mean?' : '') + '<span style="opacity:.6">|</span>';
+    st.lean = 7 * eo((t - a0) / .4); st.hands.r = [168, 128, 0];
+    if (t > 10.55) { const k2 = eo((t - 10.55) / .3); st.mood = 'neutral'; st.mood2 = 'think'; st.k = k2; st.lean = 7 - 13 * k2 + Math.sin(t * 7) * 2.5 * k2; }
+  } else ask.style.opacity = 0;
+  document.getElementById('dots').style.opacity = t > 10.6 && t < s4.t0 ? .3 + .7 * Math.abs(Math.sin(t * 5)) : 0;
+  // the answer: proud ر, the word comes out of it on a card and goes back in the same way
+  const card = document.getElementById('card'), c0 = s4.t0 - .05, c1 = s4.t0 + s4.dur + .25, flip = s4.t0 + 1.45;
+  if (t >= c0 && t < c1 + .4) {
+    st.mood = 'neutral'; st.mood2 = 'proud'; st.k = eo((t - s4.t0) / .25); st.hands.r = [170, 98, -10];
+    const kin = spring((t - c0) / .45, .8), kout = cl((t - c1) / .35), k = kin * (1 - eo(kout));
+    const fl = cl((t - flip) / .3), second = fl > .5;
+    card.style.opacity = cl(k * 2); card.style.transform = `translateX(-50%) translateY(${(1 - k) * 380}px) scale(${.2 + .8 * k}) rotateY(${fl < 1 ? Math.sin(fl * Math.PI) * 90 : 0}deg)`;
+    document.getElementById('cw').innerHTML = second ? '<b>أَ</b>دْرُسُ' : 'دَرَسَ';
+    document.getElementById('cm').textContent = second ? 'ADRUSU · I STUDY' : 'DARASA · TO STUDY';
+  } else card.style.opacity = 0;
+  // together: hops, both hands up
+  const s5 = g('r5-together'), hop = s5.t0 + .55;
+  if (t >= s5.t0) { st.mood = 'happy'; const h = t - hop; if (h > 0 && h < .9) { st.y += -60 * Math.sin(Math.PI * cl(h / .5)) ; st.hands = {l: [32, 82, 0], r: [168, 82, 0]}; if (h > .45 && h < .7) st.squash += .1 * Math.sin((h - .45) / .25 * Math.PI); } }
+  // the end: settles and moves up, the name appears
+  const e0 = s5.t0 + s5.dur + .3, ke = spring((t - e0) / .6, 1) * (t > e0);
+  document.getElementById('rf').style.transform = `translateY(${-ke * 160}px) scale(${1 - ke * .2})`;
+  document.getElementById('lock').style.opacity = cl((t - e0 - .2) / .4); document.getElementById('lock').style.transform = `translateY(${(1 - eo((t - e0 - .2) / .5)) * 40}px)`;
+  // the caption
+  const cap = document.getElementById('cap');
+  if (seg) { if (cap.dataset.k !== seg.file) { cap.dataset.k = seg.file; cap.innerHTML = LINES[seg.file]; } cap.style.opacity = cl((t - seg.t0) / .15); }
+  else { const last = SEGS.filter(x => t >= x.t0 + x.dur).pop(); cap.style.opacity = last && t < last.t0 + last.dur + .35 && t < e0 ? 1 - cl((t - last.t0 - last.dur) / .35) : 0; }
+  document.getElementById('rf').innerHTML = rafiq(st, 850);
+}
 </script></body></html>
