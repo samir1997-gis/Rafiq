@@ -104,6 +104,15 @@ async function userTables() {
     console.log(`\nAccounts made in the last ${days} days whose email is still not confirmed: ${pending[0].n}`);
     return;
   }
+  if (cmd === 'taps') {   // the steps to an account counted on the sign-up page (#225), per day
+    const days = Math.max(1, Math.min(30, parseInt(arg, 10) || 7));
+    const rows = await sql(`select day::text, step, n from private.taps where day > current_date - ${days} order by 1, 2`);
+    const NAME = { signup_page: 'opened sign-up from the button', create: 'pressed Create account', google: 'pressed Continue with Google' };
+    console.log(`Steps to an account, last ${days} day(s) (UTC):`);
+    if (!rows.length) console.log('  nothing counted');
+    for (const r of rows) console.log(`  ${r.day}  ${String(r.n).padStart(4)}  ${NAME[r.step] || r.step}`);
+    return;
+  }
   if (cmd === 'sources') {
     // which post or ad brings people who sign up, study and pay (#186): private.funnel_by_source in backend.sql
     const days = Math.max(1, Math.min(365, parseInt(arg, 10) || 30));
