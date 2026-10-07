@@ -9,9 +9,10 @@ lst = []
 for i, (_, a, b) in enumerate(ch):
     out = f"parts/p{i:02d}.mov"; lst.append(f"file 'p{i:02d}.mov'")
     if os.path.exists(out): continue
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{a}", "-i", "clip.mp4", "-t", f"{b-a:.3f}",
+    n = round((b - a) * 30); d = n / 30             # whole frames, and the sound cut to exactly the same length
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{a}", "-i", "clip.mp4", "-frames:v", str(n),
         "-vf", f"crop={CW}:{CH}:{X0}:{Y0},{GRADE},scale=1404:2496:flags=lanczos,fps=30,format=yuv420p",
-        "-af", f"afade=t=in:d=0.015,afade=t=out:st={b-a-0.03:.3f}:d=0.03",
+        "-af", f"atrim=duration={d:.6f},asetpts=PTS-STARTPTS,afade=t=in:d=0.015,afade=t=out:st={d-0.03:.4f}:d=0.03",
         "-c:v", "libx264", "-crf", "12", "-preset", "fast", "-c:a", "pcm_s16le", "-ar", "48000", out], check=True)
 open("parts/list.txt", "w").write("\n".join(lst))
 subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", "parts/list.txt", "-c", "copy", "cut.mov"], check=True)
