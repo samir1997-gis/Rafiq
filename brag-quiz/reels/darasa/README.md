@@ -12,3 +12,7 @@ Source: the owner's 2:26 recording (Google Drive); not committed. Output: a 37 s
 5. `mix.py`: the effects ducked under the voice (sidechain), loudness about -14 LUFS, composited.
 
 For a new clip: transcribe, pick the takes in `edl.py`, look at the gestures (frame sheets), set the times in `overlay.html` and `mix.py`.
+
+## Version A (the one the owner chose)
+`overlay_light.html` is the reel in Rafiq's own colours (paper, ink, verdigris, rubric; Karla and IBM Plex Sans Arabic; the changing letter always red), with calmer motion.
+`mix_light.py` uses the owner's own sound effects (his recording, split into 11 sounds, not committed), at about half the earlier volume and ducked under the voice.
