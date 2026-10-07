@@ -18,7 +18,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=10"></script>
 <style>
-/* The owner dashboard (#189): website visits from Cloudflare Web Analytics, and sign-ups by where people came from. */
+/* The owner dashboard (#189): website visits from Cloudflare Web Analytics, the steps to an account (#225), and sign-ups by where people came from. */
 main.wrap{max-width:720px;padding-bottom:56px}
 .top{display:flex;justify-content:space-between;align-items:center;padding:18px 0 4px}
 .top a{color:var(--verdigris);font-size:14px;text-decoration:none;padding:10px 0}
@@ -77,6 +77,7 @@ th{font-size:12px;color:var(--ink-soft);font-weight:700}
       <div class="tile"><b id="tJoined">–</b><span>sign-ups</span></div>
       <div class="tile"><b id="tAcc">–</b><span>accounts in total</span></div>
     </div>
+    <div class="card"><h2>Steps to an account</h2><div class="list" id="steps"></div></div>
     <div class="card"><h2>Visits each day</h2><div id="days"></div></div>
     <div class="grid2">
       <div class="card"><h2>Where they came from</h2><div class="list" id="refs"></div></div>
@@ -86,7 +87,7 @@ th{font-size:12px;color:var(--ink-soft);font-weight:700}
     </div>
     <div class="card" style="margin-top:14px"><h2>Sign-ups by where they came from</h2><div id="sources"></div></div>
     <p class="note">Visits come from Cloudflare Web Analytics, with no cookies, so one person on two devices counts twice, and your own visits count too.
-      A visit is someone arriving; page views are every page they open. Sign-ups are tracked from 2 Oct 2026. Tag the links you post
+      A visit is someone arriving; page views are every page they open. Sign-ups are tracked from 2 Oct 2026, the steps to an account from 7 Oct 2026. Tag the links you post
       (rafiq-arabic.com/?utm_source=tiktok) and they show up by name here.</p>
   </div>
 </main>
@@ -120,6 +121,15 @@ function perDay(rows){
     ${x.v && !label ? `<em>${x.v}</em>` : ''}<i style="height:${x.v / max * 100}%"></i>
     <small>${!label || i % 5 === 0 || i === out.length - 1 ? new Date(x.d + 'T12:00Z').toLocaleDateString('en-GB', { day:'numeric', month:'short' }) : '&nbsp;'}</small></div>`).join('')}</div><div class="axis"></div>`;
 }
+// the way to an account (#225): home page views (Cloudflare), the taps counted on the sign-up page, then new accounts
+function steps(w, taps, joined){
+  const t = Object.fromEntries((taps || []).map(r => [r.step, Number(r.n)]));
+  const home = w.error ? null : (w.paths || []).filter(r => r.name === '/' || r.name === '/index.html').reduce((n, r) => n + r.views, 0);
+  const rows = [['Home page views', home], ['Opened sign-up from “Start your free week”', t.signup_page || 0],
+    ['Pressed Create account', t.create || 0], ['Pressed Continue with Google', t.google || 0], ['New accounts', joined]];
+  const max = Math.max(...rows.map(r => r[1] || 0), 1);
+  $('steps').innerHTML = rows.map(([name, n]) => `<div class="row"><div class="l"><i style="width:${Math.max(3, (n || 0) / max * 100)}%"></i><span>${esc(name)}</span></div><b>${n ?? '–'}</b></div>`).join('');
+}
 function sources(rows){
   if(!rows.length){ $('sources').innerHTML = '<div class="empty">No sign-ups in this time.</div>'; return; }
   $('sources').innerHTML = `<table><tr><th>Came from</th><th>Joined</th><th>Did a lesson</th><th>Chose a plan</th><th>Paying</th></tr>${rows.map(r =>
@@ -141,7 +151,9 @@ async function load(){
   const w = j.web || {};
   $('tVisits').textContent = w.error ? '–' : w.visits;
   $('tViews').textContent = w.error ? '–' : w.views;
-  $('tJoined').textContent = (j.sources || []).reduce((n, r) => n + Number(r.joined), 0);
+  const joined = (j.sources || []).reduce((n, r) => n + Number(r.joined), 0);
+  $('tJoined').textContent = joined;
+  steps(w, j.taps, joined);
   $('tAcc').textContent = j.accounts ?? '–';
   if(w.error){ ['days','refs','countries','paths','devices'].forEach(id => $(id).innerHTML = '<div class="empty">Visits aren’t available right now (Cloudflare).</div>'); }
   else {

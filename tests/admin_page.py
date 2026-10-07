@@ -1,6 +1,6 @@
 """The owner dashboard (admin.html, #189), with the admin-stats function answered by a fixture (the real numbers
 from 2 Oct 2026): the tiles, every day of the range drawn, referrers named (Instagram), countries with flags,
-sign-ups by source; a non-admin sees a short message; switching the range asks again; no page errors.
+sign-ups by source, the steps to an account (#225); a non-admin sees a short message; switching the range asks again; no page errors.
 
   python3 .claude/skills/webapp-testing/scripts/with_server.py \
     --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/admin_page.py
@@ -21,7 +21,8 @@ window.supabase = { createClient: () => {
 """
 from datetime import date, timedelta
 TODAY = date.today()
-STATS = {"days": 7, "accounts": 18, "sources": [{"source": "unknown", "campaign": None, "joined": 2, "first_lesson": 1, "back_next_day": 0, "chose_plan": 0, "paying": 0},
+STATS = {"days": 7, "accounts": 18, "taps": [{"step": "signup_page", "n": 6}, {"step": "create", "n": 4}],
+         "sources": [{"source": "unknown", "campaign": None, "joined": 2, "first_lesson": 1, "back_next_day": 0, "chose_plan": 0, "paying": 0},
                                                 {"source": "instagram", "campaign": "brother", "joined": 1, "first_lesson": 1, "back_next_day": 0, "chose_plan": 1, "paying": 0}],
          "web": {"visits": 18, "views": 19,
                  "days": [{"name": str(TODAY - timedelta(days=1)), "visits": 8, "views": 9}, {"name": str(TODAY), "visits": 10, "views": 10}],
@@ -52,6 +53,9 @@ def main():
                 ok.append(("referrers named: Instagram and Direct", "Instagram" in refs and "Direct" in refs))
                 cs = p.inner_text("#countries")
                 ok.append(("countries with names and flags: " + cs.replace("\n", " ")[:80], "United Kingdom" in cs and "🇬🇧" in cs and "United States" in cs))
+                st = p.inner_text("#steps").split("\n")
+                ok.append(("steps to an account: 15 home views, 6 opened sign-up, 4 pressed Create, 0 Google, 3 accounts: " + " / ".join(st),
+                           st[1::2] == ["15", "6", "4", "0", "3"]))
                 ok.append(("sign-ups by source in a table", "Before tracking" in p.inner_text("#sources") and p.locator("#sources tr").count() == 3))
                 p.click(".range button[data-d='30']"); p.wait_for_timeout(300)
                 ok.append(("30 days asks for 30 and draws 30 days", asked[-1] == 30 and p.locator(".day").count() == 30))

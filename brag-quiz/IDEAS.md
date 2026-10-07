@@ -32,3 +32,18 @@ only ~1.5/3 sincere, so keep the tone humble and the sale soft.
 
 Options: (1) one countdown post; (2) a daily template, "Day N · X days to Ramadan", one salah word with its audio and where
 it's said, built from salah-data.js like build_stills.py.
+
+## Fun / meme formats (5 Oct 2026, owner: "a bit more fun and silly")
+
+`build_pov.py` makes POV photo carousels (big text, one big emoji per slide, end card). Made: `pov-salah`, `pov-imam`.
+Rule: the punchline is a fact from the app (20 words you say most ≈ 56% of the prayer), never a made-up "I understand 60%"
+testimonial (TypeSafe preferred the fact on every score; UK ad rules want testimonials to be real).
+
+TypeSafe ranking of other fun formats (tools/typesafe-exp/fun_content.py; viral / respect / fit, 0–3):
+1. POV: the imam recites a surah you learned 🥹 (2.62 / 2.93 / 1.70) **made**
+2. POV: finished salah, didn't understand (2.12 / 2.43 / 2.39) **made**
+3. "My Arabic, day 1 vs day 60" (2.35 / 2.60 / 1.95)
+4. "Me nodding along to the Arabic in the khutbah" 🙂 vs after 20 words 🤯 (2.34 / 2.72 / 1.50)
+5. "You say this 17 times a day" (al-Fātiḥah, 17 rakʿahs) (1.92 / 2.14 / 2.33)
+Weaker: younger sibling corrects your Arabic; guess the word from the emoji; "green flag in a spouse"; "what your mum means
+by in shā' Allāh" (respect 1.37: avoid jokes on religious phrases); loanwords (fit 0.83).

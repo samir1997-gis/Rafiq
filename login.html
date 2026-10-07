@@ -311,6 +311,14 @@ const SUPABASE_KEY = 'sb_publishable_nFs-UJyKpTsCtHRn4WZJGg_c14-cM4e';
 // the Supabase script can fail to load (no signal, a content blocker): say so instead of a form that does nothing (#142)
 const sb = window.supabase ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 const NO_SB = 'Can’t reach Rafiq right now. Check your connection and try again.';
+// counts a step on the way to an account (#225): only the step and the day are kept, nothing about who.
+// Only on the real site, not the Rafiq team's own devices (as the visits count); never waits more than half a second.
+function tap(step){
+  try { if (localStorage.getItem('rafiq_team') || !/(^|\.)rafiq-arabic\.com$/.test(location.hostname)) return Promise.resolve(); } catch(_) { return Promise.resolve(); }
+  const sent = fetch(SUPABASE_URL + '/rest/v1/rpc/tap', { method: 'POST', headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' },
+                                                         body: JSON.stringify({ step }) }).catch(() => {});
+  return Promise.race([sent, new Promise(r => setTimeout(r, 500))]);
+}
 
 let mode = 'signin'; // or 'signup' or 'reset'
 const form   = document.getElementById('authForm');
@@ -388,6 +396,7 @@ async function goIn(wait){
   box.addEventListener('click', async (e) => {
     const b = e.target.closest('[data-provider]'); if (!b || !sb) return;
     b.disabled = true; showMsg('');
+    if (b.dataset.provider === 'google') await tap('google');   // before Google takes over the page
     const { error } = await sb.auth.signInWithOAuth({ provider: b.dataset.provider, options: { redirectTo: pageUrl('login.html') } });
     if (error) { b.disabled = false; showMsg('That didn’t work. Please try again, or sign in with your email.'); }
   });
@@ -454,7 +463,8 @@ function shake(){
 }
 document.getElementById('forgotLink').addEventListener('click', ()=> setMode('reset'));
 
-{ const m = new URLSearchParams(location.search).get('mode'); setMode(m === 'reset' || m === 'signup' ? m : 'signin', true); }
+{ const m = new URLSearchParams(location.search).get('mode'); setMode(m === 'reset' || m === 'signup' ? m : 'signin', true);
+  if (m === 'signup') tap('signup_page'); }   // came from a "Start your free week" button
 
 function showMsg(text, kind){
   msgEl.textContent = text || '';
@@ -647,6 +657,7 @@ form.addEventListener('submit', async (e)=>{
       done();
     } else if(mode==='signup'){
       btn.textContent = 'Creating…';
+      tap('create');
       const { data, error } = await sb.auth.signUp({
         email, password: pw,
         options: { data: { name: name || null, source: firstSource() }, emailRedirectTo: pageUrl('login.html') }

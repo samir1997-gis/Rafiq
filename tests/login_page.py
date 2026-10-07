@@ -8,11 +8,13 @@
   - if the Supabase script can't load, it says so instead of doing nothing (#142)
   - "Start your free week" (?mode=signup) opens on Create account with "no card" above the form; Sign in doesn't show it (#200)
   - inside TikTok / Instagram's own browser the Google button is hidden (Google blocks it there)
+  - on rafiq-arabic.com the steps to an account are counted (#225): opened from "Start your free week",
+    Create account pressed, Continue with Google pressed; not on test copies nor the team's own devices
 
   python3 .claude/skills/webapp-testing/scripts/with_server.py \
     --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/login_page.py
 """
-import os, sys
+import json, os, sys
 from playwright.sync_api import sync_playwright
 
 BASE = "http://localhost:8765/"
@@ -28,6 +30,8 @@ window.supabase = { createClient: () => {
     getSession: async () => ({ data: { session: null } }), getUser: async () => ({ data: { user } }),
     signInWithPassword: async ({ password }) => { __calls.push('signin'); await new Promise(r => setTimeout(r, 900));
       return password === 'right-password' ? { data: { user }, error: null } : { data: {}, error: { message: 'Invalid login credentials' } }; },
+    signUp: async () => { __calls.push('signup'); return { data: {}, error: null }; },
+    signInWithOAuth: async () => { __calls.push('oauth'); return { error: null }; },
     onAuthStateChange: () => ({ data: { subscription: { unsubscribe() {} } } }) } };
 } };
 """
@@ -122,6 +126,31 @@ def main():
         p.goto(BASE + "login.html?mode=signup"); p.wait_for_timeout(400)
         ok.append(("in TikTok's browser: no Google button (Google blocks it there)", not p.locator(".obtn.google").is_visible()))
         c.close()
+
+        # the steps to an account are counted on the real site (#225), not on test copies nor the team's own devices
+        def counted(team=False, host="https://rafiq-arabic.com/"):
+            taps = []
+            c = ctx_for(b, reduced_motion="reduce")
+            c.route("https://rafiq-arabic.com/**", lambda r: r.fulfill(path=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                    r.request.url.split("rafiq-arabic.com/")[1].split("?")[0] or "index.html")))
+            c.route("https://static.cloudflareinsights.com/**", lambda r: r.abort())
+            def tap(r):
+                if r.request.method == "POST": taps.append(json.loads(r.request.post_data)["step"])
+                r.fulfill(status=204, headers={"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "*"})
+            c.route("**/rest/v1/rpc/tap", tap)
+            if team: c.add_init_script("localStorage.setItem('rafiq_team', '1')")
+            p = c.new_page(); p.on("pageerror", lambda e: errors.append(str(e)))
+            p.goto(host + "login.html?mode=signup"); p.wait_for_timeout(400)
+            p.fill("#nm", "Sam"); p.fill("#email", "sam@example.com"); p.fill("#pw", "a-long-password"); p.click("#submitBtn"); p.wait_for_timeout(300)
+            calls = p.evaluate("__calls")
+            p.goto(host + "login.html"); p.wait_for_timeout(400); p.click(".obtn.google"); p.wait_for_timeout(300)
+            calls += p.evaluate("__calls"); c.close()
+            return taps, calls
+        taps, calls = counted()
+        ok.append(("rafiq-arabic.com: opened from the button, Create account, Google each counted once: " + ",".join(taps),
+                   taps == ["signup_page", "create", "google"] and "signup" in calls and "oauth" in calls))
+        ok.append(("…not on the team's own devices", counted(team=True)[0] == []))
+        ok.append(("…nor on a test copy (localhost)", counted(host=BASE)[0] == []))
 
         # the Supabase script doesn't load (#142): it says so, on load and on Sign in, instead of doing nothing
         c = b.new_context(viewport={"width": 390, "height": 844}, reduced_motion="reduce")
