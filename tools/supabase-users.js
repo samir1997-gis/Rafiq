@@ -86,6 +86,24 @@ async function userTables() {
     people.forEach(p => console.log(`${mask(p.email)}  studied on ${p.days} day(s), last ${p.last}, joined ${p.joined}`));
     return;
   }
+  if (cmd === 'attempts') {
+    // where sign-ups get stuck (#224): Supabase's own sign-in log, day by day. Counts only; never emails or passwords.
+    const days = Math.max(1, Math.min(30, parseInt(arg, 10) || 7));
+    const rows = await sql(`select created_at::date::text as day, payload->>'action' as action, count(*)::int as n,
+                              count(distinct payload->>'actor_id')::int as people
+                            from auth.audit_log_entries where created_at > now() - interval '${days} days'
+                              and payload->>'action' in ('user_signedup','user_confirmation_requested','user_repeated_signup',
+                                'login','user_recovery_requested','user_invited','token_revoked')
+                            group by 1, 2 order by 1, 2`);
+    const names = { user_confirmation_requested: 'confirm email sent', user_signedup: 'confirmed / new Google account',
+      user_repeated_signup: 'tried to sign up again', login: 'signed in', user_recovery_requested: 'asked to reset password' };
+    console.log(`Sign-up and sign-in steps, last ${days} days (UTC), from Supabase's own log:`);
+    if (!rows.length) console.log('  nothing logged');
+    rows.forEach(r => console.log(`  ${r.day}  ${(names[r.action] || r.action).padEnd(32)} ${String(r.n).padStart(4)}  (${r.people} people)`));
+    const pending = await sql(`select count(*)::int as n from auth.users where email_confirmed_at is null and created_at > now() - interval '${days} days'`);
+    console.log(`\nAccounts made in the last ${days} days whose email is still not confirmed: ${pending[0].n}`);
+    return;
+  }
   if (cmd === 'sources') {
     // which post or ad brings people who sign up, study and pay (#186): private.funnel_by_source in backend.sql
     const days = Math.max(1, Math.min(365, parseInt(arg, 10) || 30));
