@@ -10,7 +10,7 @@ seq = "".join(("g" if k == "r" else ".") * n for k, n in rakah(1,0,0)+rakah(0,1,
 assert len(seq) == 425
 C["flicks"] = [[0, 2.45, "17 TIMES A DAY", 150], [23.41, 24.85, "YOU ANSWER", 150], [69.9, C["end"], "RAFIQ", 260]]
 C["titles"] = [[2.5, 6.0, "YOU'RE HAVING A", "CONVERSATION", 160],
-               [48.36, 52.85, "PRAISE RUNS THROUGH IT", "ح م د", 260],
+               [48.36, 52.85, "PRAISE RUNS THROUGH IT", "ح م د", 340],
                [52.9, 59.6, "EVEN HIS NAME", "MUHAMMAD", 190]]
 C["panels"] = [
   [8.1, 23.41, "words", {"title": "RISING FROM RUKU · YOU SAY",

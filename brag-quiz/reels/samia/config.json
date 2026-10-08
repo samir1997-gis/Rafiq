@@ -1112,7 +1112,7 @@
    52.85,
    "PRAISE RUNS THROUGH IT",
    "ح م د",
-   260
+   340
   ],
   [
    52.9,
@@ -1176,16 +1176,14 @@
    "parts"
   ],
   "flick": [
-   "rise",
    "self0",
-   "orbit",
-   "home",
-   "self1",
    "rise",
-   "quiz",
+   "self1",
    "self2",
    "orbit",
-   "mostsaid"
+   "self3",
+   "self4",
+   "self5"
   ]
  },
  "panels": [
@@ -1226,6 +1224,13 @@
    "chat",
    {
     "title": "THE CONVERSATION",
+    "pip": [
+     0.55,
+     540,
+     810,
+     540,
+     720
+    ],
     "lines": [
      [
       "rising",
