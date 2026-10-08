@@ -46,3 +46,11 @@ Plus 5-10 B-roll clips of 2-3 seconds (Quran pages, writing Arabic, prayer mat, 
   (black-and-white) strip; hide the caption during the flicker (its title says it).
 - **B-roll** until the owner films some: the app's own screen recordings in `brag-output-v9-12/clips/`.
 - The DJI watermark: `delogo=x=90:y=600:w=780:h=110` on the 2160×3840 Osmo footage.
+- **Audio:** the owner's recordings come in very quiet (about -37 LUFS). Never just compress and boost: that lifts the room
+  hiss with the voice. Clean first (`highpass=80, lowpass=13000, afftdn=nr=18:nf=-66, agate` gentle, light compressor),
+  measure, then one fixed gain to about -14 LUFS and a limiter (`reels/3-things/mix2.py`). Tell the owner to raise the
+  DJI Mic's gain / check it's paired, so there's less to fix.
+- **Emphasis (the owner's rule):** where he stresses a word, show it: the word pops in the caption in Anton, gold,
+  larger; on the biggest moments the scene (him + the title) punches in about 10%, holds through the word and eases
+  back. Find stressed words by loudness against the words around them, then keep the ones that matter to the script.
+  Keep titles narrow enough to survive the punch-in (about 240 px for long words).

@@ -6,6 +6,7 @@ html,body{width:1080px;height:1920px;background:transparent;overflow:hidden}
 .t{position:absolute;left:0;right:0;text-align:center;line-height:.95;white-space:nowrap}
 #small{top:150px;font-family:AN;font-size:84px;color:#E9B949;letter-spacing:1px}
 #big{top:240px;font-family:AN;font-size:280px;color:#C8372D}
+#cap .em{display:inline-block;font-family:AN;color:#E9B949;font-size:108px;letter-spacing:1px;vertical-align:-6px;margin:0 6px;transform-origin:50% 70%}
 #cap{top:1250px;font-family:SE;font-size:76px;color:#fff;text-shadow:0 4px 18px rgba(0,0,0,.55),0 0 2px rgba(0,0,0,.4);line-height:1.1}
 #split{position:absolute;inset:0;background:#0b0b0b;display:none}
 #split img{position:absolute;left:0;width:1080px;height:624px;object-fit:cover;filter:brightness(.5) contrast(1.05)}
@@ -51,6 +52,10 @@ function update(t, layer) {
   const inSplit = t >= S[0] && t < S[1], inFlick = t >= F[0] && t < F[1];
   cap.style.top = inSplit ? '920px' : '1250px';
   if (!cur || inFlick) { cap.style.opacity = 0; return; }
-  cap.textContent = cur[2]; cap.style.opacity = eo((t - cur[0]) / .1);
+  if (cap.dataset.k !== String(cur[0])) { cap.dataset.k = String(cur[0]);
+    cap.innerHTML = cur[2].map(([w, s, e], j) => e ? `<span class="em" data-s="${s}">${w.toUpperCase()}</span>` : w).join(' '); }
+  cap.style.opacity = eo((t - cur[0]) / .1);
+  cap.querySelectorAll('.em').forEach(el => { const l = t - +el.dataset.s;      // the stressed word pops as it's said
+    el.style.transform = `scale(${l < 0 ? .9 : 1 + .28 * Math.exp(-l * 9)})`; el.style.opacity = l < -.05 ? .55 : 1; });
 }
 </script></body></html>
