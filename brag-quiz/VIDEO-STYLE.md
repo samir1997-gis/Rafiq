@@ -55,14 +55,14 @@ Plus 5-10 B-roll clips of 2-3 seconds (Quran pages, writing Arabic, prayer mat, 
   back. Find stressed words by loudness against the words around them, then keep the ones that matter to the script.
   Keep titles narrow enough to survive the punch-in (about 240 px for long words).
 - **Sound effects (learned from the owner's reference breakdown, `reels/template/sfx_rules.py`):** every visual change
-  gets a short, crisp sound that's heard, never pushed under the voice (no ducking), and never the same sound twice
-  in a row (each moment rotates through the reference sounds and the owner's n01-n11):
-  title lands → shutter / pop · text line → tap / tick · stressed word → tap / tick / ping / click · punch-in → swoosh ·
-  stepped zoom → a hit on every step, the last heaviest, with a low boom · big transition → charge landing on the cut + boom,
-  swooshes as the strips slide in · flicker → flash + whoosh, a flicker sound on every clip switch, swoosh + shutter on the
-  wipe out · "RAFIQ" → sparkle + ding.
-  Level each sound by its loudest 50 ms, not its peak: clicks and shutters are spiky, so a peak target leaves them 10-20 dB
-  under the voice (v3's mistake). Targets: hits -16, swooshes -14, taps and flickers -19 dBFS against a voice at about -17.
+  gets a short, crisp sound that's heard over the voice, never ducked, never the same sound twice in a row:
+  every piece of text that appears (each caption line, each label) → a soft tap (the reference: "tap ×4" for four words) ·
+  a title landing → shutter · every cut to a new shot → shutter · every switch of frame (a panel sliding in or out,
+  a punch-in) → a clear swoosh (not the soft low one) · stressed word → tap / tick / ping / click ·
+  big transition → charge landing on the cut + boom · flicker → flash + only flicker sounds on each switch, swoosh +
+  shutter on the wipe out · "RAFIQ" → sparkle + ding.
+  Level each sound by its loudest 50 ms, not its peak (spiky clicks set by peak end up 10-20 dB under the voice).
+  Targets: hits -16, swooshes -14, taps and flickers -19, text taps -22 dBFS against a voice at about -17.
 - **The flicker is the hook (only the speaker's own shots and B-roll, never app screens) (owner, 8 Oct 2026):** open every reel with it (the first 2-3 s, under the first line), and use it
   again at the end and wherever the camera angle changes. A new clip every 8 frames inside the red frame, each switch a
   white flash and one frame flicking back to the last clip; the speaker's own footage (tight, black-and-white, medium crops)
