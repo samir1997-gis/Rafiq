@@ -35,3 +35,14 @@ clean, crisp, vibrant, slick and elegant. Not busy: the effects come in short bu
 Sit low in the frame with about a third of the frame free above the head (for the titles); one soft light on the face
 from the side; a darker room with a warm lamp behind; the DJI Mic; 4K, 24 or 30 fps, exposure locked on the face.
 Plus 5-10 B-roll clips of 2-3 seconds (Quran pages, writing Arabic, prayer mat, masjid, the app on a phone).
+
+## Learned on the first one (reels/3-things, 8 Oct 2026)
+- **Cutting pauses:** cut only true silence (ffmpeg `silencedetect` at -40 dB, 0.4 s or more) and leave a 0.12 s breath
+  either side. Tighter settings (-35 dB) clip the owner's soft word endings ("daily", "recall", the last sentence).
+  Check every cut by transcribing it before rendering.
+- **Titles behind the head:** with this framing the big title's top is about 240 px down, so the hair overlaps the
+  bottom of the letters; higher up there's no depth.
+- **Split frame over app footage:** the app is light, so dim the strips and put the caption on the darker middle
+  (black-and-white) strip; hide the caption during the flicker (its title says it).
+- **B-roll** until the owner films some: the app's own screen recordings in `brag-output-v9-12/clips/`.
+- The DJI watermark: `delogo=x=90:y=600:w=780:h=110` on the 2160×3840 Osmo footage.
