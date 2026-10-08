@@ -1,3 +1,12 @@
+# How we post (the owner's rule, checked with TypeSafe: tools/typesafe-exp/reach_strategy.py)
+
+Posts are for reach and engagement first; follows bring people to the site over time.
+- **About 4 posts in 5 are pure content**: a quiz, a fact, something fun. The caption asks for a comment, a share
+  ("send it to someone who'd get 0/3") or a follow ("follow for a new Arabic quiz every week"). No app, no link.
+- **About 1 in 5 shows the app** and says "free week, link in bio".
+- TypeSafe, 0-3 averaged over three viewers: this mix grows the accounts about twice as much as every post ending on
+  the link (1.19 vs 0.51) and is trusted more (1.51 vs 0.99), for the same sign-ups (0.25 vs 0.24).
+
 # Quiz backlog (#198)
 
 The owner asked to keep these for later: "I might ask you to generate them soon". Each becomes one entry in

@@ -1,0 +1,253 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:LG;src:url(fonts/lg.woff2)}
+@font-face{font-family:PA;src:url(fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2);font-weight:700}
+@font-face{font-family:KA;src:url(fonts/karla-latin-700-normal.woff2);font-weight:700}
+@font-face{font-family:KA;src:url(fonts/karla-latin-500-normal.woff2);font-weight:500}
+:root{--ink:#17262b;--paper:#fff8ec;--teal:#2e7263;--yel:#FFD43B}
+*{box-sizing:border-box;margin:0}
+html,body{width:1080px;height:1920px;background:transparent;overflow:hidden}
+.abs{position:absolute}
+.ar{font-family:PA;font-weight:700;direction:rtl;unicode-bidi:isolate}
+.lg{font-family:LG;letter-spacing:1px}
+/* flash and vignette */
+#flash{inset:0;background:#fff;opacity:0}
+#vig{inset:0;opacity:0;box-shadow:inset 0 0 220px 60px rgba(220,30,40,.85)}
+/* captions */
+#cap{left:40px;right:40px;top:1560px;text-align:center;font-family:LG;font-size:104px;line-height:1.1;color:#fff;
+  -webkit-text-stroke:14px #111;paint-order:stroke fill;text-shadow:0 10px 0 rgba(0,0,0,.35);transform-origin:50% 60%}
+#cap .w{display:inline-block;position:relative;padding:0 10px}
+#cap .hl{color:#111;-webkit-text-stroke:0;text-shadow:none}
+#cap .hl i{position:absolute;inset:6px -4px 0 -4px;border-radius:22px;background:var(--yel);z-index:-1;transform-origin:0 50%;
+  border:7px solid #111;box-shadow:0 8px 0 #111}
+#cap .hl b{position:relative;font-weight:normal}
+/* hook sticker */
+#hook{left:90px;right:90px;top:1000px;text-align:center}
+#hook div{display:inline-block;font-family:LG;font-size:128px;color:#111;background:var(--yel);border:12px solid #111;border-radius:40px;
+  padding:26px 46px 6px;box-shadow:0 18px 0 #111}
+/* word bubble at the hand */
+.bub{font-family:LG;font-size:92px;color:#111;background:#fff;border:10px solid #111;border-radius:999px;padding:18px 44px 0;
+  box-shadow:0 12px 0 #111;white-space:nowrap;transform-origin:50% 100%}
+.bub:after{content:"";position:absolute;left:50%;bottom:-40px;margin-left:-22px;border:22px solid transparent;border-top:26px solid #111}
+.ring{border-radius:50%;border:12px solid #fff;opacity:0}
+.spark{width:22px;height:22px;border-radius:6px}
+/* CHANGE */
+#change{left:0;right:0;top:1010px;text-align:center}
+#change span{display:inline-block;font-family:LG;font-size:150px;color:#fff;-webkit-text-stroke:14px #111;paint-order:stroke fill;
+  padding:30px 14px 0;margin:0 3px;border-radius:26px;border:10px solid #111;box-shadow:0 14px 0 #111}
+/* class banner */
+#banner{left:150px;right:150px;top:-400px;height:250px;border-radius:34px;background:#1f4d3f;border:16px solid #a8642c;
+  box-shadow:0 22px 0 rgba(0,0,0,.35);transform-origin:50% -120px;text-align:center;padding-top:28px}
+#banner .t1{font-family:LG;font-size:54px;color:#ffe9a8}
+#banner .t2{font-family:LG;font-size:80px;color:#fff;margin-top:4px}
+#banner .bell{position:absolute;right:-36px;top:-60px;font-family:'Noto Color Emoji';font-size:120px;transform-origin:50% 10%}
+#banner:before,#banner:after{content:"";position:absolute;top:-130px;width:10px;height:130px;background:#6b4a2b}
+#banner:before{left:120px}#banner:after{right:120px}
+/* tracker */
+#track{left:40px;right:40px;top:56px;height:150px;border-radius:40px;background:rgba(23,38,43,.78);border:6px solid rgba(255,255,255,.18);
+  display:flex;justify-content:space-around;align-items:center;padding:0 12px;direction:rtl}
+.chip{width:148px;height:116px;border-radius:28px;border:5px solid rgba(255,255,255,.25);text-align:center;color:rgba(255,255,255,.55);
+  padding-top:6px;transform-origin:50% 50%}
+.chip .a{font-family:PA;font-weight:700;font-size:44px;line-height:1.25;direction:rtl}
+.chip .e{font-family:KA;font-weight:700;font-size:25px;letter-spacing:.5px;direction:ltr}
+/* cards */
+.card{left:90px;right:90px;top:930px;padding-bottom:34px;border-radius:52px;background:var(--paper);border:12px solid #111;box-shadow:0 22px 0 #111;
+  text-align:center;transform-origin:50% 50%;opacity:0}
+.card .pill{display:inline-block;margin-top:-46px;font-family:KA;font-weight:700;font-size:40px;color:#fff;border:8px solid #111;
+  border-radius:999px;padding:6px 30px 10px;box-shadow:0 8px 0 #111}
+.card .pill .ar{font-size:44px;margin-left:12px}
+.card .word{font-size:170px;line-height:1.35;color:#111;margin-top:4px}
+.card .word .p{color:var(--c)}
+.card .tr{font-family:LG;font-size:72px;color:var(--c);-webkit-text-stroke:8px #111;paint-order:stroke fill;margin-top:8px}
+.card .en{font-family:KA;font-weight:700;font-size:44px;color:#3a4a4e;margin-top:2px}
+#stamp{left:600px;top:1300px;font-family:LG;font-size:76px;color:#fff;background:#b4322a;border:9px solid #111;border-radius:26px;
+  padding:16px 30px 0;box-shadow:0 10px 0 #111;opacity:0;white-space:nowrap}
+/* WE burst */
+#we{left:0;right:0;top:860px;text-align:center;font-family:LG;font-size:300px;color:#F2994A;-webkit-text-stroke:22px #111;paint-order:stroke fill;opacity:0}
+/* summary */
+#sum{left:110px;right:110px;top:905px;opacity:0}
+.row{height:92px;margin-bottom:10px;border-radius:30px;background:var(--paper);border:8px solid #111;box-shadow:0 8px 0 #111;display:flex;
+  align-items:center;justify-content:space-between;padding:0 30px}
+.row .ar{font-size:66px;line-height:1}
+.row .ar .p{color:var(--c)}
+.row .k{font-family:KA;font-weight:700;font-size:36px;color:#fff;background:var(--c);border:6px solid #111;border-radius:999px;padding:2px 22px 6px}
+#every{left:0;right:0;top:680px;text-align:center;opacity:0}
+#every span{display:inline-block;font-family:LG;font-size:118px;color:#111;background:var(--yel);border:12px solid #111;border-radius:34px;padding:26px 40px 4px;box-shadow:0 16px 0 #111}
+#end{left:0;right:0;top:1920px;height:900px;background:linear-gradient(#17262b,#0e1a1e);border-top:12px solid var(--yel);text-align:center;padding-top:110px}
+#end .tile{display:inline-grid;place-items:center;width:150px;height:150px;border-radius:40px;background:var(--paper);position:relative}
+#end .tile span{font-family:PA;font-weight:700;font-size:96px;color:#17262b;margin-top:-12px}
+#end .tile em{position:absolute;right:24px;top:20px;width:22px;height:22px;border-radius:50%;background:#b4322a}
+#end .f{font-family:LG;font-size:104px;color:#fff;margin-top:40px}
+#end .s{font-family:KA;font-weight:700;font-size:46px;color:#b9c7c4;margin-top:14px}
+</style></head><body>
+<div id="vig" class="abs"></div>
+<div id="track" class="abs"></div>
+<div id="hook" class="abs"><div>DID YOU KNOW? 🤯</div></div>
+<div id="bubWord" class="abs bub">WORD</div>
+<div id="bubHe" class="abs bub">HE 👆</div>
+<div id="change" class="abs"></div>
+<div id="banner" class="abs"><div class="t1">PAY ATTENTION</div><div class="t2">CLASS IS IN SESSION</div><div class="bell">🔔</div></div>
+<div id="cards"></div>
+<div id="stamp" class="abs">= TO STUDY 📚</div>
+<div id="we" class="abs">WE!</div>
+<div id="sum" class="abs"></div>
+<div id="every" class="abs"><span>EVERY SINGLE TIME</span></div>
+<div id="fx"></div>
+<div id="cap" class="abs"></div>
+<div id="end" class="abs"><div class="tile"><span>ر</span><em></em></div><div class="f">FOLLOW FOR MORE</div><div class="s">Arabic, one word at a time</div></div>
+<div id="flash" class="abs"></div>
+<script>
+const P = [ // the six people: pronoun, English, colour, the verb (prefix, rest, suffix), transliteration, card time
+ {ar:'أَنا', en:'I', c:'#F5B700', pre:'أَ', mid:'دْرُسُ', suf:'', tr:'ADRUSU', mean:'I study', t:9.0},
+ {ar:'أَنْتَ', en:'you ♂', c:'#2D9CDB', pre:'تَ', mid:'دْرُسُ', suf:'', tr:'TADRUSU', mean:'you study (to a man)', t:14.02},
+ {ar:'أَنْتِ', en:'you ♀', c:'#EB5E9B', pre:'تَ', mid:'دْرُسِ', suf:'ينَ', tr:'TADRUSĪNA', mean:'you study (to a woman)', t:17.54},
+ {ar:'هُوَ', en:'he', c:'#27AE60', pre:'يَ', mid:'دْرُسُ', suf:'', tr:'YADRUSU', mean:'he studies', t:22.64},
+ {ar:'هِيَ', en:'she', c:'#9B51E0', pre:'تَ', mid:'دْرُسُ', suf:'', tr:'TADRUSU', mean:'she studies', t:27.06},
+ {ar:'نَحْنُ', en:'we', c:'#F2994A', pre:'نَ', mid:'دْرُسُ', suf:'', tr:'NADRUSU', mean:'we study', t:31.14},
+];
+const OUT = [11.24, 14.9, 18.76, 23.54, 28.22, 32.32];   // when each card leaves
+const CAPS = [[0.96,'IN THE ARABIC'],[1.46,'LANGUAGE'],[2.0,'A WORD'],[2.76,'CAN *CHANGE'],[3.44,'BASED ON'],[3.9,"WHO YOU'RE"],[4.2,'ADDRESSING'],
+ [4.66,'*PAY *ATTENTION'],[5.38,'OUR CLASS IS'],[5.9,'IN SESSION'],[6.36,'GUYS'],[6.6,'THE WORD'],[7.24,'*DARASA'],[7.88,'MEANS'],[8.38,'TO *STUDY'],
+ [9.0,'*ADRUSU'],[9.92,'MEANS'],[10.34,'*I STUDY'],[11.24,"IF YOU'RE SAYING"],[11.8,'TO A *MAN'],[12.54,'YOU STUDY'],[13.38,"IT'S"],[14.02,'*TADRUSU|1'],
+ [14.9,"IF YOU'RE SAYING"],[15.5,'YOU STUDY'],[16.2,'TO A *FEMALE'],[16.92,"IT'S"],[17.54,'*TADRUSĪNA'],[18.76,"AND IF YOU'RE"],[19.54,'TALKING ABOUT'],
+ [20.18,'SOMEONE'],[20.56,"AND YOU'RE SAYING"],[21.1,'*HE STUDIES'],[21.96,"IT'S"],[22.64,'*YADRUSU'],[23.54,"AND IF YOU'RE"],[24.0,'TALKING ABOUT'],
+ [24.48,'A *WOMAN'],[24.96,'SAYING'],[25.56,'*SHE STUDIES'],[26.36,"IT'S"],[27.06,'*TADRUSU|4'],[28.22,"AND IF YOU'RE"],[28.6,'SAYING'],[28.88,'*WE STUDY'],
+ [30.1,"IT'S"],[31.14,'*NADRUSU'],[32.32,'LEARN THE'],[32.96,'*PATTERN ONCE'],[33.52,'AND IT WORKS'],[34.4,'*EVERY'],[35.0,'*SINGLE'],[35.46,'*TIME'],[36.0,'']];
+const HLC = {MAN:1, FEMALE:2, HE:3, WOMAN:4, SHE:4, WE:5, ADRUSU:0, TADRUSU:-1, 'TADRUSĪNA':2, YADRUSU:3, NADRUSU:5, I:0};
+const $ = id => document.getElementById(id);
+const cl = (x, a=0, b=1) => Math.min(b, Math.max(a, x));
+const eo = x => 1 - Math.pow(1 - cl(x), 3);                       // ease out
+const eio = x => { x = cl(x); return x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3)/2; };
+const back = (x, s=2.2) => { x = cl(x); return 1 + (s+1)*Math.pow(x-1,3) + s*Math.pow(x-1,2); };
+const spring = (x, f=3.2, d=5) => { x = Math.max(0, x); return 1 - Math.exp(-d*x) * Math.cos(f*Math.PI*2*x*.5); };
+const win = (t, a, b) => t >= a && t < b;
+// build tracker, cards, summary
+$('track').innerHTML = P.map((p, i) => `<div class="chip" id="ch${i}"><div class="a">${p.ar}</div><div class="e">${p.en}</div></div>`).join('');
+const word = p => `<span class="p">${p.pre}</span>${p.mid}${p.suf ? `<span class="p">${p.suf}</span>` : ''}`;
+$('cards').innerHTML = `<div class="abs card" id="cardD" style="--c:#2e7263"><div class="pill" style="background:#2e7263">THE VERB</div>
+   <div class="ar word" id="dw">دَرَسَ</div><div class="tr" style="--c:#7fd1b9">DARASA</div><div class="en">root letters <span class="ar" style="color:#2e7263">د ر س</span></div></div>` +
+  P.map((p, i) => `<div class="abs card" id="card${i}" style="--c:${p.c}"><div class="pill" style="background:${p.c}">${p.en.toUpperCase()}<span class="ar">${p.ar}</span></div>
+   <div class="ar word" id="w${i}">${word(p)}</div><div class="tr">${p.tr}</div><div class="en">${p.mean}</div></div>`).join('');
+$('sum').innerHTML = P.map((p, i) => `<div class="row" id="r${i}" style="--c:${p.c}"><span class="k">${p.en} · ${p.ar}</span><span class="ar">${word(p)}</span></div>`).join('');
+$('change').innerHTML = [...'CHANGE'].map(ch => `<span>${ch}</span>`).join('');
+const FX = $('fx');
+function burst(x, y, lt, colors, n=16, R=330) {         // a ring and flying confetti from a point
+  if (lt < 0 || lt > .7) return;
+  const r = document.createElement('div'); r.className = 'abs ring';
+  const s = 40 + eo(lt/.45) * 360; r.style.cssText = `left:${x-s/2}px;top:${y-s/2}px;width:${s}px;height:${s}px;opacity:${1-cl(lt/.45)};border-color:${colors[0]}`;
+  FX.appendChild(r);
+  for (let i = 0; i < n; i++) {
+    const a = i / n * 6.283 + (i % 2) * .2, d = eo(lt/.7) * R * (0.7 + (i % 3) * .2);
+    const e = document.createElement('div'); e.className = 'abs spark';
+    e.style.cssText = `left:${x + Math.cos(a)*d - 11}px;top:${y + Math.sin(a)*d - 11 + lt*lt*260}px;background:${colors[i % colors.length]};
+      opacity:${1 - cl((lt-.35)/.35)};transform:rotate(${lt*720 + i*40}deg) scale(${1.2 - lt})`;
+    FX.appendChild(e);
+  }
+}
+function update(t) {
+  FX.innerHTML = '';
+  // flash + red vignette on PAY ATTENTION
+  $('flash').style.opacity = win(t, 4.86, 5.06) ? (1 - (t-4.86)/.2) * .85 : win(t, 0, .12) ? (1 - t/.12) * .9 : 0;
+  $('vig').style.opacity = win(t, 4.86, 6.4) ? (.5 + .5*Math.sin((t-4.86)*14)) * (1 - cl((t-5.9)/.5)) : 0;
+  // hook sticker
+  const h = $('hook');
+  if (t < 2.05) {
+    const s = t < .25 ? 2.6 - 1.6*back(t/.25, 1.4) : 1 + .04*Math.sin(t*9) * Math.exp(-(t-.25)*2);
+    const out = cl((t-1.8)/.25), sh = t < .45 ? Math.sin(t*90) * 14 * (1 - t/.45) : 0;
+    h.style.opacity = 1 - out; h.style.transform = `translateX(${sh}px) scale(${s*(1-out*.8)}) rotate(${-5 + out*25}deg)`;
+  } else h.style.opacity = 0;
+  // WORD bubble at the raised hand (2.48)
+  const bw = $('bubWord'), lw = t - 2.44;
+  if (lw >= 0 && t < 3.0) { bw.style.cssText = `left:150px;top:${560 - eo(lw/.3)*30}px;opacity:${1 - cl((t-2.85)/.15)};transform:scale(${back(lw/.28)})`; burst(300, 760, lw, ['#fff','#FFD43B','#2D9CDB']); }
+  else bw.style.opacity = 0;
+  // CHANGE: letters flip in one by one, the boxes cycle through the six colours
+  const cg = $('change');
+  if (win(t, 2.76, 4.55)) {
+    cg.style.opacity = 1 - cl((t-4.35)/.2);
+    [...cg.children].forEach((s, i) => {
+      const lt = t - 2.76 - i*.06, k = Math.floor(Math.max(0, t - 2.9) / .13 + i) % 6;
+      s.style.background = P[k].c; s.style.transform = `rotateX(${(1 - eo(lt/.22))*90}deg) translateY(${Math.sin((t+i*.3)*6)*8}px)`;
+      s.style.opacity = lt > 0 ? 1 : 0;
+    });
+  } else cg.style.opacity = 0;
+  // class banner drops and swings
+  const bn = $('banner'), lb = t - 5.3;
+  if (lb >= 0 && t < 6.75) {
+    const y = -400 + 560 * eo(lb/.35) - 700 * eio((t-6.45)/.3);
+    bn.style.top = y + 'px'; bn.style.transform = `rotate(${Math.sin(lb*7.5) * 9 * Math.exp(-lb*2.2)}deg)`;
+    bn.querySelector('.bell').style.transform = `rotate(${Math.sin(lb*30)*22*Math.exp(-lb*1.5)}deg)`;
+  } else bn.style.top = '-500px';
+  // tracker
+  const tr = $('track'), lt0 = t - 6.6;
+  tr.style.opacity = lt0 < 0 ? 0 : 1; tr.style.transform = `translateY(${(1 - back(lt0/.4, 1.6)) * -260}px)`;
+  P.forEach((p, i) => {
+    const c = $('ch' + i), on = t >= p.t, l = t - p.t, wave = t >= 32.32 ? Math.max(0, Math.sin((t - 32.32 - i*.08)*8)) * Math.exp(-(t-32.32)*1.2) : 0;
+    c.style.background = on ? p.c : 'transparent'; c.style.color = on ? '#111' : 'rgba(255,255,255,.55)';
+    c.style.borderColor = on ? '#111' : 'rgba(255,255,255,.25)';
+    c.style.transform = `scale(${on ? 1 + .35*Math.exp(-l*6)*Math.abs(Math.cos(l*14)) : 1}) translateY(${-wave*22}px)`;
+  });
+  // darasa card: up from the bottom, word wipes in right to left, stamp, then flips into "I"
+  const cd = $('cardD'), ld = t - 7.15;
+  if (ld >= 0 && t < 9.12) {
+    const flip = cl((t - 8.9)/.22);
+    cd.style.opacity = 1; cd.style.transform = `translateY(${(1 - back(ld/.4, 1.5)) * 900}px) rotateY(${flip*90}deg)`;
+    $('dw').style.clipPath = `inset(0 0 0 ${100 - eo((ld-.1)/.45)*100}%)`;
+  } else cd.style.opacity = 0;
+  const st = $('stamp'), ls = t - 8.38;
+  st.style.opacity = ls >= 0 && t < 8.95 ? 1 : 0; st.style.transform = `scale(${ls < .2 ? 2.2 - 1.2*eo(ls/.2) : 1}) rotate(${-8}deg)`;
+  // the six cards
+  P.forEach((p, i) => {
+    const c = $('card' + i), w = $('w' + i), l = t - p.t, end = OUT[i];
+    if (l < -0.02 || t >= end + .35) { c.style.opacity = 0; return; }
+    const o = cl((t - end)/.3); let tf = '', clip = 'none';
+    if (i === 0) { const f = cl((t - 9.12)/.22); tf = `rotateY(${(1-f)*-90}deg)`; }                                  // flip in from darasa
+    else if (i === 1) tf = `translateX(${(1 - back(l/.35, 1.6)) * 1100}px) rotate(${(1-eo(l/.35))*8}deg)`;          // slides in from the right
+    else if (i === 2) { tf = `scale(${back(l/.3)})`; clip = `inset(0 0 0 ${100 - eo((t-17.6)/.6)*100}%)`; }         // word drawn as the hand sweeps
+    else if (i === 3) { const k = back(l/.38, 1.4); tf = `translate(${(1-k)*-330}px, ${(1-k)*-380}px) scale(${.15 + .85*k})`; } // flies out of the raised hand
+    else if (i === 4) { tf = `scale(${back(l/.3)})`; clip = `inset(0 0 0 ${100 - eo((t-27.0)/.45)*100}%)`; }         // swipe, right to left
+    else tf = `scale(${l < .18 ? 2.4 - 1.4*eo(l/.18) : 1}) rotate(${l < .18 ? -6 : 0}deg)`;                          // slams in
+    c.style.opacity = 1;
+    c.style.transform = `${tf} translateX(${-o*1200}px) rotate(${-o*12}deg)`;
+    w.style.clipPath = clip;
+    if (i !== 0) burst(540, 1195, l - .12, [p.c, '#fff', '#FFD43B'], 18, 420);
+  });
+  // HE bubble above the raised finger
+  const bh = $('bubHe'), lh = t - 21.08;
+  if (lh >= 0 && t < 22.0) { bh.style.cssText = `left:130px;top:${440 - eo(lh/.3)*40}px;opacity:${1 - cl((t-21.8)/.2)};transform:scale(${back(lh/.25)}) rotate(${Math.sin(lh*10)*4}deg)`;
+    burst(260, 600, lh, ['#27AE60','#fff','#FFD43B']); } else bh.style.opacity = 0;
+  // WE bursts out towards the camera
+  const we = $('we'), lw2 = t - 28.86;
+  if (lw2 >= 0 && t < 30.1) { we.style.opacity = 1 - cl((t-29.85)/.25); we.style.transform = `scale(${lw2 < .25 ? .2 + 1.2*back(lw2/.25,1.2) : 1.4 - .2*eo((lw2-.25)/.6)})`; burst(540, 1050, lw2, ['#F2994A','#fff','#FFD43B'], 22, 520); }
+  else we.style.opacity = 0;
+  // summary of all six
+  const sm = $('sum'), lsum = t - 32.4;
+  if (lsum >= 0 && t < 36.1) {
+    sm.style.opacity = 1;
+    P.forEach((p, i) => {
+      const r = $('r' + i), l = lsum - i*.11, glow = t >= 32.96 && t < 34.3 ? Math.max(0, Math.sin((t-32.96)*9 - i*.4)) : 0;
+      r.style.transform = `translateX(${(1 - back(l/.3, 1.5)) * 1100}px)`;
+      r.querySelectorAll('.p').forEach(e => { e.style.textShadow = glow ? `0 0 ${30*glow}px ${p.c}, 0 0 ${8*glow}px ${p.c}` : 'none'; e.style.fontSize = (1 + .18*glow) + 'em'; });
+    });
+    sm.style.transform = `translateY(${-eio((t-35.7)/.4)*1400}px)`;
+  } else sm.style.opacity = 0;
+  const ev = $('every'), le = t - 34.4;
+  ev.style.opacity = le >= 0 && t < 36.2 ? 1 : 0; ev.style.transform = `scale(${le < .2 ? 2 - eo(le/.2) : 1 + .03*Math.sin(le*12)}) rotate(-3deg)`;
+  if (le >= 0) { burst(540, 720, le, ['#FFD43B','#fff','#EB5E9B']); burst(540, 720, t - 35.46, ['#2D9CDB','#fff','#27AE60']); }
+  // end card
+  $('end').style.top = (1920 - 900 * back((t - 36.0)/.45, 1.2)) + 'px';
+  // captions
+  let cur = null; for (const c of CAPS) if (t >= c[0]) cur = c;
+  const cap = $('cap');
+  if (!cur || !cur[1] || t < .96 || t >= 34.4) { cap.style.opacity = 0; return; }
+  if (cap.dataset.k !== cur[1]) {
+    cap.dataset.k = cur[1];
+    cap.innerHTML = cur[1].split(' ').map(w => {
+      if (!w.startsWith('*')) return `<span class="w">${w}</span>`;
+      const [x, kk] = w.slice(1).split('|'), k = kk !== undefined ? +kk : HLC[x], col = k === undefined ? '#FFD43B' : k === -1 ? '#2D9CDB' : P[k].c;
+      return `<span class="w hl"><i style="background:${col}"></i><b>${x}</b></span>`;
+    }).join(' ');
+  }
+  const lc = t - cur[0];
+  cap.style.opacity = 1; cap.style.transform = `scale(${.6 + .4*back(lc/.16)}) translateY(${(1 - eo(lc/.16))*30}px)`;
+  cap.querySelectorAll('.hl i').forEach(e => e.style.transform = `scaleX(${eo((lc-.04)/.18)}) rotate(-2deg)`);
+}
+</script></body></html>

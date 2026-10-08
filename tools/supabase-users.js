@@ -10,6 +10,8 @@
      node tools/supabase-users.js sources [days]   where people who joined in the last N days came from (default 30; read only)
      node tools/supabase-users.js visits [days]    website visits from Cloudflare Web Analytics: by day, referrer, country, page, device
                                                    (default 7; needs CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID; read only)
+     node tools/supabase-users.js thank-preview    new learners (joined in the last 7 days, studied on 3+ days) who'd get the thank-you (read only)
+     node tools/supabase-users.js thank SEND-THANKS   add 14 days to their free week and send Samir's thank-you email (needs RESEND_API_KEY)
      node tools/supabase-users.js make-admin id    let this account open the owner dashboard (admin.html)
      node tools/supabase-users.js delete id1,id2   delete these accounts (max 5) and their rows
      node tools/supabase-users.js reset-preview    who a beta reset would wipe (changes nothing)
@@ -86,6 +88,41 @@ async function userTables() {
     people.forEach(p => console.log(`${mask(p.email)}  studied on ${p.days} day(s), last ${p.last}, joined ${p.joined}`));
     return;
   }
+  if (cmd === 'thank-preview' || cmd === 'thank') {
+    // the owner's thank-you to new regular learners (8 Oct 2026): joined in the last 7 days and studied on 3+ days.
+    // 'thank' adds 14 days to their free week, clears the trial reminders so they come at the new end, and sends the email.
+    if (cmd === 'thank' && arg !== 'SEND-THANKS') { console.error('type SEND-THANKS to send'); process.exit(1); }
+    const people = await sql(`select u.id, u.email, coalesce(u.raw_user_meta_data->>'full_name', u.raw_user_meta_data->>'name', '') as name,
+                                count(distinct substr(p.item_id, 3))::int as days, b.trial_ends_at, b.status
+                              from auth.users u join public.item_progress p on p.user_id = u.id and p.item_id like 's:%'
+                                left join public.billing b on b.user_id = u.id
+                              where u.created_at > now() - interval '7 days' and substr(p.item_id, 3) >= to_char(current_date - 6, 'YYYY-MM-DD')
+                                and b.trial_ends_at < u.created_at + interval '10 days'   -- not already thanked (their free week was extended)
+                              group by u.id, u.email, name, b.trial_ends_at, b.status having count(distinct substr(p.item_id, 3)) >= 3`);
+    console.log(`${people.length} new learner(s) who studied on 3+ days:`);
+    for (const u of people) {
+      const first = (u.name.trim().split(/\s+/)[0] || '').replace(/[<>&"]/g, '');
+      console.log(`  ${mask(u.email)}  studied on ${u.days} days  free week ends ${String(u.trial_ends_at).slice(0, 10)}  plan status ${u.status || 'none'}`);
+      if (cmd !== 'thank') continue;
+      if (!process.env.RESEND_API_KEY) { console.error('RESEND_API_KEY is not set'); process.exit(1); }
+      await sql(`update public.billing set trial_ends_at = greatest(trial_ends_at, now()) + interval '14 days',
+                 trial_soon_sent_at = null, trial_last_sent_at = null, updated_at = now() where user_id = '${u.id}'`);
+      const paras = [`I'm Samir, and I made Rafiq. I noticed you've been coming back to practise this week, and I just wanted to say thank you. It genuinely means a lot this early on.`,
+        `Could I ask a small favour? Just hit reply and tell me how you're finding it: what you like, what's confusing, anything you wish it did. Even one line helps.`,
+        `And as a thank you for being one of our first learners, I've already added two extra weeks of Rafiq Complete to your account, free. No strings attached.`];
+      const hi = first ? `Hi ${first},` : 'Hi there,';
+      const text = [hi, ...paras, 'Thanks again,\nSamir'].join('\n\n');
+      const html = `<div style="font-family:Georgia,serif;font-size:16px;line-height:1.6;color:#17262B;max-width:560px">` +
+        [hi, ...paras].map(t => `<p>${t}</p>`).join('') + `<p>Thanks again,<br>Samir</p></div>`;
+      const r = await fetch('https://api.resend.com/emails', { method: 'POST',
+        headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ from: 'Samir from Rafiq <hello@contact.rafiq-arabic.com>', to: [u.email], reply_to: 'support@rafiq-arabic.com',
+                               subject: 'A quick thank you from Rafiq', html, text }) });
+      const after = (await sql(`select trial_ends_at from public.billing where user_id = '${u.id}'`))[0];
+      console.log(`    free week now ends ${String(after && after.trial_ends_at).slice(0, 10)} · email ${r.ok ? 'sent' : 'FAILED ' + r.status + ' ' + (await r.text()).slice(0, 200)}`);
+    }
+    return;
+  }
   if (cmd === 'attempts') {
     // where sign-ups get stuck (#224): Supabase's own sign-in log, day by day. Counts only; never emails or passwords.
     const days = Math.max(1, Math.min(30, parseInt(arg, 10) || 7));
@@ -102,6 +139,23 @@ async function userTables() {
     rows.forEach(r => console.log(`  ${r.day}  ${(names[r.action] || r.action).padEnd(32)} ${String(r.n).padStart(4)}  (${r.people} people)`));
     const pending = await sql(`select count(*)::int as n from auth.users where email_confirmed_at is null and created_at > now() - interval '${days} days'`);
     console.log(`\nAccounts made in the last ${days} days whose email is still not confirmed: ${pending[0].n}`);
+    return;
+  }
+  if (cmd === 'rls') {   // read only: does every table the public key can reach protect itself (row level security), and with which rules
+    const t = await sql(`select c.relname as t, c.relrowsecurity as rls, (select count(*)::int from pg_policies p where p.schemaname = 'public' and p.tablename = c.relname) as policies
+      from pg_class c join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and c.relkind = 'r' order by 1`);
+    for (const r of t) console.log(`  ${r.t.padEnd(22)} row security ${r.rls ? 'ON ' : 'OFF'}  rules ${r.policies}`);
+    const p = await sql(`select tablename as t, policyname as name, cmd, roles::text as roles from pg_policies where schemaname = 'public' order by 1, 2`);
+    console.log('\nRules:'); for (const r of p) console.log(`  ${r.t.padEnd(22)} ${r.cmd.padEnd(7)} ${r.roles.padEnd(18)} ${r.name}`);
+    return;
+  }
+  if (cmd === 'taps') {   // the steps to an account counted on the sign-up page (#225), per day
+    const days = Math.max(1, Math.min(30, parseInt(arg, 10) || 7));
+    const rows = await sql(`select day::text, step, n from private.taps where day > current_date - ${days} order by 1, 2`);
+    const NAME = { signup_page: 'opened sign-up from the button', create: 'pressed Create account', google: 'pressed Continue with Google' };
+    console.log(`Steps to an account, last ${days} day(s) (UTC):`);
+    if (!rows.length) console.log('  nothing counted');
+    for (const r of rows) console.log(`  ${r.day}  ${String(r.n).padStart(4)}  ${NAME[r.step] || r.step}`);
     return;
   }
   if (cmd === 'sources') {

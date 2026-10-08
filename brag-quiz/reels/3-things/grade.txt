@@ -1,0 +1,1 @@
+eq=contrast=1.08:saturation=1.15:gamma=1.0,curves=r='0/0 0.3/0.3 0.7/0.72 1/0.98':g='0/0.01 0.3/0.3 0.7/0.7 1/0.97':b='0/0.04 0.3/0.31 0.7/0.68 1/0.94',vibrance=intensity=0.18,unsharp=5:5:0.4,vignette=PI/6
