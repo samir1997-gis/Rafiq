@@ -168,7 +168,7 @@ elif STEP == "mix":
     for i, (f, t, v) in enumerate(E):
         ms = int(max(0, t) * 1000); fc.append(f"[{i+5}:a]aresample=48000,aformat=channel_layouts=stereo,volume={v},adelay={ms}|{ms}[s{i}]")
     fc.append("".join(f"[s{i}]" for i in range(len(E))) + f"amix=inputs={len(E)}:normalize=0,apad[sfx]")
-    fc.append("[voice][sfx]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.85:level=false[a]")
+    fc.append("[voice][sfx]amix=inputs=2:normalize=0:duration=first,lowpass=f=16000:poles=2,alimiter=limit=0.8:level=false[a]")
     sh(*args, "-filter_complex", ";".join(fc), "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "21", "-preset", "slow", "-maxrate", "4.2M", "-bufsize", "8M",
        "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "reel.mp4")
     print("reel.mp4 ready")
