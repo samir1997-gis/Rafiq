@@ -30,6 +30,10 @@ The winners: `s3-samiallahu` (rising from ruku, word by word), `t1-masjid` (why 
 first second · one pattern that unlocks several words · a "your turn" round with a 3-second countdown · end on a
 comment anyone can answer · 15-25 s · app card last, or none (4 posts in 5).
 
+**Made in the formula (8 Oct 2026, `build_formula.py`):** `f1-sujood` (سُبْحانَ رَبِّيَ الْأَعْلى; ends "What do you say in rukūʿ
+instead? Comment it"), `f2-root` (school, teacher, to study share د ر س; your turn: كِتاب), `f3-she-eats` (يَأْكُلُ → تَأْكُلُ,
+أَكَلَ → أَكَلَتْ, with أَكَلْتُ as the trap). Captions checked with TypeSafe (`tools/typesafe-exp/formula_batch1_captions.py`).
+
 # Quiz backlog (#198)
 
 The owner asked to keep these for later: "I might ask you to generate them soon". Each becomes one entry in
