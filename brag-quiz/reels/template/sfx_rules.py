@@ -71,6 +71,7 @@ def events(C):
         add(pick("punch"), "swoosh", p0 + .1)                                 # a tap per word or bubble, a hit when the number lands
         for w in o.get("words", []): add(pick("emph"), "tap", w[2])
         for l in o.get("lines", []): add(pick("emph"), "tap", l[3])
+        if kind == "wall" and o.get("pre"): add(pick("title"), "hit", o["pre_t"])
         if kind == "wall": add("charge-taps", "charge", o["light"] + o["dur"]); add("shutter", "hit", o["stat"]); add("n03", "boom", o["stat"], -3)
         if kind == "count":
             for k in range(5): add(pick("flick"), "flicker", o["fill"] + o["dur"] * (k + .5) / 5, -3)

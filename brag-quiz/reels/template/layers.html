@@ -19,15 +19,16 @@ html,body{width:1080px;height:1920px;background:transparent;overflow:hidden}
 /* panels: full-screen animated screens (words lighting up, a chat, a word wall, a count) */
 #panel{position:absolute;inset:0;display:none}
 .pn .lab{position:absolute;left:0;right:0;text-align:center;font-family:AN;font-size:64px;color:#E9B949;letter-spacing:3px;white-space:nowrap}
-.pn.words .bg{position:absolute;left:0;right:0;top:0;height:1130px;background:radial-gradient(circle at 50% 30%,#21343A,#0E181B 70%)}
-.pn .ww{position:absolute;top:330px;left:30px;right:30px;display:flex;flex-direction:row-reverse;justify-content:center;gap:20px}
+.pn.words{--wwt:1210px;--trt:1700px}
+.pn.words .bg{position:absolute;left:0;right:0;top:1040px;height:880px;background:radial-gradient(circle at 50% 30%,#21343A,#0E181B 70%)}
+.pn .ww{position:absolute;top:var(--wwt,330px);left:30px;right:30px;display:flex;flex-direction:row-reverse;justify-content:center;gap:20px}
 .pn .w{display:flex;flex-direction:column;align-items:center;gap:18px;padding:30px 20px;border-radius:22px;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.12);transition:none}
 .pn .w .ar{font-family:AR;font-size:100px;color:#F1ECE0;line-height:1.45}.pn .w .en{font-family:SE;font-size:46px;color:#cfd6d6;white-space:nowrap}
 .pn .w.on{background:#E9B949;border-color:#E9B949}.pn .w.on .ar,.pn .w.on .en{color:#17262B}
-.pn .tr{position:absolute;top:820px;left:40px;right:40px;text-align:center;font-family:SE;font-size:60px;color:#F1ECE0;font-style:italic}
-.pn.chat .bg{position:absolute;inset:0;background:radial-gradient(circle 300px at 540px 640px,transparent 294px,#C8372D 295px,#C8372D 312px,#F1ECE0 313px)}
+.pn .tr{position:absolute;top:var(--trt,820px);left:40px;right:40px;text-align:center;font-family:SE;font-size:60px;color:#F1ECE0;font-style:italic}
+.pn.chat .bg{position:absolute;inset:0;background:radial-gradient(circle 300px at 540px 720px,transparent 294px,#C8372D 295px,#C8372D 312px,#F1ECE0 313px)}
 .pn .bub{position:absolute;width:900px;padding:40px 48px;border-radius:44px;box-shadow:0 18px 50px rgba(23,38,43,.18)}
-.pn .bub.l{left:50px;top:1010px;background:#fff;border-bottom-left-radius:10px}.pn .bub.r{right:50px;top:1420px;background:#2E7263;border-bottom-right-radius:10px}
+.pn .bub.l{left:50px;top:1090px;background:#fff;border-bottom-left-radius:10px}.pn .bub.r{right:50px;top:1480px;background:#2E7263;border-bottom-right-radius:10px}
 .pn .bub .ar{font-family:AR;font-size:78px;direction:rtl;text-align:right;line-height:1.5;color:#17262B;white-space:nowrap}.pn .bub.r .ar{color:#fff}
 .pn .bub .en{font-family:SE;font-size:50px;margin-top:8px;color:#4b5a5e}.pn .bub.r .en{color:#e3efe9}
 .pn .when{font-family:AN;font-size:40px;letter-spacing:2px;color:#B4322A;margin-bottom:4px}.pn .bub.r .when{color:#E9B949}
@@ -85,9 +86,9 @@ function update(t, layer) {
   if (PN) {
     const [p0, p1, kind, o] = PN, pop = s => 1 + .12 * Math.exp(-Math.max(0, t - s) * 9) * (t >= s ? 1 : 0);
     if (pn.dataset.k !== String(p0)) { pn.dataset.k = String(p0); pn.className = 'pn ' + kind; pn.innerHTML = '<div class="bg"></div>' + ({
-      words: () => `<div class="lab" style="top:120px">${o.title}</div><div class="ww">${o.words.map(([a, e]) => `<div class="w"><span class="ar">${a}</span><span class="en">${e}</span></div>`).join('')}</div><div class="tr">${o.line}</div>`,
+      words: () => `<div class="lab" style="top:1090px">${o.title}</div><div class="ww">${o.words.map(([a, e]) => `<div class="w"><span class="ar">${a}</span><span class="en">${e}</span></div>`).join('')}</div><div class="tr">${o.line}</div>`,
       chat: () => `<div class="lab" style="top:150px;color:#B4322A">${o.title}</div>${o.lines.map(([w, a, e], i) => `<div class="bub ${i ? 'r' : 'l'}"><div class="when">${w}</div><div class="ar">${a}</div><div class="en">${e}</div></div>`).join('')}`,
-      wall: () => `<div class="lab" style="top:130px">${o.title}</div><div class="grid">${[...o.seq].map(c => `<i data-g="${c === 'g' ? 1 : 0}"></i>`).join('')}</div><div class="stat" style="top:1300px;font-size:240px">${o.big}</div><div class="sub" style="top:1600px">${o.sub}</div>`,
+      wall: () => `<div class="lab" style="top:130px">${o.title}</div><div class="grid">${[...o.seq].map(c => `<i data-g="${c === 'g' ? 1 : 0}"></i>`).join('')}</div>${o.pre ? `<div class="pre stat" style="top:1300px;font-size:240px;color:#E9B949">${o.pre}</div>` : ''}<div class="stat big" style="top:1300px;font-size:240px">${o.big}</div><div class="sub" style="top:1600px">${o.sub}</div>`,
       count: () => `<div class="lab" style="top:150px">${o.title}</div><div class="days">${o.prayers.map(([p, n]) => `<div class="d"><div class="dots">${'<i></i>'.repeat(n)}</div><div class="dn">${p}</div></div>`).join('')}</div><div class="stat" id="pc17" style="top:960px;font-size:330px;color:#C8372D">${o.big}</div><div class="sub" id="pcs" style="top:1400px">${o.sub}</div><div class="stat" id="pcy" style="top:1560px;font-size:150px">${o.year}</div>`
     })[kind](); }
     pn.style.display = 'block';
@@ -97,7 +98,8 @@ function update(t, layer) {
     if (kind === 'chat') pn.querySelectorAll('.bub').forEach((el, i) => { const s = o.lines[i][3], e = eo((t - s) / .35); el.style.opacity = e; el.style.transform = `translateY(${(1 - e) * 60}px) scale(${pop(s)})`; });
     if (kind === 'wall') { const g = [...pn.querySelectorAll('.grid i[data-g="1"]')], f = cl((t - o.light) / o.dur);
       g.forEach((el, i) => el.classList.toggle('on', i < Math.round(f * g.length)));
-      pn.querySelectorAll('.stat,.sub').forEach(el => { const e = eo((t - o.stat) / .3); el.style.opacity = e; el.style.transform = `scale(${pop(o.stat)})`; }); }
+      pn.querySelectorAll('.big,.sub').forEach(el => { const e = eo((t - o.stat) / .3); el.style.opacity = e; el.style.transform = `scale(${pop(o.stat)})`; });
+      const pre = pn.querySelector('.pre'); if (pre) { pre.style.opacity = eo((t - o.pre_t) / .25) * (1 - eo((t - o.stat + .2) / .2)); pre.style.transform = `scale(${pop(o.pre_t)})`; } }
     if (kind === 'count') { const d = [...pn.querySelectorAll('.dots i')], f = cl((t - o.fill) / o.dur);
       d.forEach((el, i) => el.classList.toggle('on', i < Math.round(f * d.length)));
       [['pc17', o.big_t], ['pcs', o.big_t], ['pcy', o.year_t]].forEach(([id, s]) => { const el = document.getElementById(id), e = eo((t - s) / .3); el.style.opacity = e; el.style.transform = `scale(${pop(s)})`; }); }
@@ -106,7 +108,7 @@ function update(t, layer) {
   for (const c of C.caps) if (t >= c[0] && t < c[1]) cur = c;
   const inSplit = t >= S[0] && t < S[1], inFlick = F >= 0;
   cap.style.top = inSplit ? '920px' : inFlick ? '1560px' : '1250px';
-  if (!cur || (PN && PN[2] !== 'words')) { cap.style.opacity = 0; return; }   // full-screen panels carry their own words
+  if (!cur || PN) { cap.style.opacity = 0; return; }   // panels carry their own words
   if (cap.dataset.k !== String(cur[0])) { cap.dataset.k = String(cur[0]);
     cap.innerHTML = cur[2].map(([w, s, e], j) => e ? `<span class="em" data-s="${s}">${w.toUpperCase()}</span>` : w).join(' '); }
   cap.style.opacity = eo((t - cur[0]) / .1);
