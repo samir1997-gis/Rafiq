@@ -63,7 +63,7 @@ Plus 5-10 B-roll clips of 2-3 seconds (Quran pages, writing Arabic, prayer mat, 
   wipe out · "RAFIQ" → sparkle + ding.
   Level each sound by its loudest 50 ms, not its peak: clicks and shutters are spiky, so a peak target leaves them 10-20 dB
   under the voice (v3's mistake). Targets: hits -16, swooshes -14, taps and flickers -19 dBFS against a voice at about -17.
-- **The flicker is the hook (owner, 8 Oct 2026):** open every reel with it (the first 2-3 s, under the first line), and use it
+- **The flicker is the hook (only the speaker's own shots and B-roll, never app screens) (owner, 8 Oct 2026):** open every reel with it (the first 2-3 s, under the first line), and use it
   again at the end and wherever the camera angle changes. A new clip every 8 frames inside the red frame, each switch a
   white flash and one frame flicking back to the last clip; the speaker's own footage (tight, black-and-white, medium crops)
   mixed with app screens, which alone all look alike; the caption keeps running over it; it ends on a circle wipe.

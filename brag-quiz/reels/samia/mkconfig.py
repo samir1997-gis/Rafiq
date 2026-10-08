@@ -16,7 +16,7 @@ C["panels"] = [
   [8.1, 23.41, "words", {"title": "RISING FROM RUKU · YOU SAY",
      "words": [["سَمِعَ", "hears", 11.4], ["اللَّهُ", "Allah", 13.22], ["لِمَنْ", "the one who", 15.86], ["حَمِدَهُ", "praises Him", 17.36]],
      "line": "“Allah hears the one who praises Him.”"}],
-  [24.85, 33.1, "chat", {"title": "THE CONVERSATION", "lines": [
+  [24.85, 33.1, "chat", {"title": "THE CONVERSATION", "pip": [0.55, 540, 810, 540, 720], "lines": [
      ["rising", "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ", "Allah hears the one who praises Him.", 25.0],
      ["standing straight", "رَبَّنا وَلَكَ الْحَمْدُ", "Our Lord, and to You belongs all praise.", 26.25]]}],
   [33.2, 42.6, "wall", {"title": "EVERY WORD OF A 4-RAKAH PRAYER", "seq": seq, "pre": "7 WORDS", "pre_t": 35.02, "light": 37.0, "dur": 1.6, "stat": 39.28,
@@ -26,7 +26,7 @@ C["panels"] = [
 C["split"] = [61.2, 65.75]
 C["steps"] = []
 C["punch"] = [[3.04, 3.6], [50.07, 50.4], [56.79, 57.4], [58.77, 59.17], [66.87, 67.05], [67.95, 68.19]]
-C["broll"] = {"split": ["risecut", "me", "parts"], "flick": ["rise", "self0", "orbit", "home", "self1", "rise", "quiz", "self2", "orbit", "mostsaid"]}
+C["broll"] = {"split": ["risecut", "me", "parts"], "flick": ["self0", "rise", "self1", "self2", "orbit", "self3", "self4", "self5"]}
 # captions: fix what speech recognition got wrong, and the gold pops
 FIX = {"court": "ruku", "court,": "ruku,", "forakat": "four-rakah", "everyone": "every one", "rakur,": "ruku,", "rakur": "ruku", "...our": "our", "rafiqarabic": "rafiq-arabic.com", ".com": "", "His": "hears", "fora": "four-", "ka": "rakah", "rakur,": "ruku,", }
 EM = {"conversation", "hears", "praises", "answer", "seven", "words.", "fifteen", "seventeen", "thousand", "hamd", "muhammad", "praised", "exactly", "learn"}
