@@ -7,7 +7,9 @@
   python3 reel.py WORK base       frame-exact pieces (sound stays in sync), DJI watermark out, the grade → WORK/cut.mov; word times
   python3 reel.py WORK plan       draft WORK/config.json: captions, stressed words (gold pops), punch-ins. Then fill in by hand,
                                   from the transcript: "titles" [start, end, small line, BIG WORD, size], "split" [start, end],
-                                  "flick" [start, end, TITLE], "sections" (where each slow push restarts)
+                                  "flicks" [[start, end, TITLE], ...] (the hook at 0, the ending, camera changes),
+                                  "steps" [[[word starts], end], ...] (a zoom step per word: "these · three · things"),
+                                  "sections" (where each slow push restarts)
   python3 reel.py WORK zoom       the slow push per section → WORK/base.mov
   python3 reel.py WORK masks      the speaker cut out wherever a title sits behind him (rembg; about a second a frame)
   python3 reel.py WORK layers     titles (behind) and captions, split frame, flicker (in front)
@@ -82,8 +84,8 @@ elif STEP == "plan":    # captions, stressed words (loud against their neighbour
                          [[v["w"].rstrip(",") if j == len(cur) - 1 else v["w"], v["s"], round(v["s"], 2) in E] for j, v in enumerate(cur)]]); cur = []
     C = J("config.json") if os.path.exists("config.json") else {}
     C.update(caps=caps, punch=sorted([[w["s"], w["e"]] for w in punch]), end=round(end, 2))
-    C.setdefault("titles", []); C.setdefault("split", None); C.setdefault("flick", None); C.setdefault("sections", [])
-    C.setdefault("broll", {"split": ["words", "tiles", "prayalong"], "flick": ["home", "mostsaid", "quiz", "weak"]})
+    C.setdefault("titles", []); C.setdefault("split", None); C.setdefault("flicks", [[0, 2.5, "HOOK TITLE"]]); C.setdefault("steps", []); C.setdefault("sections", [])
+    C.setdefault("broll", {"split": ["words", "tiles", "prayalong"], "flick": ["self0", "home", "self1", "quiz", "self2", "mostsaid", "self3", "weak"]})
     P("config.json", C); print("stressed:", " ".join(w["w"] for w in emph)); print("punch-ins:", " ".join(w["w"] for w in sorted(punch, key=lambda w: w["s"])))
 
 elif STEP == "zoom":    # a slow push in each section (restarts at each section start)
@@ -114,17 +116,28 @@ elif STEP == "layers":
     for c in C["broll"]["split"]:      # B-roll: the app's own screen recordings until the owner films some
         if not os.path.exists(f"broll/{c}"):
             os.makedirs(f"broll/{c}"); sh("ffmpeg", "-v", "error", "-y", "-i", f"{clips}/{c}.mp4", "-t", "6", "-vf", "fps=30,scale=1080:-2,crop=1080:640:0:(ih-640)*0.45", "-q:v", "3", f"broll/{c}/%04d.jpg")
+    LOOK = ["crop=iw*.5:ih*.5:iw*.25:ih*.22", "hue=s=0,eq=contrast=1.35:brightness=-.03", "crop=iw*.7:ih*.7:iw*.15:ih*.12", "hue=s=0,crop=iw*.42:ih*.42:iw*.29:ih*.24"]
+    for k in range(4):   # the speaker's own footage for the flicker: four other moments, tight / black-and-white / medium crops
+        if not os.path.exists(f"broll/self{k}"):
+            os.makedirs(f"broll/self{k}"); sh("ffmpeg", "-v", "error", "-y", "-ss", f"{C['end'] * (.15 + .2 * k):.2f}", "-i", "base.mov", "-t", "1",
+               "-vf", f"{LOOK[k]},scale=960:1640:force_original_aspect_ratio=increase,crop=960:1640", "-q:v", "3", f"broll/self{k}/%04d.jpg")
     for c in C["broll"]["flick"]:
         if not os.path.exists(f"broll/{c}"):
             os.makedirs(f"broll/{c}"); sh("ffmpeg", "-v", "error", "-y", "-i", f"{clips}/{c}.mp4", "-t", "3", "-vf", "fps=30,scale=920:-2,crop=920:1500:0:(ih-1500)*0.3", "-q:v", "3", f"broll/{c}/%04d.jpg")
     C["n"] = {c: len(os.listdir(f"broll/{c}")) for c in os.listdir("broll")}
-    C["split"] = C["split"] or [-1, -1]; C["flick"] = C["flick"] or [-1, -1, ""]
+    C["split"] = C["split"] or [-1, -1]
     for L in ("back", "front"): os.makedirs(L, exist_ok=True)
-    N = round(C["end"] * FPS)
+    P("layers.json", C); K = os.cpu_count() or 1        # one browser per core, each takes every K-th frame
+    for p in [subprocess.Popen([sys.executable, os.path.join(HERE, "reel.py"), os.path.abspath("."), "render", str(k), str(K)]) for k in range(K)]: assert p.wait() == 0
+
+elif STEP == "render":
+    from playwright.sync_api import sync_playwright
+    C = J("layers.json"); k, K = int(sys.argv[3]), int(sys.argv[4]); N = round(C["end"] * FPS)
     with sync_playwright() as pw:
         b = pw.chromium.launch(executable_path=CHROME); p = b.new_page(viewport={"width": 1080, "height": 1920})
         p.goto("file://" + os.path.abspath("layers.html")); p.evaluate(f"C = {json.dumps(C)}"); p.evaluate("document.fonts.ready"); p.wait_for_timeout(500)
-        for i in range(N):
+        for i in range(k, N, K):
+            if os.path.exists(f"front/{i:05d}.png"): continue
             for L in ("back", "front"):
                 p.evaluate(f"update({i / FPS}, '{L}')")
                 if L == "front": p.evaluate("Promise.all([...document.images].filter(i => i.offsetParent).map(i => i.decode().catch(() => 0)))")
@@ -140,7 +153,10 @@ elif STEP == "mix":
     gain = -14.5 - float(re.findall(r"I:\s+(-?[\d.]+) LUFS", m)[-1])
     def env(a, b):
         u = f"clip((t-{a})/0.1,0,1)"; d = f"clip(({b}+0.6-t)/0.35,0,1)"; mm = f"min({u},{d})"; return f"({mm})*({mm})*(3-2*({mm}))"
-    Z = "1+0.1*(" + "+".join(env(a, b) for a, b in C["punch"]) + ")" if C["punch"] else "1"
+    def up(a): u = f"clip((t-{a})/0.08,0,1)"; return f"({u})*({u})*(3-2*({u}))"
+    def down(b): d = f"clip(({b}+0.5-t)/0.35,0,1)"; return f"({d})*({d})*(3-2*({d}))"
+    Z = "1" + "".join(f"+0.1*{env(a, b)}" for a, b in C["punch"])
+    for ts, b in C.get("steps", []): Z += f"+0.07*({'+'.join(up(s) for s in ts)})*{down(b)}"   # one zoom level per word
     E = events(C)
     args = ["ffmpeg", "-v", "error", "-y", "-i", "base.mov", "-framerate", "30", "-i", "back/%05d.png", "-framerate", "30", "-i", "mask/%05d.png",
             "-framerate", "30", "-i", "front/%05d.png", "-i", "voice_clean.wav"]

@@ -22,12 +22,12 @@ clean, crisp, vibrant, slick and elegant. Not busy: the effects come in short bu
    part of it. Cut the person out per frame with rembg (`u2net_human_seg`), layers: graded background, title, graded person.
 2. **Split frame:** for a few seconds the screen splits into three stacked strips of B-roll (mixing black-and-white
    and colour), the caption across them.
-3. **Flicker in a frame:** a quick burst of clips flickering inside a bold red (rubric) border, a title over it.
+3. **Flicker in a frame:** a quick burst of clips flickering inside a bold red (rubric) border, a title over it. The hook.
 
 ## The edit
 - Best takes only; silences and repeats cut; picture and sound cut to whole frames (see `reels/darasa/base.py`).
 - Long, steady talking shots; gentle punch-ins on key words; effects in short bursts.
-- Sound: the owner's own effects (whooshes, pings, pops), quiet and ducked under the voice; loudness about -14 LUFS.
+- Sound: a crisp effect on every visual change, heard over the voice, not ducked (rules below); loudness about -14 LUFS.
 - Rafiq the character (`character/`) can answer beside the speaker or full screen.
 - Captions follow the posting rule in `IDEAS.md` (reach first).
 
@@ -55,12 +55,20 @@ Plus 5-10 B-roll clips of 2-3 seconds (Quran pages, writing Arabic, prayer mat, 
   back. Find stressed words by loudness against the words around them, then keep the ones that matter to the script.
   Keep titles narrow enough to survive the punch-in (about 240 px for long words).
 - **Sound effects (learned from the owner's reference breakdown, `reels/template/sfx_rules.py`):** every visual change
-  gets a short, crisp, high sound that sits above the voice, never pushed under it (no ducking):
-  title lands → shutter · a line of text appears → tap · stressed word pops → tap · punch-in → short swoosh ·
-  big transition → a 1.3 s charge that lands on the cut, then swooshes as the strips slide in ·
-  flicker → flash flicker + flicker sounds · back to the speaker → shutter · "RAFIQ" → the owner's sparkle (n08).
-  Each sound is set by its peak (shutter -12, tap -15, swoosh -8, flicker -10 dBFS) against the voice at -14 LUFS.
-  Library: `brag-quiz/sfx/ref/` (cut from the reference) and `brag-quiz/sfx/owner/` (the owner's).
+  gets a short, crisp sound that's heard, never pushed under the voice (no ducking), and never the same sound twice
+  in a row (each moment rotates through the reference sounds and the owner's n01-n11):
+  title lands → shutter / pop · text line → tap / tick · stressed word → tap / tick / ping / click · punch-in → swoosh ·
+  stepped zoom → a hit on every step, the last heaviest, with a low boom · big transition → charge landing on the cut + boom,
+  swooshes as the strips slide in · flicker → flash + whoosh, a flicker sound on every clip switch, swoosh + shutter on the
+  wipe out · "RAFIQ" → sparkle + ding.
+  Level each sound by its loudest 50 ms, not its peak: clicks and shutters are spiky, so a peak target leaves them 10-20 dB
+  under the voice (v3's mistake). Targets: hits -16, swooshes -14, taps and flickers -19 dBFS against a voice at about -17.
+- **The flicker is the hook (owner, 8 Oct 2026):** open every reel with it (the first 2-3 s, under the first line), and use it
+  again at the end and wherever the camera angle changes. A new clip every 8 frames inside the red frame, each switch a
+  white flash and one frame flicking back to the last clip; the speaker's own footage (tight, black-and-white, medium crops)
+  mixed with app screens, which alone all look alike; the caption keeps running over it; it ends on a circle wipe.
+- **Stepped zoom (owner):** when a phrase counts or builds ("these · three · things", "every · single · day"), zoom in one
+  level (7%) on each word, with a sound on each, then ease back.
 
 ## The template: any new clip
 `brag-quiz/reels/template/` does all of the above. See its README.
