@@ -12,6 +12,7 @@
                                                    (default 7; needs CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID; read only)
      node tools/supabase-users.js thank-preview    new learners (joined in the last 7 days, studied on 3+ days) who'd get the thank-you (read only)
      node tools/supabase-users.js thank SEND-THANKS   add 14 days to their free week and send Samir's thank-you email (needs RESEND_API_KEY)
+     node tools/supabase-users.js mail-test        send one test email to support@rafiq-arabic.com (is forwarding working?)
      node tools/supabase-users.js make-admin id    let this account open the owner dashboard (admin.html)
      node tools/supabase-users.js delete id1,id2   delete these accounts (max 5) and their rows
      node tools/supabase-users.js reset-preview    who a beta reset would wipe (changes nothing)
@@ -86,6 +87,16 @@ async function userTables() {
                               group by u.email order by days desc, last desc`);
     console.log(`\n${people.length} people studied in the last ${days} days:`);
     people.forEach(p => console.log(`${mask(p.email)}  studied on ${p.days} day(s), last ${p.last}, joined ${p.joined}`));
+    return;
+  }
+  if (cmd === 'mail-test') {   // is support@ forwarding working? Sends one test from the app's sender to support@rafiq-arabic.com
+    if (!process.env.RESEND_API_KEY) { console.error('RESEND_API_KEY is not set'); process.exit(1); }
+    const at = new Date().toISOString().slice(0, 16).replace('T', ' ');
+    const r = await fetch('https://api.resend.com/emails', { method: 'POST',
+      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: 'Rafiq <hello@contact.rafiq-arabic.com>', to: ['support@rafiq-arabic.com'],
+                             subject: `Forwarding test ${at} UTC`, text: `If this reached your inbox, support@rafiq-arabic.com forwarding works. Sent ${at} UTC.` }) });
+    console.log(`test to support@rafiq-arabic.com at ${at} UTC: ${r.status} ${(await r.text()).slice(0, 200)}`);
     return;
   }
   if (cmd === 'thank-preview' || cmd === 'thank') {
