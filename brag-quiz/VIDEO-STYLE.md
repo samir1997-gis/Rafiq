@@ -67,8 +67,10 @@ Plus 5-10 B-roll clips of 2-3 seconds (Quran pages, writing Arabic, prayer mat, 
   again at the end and wherever the camera angle changes. A new clip every 8 frames inside the red frame, each switch a
   white flash and one frame flicking back to the last clip; the speaker's own footage (tight, black-and-white, medium crops)
   mixed with app screens, which alone all look alike; the caption keeps running over it; it ends on a circle wipe.
-- **Stepped zoom (owner):** when a phrase counts or builds ("these · three · things", "every · single · day"), zoom in one
-  level (7%) on each word, with a sound on each, then ease back.
+- **Zoom builds, then releases (owner, 8 Oct 2026):** in, in, in, out, never in-out-in-out. Within a section (title to
+  title), each emphasis takes the zoom one level deeper (8%, eased over about half a second, at most 30%); it eases back
+  out only as the section ends. Counting phrases ("these · three · things") step on every word. Zoom into the middle
+  (slightly above centre, so titles stay in): crop from the scaled frame's own size, not the original's, or it drifts to the left.
 
 ## The template: any new clip
 `brag-quiz/reels/template/` does all of the above. See its README.

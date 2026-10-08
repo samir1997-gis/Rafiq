@@ -151,19 +151,23 @@ elif STEP == "mix":
     sh("ffmpeg", "-v", "error", "-y", "-i", "base.mov", "-vn", "-af", CLEAN, "-ar", "48000", "-ac", "2", "voice_clean.wav")
     m = subprocess.run(["ffmpeg", "-i", "voice_clean.wav", "-af", "ebur128", "-f", "null", "-"], capture_output=True, text=True).stderr
     gain = -14.5 - float(re.findall(r"I:\s+(-?[\d.]+) LUFS", m)[-1])
-    def env(a, b):
-        u = f"clip((t-{a})/0.1,0,1)"; d = f"clip(({b}+0.6-t)/0.35,0,1)"; mm = f"min({u},{d})"; return f"({mm})*({mm})*(3-2*({mm}))"
-    def up(a): u = f"clip((t-{a})/0.08,0,1)"; return f"({u})*({u})*(3-2*({u}))"
-    def down(b): d = f"clip(({b}+0.5-t)/0.35,0,1)"; return f"({d})*({d})*(3-2*({d}))"
-    Z = "1" + "".join(f"+0.1*{env(a, b)}" for a, b in C["punch"])
-    for ts, b in C.get("steps", []): Z += f"+0.07*({'+'.join(up(s) for s in ts)})*{down(b)}"   # one zoom level per word
+    # zoom builds through a section: each emphasis (punch or step word) goes one level deeper (slow, eased),
+    # and it only eases back out as the section ends (next title, split, flicker or the end): in, in, in, out
+    sm = lambda u: f"({u})*({u})*(3-2*({u}))"
+    cuts = sorted({x[0] for x in C["titles"]} | {x for f in C.get("flicks", []) for x in f[:2]} |
+                  (set(C["split"]) if C.get("split") else set()) | {C["end"]})
+    hits = sorted([a for a, _ in C["punch"]] + [s for ts, _ in C.get("steps", []) for s in ts])
+    Z = "1"
+    for s1 in cuts:
+        ps = [p for p in hits if p < s1 - .3 and not any(p < c < s1 for c in cuts)]
+        if ps: Z += f"+min(0.3,0.08*({'+'.join(sm(f'clip((t-{p})/0.45,0,1)') for p in ps)}))*{sm(f'clip(({s1}-t)/0.5,0,1)')}"
     E = events(C)
     args = ["ffmpeg", "-v", "error", "-y", "-i", "base.mov", "-framerate", "30", "-i", "back/%05d.png", "-framerate", "30", "-i", "mask/%05d.png",
             "-framerate", "30", "-i", "front/%05d.png", "-i", "voice_clean.wav"]
     for f, _, _ in E: args += ["-i", f]
     fc = ["[0:v]split=2[v0][v1]", "[v0][1:v]overlay=0:0:format=auto[bb]", "[2:v]format=gray[m]", "[v1][m]alphamerge[fg]",
           "[bb][fg]overlay=0:0:format=auto,format=yuv420p[sc]",
-          f"[sc]scale=w='trunc(1080*({Z})/2)*2':h='trunc(1920*({Z})/2)*2':eval=frame:flags=lanczos,crop=1080:1920:'(iw-1080)*0.5':'(ih-1920)*0.33'[zs]",
+          f"[sc]scale=w='trunc(1080*({Z})/2)*2':h='trunc(1920*({Z})/2)*2':eval=frame:flags=bicubic,crop=1080:1920:'(1080*({Z})-1080)/2':'(1920*({Z})-1920)*0.4'[zs]",
           "[zs][3:v]overlay=0:0:format=auto,format=yuv420p[v]", f"[4:a]volume={gain:.2f}dB[voice]"]
     for i, (f, t, v) in enumerate(E):
         ms = int(max(0, t) * 1000); fc.append(f"[{i+5}:a]aresample=48000,aformat=channel_layouts=stereo,volume={v},adelay={ms}|{ms}[s{i}]")

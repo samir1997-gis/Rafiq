@@ -22,7 +22,8 @@ Times are in the cut (`cutwords.json`).
 - `titles`: `[start, end, "SMALL LINE", "BIG WORD", size px]`, one per section of the script (about 240 px for long words, 320 for short).
 - `caps`: the third value of each word is `true` for a gold pop. `plan` guesses by loudness. Keep the words that matter to
   the script and drop fillers like "Number".
-- `punch`: `[word start, word end]` for the single punch-ins, the 6 to 9 biggest moments (not inside a flicker).
+- `punch`: `[word start, word end]` for the biggest moments (6 to 9, not inside a flicker). Each takes the zoom one level
+  deeper until the section ends.
 - `split`: `[start, end]` for the three-strip app frame. Use `null` for none.
 - `flicks`: `[[start, end, "TITLE", size], ...]`: the flicker. Always one at 0 as the hook (2-3 s, under the first line),
   usually one at the end, and one wherever the camera angle changes. Its clips are the speaker's own footage plus app screens.
