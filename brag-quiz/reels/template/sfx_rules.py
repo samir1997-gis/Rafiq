@@ -67,4 +67,12 @@ def events(C):
             add(pick("flick"), "flicker", f0 + k * 8 / 30); k += 1
         if title.upper().startswith("RAFIQ"): add("n08", "sparkle", f0 + .15); add("n04", "sparkle", f1 - .5)
         if f1 < C["end"] - .1: add(pick("punch"), "swoosh", f1 - .15); add("shutter", "hit", f1)   # circle wipe out
+    for p0, p1, kind, o in C.get("panels", []):                              # animated screens: in with a swoosh,
+        add(pick("punch"), "swoosh", p0 + .1)                                 # a tap per word or bubble, a hit when the number lands
+        for w in o.get("words", []): add(pick("emph"), "tap", w[2])
+        for l in o.get("lines", []): add(pick("emph"), "tap", l[3])
+        if kind == "wall": add("charge-taps", "charge", o["light"] + o["dur"]); add("shutter", "hit", o["stat"]); add("n03", "boom", o["stat"], -3)
+        if kind == "count":
+            for k in range(5): add(pick("flick"), "flicker", o["fill"] + o["dur"] * (k + .5) / 5, -3)
+            add("shutter", "hit", o["big_t"]); add(pick("title"), "hit", o["year_t"])
     return sorted(E, key=lambda e: e[1])

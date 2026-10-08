@@ -4,7 +4,7 @@
   python3 reel.py WORK fetch <google-drive-file-id>   download the clip to WORK/clip.mp4
   python3 reel.py WORK words      transcribe (WORK/words.json)
   python3 reel.py WORK cut        cut only true silences, keep a breath; prints the cut's transcript to check no word is clipped
-  python3 reel.py WORK base       frame-exact pieces (sound stays in sync), DJI watermark out, the grade → WORK/cut.mov; word times
+  python3 reel.py WORK base [nologo]   frame-exact pieces (sound stays in sync), DJI watermark out (nologo: footage without one), the grade → WORK/cut.mov; word times
   python3 reel.py WORK plan       draft WORK/config.json: captions, stressed words (gold pops), punch-ins. Then fill in by hand,
                                   from the transcript: "titles" [start, end, small line, BIG WORD, size], "split" [start, end],
                                   "flicks" [[start, end, TITLE], ...] (the hook at 0, the ending, camera changes),
@@ -51,7 +51,7 @@ elif STEP == "cut":     # only true silence (-40 dB, 0.4 s+), a 0.12 s breath ke
 elif STEP == "base":
     G = open(os.path.join(HERE, "grade.txt")).read().strip(); os.makedirs("parts", exist_ok=True); lst = []
     w, h = map(int, subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v", "-show_entries", "stream=width,height", "-of", "csv=p=0", "clip.mp4"], capture_output=True, text=True).stdout.strip().split(","))
-    logo = f"delogo=x={int(90*w/2160)}:y={int(600*h/3840)}:w={int(780*w/2160)}:h={int(110*h/3840)}," if w * 16 == h * 9 else ""
+    logo = f"delogo=x={int(90*w/2160)}:y={int(600*h/3840)}:w={int(780*w/2160)}:h={int(110*h/3840)}," if w * 16 == h * 9 and "nologo" not in sys.argv else ""
     for i, (a, b) in enumerate(J("chunks.json")):
         out = f"parts/p{i:02d}.mov"; lst.append(f"file 'p{i:02d}.mov'")
         if os.path.exists(out): continue
@@ -155,7 +155,7 @@ elif STEP == "mix":
     # and it only eases back out as the section ends (next title, split, flicker or the end): in, in, in, out
     sm = lambda u: f"({u})*({u})*(3-2*({u}))"
     cuts = sorted({x[0] for x in C["titles"]} | {x for f in C.get("flicks", []) for x in f[:2]} |
-                  (set(C["split"]) if C.get("split") else set()) | {C["end"]})
+                  (set(C["split"]) if C.get("split") else set()) | {x for p in C.get("panels", []) for x in p[:2]} | {C["end"]})
     hits = sorted([a for a, _ in C["punch"]] + [s for ts, _ in C.get("steps", []) for s in ts])
     Z = "1"
     for s1 in cuts:

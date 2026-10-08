@@ -4,8 +4,8 @@
 *{margin:0;box-sizing:border-box}
 html,body{width:1080px;height:1920px;background:transparent;overflow:hidden}
 .t{position:absolute;left:0;right:0;text-align:center;line-height:.95;white-space:nowrap}
-#small{top:150px;font-family:AN;font-size:84px;color:#E9B949;letter-spacing:1px}
-#big{top:240px;font-family:AN;font-size:280px;color:#C8372D}
+#small{top:150px;font-family:AN,AR;font-size:84px;color:#E9B949;letter-spacing:1px}
+#big{top:240px;font-family:AN,AR;font-size:280px;color:#C8372D}
 #cap .em{display:inline-block;font-family:AN;color:#E9B949;font-size:108px;letter-spacing:1px;vertical-align:-6px;margin:0 6px;transform-origin:50% 70%}
 #cap{top:1250px;font-family:SE;font-size:76px;color:#fff;text-shadow:0 4px 18px rgba(0,0,0,.55),0 0 2px rgba(0,0,0,.4);line-height:1.1}
 #split{position:absolute;inset:0;background:#0b0b0b;display:none}
@@ -15,9 +15,34 @@ html,body{width:1080px;height:1920px;background:transparent;overflow:hidden}
 #ftitle{top:230px;font-family:AN;font-size:150px;color:#E9B949;text-shadow:0 6px 30px rgba(0,0,0,.55)}
 #fshade{position:absolute;left:60px;top:150px;width:960px;height:1640px;background:linear-gradient(rgba(0,0,0,.62),rgba(0,0,0,0) 28%,rgba(0,0,0,0) 72%,rgba(0,0,0,.55))}
 #fflash{position:absolute;inset:0;background:#fff;opacity:0}
+@font-face{font-family:AR;src:url(fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2)}
+/* panels: full-screen animated screens (words lighting up, a chat, a word wall, a count) */
+#panel{position:absolute;inset:0;display:none}
+.pn .lab{position:absolute;left:0;right:0;text-align:center;font-family:AN;font-size:64px;color:#E9B949;letter-spacing:3px;white-space:nowrap}
+.pn.words .bg{position:absolute;left:0;right:0;top:0;height:1130px;background:radial-gradient(circle at 50% 30%,#21343A,#0E181B 70%)}
+.pn .ww{position:absolute;top:330px;left:30px;right:30px;display:flex;flex-direction:row-reverse;justify-content:center;gap:20px}
+.pn .w{display:flex;flex-direction:column;align-items:center;gap:18px;padding:30px 20px;border-radius:22px;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.12);transition:none}
+.pn .w .ar{font-family:AR;font-size:100px;color:#F1ECE0;line-height:1.45}.pn .w .en{font-family:SE;font-size:46px;color:#cfd6d6;white-space:nowrap}
+.pn .w.on{background:#E9B949;border-color:#E9B949}.pn .w.on .ar,.pn .w.on .en{color:#17262B}
+.pn .tr{position:absolute;top:820px;left:40px;right:40px;text-align:center;font-family:SE;font-size:60px;color:#F1ECE0;font-style:italic}
+.pn.chat .bg{position:absolute;inset:0;background:radial-gradient(circle 300px at 540px 640px,transparent 294px,#C8372D 295px,#C8372D 312px,#F1ECE0 313px)}
+.pn .bub{position:absolute;width:900px;padding:40px 48px;border-radius:44px;box-shadow:0 18px 50px rgba(23,38,43,.18)}
+.pn .bub.l{left:50px;top:1010px;background:#fff;border-bottom-left-radius:10px}.pn .bub.r{right:50px;top:1420px;background:#2E7263;border-bottom-right-radius:10px}
+.pn .bub .ar{font-family:AR;font-size:78px;direction:rtl;text-align:right;line-height:1.5;color:#17262B;white-space:nowrap}.pn .bub.r .ar{color:#fff}
+.pn .bub .en{font-family:SE;font-size:50px;margin-top:8px;color:#4b5a5e}.pn .bub.r .en{color:#e3efe9}
+.pn .when{font-family:AN;font-size:40px;letter-spacing:2px;color:#B4322A;margin-bottom:4px}.pn .bub.r .when{color:#E9B949}
+.pn.wall .bg,.pn.count .bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,#21343A,#0E181B 70%)}
+.pn .grid{position:absolute;top:260px;left:150px;width:780px;display:grid;grid-template-columns:repeat(17,1fr);gap:8px}
+.pn .grid i{display:block;aspect-ratio:1;border-radius:4px;background:rgba(241,236,224,.16)}.pn .grid i.on{background:#E9B949;box-shadow:0 0 14px rgba(233,185,73,.8)}
+.pn .stat{position:absolute;left:0;right:0;text-align:center;font-family:AN;color:#F1ECE0;white-space:nowrap}
+.pn .sub{position:absolute;left:0;right:0;text-align:center;font-family:SE;font-size:60px;color:#F1ECE0;line-height:1.25}.pn .sub small{font-size:40px;opacity:.7}
+.pn .days{position:absolute;top:330px;left:60px;right:60px;display:flex;justify-content:space-between}
+.pn .d{display:flex;flex-direction:column;align-items:center;gap:24px}.pn .dots{display:flex;flex-direction:column;gap:18px;height:570px}
+.pn .dots i{display:block;width:120px;height:120px;border-radius:50%;background:rgba(241,236,224,.14)}.pn .dots i.on{background:#E9B949;box-shadow:0 0 22px rgba(233,185,73,.6)}
+.pn .dn{font-family:AN;font-size:46px;color:#F1ECE0;letter-spacing:2px}
 </style></head><body>
 <div id="back"><div id="small" class="t"></div><div id="big" class="t"></div></div>
-<div id="front"><div id="split"><img id="s0"><img id="s1" style="top:648px;filter:grayscale(1) brightness(.38) contrast(1.3)"><img id="s2" style="top:1296px"></div>
+<div id="front"><div id="panel"></div><div id="split"><img id="s0"><img id="s1" style="top:648px;filter:grayscale(1) brightness(.38) contrast(1.3)"><img id="s2" style="top:1296px"></div>
 <div id="flick"><img id="fimg"><div id="fshade"></div><div id="ftitle" class="t"></div><div id="fflash"></div></div><div id="cap" class="t"></div></div>
 <script>
 const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), eo = x => 1 - Math.pow(1 - cl(x), 3);
@@ -55,11 +80,33 @@ function update(t, layer) {
     const w = (t - (f1 - .3)) / .3;          // circle wipe back to the speaker (not at the very end of the reel)
     fl.style.webkitMaskImage = f1 < C.end - .1 && w > 0 ? `radial-gradient(circle at 50% 42%, transparent ${eo(w) * 1300}px, #000 ${eo(w) * 1300 + 2}px)` : 'none';
   } else fl.style.display = 'none';
+  // panels: [start, end, kind, options] (words · chat · wall · count), sliding in from the right
+  const pn = document.getElementById('panel'), PN = (C.panels || []).find(x => t >= x[0] && t < x[1]);
+  if (PN) {
+    const [p0, p1, kind, o] = PN, pop = s => 1 + .12 * Math.exp(-Math.max(0, t - s) * 9) * (t >= s ? 1 : 0);
+    if (pn.dataset.k !== String(p0)) { pn.dataset.k = String(p0); pn.className = 'pn ' + kind; pn.innerHTML = '<div class="bg"></div>' + ({
+      words: () => `<div class="lab" style="top:120px">${o.title}</div><div class="ww">${o.words.map(([a, e]) => `<div class="w"><span class="ar">${a}</span><span class="en">${e}</span></div>`).join('')}</div><div class="tr">${o.line}</div>`,
+      chat: () => `<div class="lab" style="top:150px;color:#B4322A">${o.title}</div>${o.lines.map(([w, a, e], i) => `<div class="bub ${i ? 'r' : 'l'}"><div class="when">${w}</div><div class="ar">${a}</div><div class="en">${e}</div></div>`).join('')}`,
+      wall: () => `<div class="lab" style="top:130px">${o.title}</div><div class="grid">${[...o.seq].map(c => `<i data-g="${c === 'g' ? 1 : 0}"></i>`).join('')}</div><div class="stat" style="top:1300px;font-size:240px">${o.big}</div><div class="sub" style="top:1600px">${o.sub}</div>`,
+      count: () => `<div class="lab" style="top:150px">${o.title}</div><div class="days">${o.prayers.map(([p, n]) => `<div class="d"><div class="dots">${'<i></i>'.repeat(n)}</div><div class="dn">${p}</div></div>`).join('')}</div><div class="stat" id="pc17" style="top:960px;font-size:330px;color:#C8372D">${o.big}</div><div class="sub" id="pcs" style="top:1400px">${o.sub}</div><div class="stat" id="pcy" style="top:1560px;font-size:150px">${o.year}</div>`
+    })[kind](); }
+    pn.style.display = 'block';
+    const k = eo((t - p0) / .3), out = cl((t - (p1 - .25)) / .25);
+    pn.style.transform = `translateX(${(1 - k) * 1080 - eo(out) * 1080}px)`;
+    if (kind === 'words') pn.querySelectorAll('.w').forEach((el, i) => { const s = o.words[i][2]; el.classList.toggle('on', t >= s); el.style.transform = `scale(${pop(s)})`; });
+    if (kind === 'chat') pn.querySelectorAll('.bub').forEach((el, i) => { const s = o.lines[i][3], e = eo((t - s) / .35); el.style.opacity = e; el.style.transform = `translateY(${(1 - e) * 60}px) scale(${pop(s)})`; });
+    if (kind === 'wall') { const g = [...pn.querySelectorAll('.grid i[data-g="1"]')], f = cl((t - o.light) / o.dur);
+      g.forEach((el, i) => el.classList.toggle('on', i < Math.round(f * g.length)));
+      pn.querySelectorAll('.stat,.sub').forEach(el => { const e = eo((t - o.stat) / .3); el.style.opacity = e; el.style.transform = `scale(${pop(o.stat)})`; }); }
+    if (kind === 'count') { const d = [...pn.querySelectorAll('.dots i')], f = cl((t - o.fill) / o.dur);
+      d.forEach((el, i) => el.classList.toggle('on', i < Math.round(f * d.length)));
+      [['pc17', o.big_t], ['pcs', o.big_t], ['pcy', o.year_t]].forEach(([id, s]) => { const el = document.getElementById(id), e = eo((t - s) / .3); el.style.opacity = e; el.style.transform = `scale(${pop(s)})`; }); }
+  } else { pn.style.display = 'none'; pn.dataset.k = ''; }
   const cap = document.getElementById('cap'); let cur = null;
   for (const c of C.caps) if (t >= c[0] && t < c[1]) cur = c;
   const inSplit = t >= S[0] && t < S[1], inFlick = F >= 0;
   cap.style.top = inSplit ? '920px' : inFlick ? '1560px' : '1250px';
-  if (!cur) { cap.style.opacity = 0; return; }
+  if (!cur || (PN && PN[2] !== 'words')) { cap.style.opacity = 0; return; }   // full-screen panels carry their own words
   if (cap.dataset.k !== String(cur[0])) { cap.dataset.k = String(cur[0]);
     cap.innerHTML = cur[2].map(([w, s, e], j) => e ? `<span class="em" data-s="${s}">${w.toUpperCase()}</span>` : w).join(' '); }
   cap.style.opacity = eo((t - cur[0]) / .1);
