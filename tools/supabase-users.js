@@ -104,6 +104,14 @@ async function userTables() {
     console.log(`\nAccounts made in the last ${days} days whose email is still not confirmed: ${pending[0].n}`);
     return;
   }
+  if (cmd === 'rls') {   // read only: does every table the public key can reach protect itself (row level security), and with which rules
+    const t = await sql(`select c.relname as t, c.relrowsecurity as rls, (select count(*)::int from pg_policies p where p.schemaname = 'public' and p.tablename = c.relname) as policies
+      from pg_class c join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and c.relkind = 'r' order by 1`);
+    for (const r of t) console.log(`  ${r.t.padEnd(22)} row security ${r.rls ? 'ON ' : 'OFF'}  rules ${r.policies}`);
+    const p = await sql(`select tablename as t, policyname as name, cmd, roles::text as roles from pg_policies where schemaname = 'public' order by 1, 2`);
+    console.log('\nRules:'); for (const r of p) console.log(`  ${r.t.padEnd(22)} ${r.cmd.padEnd(7)} ${r.roles.padEnd(18)} ${r.name}`);
+    return;
+  }
   if (cmd === 'taps') {   // the steps to an account counted on the sign-up page (#225), per day
     const days = Math.max(1, Math.min(30, parseInt(arg, 10) || 7));
     const rows = await sql(`select day::text, step, n from private.taps where day > current_date - ${days} order by 1, 2`);
