@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       command:
-        description: "list (read only) | attempts (read only) | taps (read only) | rls (read only) | active (read only) | sources (read only) | visits (read only) | make-admin | billing-test (read only) | billing-check (read only) | billing-clear-test | delete | reset-preview (read only) | reset | signout"
+        description: "list (read only) | thank-preview (read only) | thank | attempts (read only) | taps (read only) | rls (read only) | active (read only) | sources (read only) | visits (read only) | make-admin | billing-test (read only) | billing-check (read only) | billing-clear-test | delete | reset-preview (read only) | reset | signout"
         required: true
         default: "list"
       arg:
-        description: "list: days to look back (default 3) · attempts: days (default 7) · taps: days (default 7) · active: days (default 14) · sources: days (default 30) · visits: days (default 7) · make-admin: account id · billing-clear-test: type CLEAR-TEST-BILLING · delete: account ids, comma-separated (max 5) · reset: type RESET-BETA · signout: type SIGN-OUT-ALL"
+        description: "list: days to look back (default 3) · attempts: days (default 7) · taps: days (default 7) · active: days (default 14) · sources: days (default 30) · visits: days (default 7) · thank: type SEND-THANKS · make-admin: account id · billing-clear-test: type CLEAR-TEST-BILLING · delete: account ids, comma-separated (max 5) · reset: type RESET-BETA · signout: type SIGN-OUT-ALL"
         required: false
         default: ""
 
@@ -28,6 +28,7 @@ jobs:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CMD: ${{ inputs.command }}
           ARG: ${{ inputs.arg }}

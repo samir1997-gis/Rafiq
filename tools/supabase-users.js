@@ -10,6 +10,8 @@
      node tools/supabase-users.js sources [days]   where people who joined in the last N days came from (default 30; read only)
      node tools/supabase-users.js visits [days]    website visits from Cloudflare Web Analytics: by day, referrer, country, page, device
                                                    (default 7; needs CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID; read only)
+     node tools/supabase-users.js thank-preview    new learners (joined in the last 7 days, studied on 3+ days) who'd get the thank-you (read only)
+     node tools/supabase-users.js thank SEND-THANKS   add 14 days to their free week and send Samir's thank-you email (needs RESEND_API_KEY)
      node tools/supabase-users.js make-admin id    let this account open the owner dashboard (admin.html)
      node tools/supabase-users.js delete id1,id2   delete these accounts (max 5) and their rows
      node tools/supabase-users.js reset-preview    who a beta reset would wipe (changes nothing)
@@ -84,6 +86,40 @@ async function userTables() {
                               group by u.email order by days desc, last desc`);
     console.log(`\n${people.length} people studied in the last ${days} days:`);
     people.forEach(p => console.log(`${mask(p.email)}  studied on ${p.days} day(s), last ${p.last}, joined ${p.joined}`));
+    return;
+  }
+  if (cmd === 'thank-preview' || cmd === 'thank') {
+    // the owner's thank-you to new regular learners (8 Oct 2026): joined in the last 7 days and studied on 3+ days.
+    // 'thank' adds 14 days to their free week, clears the trial reminders so they come at the new end, and sends the email.
+    if (cmd === 'thank' && arg !== 'SEND-THANKS') { console.error('type SEND-THANKS to send'); process.exit(1); }
+    const people = await sql(`select u.id, u.email, coalesce(u.raw_user_meta_data->>'full_name', u.raw_user_meta_data->>'name', '') as name,
+                                count(distinct substr(p.item_id, 3))::int as days, b.trial_ends_at, b.status
+                              from auth.users u join public.item_progress p on p.user_id = u.id and p.item_id like 's:%'
+                                left join public.billing b on b.user_id = u.id
+                              where u.created_at > now() - interval '7 days' and substr(p.item_id, 3) >= to_char(current_date - 6, 'YYYY-MM-DD')
+                              group by u.id, u.email, name, b.trial_ends_at, b.status having count(distinct substr(p.item_id, 3)) >= 3`);
+    console.log(`${people.length} new learner(s) who studied on 3+ days:`);
+    for (const u of people) {
+      const first = (u.name.trim().split(/\s+/)[0] || '').replace(/[<>&"]/g, '');
+      console.log(`  ${mask(u.email)}  studied on ${u.days} days  free week ends ${String(u.trial_ends_at).slice(0, 10)}  plan status ${u.status || 'none'}`);
+      if (cmd !== 'thank') continue;
+      if (!process.env.RESEND_API_KEY) { console.error('RESEND_API_KEY is not set'); process.exit(1); }
+      await sql(`update public.billing set trial_ends_at = greatest(trial_ends_at, now()) + interval '14 days',
+                 trial_soon_sent_at = null, trial_last_sent_at = null, updated_at = now() where user_id = '${u.id}'`);
+      const paras = [`I'm Samir, and I made Rafiq. I noticed you've been coming back to practise this week, and I just wanted to say thank you. It genuinely means a lot this early on.`,
+        `Could I ask a small favour? Just hit reply and tell me how you're finding it: what you like, what's confusing, anything you wish it did. Even one line helps.`,
+        `And as a thank you for being one of our first learners, I've already added two extra weeks of Rafiq Complete to your account, free. No strings attached.`];
+      const hi = first ? `Hi ${first},` : 'Hi there,';
+      const text = [hi, ...paras, 'Thanks again,\nSamir'].join('\n\n');
+      const html = `<div style="font-family:Georgia,serif;font-size:16px;line-height:1.6;color:#17262B;max-width:560px">` +
+        [hi, ...paras].map(t => `<p>${t}</p>`).join('') + `<p>Thanks again,<br>Samir</p></div>`;
+      const r = await fetch('https://api.resend.com/emails', { method: 'POST',
+        headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ from: 'Samir from Rafiq <hello@contact.rafiq-arabic.com>', to: [u.email], reply_to: 'support@rafiq-arabic.com',
+                               subject: 'A quick thank you from Rafiq', html, text }) });
+      const after = (await sql(`select trial_ends_at from public.billing where user_id = '${u.id}'`))[0];
+      console.log(`    free week now ends ${String(after && after.trial_ends_at).slice(0, 10)} · email ${r.ok ? 'sent' : 'FAILED ' + r.status + ' ' + (await r.text()).slice(0, 200)}`);
+    }
     return;
   }
   if (cmd === 'attempts') {
