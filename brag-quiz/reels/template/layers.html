@@ -1,0 +1,61 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:AN;src:url(fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:SE;src:url(fonts/instrument-serif-latin-400-normal.woff2)}
+*{margin:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;background:transparent;overflow:hidden}
+.t{position:absolute;left:0;right:0;text-align:center;line-height:.95;white-space:nowrap}
+#small{top:150px;font-family:AN;font-size:84px;color:#E9B949;letter-spacing:1px}
+#big{top:240px;font-family:AN;font-size:280px;color:#C8372D}
+#cap .em{display:inline-block;font-family:AN;color:#E9B949;font-size:108px;letter-spacing:1px;vertical-align:-6px;margin:0 6px;transform-origin:50% 70%}
+#cap{top:1250px;font-family:SE;font-size:76px;color:#fff;text-shadow:0 4px 18px rgba(0,0,0,.55),0 0 2px rgba(0,0,0,.4);line-height:1.1}
+#split{position:absolute;inset:0;background:#0b0b0b;display:none}
+#split img{position:absolute;left:0;width:1080px;height:624px;object-fit:cover;filter:brightness(.5) contrast(1.05)}
+#flick{position:absolute;inset:0;background:#C8372D;display:none}
+#flick img{position:absolute;left:80px;top:300px;width:920px;height:1500px;object-fit:cover;border-radius:6px}
+#ftitle{top:105px;font-family:AN;font-size:150px;color:#fff;text-shadow:0 6px 30px rgba(0,0,0,.45)}
+</style></head><body>
+<div id="back"><div id="small" class="t"></div><div id="big" class="t"></div></div>
+<div id="front"><div id="split"><img id="s0"><img id="s1" style="top:648px;filter:grayscale(1) brightness(.38) contrast(1.3)"><img id="s2" style="top:1296px"></div>
+<div id="flick"><img id="fimg"><div id="ftitle" class="t"></div></div><div id="cap" class="t"></div></div>
+<script>
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), eo = x => 1 - Math.pow(1 - cl(x), 3);
+let C = null;   // the timings, set from Python
+function update(t, layer) {
+  document.getElementById('back').style.display = layer === 'back' ? 'block' : 'none';
+  document.getElementById('front').style.display = layer === 'front' ? 'block' : 'none';
+  if (layer === 'back') {
+    const T = C.titles.find(x => t >= x[0] && t < x[1]), sm = document.getElementById('small'), bg = document.getElementById('big');
+    if (!T) { sm.style.opacity = bg.style.opacity = 0; return; }
+    const k = eo((t - T[0]) / .45), out = cl((t - (T[1] - .3)) / .3);
+    sm.textContent = T[2]; bg.textContent = T[3]; bg.style.fontSize = (T[4] || 280) + 'px';
+    sm.style.opacity = k * (1 - out); sm.style.transform = `translateY(${(1 - k) * 30}px)`;
+    const k2 = eo((t - T[0] - .12) / .5);
+    bg.style.opacity = k2 * (1 - out); bg.style.transform = `translateY(${(1 - k2) * 60}px) scale(${1.04 - .04 * k2})`;
+    return;
+  }
+  // front: split frame, flicker, captions
+  const sp = document.getElementById('split'), S = C.split;
+  if (t >= S[0] && t < S[1]) {
+    sp.style.display = 'block'; const f = Math.floor((t - S[0]) * 30);
+    C.broll.split.forEach((c, i) => { const im = document.getElementById('s' + i); im.src = `broll/${c}/${String(f % C.n[c] + 1).padStart(4, '0')}.jpg`;
+      const k = eo((t - S[0] - i * .08) / .35); im.style.transform = `translateX(${(1 - k) * (i % 2 ? -1 : 1) * 1080}px)`; });
+  } else sp.style.display = 'none';
+  const fl = document.getElementById('flick'), F = C.flick;
+  if (t >= F[0] && t < F[1]) {
+    fl.style.display = 'block'; const f = Math.floor((t - F[0]) * 30), clips = C.broll.flick;
+    const c = clips[Math.floor(f / 4) % clips.length];
+    document.getElementById('fimg').src = `broll/${c}/${String(f % C.n[c] + 1).padStart(4, '0')}.jpg`;
+    const ft = document.getElementById('ftitle'); ft.textContent = F[2]; ft.style.opacity = eo((t - F[0]) / .2);
+  } else fl.style.display = 'none';
+  const cap = document.getElementById('cap'); let cur = null;
+  for (const c of C.caps) if (t >= c[0] && t < c[1]) cur = c;
+  const inSplit = t >= S[0] && t < S[1], inFlick = t >= F[0] && t < F[1];
+  cap.style.top = inSplit ? '920px' : '1250px';
+  if (!cur || inFlick) { cap.style.opacity = 0; return; }
+  if (cap.dataset.k !== String(cur[0])) { cap.dataset.k = String(cur[0]);
+    cap.innerHTML = cur[2].map(([w, s, e], j) => e ? `<span class="em" data-s="${s}">${w.toUpperCase()}</span>` : w).join(' '); }
+  cap.style.opacity = eo((t - cur[0]) / .1);
+  cap.querySelectorAll('.em').forEach(el => { const l = t - +el.dataset.s;      // the stressed word pops as it's said
+    el.style.transform = `scale(${l < 0 ? .9 : 1 + .28 * Math.exp(-l * 9)})`; el.style.opacity = l < -.05 ? .55 : 1; });
+}
+</script></body></html>

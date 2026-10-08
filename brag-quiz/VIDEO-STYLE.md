@@ -54,3 +54,13 @@ Plus 5-10 B-roll clips of 2-3 seconds (Quran pages, writing Arabic, prayer mat, 
   larger; on the biggest moments the scene (him + the title) punches in about 10%, holds through the word and eases
   back. Find stressed words by loudness against the words around them, then keep the ones that matter to the script.
   Keep titles narrow enough to survive the punch-in (about 240 px for long words).
+- **Sound effects (learned from the owner's reference breakdown, `reels/template/sfx_rules.py`):** every visual change
+  gets a short, crisp, high sound that sits above the voice, never pushed under it (no ducking):
+  title lands → shutter · a line of text appears → tap · stressed word pops → tap · punch-in → short swoosh ·
+  big transition → a 1.3 s charge that lands on the cut, then swooshes as the strips slide in ·
+  flicker → flash flicker + flicker sounds · back to the speaker → shutter · "RAFIQ" → the owner's sparkle (n08).
+  Each sound is set by its peak (shutter -12, tap -15, swoosh -8, flicker -10 dBFS) against the voice at -14 LUFS.
+  Library: `brag-quiz/sfx/ref/` (cut from the reference) and `brag-quiz/sfx/owner/` (the owner's).
+
+## The template: any new clip
+`brag-quiz/reels/template/` does all of the above. See its README.
