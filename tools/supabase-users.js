@@ -97,6 +97,7 @@ async function userTables() {
                               from auth.users u join public.item_progress p on p.user_id = u.id and p.item_id like 's:%'
                                 left join public.billing b on b.user_id = u.id
                               where u.created_at > now() - interval '7 days' and substr(p.item_id, 3) >= to_char(current_date - 6, 'YYYY-MM-DD')
+                                and b.trial_ends_at < u.created_at + interval '10 days'   -- not already thanked (their free week was extended)
                               group by u.id, u.email, name, b.trial_ends_at, b.status having count(distinct substr(p.item_id, 3)) >= 3`);
     console.log(`${people.length} new learner(s) who studied on 3+ days:`);
     for (const u of people) {
