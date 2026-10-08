@@ -7,6 +7,29 @@ Posts are for reach and engagement first; follows bring people to the site over 
 - TypeSafe, 0-3 averaged over three viewers: this mix grows the accounts about twice as much as every post ending on
   the link (1.19 vs 0.51) and is trusted more (1.51 vs 0.99), for the same sign-ups (0.25 vs 0.24).
 
+## What our best videos do (owner's top three on Instagram, analysed 8 Oct 2026)
+
+The winners: `s3-samiallahu` (rising from ruku, word by word), `t1-masjid` (why a mosque is a مَسْجِد) and `v3-drink`
+(أَشْرَبُ "I drink", what's "we drink"?), all on `claude/teach-videos`. Compared with the 23 others in the same set:
+
+1. **The hook is a question about something they already say or know but never understood.** "Why is a mosque called a
+   masjid?" · "You say this every time you rise from ruku" · "If this is 'I drink'…". The quieter ones open with a
+   statistic ("You say this word 36 times"), a product problem ("Learnt a word yesterday? It's fading") or a plain topic
+   ("Count to five in Arabic").
+2. **One "aha" pattern that makes the viewer feel clever and want to share it.** مَـ = "the place of" (masjid, madrasa,
+   maktaba, matʿam), أَ → نَ for "I → we", the line taken apart word by word. Numbers alone (36 times, 56%) interest but
+   don't give them something to use or tell a friend.
+3. **The viewer plays along.** A 3-2-1 countdown before the answer (v3, the masjid "your turn" round), or a comment
+   everyone can answer: s3 ends "What do you reply? Comment it 👇", and every Muslim knows the reply. Weaker asks need
+   effort or are yes/no ("Which line should I do next?", "Did you know it was 22?").
+4. **Short, with the payoff at the end:** 14-26 s, the answer revealed last, so people watch to the end and loop.
+5. **It's content, not an ad.** The app card comes after the payoff, for two seconds, or not at all. The videos that
+   explain the app (the forgetting curve, the 56% chart) are the quiet ones.
+
+**The formula for the next ones:** a familiar word or moment from the prayer or daily life, asked as a question in the
+first second · one pattern that unlocks several words · a "your turn" round with a 3-second countdown · end on a
+comment anyone can answer · 15-25 s · app card last, or none (4 posts in 5).
+
 # Quiz backlog (#198)
 
 The owner asked to keep these for later: "I might ask you to generate them soon". Each becomes one entry in
