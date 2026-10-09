@@ -99,7 +99,69 @@ def f3():
         t = done + 0.3 + d2 + 2.4; c.out_(f"#{s}", t); t += 0.4
     SO.finish(c, body, t, "How many did you get? 0, 1 or 2? 👇")
 
-ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3}
+def j1():
+    """Jumuʿah (9 Oct 2026): why Friday is الجُمُعَة, ج م ع "to gather" (brag-quiz/TEN.md's own source note), جَمْع, جامِعَة,
+    your turn جَمِيع = all. Meanings: vocab-data.js (Friday, combining (of prayers), university, all)."""
+    c = Comp("j1-jumuah", "ARABIC · ONE ROOT")
+    JUM = [("ال", ""), ("جُ", "r"), ("مُ", "r"), ("عَ", "r"), ("ة", "")]
+    ROWS = [([("جَ", "r"), ("مْ", "r"), ("ع", "r")], "جَمْع", "combining", "the prayers, done together"),
+            ([("ج", "r"), ("ا", ""), ("مِ", "r"), ("عَ", "r"), ("ة", "")], "جامِعَة", "a university", "the same three letters")]
+    ALL_ = [("جَ", "r"), ("مِ", "r"), ("ي", ""), ("ع", "r")]
+    c.inn("#a .q2", 0.1); c.t('tl.fromTo("#a .big", {opacity:0, scale:0.94}, {opacity:1, scale:1, duration:0.5, ease:"power3.out"}, 0.45);')
+    c.say("الجُمُعَة", 1.0)
+    c.t(f'tl.fromTo("#a .big .pr", {{color:"{T.INK}"}}, {{color:"{T.RED}", duration:0.35}}, 2.6);'); c.sfx("tap", 2.6)
+    c.inn("#e1", 3.1); c.sfx("tap", 3.1)
+    c.inn("#a .say", 4.2); c.sfx("correct", 4.2)
+    c.t('tl.fromTo("#a .say", {scale:1}, {scale:1.04, duration:0.16, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}, 4.65);')
+    c.out_("#a", 6.4)
+    c.inn("#b .q2", 6.8); t = 7.3
+    for i, (_, ar, _, _) in enumerate(ROWS):
+        c.inn(f"#r{i}", t, 30); c.sfx("tap", t); c.say(ar, t + 0.35)
+        c.t(f'tl.fromTo("#r{i} .pr", {{color:"{T.INK}"}}, {{color:"{T.RED}", duration:0.3}}, {t + 0.6:.2f});')
+        t += 2.3
+    c.out_("#b", t + 0.4)
+    K = t + 0.8
+    c.inn("#k .q2", K); c.t(f'tl.fromTo("#k .big", {{opacity:0, scale:0.94}}, {{opacity:1, scale:1, duration:0.5, ease:"power3.out"}}, {K + 0.3:.2f});')
+    c.say("جَمِيع", K + 0.6)
+    c.t(f'tl.fromTo("#k .big .pr", {{color:"{T.INK}"}}, {{color:"{T.RED}", duration:0.3}}, {K + 1.4:.2f});')
+    c.inn("#k .hint", K + 1.5)
+    cs = K + 2.4
+    c.t(f'tl.fromTo("#count", {{opacity:0, scale:0.7}}, {{opacity:1, scale:1, duration:0.3, ease:"power3.out"}}, {cs - 0.3:.2f});')
+    c.t(f'tl.fromTo("#count .fg", {{strokeDashoffset:0}}, {{strokeDashoffset:408, duration:3, ease:"none"}}, {cs:.2f});')
+    for k in range(3):
+        c.t(f'tl.fromTo("#n{3 - k}", {{opacity:0, scale:1.35}}, {{opacity:1, scale:1, duration:0.22, ease:"power3.out"}}, {cs + k:.2f});')
+        c.t(f'tl.to("#n{3 - k}", {{opacity:0, duration:0.15}}, {cs + k + 0.82:.2f});'); c.sfx("tap", cs + k)
+    R = cs + 3.05
+    c.t(f'tl.to("#count", {{opacity:0, scale:0.7, duration:0.25}}, {R - 0.15:.2f});')
+    c.t(f'tl.fromTo("#k .ans", {{opacity:0, scale:0.9}}, {{opacity:1, scale:1, duration:0.35, ease:"back.out(1.6)"}}, {R:.2f});')
+    c.sfx("correct", R); c.say("جَمِيع", R + 0.5)
+    c.inn("#k .ask2", R + 1.4)
+    c.out_("#k", R + 4.0)
+    E = R + 4.4
+    endc = c.end(E, "Learn the roots behind the words")
+    ASK = 'position:absolute;left:80px;right:80px;text-align:center;font-size:52px;font-weight:700;color:var(--ink-soft)'
+    body = f"""      <div class="sec" id="a">
+        <div class="q2">Why is Friday called <bdi class="ar" lang="ar">الجُمُعَة</bdi>?</div>
+        <div class="big" style="top:470px">{word(JUM)}</div>
+        <div class="eqs" style="top:850px"><div class="eq" id="e1"><span class="tag r" lang="ar">ج م ع</span><span class="t">= to gather</span></div></div>
+        <div class="say" style="top:1080px">The day of gathering.</div>
+      </div>
+      <div class="sec" id="b">
+        <div class="q2">Once you see it, it’s everywhere:</div>
+        <div class="rows" style="top:480px">{''.join(f'<div class="row" id="r{i}"><div class="en"><b>{e(en)}</b><span>{e(why)}</span></div><div class="ar">{word(p)}</div></div>' for i, (p, _, en, why) in enumerate(ROWS))}</div>
+      </div>
+      <div class="sec" id="k">
+        <div class="q2">Your turn. What does <bdi class="ar" lang="ar">جَمِيع</bdi> mean?</div>
+        <div class="big" style="top:440px">{word(ALL_)}</div>
+        <div class="hint" style="top:800px"><bdi lang="ar" style="font-family:var(--ar);color:var(--rubric)">ج م ع</bdi> = to gather</div>
+        <div id="count" style="top:960px"><svg viewBox="0 0 150 150"><circle class="bg" cx="75" cy="75" r="65"/><circle class="fg" cx="75" cy="75" r="65"/></svg>{''.join(f'<span id="n{k}">{k}</span>' for k in range(3, 0, -1))}</div>
+        <div class="ans" style="top:980px">all</div>
+        <div class="ask2" style="{ASK};top:1220px">Send this to who you’re going to Jumuʿah with 🤍</div>
+      </div>
+      {endc}"""
+    c.write(body, round(E + 2.9, 2))
+
+ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
