@@ -55,6 +55,7 @@ body { margin:0; background:var(--paper); font-family:var(--la); color:var(--ink
 .x { position:absolute; left:90px; right:90px; text-align:center; }
 #xar { font-family:var(--ar); font-weight:700; font-size:70px; color:var(--verdigris); line-height:1.5; }
 #xen { font-size:46px; font-weight:700; line-height:1.3; color:var(--ink); }
+#ask { font-size:52px; font-weight:700; line-height:1.25; color:var(--rubric); opacity:0; }
 #end { position:absolute; top:620px; left:0; right:0; display:flex; flex-direction:column; align-items:center; gap:30px; opacity:0; text-align:center; }
 #end .tile { width:170px; height:170px; border-radius:42px; }
 #end .tile span { font-size:110px; margin-top:-16px; }
@@ -127,7 +128,10 @@ def build(q):
     if q.get("explain_ar"): js.append(f'tl.fromTo("#xar", {{opacity:0, y:16}}, {{opacity:1, y:0, duration:0.4, ease:"power3.out"}}, {R + 1.4:.2f});')
     js.append(f'tl.fromTo("#xen", {{opacity:0, y:16}}, {{opacity:1, y:0, duration:0.4, ease:"power3.out"}}, {R + 1.6:.2f});')
     E = R + max(4.0, rd + 2.2)
-    js += [f'tl.to(["#kicker", "#q", "#hero", "#opts", "#xar", "#xen"], {{opacity:0, y:-24, duration:0.35, ease:"power2.in"}}, {E:.2f});',
+    if q.get("ask"):                                   # a share ask under the meaning, before the end card (#243 findings)
+        js.append(f'tl.fromTo("#ask", {{opacity:0, y:16}}, {{opacity:1, y:0, duration:0.4, ease:"power3.out"}}, {R + 2.6:.2f});')
+        E = max(E, R + 5.2)
+    js += [f'tl.to(["#kicker", "#q", "#hero", "#opts", "#xar", "#xen", "#ask"], {{opacity:0, y:-24, duration:0.35, ease:"power2.in"}}, {E:.2f});',
            f'tl.fromTo("#end", {{opacity:0, y:30}}, {{opacity:1, y:0, duration:0.5, ease:"power3.out"}}, {E + 0.3:.2f});']
     total = round(E + 2.7, 2)
     audio.append(f'<audio id="bed" src="assets/sfx/fountain.mp3" data-start="0" data-duration="{total:.2f}" data-volume="0.12" data-track-index="8"></audio>')
@@ -159,6 +163,7 @@ def build(q):
       <div id="count" style="top:{count_top}px"><svg viewBox="0 0 150 150"><circle class="bg" cx="75" cy="75" r="65"/><circle class="fg" cx="75" cy="75" r="65"/></svg>{''.join(f'<span id="n{k}">{k}</span>' for k in range(5, 0, -1))}</div>
       {xar}
       <div class="x" id="xen" style="top:{xen_top}px">{mixed(q['explain'])}</div>
+      {f'<div class="x" id="ask" style="top:{xen_top + 200}px">{e(q["ask"])}</div>' if q.get("ask") else ""}
       <div id="end"><div class="tile"><span>ر</span><em></em></div><h2>Learn every word of your salah</h2><div class="url">rafiq-arabic.com</div><p>Free for a week · no card needed</p></div>
 {chr(10).join('      ' + x for x in audio)}
     </div>
