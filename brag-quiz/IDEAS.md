@@ -17,3 +17,9 @@ All have the app's native audio (`audio-manifest.json`, bucket `salah`); meaning
 
 Avoid: "which means my Lord?" (رَبِّ and رَبِّيَ both do), and rapid-fire "comment your score" (TypeSafe: flippant, 1.80/3 respect).
 Already made: videos سَمِعَ (q1), رَبَّنا (q2), ruku → sujood (q3); stills سَمِعَ, اغْفِرْ, الْعَظِيمِ, التَّحِيّاتُ, أَشْهَدُ (stills/).
+Also made since (don't repeat the format without a twist): the salah word-by-word series s1-s3 (`build_series.py`: اللَّهُ أَكْبَرُ,
+سُبْحانَ رَبِّيَ الْعَظِيمِ, سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ), f1-f2 (`build_fresh.py`), x1-x2 (`build_wild.py`), m01-m10 (`build_mix.py`); see FRESH.md, WILD.md, MIX.md.
+
+## More ideas (not made yet)
+- A word tree: a root grows like a vine, a word blooms on each branch (softer, for family or salah words).
+- One word, many endings: كِتاب → my book, your book, his book as each ending slides in.
