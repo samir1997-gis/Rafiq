@@ -30,6 +30,16 @@ The winners: `s3-samiallahu` (rising from ruku, word by word), `t1-masjid` (why 
 first second · one pattern that unlocks several words · a "your turn" round with a 3-second countdown · end on a
 comment anyone can answer · 15-25 s · app card last, or none (4 posts in 5).
 
+**Instagram, all 18 reels 1-10 Oct (Metricool, 10 Oct 2026).** Judged on rates, not raw views: early posts had fewer
+followers, 8-9 Oct ones are still growing. Hold = still watching at 3 s; per 1,000 people reached.
+- Question hooks about a word they already know hold best: Jumuʿah 39%, the سَمِعَ quiz 39%, Ashrabu 37%, masjid 35%.
+  Topic/statement openers hold less: "Count to five" 30%, loanwords 23%, the forgetting-curve promo 16%.
+- A share ask in the caption works: Jumuʿah ("Send this to who you're going to Jumuʿah with") 67 shares/1k, the rest 3-14.
+- Saves come from "pattern you can reuse" videos: Ashrabu 18/1k, masjid 18, sujood 15, days 15. Promos 0-5.
+- Short quizzes loop: the 17 s سَمِعَ quiz averaged 19 s watched (116%). 25-37 s videos are watched 15-25%, the 73 s ruku reel 13%.
+- Vague captions ("Did you know? 🧐🤨", "You say this in salah every single time…") waste the hook; say the question.
+- Six covers are the end card (logo + link), which reads as an ad on the grid: pick the question frame as the cover.
+
 **Made in the formula (8 Oct 2026, `build_formula.py`):** `f1-sujood` (سُبْحانَ رَبِّيَ الْأَعْلى; ends "What do you say in rukūʿ
 instead? Comment it"), `f2-root` (school, teacher, to study share د ر س; your turn: كِتاب), `f3-she-eats` (يَأْكُلُ → تَأْكُلُ,
 أَكَلَ → أَكَلَتْ, with أَكَلْتُ as the trap). Captions checked with TypeSafe (`tools/typesafe-exp/formula_batch1_captions.py`).
