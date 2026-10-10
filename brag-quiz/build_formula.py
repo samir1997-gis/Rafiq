@@ -82,6 +82,7 @@ def f2():
 def change(vid, kicker, R, ask):
     """The Ashrabu format: "if this is X, what's the <she / we / past / plural> form?", a 3-2-1, the answer said, the rule."""
     c = SO.vcomp(vid, kicker); body, t = [], 0.1
+    if vid != "f3-she-eats": c.bed = True              # the fountain under it, as in our other videos (f3 stays as posted)
     for k, (ar, en, ask_, opts, right, rule) in enumerate(R):
         s = f"r{k}"
         body.append(f'<div class="sec" id="{s}"><div class="q2">{k + 1}/{len(R)} · If this is “{en}” …</div>'
@@ -215,13 +216,19 @@ def a1():
 
 # 10 Oct 2026, the owner's read of what works: a salah line word by word, one root traced to its relatives, and the
 # word-change quiz. Meanings: salah-data.js (the lines) and vocab-data.js / toolkit-data.js (the words).
-def w5(): S.build("w5-rabbana", 5, 'You say this <b>every time</b> you stand up from rukūʿ', "رَبَّنا وَلَكَ الْحَمْدُ", 110,
+def wbw(*a):
+    """build_series.build with the fountain bed on (the series builder turns it off)."""
+    comp = S.Comp; S.Comp = lambda *x, **k: comp(*x, **{**k, "bed": True})
+    try: S.build(*a)
+    finally: S.Comp = comp
+
+def w5(): wbw("w5-rabbana", 5, 'You say this <b>every time</b> you stand up from rukūʿ', "رَبَّنا وَلَكَ الْحَمْدُ", 110,
                   [("رَبَّنا", "Our Lord"), ("وَلَكَ", "and to You"), ("الْحَمْدُ", "all praise")],
                   "“Our Lord, and to You belongs all praise.”", "What does the imam say just before it? Comment it 👇")
-def w6(): S.build("w6-salam", 6, 'You say this to <b>end every prayer</b>', "السَّلامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ", 84,
+def w6(): wbw("w6-salam", 6, 'You say this to <b>end every prayer</b>', "السَّلامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ", 84,
                   [("السَّلامُ", "Peace"), ("عَلَيْكُمْ", "be upon you"), ("وَرَحْمَةُ", "and the mercy"), ("اللَّهِ", "of Allah")],
                   "“Peace be upon you and the mercy of Allah.”", "Right side first, or left? Comment it 👇")
-def w7(): S.build("w7-tahiyyat", 7, 'You say this <b>every time</b> you sit in salah', "التَّحِيّاتُ لِلَّهِ وَالصَّلَواتُ وَالطَّيِّباتُ", 76,
+def w7(): wbw("w7-tahiyyat", 7, 'You say this <b>every time</b> you sit in salah', "التَّحِيّاتُ لِلَّهِ وَالصَّلَواتُ وَالطَّيِّباتُ", 76,
                   [("التَّحِيّاتُ", "All greetings"), ("لِلَّهِ", "are for Allah"), ("وَالصَّلَواتُ", "and the prayers"), ("وَالطَّيِّباتُ", "and the good things")],
                   "“All greetings are for Allah, and the prayers and the good things.”", "What’s the next line? Comment it 👇")
 
