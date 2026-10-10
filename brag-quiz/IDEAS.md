@@ -1,3 +1,53 @@
+# How we post (the owner's rule, checked with TypeSafe: tools/typesafe-exp/reach_strategy.py)
+
+Posts are for reach and engagement first; follows bring people to the site over time.
+- **About 4 posts in 5 are pure content**: a quiz, a fact, something fun. The caption asks for a comment, a share
+  ("send it to someone who'd get 0/3") or a follow ("follow for a new Arabic quiz every week"). No app, no link.
+- **About 1 in 5 shows the app** and says "free week, link in bio".
+- TypeSafe, 0-3 averaged over three viewers: this mix grows the accounts about twice as much as every post ending on
+  the link (1.19 vs 0.51) and is trusted more (1.51 vs 0.99), for the same sign-ups (0.25 vs 0.24).
+
+## What our best videos do (owner's top three on Instagram, analysed 8 Oct 2026)
+
+The winners: `s3-samiallahu` (rising from ruku, word by word), `t1-masjid` (why a mosque is a مَسْجِد) and `v3-drink`
+(أَشْرَبُ "I drink", what's "we drink"?), all on `claude/teach-videos`. Compared with the 23 others in the same set:
+
+1. **The hook is a question about something they already say or know but never understood.** "Why is a mosque called a
+   masjid?" · "You say this every time you rise from ruku" · "If this is 'I drink'…". The quieter ones open with a
+   statistic ("You say this word 36 times"), a product problem ("Learnt a word yesterday? It's fading") or a plain topic
+   ("Count to five in Arabic").
+2. **One "aha" pattern that makes the viewer feel clever and want to share it.** مَـ = "the place of" (masjid, madrasa,
+   maktaba, matʿam), أَ → نَ for "I → we", the line taken apart word by word. Numbers alone (36 times, 56%) interest but
+   don't give them something to use or tell a friend.
+3. **The viewer plays along.** A 3-2-1 countdown before the answer (v3, the masjid "your turn" round), or a comment
+   everyone can answer: s3 ends "What do you reply? Comment it 👇", and every Muslim knows the reply. Weaker asks need
+   effort or are yes/no ("Which line should I do next?", "Did you know it was 22?").
+4. **Short, with the payoff at the end:** 14-26 s, the answer revealed last, so people watch to the end and loop.
+5. **It's content, not an ad.** The app card comes after the payoff, for two seconds, or not at all. The videos that
+   explain the app (the forgetting curve, the 56% chart) are the quiet ones.
+
+**The formula for the next ones:** a familiar word or moment from the prayer or daily life, asked as a question in the
+first second · one pattern that unlocks several words · a "your turn" round with a 3-second countdown · end on a
+comment anyone can answer · 15-25 s · app card last, or none (4 posts in 5).
+
+**Instagram, all 18 reels 1-10 Oct (Metricool, 10 Oct 2026).** Judged on rates, not raw views: early posts had fewer
+followers, 8-9 Oct ones are still growing. Hold = still watching at 3 s; per 1,000 people reached.
+- Question hooks about a word they already know hold best: Jumuʿah 39%, the سَمِعَ quiz 39%, Ashrabu 37%, masjid 35%.
+  Topic/statement openers hold less: "Count to five" 30%, loanwords 23%, the forgetting-curve promo 16%.
+- A share ask in the caption works: Jumuʿah ("Send this to who you're going to Jumuʿah with") 67 shares/1k, the rest 3-14.
+- Saves come from "pattern you can reuse" videos: Ashrabu 18/1k, masjid 18, sujood 15, days 15. Promos 0-5.
+- Short quizzes loop: the 17 s سَمِعَ quiz averaged 19 s watched (116%). 25-37 s videos are watched 15-25%, the 73 s ruku reel 13%.
+- Vague captions ("Did you know? 🧐🤨", "You say this in salah every single time…") waste the hook; say the question.
+- Six covers are the end card (logo + link), which reads as an ad on the grid: pick the question frame as the cover.
+
+**Made from these findings (10 Oct 2026):** `q4-azim` (الْعَظِيمِ), `q5-ighfir` (اغْفِرْ), `q6-tahiyyat` (التَّحِيّاتُ): the 15-18 s
+salah word quiz with a 5-second countdown, the format people replay (`build_quiz.py`); `a1-adhan` (why the adhān: أ ذ ن, your turn
+أُذُن = ear, a Fajr share ask; `build_formula.py`). Captions: `tools/typesafe-exp/batch2_captions.py`.
+
+**Made in the formula (8 Oct 2026, `build_formula.py`):** `f1-sujood` (سُبْحانَ رَبِّيَ الْأَعْلى; ends "What do you say in rukūʿ
+instead? Comment it"), `f2-root` (school, teacher, to study share د ر س; your turn: كِتاب), `f3-she-eats` (يَأْكُلُ → تَأْكُلُ,
+أَكَلَ → أَكَلَتْ, with أَكَلْتُ as the trap). Captions checked with TypeSafe (`tools/typesafe-exp/formula_batch1_captions.py`).
+
 # Quiz backlog (#198)
 
 The owner asked to keep these for later: "I might ask you to generate them soon". Each becomes one entry in
@@ -23,3 +73,33 @@ Also made since (don't repeat the format without a twist): the salah word-by-wor
 ## More ideas (not made yet)
 - A word tree: a root grows like a vine, a word blooms on each branch (softer, for family or salah words).
 - One word, many endings: كِتاب → my book, your book, his book as each ending slides in.
+
+## Ramadan countdown (parked by the owner, 4 Oct 2026, to come back to)
+
+Facts: Ramadan 1448 expected to start about 8 Feb 2027 (moon-dependent: say "in shā' Allāh"/"expected"); on 4 Oct that's 127 days.
+The salah from the opening takbīr to the salām, incl. al-Fātiḥah, has **93 different words** (salah-data.js); with the 10 short
+surahs about 240. 93 words < the days left: "less than one a day". Full salah is in Complete: from 4 Oct, 4 payments of £11.99
+before Ramadan = £47.96 (~38p/day); yearly £79.99 covers Ramadan.
+
+TypeSafe (tools/typesafe-exp/ramadan_angle.py): **don't lead with the price**. "£47.96 until Ramadan" scored 0.95/3 sincere
+(0.69 with a viewer wary of businesses using Ramadan). Best: a free daily series, "one word of your salah a day until
+Ramadan" (believable 2.69, share 1.79), or the single post "127 days. 93 words. Less than one a day." Even the best reach
+only ~1.5/3 sincere, so keep the tone humble and the sale soft.
+
+Options: (1) one countdown post; (2) a daily template, "Day N · X days to Ramadan", one salah word with its audio and where
+it's said, built from salah-data.js like build_stills.py.
+
+## Fun / meme formats (5 Oct 2026, owner: "a bit more fun and silly")
+
+`build_pov.py` makes POV photo carousels (big text, one big emoji per slide, end card). Made: `pov-salah`, `pov-imam`.
+Rule: the punchline is a fact from the app (20 words you say most ≈ 56% of the prayer), never a made-up "I understand 60%"
+testimonial (TypeSafe preferred the fact on every score; UK ad rules want testimonials to be real).
+
+TypeSafe ranking of other fun formats (tools/typesafe-exp/fun_content.py; viral / respect / fit, 0–3):
+1. POV: the imam recites a surah you learned 🥹 (2.62 / 2.93 / 1.70) **made**
+2. POV: finished salah, didn't understand (2.12 / 2.43 / 2.39) **made**
+3. "My Arabic, day 1 vs day 60" (2.35 / 2.60 / 1.95)
+4. "Me nodding along to the Arabic in the khutbah" 🙂 vs after 20 words 🤯 (2.34 / 2.72 / 1.50)
+5. "You say this 17 times a day" (al-Fātiḥah, 17 rakʿahs) (1.92 / 2.14 / 2.33)
+Weaker: younger sibling corrects your Arabic; guess the word from the emoji; "green flag in a spouse"; "what your mum means
+by in shā' Allāh" (respect 1.37: avoid jokes on religious phrases); loanwords (fit 0.83).

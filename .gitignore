@@ -3,3 +3,4 @@ tools/typesafe-exp/__pycache__/
 tests/__pycache__/
 supabase/.temp/
 graphify-out/
+__pycache__/

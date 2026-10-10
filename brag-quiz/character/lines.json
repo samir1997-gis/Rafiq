@@ -1,0 +1,7 @@
+[
+ {"file": "r1-salam", "voice": "Ywuz3KyW2N5pqKNpwcCL", "text": "السَّلامُ عَلَيْكُم! I'm رَفِيق.", "stability": 0.45, "style": 0.3},
+ {"file": "r2-help", "voice": "Ywuz3KyW2N5pqKNpwcCL", "text": "I'm here to help you understand every word of your salah.", "stability": 0.5, "style": 0.2},
+ {"file": "r3-ask", "voice": "Ywuz3KyW2N5pqKNpwcCL", "text": "Got a question? Just ask me.", "stability": 0.45, "style": 0.3},
+ {"file": "r4-darasa", "voice": "Ywuz3KyW2N5pqKNpwcCL", "text": "دَرَسَ means to study. And أَدْرُسُ? I study.", "stability": 0.5, "style": 0.2},
+ {"file": "r5-together", "voice": "Ywuz3KyW2N5pqKNpwcCL", "text": "Let's learn it together, one word at a time.", "stability": 0.5, "style": 0.25}
+]

@@ -245,3 +245,21 @@ revoke all on function public.admin_account_count() from public, anon, authentic
 grant execute on function public.admin_funnel_by_source(int) to service_role;
 grant execute on function public.admin_account_count() to service_role;
 
+
+-- Taps on the way to an account (#225): how many opened the sign-up form from "Start your free week",
+-- pressed Create account, or pressed Continue with Google, per day. Only the step and the day are kept,
+-- nothing about who. login.html calls public.tap(step); the owner dashboard reads public.admin_taps(days).
+create table if not exists private.taps (day date not null, step text not null, n int not null default 0, primary key (day, step));
+create or replace function public.tap(step text) returns void
+language sql volatile security definer set search_path = private as $$
+  insert into private.taps (day, step, n) select current_date, tap.step, 1 where tap.step in ('signup_page', 'create', 'google')
+  on conflict (day, step) do update set n = taps.n + 1
+$$;
+revoke all on function public.tap(text) from public;
+grant execute on function public.tap(text) to anon, authenticated;
+create or replace function public.admin_taps(days int default 7) returns table (step text, n bigint)
+language sql stable security definer set search_path = private as $$
+  select t.step, sum(t.n) from private.taps t where t.day > current_date - days group by 1
+$$;
+revoke all on function public.admin_taps(int) from public, anon, authenticated;
+grant execute on function public.admin_taps(int) to service_role;

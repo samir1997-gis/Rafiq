@@ -1,24 +1,34 @@
 #!/usr/bin/env python3
 """A root-family carousel (1080x1350, Instagram 4:5 and TikTok photo posts): the root's three letters are
 coloured inside every word, so the "same three letters" can be seen, not just told. Ends on a line from the
-Quran with the root in it, and the site.
+Quran or the prayer with the root in it, and the site.
 
-  python3 brag-quiz/build_root.py   ->  brag-quiz/stills/root-ilm-<n>.png
+  python3 brag-quiz/build_root.py [ilm|salam ...]   ->  brag-quiz/stills/root-<id>-<n>.png
 """
-import os
+import os, sys
 from playwright.sync_api import sync_playwright
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 FONTS = "file://" + os.path.join(ROOT, "brag-output-v6/composition/assets/fonts")
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 
 # each word as pieces: (text, is_root_letter); the vowel marks ride with their letter
-WORDS = [
+ROOTS = {
+  "ilm": dict(letters="ع  ل  م", meaning="knowing", words=[
     ([("عِ", 1), ("لْ", 1), ("م", 1)],                                  "knowledge", "ʿilm"),
     ([("عَ", 1), ("ا", 0), ("لِ", 1), ("م", 1)],                         "a scholar", "ʿālim"),
     ([("مُ", 0), ("عَ", 1), ("لِّ", 1), ("م", 1)],                       "a teacher", "muʿallim"),
-    ([("مُ", 0), ("تَ", 0), ("عَ", 1), ("لِّ", 1), ("م", 1)],            "a learner", "mutaʿallim"),
-]
-LETTERS = "ع  ل  م"
+    ([("مُ", 0), ("تَ", 0), ("عَ", 1), ("لِّ", 1), ("م", 1)],            "a learner", "mutaʿallim")],
+    lead="It’s in a duʿāʾ from the Quran:", line='رَبِّ زِدْنِي <span class="r">عِلْمًا</span>',
+    line_en='“My Lord, increase me in <span class="r">knowledge</span>.”', ref="Ṭā Hā 20:114"),
+  # salah-data.js (taslim) for the last line; سَلِيم and الإِسْلام as in vocab-data.js
+  "salam": dict(letters="س  ل  م", meaning="peace and soundness", words=[
+    ([("سَ", 1), ("لا", 1), ("م", 1)],                                  "peace", "salām"),
+    ([("إِ", 0), ("سْ", 1), ("لا", 1), ("م", 1)],                        "Islam, submission", "islām"),
+    ([("مُ", 0), ("سْ", 1), ("لِ", 1), ("م", 1)],                        "a Muslim, one who submits", "muslim"),
+    ([("سَ", 1), ("لِ", 1), ("ي", 0), ("م", 1)],                         "sound, safe", "salīm")],
+    lead="You end every salah with it:", line='<span class="r">السَّلامُ</span> عَلَيْكُمْ وَرَحْمَةُ اللَّهِ',
+    line_en='“<span class="r">Peace</span> be upon you and the mercy of Allah.”', ref="The taslīm, at the end of the prayer", line_px=88),
+}
 
 CSS = f"""
 @font-face {{ font-family: "Plex Arabic"; src: url("{FONTS}/ibm-plex-sans-arabic-arabic-700-normal.woff2"); font-weight: 700; }}
@@ -55,42 +65,45 @@ def word(pieces): return "".join(f'<span class="r">{t}</span>' if r else t for t
 def page(inner): return f'<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head><body>' \
     f'<div class="brand"><div class="tile"><span>ر</span><em></em></div><b>رَفِيق</b></div>{inner}</body></html>'
 
-SLIDES = [
+def slides(r):
+    W, L = r["words"], r["letters"]
+    return [
     # 1: the words first, then the question
     page(f'<div class="mid" style="top:190px"><h1>These four words share three letters.</h1>'
          f'<p class="sub" style="margin-top:22px">Can you spot them?</p></div>'
          f'<div class="mid grid" style="top:520px">' + "".join(
-             f'<div class="card"><div class="ar">{"".join(t for t, _ in w)}</div></div>' for w, _, _ in WORDS) + '</div>'
+             f'<div class="card"><div class="ar">{"".join(t for t, _ in w)}</div></div>' for w, _, _ in W) + '</div>'
          f'<div class="foot">Swipe for the answer →</div>'),
     # 2: the answer, coloured in every word
-    page(f'<div class="mid" style="top:190px"><h1>The same three letters: <span class="ar r" dir="rtl" style="font-size:80px;unicode-bidi:isolate">{LETTERS}</span></h1>'
-         f'<p class="sub" style="margin-top:18px">Together they mean <b style="color:#17262b">knowing</b>.</p></div>'
+    page(f'<div class="mid" style="top:190px"><h1>The same three letters: <span class="ar r" dir="rtl" style="font-size:80px;unicode-bidi:isolate;white-space:nowrap">{L}</span></h1>'
+         f'<p class="sub" style="margin-top:18px">Together they mean <b style="color:#17262b">{r["meaning"]}</b>.</p></div>'
          f'<div class="mid grid" style="top:560px">' + "".join(
-             f'<div class="card"><div class="ar">{word(w)}</div><div class="sub" style="font-size:34px">{en}</div></div>' for w, en, _ in WORDS) + '</div>'),
-] + [
+             f'<div class="card"><div class="ar">{word(w)}</div><div class="sub" style="font-size:34px">{en}</div></div>' for w, en, _ in W) + '</div>'),
+    ] + [
     # 3–6: one word each, root letters coloured
-    page(f'<div class="n"><span class="chip"><span class="ar" dir="rtl">{LETTERS}</span> &nbsp;·&nbsp; <bdi>{i + 1} of {len(WORDS)}</bdi></span></div>'
+    page(f'<div class="n"><span class="chip"><span class="ar" dir="rtl">{L}</span> &nbsp;·&nbsp; <bdi>{i + 1} of {len(W)}</bdi></span></div>'
          f'<div class="mid" style="top:400px"><div class="ar big">{word(w)}</div>'
          f'<div class="tr" style="margin-top:10px">{tr}</div><div class="en" style="margin-top:18px">{en}</div></div>')
-    for i, (w, en, tr) in enumerate(WORDS)
-] + [
+    for i, (w, en, tr) in enumerate(W)
+    ] + [
     # 7: the payoff
-    page('<div class="mid" style="top:200px"><p class="sub">It’s in a duʿāʾ from the Quran:</p></div>'
-         '<div class="mid" style="top:380px"><div class="ar" style="font-size:112px;line-height:1.6">رَبِّ زِدْنِي <span class="r">عِلْمًا</span></div>'
-         '<div class="en" style="font-size:56px;margin-top:20px">“My Lord, increase me in <span class="r">knowledge</span>.”</div>'
-         '<p class="sub" style="font-size:34px;margin-top:20px">Ṭā Hā 20:114</p></div>'
+    page(f'<div class="mid" style="top:200px"><p class="sub">{r["lead"]}</p></div>'
+         f'<div class="mid" style="top:380px"><div class="ar" style="font-size:{r.get("line_px", 112)}px;line-height:1.6">{r["line"]}</div>'
+         f'<div class="en" style="font-size:56px;margin-top:20px">{r["line_en"]}</div>'
+         f'<p class="sub" style="font-size:34px;margin-top:20px">{r["ref"]}</p></div>'
          '<div class="url">Learn the words you say · rafiq-arabic.com</div>'),
-]
+    ]
 
 if __name__ == "__main__":
     out = os.path.join(HERE, "stills"); os.makedirs(out, exist_ok=True)
     with sync_playwright() as pw:
         b = pw.chromium.launch(executable_path=CHROME if os.path.exists(CHROME) else None)
         p = b.new_page(viewport={"width": 1080, "height": 1350})
-        for n, html in enumerate(SLIDES, 1):
-            tmp = os.path.join(out, "_page.html"); open(tmp, "w").write(html)
-            p.goto("file://" + tmp); p.evaluate("document.fonts.ready"); p.wait_for_timeout(200)   # a file page, so the local fonts load
-            p.screenshot(path=os.path.join(out, f"root-ilm-{n}.png"))
+        for rid in (sys.argv[1:] or ROOTS):
+            for n, html in enumerate(slides(ROOTS[rid]), 1):
+                tmp = os.path.join(out, "_page.html"); open(tmp, "w").write(html)
+                p.goto("file://" + tmp); p.evaluate("document.fonts.ready"); p.wait_for_timeout(200)   # a file page, so the local fonts load
+                p.screenshot(path=os.path.join(out, f"root-{rid}-{n}.png"))
         b.close()
     os.remove(os.path.join(out, "_page.html"))
-    print(len(SLIDES), "slides")
+    print("done")

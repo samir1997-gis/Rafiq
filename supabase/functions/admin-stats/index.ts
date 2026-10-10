@@ -1,5 +1,6 @@
 // admin-stats — the owner dashboard (admin.html, #189): {days} → website visits from Cloudflare Web Analytics
-// (per day, where from, countries, pages, devices) and sign-ups by where people came from (private.funnel_by_source).
+// (per day, where from, countries, pages, devices), sign-ups by where people came from (private.funnel_by_source)
+// and the taps on the way to an account (public.admin_taps, #225).
 // Only accounts with app_metadata.admin (set by the Supabase users workflow's make-admin; learners can't set it).
 import { admin, caller, cors, json } from '../_shared/common.ts';
 
@@ -17,7 +18,9 @@ const rows = (xs: Row[], d: string) => xs.map(x => ({ name: x.dimensions[d] || '
 async function visits(days: number) {
   if (!CF || !ACC) return { error: 'no_cloudflare' };
   // only the real site: test copies (raw.githack.com previews, localhost) were counted before the pages stopped reporting from them
-  const f = { datetime_geq: new Date(Date.now() - days * 864e5).toISOString(), datetime_leq: new Date().toISOString(), requestHost: 'rafiq-arabic.com' };
+  // "Today" is since midnight (UTC, as the per-day chart and the sign-ups count it), not the last 24 hours
+  const from = days === 1 ? new Date(new Date().toISOString().slice(0, 10) + 'T00:00:00Z') : new Date(Date.now() - days * 864e5);
+  const f = { datetime_geq: from.toISOString(), datetime_leq: new Date().toISOString(), requestHost: 'rafiq-arabic.com' };
   const r = await fetch('https://api.cloudflare.com/client/v4/graphql', { method: 'POST',
     headers: { Authorization: `Bearer ${CF}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ query: QUERY, variables: { acc: ACC, f } }) });
   const j = await r.json().catch(() => ({}));
@@ -33,8 +36,8 @@ Deno.serve(async (req) => {
   if (!user || user.app_metadata?.admin !== true) return json(req, { error: 'not_admin' }, 403);
   const body = await req.json().catch(() => ({}));
   const days = Math.max(1, Math.min(30, parseInt(body.days, 10) || 7));
-  const [web, src, acc] = await Promise.all([visits(days),
-    admin.rpc('admin_funnel_by_source', { days }), admin.rpc('admin_account_count')]);
-  if (src.error || acc.error) console.error(src.error || acc.error);
-  return json(req, { days, web, sources: src.data ?? [], accounts: acc.data ?? null });
+  const [web, src, acc, taps] = await Promise.all([visits(days),
+    admin.rpc('admin_funnel_by_source', { days }), admin.rpc('admin_account_count'), admin.rpc('admin_taps', { days })]);
+  if (src.error || acc.error || taps.error) console.error(src.error || acc.error || taps.error);
+  return json(req, { days, web, sources: src.data ?? [], accounts: acc.data ?? null, taps: taps.data ?? [] });
 });
