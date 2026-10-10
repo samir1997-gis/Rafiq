@@ -161,7 +161,54 @@ def j1():
       {endc}"""
     c.write(body, round(E + 2.9, 2))
 
-ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1}
+def a1():
+    """Adhān (10 Oct 2026, after the Instagram analysis: short, a question in the first second, a share ask): why the call
+    to prayer is the أَذان, أ ذ ن the root of hearing; your turn أُذُن = ear. Meanings: vocab-data.js (call to prayer, ear)."""
+    c = Comp("a1-adhan", "ARABIC · ONE ROOT")
+    ADHAN = [("أَ", "r"), ("ذا", "r"), ("ن", "r")]
+    EAR = [("أُ", "r"), ("ذُ", "r"), ("ن", "r")]
+    c.inn("#a .q2", 0.1); c.t('tl.fromTo("#a .big", {opacity:0, scale:0.94}, {opacity:1, scale:1, duration:0.5, ease:"power3.out"}, 0.45);')
+    c.say("أَذان", 1.0)
+    c.inn("#e1", 2.4); c.sfx("tap", 2.4)
+    c.out_("#a", 4.0)
+    K = 4.4
+    c.inn("#k .q2", K); c.t(f'tl.fromTo("#k .big", {{opacity:0, scale:0.94}}, {{opacity:1, scale:1, duration:0.5, ease:"power3.out"}}, {K + 0.3:.2f});')
+    c.say("أُذُن", K + 0.6)
+    c.t(f'tl.fromTo("#k .big .pr", {{color:"{T.INK}"}}, {{color:"{T.RED}", duration:0.3}}, {K + 1.4:.2f});')
+    c.inn("#k .hint", K + 1.5)
+    cs = K + 2.4
+    c.t(f'tl.fromTo("#count", {{opacity:0, scale:0.7}}, {{opacity:1, scale:1, duration:0.3, ease:"power3.out"}}, {cs - 0.3:.2f});')
+    c.t(f'tl.fromTo("#count .fg", {{strokeDashoffset:0}}, {{strokeDashoffset:408, duration:3, ease:"none"}}, {cs:.2f});')
+    for k in range(3):
+        c.t(f'tl.fromTo("#n{3 - k}", {{opacity:0, scale:1.35}}, {{opacity:1, scale:1, duration:0.22, ease:"power3.out"}}, {cs + k:.2f});')
+        c.t(f'tl.to("#n{3 - k}", {{opacity:0, duration:0.15}}, {cs + k + 0.82:.2f});'); c.sfx("tap", cs + k)
+    R = cs + 3.05
+    c.t(f'tl.to("#count", {{opacity:0, scale:0.7, duration:0.25}}, {R - 0.15:.2f});')
+    c.t(f'tl.fromTo("#k .ans", {{opacity:0, scale:0.9}}, {{opacity:1, scale:1, duration:0.35, ease:"back.out(1.6)"}}, {R:.2f});')
+    c.sfx("correct", R); c.say("أُذُن", R + 0.5)
+    c.inn("#k .say", R + 1.2); c.inn("#k .ask2", R + 2.2)
+    c.out_("#k", R + 5.0)
+    E = R + 5.4
+    endc = c.end(E, "Learn the roots behind the words")
+    ASK = 'position:absolute;left:80px;right:80px;text-align:center;font-size:52px;font-weight:700;color:var(--ink-soft)'
+    body = f"""      <div class="sec" id="a">
+        <div class="q2">Why is the call to prayer called the <bdi class="ar" lang="ar">أَذان</bdi>?</div>
+        <div class="big" style="top:470px">{word(ADHAN)}</div>
+        <div class="eqs" style="top:850px"><div class="eq" id="e1"><span class="tag r" lang="ar">أ ذ ن</span><span class="t">= the root of hearing</span></div></div>
+      </div>
+      <div class="sec" id="k">
+        <div class="q2">Your turn: what’s an <bdi class="ar" lang="ar">أُذُن</bdi>?</div>
+        <div class="big" style="top:440px">{word(EAR)}</div>
+        <div class="hint" style="top:800px"><bdi lang="ar" style="font-family:var(--ar);color:var(--rubric)">أ ذ ن</bdi> = hearing</div>
+        <div id="count" style="top:960px"><svg viewBox="0 0 150 150"><circle class="bg" cx="75" cy="75" r="65"/><circle class="fg" cx="75" cy="75" r="65"/></svg>{''.join(f'<span id="n{k}">{k}</span>' for k in range(3, 0, -1))}</div>
+        <div class="ans" style="top:980px">an ear 👂</div>
+        <div class="say" style="top:1180px">The adhān is the call made for your ears.</div>
+        <div class="ask2" style="{ASK};top:1420px">Send this to whoever wakes you up for Fajr 🤍</div>
+      </div>
+      {endc}"""
+    c.write(body, round(E + 2.9, 2))
+
+ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})

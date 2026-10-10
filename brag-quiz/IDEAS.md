@@ -40,6 +40,10 @@ followers, 8-9 Oct ones are still growing. Hold = still watching at 3 s; per 1,0
 - Vague captions ("Did you know? 🧐🤨", "You say this in salah every single time…") waste the hook; say the question.
 - Six covers are the end card (logo + link), which reads as an ad on the grid: pick the question frame as the cover.
 
+**Made from these findings (10 Oct 2026):** `q4-azim` (الْعَظِيمِ), `q5-ighfir` (اغْفِرْ), `q6-tahiyyat` (التَّحِيّاتُ): the 15-18 s
+salah word quiz with a 5-second countdown, the format people replay (`build_quiz.py`); `a1-adhan` (why the adhān: أ ذ ن, your turn
+أُذُن = ear, a Fajr share ask; `build_formula.py`). Captions: `tools/typesafe-exp/batch2_captions.py`.
+
 **Made in the formula (8 Oct 2026, `build_formula.py`):** `f1-sujood` (سُبْحانَ رَبِّيَ الْأَعْلى; ends "What do you say in rukūʿ
 instead? Comment it"), `f2-root` (school, teacher, to study share د ر س; your turn: كِتاب), `f3-she-eats` (يَأْكُلُ → تَأْكُلُ,
 أَكَلَ → أَكَلَتْ, with أَكَلْتُ as the trap). Captions checked with TypeSafe (`tools/typesafe-exp/formula_batch1_captions.py`).
