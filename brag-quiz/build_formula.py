@@ -79,15 +79,14 @@ def f2():
       {endc}"""
     c.write(body, round(E + 2.9, 2))
 
-def f3():
-    c = SO.vcomp("f3-she-eats", "QUIZ · ARABIC VERBS"); body, t = [], 0.1
-    R = [("يَأْكُلُ", "he eats", "she eats", ["آكُلُ", "تَأْكُلُ", "نَأْكُلُ"], 1, '<bdi lang="ar"><em>يَ</em></bdi> → <bdi lang="ar"><em>تَ</em></bdi>'),
-         ("أَكَلَ", "he ate", "she ate", ["أَكَلْتُ", "أَكَلَتْ", "أَكَلْنا"], 1, 'add <bdi lang="ar"><em>تْ</em></bdi> to the end')]
-    for k, (ar, en, ask, opts, right, rule) in enumerate(R):
+def change(vid, kicker, R, ask):
+    """The Ashrabu format: "if this is X, what's the <she / we / past / plural> form?", a 3-2-1, the answer said, the rule."""
+    c = SO.vcomp(vid, kicker); body, t = [], 0.1
+    for k, (ar, en, ask_, opts, right, rule) in enumerate(R):
         s = f"r{k}"
-        body.append(f'<div class="sec" id="{s}"><div class="q2">{k + 1}/2 · If this is “{en}” …</div>'
+        body.append(f'<div class="sec" id="{s}"><div class="q2">{k + 1}/{len(R)} · If this is “{en}” …</div>'
                     f'<div class="big" id="{s}b" style="top:380px;font-size:150px" lang="ar">{e(ar)}</div>'
-                    f'<div class="ques" id="{s}q" style="top:680px">what’s <b>“{ask}”</b>?</div>{cnt(s + "c", 800)}'
+                    f'<div class="ques" id="{s}q" style="top:680px">what’s <b>“{ask_}”</b>?</div>{cnt(s + "c", 800)}'
                     f'<div class="ops" style="top:990px">' + "".join(f'<div class="op" id="{s}o{i}"><b><span class="ar" lang="ar" style="font-size:80px">{e(o)}</span></b></div>' for i, o in enumerate(opts))
                     + f'</div><div class="rule" id="{s}r" style="top:1500px;font-size:48px">the change: <span class="ar" style="font-size:64px">{rule}</span></div></div>')
         c.inn(f"#{s} .q2", t); SO.bigin(c, f"#{s}b", t + 0.3); d = c.say(ar, t + 0.6)
@@ -97,7 +96,13 @@ def f3():
         reveal(c, f"#{s}o{right}", [f"#{s}o{i}" for i in range(3) if i != right], done)
         d2 = c.say(opts[right], done + 0.3); c.inn(f"#{s}r", done + 0.3 + d2)
         t = done + 0.3 + d2 + 2.4; c.out_(f"#{s}", t); t += 0.4
-    SO.finish(c, body, t, "How many did you get? 0, 1 or 2? 👇")
+    SO.finish(c, body, t, ask)
+
+def f3():
+    change("f3-she-eats", "QUIZ · ARABIC VERBS",
+           [("يَأْكُلُ", "he eats", "she eats", ["آكُلُ", "تَأْكُلُ", "نَأْكُلُ"], 1, '<bdi lang="ar"><em>يَ</em></bdi> → <bdi lang="ar"><em>تَ</em></bdi>'),
+            ("أَكَلَ", "he ate", "she ate", ["أَكَلْتُ", "أَكَلَتْ", "أَكَلْنا"], 1, 'add <bdi lang="ar"><em>تْ</em></bdi> to the end')],
+           "How many did you get? 0, 1 or 2? 👇")
 
 def j1():
     """Jumuʿah (9 Oct 2026): why Friday is الجُمُعَة, ج م ع "to gather" (brag-quiz/TEN.md's own source note), جَمْع, جامِعَة,
@@ -208,7 +213,94 @@ def a1():
       {endc}"""
     c.write(body, round(E + 2.9, 2))
 
-ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1}
+# 10 Oct 2026, the owner's read of what works: a salah line word by word, one root traced to its relatives, and the
+# word-change quiz. Meanings: salah-data.js (the lines) and vocab-data.js / toolkit-data.js (the words).
+def w5(): S.build("w5-rabbana", 5, 'You say this <b>every time</b> you stand up from rukūʿ', "رَبَّنا وَلَكَ الْحَمْدُ", 110,
+                  [("رَبَّنا", "Our Lord"), ("وَلَكَ", "and to You"), ("الْحَمْدُ", "all praise")],
+                  "“Our Lord, and to You belongs all praise.”", "What does the imam say just before it? Comment it 👇")
+def w6(): S.build("w6-salam", 6, 'You say this to <b>end every prayer</b>', "السَّلامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ", 84,
+                  [("السَّلامُ", "Peace"), ("عَلَيْكُمْ", "be upon you"), ("وَرَحْمَةُ", "and the mercy"), ("اللَّهِ", "of Allah")],
+                  "“Peace be upon you and the mercy of Allah.”", "Right side first, or left? Comment it 👇")
+def w7(): S.build("w7-tahiyyat", 7, 'You say this <b>every time</b> you sit in salah', "التَّحِيّاتُ لِلَّهِ وَالصَّلَواتُ وَالطَّيِّباتُ", 76,
+                  [("التَّحِيّاتُ", "All greetings"), ("لِلَّهِ", "are for Allah"), ("وَالصَّلَواتُ", "and the prayers"), ("وَالطَّيِّباتُ", "and the good things")],
+                  "“All greetings are for Allah, and the prayers and the good things.”", "What’s the next line? Comment it 👇")
+
+def g1(): change("g1-plural", "QUIZ · ONE BECOMES MANY",
+                 [("كِتاب", "a book", "books", ["كِتابان", "كُتُب", "مَكْتَبَة"], 1, 'no ending: the inside changes'),
+                  ("صَدِيق", "a friend", "friends", ["صَدِيقان", "أَصْدِقاء", "صَداقَة"], 1, 'a new shape: <bdi lang="ar"><em>أَ</em>…<em>اء</em></bdi>')],
+                 "How many did you get? 0, 1 or 2? 👇")
+def g2(): change("g2-female", "QUIZ · HE OR SHE",
+                 [("مُعَلِّم", "teacher (m)", "teacher (f)", ["مُعَلِّمُون", "مُعَلِّمَة", "تَعْلِيم"], 1, 'add <bdi lang="ar"><em>ة</em></bdi> to the end'),
+                  ("جَمِيلٌ", "beautiful (m)", "beautiful (f)", ["جَمِيلَة", "جَمال", "أَجْمَل"], 0, 'the same <bdi lang="ar"><em>ة</em></bdi>')],
+                 "How many did you get? 0, 1 or 2? 👇")
+def g3(): change("g3-past", "QUIZ · ARABIC VERBS",
+                 [("يَشْرَبُ", "he drinks", "he drank", ["شَرِبَ", "شَرِبْتُ", "اشْرَبْ"], 0, 'the past starts on the root: <bdi lang="ar"><em>ش ر ب</em></bdi>'),
+                  ("نَشْرَبُ", "we drink", "we drank", ["شَرِبُوا", "شَرِبْنا", "شَرِبْتُ"], 1, '<bdi lang="ar"><em>ـنا</em></bdi> on the end = we')],
+                 "How many did you get? 0, 1 or 2? 👇")
+
+def r2():
+    """Why the Prophet ﷺ is named مُحَمَّد: ح م د, praise, as in الْحَمْدُ and حَمِدَهُ; your turn أَحْمَد (his other name, Qurʾān 61:6)."""
+    c = Comp("r2-muhammad", "ARABIC · ONE ROOT")
+    MUH = [("مُ", ""), ("حَ", "r"), ("مَّ", "r"), ("د", "r")]
+    ROWS = [([("الْ", ""), ("حَ", "r"), ("مْ", "r"), ("دُ", "r")], "الْحَمْدُ", "all praise", "al-ḥamdu lillāh, in every rakʿah"),
+            ([("حَ", "r"), ("مِ", "r"), ("دَ", "r"), ("هُ", "")], "حَمِدَهُ", "praises Him", "samiʿa Allāhu liman ḥamidah")]
+    AH = [("أَ", ""), ("حْ", "r"), ("مَ", "r"), ("د", "r")]
+    c.inn("#a .q2", 0.1); c.t('tl.fromTo("#a .big", {opacity:0, scale:0.94}, {opacity:1, scale:1, duration:0.5, ease:"power3.out"}, 0.45);')
+    c.say("مُحَمَّد", 1.0)
+    c.t(f'tl.fromTo("#a .big .pr", {{color:"{T.INK}"}}, {{color:"{T.RED}", duration:0.35}}, 2.2);'); c.sfx("tap", 2.2)
+    c.inn("#e1", 2.7); c.sfx("tap", 2.7)
+    c.inn("#a .say", 3.8); c.sfx("correct", 3.8)
+    c.out_("#a", 6.0)
+    c.inn("#b .q2", 6.4); t = 6.9
+    for i, (_, ar, _, _) in enumerate(ROWS):
+        c.inn(f"#r{i}", t, 30); c.sfx("tap", t); c.say(ar, t + 0.35)
+        c.t(f'tl.fromTo("#r{i} .pr", {{color:"{T.INK}"}}, {{color:"{T.RED}", duration:0.3}}, {t + 0.6:.2f});')
+        t += 2.3
+    c.out_("#b", t + 0.4)
+    K = t + 0.8
+    c.inn("#k .q2", K); c.t(f'tl.fromTo("#k .big", {{opacity:0, scale:0.94}}, {{opacity:1, scale:1, duration:0.5, ease:"power3.out"}}, {K + 0.3:.2f});')
+    c.say("أَحْمَد", K + 0.6)
+    c.t(f'tl.fromTo("#k .big .pr", {{color:"{T.INK}"}}, {{color:"{T.RED}", duration:0.3}}, {K + 1.4:.2f});')
+    c.inn("#k .hint", K + 1.5)
+    cs = K + 2.4
+    c.t(f'tl.fromTo("#count", {{opacity:0, scale:0.7}}, {{opacity:1, scale:1, duration:0.3, ease:"power3.out"}}, {cs - 0.3:.2f});')
+    c.t(f'tl.fromTo("#count .fg", {{strokeDashoffset:0}}, {{strokeDashoffset:408, duration:3, ease:"none"}}, {cs:.2f});')
+    for k in range(3):
+        c.t(f'tl.fromTo("#n{3 - k}", {{opacity:0, scale:1.35}}, {{opacity:1, scale:1, duration:0.22, ease:"power3.out"}}, {cs + k:.2f});')
+        c.t(f'tl.to("#n{3 - k}", {{opacity:0, duration:0.15}}, {cs + k + 0.82:.2f});'); c.sfx("tap", cs + k)
+    R = cs + 3.05
+    c.t(f'tl.to("#count", {{opacity:0, scale:0.7, duration:0.25}}, {R - 0.15:.2f});')
+    c.t(f'tl.fromTo("#k .ans", {{opacity:0, scale:0.9}}, {{opacity:1, scale:1, duration:0.35, ease:"back.out(1.6)"}}, {R:.2f});')
+    c.sfx("correct", R); c.say("أَحْمَد", R + 0.5)
+    c.inn("#k .say", R + 1.2); c.inn("#k .ask2", R + 2.2)
+    c.out_("#k", R + 5.0)
+    E = R + 5.4
+    endc = c.end(E, "Learn the roots behind the words")
+    ASK = 'position:absolute;left:80px;right:80px;text-align:center;font-size:52px;font-weight:700;color:var(--ink-soft)'
+    body = f"""      <div class="sec" id="a">
+        <div class="q2">Why is the Prophet <span style="font-family:var(--ar)">ﷺ</span> named <bdi class="ar" lang="ar">مُحَمَّد</bdi>?</div>
+        <div class="big" style="top:470px">{word(MUH)}</div>
+        <div class="eqs" style="top:850px"><div class="eq" id="e1"><span class="tag r" lang="ar">ح م د</span><span class="t">= praise</span></div></div>
+        <div class="say" style="top:1080px">The one praised, again and again.</div>
+      </div>
+      <div class="sec" id="b">
+        <div class="q2">You say this root in every prayer:</div>
+        <div class="rows" style="top:480px">{''.join(f'<div class="row" id="r{i}"><div class="en"><b>{e(en)}</b><span>{e(why)}</span></div><div class="ar">{word(p)}</div></div>' for i, (p, _, en, why) in enumerate(ROWS))}</div>
+      </div>
+      <div class="sec" id="k">
+        <div class="q2">Your turn: what does <bdi class="ar" lang="ar">أَحْمَد</bdi> mean?</div>
+        <div class="big" style="top:440px">{word(AH)}</div>
+        <div class="hint" style="top:800px"><bdi lang="ar" style="font-family:var(--ar);color:var(--rubric)">ح م د</bdi> = praise</div>
+        <div id="count" style="top:960px"><svg viewBox="0 0 150 150"><circle class="bg" cx="75" cy="75" r="65"/><circle class="fg" cx="75" cy="75" r="65"/></svg>{''.join(f'<span id="n{k}">{k}</span>' for k in range(3, 0, -1))}</div>
+        <div class="ans" style="top:980px">the most praised</div>
+        <div class="say" style="top:1180px">His other name, in the Qurʾān (61:6).</div>
+        <div class="ask2" style="{ASK};top:1420px">Send this to a Muhammad or an Ahmad you know 🤍</div>
+      </div>
+      {endc}"""
+    c.write(body, round(E + 2.9, 2))
+
+ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1,
+       "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
