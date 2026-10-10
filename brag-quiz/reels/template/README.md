@@ -9,7 +9,7 @@ W=/tmp/reel-NAME                      # a working folder per video (big files: k
 python3 reel.py $W fetch DRIVE_FILE_ID
 python3 reel.py $W words              # read the transcript: what to keep, where the sections start
 python3 reel.py $W cut                # check the printed transcript: no word clipped
-python3 reel.py $W base
+python3 reel.py $W base              # add nologo if the footage has no DJI watermark
 python3 reel.py $W plan               # draft config.json, then edit it (below)
 python3 reel.py $W zoom
 python3 reel.py $W masks              # slow: about a second a frame, only where titles sit

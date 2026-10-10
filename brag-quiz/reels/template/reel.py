@@ -4,7 +4,7 @@
   python3 reel.py WORK fetch <google-drive-file-id>   download the clip to WORK/clip.mp4
   python3 reel.py WORK words      transcribe (WORK/words.json)
   python3 reel.py WORK cut        cut only true silences, keep a breath; prints the cut's transcript to check no word is clipped
-  python3 reel.py WORK base       frame-exact pieces (sound stays in sync), DJI watermark out, the grade → WORK/cut.mov; word times
+  python3 reel.py WORK base [nologo]   frame-exact pieces (sound stays in sync), DJI watermark out (nologo: footage without one), the grade → WORK/cut.mov; word times
   python3 reel.py WORK plan       draft WORK/config.json: captions, stressed words (gold pops), punch-ins. Then fill in by hand,
                                   from the transcript: "titles" [start, end, small line, BIG WORD, size], "split" [start, end],
                                   "flicks" [[start, end, TITLE], ...] (the hook at 0, the ending, camera changes),
@@ -51,7 +51,7 @@ elif STEP == "cut":     # only true silence (-40 dB, 0.4 s+), a 0.12 s breath ke
 elif STEP == "base":
     G = open(os.path.join(HERE, "grade.txt")).read().strip(); os.makedirs("parts", exist_ok=True); lst = []
     w, h = map(int, subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v", "-show_entries", "stream=width,height", "-of", "csv=p=0", "clip.mp4"], capture_output=True, text=True).stdout.strip().split(","))
-    logo = f"delogo=x={int(90*w/2160)}:y={int(600*h/3840)}:w={int(780*w/2160)}:h={int(110*h/3840)}," if w * 16 == h * 9 else ""
+    logo = f"delogo=x={int(90*w/2160)}:y={int(600*h/3840)}:w={int(780*w/2160)}:h={int(110*h/3840)}," if w * 16 == h * 9 and "nologo" not in sys.argv else ""
     for i, (a, b) in enumerate(J("chunks.json")):
         out = f"parts/p{i:02d}.mov"; lst.append(f"file 'p{i:02d}.mov'")
         if os.path.exists(out): continue
@@ -85,7 +85,7 @@ elif STEP == "plan":    # captions, stressed words (loud against their neighbour
     C = J("config.json") if os.path.exists("config.json") else {}
     C.update(caps=caps, punch=sorted([[w["s"], w["e"]] for w in punch]), end=round(end, 2))
     C.setdefault("titles", []); C.setdefault("split", None); C.setdefault("flicks", [[0, 2.5, "HOOK TITLE"]]); C.setdefault("steps", []); C.setdefault("sections", [])
-    C.setdefault("broll", {"split": ["words", "tiles", "prayalong"], "flick": ["self0", "home", "self1", "quiz", "self2", "mostsaid", "self3", "weak"]})
+    C.setdefault("broll", {"split": ["words", "tiles", "prayalong"], "flick": ["self0", "self1", "self2", "self3", "self4", "self5"]})   # add the speaker's own B-roll (e.g. bowing) here, never app screens
     P("config.json", C); print("stressed:", " ".join(w["w"] for w in emph)); print("punch-ins:", " ".join(w["w"] for w in sorted(punch, key=lambda w: w["s"])))
 
 elif STEP == "zoom":    # a slow push in each section (restarts at each section start)
@@ -116,10 +116,11 @@ elif STEP == "layers":
     for c in C["broll"]["split"]:      # B-roll: the app's own screen recordings until the owner films some
         if not os.path.exists(f"broll/{c}"):
             os.makedirs(f"broll/{c}"); sh("ffmpeg", "-v", "error", "-y", "-i", f"{clips}/{c}.mp4", "-t", "6", "-vf", "fps=30,scale=1080:-2,crop=1080:640:0:(ih-640)*0.45", "-q:v", "3", f"broll/{c}/%04d.jpg")
-    LOOK = ["crop=iw*.5:ih*.5:iw*.25:ih*.22", "hue=s=0,eq=contrast=1.35:brightness=-.03", "crop=iw*.7:ih*.7:iw*.15:ih*.12", "hue=s=0,crop=iw*.42:ih*.42:iw*.29:ih*.24"]
-    for k in range(4):   # the speaker's own footage for the flicker: four other moments, tight / black-and-white / medium crops
+    LOOK = ["crop=iw*.5:ih*.5:iw*.25:ih*.22", "hue=s=0,eq=contrast=1.35:brightness=-.03", "crop=iw*.7:ih*.7:iw*.15:ih*.12",
+            "hue=s=0,crop=iw*.42:ih*.42:iw*.29:ih*.24", "crop=iw*.85:ih*.85:iw*.075:ih*.05", "hue=s=0,crop=iw*.6:ih*.6:iw*.2:ih*.15"]
+    for k in range(6):   # the flicker is only the speaker (owner, 8 Oct): six other moments of them, tight / black-and-white / medium / wide
         if not os.path.exists(f"broll/self{k}"):
-            os.makedirs(f"broll/self{k}"); sh("ffmpeg", "-v", "error", "-y", "-ss", f"{C['end'] * (.15 + .2 * k):.2f}", "-i", "base.mov", "-t", "1",
+            os.makedirs(f"broll/self{k}"); sh("ffmpeg", "-v", "error", "-y", "-ss", f"{C['end'] * (.08 + .15 * k):.2f}", "-i", "base.mov", "-t", "1",
                "-vf", f"{LOOK[k]},scale=960:1640:force_original_aspect_ratio=increase,crop=960:1640", "-q:v", "3", f"broll/self{k}/%04d.jpg")
     for c in C["broll"]["flick"]:
         if not os.path.exists(f"broll/{c}"):
@@ -155,7 +156,7 @@ elif STEP == "mix":
     # and it only eases back out as the section ends (next title, split, flicker or the end): in, in, in, out
     sm = lambda u: f"({u})*({u})*(3-2*({u}))"
     cuts = sorted({x[0] for x in C["titles"]} | {x for f in C.get("flicks", []) for x in f[:2]} |
-                  (set(C["split"]) if C.get("split") else set()) | {C["end"]})
+                  (set(C["split"]) if C.get("split") else set()) | {x for p in C.get("panels", []) for x in p[:2]} | {C["end"]})
     hits = sorted([a for a, _ in C["punch"]] + [s for ts, _ in C.get("steps", []) for s in ts])
     Z = "1"
     for s1 in cuts:
@@ -169,6 +170,15 @@ elif STEP == "mix":
           "[bb][fg]overlay=0:0:format=auto,format=yuv420p[sc]",
           f"[sc]scale=w='trunc(1080*({Z})/2)*2':h='trunc(1920*({Z})/2)*2':eval=frame:flags=bicubic,crop=1080:1920:'(1080*({Z})-1080)/2':'(1920*({Z})-1920)*0.4'[zs]",
           "[zs][3:v]overlay=0:0:format=auto,format=yuv420p[v]", f"[4:a]volume={gain:.2f}dB[voice]"]
+    pips = [p for p in C.get("panels", []) if p[3].get("pip")]
+    if pips:   # a smaller copy of the scene behind a panel's hole, so the whole face fits (owner, 8 Oct)
+        fc[0] = f"[0:v]split={2 + len(pips)}[v0][v1]" + "".join(f"[q{i}]" for i in range(len(pips)))
+        fc[-2] = "[zs]null[zp0]"
+        for i, (p0, p1, _, o) in enumerate(pips):
+            s_, fx, fy, hx, hy = o["pip"]
+            fc.insert(-1, f"[q{i}]scale=trunc(iw*{s_}/2)*2:-2[qs{i}]")
+            fc.insert(-1, f"[zp{i}][qs{i}]overlay=x={hx - fx * s_:.0f}:y={hy - fy * s_:.0f}:enable='between(t,{p0},{p1})'[zp{i + 1}]")
+        fc.insert(-1, f"[zp{len(pips)}][3:v]overlay=0:0:format=auto,format=yuv420p[v]")
     for i, (f, t, v) in enumerate(E):
         ms = int(max(0, t) * 1000); fc.append(f"[{i+5}:a]aresample=48000,aformat=channel_layouts=stereo,volume={v},adelay={ms}|{ms}[s{i}]")
     fc.append("".join(f"[s{i}]" for i in range(len(E))) + f"amix=inputs={len(E)}:normalize=0,apad[sfx]")

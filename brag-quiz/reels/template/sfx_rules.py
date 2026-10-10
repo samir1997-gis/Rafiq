@@ -1,9 +1,10 @@
 """Where the sound effects go: the rules learned from the owner's reference (a creator's SFX breakdown, 8 Oct 2026),
 plus the owner's own sounds (n01-n11). Every visual change gets a short, crisp sound, and no two in a row are the same:
-  a title landing → shutter / pop · a line of text → tap / tick · a stressed word popping → tap / tick / ping / click
-  a punch-in → swoosh · stepped zoom ("these · three · things") → a hit on every step, the last one heaviest
+  every piece of text that appears (each caption line, each label) → a soft tap · a title landing → shutter
+  a stressed word popping → tap / tick / ping / click · every cut to a new shot → shutter
+  every switch of frame (a panel sliding in or out, a punch-in) → a clear swoosh · stepped zoom ("these · three · things") → a hit on every step, the last one heaviest
   a big transition → a charge that lands on the cut + a boom, then swooshes as the strips slide in
-  a flicker → flash + the owner's opening whoosh, a flicker sound on every clip switch, a swoosh + shutter on the wipe out
+  a flicker → flash + the owner's opening whoosh, a flicker sound (only flicker sounds) on every clip switch, a swoosh + shutter on the wipe out
   the brand name → sparkle + ding
 Each sound is levelled by its loudest 50 ms against the voice (which sits around -17 dBFS on the same measure at -14 LUFS),
 and placed so that loudest moment lands on the visual. No ducking: the sounds are short and they should be heard."""
@@ -12,14 +13,15 @@ LIB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "sfx"
 def F(n): return os.path.join(LIB, "owner" if n[0] == "n" and n[1:].isdigit() else "ref", n + ".wav")
 
 # loudest 50 ms, in dBFS: 0 dB above means as loud as the voice's words
-LEVEL = {"hit": -16, "boom": -17, "swoosh": -14, "tap": -19, "flicker": -19, "charge": -15, "sparkle": -19}
+LEVEL = {"hit": -16, "boom": -17, "swoosh": -14, "tap": -19, "text": -22, "flicker": -19, "charge": -15, "sparkle": -19}
 POOL = {   # rotated in order, so a sound never repeats back to back
     "small": ["tap", "n10", "click"],
-    "title": ["shutter", "n05", "shutter-clicks", "shutter"],
-    "emph": ["tap", "n10", "n09", "click", "digital", "click-x2"],
-    "punch": ["short-swoosh", "n11", "swoosh-low", "swoosh"],
+    "title": ["shutter", "shutter-clicks"],
+    "emph": ["tap", "n10", "n09", "click", "n05", "click-x2"],
+    "punch": ["swoosh", "short-swoosh", "n11"],             # only the clear swooshes (swoosh-low is too soft for a switch)
+    "text": ["tap", "click", "n10"],
     "step": ["n10", "n05", "shutter"],
-    "flick": ["flicker-v1", "flicker-v3", "digital", "flicker-v2", "click-x2"],
+    "flick": ["flicker-v1", "flicker-v3", "flicker-v2"],
 }
 _info = {}
 def info(f):   # (loudest 50 ms in dBFS, when it happens in s)
@@ -47,7 +49,7 @@ def events(C):
     for ts, _ in steps:                                                       # "these · three · things": a hit per step
         for k, s in enumerate(ts):
             add(POOL["step"][min(k, len(POOL["step"]) - 1)], "hit", s, -3 + 3 * k / max(1, len(ts) - 1))
-            add(pick("punch"), "swoosh", s - .02, -4)
+            add(pick("punch"), "swoosh", s - .02, -2)
         add("n03", "boom", ts[-1], -2)                                        # weight under the last step
     punches = {round(a, 2) for a, _ in C.get("punch", [])}
     for a, _ in C.get("punch", []): add(pick("punch"), "swoosh", a)
@@ -67,4 +69,24 @@ def events(C):
             add(pick("flick"), "flicker", f0 + k * 8 / 30); k += 1
         if title.upper().startswith("RAFIQ"): add("n08", "sparkle", f0 + .15); add("n04", "sparkle", f1 - .5)
         if f1 < C["end"] - .1: add(pick("punch"), "swoosh", f1 - .15); add("shutter", "hit", f1)   # circle wipe out
+    starts = {round(x, 2) for x in [f[0] for f in C.get("flicks", [])] + [p[0] for p in C.get("panels", [])] + ([C["split"][0]] if C.get("split") else [])}
+    for p0, p1, kind, o in C.get("panels", []):                              # animated screens: in and out with a swoosh,
+        add(pick("punch"), "swoosh", p0 + .1)                                 # a tap per word or bubble, a hit when the number lands
+        add(pick("text"), "text", p0 + .3)                                    # its label (and line) appear
+        if p1 < C["end"] - .1:
+            add(pick("punch"), "swoosh", p1 - .15)                            # slides out
+            if round(p1, 2) not in starts: add("shutter", "hit", p1)          # back to the speaker: a new shot
+        for w in o.get("words", []): add(pick("emph"), "tap", w[2])
+        for l in o.get("lines", []): add(pick("emph"), "tap", l[3])
+        if kind == "wall" and o.get("pre"): add(pick("title"), "hit", o["pre_t"])
+        if kind == "wall": add("charge-taps", "charge", o["light"] + o["dur"]); add("shutter", "hit", o["stat"]); add("n03", "boom", o["stat"], -3)
+        if kind == "count":
+            for k in range(5): add(pick("flick"), "flicker", o["fill"] + o["dur"] * (k + .5) / 5, -3)
+            add("shutter", "hit", o["big_t"]); add(pick("title"), "hit", o["year_t"])
+    for t in C.get("cuts", []): add("shutter", "hit", t)                      # camera cuts with nothing over them
+    busy = [e[1] + info(e[0])[1] for e in E]                                  # when each sound lands
+    for c in C["caps"]:                                                       # every caption line appears with a soft tap,
+        t = c[0]                                                              # unless another sound already lands there
+        if any(p[0] <= t < p[1] for p in C.get("panels", [])) or any(abs(t - b) < .15 for b in busy): continue
+        add(pick("text"), "text", t); busy.append(t)
     return sorted(E, key=lambda e: e[1])

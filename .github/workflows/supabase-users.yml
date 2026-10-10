@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       command:
-        description: "list (read only) | thank-preview (read only) | thank | attempts (read only) | taps (read only) | rls (read only) | active (read only) | sources (read only) | visits (read only) | make-admin | billing-test (read only) | billing-check (read only) | billing-clear-test | delete | reset-preview (read only) | reset | signout"
+        description: "list (read only) | thank-preview (read only) | thank | mail-test | attempts (read only) | taps (read only) | rls (read only) | active (read only) | sources (read only) | visits (read only) | make-admin | billing-test (read only) | billing-check (read only) | billing-clear-test | delete | reset-preview (read only) | reset | signout"
         required: true
         default: "list"
       arg:

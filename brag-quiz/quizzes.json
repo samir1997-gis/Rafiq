@@ -51,5 +51,59 @@
     "answer": 1,
     "reveal_audio": "سُبْحانَ رَبِّيَ الْأَعْلى",
     "explain": "Ruku: “Glory be to my Lord, the Magnificent.” Sujood: “Glory be to my Lord, the Most High.”"
+  },
+  {
+    "id": "q4-azim",
+    "kicker": "YOUR SALAH · QUICK QUIZ",
+    "question": "What does this word in your salah mean?",
+    "word": "الْعَظِيمِ",
+    "word_audio": "الْعَظِيمِ",
+    "options": [
+      "the Most High",
+      "the Magnificent",
+      "the Most Merciful",
+      "the Forgiving"
+    ],
+    "rtl": false,
+    "answer": 1,
+    "reveal_audio": "سُبْحانَ رَبِّيَ الْعَظِيمِ",
+    "explain_ar": "سُبْحانَ رَبِّيَ الْعَظِيمِ",
+    "explain": "“Glory be to my Lord, the Magnificent.” You say it in ruku."
+  },
+  {
+    "id": "q5-ighfir",
+    "kicker": "YOUR SALAH · QUICK QUIZ",
+    "question": "What does this word in your salah mean?",
+    "word": "اغْفِرْ",
+    "word_audio": "اغْفِرْ",
+    "options": [
+      "guide",
+      "forgive",
+      "accept",
+      "protect"
+    ],
+    "rtl": false,
+    "answer": 1,
+    "reveal_audio": "رَبِّ اغْفِرْ لِي",
+    "explain_ar": "رَبِّ اغْفِرْ لِي",
+    "explain": "“My Lord, forgive me.” You say it sitting between the two sujood."
+  },
+  {
+    "id": "q6-tahiyyat",
+    "kicker": "YOUR SALAH · QUICK QUIZ",
+    "question": "What does this word in your salah mean?",
+    "word": "التَّحِيّاتُ",
+    "word_audio": "التَّحِيّاتُ",
+    "options": [
+      "all praises",
+      "all greetings",
+      "all prayers",
+      "all blessings"
+    ],
+    "rtl": false,
+    "answer": 1,
+    "reveal_audio": "التَّحِيّاتُ لِلَّهِ وَالصَّلَواتُ وَالطَّيِّباتُ",
+    "explain_ar": "التَّحِيّاتُ لِلَّهِ",
+    "explain": "“All greetings are for Allah.” The first words of the tashahhud."
   }
 ]

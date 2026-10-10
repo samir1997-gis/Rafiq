@@ -7,6 +7,47 @@ Posts are for reach and engagement first; follows bring people to the site over 
 - TypeSafe, 0-3 averaged over three viewers: this mix grows the accounts about twice as much as every post ending on
   the link (1.19 vs 0.51) and is trusted more (1.51 vs 0.99), for the same sign-ups (0.25 vs 0.24).
 
+## What our best videos do (owner's top three on Instagram, analysed 8 Oct 2026)
+
+The winners: `s3-samiallahu` (rising from ruku, word by word), `t1-masjid` (why a mosque is a مَسْجِد) and `v3-drink`
+(أَشْرَبُ "I drink", what's "we drink"?), all on `claude/teach-videos`. Compared with the 23 others in the same set:
+
+1. **The hook is a question about something they already say or know but never understood.** "Why is a mosque called a
+   masjid?" · "You say this every time you rise from ruku" · "If this is 'I drink'…". The quieter ones open with a
+   statistic ("You say this word 36 times"), a product problem ("Learnt a word yesterday? It's fading") or a plain topic
+   ("Count to five in Arabic").
+2. **One "aha" pattern that makes the viewer feel clever and want to share it.** مَـ = "the place of" (masjid, madrasa,
+   maktaba, matʿam), أَ → نَ for "I → we", the line taken apart word by word. Numbers alone (36 times, 56%) interest but
+   don't give them something to use or tell a friend.
+3. **The viewer plays along.** A 3-2-1 countdown before the answer (v3, the masjid "your turn" round), or a comment
+   everyone can answer: s3 ends "What do you reply? Comment it 👇", and every Muslim knows the reply. Weaker asks need
+   effort or are yes/no ("Which line should I do next?", "Did you know it was 22?").
+4. **Short, with the payoff at the end:** 14-26 s, the answer revealed last, so people watch to the end and loop.
+5. **It's content, not an ad.** The app card comes after the payoff, for two seconds, or not at all. The videos that
+   explain the app (the forgetting curve, the 56% chart) are the quiet ones.
+
+**The formula for the next ones:** a familiar word or moment from the prayer or daily life, asked as a question in the
+first second · one pattern that unlocks several words · a "your turn" round with a 3-second countdown · end on a
+comment anyone can answer · 15-25 s · app card last, or none (4 posts in 5).
+
+**Instagram, all 18 reels 1-10 Oct (Metricool, 10 Oct 2026).** Judged on rates, not raw views: early posts had fewer
+followers, 8-9 Oct ones are still growing. Hold = still watching at 3 s; per 1,000 people reached.
+- Question hooks about a word they already know hold best: Jumuʿah 39%, the سَمِعَ quiz 39%, Ashrabu 37%, masjid 35%.
+  Topic/statement openers hold less: "Count to five" 30%, loanwords 23%, the forgetting-curve promo 16%.
+- A share ask in the caption works: Jumuʿah ("Send this to who you're going to Jumuʿah with") 67 shares/1k, the rest 3-14.
+- Saves come from "pattern you can reuse" videos: Ashrabu 18/1k, masjid 18, sujood 15, days 15. Promos 0-5.
+- Short quizzes loop: the 17 s سَمِعَ quiz averaged 19 s watched (116%). 25-37 s videos are watched 15-25%, the 73 s ruku reel 13%.
+- Vague captions ("Did you know? 🧐🤨", "You say this in salah every single time…") waste the hook; say the question.
+- Six covers are the end card (logo + link), which reads as an ad on the grid: pick the question frame as the cover.
+
+**Made from these findings (10 Oct 2026):** `q4-azim` (الْعَظِيمِ), `q5-ighfir` (اغْفِرْ), `q6-tahiyyat` (التَّحِيّاتُ): the 15-18 s
+salah word quiz with a 5-second countdown, the format people replay (`build_quiz.py`); `a1-adhan` (why the adhān: أ ذ ن, your turn
+أُذُن = ear, a Fajr share ask; `build_formula.py`). Captions: `tools/typesafe-exp/batch2_captions.py`.
+
+**Made in the formula (8 Oct 2026, `build_formula.py`):** `f1-sujood` (سُبْحانَ رَبِّيَ الْأَعْلى; ends "What do you say in rukūʿ
+instead? Comment it"), `f2-root` (school, teacher, to study share د ر س; your turn: كِتاب), `f3-she-eats` (يَأْكُلُ → تَأْكُلُ,
+أَكَلَ → أَكَلَتْ, with أَكَلْتُ as the trap). Captions checked with TypeSafe (`tools/typesafe-exp/formula_batch1_captions.py`).
+
 # Quiz backlog (#198)
 
 The owner asked to keep these for later: "I might ask you to generate them soon". Each becomes one entry in
