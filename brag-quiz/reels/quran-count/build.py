@@ -116,12 +116,12 @@ canvas { position:absolute; inset:0; }
 .w .ar { grid-row:1 / 3; font-family:"Ar"; font-weight:700; font-size:78px; color:#E9B949; line-height:1.35; }
 .w .en { direction:ltr; text-align:left; font-family:"Karla"; font-weight:700; font-size:36px; color:#eef1f7; }
 .w .n { direction:ltr; text-align:left; font-family:"Karla"; font-weight:500; font-size:28px; color:rgba(238,241,247,.6); }
-#ask { position:absolute; top:1330px; left:110px; right:110px; text-align:center; font-family:"Karla"; font-weight:700; font-size:50px; color:#0a1426;
+#ask { position:absolute; top:1000px; left:110px; right:110px; text-align:center; font-family:"Karla"; font-weight:700; font-size:50px; color:#0a1426;
   background:#E9B949; border-radius:999px; padding:28px 34px; opacity:0; }
-#panel { position:absolute; top:1290px; left:70px; right:70px; height:390px; border-radius:44px; background:rgba(5,10,20,.86);
+#panel { position:absolute; top:960px; left:70px; right:70px; height:390px; border-radius:44px; background:rgba(5,10,20,.86);
   box-shadow:0 0 80px 40px rgba(5,10,20,.7); opacity:0; }
-#free { position:absolute; top:1480px; left:0; right:0; text-align:center; font-family:"Karla"; font-weight:500; font-size:34px; color:rgba(238,241,247,.75); opacity:0; }
-#send { position:absolute; top:1580px; left:0; right:0; text-align:center; font-family:"Karla"; font-weight:700; font-size:40px; color:#E9B949; opacity:0; }
+#free { position:absolute; top:1150px; left:0; right:0; text-align:center; font-family:"Karla"; font-weight:500; font-size:34px; color:rgba(238,241,247,.75); opacity:0; }
+#send { position:absolute; top:1250px; left:0; right:0; text-align:center; font-family:"Karla"; font-weight:700; font-size:40px; color:#E9B949; opacity:0; }
 #src { position:absolute; bottom:120px; left:80px; right:80px; text-align:center; font-family:"Karla"; font-weight:500; font-size:26px;
   color:rgba(238,241,247,.45); line-height:1.35; opacity:0; }
 #brand { position:absolute; top:90px; left:0; right:0; text-align:center; font-family:"Ar"; font-weight:700; font-size:44px; color:#eef1f7; opacity:0; }
