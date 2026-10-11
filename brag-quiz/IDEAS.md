@@ -53,6 +53,10 @@ followers, 8-9 Oct ones are still growing. Hold = still watching at 3 s; per 1,0
 salah word quiz with a 5-second countdown, the format people replay (`build_quiz.py`); `a1-adhan` (why the adhān: أ ذ ن, your turn
 أُذُن = ear, a Fajr share ask; `build_formula.py`). Captions: `tools/typesafe-exp/batch2_captions.py`.
 
+**Recreated in the proven formats (11 Oct 2026, `build_formula.py`, notes in RECREATED.md):** `r3-akbar` (root ك ب ر; your turn كِبار),
+`r4-insha` (root ش ي ء; your turn شَيْء), `g4-past-i` (word change: he wrote/went → I wrote/went, ـتُ), `w8-subhana-azim` (the rukūʿ line
+word by word), `q3-sujood` re-levelled. These replace p1-akbar, p5-insha, v1-go, v2-write and t2-subhana.
+
 **Made in the formula (10 Oct 2026, `build_formula2.py`, captions in FORMULA2.md):** `p1-akbar` (why akbar, not kabīr: أَفْعَل; your turn عَلِيّ),
 `p2-ana` (the أَ of أَشْهَدُ = I; your turn أَكْتُبُ; the app post), `p3-li` (the li of lillāh; your turn لِي), `p4-hamd` (Muhammad, Ahmad,
 al-ḥamdu share ح م د; your turn مَحْمُود; tag ask), `p5-insha` (in shā' Allāh word by word; your turn ما شاءَ اللهُ). Hook big on frame 0 for the cover.
