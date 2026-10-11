@@ -91,7 +91,10 @@ def build():
            'tl.fromTo("#ten", {opacity:0}, {opacity:1, duration:0.4}, 15.8);',
            'tl.fromTo("#ten .w", {opacity:0, y:30, scale:0.9}, {opacity:1, y:0, scale:1, duration:0.5, stagger:0.18, ease:"back.out(1.6)"}, 15.85);',
            'tl.to("#ten", {opacity:0, duration:0.4}, 19.1);',
-           'tl.fromTo("#ask", {opacity:0, y:20}, {opacity:1, y:0, duration:0.5, ease:"power3.out"}, 20.4);',
+           'tl.fromTo("#ask", {opacity:0, y:20, scale:0.96}, {opacity:1, y:0, scale:1, duration:0.5, ease:"back.out(1.6)"}, 20.3);',
+           'tl.fromTo("#panel", {opacity:0}, {opacity:1, duration:0.5}, 20.2);',
+           'tl.fromTo("#free", {opacity:0}, {opacity:1, duration:0.4}, 20.7);',
+           'tl.fromTo("#send", {opacity:0, y:12}, {opacity:1, y:0, duration:0.4, ease:"power3.out"}, 21.2);',
            'tl.fromTo("#src", {opacity:0}, {opacity:1, duration:0.5}, 5.6);',
            'tl.fromTo("#brand", {opacity:0}, {opacity:0.9, duration:0.5}, 0.2);']
     css = """
@@ -113,8 +116,12 @@ canvas { position:absolute; inset:0; }
 .w .ar { grid-row:1 / 3; font-family:"Ar"; font-weight:700; font-size:78px; color:#E9B949; line-height:1.35; }
 .w .en { direction:ltr; text-align:left; font-family:"Karla"; font-weight:700; font-size:36px; color:#eef1f7; }
 .w .n { direction:ltr; text-align:left; font-family:"Karla"; font-weight:500; font-size:28px; color:rgba(238,241,247,.6); }
-#ask { position:absolute; top:1420px; left:110px; right:110px; text-align:center; font-family:"Karla"; font-weight:700; font-size:50px; color:#0a1426;
+#ask { position:absolute; top:1330px; left:110px; right:110px; text-align:center; font-family:"Karla"; font-weight:700; font-size:50px; color:#0a1426;
   background:#E9B949; border-radius:999px; padding:28px 34px; opacity:0; }
+#panel { position:absolute; top:1290px; left:70px; right:70px; height:390px; border-radius:44px; background:rgba(5,10,20,.86);
+  box-shadow:0 0 80px 40px rgba(5,10,20,.7); opacity:0; }
+#free { position:absolute; top:1480px; left:0; right:0; text-align:center; font-family:"Karla"; font-weight:500; font-size:34px; color:rgba(238,241,247,.75); opacity:0; }
+#send { position:absolute; top:1580px; left:0; right:0; text-align:center; font-family:"Karla"; font-weight:700; font-size:40px; color:#E9B949; opacity:0; }
 #src { position:absolute; bottom:120px; left:80px; right:80px; text-align:center; font-family:"Karla"; font-weight:500; font-size:26px;
   color:rgba(238,241,247,.45); line-height:1.35; opacity:0; }
 #brand { position:absolute; top:90px; left:0; right:0; text-align:center; font-family:"Ar"; font-weight:700; font-size:44px; color:#eef1f7; opacity:0; }
@@ -153,7 +160,7 @@ function draw(t) {
 <body><div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="{T}">
 <canvas id="c" width="1080" height="1920"></canvas>
 <div id="brand" lang="ar">رَفِيق</div>{divs}<div id="ten">{ten}</div>
-<div id="ask">Send this to someone learning the Quran 🤍</div>
+<div id="panel"></div><div id="ask">Learn the 100 at rafiq-arabic.com</div><div id="free">Free for a week · no card needed</div><div id="send">Send this to someone learning the Quran 🤍</div>
 <div id="src">Counted from the Quranic Arabic Corpus (corpus.quran.com). “Different words” = dictionary forms, counting every form of each word.</div>
 {chr(10).join(au)}
 </div><script>const FRAC = {json.dumps(N["frac"])};
