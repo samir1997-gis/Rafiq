@@ -21,7 +21,11 @@ What didn't work, so don't make more without a new idea: timed challenges on eve
 
 ## Before sending any video (the mistakes we've made)
 - [ ] **It copies the format above**, not a variation (a1-adhan skipped the payoff and the second section and did a third as well).
-- [ ] **The fountain bed is on** (`build_series` and `build_social` turn it off by default: use `wbw()` / `change()`).
+- [ ] **The fountain bed is on.** It's one file, `brag-output-v6/composition/assets/sfx-gen/fountain.mp3`, added by
+      `Comp` in `build_teach.py` (volume 0.1, looped to the video's length). **Never pass `bed=False`**:
+      `build_series`, `build_ten` and `build_social` default to off, and `build_formula2`, `build_mix` and `build_wild`
+      switch it off. Use `wbw()` / `change()` / `root_video()`, or `Comp(..., bed=True)` / `c.bed = True`. Check:
+      no stretch of the finished video is silent (`ffmpeg -af silencedetect=n=-50dB:d=0.25` finds nothing).
 - [ ] **Loudness about -16 LUFS** (`--level`, or loudnorm for `build_quiz.py` videos).
 - [ ] **Every Arabic word is voiced**: the app's recording, or an ElevenLabs line in the Rafiq voice (`Ywuz3KyW2N5pqKNpwcCL`,
       `brag-quiz/voice/*-lines.json`, run the "ElevenLabs voices" workflow with `speak`).
