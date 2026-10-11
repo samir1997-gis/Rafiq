@@ -275,6 +275,21 @@ def g3(): change("g3-past", "QUIZ · ARABIC VERBS",
                   ("نَشْرَبُ", "we drink", "we drank", ["شَرِبُوا", "شَرِبْنا", "شَرِبْتُ"], 1, '<bdi lang="ar"><em>ـنا</em></bdi> on the end = we')],
                  "How many did you get? 0, 1 or 2? 👇")
 
+# 11 Oct 2026: our three audited table videos (v1-go, v2-write, i4-ta-marbuta: no bed, blank first frame, nothing to play)
+# rebuilt in the word-change format. Forms: toolkit-data.js VERBS (ذَهَبَ, كَتَبَ); nouns: vocab-data.js.
+def v1q(): change("v1-go-quiz", "QUIZ · ARABIC VERBS",
+                  [("أَذْهَبُ", "I go", "we go", ["تَذْهَبُ", "نَذْهَبُ", "يَذْهَبُ"], 1, '<bdi lang="ar"><em>أَ</em></bdi> → <bdi lang="ar"><em>نَ</em></bdi>'),
+                   ("يَذْهَبُ", "he goes", "she goes", ["تَذْهَبُ", "نَذْهَبُ", "أَذْهَبُ"], 0, '<bdi lang="ar"><em>يَ</em></bdi> → <bdi lang="ar"><em>تَ</em></bdi>')],
+                  "How many did you get? 0, 1 or 2? 👇")
+def v2q(): change("v2-write-quiz", "QUIZ · ARABIC VERBS",
+                  [("كَتَبْتُ", "I wrote", "we wrote", ["كَتَبَتْ", "كَتَبْنا", "كَتَبَ"], 1, '<bdi lang="ar"><em>ـتُ</em></bdi> → <bdi lang="ar"><em>ـنا</em></bdi>'),
+                   ("كَتَبَ", "he wrote", "she wrote", ["كَتَبْتُ", "كَتَبْنا", "كَتَبَتْ"], 2, 'add <bdi lang="ar"><em>تْ</em></bdi> to the end')],
+                  "How many did you get? 0, 1 or 2? 👇")
+def i4q(): change("i4-she-quiz", "QUIZ · HE OR SHE",
+                  [("جَدّ", "grandfather", "grandmother", ["جَدَّة", "أَجْداد", "جَدّان"], 0, 'add <bdi lang="ar"><em>ة</em></bdi> to the end'),
+                   ("أَخ", "brother", "sister", ["أَخَة", "أُخْت", "إِخْوَة"], 1, 'not always <bdi lang="ar"><em>ة</em></bdi>: <bdi lang="ar"><em>أُخْت</em></bdi>')],
+                  "Did the last one catch you? 👇")
+
 def r2():
     """Why the Prophet ﷺ is named مُحَمَّد: ح م د, praise, as in الْحَمْدُ and حَمِدَهُ; your turn أَحْمَد (his other name, Qurʾān 61:6)."""
     c = Comp("r2-muhammad", "ARABIC · ONE ROOT")
@@ -337,7 +352,8 @@ def r2():
     c.write(body, round(E + 2.9, 2))
 
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
-       "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2}
+       "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
+       "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
