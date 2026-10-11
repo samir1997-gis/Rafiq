@@ -1,0 +1,5 @@
+[
+ {"file": "muadhdhin", "voice": "Ywuz3KyW2N5pqKNpwcCL", "text": "مُؤَذِّن", "stability": 0.6, "style": 0.1, "speed": 0.9},
+ {"file": "idhn", "voice": "Ywuz3KyW2N5pqKNpwcCL", "text": "إِذْن", "stability": 0.6, "style": 0.1, "speed": 0.9},
+ {"file": "istadhana", "voice": "Ywuz3KyW2N5pqKNpwcCL", "text": "اِسْتَأْذَنَ", "stability": 0.6, "style": 0.1, "speed": 0.9}
+]
