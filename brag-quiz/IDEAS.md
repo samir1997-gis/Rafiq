@@ -30,6 +30,15 @@ The winners: `s3-samiallahu` (rising from ruku, word by word), `t1-masjid` (why 
 first second · one pattern that unlocks several words · a "your turn" round with a 3-second countdown · end on a
 comment anyone can answer · 15-25 s · app card last, or none (4 posts in 5).
 
+**The three formats to keep making (owner, 10 Oct 2026; this is what's getting traction):**
+1. **A salah line, word by word.** The line they say, then each word with its meaning (s3-samiallahu, f1-sujood). `build_series.build`.
+2. **One important word traced to its root**, with the everyday words that share it (Jumuʿah → جامِعَة university), posted
+   on the day it matters (Jumuʿah on a Friday). `j1`, `a1`, `r2` in `build_formula.py`.
+3. **The word-change quiz**, more than "what does this mean": if this is X, what's the we / she / past / plural form?
+   (v3-drink Ashrabu). `change()` in `build_formula.py`.
+Made 10 Oct: `w5-rabbana`, `w6-salam`, `w7-tahiyyat` · `r2-muhammad` · `g1-plural`, `g2-female`, `g3-past`
+(captions: `tools/typesafe-exp/batch3_captions.py`).
+
 **Instagram, all 18 reels 1-10 Oct (Metricool, 10 Oct 2026).** Judged on rates, not raw views: early posts had fewer
 followers, 8-9 Oct ones are still growing. Hold = still watching at 3 s; per 1,000 people reached.
 - Question hooks about a word they already know hold best: Jumuʿah 39%, the سَمِعَ quiz 39%, Ashrabu 37%, masjid 35%.
