@@ -1,0 +1,50 @@
+[
+ {
+  "file": "q1a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "If this means 'he wrote'...",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "q1b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "what's 'I wrote'?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "q2a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "And if this means 'he went'...",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "q2b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "what's 'I went'?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "rule",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "That's the trick. One sound on the end, and it's you who did it.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "end",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "How many did you get? Zero, one, or two?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ }
+]
