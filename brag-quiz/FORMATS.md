@@ -38,4 +38,8 @@ What didn't work, so don't make more without a new idea: timed challenges on eve
       blank. Run `python3 brag-quiz/check_frame0.py <video>.mp4` on every video before it goes in the folder; it must say `ok`.
       (q4-azim opened blank and most TikTok viewers left at 0:01; on 12 Oct 12 of 23 scheduled videos did the same.)
 - [ ] **Captions checked with TypeSafe** (`tools/typesafe-exp/`).
+- [ ] **A spoken hook** (owner, 12 Oct 2026): a bold, curiosity-first opening line ("Most people learn Arabic for years before they
+      notice this trick"), on screen from frame 0 and spoken in the hook voice, **Callum** (`N2lVS1w4EtoT3dr4eOWO`, ElevenLabs);
+      the Rafiq voice stays for the Arabic. The line can tease, the video must pay it off. `change(..., hook=(html, mp3))` in
+      `build_formula.py` does it for the word-change quizzes.
 - [ ] **Moves like `MOTION-STYLE.md`**: voice-led, every move on its word, our colours (never the reference's).

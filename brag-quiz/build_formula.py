@@ -79,10 +79,28 @@ def f2():
       {endc}"""
     c.write(body, round(E + 2.9, 2))
 
-def change(vid, kicker, R, ask):
-    """The Ashrabu format: "if this is X, what's the <she / we / past / plural> form?", a 3-2-1, the answer said, the rule."""
+HOOK_VOICE = "N2lVS1w4EtoT3dr4eOWO"   # Callum: the owner's pick for spoken hooks (12 Oct 2026); Rafiq's voice stays for the Arabic
+
+def hook_in(c, body, hook):
+    """An opening hook (owner, 12 Oct 2026): the line big on screen from frame 0, spoken in the hook voice; returns when it's done.
+    hook = (html, mp3 path from the repo root), the mp3 spoken with HOOK_VOICE (brag-quiz/voice/*-lines.json, "ElevenLabs voices")."""
+    html, mp3 = hook
+    body.append(f'<div class="sec" id="hook"><div class="hookline">{html}</div></div>')
+    c.css = getattr(c, "css", "") + (".hookline { position:absolute; left:80px; right:80px; top:640px; text-align:center; font-weight:700; "
+                                     "font-size:96px; line-height:1.08; letter-spacing:-.02em; color:var(--ink); }"
+                                     ".hookline em { font-style:normal; color:var(--rubric); }")
+    src = os.path.join(T.ROOT, mp3); name = os.path.basename(src); shutil.copy(src, os.path.join(c.a, "audio", name)); d = T.dur(src)
+    c.audio.append(f'<audio id="hk" src="assets/audio/{name}" data-start="0.05" data-duration="{d:.2f}" data-volume="1.0" data-track-index="12"></audio>')
+    c.t('tl.fromTo("#hook .hookline", {scale:1}, {scale:1.04, duration:%.2f, ease:"none"}, 0);' % d)   # a slow push-in while it's said
+    c.out_("#hook", d + 0.15)
+    return d + 0.45
+
+def change(vid, kicker, R, ask, hook=None):
+    """The Ashrabu format: "if this is X, what's the <she / we / past / plural> form?", a 3-2-1, the answer said, the rule.
+    hook: optional spoken opening line (hook_in); then the first question comes in after it instead of being the cover."""
     c = SO.vcomp(vid, kicker); body, t = [], 0.1
     if vid != "f3-she-eats": c.bed = True              # the fountain under it, as in our other videos (f3 stays as posted)
+    if hook: t = hook_in(c, body, hook)
     for k, (ar, en, ask_, opts, right, rule) in enumerate(R):
         s = f"r{k}"
         body.append(f'<div class="sec" id="{s}"><div class="q2">{k + 1}/{len(R)} · If this is “{en}” …</div>'
@@ -90,7 +108,7 @@ def change(vid, kicker, R, ask):
                     f'<div class="ques" id="{s}q" style="top:680px">what’s <b>“{ask_}”</b>?</div>{cnt(s + "c", 800)}'
                     f'<div class="ops" style="top:990px">' + "".join(f'<div class="op" id="{s}o{i}"><b><span class="ar" lang="ar" style="font-size:80px">{e(o)}</span></b></div>' for i, o in enumerate(opts))
                     + f'</div><div class="rule" id="{s}r" style="top:1500px;font-size:48px">the change: <span class="ar" style="font-size:64px">{rule}</span></div></div>')
-        if k: c.inn(f"#{s} .q2", t); SO.bigin(c, f"#{s}b", t + 0.3)   # the first question is on screen from frame 0 (the cover)
+        if k or hook: c.inn(f"#{s} .q2", t); SO.bigin(c, f"#{s}b", t + 0.3)   # without a hook, the first question is the cover (frame 0)
         d = c.say(ar, t + 0.6)
         c.inn(f"#{s}q", t + 0.6 + d + 0.2)
         for i in range(3): c.inn(f"#{s}o{i}", t + 1.0 + d + i * 0.12)
@@ -379,7 +397,8 @@ def r4():
 def g4(): change("g4-past-i", "QUIZ · ARABIC VERBS",            # recreated from v1-go and v2-write (#246)
                  [("كَتَبَ", "he wrote", "I wrote", ["كَتَبَتْ", "كَتَبْتُ", "كَتَبْنا"], 1, '<bdi lang="ar"><em>ـتُ</em></bdi> on the end = I'),
                   ("ذَهَبَ", "he went", "I went", ["ذَهَبْتُ", "ذَهَبَتْ", "ذَهَبْنا"], 0, 'the same <bdi lang="ar"><em>ـتُ</em></bdi>')],
-                 "0, 1 or 2? Send this to your Arabic study buddy 👇")
+                 "0, 1 or 2? Send this to your Arabic study buddy 👇",
+                 hook=("Most people learn Arabic for <em>years</em> before they notice this trick.", "brag-quiz/voice/g4-hook/g4-b-callum.mp3"))
 
 def w8(): wbw("w8-subhana-azim", 8, 'You say this <b>every time</b> you bow in rukūʿ', "سُبْحانَ رَبِّيَ الْعَظِيمِ", 104,   # recreated from t2-subhana (#246)
                   [("سُبْحانَ", "Glory be to"), ("رَبِّيَ", "my Lord"), ("الْعَظِيمِ", "the Magnificent")],
