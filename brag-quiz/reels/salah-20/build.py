@@ -158,6 +158,7 @@ m = subprocess.run(["ffmpeg", "-hide_banner", "-i", os.path.join(W, "joined.mov"
                    capture_output=True, text=True).stderr; J = json.loads(re.search(r"\{[^{}]*\}", m).group())
 subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", os.path.join(W, "joined.mov"), "-c:v", "libx264", "-crf", "20", "-preset", "slow", "-maxrate", "6M", "-bufsize", "12M",
                 "-pix_fmt", "yuv420p", "-af", f"loudnorm=I=-14.5:TP=-2.5:LRA=11:measured_I={J['input_i']}:measured_TP={J['input_tp']}:measured_LRA={J['input_lra']}:"
-                f"measured_thresh={J['input_thresh']}:offset={J['target_offset']}:linear=true", "-ar", "48000", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart",
+                f"measured_thresh={J['input_thresh']}:offset={J['target_offset']}:linear=true,aresample=192000,"     # limit at 4x: the template's sharp taps
+                "alimiter=limit=0.75:level=disabled:attack=0.5:release=50,aresample=48000", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart",
                 os.path.join(W, "final.mp4")], check=True)
 print("final.mp4")

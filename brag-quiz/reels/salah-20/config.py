@@ -6,11 +6,11 @@ W = sys.argv[1]; C = json.load(open(os.path.join(W, "config.json")))
 
 C["flicks"] = []                                      # the flicker hook is its own clip, joined in front by build.py
 C["titles"] = [                                       # behind the head, one per beat of the script
-    [0.0, 3.2, "", "PICTURE THIS", 200], [7.3, 13.5, "", "THE GRAVE", 250], [13.5, 16.0, "", "BARZAKH", 280],
-    [19.0, 23.1, "THE DAY OF", "JUDGEMENT", 230], [32.8, 39.7, "THE VERY", "FIRST THING", 220],
-    [41.3, 46.4, "", "BE HONEST", 250], [46.9, 51.6, "ARE YOU", "CONTENT?", 250], [51.7, 60.2, "STRUGGLING WITH", "KHUSHU", 280],
-    [61.2, 66.6, "TRY TO", "UNDERSTAND", 210], [91.0, 106.4, "HAVE A", "CONVERSATION", 175], [108.1, 111.4, "IS ARABIC", "DIFFICULT?", 220],
-    [111.8, 115.9, "IS LEARNING", "20 WORDS?", 240], [116.1, 120.4, "", "NOT AT ALL", 230], [120.6, 124.3, "START WITH", "20 WORDS", 240],
+    [0.0, 3.2, "", "PICTURE THIS", 175], [7.3, 13.5, "", "THE GRAVE", 250], [13.5, 16.0, "", "BARZAKH", 280],
+    [19.0, 23.1, "THE DAY OF", "JUDGEMENT", 185], [32.8, 39.7, "THE VERY", "FIRST THING", 175],
+    [41.3, 46.4, "", "BE HONEST", 220], [46.9, 51.6, "ARE YOU", "CONTENT?", 250], [51.7, 60.2, "STRUGGLING WITH", "KHUSHU", 280],
+    [61.2, 66.6, "TRY TO", "UNDERSTAND", 180], [91.0, 106.4, "HAVE A", "CONVERSATION", 145], [108.1, 111.4, "IS ARABIC", "DIFFICULT?", 190],
+    [111.8, 115.9, "IS LEARNING", "20 WORDS?", 220], [116.1, 120.4, "", "NOT AT ALL", 200], [120.6, 124.3, "START WITH", "20 WORDS", 220],
     [124.7, 129.2, "YOU WILL", "FEEL IT", 280], [142.3, 145.6, "DROP A", "COMMENT", 260]]
 C["steps"] = [                                        # a zoom step and a hit on every phrase the owner leans on
     [[0.44, 2.38, 5.10], 7.2], [[7.56, 9.96, 12.36], 13.4], [[13.86], 15.9],
