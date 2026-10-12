@@ -235,8 +235,9 @@ def change(vid, kicker, R, ask, hook=None, vo=None, count=3):
         hold = 2.4
         if vo and k == 0 and vo.get("rule"): hold = max(hold, clip(c, vo["rule"], done + 0.4 + d2) + 0.6)
         t = done + 0.3 + d2 + hold; c.out_(f"#{s}", t); t += 0.4
-    if vo and vo.get("end"): clip(c, vo["end"], t + 0.4)
-    SO.finish(c, body, t, ask)
+    end = clip(c, vo["end"], t + 0.4) if vo and vo.get("end") else 0
+    body.append(c.end(t, ask))                          # SO.finish, but the end card stays until the closing line has been said
+    c.write("\n".join("      " + b for b in body), round(max(t + 2.9, t + 0.4 + end + 0.8), 2))
 
 def f3():
     change("f3-she-eats", "QUIZ · ARABIC VERBS",
@@ -517,7 +518,7 @@ def r4():
 def g4(): change("g4-past-i", "QUIZ · ARABIC VERBS",            # recreated from v1-go and v2-write (#246)
                  [("كَتَبَ", "he wrote", "I wrote", ["كَتَبَتْ", "كَتَبْتُ", "كَتَبْنا"], 1, '<bdi lang="ar"><em>ـتُ</em></bdi> on the end = I'),
                   ("ذَهَبَ", "he went", "I went", ["ذَهَبْتُ", "ذَهَبَتْ", "ذَهَبْنا"], 0, 'the same <bdi lang="ar"><em>ـتُ</em></bdi>')],
-                 "How many did you get? 0, 1 or 2? Comment below 👇 and send this to your Arabic study buddy", count=5,
+                 "How many did you get? 0, 1 or 2? Comment below 👇 and send this to your Arabic study buddy",
                  hook=("MOST people learn Arabic for years before they notice this trick!".split(), {0: "loud", 5: "red", 10: "circle"},
                        "brag-quiz/voice/g4-hook3/g4-v3a.mp3"),
                  vo={"q": [("brag-quiz/voice/g4-vo/q1a.mp3", "brag-quiz/voice/g4-vo/q1b.mp3"),

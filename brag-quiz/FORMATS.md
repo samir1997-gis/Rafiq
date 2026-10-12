@@ -43,3 +43,6 @@ What didn't work, so don't make more without a new idea: timed challenges on eve
       the Rafiq voice stays for the Arabic. The line can tease, the video must pay it off. `change(..., hook=(html, mp3))` in
       `build_formula.py` does it for the word-change quizzes.
 - [ ] **Moves like `MOTION-STYLE.md`**: voice-led, every move on its word, our colours (never the reference's).
+- [ ] **The last line is heard in full**: transcribe the last 7 s of the finished video (faster-whisper) and check every word of
+      the closing ask is there (g4's "Comment down below!" was cut off on 12 Oct because the end card was shorter than the line).
+- [ ] **A click on every countdown second** (`count_down()` in `build_formula.py`); the countdown stays 3-2-1.
