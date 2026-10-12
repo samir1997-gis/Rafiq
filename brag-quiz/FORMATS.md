@@ -35,3 +35,4 @@ What didn't work, so don't make more without a new idea: timed challenges on eve
 - [ ] **When to post**: tie it to its moment (Jumuʿah on Friday morning, the adhān at Fajr, Ramadan words in Ramadan).
 - [ ] **Cover = the first frame** (the question), never the end card.
 - [ ] **Captions checked with TypeSafe** (`tools/typesafe-exp/`).
+- [ ] **Moves like `MOTION-STYLE.md`**: voice-led, every move on its word, our colours (never the reference's).
