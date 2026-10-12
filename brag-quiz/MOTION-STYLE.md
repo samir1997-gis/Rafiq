@@ -5,7 +5,7 @@ Learned from a reference reel the owner sent (a kinetic-type brand piece). **Tak
 shapes**: our palette and our own graphics, always.
 
 ## The rules
-1. **The voice drives everything.** A voiceover (Rafiq voice, `Ywuz3KyW2N5pqKNpwcCL`, one short line per beat in
+1. **The voice drives everything.** A voiceover (since 12 Oct 2026: **Callum** `N2lVS1w4EtoT3dr4eOWO` for the English, the Rafiq voice `Ywuz3KyW2N5pqKNpwcCL` only for the Arabic; see "The standard for EVERY video" in FORMATS.md; one short line per beat in
    `brag-quiz/voice/<video>-lines.json`, spoken with the "ElevenLabs voices" workflow). Every move lands on the word that's
    said: take the word timings from the audio (faster-whisper, `timings()` in build2.py), never guess them.
 2. **Something moves every half second to second.** Nothing sits still for more than about 1.5 s.
