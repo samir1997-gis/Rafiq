@@ -19,6 +19,10 @@ SKIP = [(0, 26.0), (32.8, 41.4), (66.6, 83.8)]        # covered by the steps, th
 C["punch"] = [p for p in C["punch"] if not any(a <= p[0] < b for a, b in SKIP)][:9]
 QUIET = [(23.1, 26.0), (39.7, 41.3), (66.6, 83.8)]   # build.py puts its own words here (the counter, SALAH, the carousel)
 C["caps"] = [c for c in C["caps"] if not any(a <= c[0] < b for a, b in QUIET)]
+FIX = {"monkar": "Munkar", "nakila": "Nakir", "bharzakh.": "barzakh.", "Khushur": "khushūʿ", "Khushu": "khushūʿ", "swords": "sūrahs", "Salah": "salah", "Salah.": "salah.",
+       "Salah,": "salah,", "Salah?": "salah?", "Fatihah.": "al-Fātiḥah."}             # what the transcriber mishears
+for c in C["caps"]:
+    for w in c[2]: w[0] = FIX.get(w[0], w[0])
 C["sections"] = [[t[0], t[1]] for t in C["titles"]]
 C["split"] = None
 json.dump(C, open(os.path.join(W, "config.json"), "w"), ensure_ascii=False, indent=1)
