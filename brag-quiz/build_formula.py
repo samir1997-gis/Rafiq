@@ -96,40 +96,67 @@ def words_at(rel):
         json.dump([(w.word.strip(), float(w.start)) for sg in segs for w in sg.words], open(cache, "w"))
     return json.load(open(cache))
 
+HOOK_NUMS = [  # numbers counting up all over the hook page: (left, top, size px, start, target, unit, colour, rotation)
+    (60, 170, 54, 12, 365, "days", "verdigris", -6), (760, 150, 46, 40, 1200, "hours", "gold", 5), (840, 470, 40, 3, 52, "weeks", "rubric", 8),
+    (40, 470, 44, 1, 120, "lessons", "gold", -4), (90, 1220, 64, 900, 10000, "words", "verdigris", -3), (700, 1240, 50, 100, 2555, "days", "rubric", 4),
+    (400, 1400, 42, 2, 40, "apps", "gold", -7), (60, 1540, 48, 10, 500, "flashcards", "rubric", 3), (690, 1520, 56, 5, 365, "nights", "verdigris", -5),
+    (420, 1730, 40, 2, 7, "years", "gold", 6)]
+
 def hook_in(c, body, hook):
-    """An opening hook (owner, 12 Oct 2026) in the MOTION-STYLE moves: each word lands as the hook voice says it (blur-zoom), the
-    first is there at frame 0; "years" in red with the years rolling past behind it, the last word circled in gold, a slow push-in,
-    then a whip into the quiz. hook = (words, {word index: "red" | "circle"}, mp3 spoken with HOOK_VOICE)."""
+    """An opening hook (owner, 12 Oct 2026) in the MOTION-STYLE moves. Each word swooshes in from alternating sides as the hook voice
+    says it (the first is there at frame 0); a timer ring at the top counts the years up; numbers count up all over the page; the
+    red word bumps, the circled word gets a gold hand-drawn circle, a flash and a shake; then a whip into the quiz.
+    hook = (words, {word index: "red" | "circle"}, mp3 spoken with HOOK_VOICE)."""
     words, marks, mp3 = hook
     W = words_at(mp3); d = clip(c, mp3, 0.05)
+    at = lambda i: 0.05 + (W[i][1] if i < len(W) else d * i / len(words))
+    red = next((i for i, m in marks.items() if m == "red"), 1)
     spans = "".join(f'<span class="hw{" " + marks[i] if i in marks else ""}" id="hw{i}">{w}</span> ' for i, w in enumerate(words))
     circle = '<svg class="hcirc" viewBox="0 0 520 200" preserveAspectRatio="none"><path d="M70 110 C 40 30, 470 15, 500 95 C 520 175, 110 200, 40 130 C 20 110, 70 50, 160 40" pathLength="1"/></svg>'
-    body.append(f'<div class="sec" id="hook"><div class="hyears" id="hy">1 year</div><div class="hookline" id="hl">{spans}</div></div>')
+    nums = "".join(f'<div class="hn {col}" id="hn{k}" style="left:{x}px;top:{y}px;font-size:{sz}px;transform:rotate({r}deg)"><b>{a:,}</b> {u}</div>'
+                   for k, (x, y, sz, a, b, u, col, r) in enumerate(HOOK_NUMS))
+    timer = ('<div id="htimer"><svg viewBox="0 0 300 300"><circle class="bg" cx="150" cy="150" r="128"/><circle class="fg" cx="150" cy="150" r="128"/></svg>'
+             '<div class="tn"><b id="hty">0</b><span>YEARS</span></div></div>')
+    body.append(f'<div class="sec" id="hook">{nums}{timer}<div class="hookline" id="hl">{spans}</div><div id="hflash"></div></div>')
     c.css = getattr(c, "css", "") + (
-        ".hookline { position:absolute; left:70px; right:70px; top:560px; text-align:center; font-weight:700; font-size:112px; line-height:1.06; "
+        ".hookline { position:absolute; left:60px; right:60px; top:640px; text-align:center; font-weight:700; font-size:112px; line-height:1.06; "
         "letter-spacing:-.03em; color:var(--ink); } .hw { display:inline-block; } .hw.red { color:var(--rubric); }"
         ".hw.circle { position:relative; color:var(--verdigris); } .hcirc { position:absolute; left:-40px; top:-34px; width:calc(100% + 80px); "
         "height:180px; overflow:visible; } .hcirc path { fill:none; stroke:#E9B949; stroke-width:12; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; }"
-        ".hyears { position:absolute; left:0; right:0; top:300px; text-align:center; font-family:var(--serif, serif); font-style:italic; font-size:150px; "
-        "color:rgba(180,50,42,.16); opacity:0; }")
-    at = lambda i: 0.05 + (W[i][1] if i < len(W) else d * i / len(words))
-    for i in range(1, len(words)):
-        c.t(f'tl.fromTo("#hw{i}", {{opacity:0, scale:1.9, filter:"blur(14px)"}}, {{opacity:1, scale:1, filter:"blur(0px)", duration:0.3, ease:"expo.out"}}, {at(i) - 0.04:.2f});')
+        ".hn { position:absolute; font-weight:700; opacity:.32; white-space:nowrap; letter-spacing:-.02em; } .hn b { font-weight:700; }"
+        ".hn.verdigris { color:var(--verdigris); } .hn.gold { color:#a8842c; } .hn.rubric { color:var(--rubric); }"
+        "#htimer { position:absolute; left:390px; top:250px; width:300px; height:300px; }"
+        "#htimer svg { position:absolute; inset:0; transform:rotate(-90deg); } #htimer circle { fill:none; stroke-width:20; }"
+        "#htimer .bg { stroke:rgba(23,38,43,.1); } #htimer .fg { stroke:var(--rubric); stroke-linecap:round; stroke-dasharray:805; stroke-dashoffset:805; }"
+        "#htimer .tn { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1; }"
+        "#htimer .tn b { font-size:120px; color:var(--rubric); } #htimer .tn span { font-size:30px; letter-spacing:.2em; color:var(--ink); margin-top:4px; }"
+        "#hflash { position:absolute; inset:0; background:#fff8e6; opacity:0; pointer-events:none; }")
+    for i in range(1, len(words)):      # each word swooshes in from alternating sides, blurred
+        x = -560 if i % 2 else 560
+        c.t(f'tl.fromTo("#hw{i}", {{opacity:0, x:{x}, scale:1.3, filter:"blur(16px)"}}, {{opacity:1, x:0, scale:1, filter:"blur(0px)", duration:0.32, ease:"expo.out"}}, {at(i) - 0.08:.2f});')
+    for k, (x, y, sz, a, b, u, col, r) in enumerate(HOOK_NUMS):   # the numbers count up and drift, from frame 0
+        c.t(f'(() => {{ const o = {{v:{a}}}; tl.to(o, {{v:{b}, duration:{d + 0.2:.2f}, ease:"power2.in", onUpdate:() => {{ document.querySelector("#hn{k} b").textContent = '
+            f'Math.round(o.v).toLocaleString("en-GB"); }}}}, 0); }})();')
+        c.t(f'tl.fromTo("#hn{k}", {{y:0, scale:0.92}}, {{y:{-30 if k % 2 else 26}, scale:1.08, duration:{d + 0.2:.2f}, ease:"none"}}, 0);')
+    tr = at(red)                        # the timer: years count up and the ring fills from "years" to the last word
+    c.t(f'tl.fromTo("#htimer", {{scale:0.6, opacity:0.4}}, {{scale:1, opacity:1, duration:0.4, ease:"back.out(2)"}}, {tr - 0.1:.2f});')
+    c.t(f'tl.fromTo("#htimer .fg", {{strokeDashoffset:805}}, {{strokeDashoffset:0, duration:{d - tr + 0.1:.2f}, ease:"power1.in"}}, {tr:.2f});')
+    c.t(f'(() => {{ const o = {{v:0}}; tl.to(o, {{v:7, duration:{d - tr + 0.1:.2f}, ease:"power1.in", onUpdate:() => {{ document.getElementById("hty").textContent = Math.floor(o.v); }}}}, {tr:.2f}); }})();')
+    c.t(f'tl.fromTo("#hw{red}", {{scale:1}}, {{scale:1.2, duration:0.16, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {tr + 0.25:.2f});')
+    clip(c, "brag-output-v6/composition/assets/sfx-gen/clock.mp3", tr, 0.35)
     for i, m in marks.items():
-        if m == "red":     # the years roll past behind the word
-            c.t(f'tl.fromTo("#hy", {{opacity:0, y:40}}, {{opacity:1, y:0, duration:0.2}}, {at(i):.2f});')
-            c.t(f'(() => {{ const o = {{v:1}}; tl.to(o, {{v:7, duration:0.9, ease:"power1.in", onUpdate:() => {{ const n = Math.round(o.v); '
-                f'document.getElementById("hy").textContent = n + (n > 1 ? " years" : " year"); }}}}, {at(i):.2f}); }})();')
-            c.t(f'tl.fromTo("#hw{i}", {{scale:1}}, {{scale:1.18, duration:0.16, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {at(i) + 0.25:.2f});')
-            c.sfx("tap", at(i))
         if m == "circle":
             body[-1] = body[-1].replace(f'id="hw{i}">{words[i]}</span>', f'id="hw{i}">{words[i]}{circle}</span>')
-            c.t(f'tl.fromTo("#hw{i} .hcirc path", {{strokeDashoffset:1}}, {{strokeDashoffset:0, duration:0.5, ease:"power2.inOut"}}, {at(i) + 0.05:.2f});')
+            c.t(f'tl.fromTo("#hw{i} .hcirc path", {{strokeDashoffset:1}}, {{strokeDashoffset:0, duration:0.45, ease:"power2.inOut"}}, {at(i) + 0.05:.2f});')
+            c.t(f'tl.fromTo("#hflash", {{opacity:0.7}}, {{opacity:0, duration:0.35, ease:"power2.out", immediateRender:false}}, {at(i) + 0.05:.2f});')
+            c.t(f'tl.fromTo("#hl", {{x:-14}}, {{x:14, duration:0.05, yoyo:true, repeat:5, ease:"none", immediateRender:false}}, {at(i) + 0.05:.2f});')
+            c.t(f'tl.set("#hl", {{x:0}}, {at(i) + 0.36:.2f});')
             c.sfx("tap", at(i) + 0.05)
     c.t(f'tl.fromTo("#hl", {{scale:1}}, {{scale:1.06, duration:{d:.2f}, ease:"none"}}, 0);')          # a slow push-in while it's said
     w = d + 0.25                                                                                        # the whip into the quiz
     c.t(f'tl.to("#hook", {{x:-700, opacity:0, filter:"blur(18px)", duration:0.32, ease:"power3.in"}}, {w:.2f});')
     clip(c, "brag-quiz/sfx/ref/swoosh.wav", w - 0.05, 0.5)
+    for i in (1, 3, 6): clip(c, "brag-quiz/sfx/ref/short-swoosh.wav", at(i) - 0.1, 0.18)
     return w + 0.25
 
 def change(vid, kicker, R, ask, hook=None, vo=None):
