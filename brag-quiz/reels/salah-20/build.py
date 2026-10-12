@@ -16,7 +16,7 @@ COUNT = (23.24, 24.44, 26.0)                          # "50" … "years": the co
 SALAH = (39.95, 40.08, 41.3)                          # SALAH: appears, lands, leaves (after the held frame)
 HOLD_AT, HOLD = 40.65, 1.3                            # the held frame after "salah", while the echo rings
 HADITH = (34.2, 39.85)
-PANELS = [(66.74, 70.10, "sn-1-alt"), (70.10, 77.05, "sn-8"), (77.05, 83.75, "sn-7")]
+PANELS = [(66.74, 70.10, "sn-1-alt"), (70.10, 77.05, "sn-7"), (77.05, 83.75, "sn-6")]   # 20 words = over half · the 56% ring · the top-20 list
 NH = round(HOLD * FPS)
 sh = lambda t: t + HOLD if t > HOLD_AT else t       # take time → time in the reel with the hold inserted
 
