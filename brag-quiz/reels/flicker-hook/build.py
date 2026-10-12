@@ -58,6 +58,25 @@ def blurred_bg(img):              # the frame behind the panel: the same picture
     w, h = img.size; cw = h * OW // OH; bg = img.crop(((w - cw) // 2, 0, (w + cw) // 2, h)).resize((OW // 4, OH // 4))
     return ImageEnhance.Brightness(bg.filter(ImageFilter.GaussianBlur(8))).enhance(0.42).resize((OW, OH)).convert("RGBA")
 
+_seg = None
+def glow(pnl, k):
+    """A white glow and a bright outline around the person (rembg's human cut-out, as the template uses for titles)."""
+    global _seg
+    from rembg import new_session, remove
+    _seg = _seg or new_session("u2net_human_seg")
+    m = remove(pnl, session=_seg, only_mask=True).convert("L")
+    from scipy import ndimage                                           # only the biggest shape is him (the sofa arm sometimes comes too)
+    lab, n = ndimage.label(np.array(m) > 128)
+    if not n: return pnl
+    big = 1 + int(np.argmax(ndimage.sum(np.ones_like(lab), lab, range(1, n + 1))))
+    m = Image.fromarray(np.where(lab == big, np.array(m), 0).astype(np.uint8))
+    halo = m.filter(ImageFilter.MaxFilter(15)).filter(ImageFilter.GaussianBlur(22)).point(lambda v: min(255, int(v * 2.2 * k)))
+    edge = Image.eval(m.filter(ImageFilter.MaxFilter(7)), lambda v: v).point(lambda v: v)
+    edge = Image.composite(edge, Image.new("L", m.size, 0), Image.eval(m, lambda v: 255 - v)).point(lambda v: int(v * k))
+    out = Image.composite(Image.new("RGB", pnl.size, WHITE), pnl, halo)
+    out = Image.composite(pnl, out, m.point(lambda v: 255 if v > 128 else 0))           # him on top, the glow around him
+    return Image.composite(Image.new("RGB", pnl.size, WHITE), out, edge)
+
 def ease(p): return 4 * p ** 3 if p < .5 else 1 - (-2 * p + 2) ** 3 / 2
 out = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{OW}x{OH}", "-r", str(FPS), "-i", "-",
                         "-c:v", "libx264", "-preset", "medium", "-crf", "17", "-pix_fmt", "yuv420p", os.path.join(W, "hook-v.mp4")], stdin=subprocess.PIPE)
@@ -73,7 +92,9 @@ for si, (k, n) in enumerate(seq):
         img = clips[k][head[k]]; head[k] += 1
         if j == 0 and prev and si % 3 == 2 and n > 1: img = clips[prev][max(0, head[prev] - 1)]      # one frame flicks back
         fr = blurred_bg(img); pnl = img.resize((PW, PH))
-        if j == 0 and si: pnl = Image.blend(pnl, Image.new("RGB", pnl.size, WHITE), 0.45)            # a white flash on each switch
+        if j < 2 and si and k != "room":                                                # each jump: a white glow and outline around him, and a light flash
+            pnl = glow(pnl, 1.0 if j == 0 else 0.5)
+            if j == 0: pnl = Image.blend(pnl, Image.new("RGB", pnl.size, WHITE), 0.2)
         fr.paste(pnl, (PX, PY)); ImageDraw.Draw(fr).rectangle((PX - 14, PY - 14, PX + PW + 13, PY + PH + 13), outline=RED, width=14)
         paste_c(fr, title, OW / 2, 520, 1.0 + 0.03 * (i % 2))
         out.stdin.write(fr.convert("RGB").tobytes()); i += 1
@@ -116,6 +137,8 @@ for i in range(F_EXP, N):
         if 0 <= ds < 0.25: dx, dy, rot = SHAKE[min(5, int(ds / 0.04))]
         sc = s1 * z * (1.04 if rot else 1); ax, ay = (CX - X0) * s1, CY_FACE * s1
         box = (CX + (0 - ax - dx) / sc, CY_FACE + (0 - ay - dy) / sc, CX + (OW - ax - dx) / sc, CY_FACE + (OH - ay - dy) / sc)
+        sx = max(0, -box[0]) - max(0, box[2] - 3840); sy = max(0, -box[1]) - max(0, box[3] - 2160)      # keep the crop inside the picture
+        box = (box[0] + sx, box[1] + sy, box[2] + sx, box[3] + sy)
         fr = src.resize((OW, OH), Image.BICUBIC, box=box).convert("RGBA")
         if rot: fr = fr.rotate(rot, Image.BICUBIC)
     if i >= F_MAIN:
