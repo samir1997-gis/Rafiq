@@ -143,7 +143,8 @@ def hook_in(c, body, hook):
     c.t(f'tl.fromTo("#htimer .fg", {{strokeDashoffset:805}}, {{strokeDashoffset:0, duration:{d - tr + 0.1:.2f}, ease:"power1.in"}}, {tr:.2f});')
     c.t(f'(() => {{ const o = {{v:0}}; tl.to(o, {{v:7, duration:{d - tr + 0.1:.2f}, ease:"power1.in", onUpdate:() => {{ document.getElementById("hty").textContent = Math.floor(o.v); }}}}, {tr:.2f}); }})();')
     c.t(f'tl.fromTo("#hw{red}", {{scale:1}}, {{scale:1.2, duration:0.16, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {tr + 0.25:.2f});')
-    clip(c, "brag-output-v6/composition/assets/sfx-gen/clock.mp3", tr, 0.35)
+    for k in range(1, 8):               # a clear tick on every year the timer counts (power1.in: year k at sqrt(k/7) of the way)
+        clip(c, "brag-quiz/sfx/ref/click.wav", tr + (d - tr + 0.1) * (k / 7) ** 0.5, 0.7)
     for i, m in marks.items():
         if m == "circle":
             body[-1] = body[-1].replace(f'id="hw{i}">{words[i]}</span>', f'id="hw{i}">{words[i]}{circle}</span>')
