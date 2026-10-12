@@ -120,7 +120,7 @@ def hook_in(c, body, hook):
     body.append(f'<div class="sec" id="hook">{nums}{timer}<div class="hookline" id="hl">{spans}</div><div id="hflash"></div></div>')
     c.css = getattr(c, "css", "") + (
         ".hookline { position:absolute; left:60px; right:60px; top:640px; text-align:center; font-weight:700; font-size:112px; line-height:1.06; "
-        "letter-spacing:-.03em; color:var(--ink); } .hw { display:inline-block; } .hw.red { color:var(--rubric); }"
+        "letter-spacing:-.03em; color:var(--ink); } .hw { display:inline-block; } .hw.red { color:var(--rubric); } .hw.loud { font-size:1.35em; font-weight:800; }"
         ".hw.circle { position:relative; color:var(--verdigris); } .hcirc { position:absolute; left:-40px; top:-34px; width:calc(100% + 80px); "
         "height:180px; overflow:visible; } .hcirc path { fill:none; stroke:#E9B949; stroke-width:12; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; }"
         ".hn { position:absolute; font-weight:700; opacity:.32; white-space:nowrap; letter-spacing:-.02em; } .hn b { font-weight:700; }"
@@ -146,6 +146,11 @@ def hook_in(c, body, hook):
     for k in range(1, 8):               # a clear tick on every year the timer counts (power1.in: year k at sqrt(k/7) of the way)
         clip(c, "brag-quiz/sfx/ref/click.wav", tr + (d - tr + 0.1) * (k / 7) ** 0.5, 0.7)
     for i, m in marks.items():
+        if m == "loud":                 # the stressed word: big from frame 0, a punch and a shake as it's said
+            c.t(f'tl.fromTo("#hw{i}", {{scale:1.45}}, {{scale:1, duration:0.35, ease:"back.out(3)"}}, {at(i):.2f});')
+            c.t(f'tl.fromTo("#hl", {{x:-10}}, {{x:10, duration:0.04, yoyo:true, repeat:5, ease:"none", immediateRender:false}}, {at(i) + 0.05:.2f});')
+            c.t(f'tl.set("#hl", {{x:0}}, {at(i) + 0.3:.2f});')
+            c.sfx("tap", at(i))
         if m == "circle":
             body[-1] = body[-1].replace(f'id="hw{i}">{words[i]}</span>', f'id="hw{i}">{words[i]}{circle}</span>')
             c.t(f'tl.fromTo("#hw{i} .hcirc path", {{strokeDashoffset:1}}, {{strokeDashoffset:0, duration:0.45, ease:"power2.inOut"}}, {at(i) + 0.05:.2f});')
@@ -476,8 +481,8 @@ def g4(): change("g4-past-i", "QUIZ · ARABIC VERBS",            # recreated fro
                  [("كَتَبَ", "he wrote", "I wrote", ["كَتَبَتْ", "كَتَبْتُ", "كَتَبْنا"], 1, '<bdi lang="ar"><em>ـتُ</em></bdi> on the end = I'),
                   ("ذَهَبَ", "he went", "I went", ["ذَهَبْتُ", "ذَهَبَتْ", "ذَهَبْنا"], 0, 'the same <bdi lang="ar"><em>ـتُ</em></bdi>')],
                  "0, 1 or 2? Send this to your Arabic study buddy 👇",
-                 hook=("Most people learn Arabic for years before they notice this trick.".split(), {5: "red", 10: "circle"},
-                       "brag-quiz/voice/g4-hook/g4-b-callum.mp3"),
+                 hook=("MOST people learn Arabic for years before they notice this trick!".split(), {0: "loud", 5: "red", 10: "circle"},
+                       "brag-quiz/voice/g4-hook2/g4-c3-most.mp3"),
                  vo={"q": [("brag-quiz/voice/g4-vo/q1a.mp3", "brag-quiz/voice/g4-vo/q1b.mp3"),
                            ("brag-quiz/voice/g4-vo/q2a.mp3", "brag-quiz/voice/g4-vo/q2b.mp3")],
                      "rule": "brag-quiz/voice/g4-vo/rule.mp3", "end": "brag-quiz/voice/g4-vo/end.mp3"})
