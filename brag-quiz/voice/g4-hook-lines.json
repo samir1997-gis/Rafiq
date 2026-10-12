@@ -1,0 +1,66 @@
+[
+ {
+  "file": "g4-a-callum",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Add one tiny sound, and 'he wrote' becomes 'I wrote'. Can you hear it?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "g4-a-brian",
+  "voice": "nPczCjzI2devNBz1zQrb",
+  "text": "Add one tiny sound, and 'he wrote' becomes 'I wrote'. Can you hear it?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "g4-a-jessica",
+  "voice": "cgSgspJ2msm6clMCkdW9",
+  "text": "Add one tiny sound, and 'he wrote' becomes 'I wrote'. Can you hear it?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "g4-a-charlie",
+  "voice": "IKne3meq5aSn9XLyUdCD",
+  "text": "Add one tiny sound, and 'he wrote' becomes 'I wrote'. Can you hear it?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "g4-b-callum",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Most people learn Arabic for years before they notice this trick.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "g4-b-brian",
+  "voice": "nPczCjzI2devNBz1zQrb",
+  "text": "Most people learn Arabic for years before they notice this trick.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "g4-b-jessica",
+  "voice": "cgSgspJ2msm6clMCkdW9",
+  "text": "Most people learn Arabic for years before they notice this trick.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "g4-b-charlie",
+  "voice": "IKne3meq5aSn9XLyUdCD",
+  "text": "Most people learn Arabic for years before they notice this trick.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ }
+]
