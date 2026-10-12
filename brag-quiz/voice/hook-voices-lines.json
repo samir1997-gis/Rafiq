@@ -1,0 +1,34 @@
+[
+ {
+  "file": "hook-george",
+  "voice": "JBFqnCBsd6RMkjVDRZzb",
+  "text": "Part of the Prophet's name, sallallahu alayhi wa sallam, is hidden in a word you say in every rakʿah. Can you spot it?",
+  "stability": 0.4,
+  "style": 0.35,
+  "speed": 1.05
+ },
+ {
+  "file": "hook-daniel",
+  "voice": "onwK4e9ZLuTAKqWW03F9",
+  "text": "Part of the Prophet's name, sallallahu alayhi wa sallam, is hidden in a word you say in every rakʿah. Can you spot it?",
+  "stability": 0.4,
+  "style": 0.35,
+  "speed": 1.05
+ },
+ {
+  "file": "hook-lily",
+  "voice": "pFZP5JQG7iQjIQuC4Bku",
+  "text": "Part of the Prophet's name, sallallahu alayhi wa sallam, is hidden in a word you say in every rakʿah. Can you spot it?",
+  "stability": 0.4,
+  "style": 0.35,
+  "speed": 1.05
+ },
+ {
+  "file": "hook-will",
+  "voice": "bIHbv24MWmeRgasZH58o",
+  "text": "Part of the Prophet's name, sallallahu alayhi wa sallam, is hidden in a word you say in every rakʿah. Can you spot it?",
+  "stability": 0.4,
+  "style": 0.35,
+  "speed": 1.05
+ }
+]
