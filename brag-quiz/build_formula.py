@@ -15,7 +15,7 @@ which live on the claude/teach-videos branch: run this from a checkout of that b
   python3 brag-quiz/build_formula.py [id ...]     then in each brag-quiz/out/<id>/composition: npx hyperframes render -o ../<id>.mp4
   python3 brag-quiz/build_formula.py --level [id ...]
 """
-import os, shutil, sys
+import json, os, shutil, sys
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import build_teach as T, build_series as S, build_social as SO
 from build_teach import Comp, word, e
@@ -81,23 +81,62 @@ def f2():
 
 HOOK_VOICE = "N2lVS1w4EtoT3dr4eOWO"   # Callum: the owner's pick for spoken hooks (12 Oct 2026); Rafiq's voice stays for the Arabic
 
-def hook_in(c, body, hook):
-    """An opening hook (owner, 12 Oct 2026): the line big on screen from frame 0, spoken in the hook voice; returns when it's done.
-    hook = (html, mp3 path from the repo root), the mp3 spoken with HOOK_VOICE (brag-quiz/voice/*-lines.json, "ElevenLabs voices")."""
-    html, mp3 = hook
-    body.append(f'<div class="sec" id="hook"><div class="hookline">{html}</div></div>')
-    c.css = getattr(c, "css", "") + (".hookline { position:absolute; left:80px; right:80px; top:640px; text-align:center; font-weight:700; "
-                                     "font-size:96px; line-height:1.08; letter-spacing:-.02em; color:var(--ink); }"
-                                     ".hookline em { font-style:normal; color:var(--rubric); }")
-    src = os.path.join(T.ROOT, mp3); name = os.path.basename(src); shutil.copy(src, os.path.join(c.a, "audio", name)); d = T.dur(src)
-    c.audio.append(f'<audio id="hk" src="assets/audio/{name}" data-start="0.05" data-duration="{d:.2f}" data-volume="1.0" data-track-index="12"></audio>')
-    c.t('tl.fromTo("#hook .hookline", {scale:1}, {scale:1.04, duration:%.2f, ease:"none"}, 0);' % d)   # a slow push-in while it's said
-    c.out_("#hook", d + 0.15)
-    return d + 0.45
+def clip(c, rel, at, vol=1.0):
+    """Any sound file (path from the repo root) on the timeline; returns its length."""
+    src = os.path.join(T.ROOT, rel); name = os.path.basename(src); shutil.copy(src, os.path.join(c.a, "audio", name)); d = T.dur(src)
+    c.audio.append(f'<audio id="x{len(c.audio)}" src="assets/audio/{name}" data-start="{at:.2f}" data-duration="{d:.2f}" data-volume="{vol}" data-track-index="{16 + len(c.audio) % 3}"></audio>')
+    return d
 
-def change(vid, kicker, R, ask, hook=None):
+def words_at(rel):
+    """Word timings of a spoken line, from the audio (faster-whisper); cached next to the mp3."""
+    src = os.path.join(T.ROOT, rel); cache = src[:-4] + ".words.json"
+    if not os.path.exists(cache):
+        from faster_whisper import WhisperModel
+        segs, _ = WhisperModel("small", device="cpu", compute_type="int8").transcribe(src, word_timestamps=True, language="en")
+        json.dump([(w.word.strip(), float(w.start)) for sg in segs for w in sg.words], open(cache, "w"))
+    return json.load(open(cache))
+
+def hook_in(c, body, hook):
+    """An opening hook (owner, 12 Oct 2026) in the MOTION-STYLE moves: each word lands as the hook voice says it (blur-zoom), the
+    first is there at frame 0; "years" in red with the years rolling past behind it, the last word circled in gold, a slow push-in,
+    then a whip into the quiz. hook = (words, {word index: "red" | "circle"}, mp3 spoken with HOOK_VOICE)."""
+    words, marks, mp3 = hook
+    W = words_at(mp3); d = clip(c, mp3, 0.05)
+    spans = "".join(f'<span class="hw{" " + marks[i] if i in marks else ""}" id="hw{i}">{w}</span> ' for i, w in enumerate(words))
+    circle = '<svg class="hcirc" viewBox="0 0 520 200" preserveAspectRatio="none"><path d="M70 110 C 40 30, 470 15, 500 95 C 520 175, 110 200, 40 130 C 20 110, 70 50, 160 40" pathLength="1"/></svg>'
+    body.append(f'<div class="sec" id="hook"><div class="hyears" id="hy">1 year</div><div class="hookline" id="hl">{spans}</div></div>')
+    c.css = getattr(c, "css", "") + (
+        ".hookline { position:absolute; left:70px; right:70px; top:560px; text-align:center; font-weight:700; font-size:112px; line-height:1.06; "
+        "letter-spacing:-.03em; color:var(--ink); } .hw { display:inline-block; } .hw.red { color:var(--rubric); }"
+        ".hw.circle { position:relative; color:var(--verdigris); } .hcirc { position:absolute; left:-40px; top:-34px; width:calc(100% + 80px); "
+        "height:180px; overflow:visible; } .hcirc path { fill:none; stroke:#E9B949; stroke-width:12; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; }"
+        ".hyears { position:absolute; left:0; right:0; top:300px; text-align:center; font-family:var(--serif, serif); font-style:italic; font-size:150px; "
+        "color:rgba(180,50,42,.16); opacity:0; }")
+    at = lambda i: 0.05 + (W[i][1] if i < len(W) else d * i / len(words))
+    for i in range(1, len(words)):
+        c.t(f'tl.fromTo("#hw{i}", {{opacity:0, scale:1.9, filter:"blur(14px)"}}, {{opacity:1, scale:1, filter:"blur(0px)", duration:0.3, ease:"expo.out"}}, {at(i) - 0.04:.2f});')
+    for i, m in marks.items():
+        if m == "red":     # the years roll past behind the word
+            c.t(f'tl.fromTo("#hy", {{opacity:0, y:40}}, {{opacity:1, y:0, duration:0.2}}, {at(i):.2f});')
+            c.t(f'(() => {{ const o = {{v:1}}; tl.to(o, {{v:7, duration:0.9, ease:"power1.in", onUpdate:() => {{ const n = Math.round(o.v); '
+                f'document.getElementById("hy").textContent = n + (n > 1 ? " years" : " year"); }}}}, {at(i):.2f}); }})();')
+            c.t(f'tl.fromTo("#hw{i}", {{scale:1}}, {{scale:1.18, duration:0.16, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {at(i) + 0.25:.2f});')
+            c.sfx("tap", at(i))
+        if m == "circle":
+            body[-1] = body[-1].replace(f'id="hw{i}">{words[i]}</span>', f'id="hw{i}">{words[i]}{circle}</span>')
+            c.t(f'tl.fromTo("#hw{i} .hcirc path", {{strokeDashoffset:1}}, {{strokeDashoffset:0, duration:0.5, ease:"power2.inOut"}}, {at(i) + 0.05:.2f});')
+            c.sfx("tap", at(i) + 0.05)
+    c.t(f'tl.fromTo("#hl", {{scale:1}}, {{scale:1.06, duration:{d:.2f}, ease:"none"}}, 0);')          # a slow push-in while it's said
+    w = d + 0.25                                                                                        # the whip into the quiz
+    c.t(f'tl.to("#hook", {{x:-700, opacity:0, filter:"blur(18px)", duration:0.32, ease:"power3.in"}}, {w:.2f});')
+    clip(c, "brag-quiz/sfx/ref/swoosh.wav", w - 0.05, 0.5)
+    return w + 0.25
+
+def change(vid, kicker, R, ask, hook=None, vo=None):
     """The Ashrabu format: "if this is X, what's the <she / we / past / plural> form?", a 3-2-1, the answer said, the rule.
-    hook: optional spoken opening line (hook_in); then the first question comes in after it instead of being the cover."""
+    hook: optional spoken opening line (hook_in); then the first question comes in after it instead of being the cover.
+    vo: optional hook-voice lines {"q": [(before the word, after it) per round], "rule": mp3, "end": mp3}: the question is spoken
+    around the Arabic word (said in the Rafiq voice), its words appear as they're said, the trick and the closing ask are spoken."""
     c = SO.vcomp(vid, kicker); body, t = [], 0.1
     if vid != "f3-she-eats": c.bed = True              # the fountain under it, as in our other videos (f3 stays as posted)
     if hook: t = hook_in(c, body, hook)
@@ -108,14 +147,25 @@ def change(vid, kicker, R, ask, hook=None):
                     f'<div class="ques" id="{s}q" style="top:680px">what’s <b>“{ask_}”</b>?</div>{cnt(s + "c", 800)}'
                     f'<div class="ops" style="top:990px">' + "".join(f'<div class="op" id="{s}o{i}"><b><span class="ar" lang="ar" style="font-size:80px">{e(o)}</span></b></div>' for i, o in enumerate(opts))
                     + f'</div><div class="rule" id="{s}r" style="top:1500px;font-size:48px">the change: <span class="ar" style="font-size:64px">{rule}</span></div></div>')
+        if hook and not k: c.t(f'tl.fromTo("#{s}", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
         if k or hook: c.inn(f"#{s} .q2", t); SO.bigin(c, f"#{s}b", t + 0.3)   # without a hook, the first question is the cover (frame 0)
-        d = c.say(ar, t + 0.6)
-        c.inn(f"#{s}q", t + 0.6 + d + 0.2)
-        for i in range(3): c.inn(f"#{s}o{i}", t + 1.0 + d + i * 0.12)
-        done = countdown(c, f"{s}c", t + 1.6 + d + 0.5)
+        if vo:                                            # "If this means 'he wrote'..." [the word] "...what's 'I wrote'?"
+            a = clip(c, vo["q"][k][0], t); d = c.say(ar, t + a + 0.05); tb = t + a + 0.05 + d + 0.15
+            b = clip(c, vo["q"][k][1], tb)
+            c.t(f'tl.fromTo("#{s}q", {{opacity:0, scale:1.5, filter:"blur(10px)"}}, {{opacity:1, scale:1, filter:"blur(0px)", duration:0.3, ease:"expo.out"}}, {tb:.2f});')
+            for i in range(3): c.inn(f"#{s}o{i}", tb + b + 0.05 + i * 0.12)
+            done = countdown(c, f"{s}c", tb + b + 0.5)
+        else:
+            d = c.say(ar, t + 0.6)
+            c.inn(f"#{s}q", t + 0.6 + d + 0.2)
+            for i in range(3): c.inn(f"#{s}o{i}", t + 1.0 + d + i * 0.12)
+            done = countdown(c, f"{s}c", t + 1.6 + d + 0.5)
         reveal(c, f"#{s}o{right}", [f"#{s}o{i}" for i in range(3) if i != right], done)
         d2 = c.say(opts[right], done + 0.3); c.inn(f"#{s}r", done + 0.3 + d2)
-        t = done + 0.3 + d2 + 2.4; c.out_(f"#{s}", t); t += 0.4
+        hold = 2.4
+        if vo and k == 0 and vo.get("rule"): hold = max(hold, clip(c, vo["rule"], done + 0.4 + d2) + 0.6)
+        t = done + 0.3 + d2 + hold; c.out_(f"#{s}", t); t += 0.4
+    if vo and vo.get("end"): clip(c, vo["end"], t + 0.4)
     SO.finish(c, body, t, ask)
 
 def f3():
@@ -398,7 +448,11 @@ def g4(): change("g4-past-i", "QUIZ · ARABIC VERBS",            # recreated fro
                  [("كَتَبَ", "he wrote", "I wrote", ["كَتَبَتْ", "كَتَبْتُ", "كَتَبْنا"], 1, '<bdi lang="ar"><em>ـتُ</em></bdi> on the end = I'),
                   ("ذَهَبَ", "he went", "I went", ["ذَهَبْتُ", "ذَهَبَتْ", "ذَهَبْنا"], 0, 'the same <bdi lang="ar"><em>ـتُ</em></bdi>')],
                  "0, 1 or 2? Send this to your Arabic study buddy 👇",
-                 hook=("Most people learn Arabic for <em>years</em> before they notice this trick.", "brag-quiz/voice/g4-hook/g4-b-callum.mp3"))
+                 hook=("Most people learn Arabic for years before they notice this trick.".split(), {5: "red", 9: "circle"},
+                       "brag-quiz/voice/g4-hook/g4-b-callum.mp3"),
+                 vo={"q": [("brag-quiz/voice/g4-vo/q1a.mp3", "brag-quiz/voice/g4-vo/q1b.mp3"),
+                           ("brag-quiz/voice/g4-vo/q2a.mp3", "brag-quiz/voice/g4-vo/q2b.mp3")],
+                     "rule": "brag-quiz/voice/g4-vo/rule.mp3", "end": "brag-quiz/voice/g4-vo/end.mp3"})
 
 def w8(): wbw("w8-subhana-azim", 8, 'You say this <b>every time</b> you bow in rukūʿ', "سُبْحانَ رَبِّيَ الْعَظِيمِ", 104,   # recreated from t2-subhana (#246)
                   [("سُبْحانَ", "Glory be to"), ("رَبِّيَ", "my Lord"), ("الْعَظِيمِ", "the Magnificent")],
