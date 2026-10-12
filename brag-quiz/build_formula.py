@@ -153,8 +153,8 @@ def change(vid, kicker, R, ask, hook=None, vo=None):
             a = clip(c, vo["q"][k][0], t); d = c.say(ar, t + a + 0.05); tb = t + a + 0.05 + d + 0.15
             b = clip(c, vo["q"][k][1], tb)
             c.t(f'tl.fromTo("#{s}q", {{opacity:0, scale:1.5, filter:"blur(10px)"}}, {{opacity:1, scale:1, filter:"blur(0px)", duration:0.3, ease:"expo.out"}}, {tb:.2f});')
-            for i in range(3): c.inn(f"#{s}o{i}", tb + b + 0.05 + i * 0.12)
-            done = countdown(c, f"{s}c", tb + b + 0.5)
+            for i in range(3): c.inn(f"#{s}o{i}", tb + 0.35 + i * 0.12)          # the options come in while the question is said
+            done = countdown(c, f"{s}c", max(tb + b + 0.2, tb + 0.9))
         else:
             d = c.say(ar, t + 0.6)
             c.inn(f"#{s}q", t + 0.6 + d + 0.2)
@@ -448,7 +448,7 @@ def g4(): change("g4-past-i", "QUIZ · ARABIC VERBS",            # recreated fro
                  [("كَتَبَ", "he wrote", "I wrote", ["كَتَبَتْ", "كَتَبْتُ", "كَتَبْنا"], 1, '<bdi lang="ar"><em>ـتُ</em></bdi> on the end = I'),
                   ("ذَهَبَ", "he went", "I went", ["ذَهَبْتُ", "ذَهَبَتْ", "ذَهَبْنا"], 0, 'the same <bdi lang="ar"><em>ـتُ</em></bdi>')],
                  "0, 1 or 2? Send this to your Arabic study buddy 👇",
-                 hook=("Most people learn Arabic for years before they notice this trick.".split(), {5: "red", 9: "circle"},
+                 hook=("Most people learn Arabic for years before they notice this trick.".split(), {5: "red", 10: "circle"},
                        "brag-quiz/voice/g4-hook/g4-b-callum.mp3"),
                  vo={"q": [("brag-quiz/voice/g4-vo/q1a.mp3", "brag-quiz/voice/g4-vo/q1b.mp3"),
                            ("brag-quiz/voice/g4-vo/q2a.mp3", "brag-quiz/voice/g4-vo/q2b.mp3")],
