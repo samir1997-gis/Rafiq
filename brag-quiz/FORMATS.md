@@ -34,5 +34,8 @@ What didn't work, so don't make more without a new idea: timed challenges on eve
 - [ ] **A share line** on screen and in the caption ("Send this to …").
 - [ ] **When to post**: tie it to its moment (Jumuʿah on Friday morning, the adhān at Fajr, Ramadan words in Ramadan).
 - [ ] **Cover = the first frame** (the question), never the end card.
+- [ ] **Frame 0 is never empty**: the question and the big word are on screen from the very first frame, nothing fades in from
+      blank. Run `python3 brag-quiz/check_frame0.py <video>.mp4` on every video before it goes in the folder; it must say `ok`.
+      (q4-azim opened blank and most TikTok viewers left at 0:01; on 12 Oct 12 of 23 scheduled videos did the same.)
 - [ ] **Captions checked with TypeSafe** (`tools/typesafe-exp/`).
 - [ ] **Moves like `MOTION-STYLE.md`**: voice-led, every move on its word, our colours (never the reference's).

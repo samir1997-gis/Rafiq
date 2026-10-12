@@ -90,20 +90,18 @@ def build(q):
     count_top = opts_top + opts_h + 60
     x_top = opts_top + OH + 60                      # after the reveal only the answer is left, in the top slot
 
-    # timeline: question at once (the hook), then the word or the lead phrase, the options, 5-4-3-2-1, the answer
-    js += ['tl.fromTo("#brand", {opacity:0, y:-10}, {opacity:1, y:0, duration:0.4, ease:"power3.out"}, 0);',
-           'tl.fromTo("#kicker", {opacity:0}, {opacity:1, duration:0.3}, 0.05);',
-           'tl.fromTo("#q", {opacity:0, y:24}, {opacity:1, y:0, duration:0.45, ease:"power3.out"}, 0.1);']
-    t = 1.0
+    # timeline: the question, the word and the options are all on screen from frame 0 (the cover, and what stops the scroll:
+    # q4-azim opened blank and most viewers left at 0:01, 12 Oct 2026); then the word is said, each option pulses as it's said,
+    # 5-4-3-2-1, the answer
+    t = 0.5
     if has_hero:
-        js += [f'tl.fromTo("#hero", {{opacity:0, scale:0.94}}, {{opacity:1, scale:1, duration:0.5, ease:"power3.out"}}, {t - 0.2:.2f});',
-               f'tl.fromTo("#hero i", {{scaleX:0}}, {{scaleX:1, duration:0.5, ease:"power3.out"}}, {t:.2f});']
+        js.append(f'tl.fromTo("#hero", {{scale:1}}, {{scale:1.06, duration:0.2, yoyo:true, repeat:1, ease:"power2.out"}}, {t:.2f});')
         d = say(q["word_audio"], t); t += d + 0.35
         js.append(f'tl.fromTo("#hero i", {{scaleX:1}}, {{scaleX:0.4, duration:0.4, ease:"power2.inOut", immediateRender:false}}, {t - 0.4:.2f});')
     if "lead_audio" in q:
         t += say(q["lead_audio"], t, 0.9) + 0.3
     for i in range(n):                                  # each option settles in; voiced ones are said as they arrive
-        js.append(f'tl.fromTo("#o{i}", {{opacity:0, y:30}}, {{opacity:1, y:0, duration:0.4, ease:"power3.out"}}, {t:.2f});')
+        js.append(f'tl.fromTo("#o{i}", {{scale:1}}, {{scale:1.04, duration:0.15, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t:.2f});')
         if q.get("option_audio"): t += say(q["option_audio"][i], t + 0.15) + 0.4
         else: t += 0.18
     cs = t + 0.5

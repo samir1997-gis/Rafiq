@@ -90,7 +90,8 @@ def change(vid, kicker, R, ask):
                     f'<div class="ques" id="{s}q" style="top:680px">what’s <b>“{ask_}”</b>?</div>{cnt(s + "c", 800)}'
                     f'<div class="ops" style="top:990px">' + "".join(f'<div class="op" id="{s}o{i}"><b><span class="ar" lang="ar" style="font-size:80px">{e(o)}</span></b></div>' for i, o in enumerate(opts))
                     + f'</div><div class="rule" id="{s}r" style="top:1500px;font-size:48px">the change: <span class="ar" style="font-size:64px">{rule}</span></div></div>')
-        c.inn(f"#{s} .q2", t); SO.bigin(c, f"#{s}b", t + 0.3); d = c.say(ar, t + 0.6)
+        if k: c.inn(f"#{s} .q2", t); SO.bigin(c, f"#{s}b", t + 0.3)   # the first question is on screen from frame 0 (the cover)
+        d = c.say(ar, t + 0.6)
         c.inn(f"#{s}q", t + 0.6 + d + 0.2)
         for i in range(3): c.inn(f"#{s}o{i}", t + 1.0 + d + i * 0.12)
         done = countdown(c, f"{s}c", t + 1.6 + d + 0.5)
@@ -120,7 +121,7 @@ def root_video(vid, hook, big, root, root_mean, payoff, rows, turn_q, turn_big, 
     3. "Your turn": one more word from the root, the hint, 3-2-1, the answer, then a "send this to ..." ask
     4. the end card. big / rows / turn_big: word() parts; rows: (parts, arabic, meaning, why)."""
     c = Comp(vid, "ARABIC · ONE ROOT")
-    c.inn("#a .q2", 0.1); c.t('tl.fromTo("#a .big", {opacity:0, scale:0.94}, {opacity:1, scale:1, duration:0.5, ease:"power3.out"}, 0.45);')
+    # the hook and its word are on screen from frame 0: the cover (FORMATS.md checklist, 11 Oct 2026)
     say_any(c, big[1], 1.0, voice)
     c.t(f'tl.fromTo("#a .big .pr", {{color:"{T.INK}"}}, {{color:"{T.RED}", duration:0.35}}, 2.6);'); c.sfx("tap", 2.6)
     c.inn("#e1", 3.1); c.sfx("tap", 3.1)
@@ -203,7 +204,7 @@ def a1():
     c = Comp("a1-adhan", "ARABIC · ONE ROOT")
     ADHAN = [("أَ", "r"), ("ذا", "r"), ("ن", "r")]
     EAR = [("أُ", "r"), ("ذُ", "r"), ("ن", "r")]
-    c.inn("#a .q2", 0.1); c.t('tl.fromTo("#a .big", {opacity:0, scale:0.94}, {opacity:1, scale:1, duration:0.5, ease:"power3.out"}, 0.45);')
+    # the hook and its word are on screen from frame 0: the cover (FORMATS.md checklist, 11 Oct 2026)
     c.say("أَذان", 1.0)
     c.inn("#e1", 2.4); c.sfx("tap", 2.4)
     c.out_("#a", 4.0)
@@ -297,7 +298,7 @@ def r2():
     ROWS = [([("الْ", ""), ("حَ", "r"), ("مْ", "r"), ("دُ", "r")], "الْحَمْدُ", "all praise", "al-ḥamdu lillāh, in every rakʿah"),
             ([("حَ", "r"), ("مِ", "r"), ("دَ", "r"), ("هُ", "")], "حَمِدَهُ", "praises Him", "samiʿa Allāhu liman ḥamidah")]
     AH = [("أَ", ""), ("حْ", "r"), ("مَ", "r"), ("د", "r")]
-    c.inn("#a .q2", 0.1); c.t('tl.fromTo("#a .big", {opacity:0, scale:0.94}, {opacity:1, scale:1, duration:0.5, ease:"power3.out"}, 0.45);')
+    # the hook and its word are on screen from frame 0: the cover (FORMATS.md checklist, 11 Oct 2026)
     c.say("مُحَمَّد", 1.0)
     c.t(f'tl.fromTo("#a .big .pr", {{color:"{T.INK}"}}, {{color:"{T.RED}", duration:0.35}}, 2.2);'); c.sfx("tap", 2.2)
     c.inn("#e1", 2.7); c.sfx("tap", 2.7)
@@ -351,8 +352,42 @@ def r2():
       {endc}"""
     c.write(body, round(E + 2.9, 2))
 
+def r3():
+    """Recreated from p1-akbar (#246) in the root format: أَكْبَرُ, ك ب ر "big, great"; كَبِير (vocab-data.js 161), تَكْبِير; your turn كِبار.
+    أَكْبَرُ "is the Greatest" is salah-data.js's; تَكْبِير and كِبار are spoken in the Rafiq voice (brag-quiz/voice/recreate-lines.json)."""
+    V = "brag-quiz/voice/recreate/"
+    root_video("r3-akbar", 'What does <bdi class="ar" lang="ar">أَكْبَرُ</bdi> in Allāhu akbar really mean?',
+               ([("أَ", ""), ("كْ", "r"), ("بَ", "r"), ("رُ", "r")], "أَكْبَرُ"), "ك ب ر", "big, great", "Greater than everything.",
+               [([("كَ", "r"), ("بِ", "r"), ("ي", ""), ("ر", "r")], "كَبِير", "big", "the same three letters"),
+                ([("تَ", ""), ("كْ", "r"), ("بِ", "r"), ("ي", ""), ("ر", "r")], "تَكْبِير", "the takbīr", "saying Allāhu akbar: how salah begins")],
+               'Your turn. What does <bdi class="ar" lang="ar">كِبار</bdi> mean?', [("كِ", "r"), ("بَ", "r"), ("ا", ""), ("ر", "r")], "كِبار",
+               "grown-ups", "Send this to whoever you pray with 🤍",
+               voice={"تَكْبِير": V + "takbir.mp3", "كِبار": V + "kibar.mp3"})
+
+def r4():
+    """Recreated from p5-insha (#246) in the root format: شاءَ, ش ي ء "to will"; ما شاءَ اللهُ (vocab-data.js 71), مَشِيئَة; your turn شَيْء.
+    مَشِيئَة is spoken in the Rafiq voice (brag-quiz/voice/recreate-lines.json)."""
+    V = "brag-quiz/voice/recreate/"
+    root_video("r4-insha", 'What does <bdi class="ar" lang="ar">إِنْ شاءَ اللهُ</bdi> actually say?',
+               ([("ش", "r"), ("ا", ""), ("ءَ", "r")], "شاءَ"), "ش ي ء", "to will", "If Allah wills.",
+               [([("ما\u00a0", ""), ("ش", "r"), ("ا", ""), ("ءَ", "r"), ("\u00a0اللهُ", "")], "ما شاءَ اللهُ", "what Allah has willed", "when you see something good"),
+                ([("مَ", ""), ("شِ", "r"), ("ي", "r"), ("ئَ", "r"), ("ة", "")], "مَشِيئَة", "will", "Allah’s will: His mashīʾa")],
+               'Your turn. What does <bdi class="ar" lang="ar">شَيْء</bdi> mean?', [("شَ", "r"), ("يْ", "r"), ("ء", "r")], "شَيْء",
+               "a thing", "Send this to someone who says in shā’ Allāh every day 🤍",
+               voice={"مَشِيئَة": V + "mashia.mp3"})
+
+def g4(): change("g4-past-i", "QUIZ · ARABIC VERBS",            # recreated from v1-go and v2-write (#246)
+                 [("كَتَبَ", "he wrote", "I wrote", ["كَتَبَتْ", "كَتَبْتُ", "كَتَبْنا"], 1, '<bdi lang="ar"><em>ـتُ</em></bdi> on the end = I'),
+                  ("ذَهَبَ", "he went", "I went", ["ذَهَبْتُ", "ذَهَبَتْ", "ذَهَبْنا"], 0, 'the same <bdi lang="ar"><em>ـتُ</em></bdi>')],
+                 "0, 1 or 2? Send this to your Arabic study buddy 👇")
+
+def w8(): wbw("w8-subhana-azim", 8, 'You say this <b>every time</b> you bow in rukūʿ', "سُبْحانَ رَبِّيَ الْعَظِيمِ", 104,   # recreated from t2-subhana (#246)
+                  [("سُبْحانَ", "Glory be to"), ("رَبِّيَ", "my Lord"), ("الْعَظِيمِ", "the Magnificent")],
+                  "“Glory be to my Lord, the Magnificent.”", "What do you say in sujūd instead? Comment it 👇")
+
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
+       "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "w8-subhana-azim": w8,
        "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
