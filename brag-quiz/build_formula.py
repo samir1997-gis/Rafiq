@@ -98,7 +98,7 @@ def words_at(rel):
 
 HOOK_NUMS = [  # numbers counting up all over the hook page: (left, top, size px, start, target, unit, colour, rotation)
     (60, 170, 54, 12, 365, "days", "verdigris", -6), (760, 150, 46, 40, 1200, "hours", "gold", 5), (840, 470, 40, 3, 52, "weeks", "rubric", 8),
-    (40, 470, 44, 1, 120, "lessons", "gold", -4), (90, 1220, 64, 900, 10000, "words", "verdigris", -3), (700, 1240, 50, 100, 2555, "days", "rubric", 4),
+    (40, 470, 44, 2, 120, "lessons", "gold", -4), (90, 1220, 64, 900, 10000, "words", "verdigris", -3), (700, 1240, 50, 100, 2555, "days", "rubric", 4),
     (400, 1400, 42, 2, 40, "apps", "gold", -7), (60, 1540, 48, 10, 500, "flashcards", "rubric", 3), (690, 1520, 56, 5, 365, "nights", "verdigris", -5),
     (420, 1730, 40, 2, 7, "years", "gold", 6)]
 
@@ -118,9 +118,16 @@ def hook_in(c, body, hook):
     timer = ('<div id="htimer"><svg viewBox="0 0 300 300"><circle class="bg" cx="150" cy="150" r="128"/><circle class="fg" cx="150" cy="150" r="128"/></svg>'
              '<div class="tn"><b id="hty">0</b><span>YEARS</span></div></div>')
     body.append(f'<div class="sec" id="hook">{nums}{timer}<div class="hookline" id="hl">{spans}</div><div id="hflash"></div></div>')
+    os.makedirs(os.path.join(c.a, "fonts"), exist_ok=True)   # Fredoka, round and bubbly, for the hook page (owner, 12 Oct 2026)
+    for wt in (600, 700): shutil.copy(os.path.join(T.ROOT, f"brag-quiz/fonts/fredoka-latin-{wt}-normal.woff2"), os.path.join(c.a, "fonts"))
     c.css = getattr(c, "css", "") + (
+        "".join(f'@font-face {{ font-family:"Fredoka"; src:url("assets/fonts/fredoka-latin-{wt}-normal.woff2") format("woff2"); font-weight:{wt}; }}' for wt in (600, 700)) +
+        "#hook .hookline, #hook .hn, #htimer .tn { font-family:\"Fredoka\", var(--la); }"
         ".hookline { position:absolute; left:60px; right:60px; top:640px; text-align:center; font-weight:700; font-size:112px; line-height:1.06; "
-        "letter-spacing:-.03em; color:var(--ink); } .hw { display:inline-block; } .hw.red { color:var(--rubric); } .hw.loud { font-size:1.35em; font-weight:800; }"
+        "letter-spacing:-.01em; color:var(--ink); } .hw { display:inline-block; } .hw.red { color:var(--rubric); } .hw.loud { position:relative; font-size:1.4em; }"
+        ".hring { position:absolute; left:50%; top:50%; width:300px; height:300px; margin:-150px; border-radius:50%; border:14px solid #E9B949; opacity:0; }"
+        ".hring.r2 { border-color:var(--rubric); border-width:8px; } .hspark { position:absolute; left:50%; top:50%; width:110px; height:12px; margin-top:-6px; "
+        "border-radius:6px; background:#E9B949; transform-origin:0 50%; opacity:0; }"
         ".hw.circle { position:relative; color:var(--verdigris); } .hcirc { position:absolute; left:-40px; top:-34px; width:calc(100% + 80px); "
         "height:180px; overflow:visible; } .hcirc path { fill:none; stroke:#E9B949; stroke-width:12; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; }"
         ".hn { position:absolute; font-weight:700; opacity:.32; white-space:nowrap; letter-spacing:-.02em; } .hn b { font-weight:700; }"
@@ -146,11 +153,18 @@ def hook_in(c, body, hook):
     for k in range(1, 8):               # a clear tick on every year the timer counts (power1.in: year k at sqrt(k/7) of the way)
         clip(c, "brag-quiz/sfx/ref/click.wav", tr + (d - tr + 0.1) * (k / 7) ** 0.5, 0.7)
     for i, m in marks.items():
-        if m == "loud":                 # the stressed word: big from frame 0, a punch and a shake as it's said
-            c.t(f'tl.fromTo("#hw{i}", {{scale:1.45}}, {{scale:1, duration:0.35, ease:"back.out(3)"}}, {at(i):.2f});')
-            c.t(f'tl.fromTo("#hl", {{x:-10}}, {{x:10, duration:0.04, yoyo:true, repeat:5, ease:"none", immediateRender:false}}, {at(i) + 0.05:.2f});')
-            c.t(f'tl.set("#hl", {{x:0}}, {at(i) + 0.3:.2f});')
-            c.sfx("tap", at(i))
+        if m == "loud":                 # the stressed word lands with force: huge at frame 0, slams down on the voice, crash, shockwave, screen shake
+            hit = max(0.16, at(i) + 0.1)
+            fx = '<i class="hring"></i><i class="hring r2"></i>' + "".join(f'<i class="hspark" style="transform:rotate({a}deg)"></i>' for a in range(0, 360, 36))
+            body[-1] = body[-1].replace(f'id="hw{i}">{words[i]}</span>', f'id="hw{i}">{words[i]}{fx}</span>')
+            c.t(f'tl.fromTo("#hw{i}", {{scale:1.9, rotation:-7, x:180}}, {{scale:1, rotation:0, x:0, duration:{hit:.2f}, ease:"power4.in"}}, 0);')
+            c.t(f'tl.to("#hw{i}", {{keyframes:[{{scaleX:1.18, scaleY:0.78, duration:0.06}}, {{scaleX:0.94, scaleY:1.08, duration:0.08}}, {{scaleX:1, scaleY:1, duration:0.12}}]}}, {hit:.2f});')
+            c.t(f'tl.fromTo("#hw{i} .hring", {{scale:0.3, opacity:0.9}}, {{scale:3.2, opacity:0, duration:0.55, ease:"expo.out", stagger:0.07, immediateRender:false}}, {hit:.2f});')
+            c.t(f'tl.fromTo("#hw{i} .hspark", {{opacity:1, scaleX:0.2, x:60}}, {{opacity:0, scaleX:1.4, x:260, duration:0.4, ease:"expo.out", immediateRender:false}}, {hit:.2f});')
+            c.t(f'tl.fromTo("#hflash", {{opacity:0.85}}, {{opacity:0, duration:0.3, ease:"power2.out", immediateRender:false}}, {hit:.2f});')
+            c.t(f'tl.to("#hook", {{keyframes:[{{x:-34, y:22, rotation:-1.4, duration:0.035}}, {{x:30, y:-18, rotation:1.2, duration:0.035}}, {{x:-22, y:14, rotation:-0.8, duration:0.04}}, '
+                f'{{x:16, y:-10, rotation:0.6, duration:0.04}}, {{x:-8, y:6, rotation:-0.3, duration:0.05}}, {{x:0, y:0, rotation:0, duration:0.06}}]}}, {hit:.2f});')
+            clip(c, "brag-quiz/sfx/crash.wav", hit - 0.02, 0.9)
         if m == "circle":
             body[-1] = body[-1].replace(f'id="hw{i}">{words[i]}</span>', f'id="hw{i}">{words[i]}{circle}</span>')
             c.t(f'tl.fromTo("#hw{i} .hcirc path", {{strokeDashoffset:1}}, {{strokeDashoffset:0, duration:0.45, ease:"power2.inOut"}}, {at(i) + 0.05:.2f});')
@@ -482,7 +496,7 @@ def g4(): change("g4-past-i", "QUIZ · ARABIC VERBS",            # recreated fro
                   ("ذَهَبَ", "he went", "I went", ["ذَهَبْتُ", "ذَهَبَتْ", "ذَهَبْنا"], 0, 'the same <bdi lang="ar"><em>ـتُ</em></bdi>')],
                  "0, 1 or 2? Send this to your Arabic study buddy 👇",
                  hook=("MOST people learn Arabic for years before they notice this trick!".split(), {0: "loud", 5: "red", 10: "circle"},
-                       "brag-quiz/voice/g4-hook2/g4-c3-most.mp3"),
+                       "brag-quiz/voice/g4-hook3/g4-v3a.mp3"),
                  vo={"q": [("brag-quiz/voice/g4-vo/q1a.mp3", "brag-quiz/voice/g4-vo/q1b.mp3"),
                            ("brag-quiz/voice/g4-vo/q2a.mp3", "brag-quiz/voice/g4-vo/q2b.mp3")],
                      "rule": "brag-quiz/voice/g4-vo/rule.mp3", "end": "brag-quiz/voice/g4-vo/end.mp3"})
