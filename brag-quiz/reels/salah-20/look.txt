@@ -1,0 +1,1 @@
+eq=brightness=-0.035:gamma=0.92:contrast=1.06:saturation=1.04,vignette=angle=PI/3.1:x0=w/2:y0=h*0.45

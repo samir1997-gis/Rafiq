@@ -8,6 +8,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageEnhance
 HERE = os.path.dirname(os.path.abspath(__file__)); BQ = os.path.join(HERE, "..", "..")
 sys.path.insert(0, os.path.join(HERE, "..", "template")); import sfx_rules as SR
 W, HOOK = sys.argv[1], sys.argv[2]; FPS, OW, OH = 30, 1080, 1920
+sys.path.insert(0, HERE); from timemap import loader; m = loader(W)       # the take's times → after the silence cut
 RED, GOLD, PAPER, INK = (180, 50, 42), (233, 185, 73), (241, 236, 224), (23, 38, 43)
 
 CRASH = [19.82, 40.08]                                # loud crash, shake and flash (the take's own times)
@@ -21,6 +22,9 @@ PANELS = [(70.10, 77.05, "sn-7"), (77.05, 83.75, "sn-6")]   # the 56% ring · th
 # his talking shots: (from, to, clip). His face stays on the moments he leans on (picture THIS, 50 thousand years, the first thing, SALAH).
 GFX = [(7.40, 12.40, "g1-grave"), (13.40, 16.00, "g2-barzakh"), (20.80, 23.10, "g3-resurrection"), (26.00, 29.60, "g5-sun"),
        (29.60, 32.70, "g6-crowd"), (35.50, 37.70, "g7-first-question"), (66.70, 70.10, "g9-twenty-words")]
+CRASH, BOOMS = [m(x) for x in CRASH], [m(x) for x in BOOMS]
+COUNT, SALAH, HOLD_AT, HADITH = tuple(m(x) for x in COUNT), tuple(m(x) for x in SALAH), m(HOLD_AT), tuple(m(x) for x in HADITH)
+PANELS = [(m(a), m(b), k) for a, b, k in PANELS]; GFX = [(m(a), m(b), k) for a, b, k in GFX]
 NH = round(HOLD * FPS)
 sh = lambda t: t + HOLD if t > HOLD_AT else t       # take time → time in the reel with the hold inserted
 
@@ -110,6 +114,7 @@ def shake(fr, t):
             return z.crop((round(OW * .02 - dx), round(OH * .02 - dy), round(OW * .02 - dx) + OW, round(OH * .02 - dy) + OH))
     return fr
 
+LOOK = open(os.path.join(HERE, "look.txt")).read().strip()      # darker, dark edges easing off towards him (owner, 13 Oct)
 GDIR = os.path.join(BQ, "reels", "accountable", "out"); gdec = {}
 def gfx_frame(t):
     """The graphic on screen at take time t, if any (decoded as it plays)."""
@@ -144,10 +149,10 @@ for i in range(N):
 enc.stdin.close(); enc.wait(); dec.stdout.close(); dec.wait()
 
 # 2. the sound: the reel's own mix with the hold inserted, then the crashes, the booms, the counter's clicks, the echo
-def lv(name): f = os.path.join(BQ, "sfx", "crash.wav") if name == "crash" else SR.F(name); return f, SR.info(f)
-S = [("crash", "boom", c, 6) for c in CRASH] + [("n03", "boom", b, 0) for b in BOOMS]
+def lv(name): f = os.path.join(BQ, "sfx", name + ".wav") if name in ("crash", "boom") else SR.F(name); return f, SR.info(f)
+S = [("crash", "boom", c, 11) for c in CRASH] + [("boom", "boom", b, 9) for b in BOOMS]     # loud: the owner asked for them to hit
 a, b, _ = COUNT; ticks = [a + (b - a) * (k / 14) ** (1 / 1.6) for k in range(14)]      # the counter clicks faster as it races
-S += [("click", "tap", x, 2) for x in ticks] + [("n03", "boom", b, 2)]
+S += [("click", "tap", x, 2) for x in ticks] + [("boom", "boom", b, 9)]
 S += [("swoosh", "swoosh", HADITH[0] + .05, -2)] + [("short-swoosh" if k % 2 else "swoosh", "swoosh", p0 + .05, 0) for k, (p0, _, _) in enumerate(PANELS)]
 S += [("swoosh", "swoosh", PANELS[-1][1] - .15, 0)]
 S += [("shutter", "hit", g0, -2) for g0, _, _ in GFX] + [("shutter", "hit", g1, -4) for _, g1, _ in GFX if g1 not in [g[0] for g in GFX] + [p[0] for p in PANELS]]
@@ -168,7 +173,8 @@ subprocess.run(cmd + ["-filter_complex", ";".join(fl), "-map", "[a]", "-c:a", "p
 
 # 3. the hook in front, everything levelled: -14.5 LUFS, true peak under -1 dB after AAC
 subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", HOOK, "-i", os.path.join(W, "body-v.mp4"), "-i", os.path.join(W, "body-a.wav"), "-filter_complex",
-                "[0:v]fps=30,format=yuv420p,setsar=1[hv];[1:v]fps=30,format=yuv420p,setsar=1[bv];[0:a]aformat=sample_rates=48000:channel_layouts=stereo[ha];"
+                f"[0:v]fps=30,{LOOK},format=yuv420p,setsar=1[hv];"
+                "[1:v]fps=30,format=yuv420p,setsar=1[bv];[0:a]aformat=sample_rates=48000:channel_layouts=stereo[ha];"
                 "[2:a]aformat=sample_rates=48000:channel_layouts=stereo[ba];[hv][ha][bv][ba]concat=n=2:v=1:a=1[v][a]",
                 "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-c:a", "pcm_s16le", os.path.join(W, "joined.mov")], check=True)
 m = subprocess.run(["ffmpeg", "-hide_banner", "-i", os.path.join(W, "joined.mov"), "-af", "loudnorm=I=-14.5:TP=-2.5:LRA=11:print_format=json", "-f", "null", "-"],
