@@ -20,7 +20,7 @@ sys.path.insert(0, HERE); from timemap import loader
 W = sys.argv[1]; m = loader(W)
 FONTS = os.path.join(ROOT, "brag-quiz/fonts"); GSAP = os.path.join(ROOT, "brag-output-v6/composition/assets/lib/gsap.min.js")
 GOLD, RED, PAPER, INK = "#E9B949", "#C8372D", "#F1ECE0", "#17262B"
-SEQ = {"seqA": (7.25, 15.90), "seqBC": (20.80, 39.95)}     # take times; build.py cuts these in over the speaker
+SEQ = {"seqA": (7.25, 15.90), "seqBC": (20.80, 39.95), "seqD": (66.70, 74.15)}   # take times; build.py cuts these in over the speaker
 
 CSS = f"""
 @font-face {{ font-family:"Anton"; src:url("assets/anton-latin-400-normal.woff2"); }}
@@ -206,5 +206,33 @@ def seq_bc():
     whip(s, "#pj", "#pf", s.t(32.80), axis="x")
     s.write(f'<div class="page" id="pj">{"".join(s.html + J)}</div><div class="page" id="pf" style="transform:translateX(1080px)">{"".join(F)}</div>')
 
+def seq_d():
+    """Just 20 words, only 20, make up more than half: 20 marks light up round a ring, then it fills past 50% to 56%
+    (counted word by word in a four-rak'ah prayer without the surah after al-Fatiha; the owner's on-screen footnote)."""
+    s = Seq("seqD"); cx, cy, r = 540, 1000, 300; c = 2 * math.pi * r
+    s.add(f'<div class="full" style="background:radial-gradient(ellipse at 50% 50%,#1b2a2f 0%,#0b1214 70%)"></div>'
+          f'<svg class="full" viewBox="0 0 1080 1920"><circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="rgba(241,236,224,.10)" stroke-width="64"/>'
+          f'<circle id="arc" cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{GOLD}" stroke-width="64" stroke-linecap="round" '
+          f'stroke-dasharray="{c:.1f}" stroke-dashoffset="{c:.1f}" transform="rotate(-90 {cx} {cy})" style="filter:drop-shadow(0 0 18px rgba(233,185,73,.55))"/>'
+          + "".join(f'<circle class="mk" cx="{cx + r * math.sin(i * math.pi / 10):.1f}" cy="{cy - r * math.cos(i * math.pi / 10):.1f}" r="13" fill="{GOLD}" opacity="0"/>' for i in range(20))
+          + f'<g id="half" opacity="0"><line x1="{cx}" y1="{cy + r - 52}" x2="{cx}" y2="{cy + r + 52}" stroke="{RED}" stroke-width="10" stroke-linecap="round"/>'
+          f'<text x="{cx + 30}" y="{cy + r + 96}" font-family="Anton" font-size="44" fill="{RED}">50%</text></g></svg>'
+          f'<div id="pct" style="position:absolute;left:0;right:0;top:{cy - 120}px;text-align:center;font-family:Anton;font-size:220px;line-height:1;color:{PAPER};opacity:0">0%</div>'
+          f'<div class="q" id="fn" style="top:1720px;font-size:40px;opacity:0;color:rgba(241,236,224,.7)">counted word by word in a four-rakʿah prayer,<br>not counting the sūrah after al-Fātiḥah</div>')
+    s.line([("just", 66.74, 0), ("20 words", 66.82, 1)], 260, out=68.60, k_size=160)
+    s.line([("only", 68.66, 0), ("20", 69.06, 1)], 260, out=70.12, k_size=180)
+    s.line([("make up", 70.16, 0), ("more than", 70.70, 0), ("half", 71.34, 1)], 1400, k_size=180, color=RED)
+    s.line([("of the words", 71.90, 0), ("you say", 72.64, 0), ("in your", 73.28, 0), ("salah", 73.60, 1)], 260, k_size=110)
+    t0, t1, th = s.t(66.82), s.t(69.30), s.t(71.34)
+    s.js += [f'tl.fromTo(".mk", {{opacity:0, scale:0, transformOrigin:"50% 50%"}}, {{opacity:1, scale:1, duration:0.18, ease:"back.out(3)", stagger:{(t1 - t0) / 20:.3f}}}, {t0:.2f});',
+             f'tl.to(".mk", {{opacity:0.25, duration:0.3}}, {s.t(70.16):.2f});',
+             f'tl.fromTo("#pct", {{opacity:0, scale:1.4, filter:"blur(10px)"}}, {{opacity:1, scale:1, filter:"blur(0px)", duration:0.25, ease:"power3.out"}}, {s.t(70.16) - 0.05:.2f});',
+             f'tl.to("#arc", {{strokeDashoffset:{c * (1 - 0.56):.1f}, duration:{th - s.t(70.16):.2f}, ease:"power2.inOut"}}, {s.t(70.16):.2f});',
+             f'(() => {{ const o = {{v:0}}; tl.to(o, {{v:56, duration:{th - s.t(70.16):.2f}, ease:"power2.inOut", onUpdate:() => {{ document.getElementById("pct").textContent = Math.round(o.v) + "%"; }}}}, {s.t(70.16):.2f}); }})();',
+             f'tl.fromTo("#half", {{opacity:0}}, {{opacity:1, duration:0.2}}, {s.t(70.70):.2f});',
+             f'tl.fromTo("#pct", {{scale:1.18}}, {{scale:1, duration:0.35, ease:"back.out(3)", immediateRender:false}}, {th:.2f});',
+             f'tl.fromTo("#fn", {{opacity:0, y:20}}, {{opacity:1, y:0, duration:0.5, ease:"power3.out"}}, {th + 0.4:.2f});']
+    s.write("".join(s.html))
+
 if __name__ == "__main__":
-    seq_a(); seq_bc()
+    {"seqA": seq_a, "seqBC": seq_bc, "seqD": seq_d}.get(sys.argv[2], lambda: None)() if len(sys.argv) > 2 else (seq_a(), seq_bc(), seq_d())

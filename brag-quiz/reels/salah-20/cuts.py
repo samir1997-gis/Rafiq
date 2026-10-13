@@ -6,8 +6,12 @@ W = sys.argv[1]
 CUTS = [(1.10, 7.30),      # you pass away, you're buried,
         (41.30, 46.85),    # So I have a question to ask you and be honest with the answer.
         (49.30, 51.60),    # Are you?
+        (53.75, 56.70),    # and you are struggling with khushu in your salah,   (13 Oct, second round)
         (74.30, 79.05),    # excluding the surahs you recite after al-Fatihah. Only 20.   (on screen instead, so the 56% stays accurate)
         (79.05, 91.05),    # Now, do you think learning 20 words is difficult? No, but those 20 words can have such a profound impact on your salah.
+        (93.10, 94.10, 1), # you   ("from just performing actions"); exact: the snap found quiet inside the words here
+        (95.27, 96.68, 1), # and not understanding what you're saying
+        (98.74, 100.24),   # and have a conversation   ("to actually being able to connect with your Lord")
         (101.15, 108.05),  # and coming out of the salah feeling like you actually worshipped your Lord.
         (110.30, 111.75),  # probably yes.
         (118.70, 120.55),  # Not at all.  (the second)
@@ -23,7 +27,7 @@ def quiet(t):                                             # the quietest 20 ms a
         a = int(c * 16000); e = np.mean(x[max(0, a - 160):a + 160] ** 2) if a > 0 else 0
         if e < best: best, at = e, c
     return round(float(at), 3)
-cuts = [(quiet(a), quiet(b)) for a, b in CUTS]
+cuts = [(a, b) if exact else (quiet(a), quiet(b)) for a, b, *exact in CUTS]   # a third value: set by hand from the level, no snapping
 out = []
 for a, b in ch:                                           # each kept piece, minus every cut that overlaps it
     segs = [[a, b]]

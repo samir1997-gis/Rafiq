@@ -18,10 +18,10 @@ SALAH = (39.95, 40.08, 41.3)                          # SALAH: appears, lands, l
 HOLD_AT, HOLD = 40.65, 1.3                            # the held frame after "salah", while the echo rings
 HADITH = (37.75, 39.85)                               # the hadith card comes in on seqBC's last page (its swoosh is here)
 WHIPS = [14.34, 32.80, 25.95]                         # page-to-page moves inside the sequences, and the sun coming down
-PANELS = [(70.10, 77.05, "sn-7"), (77.05, 83.75, "sn-6")]   # the 56% ring · the top-20 list
+PANELS = []                                           # the carousel pictures are gone: seqD draws the 20 words and the 56% wheel (owner, 13 Oct)
 # the Day of Judgement motion graphics made for this script (brag-quiz/reels/accountable/out, 10 Oct), cut in full screen over
 # his talking shots: (from, to, clip). His face stays on the moments he leans on (picture THIS, 50 thousand years, the first thing, SALAH).
-GFX = [(7.25, 15.90, "seqA"), (20.80, 39.95, "seqBC"), (66.70, 70.10, "g9-twenty-words")]   # continuous sequences (seq.py, 13 Oct); back to him on "salah"
+GFX = [(7.25, 15.90, "seqA"), (20.80, 39.95, "seqBC"), (66.70, 74.15, "seqD")]   # continuous sequences (seq.py, 13 Oct); back to him on "salah"
 CRASH, BOOMS, WHIPS = [m(x) for x in CRASH], [m(x) for x in BOOMS], [m(x) for x in WHIPS]
 COUNT, SALAH, HOLD_AT, HADITH = tuple(m(x) for x in COUNT), tuple(m(x) for x in SALAH), m(HOLD_AT), tuple(m(x) for x in HADITH)
 PANELS = [(m(a), m(b), k) for a, b, k in PANELS]; GFX = [(m(a), m(b), k) for a, b, k in GFX]
@@ -143,8 +143,10 @@ def lv(name): f = os.path.join(BQ, "sfx", name + ".wav") if name in ("crash", "b
 S = [("crash", "boom", c, 11) for c in CRASH] + [("boom", "boom", b, 9) for b in BOOMS]     # loud: the owner asked for them to hit
 a, b, _ = COUNT; ticks = [a + (b - a) * (k / 14) ** (1 / 1.6) for k in range(14)]      # the counter clicks faster as it races
 S += [("click", "tap", x, 2) for x in ticks] + [("boom", "boom", b, 9)]
+RING = (m(70.16), m(71.34))                           # seqD's wheel sweeps to 56%: a click per step, a boom on "half"
+S += [("click", "tap", RING[0] + (RING[1] - RING[0]) * k / 10, 0) for k in range(10)] + [("boom", "boom", RING[1], 6)]
 S += [("swoosh", "swoosh", HADITH[0] + .1, -2)] + [("swoosh", "swoosh", w - .1, 0) for w in WHIPS] + [("short-swoosh" if k % 2 else "swoosh", "swoosh", p0 + .05, 0) for k, (p0, _, _) in enumerate(PANELS)]
-S += [("swoosh", "swoosh", PANELS[-1][1] - .15, 0)]
+S += [("swoosh", "swoosh", PANELS[-1][1] - .15, 0)] if PANELS else []
 S += [("shutter", "hit", g0, -2) for g0, _, _ in GFX] + [("shutter", "hit", g1, -4) for _, g1, _ in GFX if g1 not in [g[0] for g in GFX] + [p[0] for p in PANELS]]
 cmd = ["ffmpeg", "-v", "error", "-y", "-i", os.path.join(W, "reel.mp4"), "-i", os.path.join(W, "voice_clean.wav")]
 fl = [f"[0:a]atrim=0:{HOLD_AT},asetpts=PTS-STARTPTS[a0]", f"[0:a]atrim={HOLD_AT},asetpts=PTS-STARTPTS[a1]",
