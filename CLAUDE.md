@@ -30,6 +30,7 @@ what you make into its "Already made" list.
 
 ## Tests: run before pushing
 - `node tests/progress-fsrs.test.js`: review scheduling (FSRS) and the boxes pages read.
+- `node tests/streak.test.js`: the streak (days the daily goal is met, the streak freeze).
 - Browser smoke test (webapp-testing skill): every page loads with no JavaScript errors.
   `python3 .claude/skills/webapp-testing/scripts/with_server.py --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/smoke.py`
 - Lesson layout (heading at the top, exercise centred, Listen cue): `... -- python3 tests/lesson_layout.py` (same server command as the smoke test).

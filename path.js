@@ -157,6 +157,8 @@
         if(s.kind==='basics') s.words.forEach(id => out.add(id)); }); });
     return out;
   }
+  /* Of the words met in lessons, those the review schedule now rates as known (box 4+, #256). */
+  const masteredWords = () => [...metWords()].filter(id => { const r = Progress.get('v:' + id); return r && r.box >= 4; }).length;
   const inScope = (id, sc) => id.startsWith('v:') ? sc.wordIds.has(+id.slice(2))
                             : id.startsWith('d:') ? sc.units.has(id.slice(2, 4)) : false;
   /* Items in scope that are due for review today (for the Home nudge). */
@@ -265,11 +267,7 @@
     let best=0; for(let k=1;k<=365;k++) best=Math.max(best, wordsOn(dayKey(k),sv));
     return { today, usual, best, aboveUsual: usual!=null && today>usual, record: best>=10 && today>best };
   }
-  function bestStreak(){
-    let best=0, run=0;
-    for(let k=400;k>=0;k--){ if(countOn('s:',dayKey(k))){ run++; best=Math.max(best,run); } else if(k>0) run=0; }
-    return Math.max(best, streak());
-  }
+  const bestStreak = () => streakState().best;
   function doneToday(){ const r = Progress.get('s:' + iso(new Date())); return r ? r.seen : 0; }
   /* Streak goals. Each says what the research behind daily, spaced practice
      suggests is happening by then — no invented percentages. Sources: the
@@ -291,12 +289,29 @@
     return { next, left: next ? next.days - n : 0, from: prev ? prev.days : 0,
              reached: STREAK_GOALS.find(g => g.days === n) || null };
   }
-  function streak(){
-    const d = new Date(); let n = 0;
-    if(!Progress.hasSeen('s:' + iso(d))) d.setDate(d.getDate()-1);   // today not done yet: count from yesterday
-    while(Progress.hasSeen('s:' + iso(d))){ n++; d.setDate(d.getDate()-1); }
-    return n;
+  /* The streak (#256): a day counts when the daily goal is met (GOAL steps or
+     sessions in its 's:' row). One missed day is covered by a streak freeze: you
+     hold one, and a used freeze comes back after FREEZE_EARN goal days in a row.
+     Days before GOAL_STREAK_FROM count with any finished step, as the streak did
+     then, so no one's streak drops when this ships. Today only counts once its
+     goal is met; until then the streak runs to yesterday.
+     {days, best, today (today is counted), freezes (0 or 1, ready now),
+      earn (goal days until a used freeze is back), frozen (the day the last freeze covered)} */
+  const FREEZE_EARN = 7, GOAL_STREAK_FROM = '2026-10-14';
+  const goalMet = day => { const n = countOn('s:', day); return day < GOAL_STREAK_FROM ? n > 0 : n >= GOAL; };
+  function streakState(){
+    let run = 0, best = 0, freezes = 1, since = 0, frozen = null;
+    for(let k = 400; k >= 1; k--){            // oldest first, up to yesterday
+      const d = dayKey(k);
+      if(goalMet(d)){ run++; best = Math.max(best, run); if(!freezes && ++since >= FREEZE_EARN) freezes = 1; }
+      else if(run && freezes){ freezes = 0; since = 0; frozen = d; }
+      else run = 0;
+    }
+    const today = goalMet(dayKey(0));
+    if(today){ run++; best = Math.max(best, run); }
+    return { days: run, best, today, freezes, earn: freezes ? 0 : FREEZE_EARN - since, frozen };
   }
+  const streak = () => streakState().days;
 
   /* How "Say this in Arabic" is answered: word tiles in units 1–3, tiles with
      a piece or two that don't belong in units 4–6, typing from unit 7. Per
@@ -334,7 +349,7 @@
     return ids.map(wordById).filter(Boolean);
   }
 
-  window.RafiqPath = { recapDue, recapDone, testFailed, testReview, testReviewed, teaches: n => TEACH.has(n), lateLeft, reviewScope, metWords, sentenceDone, period, wordsByDay, wordsReport, bestStreak, reviewDue, hasLearned, COMING, STREAK_GOALS, streakGoal, BATCH, GOAL, units, skipReading, unitOpen, stepOpen, steps, stepDone, unitDone, placed, currentIndex, next, reached,
-                       complete, place, markDay, wordMet, week, doneToday, streak, wordsOf, unitData, wordById,
+  window.RafiqPath = { recapDue, recapDone, testFailed, testReview, testReviewed, teaches: n => TEACH.has(n), lateLeft, reviewScope, metWords, masteredWords, sentenceDone, period, wordsByDay, wordsReport, bestStreak, reviewDue, hasLearned, COMING, STREAK_GOALS, streakGoal, BATCH, GOAL, units, skipReading, unitOpen, stepOpen, steps, stepDone, unitDone, placed, currentIndex, next, reached,
+                       complete, place, markDay, wordMet, week, doneToday, streak, streakState, FREEZE_EARN, wordsOf, unitData, wordById,
                        answerStyle, answered, answerPref };
 })();
