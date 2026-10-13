@@ -1,5 +1,5 @@
 /* essentials.js — Practise → Everyday essentials: numbers, days, months, colours
-   and telling the time. Each set is a table to look things up in (tap any Arabic
+   and telling the time (and the body explorer, body.js, when it's loaded). Each set is a table to look things up in (tap any Arabic
    to hear it) and a short drill: hear it or see the English, pick the answer.
    Needs essentials-data.js (ESSENTIALS) and progress.js; uses audio.js (RQ) and
    sounds.js when present. Answers are kept as 'e:<set>:<n>' so the drill can
@@ -58,9 +58,15 @@
       return `<a class="qcard" href="#essentials" data-set="${s.id}">
         <div class="qa">${s.icon} ${esc(s.ar)}</div><div class="qt">${esc(s.t)}</div>
         <div class="qd">${s.items.length} ${s.id==='time'?'phrases':'words'} · tap to hear</div>
-        <div class="qm">${k ? `<b>${k}</b> of ${s.items.length} known` : 'Table and a short drill'}</div></a>`; }).join('') + `</div>`;
+        <div class="qm">${k ? `<b>${k}</b> of ${s.items.length} known` : 'Table and a short drill'}</div></a>`; }).join('')
+      + (window.RafiqBody ? `<a class="qcard" href="#essentials" data-body="1">
+        <div class="qa">🧍 الجِسْم</div><div class="qt">The body</div>
+        <div class="qd">${RafiqBody.count()} words · tap to hear</div>
+        <div class="qm">A drawing to explore: tap to zoom in</div></a>` : '') + `</div>`;
     el.querySelectorAll('[data-set]').forEach(a => a.addEventListener('click', e => {
       e.preventDefault(); table(el, ESSENTIALS.find(s => s.id === a.dataset.set)); }));
+    const body = el.querySelector('[data-body]');      // the body explorer (body.js, #202)
+    if(body) body.addEventListener('click', e => { e.preventDefault(); RafiqBody.mount(el, { back: () => { menu(el); scrollTo(0, 0); } }); });
   }
 
   // the note's Arabic in the right font

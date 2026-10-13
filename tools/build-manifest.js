@@ -114,6 +114,11 @@ BASICS.forEach(l=>{
 eval(fs.readFileSync(path.join(root,'essentials-data.js'),'utf8').replace(/const ESSENTIALS/,'globalThis.ESSENTIALS'));
 ESSENTIALS.forEach(s=>s.items.forEach(it=>{ add('essentials',s.id,it[0]); if(s.id==='colours') add('essentials',s.id,it[2]); }));
 
+/* The body explorer (Practise → Everyday essentials, body.js): each word as it's said,
+   both forms of a pair. Provisional: render the 'body' bucket once a teacher has checked it (#206). */
+eval(fs.readFileSync(path.join(root,'body-data.js'),'utf8').replace(/const BODY_WORDS/,'globalThis.BODY_WORDS').replace(/function BODY_RESOLVE/,'globalThis.BODY_RESOLVE=function'));
+BODY_RESOLVE(VOCAB).forEach(w=>add('body',w.parent||'-',w.say));
+
 SCENES.forEach(sc=>sc.lines.forEach(l=>add('scene',sc.id,l[1])));
 
 /* "Your salah" (salah.js): the prayer phrases and their words, in the app's voice.

@@ -21,7 +21,7 @@ const PAGES = ['dashboard.html', 'login.html', 'onboarding.html', 'learn.html', 
   'plans.html', 'help.html', 'privacy.html', 'salah.html'];
 const FILES = ['site.css', 'theme.js', 'pwa.js', 'auth.js', 'nav.js', 'plan.js', 'fsrs.js', 'progress.js', 'path.js', 'basics-data.js', 'path-data.js', 'audio.js',
   'sounds.js', 'judge.js', 'mistakes.js', 'arkb.js', 'tiles.js', 'spelling.js', 'translations.js', 'reminders.js',
-  'alphabet-data.js', 'vocab-data.js', 'drills-data.js', 'toolkit-data.js', 'scenes-data.js', 'essentials.js', 'essentials-data.js', 'taster.js',
+  'alphabet-data.js', 'vocab-data.js', 'drills-data.js', 'toolkit-data.js', 'scenes-data.js', 'essentials.js', 'essentials-data.js', 'body.js', 'body-data.js', 'taster.js',
   'item-tags.js', 'report.js', 'tutor.js', 'teach.js', 'salah.js', 'salah-data.js', 'salah-timings.js', 'manifest.json', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'badge-96.png',
   'sounds/correct.mp3', 'sounds/wrong.mp3'];
 const REMOTE = ['https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2',
