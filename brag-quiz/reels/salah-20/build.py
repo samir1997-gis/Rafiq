@@ -15,8 +15,12 @@ BOOMS = [0.44, 2.38, 5.10, 7.56, 9.96, 12.36, 13.86]  # picture THIS · pass awa
 COUNT = (23.24, 24.44, 26.0)                          # "50" … "years": the counter runs, YEARS slams, it leaves
 SALAH = (39.95, 40.08, 41.3)                          # SALAH: appears, lands, leaves (after the held frame)
 HOLD_AT, HOLD = 40.65, 1.3                            # the held frame after "salah", while the echo rings
-HADITH = (34.2, 39.85)
-PANELS = [(66.74, 70.10, "sn-1-alt"), (70.10, 77.05, "sn-7"), (77.05, 83.75, "sn-6")]   # 20 words = over half · the 56% ring · the top-20 list
+HADITH = (37.7, 39.85)                                # in his pause before "your salah" (the graphic g7 is just before it)
+PANELS = [(70.10, 77.05, "sn-7"), (77.05, 83.75, "sn-6")]   # the 56% ring · the top-20 list
+# the Day of Judgement motion graphics made for this script (brag-quiz/reels/accountable/out, 10 Oct), cut in full screen over
+# his talking shots: (from, to, clip). His face stays on the moments he leans on (picture THIS, 50 thousand years, the first thing, SALAH).
+GFX = [(7.40, 12.40, "g1-grave"), (13.40, 16.00, "g2-barzakh"), (20.80, 23.10, "g3-resurrection"), (26.00, 29.60, "g5-sun"),
+       (29.60, 32.70, "g6-crowd"), (35.50, 37.70, "g7-first-question"), (66.70, 70.10, "g9-twenty-words")]
 NH = round(HOLD * FPS)
 sh = lambda t: t + HOLD if t > HOLD_AT else t       # take time → time in the reel with the hold inserted
 
@@ -106,6 +110,18 @@ def shake(fr, t):
             return z.crop((round(OW * .02 - dx), round(OH * .02 - dy), round(OW * .02 - dx) + OW, round(OH * .02 - dy) + OH))
     return fr
 
+GDIR = os.path.join(BQ, "reels", "accountable", "out"); gdec = {}
+def gfx_frame(t):
+    """The graphic on screen at take time t, if any (decoded as it plays)."""
+    for g0, g1, gid in GFX:
+        if g0 <= t < g1:
+            if gid not in gdec: gdec[gid] = subprocess.Popen(["ffmpeg", "-v", "error", "-i", os.path.join(GDIR, gid + ".mp4"), "-vf", f"scale={OW}:{OH},fps={FPS}",
+                                                              "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
+            raw = gdec[gid].stdout.read(OW * OH * 3)
+            if len(raw) == OW * OH * 3: gdec[gid].last = raw
+            return Image.frombytes("RGB", (OW, OH), getattr(gdec[gid], "last", raw)).convert("RGBA")
+    return None
+
 # 1. the picture
 N = int(float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", os.path.join(W, "reel.mp4")], capture_output=True, text=True).stdout) * FPS)
 dec = subprocess.Popen(["ffmpeg", "-v", "error", "-i", os.path.join(W, "reel.mp4"), "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
@@ -114,7 +130,7 @@ enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_f
 for i in range(N):
     raw = dec.stdout.read(OW * OH * 3)
     if len(raw) < OW * OH * 3: break
-    t = i / FPS; fr = Image.frombytes("RGB", (OW, OH), raw).convert("RGBA")
+    t = i / FPS; fr = gfx_frame(t) or Image.frombytes("RGB", (OW, OH), raw).convert("RGBA")
     if any(a - .2 <= t < c for a, _, c in [COUNT, SALAH]) or any(a <= t < b for a, b in [HADITH] + [(p[0], p[1]) for p in PANELS]) or any(0 <= t - c < .3 for c in CRASH):
         fr = overlay(fr, t)
     enc.stdin.write(shake(fr, t).convert("RGB").tobytes())
@@ -134,6 +150,7 @@ a, b, _ = COUNT; ticks = [a + (b - a) * (k / 14) ** (1 / 1.6) for k in range(14)
 S += [("click", "tap", x, 2) for x in ticks] + [("n03", "boom", b, 2)]
 S += [("swoosh", "swoosh", HADITH[0] + .05, -2)] + [("short-swoosh" if k % 2 else "swoosh", "swoosh", p0 + .05, 0) for k, (p0, _, _) in enumerate(PANELS)]
 S += [("swoosh", "swoosh", PANELS[-1][1] - .15, 0)]
+S += [("shutter", "hit", g0, -2) for g0, _, _ in GFX] + [("shutter", "hit", g1, -4) for _, g1, _ in GFX if g1 not in [g[0] for g in GFX] + [p[0] for p in PANELS]]
 cmd = ["ffmpeg", "-v", "error", "-y", "-i", os.path.join(W, "reel.mp4"), "-i", os.path.join(W, "voice_clean.wav")]
 fl = [f"[0:a]atrim=0:{HOLD_AT},asetpts=PTS-STARTPTS[a0]", f"[0:a]atrim={HOLD_AT},asetpts=PTS-STARTPTS[a1]",
       f"anullsrc=r=48000:cl=stereo,atrim=0:{HOLD}[gap]", "[a0][gap][a1]concat=n=3:v=0:a=1,aformat=sample_rates=48000:channel_layouts=stereo[mix]",
