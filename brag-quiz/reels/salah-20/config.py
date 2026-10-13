@@ -6,28 +6,30 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); from timemap imp
 W = sys.argv[1]; C = json.load(open(os.path.join(W, "config.json"))); m = loader(W)
 
 C["flicks"] = []                                      # the flicker hook is its own clip, joined in front by build.py
-C["titles"] = [                                       # behind the head, one per beat of the script
-    [0.0, 3.2, "", "PICTURE THIS", 175], [7.3, 13.5, "", "THE GRAVE", 250], [13.5, 16.0, "", "BARZAKH", 280],
-    [19.0, 23.1, "THE DAY OF", "JUDGEMENT", 185], [32.8, 39.7, "THE VERY", "FIRST THING", 175],
-    [41.3, 46.4, "", "BE HONEST", 220], [46.9, 51.6, "ARE YOU", "CONTENT?", 250], [51.7, 60.2, "STRUGGLING WITH", "KHUSHU", 280],
-    [61.2, 66.6, "TRY TO", "UNDERSTAND", 180], [91.0, 106.4, "HAVE A", "CONVERSATION", 145], [108.1, 111.4, "IS ARABIC", "DIFFICULT?", 190],
-    [111.8, 115.9, "IS LEARNING", "20 WORDS?", 220], [116.1, 120.4, "", "NOT AT ALL", 200], [120.6, 124.3, "START WITH", "20 WORDS", 220],
-    [124.7, 129.2, "YOU WILL", "FEEL IT", 280], [142.3, 145.6, "DROP A", "COMMENT", 260]]
-C["steps"] = [                                        # a zoom step and a hit on every phrase the owner leans on
-    [[0.44, 2.38, 5.10], 7.2], [[7.56, 9.96, 12.36], 13.4], [[13.86], 15.9],
-    [[19.66], 22.9], [[23.24, 23.92, 24.44], 26.0], [[33.04, 34.48, 34.88], 39.6], [[40.08], 41.2]]
-SKIP = [(0, 26.0), (32.8, 41.4), (66.6, 83.8)]        # covered by the steps, the slams, the counter and the carousel
+C["title_top"] = 540                                  # at head height, so his head covers part of the word (owner, 13 Oct)
+C["titles"] = [                                       # behind the head, one per beat where his face is on screen (the graphics carry the rest)
+    [0.0, 7.3, "", "PICTURE THIS", 175], [16.0, 20.8, "THE DAY OF", "JUDGEMENT", 185],
+    [46.9, 49.3, "ARE YOU", "CONTENT?", 230], [51.7, 60.2, "STRUGGLING WITH", "KHUSHU", 260],
+    [61.2, 66.6, "TRY TO", "UNDERSTAND", 175], [91.0, 101.2, "HAVE A", "CONVERSATION", 140], [108.1, 111.7, "IS ARABIC", "DIFFICULT?", 185],
+    [111.8, 115.9, "IS LEARNING", "20 WORDS?", 210], [116.1, 118.7, "", "NOT AT ALL", 200], [120.6, 124.3, "START WITH", "20 WORDS", 210],
+    [124.7, 129.2, "YOU WILL", "FEEL IT", 260], [142.1, 145.6, "DROP A", "COMMENT", 240]]
+C["steps"] = [                                        # a zoom step and a hit where he leans on a word with his face on screen
+    [[0.44], 7.2], [[19.66], 20.8], [[40.08], 41.2]]
+SKIP = [(0, 41.4), (66.6, 83.8)]                     # covered by the steps, the graphics, SALAH and the carousel
 C["titles"] = [[m(a), m(b), *r] for a, b, *r in C["titles"]]
 C["steps"] = [[[m(x) for x in ts], m(e)] for ts, e in C["steps"]]
 SKIP = [(m(a), m(b)) for a, b in SKIP]
 C["punch"] = [p for p in C["punch"] if not any(a <= p[0] < b for a, b in SKIP)][:9]
-QUIET = [(23.1, 26.0), (39.7, 41.3), (66.6, 83.8)]   # build.py puts its own words here (the counter, SALAH, the carousel)
+QUIET = [(39.7, 41.3), (66.6, 83.8)]                # build.py puts its own words here (SALAH, the carousel)
 QUIET = [(m(a), m(b)) for a, b in QUIET]
 C["caps"] = [c for c in C["caps"] if not any(a <= c[0] < b for a, b in QUIET)]
 FIX = {"monkar": "Munkar", "nakila": "Nakir", "bharzakh.": "barzakh.", "Khushur": "khushūʿ", "Khushu": "khushūʿ", "swords": "sūrahs", "Salah": "salah", "Salah.": "salah.",
        "Salah,": "salah,", "Salah?": "salah?", "Fatihah.": "al-Fātiḥah."}             # what the transcriber mishears
-for c in C["caps"]:
-    for w in c[2]: w[0] = FIX.get(w[0], w[0])
+KEY = {"this", "grave", "munkar", "nakir", "barzakh", "judgement", "resurrected", "50,000", "years", "sun", "hot", "sweating", "afraid",
+       "first", "salah", "content", "khushūʿ", "solution", "understand", "20", "words", "half", "actions", "connect", "conversation", "lord",
+       "arabic", "difficult", "not", "start", "believe", "feel", "difference", "commitment", "common", "comment", "dm"}
+for c in C["caps"]:                                   # the key words land big and gold, the rest are small white words (kinetic captions)
+    for w in c[2]: w[0] = FIX.get(w[0], w[0]); w[2] = w[0].strip(",.?!").lower() in KEY
 C["sections"] = [[t[0], t[1]] for t in C["titles"]]
 C["split"] = None
 json.dump(C, open(os.path.join(W, "config.json"), "w"), ensure_ascii=False, indent=1)

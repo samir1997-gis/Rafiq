@@ -12,17 +12,17 @@ sys.path.insert(0, HERE); from timemap import loader; m = loader(W)       # the 
 RED, GOLD, PAPER, INK = (180, 50, 42), (233, 185, 73), (241, 236, 224), (23, 38, 43)
 
 CRASH = [19.82, 40.08]                                # loud crash, shake and flash (the take's own times)
-BOOMS = [0.44, 2.38, 5.10, 7.56, 9.96, 12.36, 13.86]  # picture THIS · pass away · buried · wake up · Munkar · questioning · barzakh
-COUNT = (23.24, 24.44, 26.0)                          # "50" … "years": the counter runs, YEARS slams, it leaves
+BOOMS = [0.44, 7.56, 9.96, 12.36, 14.38, 21.14]      # picture THIS · wake up · Munkar · questioning · barzakh · resurrected (the ground cracks)
+COUNT = (23.24, 24.44, 26.0)                          # "50" … "years": the counter in seqBC runs (its clicks and the YEARS boom are here)
 SALAH = (39.95, 40.08, 41.3)                          # SALAH: appears, lands, leaves (after the held frame)
 HOLD_AT, HOLD = 40.65, 1.3                            # the held frame after "salah", while the echo rings
-HADITH = (37.7, 39.85)                                # in his pause before "your salah" (the graphic g7 is just before it)
+HADITH = (37.75, 39.85)                               # the hadith card comes in on seqBC's last page (its swoosh is here)
+WHIPS = [14.34, 32.80, 25.95]                         # page-to-page moves inside the sequences, and the sun coming down
 PANELS = [(70.10, 77.05, "sn-7"), (77.05, 83.75, "sn-6")]   # the 56% ring · the top-20 list
 # the Day of Judgement motion graphics made for this script (brag-quiz/reels/accountable/out, 10 Oct), cut in full screen over
 # his talking shots: (from, to, clip). His face stays on the moments he leans on (picture THIS, 50 thousand years, the first thing, SALAH).
-GFX = [(7.40, 12.40, "g1-grave"), (13.40, 16.00, "g2-barzakh"), (20.80, 23.10, "g3-resurrection"), (26.00, 29.60, "g5-sun"),
-       (29.60, 32.70, "g6-crowd"), (35.50, 37.70, "g7-first-question"), (66.70, 70.10, "g9-twenty-words")]
-CRASH, BOOMS = [m(x) for x in CRASH], [m(x) for x in BOOMS]
+GFX = [(7.25, 15.90, "seqA"), (20.80, 39.95, "seqBC"), (66.70, 70.10, "g9-twenty-words")]   # continuous sequences (seq.py, 13 Oct); back to him on "salah"
+CRASH, BOOMS, WHIPS = [m(x) for x in CRASH], [m(x) for x in BOOMS], [m(x) for x in WHIPS]
 COUNT, SALAH, HOLD_AT, HADITH = tuple(m(x) for x in COUNT), tuple(m(x) for x in SALAH), m(HOLD_AT), tuple(m(x) for x in HADITH)
 PANELS = [(m(a), m(b), k) for a, b, k in PANELS]; GFX = [(m(a), m(b), k) for a, b, k in GFX]
 NH = round(HOLD * FPS)
@@ -66,17 +66,6 @@ def overlay(fr, t, held=0.0):
     """Everything drawn on one frame at take time t (held: seconds into the held frame)."""
     for c in CRASH:                                       # white flash on the crash
         if 0 <= t - c < .3 and not held: fr.alpha_composite(Image.new("RGBA", fr.size, (255, 248, 230, round(200 * (1 - (t - c) / .3)))))
-    a, b, e = COUNT                                       # 0 → 50,000, then YEARS slams in
-    if a - .05 <= t < e:
-        v = 50000 * min(1, max(0, (t - a) / (b - a)) ** 1.6); out = 1 - eo((t - (e - .3)) / .3)
-        paste_c(fr, shadowed(text(f"{int(v):,}", ANTON(300), GOLD)), OW / 2, 1300, 1 + .06 * np.exp(-max(0, t - b) * 10), out)
-        if t >= b - .12:
-            ds = t - b; sc = 1 + 1.2 * (-ds / .12) ** 2 if ds < 0 else 1 + .1 * np.exp(-ds * 16) * np.cos(ds * 40)
-            paste_c(fr, years_im, OW / 2, 1560, sc, out)
-    a, e = HADITH                                         # the hadith card slides up from the bottom
-    if a <= t < e:
-        k = eo((t - a) / .35); out = 1 - eo((t - (e - .3)) / .3); cd = card.copy(); cd.putalpha(cd.getchannel("A").point(lambda v: int(v * k * out)))
-        fr.alpha_composite(cd, (60, round(1440 + (1 - k) * 140)))
     a, l, e = SALAH                                       # SALAH: huge, slams down on the word, rings, stays through the hold
     if a <= t < e or held:
         ds = (t - l) if not held else 1
@@ -116,11 +105,12 @@ def shake(fr, t):
 
 LOOK = open(os.path.join(HERE, "look.txt")).read().strip()      # darker, dark edges easing off towards him (owner, 13 Oct)
 GDIR = os.path.join(BQ, "reels", "accountable", "out"); gdec = {}
+gpath = lambda gid: os.path.join(HERE, "out", gid + ".mp4") if gid.startswith("seq") else os.path.join(GDIR, gid + ".mp4")
 def gfx_frame(t):
     """The graphic on screen at take time t, if any (decoded as it plays)."""
     for g0, g1, gid in GFX:
         if g0 <= t < g1:
-            if gid not in gdec: gdec[gid] = subprocess.Popen(["ffmpeg", "-v", "error", "-i", os.path.join(GDIR, gid + ".mp4"), "-vf", f"scale={OW}:{OH},fps={FPS}",
+            if gid not in gdec: gdec[gid] = subprocess.Popen(["ffmpeg", "-v", "error", "-i", gpath(gid), "-vf", f"scale={OW}:{OH},fps={FPS}",
                                                               "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
             raw = gdec[gid].stdout.read(OW * OH * 3)
             if len(raw) == OW * OH * 3: gdec[gid].last = raw
@@ -136,7 +126,7 @@ for i in range(N):
     raw = dec.stdout.read(OW * OH * 3)
     if len(raw) < OW * OH * 3: break
     t = i / FPS; fr = gfx_frame(t) or Image.frombytes("RGB", (OW, OH), raw).convert("RGBA")
-    if any(a - .2 <= t < c for a, _, c in [COUNT, SALAH]) or any(a <= t < b for a, b in [HADITH] + [(p[0], p[1]) for p in PANELS]) or any(0 <= t - c < .3 for c in CRASH):
+    if any(a - .2 <= t < c for a, _, c in [SALAH]) or any(a <= t < b for a, b in [(p[0], p[1]) for p in PANELS]) or any(0 <= t - c < .3 for c in CRASH):
         fr = overlay(fr, t)
     enc.stdin.write(shake(fr, t).convert("RGB").tobytes())
     if i == round(HOLD_AT * FPS):                         # the held frame: a slow push in, colour draining a little, SALAH stays
@@ -153,7 +143,7 @@ def lv(name): f = os.path.join(BQ, "sfx", name + ".wav") if name in ("crash", "b
 S = [("crash", "boom", c, 11) for c in CRASH] + [("boom", "boom", b, 9) for b in BOOMS]     # loud: the owner asked for them to hit
 a, b, _ = COUNT; ticks = [a + (b - a) * (k / 14) ** (1 / 1.6) for k in range(14)]      # the counter clicks faster as it races
 S += [("click", "tap", x, 2) for x in ticks] + [("boom", "boom", b, 9)]
-S += [("swoosh", "swoosh", HADITH[0] + .05, -2)] + [("short-swoosh" if k % 2 else "swoosh", "swoosh", p0 + .05, 0) for k, (p0, _, _) in enumerate(PANELS)]
+S += [("swoosh", "swoosh", HADITH[0] + .1, -2)] + [("swoosh", "swoosh", w - .1, 0) for w in WHIPS] + [("short-swoosh" if k % 2 else "swoosh", "swoosh", p0 + .05, 0) for k, (p0, _, _) in enumerate(PANELS)]
 S += [("swoosh", "swoosh", PANELS[-1][1] - .15, 0)]
 S += [("shutter", "hit", g0, -2) for g0, _, _ in GFX] + [("shutter", "hit", g1, -4) for _, g1, _ in GFX if g1 not in [g[0] for g in GFX] + [p[0] for p in PANELS]]
 cmd = ["ffmpeg", "-v", "error", "-y", "-i", os.path.join(W, "reel.mp4"), "-i", os.path.join(W, "voice_clean.wav")]

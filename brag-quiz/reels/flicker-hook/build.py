@@ -18,15 +18,15 @@ RED, GOLD, WHITE = (180, 50, 42), (233, 185, 73), (255, 255, 255)
 POSES = {"door": 18.0, "near": 22.4, "room": 2.0, "sofa": 28.2, "cross": 32.8, "mid": 37.2, "walk": 38.3}
 SEQ = [("door", 5), ("near", 4), ("room", 3), ("sofa", 4), ("cross", 4), ("mid", 3), ("door", 2), ("sofa", 2), ("cross", 2),
        ("near", 2), ("mid", 2), ("walk", 2), ("room", 1), ("sofa", 2), ("door", 1), ("mid", 1)]     # faster and faster
-FRONT, S0 = 44.55, 45.22          # in front of the camera, and the take time where the panel starts to open
+FRONT, S0 = 45.05, 45.25          # in front of the camera, and where the panel opens: straight into "DON'T" (owner, 13 Oct: no standing still)
 CX, CY_FACE = 2150, 420           # his centre (x) and face (y) in the 4K frame when he's in front
 WORDS = [("pray", 45.98), ("another", 46.12), ("salah", 46.45), ("without", 47.08), ("doing", 47.78), ("this", 48.38), ("first.", 48.90)]
 SLAM, SLAM_T, END = "DON'T", 45.65, 49.75
 LINES = [[0, 1, 2], [3, 4], [5, 6]]; GOLDW = {5, 6}; STEPS = {5: 1.10, 6: 1.16}
 TITLE = "BEFORE YOU PRAY"
 
-o = lambda src_t: 2.0 + (src_t - S0)            # take time → output time
-F_EXP, F_MAIN = 60, 71                          # the panel opens over frames 60-70, then the vertical frame
+o = lambda src_t: F_EXP / 30 + (src_t - S0)     # take time → output time
+F_EXP, F_MAIN = 46, 57                          # 6 frames in front of the camera, the panel opens over frames 46-56, then the vertical frame
 N = round(o(END) * FPS)
 font = lambda n, s: ImageFont.truetype(os.path.join(W, n + ".ttf"), s)
 for n in ("anton-latin-400-normal", "instrument-serif-latin-400-normal"):      # PIL can't read woff2
@@ -176,7 +176,7 @@ out.stdin.close(); out.wait(); dec.stdout.close(); dec.wait()
 sounds += [("crash", "boom", o(SLAM_T), 5)]
 for line in LINES: sounds.append((SR.POOL["text"][LINES.index(line) % 3], "text", o(WORDS[line[0]][1]), 0))
 for n, k in enumerate(sorted(STEPS)): sounds.append((["n10", "shutter"][n], "hit", o(WORDS[k][1]), 2 * n))
-dur = N / FPS; a0 = S0 - 2.0
+dur = N / FPS; a0 = S0 - F_EXP / FPS
 cmd = ["ffmpeg", "-v", "error", "-y", "-ss", f"{a0:.3f}", "-t", f"{dur:.3f}", "-i", SRC]; fl = [
     "[0:a]highpass=f=80,lowpass=f=13000,afftdn=nr=18:nf=-66,acompressor=threshold=-24dB:ratio=3:attack=8:release=120,loudnorm=I=-15:TP=-2:LRA=9[v]"]
 for k, (name, kind, at, boost) in enumerate(sounds):
