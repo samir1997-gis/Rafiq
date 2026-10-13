@@ -106,8 +106,8 @@ def hook_in(c, body, hook):
     """An opening hook (owner, 12 Oct 2026) in the MOTION-STYLE moves. Each word swooshes in from alternating sides as the hook voice
     says it (the first is there at frame 0); a timer ring at the top counts the years up; numbers count up all over the page; the
     red word bumps, the circled word gets a gold hand-drawn circle, a flash and a shake; then a whip into the quiz.
-    hook = (words, {word index: "red" | "circle"}, mp3 spoken with HOOK_VOICE)."""
-    words, marks, mp3 = hook
+    hook = (words, {word index: "red" | "circle"}, mp3 spoken with HOOK_VOICE[, (timer label, count)]); the timer counts YEARS to 7 unless given."""
+    words, marks, mp3, (unit, n) = (*hook, ("YEARS", 7))[:4]
     W = words_at(mp3); d = clip(c, mp3, 0.05)
     at = lambda i: 0.05 + (W[i][1] if i < len(W) else d * i / len(words))
     red = next((i for i, m in marks.items() if m == "red"), 1)
@@ -116,7 +116,7 @@ def hook_in(c, body, hook):
     nums = "".join(f'<div class="hn {col}" id="hn{k}" style="left:{x}px;top:{y}px;font-size:{sz}px;transform:rotate({r}deg)"><b>{a:,}</b> {u}</div>'
                    for k, (x, y, sz, a, b, u, col, r) in enumerate(HOOK_NUMS))
     timer = ('<div id="htimer"><svg viewBox="0 0 300 300"><circle class="bg" cx="150" cy="150" r="128"/><circle class="fg" cx="150" cy="150" r="128"/></svg>'
-             '<div class="tn"><b id="hty">0</b><span>YEARS</span></div></div>')
+             f'<div class="tn"><b id="hty">0</b><span>{unit}</span></div></div>')
     body.append(f'<div class="sec" id="hook">{nums}{timer}<div class="hookline" id="hl">{spans}</div><div id="hflash"></div></div>')
     os.makedirs(os.path.join(c.a, "fonts"), exist_ok=True)   # Fredoka, round and bubbly, for the hook page (owner, 12 Oct 2026)
     for wt in (600, 700): shutil.copy(os.path.join(T.ROOT, f"brag-quiz/fonts/fredoka-latin-{wt}-normal.woff2"), os.path.join(c.a, "fonts"))
@@ -148,10 +148,10 @@ def hook_in(c, body, hook):
     tr = at(red)                        # the timer: years count up and the ring fills from "years" to the last word
     c.t(f'tl.fromTo("#htimer", {{scale:0.6, opacity:0.4}}, {{scale:1, opacity:1, duration:0.4, ease:"back.out(2)"}}, {tr - 0.1:.2f});')
     c.t(f'tl.fromTo("#htimer .fg", {{strokeDashoffset:805}}, {{strokeDashoffset:0, duration:{d - tr + 0.1:.2f}, ease:"power1.in"}}, {tr:.2f});')
-    c.t(f'(() => {{ const o = {{v:0}}; tl.to(o, {{v:7, duration:{d - tr + 0.1:.2f}, ease:"power1.in", onUpdate:() => {{ document.getElementById("hty").textContent = Math.floor(o.v); }}}}, {tr:.2f}); }})();')
+    c.t(f'(() => {{ const o = {{v:0}}; tl.to(o, {{v:{n}, duration:{d - tr + 0.1:.2f}, ease:"power1.in", onUpdate:() => {{ document.getElementById("hty").textContent = Math.floor(o.v); }}}}, {tr:.2f}); }})();')
     c.t(f'tl.fromTo("#hw{red}", {{scale:1}}, {{scale:1.2, duration:0.16, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {tr + 0.25:.2f});')
-    for k in range(1, 8):               # a clear tick on every year the timer counts (power1.in: year k at sqrt(k/7) of the way)
-        clip(c, "brag-quiz/sfx/ref/click.wav", tr + (d - tr + 0.1) * (k / 7) ** 0.5, 0.7)
+    for k in range(1, n + 1):           # a clear tick on every number the timer counts (power1.in: number k at sqrt(k/n) of the way)
+        clip(c, "brag-quiz/sfx/ref/click.wav", tr + (d - tr + 0.1) * (k / n) ** 0.5, 0.7)
     for i, m in marks.items():
         if m == "loud":                 # the stressed word lands with force: huge at frame 0, slams down on the voice, crash, shockwave, screen shake
             hit = max(0.16, at(i) + 0.1)
@@ -430,8 +430,8 @@ def i4q(): change("i4-she-quiz", "QUIZ · HE OR SHE",
                    ("أَخ", "brother", "sister", ["أَخَة", "أُخْت", "إِخْوَة"], 1, 'not always <bdi lang="ar"><em>ة</em></bdi>: <bdi lang="ar"><em>أُخْت</em></bdi>')],
                   "How many did you get? 0, 1 or 2? Comment below 👇 and send this to your Arabic study buddy",
                   # the g4 standard (owner, 13 Oct 2026: it's retaining better): the same hook, Callum asks each question
-                  hook=("MOST people learn Arabic for years before they notice this trick!".split(), {0: "loud", 5: "red", 10: "circle"},
-                        "brag-quiz/voice/g4-hook3/g4-v3a.mp3"),
+                  hook=("MOST of you will get the second one WRONG!".split(), {0: "loud", 6: "red", 8: "circle"},   # owner, 13 Oct
+                        "brag-quiz/voice/i4-hook4/i4-h4b.mp3", ("QUESTIONS", 2)),
                   vo={"q": [("brag-quiz/voice/i4-vo/q1a.mp3", "brag-quiz/voice/i4-vo/q1b.mp3"),
                             ("brag-quiz/voice/i4-vo/q2a.mp3", "brag-quiz/voice/i4-vo/q2b.mp3")],
                       "rule": "brag-quiz/voice/i4-vo/rule.mp3", "end": "brag-quiz/voice/g4-vo/end2.mp3"})
