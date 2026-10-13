@@ -68,3 +68,4 @@ kind (quiz, root, salah line, data reel, carousel-to-video, edits where it fits)
 - [ ] **A click on every countdown second** (`count_down()` in `build_formula.py`); the countdown stays 3-2-1.
 - [ ] **What's sent is ready to post** (the owner posts the chat file straight to Instagram/TikTok): quizzes rendered with
       `--crf 10`; reels under the 30 MB send limit as HEVC two-pass (`-tag:v hvc1`), never an H.264 squeezed to fit.
+      The full-quality file also goes to the owner's Drive ("Rafiq videos"): `python3 tools/drive-upload.py <file>`, link in the reply.
