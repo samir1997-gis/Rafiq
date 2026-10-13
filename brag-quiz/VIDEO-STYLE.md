@@ -13,7 +13,9 @@ clean, crisp, vibrant, slick and elegant. Not busy: the effects come in short bu
 - **Titles:** Anton (tall, narrow capitals), big, in red or gold, stacked in two or three lines of different sizes.
 - **Arabic titles:** IBM Plex Sans Arabic bold, huge, the key letter in red.
 - **Script accent** over a title, sparingly (one word).
-- **Captions:** Instrument Serif, small and elegant, white with a soft shadow, mid-frame, two or three words at a time.
+- **Captions (kinetic, owner 13 Oct 2026):** never a plain subtitle line. Each line builds up word by word as it's said: small white
+  words (Anton, uppercase) rise in, the key word lands big in gold from a zoom; the line leaves upwards with a blur before the
+  next. Key words are chosen per reel (`caps` third value). The template's `layers.html` does this.
   No big bubbly caption boxes.
 - Karla stays the app's font; videos use the above.
 
@@ -40,6 +42,8 @@ Plus 5-10 B-roll clips of 2-3 seconds (Quran pages, writing Arabic, prayer mat, 
 - **Cutting pauses:** cut only true silence (ffmpeg `silencedetect` at -40 dB, 0.4 s or more) and leave a 0.12 s breath
   either side. Tighter settings (-35 dB) clip the owner's soft word endings ("daily", "recall", the last sentence).
   Check every cut by transcribing it before rendering.
+- **Titles behind the head, really behind it (owner, 13 Oct):** set `title_top` in the config to head height so the head covers
+  part of the word; check a still before sending. Titles above the head read as "on top of me".
 - **Titles behind the head:** with this framing the big title's top is about 240 px down, so the hair overlaps the
   bottom of the letters; higher up there's no depth.
 - **Split frame over app footage:** the app is light, so dim the strips and put the caption on the darker middle

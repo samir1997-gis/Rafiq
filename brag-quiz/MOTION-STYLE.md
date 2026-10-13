@@ -11,6 +11,11 @@ shapes**: our palette and our own graphics, always.
 2. **Something moves every half second to second.** Nothing sits still for more than about 1.5 s.
 3. **One idea on screen at a time.** The old one leaves (up, with a fade) before the next arrives.
 4. **The hook is still on frame 0** (it's the cover), whole and readable; its words lift as they're said.
+5. **Nothing just appears (owner, 13 Oct 2026).** Every word comes in with motion on its spoken word and leaves with motion;
+   small words build up, the key word lands big (the owner's reference: kinetic build-up captions, white flashes between scenes).
+6. **One continuous sequence per moment.** Don't cut back to the speaker in the middle of a story beat: carry it on one page
+   (the ground cracks → the counter above it → the sun comes down onto that ground), whip to the next page, and come back to the
+   speaker only on the line that lands (reference: `reels/salah-20/seq.py`).
 
 ## The moves (helpers in build2.py)
 | Move | When to use it | Helper |
