@@ -1,0 +1,56 @@
+[
+  {
+    "id": "p1-i-built-a-tool",
+    "kicker": "YOUR SALAH · RAFIQ",
+    "hook": { "end": 3.8, "lines": ["You’ve prayed your whole life.", "Do you know what you’re saying?"], "at": [0.15, 1.55] },
+    "screen": {
+      "start": 3.8, "end": 23.0, "audio": 0.9, "taps": [],
+      "shots": [
+        { "start": 3.8,  "end": 8.5,  "label": "Open rafiq-arabic.com on your phone. Hold on the home page, then scroll slowly." },
+        { "start": 8.5,  "end": 15.5, "label": "Your salah → Most-said words 1–5 → Word by word. Pause on a word: its meaning and root are on the card. Tap it to hear it." },
+        { "start": 15.5, "end": 23.0, "label": "Keep scrolling the word cards, slowly. The captions sit over the lower part." }
+      ]
+    },
+    "captions": [
+      { "start": 15.5, "end": 20.3, "text": "Every word of your salah — explained.", "sfx": "correct" },
+      { "start": 20.3, "end": 22.9, "text": "Free for a week. No card needed.", "sfx": "tap" }
+    ],
+    "outro": { "start": 23.0, "end": 25.4 }
+  },
+  {
+    "id": "p2-why-i-made-rafiq",
+    "kicker": "WHY I MADE RAFIQ",
+    "hook": { "end": 4.0, "lines": ["I built an app so you can understand your own prayer."], "at": [0.15] },
+    "screen": {
+      "start": 4.0, "end": 22.0, "audio": 0, "taps": [],
+      "shots": [
+        { "start": 4.0,  "end": 10.0, "label": "A calm glimpse of the app: the home screen, scrolling very slowly. No taps." },
+        { "start": 10.0, "end": 17.0, "label": "Your salah: the parts of the prayer in order (the map). Scroll slowly." },
+        { "start": 17.0, "end": 22.0, "label": "Back to the home screen: the Continue button, held still." }
+      ]
+    },
+    "captions": [
+      { "start": 4.5,  "end": 10.0, "text": "We memorise the words. Most of us never learn what they mean.", "sfx": "tap" },
+      { "start": 10.0, "end": 17.0, "text": "Short daily lessons from the very first letter, and what every word of your prayer means.", "sfx": "correct" },
+      { "start": 17.0, "end": 21.9, "text": "Made for the ummah. Free for a week, no card needed.", "sfx": "tap" }
+    ],
+    "outro": { "start": 22.0, "end": 25.0 }
+  },
+  {
+    "id": "p3-fatihah-word-by-word",
+    "kicker": "AL-FĀTIHAH · WORD BY WORD",
+    "hook": { "end": 3.2, "hero": "الفاتِحَةُ", "lines": ["Every word of Al-Fātihah — explained."], "at": [0.55] },
+    "screen": {
+      "start": 3.2, "end": 18.6, "audio": 0, "taps": [],
+      "shots": [
+        { "start": 3.2,  "end": 10.5, "label": "Your salah → Al-Fātihah (1) → Word by word. Scroll slowly down the four lines." },
+        { "start": 10.5, "end": 16.2, "label": "Pause on two or three words: the meaning and root are on each card. Keep the phone on silent." },
+        { "start": 16.2, "end": 18.6, "label": "Hold, or keep scrolling, under the caption." }
+      ]
+    },
+    "captions": [
+      { "start": 16.2, "end": 18.5, "text": "Then do the same for your whole salah.", "sfx": "tap" }
+    ],
+    "outro": { "start": 18.6, "end": 21.2, "note": "Free for a week · no card needed" }
+  }
+]

@@ -1,3 +1,8 @@
 out/*/composition/
 out/*.png
 out/*/*.png
+out/*/render.log
+out/*/work-*/
+out/*/standin*
+screens/*.mp4
+__pycache__/
