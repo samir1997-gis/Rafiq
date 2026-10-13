@@ -535,10 +535,25 @@ def w8(): wbw("w8-subhana-azim", 8, 'You say this <b>every time</b> you bow in r
                   [("سُبْحانَ", "Glory be to"), ("رَبِّيَ", "my Lord"), ("الْعَظِيمِ", "the Magnificent")],
                   "“Glory be to my Lord, the Magnificent.”", "What do you say in sujūd instead? Comment it 👇")
 
+def n1():
+    """Root series part 3 (owner, 13 Oct 2026: a weekly series he stitches himself onto): why Paradise is الْجَنَّة. ج ن ن "to hide,
+    to cover": a garden so thick its ground is hidden; جِنّ the hidden beings; مَجْنُون "mad", the mind covered (Layla and Majnūn);
+    your turn جَنِين, the baby hidden in the womb. The four words are spoken in the Rafiq voice (brag-quiz/voice/jannah-lines.json;
+    جِنّ written جِنْ so it isn't read "jinna")."""
+    V = "brag-quiz/voice/jannah/"
+    root_video("n1-jannah", 'Why is Paradise called <bdi class="ar" lang="ar">الْجَنَّة</bdi>?',
+               ([("الْ", ""), ("جَ", "r"), ("نَّ", "r"), ("ة", "")], "الْجَنَّة"), "ج ن ن", "to hide, to cover",
+               "A garden so full of trees, it hides the ground.",
+               [([("جِ", "r"), ("نّ", "r")], "جِنّ", "the jinn", "beings hidden from our eyes"),
+                ([("مَ", ""), ("جْ", "r"), ("نُ", "r"), ("و", ""), ("ن", "r")], "مَجْنُون", "mad", "the mind covered (Layla and Majnūn)")],
+               'Your turn. What does <bdi class="ar" lang="ar">جَنِين</bdi> mean?', [("جَ", "r"), ("نِ", "r"), ("ي", ""), ("ن", "r")], "جَنِين",
+               "a baby in the womb", "Send this to someone you want to meet in Jannah 🤍",
+               voice={"الْجَنَّة": V + "jannah.mp3", "جِنّ": V + "jinn.mp3", "مَجْنُون": V + "majnun.mp3", "جَنِين": V + "janin.mp3"})
+
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "w8-subhana-azim": w8,
-       "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q}
+       "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
