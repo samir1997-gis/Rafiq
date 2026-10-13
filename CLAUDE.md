@@ -19,6 +19,15 @@ The owner's Kanban board is this repo's GitHub issues. Every piece of work goes 
 - **Social posts**: mostly content for reach and follows, about 1 in 5 points to the site; see `brag-quiz/IDEAS.md` (How we post).
 - **TypeSafe**: `TYPE_SAFE_KEY` in the session's environment; check copy, scripts and product decisions with it (`tools/typesafe-exp/`) before shipping.
 
+## Sign-up counts: how the owner wants them
+Get them from the Supabase users workflow (`list`, arg = days to look back; read only, emails masked). Answer with a table of sign-ups per day in UK time
+(the log is UTC: 00:00-01:00 BST belongs to the next day), days with none grouped (e.g. "Mon 5 – Tue 6 | 0"), and a **Total** row at the bottom;
+then the accounts total and a few lines on who came back.
+
+## TikTok videos: start from the ideas file
+Before making new videos, read `brag-quiz/IDEAS.md` and use it: make its unmade ideas first, keep its "Avoid" rules, and move
+what you make into its "Already made" list.
+
 ## Tests: run before pushing
 - `node tests/progress-fsrs.test.js`: review scheduling (FSRS) and the boxes pages read.
 - Browser smoke test (webapp-testing skill): every page loads with no JavaScript errors.

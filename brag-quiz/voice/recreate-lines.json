@@ -1,0 +1,5 @@
+[
+ {"file": "takbir", "voice": "Ywuz3KyW2N5pqKNpwcCL", "text": "تَكْبِير", "stability": 0.6, "style": 0.1, "speed": 0.9},
+ {"file": "kibar", "voice": "Ywuz3KyW2N5pqKNpwcCL", "text": "كِبار", "stability": 0.6, "style": 0.1, "speed": 0.9},
+ {"file": "mashia", "voice": "Ywuz3KyW2N5pqKNpwcCL", "text": "مَشِيئَة", "stability": 0.6, "style": 0.1, "speed": 0.9}
+]
