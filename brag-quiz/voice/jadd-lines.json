@@ -1,0 +1,30 @@
+[
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.5,
+  "style": 0,
+  "file": "a-shadda-sukun",
+  "text": "جَدّْ"
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.5,
+  "style": 0,
+  "file": "b-sukun",
+  "text": "جَدْ"
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.5,
+  "style": 0,
+  "file": "c-plain",
+  "text": "جدّ"
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.5,
+  "style": 0,
+  "file": "d-in-pair",
+  "text": "جَدّْ... جَدَّة"
+ }
+]
