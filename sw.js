@@ -16,6 +16,7 @@
    Bump VERSION when the list below changes. */
 const VERSION = 'rafiq-2026-10-03-taster';
 const SHELL = VERSION + '-shell', RUNTIME = 'rafiq-runtime', AUDIO = 'rafiq-audio', VERSIONED = 'rafiq-versioned';
+const RERECORDED = ['audio/y6ctyx.mp3'];   // جَدّ said "jadda" (owner, 13 Oct 2026)
 const PAGES = ['dashboard.html', 'login.html', 'onboarding.html', 'learn.html', 'session.html', 'practise.html', 'tutor.html', 'progress.html',
   'settings.html', 'vocab.html', 'drills.html', 'verbs.html', 'connectors.html', 'index.html', 'reset-password.html',
   'plans.html', 'help.html', 'privacy.html', 'salah.html'];
@@ -41,6 +42,7 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
   e.waitUntil((async () => {
     for (const k of await caches.keys()) if (![SHELL, RUNTIME, AUDIO, VERSIONED].includes(k)) await caches.delete(k);
+    for (const f of RERECORDED) await (await caches.open(AUDIO)).delete(f);   // re-recorded clips: drop the old take
     await self.clients.claim();
   })());
 });
