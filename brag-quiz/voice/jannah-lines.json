@@ -1,0 +1,34 @@
+[
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "file": "jannah",
+  "text": "الْجَنَّة"
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "file": "jinn",
+  "text": "جِنْ"
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "file": "majnun",
+  "text": "مَجْنُون"
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "file": "janin",
+  "text": "جَنِين"
+ }
+]
