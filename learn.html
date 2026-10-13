@@ -257,7 +257,7 @@ bdi[lang=ar]{white-space:nowrap;font-family:var(--ar)}
 <script src="fsrs.js?v=20260929"></script>
 <script src="progress.js?v=20261001c"></script>
 <script src="basics-data.js?v=4"></script>
-<script src="path.js?v=20260930f"></script>
+<script src="path.js?v=20261013a"></script>
 <script src="plan.js?v=20261001live"></script>
 <script src="report.js?v=1"></script>
 <script src="teach.js?v=3"></script>
@@ -1346,8 +1346,8 @@ function finish(p, step, note){
   const n=RafiqPath.next();
   const sameUnit=n.step&&n.unit.n===p.n;
   const s=RafiqPath.streak(), today=RafiqPath.doneToday(), sg=RafiqPath.streakGoal(s);
-  // the first step of the day that lands on a streak goal gets a celebration
-  const hit = sg.reached && today===1;
+  // the step that meets today's goal (and so adds the day to the streak) and lands on a streak goal gets a celebration
+  const hit = sg.reached && today===RafiqPath.GOAL;
   const body=el(`<div class="done"><div class="tick">${hit?'🎉':'✓'}</div><h2>${hit?`${s}-day streak!`:esc(step.title)+' — done'}</h2>
     <p>${hit?esc(sg.reached.why):today>=RafiqPath.GOAL?'Daily goal reached. Anything more is a bonus.':'One more step and today\'s goal is done.'}</p>
     ${note||''}${wordsNote(step)}

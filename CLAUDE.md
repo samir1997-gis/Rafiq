@@ -10,6 +10,10 @@ The owner's Kanban board is this repo's GitHub issues. Every piece of work goes 
 - Label every issue with a priority: `priority: before launch`, `priority: next` or `priority: later`.
 - Big pieces of work: a parent issue with sub-issues.
 
+## Branches: main is live
+The site is live. All ongoing work goes on the `wip` branch; it's merged to `main` only on set days, by the owner.
+Never commit or push to `main`. To test `wip` as it is: https://raw.githack.com/samir1997-gis/Rafiq/wip/index.html
+
 ## Accounts and services (what we already have)
 - **GitHub Pages** hosts rafiq-arabic.com. Secrets for the workflows are in GitHub → Settings → Secrets: `SUPABASE_ACCESS_TOKEN`, `STRIPE_SECRET_KEY` (live, restricted), `RESEND_API_KEY`, `ELEVENLABS_API_KEY`, `QF_CLIENT_ID`/`QF_CLIENT_SECRET`, `ANTHROPIC_API_KEY`.
 - **Cloudflare** (the owner's account): the `rafiq-judge` worker (`worker/`, deployed by Cloudflare's GitHub link; its `TYPESAFE_API_KEY` is a Cloudflare secret) and Web Analytics for visits (the beacon on every page, #186). There's no Cloudflare API token anywhere: dashboard changes are the owner's.
@@ -30,6 +34,7 @@ what you make into its "Already made" list.
 
 ## Tests: run before pushing
 - `node tests/progress-fsrs.test.js`: review scheduling (FSRS) and the boxes pages read.
+- `node tests/streak.test.js`: the streak (days the daily goal is met, the streak freeze).
 - Browser smoke test (webapp-testing skill): every page loads with no JavaScript errors.
   `python3 .claude/skills/webapp-testing/scripts/with_server.py --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/smoke.py`
 - Lesson layout (heading at the top, exercise centred, Listen cue): `... -- python3 tests/lesson_layout.py` (same server command as the smoke test).

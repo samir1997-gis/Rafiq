@@ -121,7 +121,7 @@ table.per{width:100%;border-collapse:collapse;font-size:14.5px}
 <script src="path-data.js?v=20260930b"></script>
 <script src="alphabet-data.js?v=20260930b"></script>
 <script src="basics-data.js?v=4"></script>
-<script src="path.js?v=20260930f"></script>
+<script src="path.js?v=20261013a"></script>
 <script src="salah-data.js?v=1"></script>
 <script src="salah.js?v=6"></script>
 <script>RafiqPlan.load();</script>
@@ -149,7 +149,7 @@ function paint(el){
     : wr.aboveUsual ? `<div class="best">🌟 <span><b>${wr.today} new words today</b> — more than your usual ${wr.usual}. Keep it up!</span></div>` : '';
 
   const tiles=`<div class="tiles">
-    <div><b>${met}</b><span>words learned</span><small>met in your lessons</small></div>
+    <div><b>${met}</b><span>words learned</span><small>${P.masteredWords()} mastered so far</small></div>
     <div><b>${sentences}</b><span>sentences practised</span><small>different exercises</small></div>
     <div><b>${unitsDone}<small style="display:inline;font-size:14px"> / ${U.length}</small></b><span>units done</span><small>${unitsDone===U.length?'the whole path':'on your path'}</small></div>
     <div><b>🔥 ${s}</b><span>day streak</span><small>best: ${plural(best,'day')}</small></div></div>`;
