@@ -428,7 +428,13 @@ def v2q(): change("v2-write-quiz", "QUIZ · ARABIC VERBS",
 def i4q(): change("i4-she-quiz", "QUIZ · HE OR SHE",
                   [("جَدّ", "grandfather", "grandmother", ["جَدَّة", "أَجْداد", "جَدّان"], 0, 'add <bdi lang="ar"><em>ة</em></bdi> to the end'),
                    ("أَخ", "brother", "sister", ["أَخَة", "أُخْت", "إِخْوَة"], 1, 'not always <bdi lang="ar"><em>ة</em></bdi>: <bdi lang="ar"><em>أُخْت</em></bdi>')],
-                  "Did the last one catch you? 👇")
+                  "How many did you get? 0, 1 or 2? Comment below 👇 and send this to your Arabic study buddy",
+                  # the g4 standard (owner, 13 Oct 2026: it's retaining better): the same hook, Callum asks each question
+                  hook=("MOST people learn Arabic for years before they notice this trick!".split(), {0: "loud", 5: "red", 10: "circle"},
+                        "brag-quiz/voice/g4-hook3/g4-v3a.mp3"),
+                  vo={"q": [("brag-quiz/voice/i4-vo/q1a.mp3", "brag-quiz/voice/i4-vo/q1b.mp3"),
+                            ("brag-quiz/voice/i4-vo/q2a.mp3", "brag-quiz/voice/i4-vo/q2b.mp3")],
+                      "rule": "brag-quiz/voice/i4-vo/rule.mp3", "end": "brag-quiz/voice/g4-vo/end2.mp3"})
 
 def r2():
     """Why the Prophet ﷺ is named مُحَمَّد: ح م د, praise, as in الْحَمْدُ and حَمِدَهُ; your turn أَحْمَد (his other name, Qurʾān 61:6)."""
