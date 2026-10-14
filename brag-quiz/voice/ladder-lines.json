@@ -5,5 +5,19 @@
   "text": "حارْ",
   "stability": 0.5,
   "style": 0
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.5,
+  "style": 0,
+  "file": "amin",
+  "text": "أَمِين"
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.5,
+  "style": 0,
+  "file": "khain",
+  "text": "خائِن"
  }
 ]
