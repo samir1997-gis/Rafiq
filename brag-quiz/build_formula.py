@@ -179,9 +179,11 @@ def hook_in(c, body, hook):
     for i in (1, 3, 6): clip(c, "brag-quiz/sfx/ref/short-swoosh.wav", at(i) - 0.1, 0.18)
     return w + 0.25
 
-def say_up(c, text, at, target=-19.0):
-    """c.say, with the app's recording brought up to about the hook voice's level (owner, 12 Oct 2026: Rafiq was ~11 dB quieter)."""
-    src = os.path.join(T.ROOT, "audio", T.AUDIO[text] + ".mp3"); name = T.AUDIO[text] + "-up.mp3"
+def say_up(c, text, at, target=-19.0, src=None):
+    """c.say, with the app's recording brought up to about the hook voice's level (owner, 12 Oct 2026: Rafiq was ~11 dB quieter).
+    src: a retake (brag-quiz/voice/...) to use instead of the app's recording."""
+    if src: src = os.path.join(T.ROOT, src); name = os.path.basename(src)[:-4] + "-up.mp3"
+    else: src = os.path.join(T.ROOT, "audio", T.AUDIO[text] + ".mp3"); name = T.AUDIO[text] + "-up.mp3"
     m = subprocess.run(["ffmpeg", "-hide_banner", "-i", src, "-af", "ebur128", "-f", "null", "-"], capture_output=True, text=True).stderr
     gain = target - float(re.findall(r"I:\s+(-?[0-9.]+) LUFS", m)[-1])
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-af", f"volume={gain:.1f}dB,alimiter=limit=0.95", os.path.join(c.a, "audio", name)], check=True)
@@ -550,10 +552,62 @@ def n1():
                "a baby in the womb", "Send this to someone you want to meet in Jannah 🤍",
                voice={"الْجَنَّة": V + "jannah.mp3", "جِنّ": V + "jinn.mp3", "مَجْنُون": V + "majnun.mp3", "جَنِين": V + "janin.mp3"})
 
+LADDER_CSS = (".pct { position:absolute; left:0; right:0; top:215px; text-align:center; font-weight:800; color:var(--rubric); line-height:1; }"
+    ".pct .n { font-size:150px; letter-spacing:-.03em; } .pct small { display:block; font-size:34px; letter-spacing:.18em; color:var(--ink-soft); margin-top:6px; }"
+    ".lq { position:absolute; left:70px; right:70px; top:450px; text-align:center; font-size:64px; font-weight:700; line-height:1.15; color:var(--ink); }"
+    ".lq .ar { font-family:var(--ar); color:var(--rubric); } .lbig { position:absolute; left:0; right:0; top:600px; text-align:center; font-size:150px; line-height:1.2; }"
+    ".lans { position:absolute; left:50%; top:870px; transform:translateX(-50%); padding:18px 54px; border-radius:60px; background:var(--card,#fff); "
+    "border:4px solid rgba(23,38,43,.12); white-space:nowrap; } .lans b { font-size:70px; font-weight:800; color:var(--ink); }"
+    ".lans .ar { font-family:var(--ar); font-size:96px; } .lcom { position:absolute; left:60px; right:60px; top:1060px; text-align:center; "
+    "font-size:46px; font-weight:700; color:var(--verdigris); }")
+
+def ladder(vid, R, ask, voice={}):
+    """The difficulty ladder (owner, 14 Oct 2026): each round a smaller share of people "can answer it" (the owner says the line,
+    stitched under the video, so everything sits in the top ~1,100 px), the share counts down with a click per step, the question,
+    a 3-2-1 with clicks, the answer pops in green and Rafiq says it. R: (percent, question html, big html or "", answer html,
+    Arabic said for the answer or for the big word, "big" | "ans" (which one Rafiq says), extra line or "")."""
+    c = SO.vcomp(vid, "QUIZ · HOW FAR CAN YOU GET?"); c.bed = True; c.css += LADDER_CSS
+    body, t, prev = [], 0.1, R[0][0]                    # the first share is on screen from frame 0 (the cover)
+    for k, (pct, q, big, ans, ar, when, extra) in enumerate(R):
+        s = f"l{k}"
+        body.append(f'<div class="sec" id="{s}"><div class="pct" id="{s}p"><span class="n">{prev}%</span><small>CAN ANSWER THIS</small></div>'
+                    f'<div class="lq" id="{s}q">{q}</div>' + (f'<div class="lbig" id="{s}b">{big}</div>' if big else "")
+                    + cnt(s + "c", 870) + f'<div class="lans" id="{s}a">{ans}</div>' + (f'<div class="lcom" id="{s}x">{extra}</div>' if extra else "") + '</div>')
+        if k: c.t(f'tl.fromTo("#{s}", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
+        steps = max(1, round((prev - pct) / 10)) if prev > pct else 0   # the share counts down, a click on every 10%
+        c.t(f'(() => {{ const o = {{v:{prev}}}; tl.to(o, {{v:{pct}, duration:0.7, ease:"power2.out", onUpdate:() => {{ document.querySelector("#{s}p .n").textContent = Math.round(o.v) + "%"; }}}}, {t + 0.1:.2f}); }})();')
+        for i in range(steps): clip(c, "brag-quiz/sfx/ref/click.wav", t + 0.1 + 0.7 * (i + 1) / steps * 0.8, 0.6)
+        c.t(f'tl.fromTo("#{s}p", {{scale:1}}, {{scale:1.12, duration:0.14, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t + 0.85:.2f});')
+        if k: c.inn(f"#{s}q", t + 0.4)                     # the first question and its word are there from frame 0: the cover
+        if big and k: SO.bigin(c, f"#{s}b", t + 0.7)
+        if when == "big": say_up(c, ar, t + 1.2, src=voice.get(ar))
+        if extra: c.inn(f"#{s}x", t + 1.0)
+        done = count_down(c, f"{s}c", t + 3.2)
+        c.t(f'tl.fromTo("#{s}a", {{opacity:0, scale:0.6}}, {{opacity:1, scale:1, duration:0.35, ease:"back.out(1.8)"}}, {done:.2f});')
+        reveal(c, f"#{s}a", [], done + 0.05); c.sfx("correct", done)
+        d = say_up(c, ar, done + 0.3, src=voice.get(ar)) if when == "ans" else 0
+        t = done + 0.3 + d + 1.4; c.out_(f"#{s}", t); t += 0.4; prev = pct
+    body.append(c.end(t, ask))
+    c.write("\n".join("      " + b for b in body), round(t + 2.9, 2))
+
+def l1():
+    """The difficulty ladder #1 (owner, 14 Oct 2026): far → near → fat → thin → hot → cold → the final boss, the opposite of cheap.
+    Meanings: vocab-data.js; every word is the app's recording except حارّ, re-recorded as حارْ (brag-quiz/voice/ladder-lines.json)."""
+    A = lambda w: f'<span class="ar" lang="ar">{w}</span>'
+    ladder("l1-ladder", [
+        (90, "What does this mean?", A("بَعِيد"), "<b>far</b>", "بَعِيد", "big", ""),
+        (80, f"What’s the opposite of {A('بَعِيد')} (far)?", "", f"<b>{A('قَرِيب')}</b> &nbsp;<b>near</b>", "قَرِيب", "ans", ""),
+        (50, "How do you say <b>“fat”</b> in Arabic?", "", f"<b>{A('سَمِين')}</b>", "سَمِين", "ans", ""),
+        (30, f"What’s the opposite of {A('سَمِين')} (fat)?", "", f"<b>{A('نَحِيف')}</b> &nbsp;<b>thin</b>", "نَحِيف", "ans", ""),
+        (20, "How do you say <b>“hot”</b> in Arabic?", "", f"<b>{A('حارّ')}</b>", "حارّ", "ans", "Got this far? Comment below 👇"),
+        (10, f"And the opposite of {A('حارّ')} (hot)?", "", f"<b>{A('بارِد')}</b> &nbsp;<b>cold</b>", "بارِد", "ans", ""),
+        (5, f"The final boss 😈 What’s the opposite of {A('رَخِيص')} (cheap)?", "", f"<b>{A('غالٍ')}</b> &nbsp;<b>expensive</b>", "غالٍ", "ans", ""),
+    ], "How far did you get? Comment your score 👇", voice={"حارّ": "brag-quiz/voice/ladder/har.mp3"})
+
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "w8-subhana-azim": w8,
-       "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1}
+       "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "l1-ladder": l1}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
