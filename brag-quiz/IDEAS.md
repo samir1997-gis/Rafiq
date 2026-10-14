@@ -87,6 +87,12 @@ Already made: videos سَمِعَ (q1), رَبَّنا (q2), ruku → sujood (q3
 Also made since (don't repeat the format without a twist): the salah word-by-word series s1-s3 (`build_series.py`: اللَّهُ أَكْبَرُ,
 سُبْحانَ رَبِّيَ الْعَظِيمِ, سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ), f1-f2 (`build_fresh.py`), x1-x2 (`build_wild.py`), m01-m10 (`build_mix.py`); see FRESH.md, WILD.md, MIX.md.
 
+**Made 13–14 Oct 2026 (`build_formula.py`):** `n1-jannah` (root series part 3, ج ن ن: Jannah, jinn, majnūn; your turn جَنِين; the owner
+stitches himself under it); `l1-ladder` (the difficulty ladder, owner approved: one page that slides up, a % rail on the left, 90% → 5%,
+words ordered by the Kelly list's CEFR levels (ssharoff.github.io/kelly): far/near A1, cold A2, hot/fat/thin B1, final boss خائِن C1;
+Kelly ranks by corpus frequency, so everyday shop words like رَخِيص come out "C2": sanity-check those by hand). The ladder's
+percentages are a game device, never stated as data.
+
 ## More ideas (not made yet)
 - A word tree: a root grows like a vine, a word blooms on each branch (softer, for family or salah words).
 - One word, many endings: كِتاب → my book, your book, his book as each ending slides in.
