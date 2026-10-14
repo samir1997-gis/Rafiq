@@ -552,57 +552,85 @@ def n1():
                "a baby in the womb", "Send this to someone you want to meet in Jannah 🤍",
                voice={"الْجَنَّة": V + "jannah.mp3", "جِنّ": V + "jinn.mp3", "مَجْنُون": V + "majnun.mp3", "جَنِين": V + "janin.mp3"})
 
-LADDER_CSS = (".pct { position:absolute; left:0; right:0; top:215px; text-align:center; font-weight:800; color:var(--rubric); line-height:1; }"
-    ".pct .n { font-size:150px; letter-spacing:-.03em; } .pct small { display:block; font-size:34px; letter-spacing:.18em; color:var(--ink-soft); margin-top:6px; }"
-    ".lq { position:absolute; left:70px; right:70px; top:450px; text-align:center; font-size:64px; font-weight:700; line-height:1.15; color:var(--ink); }"
-    ".lq .ar { font-family:var(--ar); color:var(--rubric); } .lbig { position:absolute; left:0; right:0; top:600px; text-align:center; font-size:150px; line-height:1.2; }"
-    ".lans { position:absolute; left:50%; top:870px; transform:translateX(-50%); padding:18px 54px; border-radius:60px; background:var(--card,#fff); "
-    "border:4px solid rgba(23,38,43,.12); white-space:nowrap; } .lans b { font-size:70px; font-weight:800; color:var(--ink); }"
-    ".lans .ar { font-family:var(--ar); font-size:96px; } .lcom { position:absolute; left:60px; right:60px; top:1060px; text-align:center; "
-    "font-size:46px; font-weight:700; color:var(--verdigris); }")
+LADDER_CSS = (
+    # one page that moves (MOTION-STYLE rule 6, the owner's reference reel): the rounds sit one under another and the page slides up
+    # to the next; a rail on the left keeps the share of people still in the game, its marker dropping a rung each round
+    "#view { position:absolute; left:0; right:0; top:170px; height:990px; overflow:hidden; "
+    "-webkit-mask-image:linear-gradient(#000 82%, transparent); mask-image:linear-gradient(#000 82%, transparent); }"
+    "#page { position:absolute; left:190px; right:40px; top:0; } .blk { position:absolute; left:0; right:0; height:900px; }"
+    ".lq { position:absolute; left:0; right:0; top:60px; text-align:center; font-size:62px; font-weight:700; line-height:1.15; color:var(--ink); }"
+    ".lq .ar, .lbig .ar { font-family:var(--ar); color:var(--rubric); } .lbig { position:absolute; left:0; right:0; top:230px; text-align:center; font-size:150px; line-height:1.2; }"
+    ".blk .cnt { top:470px !important; } .lans { position:absolute; left:50%; top:470px; transform:translateX(-50%); padding:16px 50px; "
+    "border-radius:60px; background:var(--card,#fff); border:4px solid rgba(23,38,43,.12); white-space:nowrap; } .lans b { font-size:66px; font-weight:800; color:var(--ink); }"
+    ".lans .ar { font-family:var(--ar); font-size:92px; } .lcom { position:absolute; left:0; right:0; top:660px; text-align:center; font-size:44px; font-weight:700; color:var(--verdigris); }"
+    "#rail { position:absolute; left:34px; top:230px; width:130px; height:860px; } #rail .trk { position:absolute; left:58px; top:10px; bottom:10px; width:10px; "
+    "border-radius:5px; background:rgba(23,38,43,.1); } #rail .fill { position:absolute; left:58px; top:10px; width:10px; height:0; border-radius:5px; background:var(--rubric); }"
+    ".rung { position:absolute; left:0; width:126px; text-align:center; font-weight:800; font-size:30px; color:rgba(23,38,43,.3); transform:translateY(-50%); }"
+    ".rung i { position:absolute; left:52px; top:50%; width:22px; height:22px; margin-top:-11px; border-radius:50%; background:#efe8d8; border:4px solid rgba(23,38,43,.18); }"
+    ".rung span { position:relative; top:-34px; } #mark { position:absolute; left:0; width:126px; transform:translateY(-50%); text-align:center; }"
+    "#mark b { display:inline-block; padding:8px 14px; border-radius:30px; background:var(--rubric); color:#fff; font-size:38px; font-weight:800; box-shadow:0 8px 24px rgba(180,50,42,.35); }"
+    "#mark small { display:block; font-size:19px; letter-spacing:.12em; font-weight:800; color:var(--rubric); margin-top:6px; }")
 
 def ladder(vid, R, ask, voice={}):
-    """The difficulty ladder (owner, 14 Oct 2026): each round a smaller share of people "can answer it" (the owner says the line,
-    stitched under the video, so everything sits in the top ~1,100 px), the share counts down with a click per step, the question,
-    a 3-2-1 with clicks, the answer pops in green and Rafiq says it. R: (percent, question html, big html or "", answer html,
-    Arabic said for the answer or for the big word, "big" | "ans" (which one Rafiq says), extra line or "")."""
+    """The difficulty ladder (owner, 14 Oct 2026). The owner says each line, stitched under the video, so it all sits in the top
+    ~1,150 px. One page: each round sits under the last and the page slides up to it; the rail on the left drops its marker a rung
+    (the share counts down, a click per 10%); the question, a 3-2-1 with clicks, the answer pops green and Rafiq says it.
+    R: (percent, question html, big html or "", answer html, Arabic said, "big" | "ans" (when Rafiq says it), extra line or "")."""
     c = SO.vcomp(vid, "QUIZ · HOW FAR CAN YOU GET?"); c.bed = True; c.css += LADDER_CSS
-    body, t, prev = [], 0.1, R[0][0]                    # the first share is on screen from frame 0 (the cover)
+    n, H, GAP = len(R), 860, 760
+    ry = lambda k: 20 + k * (H - 40) / (n - 1)                    # rung k's height on the rail
+    rungs = "".join(f'<div class="rung" id="g{k}" style="top:{ry(k):.0f}px"><i></i><span>{p}%</span></div>' for k, (p, *_ ) in enumerate(R))
+    blocks = ""
     for k, (pct, q, big, ans, ar, when, extra) in enumerate(R):
         s = f"l{k}"
-        body.append(f'<div class="sec" id="{s}"><div class="pct" id="{s}p"><span class="n">{prev}%</span><small>CAN ANSWER THIS</small></div>'
-                    f'<div class="lq" id="{s}q">{q}</div>' + (f'<div class="lbig" id="{s}b">{big}</div>' if big else "")
-                    + cnt(s + "c", 870) + f'<div class="lans" id="{s}a">{ans}</div>' + (f'<div class="lcom" id="{s}x">{extra}</div>' if extra else "") + '</div>')
-        if k: c.t(f'tl.fromTo("#{s}", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
-        steps = max(1, round((prev - pct) / 10)) if prev > pct else 0   # the share counts down, a click on every 10%
-        c.t(f'(() => {{ const o = {{v:{prev}}}; tl.to(o, {{v:{pct}, duration:0.7, ease:"power2.out", onUpdate:() => {{ document.querySelector("#{s}p .n").textContent = Math.round(o.v) + "%"; }}}}, {t + 0.1:.2f}); }})();')
-        for i in range(steps): clip(c, "brag-quiz/sfx/ref/click.wav", t + 0.1 + 0.7 * (i + 1) / steps * 0.8, 0.6)
-        c.t(f'tl.fromTo("#{s}p", {{scale:1}}, {{scale:1.12, duration:0.14, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t + 0.85:.2f});')
-        if k: c.inn(f"#{s}q", t + 0.4)                     # the first question and its word are there from frame 0: the cover
-        if big and k: SO.bigin(c, f"#{s}b", t + 0.7)
+        blocks += (f'<div class="blk" id="{s}" style="top:{k * GAP}px"><div class="lq" id="{s}q">{q}</div>' + (f'<div class="lbig" id="{s}b">{big}</div>' if big else "")
+                   + cnt(s + "c", 470) + f'<div class="lans" id="{s}a">{ans}</div>' + (f'<div class="lcom" id="{s}x">{extra}</div>' if extra else "") + '</div>')
+    body = [f'<div id="view"><div id="page">{blocks}</div></div>',
+            f'<div id="rail"><div class="trk"></div><div class="fill" id="fill"></div>{rungs}'
+            f'<div id="mark" style="top:{ry(0):.0f}px"><b id="markn">{R[0][0]}%</b><small>STILL IN</small></div></div>']
+    t, prev = 0.1, R[0][0]
+    for k, (pct, q, big, ans, ar, when, extra) in enumerate(R):
+        s = f"l{k}"
+        if k:                                                     # the page slides up to the next round, the marker drops a rung
+            c.t(f'tl.to("#page", {{y:{-k * GAP}, duration:0.6, ease:"power3.inOut"}}, {t - 0.45:.2f});')
+            c.t(f'tl.fromTo("#page", {{filter:"blur(0px)"}}, {{filter:"blur(6px)", duration:0.25, yoyo:true, repeat:1, ease:"power1.in", immediateRender:false}}, {t - 0.4:.2f});')
+            clip(c, "brag-quiz/sfx/ref/short-swoosh.wav", t - 0.45, 0.35)
+            c.t(f'tl.to("#mark", {{top:{ry(k):.0f}, duration:0.7, ease:"back.out(1.4)"}}, {t + 0.1:.2f});')
+            c.t(f'tl.to("#fill", {{height:{ry(k) - 10:.0f}, duration:0.7, ease:"power2.out"}}, {t + 0.1:.2f});')
+            c.t(f'(() => {{ const o = {{v:{prev}}}; tl.to(o, {{v:{pct}, duration:0.7, ease:"power2.out", onUpdate:() => {{ document.getElementById("markn").textContent = Math.round(o.v) + "%"; }}}}, {t + 0.1:.2f}); }})();')
+            steps = max(1, round((prev - pct) / 10))              # a click per 10% the share drops
+            for i in range(steps): clip(c, "brag-quiz/sfx/ref/click.wav", t + 0.1 + 0.6 * (i + 1) / steps, 0.6)
+            c.t(f'tl.fromTo("#mark b", {{scale:1}}, {{scale:1.18, duration:0.14, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t + 0.8:.2f});')
+            c.t(f'tl.to("#g{k - 1}", {{opacity:0.45, duration:0.3}}, {t + 0.1:.2f});')
+            c.t(f'tl.fromTo("#{s}q", {{opacity:0, y:40, filter:"blur(10px)"}}, {{opacity:1, y:0, filter:"blur(0px)", duration:0.4, ease:"expo.out"}}, {t + 0.2:.2f});')
+            if big: SO.bigin(c, f"#{s}b", t + 0.5)
         if when == "big": say_up(c, ar, t + 1.2, src=voice.get(ar))
         if extra: c.inn(f"#{s}x", t + 1.0)
         done = count_down(c, f"{s}c", t + 3.2)
         c.t(f'tl.fromTo("#{s}a", {{opacity:0, scale:0.6}}, {{opacity:1, scale:1, duration:0.35, ease:"back.out(1.8)"}}, {done:.2f});')
         reveal(c, f"#{s}a", [], done + 0.05); c.sfx("correct", done)
         d = say_up(c, ar, done + 0.3, src=voice.get(ar)) if when == "ans" else 0
-        t = done + 0.3 + d + 1.4; c.out_(f"#{s}", t); t += 0.4; prev = pct
+        t = done + 0.3 + d + 1.5; prev = pct
+    c.out_("#view", t); c.out_("#rail", t); t += 0.4
     body.append(c.end(t, ask))
     c.write("\n".join("      " + b for b in body), round(t + 2.9, 2))
 
 def l1():
-    """The difficulty ladder #1 (owner, 14 Oct 2026): far → near → fat → thin → hot → cold → the final boss, the opposite of cheap.
-    Meanings: vocab-data.js; every word is the app's recording except حارّ, re-recorded as حارْ (brag-quiz/voice/ladder-lines.json)."""
+    """The difficulty ladder #1 (owner, 14 Oct 2026), ordered by the Kelly list's CEFR levels for Arabic (Kilgarriff et al. 2014;
+    ssharoff.github.io/kelly): far, near A1 → cold A2 → hot, fat, thin B1 → the final boss خائِن "traitor" C1, the opposite of
+    أَمِين "trustworthy" (A2). Meanings: vocab-data.js; حارّ, أَمِين and خائِن spoken for this video (brag-quiz/voice/ladder-lines.json)."""
     A = lambda w: f'<span class="ar" lang="ar">{w}</span>'
+    V = "brag-quiz/voice/ladder/"
     ladder("l1-ladder", [
         (90, "What does this mean?", A("بَعِيد"), "<b>far</b>", "بَعِيد", "big", ""),
         (80, f"What’s the opposite of {A('بَعِيد')} (far)?", "", f"<b>{A('قَرِيب')}</b> &nbsp;<b>near</b>", "قَرِيب", "ans", ""),
-        (50, "How do you say <b>“fat”</b> in Arabic?", "", f"<b>{A('سَمِين')}</b>", "سَمِين", "ans", ""),
-        (30, f"What’s the opposite of {A('سَمِين')} (fat)?", "", f"<b>{A('نَحِيف')}</b> &nbsp;<b>thin</b>", "نَحِيف", "ans", ""),
-        (20, "How do you say <b>“hot”</b> in Arabic?", "", f"<b>{A('حارّ')}</b>", "حارّ", "ans", "Got this far? Comment below 👇"),
-        (10, f"And the opposite of {A('حارّ')} (hot)?", "", f"<b>{A('بارِد')}</b> &nbsp;<b>cold</b>", "بارِد", "ans", ""),
-        (5, f"The final boss 😈 What’s the opposite of {A('رَخِيص')} (cheap)?", "", f"<b>{A('غالٍ')}</b> &nbsp;<b>expensive</b>", "غالٍ", "ans", ""),
-    ], "How far did you get? Comment your score 👇", voice={"حارّ": "brag-quiz/voice/ladder/har.mp3"})
+        (50, "How do you say <b>“cold”</b> in Arabic?", "", f"<b>{A('بارِد')}</b>", "بارِد", "ans", ""),
+        (30, f"And the opposite of {A('بارِد')} (cold)?", "", f"<b>{A('حارّ')}</b> &nbsp;<b>hot</b>", "حارّ", "ans", ""),
+        (20, "How do you say <b>“fat”</b> in Arabic?", "", f"<b>{A('سَمِين')}</b>", "سَمِين", "ans", "Got this far? Comment below 👇"),
+        (10, f"What’s the opposite of {A('سَمِين')} (fat)?", "", f"<b>{A('نَحِيف')}</b> &nbsp;<b>thin</b>", "نَحِيف", "ans", ""),
+        (5, f"The final boss 😈 What’s the opposite of {A('أَمِين')} (trustworthy)?", "", f"<b>{A('خائِن')}</b> &nbsp;<b>a traitor</b>", "خائِن", "ans", ""),
+    ], "How far did you get? Comment your score 👇",
+           voice={"حارّ": V + "har.mp3", "أَمِين": V + "amin.mp3", "خائِن": V + "khain.mp3"})
 
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
