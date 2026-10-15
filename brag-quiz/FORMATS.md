@@ -12,11 +12,15 @@ Every generated video uses one of these, built by the named function. Don't rede
 What didn't work, so don't make more without a new idea: timed challenges on everyday words on TikTok (speed reading x2,
 "3 seconds to answer", the POV chat: all stalled at 260-300 views). The speed reel did fine on Instagram (1,990 views).
 
-## The standard for EVERY video (owner, 12 Oct 2026; on trial, judged over a few videos, not the first)
-Reference: **`g4-past-i`** (trial tracked in #254) (`g4()` → `change()` + `hook_in()` in `build_formula.py`). Every video we make from now on, of any
+## The standard for EVERY video (owner, 12 Oct 2026; confirmed 15 Oct: it works, make ONLY this from now on)
+Reference: **`g4-past-i`** (#254) (`g4()` → `change()` + `hook_in()` in `build_formula.py`). Proof: g4 had the best hold of any quiz
+(42.7% still watching at 3 s vs 36-37%), 9.9 s average watch vs 6-7 s, 2.2k views on day 1. Every video we make from now on, of any
 kind (quiz, root, salah line, data reel, carousel-to-video, edits where it fits), uses all of this; no video goes out without it.
-1. **A spoken hook in Callum's voice** (`N2lVS1w4EtoT3dr4eOWO`): a bold, curiosity-first line the video pays off, on screen
-   from frame 0. Rafiq's voice (`Ywuz3KyW2N5pqKNpwcCL`) only says the Arabic.
+1. **A spoken hook in Callum's voice** (`N2lVS1w4EtoT3dr4eOWO`): a bold, curiosity-first, clickbait-style line the video pays off,
+   on screen from frame 0. **Not the same sentence every time** (owner, 15 Oct): same shape, new words. Lead with the shouted word,
+   then the promise: "MOST people learn Arabic for years before they notice this trick!", "MOST of you will get the second one
+   WRONG!", "ONLY 1 in 10 get the last one", "NOBODY told you this about your salah". Rafiq's voice (`Ywuz3KyW2N5pqKNpwcCL`) only
+   says the Arabic.
 2. **One word stressed, hard.** Spoken shouted (ElevenLabs `eleven_v3`, `"[shouting] MOST!"`, `stability` 0), in capitals on
    screen, huge on frame 0, then it **slams** down on the voice: crash (`brag-quiz/sfx/crash.wav`), screen shake, shockwave
    rings, sparks, flash, squash (`marks` `"loud"` in `hook_in`). Other key words: red, or a gold hand-drawn circle with a flash.
