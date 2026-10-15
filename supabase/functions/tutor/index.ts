@@ -87,6 +87,9 @@ Deno.serve(async (req) => {
     headers: { 'x-api-key': KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
     body: JSON.stringify({
       model: MODEL, max_tokens: MAX_TOKENS[mode], stream: true, messages,
+      // Sonnet 5.5 thinks by default and the thinking counts toward max_tokens: at the default effort a hard question
+      // could use up the 800/400 and cut the answer off. Short tutor answers need little of it, and it's cheaper.
+      output_config: { effort: 'low' },
       // the fixed prompt is cached (a tenth of the price); the learner's context follows it
       system: [{ type: 'text', text: PROMPT, cache_control: { type: 'ephemeral' } },
                { type: 'text', text: (mode === 'why' ? 'On the learner\'s screen:\n' : 'About this learner:\n') + (context || '(nothing given)') }],
