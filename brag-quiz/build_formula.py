@@ -533,6 +533,16 @@ def g4(): change("g4-past-i", "QUIZ · ARABIC VERBS",            # recreated fro
                            ("brag-quiz/voice/g4-vo/q2a.mp3", "brag-quiz/voice/g4-vo/q2b.mp3")],
                      "rule": "brag-quiz/voice/g4-vo/rule.mp3", "end": "brag-quiz/voice/g4-vo/end2.mp3"})
 
+def g5(): change("g5-endings", "QUIZ · MY, HIS, HER",           # IDEAS "one word, many endings" in the g4 standard (#261)
+                 [("اسْمِي", "my name", "his name", ["اسْمُها", "اسْمُهُ", "اسْمُكَ"], 1, '<bdi lang="ar"><em>ـهُ</em></bdi> on the end = his'),
+                  ("بَيْتُكَ", "your house", "her house", ["بَيْتُهُ", "بَيْتُكِ", "بَيْتُها"], 2, '<bdi lang="ar"><em>ـها</em></bdi> = her, not <bdi lang="ar"><em>ـهُ</em></bdi>')],
+                 "How many did you get? 0, 1 or 2? Comment below 👇 and send this to your Arabic study buddy",
+                 hook=("NOBODY tells you Arabic has no word for “my”!".split(), {0: "loud", 5: "red", 8: "circle"},
+                       "brag-quiz/voice/g5-hook/g5-h1b.mp3", ("QUESTIONS", 2)),
+                 vo={"q": [("brag-quiz/voice/g5-vo/q1a.mp3", "brag-quiz/voice/g5-vo/q1b.mp3"),
+                           ("brag-quiz/voice/g5-vo/q2a.mp3", "brag-quiz/voice/g5-vo/q2b.mp3")],
+                     "rule": "brag-quiz/voice/g5-vo/rule.mp3", "end": "brag-quiz/voice/g4-vo/end2.mp3"})
+
 def w8(): wbw("w8-subhana-azim", 8, 'You say this <b>every time</b> you bow in rukūʿ', "سُبْحانَ رَبِّيَ الْعَظِيمِ", 104,   # recreated from t2-subhana (#246)
                   [("سُبْحانَ", "Glory be to"), ("رَبِّيَ", "my Lord"), ("الْعَظِيمِ", "the Magnificent")],
                   "“Glory be to my Lord, the Magnificent.”", "What do you say in sujūd instead? Comment it 👇")
@@ -634,7 +644,7 @@ def l1():
 
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
-       "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "w8-subhana-azim": w8,
+       "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "w8-subhana-azim": w8,
        "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "l1-ladder": l1}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
