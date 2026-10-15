@@ -93,9 +93,12 @@ words ordered by the Kelly list's CEFR levels (ssharoff.github.io/kelly): far/ne
 Kelly ranks by corpus frequency, so everyday shop words like رَخِيص come out "C2": sanity-check those by hand). The ladder's
 percentages are a game device, never stated as data.
 
+**Made 15 Oct 2026 (`build_formula.py`):** `g5-endings` (#261), "one word, many endings" made as a word-change quiz in the g4
+standard: hook "NOBODY tells you Arabic has no word for 'my'!", then اسْمِي "my name" → his name (ـهُ) and بَيْتُكَ "your house" →
+her house (ـها, the trap is ـهُ). More endings (our, their, your f.) are left for a part 2.
+
 ## More ideas (not made yet)
 - A word tree: a root grows like a vine, a word blooms on each branch (softer, for family or salah words).
-- One word, many endings: كِتاب → my book, your book, his book as each ending slides in.
 
 ## Ramadan countdown (parked by the owner, 4 Oct 2026, to come back to)
 
