@@ -29,9 +29,10 @@ h1 {{ position:absolute; top:150px; left:60px; right:60px; margin:0; text-align:
 .wr .en {{ flex:1; white-space:nowrap; font-size:29px; font-weight:700; line-height:1; }} .wr .en small {{ display:block; font-size:21px; font-weight:500; color:#6b7a7c; margin-top:3px; }}
 .wr .x {{ width:84px; text-align:center; font-family:"JetBrains Mono"; font-size:21px; color:{S.RED}; }}
 .wr .ar {{ width:250px; text-align:right; font-family:"Plex Arabic"; font-weight:700; font-size:42px; line-height:1; direction:rtl; }}
-.wtip {{ position:absolute; bottom:120px; left:56px; right:56px; padding:22px 28px; border-radius:22px; background:rgba(46,114,99,.12);
+.wtip {{ position:absolute; bottom:172px; left:56px; right:56px; padding:22px 28px; border-radius:22px; background:rgba(46,114,99,.12);
   font-size:27px; line-height:1.3; }} .wtip b {{ color:{S.TEAL}; }}
-.wfoot {{ position:absolute; bottom:52px; left:0; right:0; text-align:center; font-family:"JetBrains Mono"; font-size:22px; color:#4f6163; }}
+.wcta {{ position:absolute; bottom:34px; left:56px; right:56px; text-align:center; font-size:26px; line-height:1.35; }} .wcta b {{ color:{S.RED}; }}
+.wcta span {{ font-family:"JetBrains Mono"; font-size:23px; color:#4f6163; }}
 """
 
 def page():
@@ -47,7 +48,8 @@ def page():
             f'<div class="wl">{rows}</div>'
             '<div class="wtip"><b>Start with the first four.</b> Think of their meaning in your next rukūʿ and sujūd: '
             'subḥāna rabbiya alone comes 36 times in one prayer, so you’ll feel it straight away, in shā’ Allāh 🤲</div>'
-            '<div class="wfoot">rafiq-arabic.com · learn every word of your salah</div></body>')
+            '<div class="wcta"><b>Learn it properly with Rafiq:</b> your whole salah, every short surah, and everyday Arabic.<br>'
+            '<span>rafiq-arabic.com · free for a week, no card needed</span></div></body>')
 
 if __name__ == "__main__":
     out = os.path.join(S.HERE, "stills"); os.makedirs(out, exist_ok=True)
