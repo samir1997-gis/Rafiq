@@ -102,11 +102,13 @@ HOOK_NUMS = [  # numbers counting up all over the hook page: (left, top, size px
     (400, 1400, 42, 2, 40, "apps", "gold", -7), (60, 1540, 48, 10, 500, "flashcards", "rubric", 3), (690, 1520, 56, 5, 365, "nights", "verdigris", -5),
     (420, 1730, 40, 2, 7, "years", "gold", 6)]
 
-def hook_in(c, body, hook):
+def hook_in(c, body, hook, bg=None):
     """An opening hook (owner, 12 Oct 2026) in the MOTION-STYLE moves. Each word swooshes in from alternating sides as the hook voice
     says it (the first is there at frame 0); a timer ring at the top counts the years up; numbers count up all over the page; the
     red word bumps, the circled word gets a gold hand-drawn circle, a flash and a shake; then a whip into the quiz.
-    hook = (words, {word index: "red" | "circle"}, mp3 spoken with HOOK_VOICE[, (timer label, count)]); the timer counts YEARS to 7 unless given."""
+    hook = (words, {word index: "red" | "circle"}, mp3 spoken with HOOK_VOICE[, (timer label, count)]); the timer counts YEARS to 7 unless given.
+    The numbers and the years timer only fit hooks about time spent learning (g4). bg = (html, animate(c, at, d)) puts a background that
+    fits this hook's own words in their place (owner, 17 Oct 2026), with no timer."""
     words, marks, mp3, (unit, n) = (*hook, ("YEARS", 7))[:4]
     W = words_at(mp3); d = clip(c, mp3, 0.05)
     at = lambda i: 0.05 + (W[i][1] if i < len(W) else d * i / len(words))
@@ -117,6 +119,7 @@ def hook_in(c, body, hook):
                    for k, (x, y, sz, a, b, u, col, r) in enumerate(HOOK_NUMS))
     timer = ('<div id="htimer"><svg viewBox="0 0 300 300"><circle class="bg" cx="150" cy="150" r="128"/><circle class="fg" cx="150" cy="150" r="128"/></svg>'
              f'<div class="tn"><b id="hty">0</b><span>{unit}</span></div></div>')
+    if bg: nums, timer = bg[0], ""
     body.append(f'<div class="sec" id="hook">{nums}{timer}<div class="hookline" id="hl">{spans}</div><div id="hflash"></div></div>')
     os.makedirs(os.path.join(c.a, "fonts"), exist_ok=True)   # Fredoka, round and bubbly, for the hook page (owner, 12 Oct 2026)
     for wt in (600, 700): shutil.copy(os.path.join(T.ROOT, f"brag-quiz/fonts/fredoka-latin-{wt}-normal.woff2"), os.path.join(c.a, "fonts"))
@@ -141,16 +144,18 @@ def hook_in(c, body, hook):
     for i in range(1, len(words)):      # each word swooshes in from alternating sides, blurred
         x = -560 if i % 2 else 560
         c.t(f'tl.fromTo("#hw{i}", {{opacity:0, x:{x}, scale:1.3, filter:"blur(16px)"}}, {{opacity:1, x:0, scale:1, filter:"blur(0px)", duration:0.32, ease:"expo.out"}}, {at(i) - 0.08:.2f});')
-    for k, (x, y, sz, a, b, u, col, r) in enumerate(HOOK_NUMS):   # the numbers count up and drift, from frame 0
+    for k, (x, y, sz, a, b, u, col, r) in enumerate([] if bg else HOOK_NUMS):   # the numbers count up and drift, from frame 0
         c.t(f'(() => {{ const o = {{v:{a}}}; tl.to(o, {{v:{b}, duration:{d + 0.2:.2f}, ease:"power2.in", onUpdate:() => {{ document.querySelector("#hn{k} b").textContent = '
             f'Math.round(o.v).toLocaleString("en-GB"); }}}}, 0); }})();')
         c.t(f'tl.fromTo("#hn{k}", {{y:0, scale:0.92}}, {{y:{-30 if k % 2 else 26}, scale:1.08, duration:{d + 0.2:.2f}, ease:"none"}}, 0);')
     tr = at(red)                        # the timer: years count up and the ring fills from "years" to the last word
-    c.t(f'tl.fromTo("#htimer", {{scale:0.6, opacity:0.4}}, {{scale:1, opacity:1, duration:0.4, ease:"back.out(2)"}}, {tr - 0.1:.2f});')
-    c.t(f'tl.fromTo("#htimer .fg", {{strokeDashoffset:805}}, {{strokeDashoffset:0, duration:{d - tr + 0.1:.2f}, ease:"power1.in"}}, {tr:.2f});')
-    c.t(f'(() => {{ const o = {{v:0}}; tl.to(o, {{v:{n}, duration:{d - tr + 0.1:.2f}, ease:"power1.in", onUpdate:() => {{ document.getElementById("hty").textContent = Math.floor(o.v); }}}}, {tr:.2f}); }})();')
+    if bg: bg[1](c, at, d)
+    if not bg:
+        c.t(f'tl.fromTo("#htimer", {{scale:0.6, opacity:0.4}}, {{scale:1, opacity:1, duration:0.4, ease:"back.out(2)"}}, {tr - 0.1:.2f});')
+        c.t(f'tl.fromTo("#htimer .fg", {{strokeDashoffset:805}}, {{strokeDashoffset:0, duration:{d - tr + 0.1:.2f}, ease:"power1.in"}}, {tr:.2f});')
+        c.t(f'(() => {{ const o = {{v:0}}; tl.to(o, {{v:{n}, duration:{d - tr + 0.1:.2f}, ease:"power1.in", onUpdate:() => {{ document.getElementById("hty").textContent = Math.floor(o.v); }}}}, {tr:.2f}); }})();')
     c.t(f'tl.fromTo("#hw{red}", {{scale:1}}, {{scale:1.2, duration:0.16, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {tr + 0.25:.2f});')
-    for k in range(1, n + 1):           # a clear tick on every number the timer counts (power1.in: number k at sqrt(k/n) of the way)
+    for k in range(1, 0 if bg else n + 1):   # a clear tick on every number the timer counts (power1.in: number k at sqrt(k/n) of the way)
         clip(c, "brag-quiz/sfx/ref/click.wav", tr + (d - tr + 0.1) * (k / n) ** 0.5, 0.7)
     for i, m in marks.items():
         if m == "loud":                 # the stressed word lands with force: huge at frame 0, slams down on the voice, crash, shockwave, screen shake
@@ -670,6 +675,95 @@ def m1():
     body.append(c.end(E, "Comment below 👇 and send this to someone who says mashallah every day"))
     c.write("\n".join("      " + b for b in body), round(max(E + 2.9, t + end + 0.8), 2))
 
+BUBBLES = [  # moments people say it, round the hook line: (left, top, text, side "a" = tagged on mashallah, "b" = on Allahumma barik)
+    (70, 190, "new baby 👶", "a"), (600, 230, "new car 🚗", "a"), (330, 420, "wedding photos 💍", "a"),
+    (60, 1280, "exam results 🎓", "b"), (620, 1330, "new house 🏡", "b"), (300, 1530, "her cooking 🍲", "b")]
+
+def m2():
+    """Mashallah vs Allahumma barik (owner, 17 Oct 2026; replaces m1, whose "past tense" angle was wrong: إِنْ شاءَ اللهُ has the same
+    past form). ما شاءَ اللهُ word by word; al-Kahf 18:39 (a man told he should have said it over his own garden), al-Husary reciting;
+    for someone else's blessing the Prophet ﷺ taught praying for blessing (Ibn Mājah 3509, ʿĀmir ibn Rabīʿah and Sahl ibn Ḥunayf, sahih);
+    the root ب ر ك (بَرَكَة, عِيد مُبارَك); a "new baby" test, answer: both. Hook: tools/typesafe-exp/barik_hook.py; the hook's background
+    is the moments people say it, tagged "mashallah?" / "Allahumma barik?" as each is said. Voices: brag-quiz/voice/barik-lines.json."""
+    V, M, Q = "brag-quiz/voice/barik/", "brag-quiz/voice/mashallah/", "brag-quiz/voice/mashallah-quran/kahf-18-39.mp3"
+    c = SO.vcomp("m2-barik", "ARABIC · WHAT YOU REALLY SAY"); c.bed = True; body = []
+    words = "Do you KNOW the difference between mashallah and Allahumma barik?".split()
+    bub = "".join(f'<div class="hb2" id="hb{k}" style="left:{x}px;top:{y}px">{t}<i>{"mashallah?" if g == "a" else "Allahumma barik?"}</i></div>'
+                  for k, (x, y, t, g) in enumerate(BUBBLES))
+    def anim(c, at, d):
+        for k, (x, y, t, g) in enumerate(BUBBLES):
+            c.t(f'tl.fromTo("#hb{k}", {{y:0, rotation:{-3 if k % 2 else 3}}}, {{y:{-26 if k % 2 else 22}, rotation:{2 if k % 2 else -2}, duration:{d + 0.3:.2f}, ease:"none"}}, 0);')
+            tg = at(6 if g == "a" else 8) + 0.1 * (k % 3)
+            c.t(f'tl.fromTo("#hb{k} i", {{opacity:0, scale:1.6}}, {{opacity:1, scale:1, duration:0.22, ease:"back.out(2)"}}, {tg:.2f});')
+            if k % 3 == 0: c.sfx("tap", tg)
+    t = hook_in(c, body, (words, {2: "loud", 6: "red", 9: "circle"}, V + "hb.mp3"), bg=(bub, anim))
+    c.css += MASH_CSS + (".hb2 { position:absolute; padding:22px 30px; background:var(--card); border:4px solid rgba(23,38,43,.12); border-radius:34px 34px 34px 8px; "
+                         "font-family:\"Fredoka\", var(--la); font-weight:600; font-size:44px; color:var(--ink); white-space:nowrap; box-shadow:0 14px 30px -18px rgba(23,38,43,.4); }"
+                         ".hb2 i { position:absolute; right:-18px; top:-34px; font-style:normal; font-size:30px; font-weight:700; padding:6px 16px; border-radius:20px; "
+                         "background:#E9B949; color:var(--ink); white-space:nowrap; opacity:0; } .ref { position:absolute; left:0; right:0; text-align:center; "
+                         "font-size:34px; font-weight:700; letter-spacing:.06em; color:var(--ink-soft); }")
+    def whip_in(sec, at): c.t(f'tl.fromTo("#{sec}", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {at - 0.2:.2f});')
+    def whip_out(sec, at):
+        c.t(f'tl.to("#{sec}", {{x:-700, opacity:0, filter:"blur(18px)", duration:0.3, ease:"power3.in"}}, {at:.2f});')
+        clip(c, "brag-quiz/sfx/ref/swoosh.wav", at - 0.05, 0.5); return at + 0.35
+    def chips(sec, pairs, top): return (f'<div class="chips" style="top:{top}px">' + "".join(f'<div class="chip" id="{sec}c{i}"><div class="ar">{a}</div><b>{en}</b></div>'
+                                        for i, (a, en) in enumerate(pairs)) + '</div>')
+    def light(sec, mp3, keys, t):         # each chip comes in, and its word in the big line turns red, as Callum names it
+        W = words_at(mp3); d = clip(c, mp3, t)
+        for i, key in enumerate(keys):
+            at = t + next((s for w, s in W if key in w.lower()), d * (i + 1) / (len(keys) + 1))
+            c.inn(f"#{sec}c{i}", at - 0.05, 30); c.sfx("tap", at)
+            c.t(f'tl.to("#{sec}w{i}", {{color:"{T.RED}", duration:0.2}}, {at:.2f});')
+            c.t(f'tl.fromTo("#{sec}w{i}", {{scale:1}}, {{scale:1.12, duration:0.15, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {at:.2f});')
+        return d
+    # 1. mashallah word by word
+    body.append('<div class="sec" id="a"><div class="q2">Mashallah, word by word:</div>'
+                '<div class="big" style="top:330px;font-size:170px" lang="ar" dir="rtl"><span class="w" id="aw0">ما</span> <span class="w" id="aw1">شاءَ</span> <span class="w" id="aw2">اللهُ</span></div>'
+                + chips("a", [("ما", "what"), ("شاءَ", "has willed"), ("اللهُ", "Allah")], 720) + '<div class="say" id="as" style="top:1110px">= what Allah has willed</div></div>')
+    whip_in("a", t); d = say_up(c, "ما شاءَ اللهُ", t + 0.1); t += d + 0.3
+    t += light("a", M + "c1.mp3", ("what", "willed", "allah"), t); c.inn("#as", t - 0.1); c.sfx("correct", t)
+    t = whip_out("a", t + 1.2)
+    # 2. al-Kahf 18:39, said over his own garden: each word lights up as al-Husary recites it (api.quran.com segments)
+    QW = [("ما", 0.04), ("شاءَ", 0.65), ("اللَّهُ", 2.80), ("لا", 4.17), ("قُوَّةَ", 4.72), ("إِلّا", 5.98), ("بِاللَّهِ", 7.32)]
+    body.append('<div class="sec" id="k"><div class="q2">In the Qur’an</div><div class="qref">AL-KAHF · 18:39</div><div class="qr">'
+                + " ".join(f'<span class="w" id="kw{i}">{a}</span>' + ("<br>" if i == 2 else "") for i, (a, _) in enumerate(QW)) +
+                '</div><div class="qen" id="ke">“What Allah willed; there is no power except in Allah.”</div>'
+                '<div class="ref" id="kr" style="top:1130px">said over <b>his own</b> garden 🌳</div></div>')
+    whip_in("k", t); d = clip(c, V + "d2.mp3", t); c.inn("#kr", t + d - 1.2); t += d + 0.15
+    dq = say_up(c, "", t, src=Q)
+    for i, (_, s_) in enumerate(QW):
+        c.t(f'tl.to("#kw{i}", {{color:"#a8842c", duration:0.25}}, {t + s_:.2f});')
+        c.t(f'tl.fromTo("#kw{i}", {{scale:1}}, {{scale:1.1, duration:0.18, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t + s_:.2f});')
+    c.inn("#ke", t + 4.2); t = whip_out("k", t + dq + 0.3)
+    # 3. someone else's blessing: Allahumma barik, word by word, with the hadith
+    body.append('<div class="sec" id="b"><div class="q2">Someone <b style="color:var(--rubric)">else’s</b> blessing?</div>'
+                '<div class="big" style="top:330px;font-size:170px" lang="ar" dir="rtl"><span class="w" id="bw0">اللَّهُمَّ</span> <span class="w" id="bw1">بارِكْ</span></div>'
+                + chips("b", [("اللَّهُمَّ", "O Allah"), ("بارِكْ", "bless")], 720) +
+                '<div class="ref" id="br" style="top:1130px">“Why didn’t you pray for blessing?”<br><span style="font-weight:500;letter-spacing:0">the Prophet ﷺ · Ibn Mājah 3509</span></div></div>')
+    whip_in("b", t); d = clip(c, V + "d4.mp3", t); c.inn("#br", t + d * 0.45); t += d + 0.1
+    d = say_up(c, "", t, src=V + "allahumma-barik.mp3"); t += d + 0.2
+    t += light("b", V + "d5.mp3", ("allah", "bless"), t); t = whip_out("b", t + 1.0)
+    # 4. the root ب ر ك
+    body.append('<div class="sec" id="r"><div class="q2">Same three letters:</div><div class="rootq" lang="ar">ب ر ك</div>'
+                '<div class="card2" id="r1" style="top:780px"><div class="ar">' + word([("بَ", "r"), ("رَ", "r"), ("كَ", "r"), ("ة", "")]) + '</div><div class="t">barakah<small>blessing</small></div></div>'
+                '<div class="card2" id="r2" style="top:1050px"><div class="ar">' + word([("عِيد مُ", ""), ("ب", "r"), ("ا", ""), ("رَ", "r"), ("ك", "r")]) + '</div><div class="t">Eid Mubarak<small>a blessed Eid</small></div></div></div>')
+    whip_in("r", t); d = clip(c, V + "d7a.mp3", t); c.inn("#r1", t + d - 0.2, 30); c.sfx("tap", t + d - 0.2); t += d
+    d = say_up(c, "", t, src=V + "barakah.mp3"); t += d + 0.1
+    d = clip(c, V + "d7b.mp3", t); c.inn("#r2", t + 0.2, 30); c.sfx("tap", t + 0.2); t += d
+    d = say_up(c, "مُبارَكٌ", t); t = whip_out("r", t + d + 0.3)
+    # 5. the test: 3-2-1, "both" turns green and Rafiq says both, then the closing ask is heard in full
+    body.append('<div class="sec" id="z"><div class="q2">Quick test!</div><div class="bub" id="zb" style="top:380px">“Look, my new baby!” 👶</div>'
+                + cnt("zc", 640) + '<div class="ops2" style="top:860px">' + "".join(f'<div class="op" id="zo{i}"><b>{o}</b></div>' for i, o in
+                enumerate(["ما شاءَ اللهُ", "اللَّهُمَّ بارِكْ", '<span style="font-family:var(--la)">Both</span>'])) + '</div></div>')
+    whip_in("z", t); d = clip(c, V + "d8.mp3", t); c.inn("#zb", t + 0.9, 30)
+    for i in range(3): c.inn(f"#zo{i}", t + d - 1.0 + i * 0.15, 30)
+    done = count_down(c, "zc", t + d + 0.35)
+    reveal(c, "#zo2", ["#zo0", "#zo1"], done); d = say_up(c, "", done + 0.3, src=V + "both.mp3")
+    t = done + 0.3 + d + 0.2; end = clip(c, V + "d9.mp3", t)
+    E = t + 3.0; c.out_("#z", E - 0.4)
+    body.append(c.end(E, "Comment below 👇 and send this to someone who says mashallah every day"))
+    c.write("\n".join("      " + b for b in body), round(max(E + 2.9, t + end + 0.8), 2))
+
 LADDER_CSS = (
     # one page that moves (MOTION-STYLE rule 6, the owner's reference reel): the rounds sit one under another and the page slides up
     # to the next; a rail on the left keeps the share of people still in the game, its marker dropping a rung each round
@@ -753,7 +847,7 @@ def l1():
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "w8-subhana-azim": w8,
-       "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "l1-ladder": l1}
+       "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
