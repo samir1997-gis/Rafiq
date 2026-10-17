@@ -577,7 +577,7 @@ MASH_CSS = (
     ".rootq { position:absolute; left:0; right:0; top:420px; text-align:center; font-family:var(--ar); font-weight:700; font-size:150px; color:var(--rubric); }"
     ".qr { position:absolute; left:60px; right:60px; top:440px; text-align:center; font-family:var(--ar); font-weight:700; font-size:104px; line-height:1.55; direction:rtl; }"
     ".qr .w { display:inline-block; color:rgba(23,38,43,.28); } .qref { position:absolute; left:0; right:0; top:330px; text-align:center; font-size:40px; "
-    "font-weight:700; letter-spacing:.12em; color:#a8842c; } .qen { position:absolute; left:90px; right:90px; top:900px; text-align:center; "
+    "font-weight:700; letter-spacing:.12em; color:#a8842c; margin-top:24px; } .qen { position:absolute; left:90px; right:90px; top:900px; text-align:center; "
     "font-family:\"Instrument Serif\", serif; font-style:italic; font-size:60px; line-height:1.2; color:var(--ink); }"
     ".bub { position:absolute; left:120px; right:120px; top:420px; padding:30px 40px; background:var(--card); border:4px solid rgba(23,38,43,.13); "
     "border-radius:40px 40px 40px 8px; font-size:60px; font-weight:700; line-height:1.15; text-align:center; box-shadow:0 12px 26px -16px rgba(23,38,43,.35); }"
@@ -594,7 +594,7 @@ def m1():
     V, Q = "brag-quiz/voice/mashallah/", "brag-quiz/voice/mashallah-quran/kahf-18-39.mp3"
     c = SO.vcomp("m1-mashallah", "ARABIC · WHAT YOU REALLY SAY"); c.bed = True; body = []
     t = hook_in(c, body, ("MOST people don’t know mashallah is in the PAST tense!".split(), {0: "loud", 4: "red", 8: "circle"}, V + "hb.mp3"))
-    c.css += MASH_CSS
+    c.css += MASH_CSS + "#hw8 { margin-right:22px; }"            # the circled PAST touched "tense"
     # 1. word by word: the chips come in as Callum names them; the matching word in the big line turns red
     body.append('<div class="sec" id="a"><div class="q2">Word by word:</div>'
                 '<div class="big" style="top:330px;font-size:170px" lang="ar" dir="rtl"><span class="w" id="aw0">ما</span> <span class="w" id="aw1">شاءَ</span> <span class="w" id="aw2">اللهُ</span></div>'

@@ -120,8 +120,10 @@ class Comp:
         # the fountain, played on past its 22s if needed (two copies crossfaded): a soft bed, heard but well under the words
         if self.bed:
             bed = os.path.join(self.a, "sfx", "fountain.mp3"); src = os.path.join(V6, "sfx-gen/fountain.mp3")
-            subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", src, "-i", src, "-filter_complex",
-                            f"[0][1]acrossfade=d=2:c1=tri:c2=tri,volume=6dB,atrim=0:{total + 0.5:.2f},afade=t=in:d=0.6,afade=t=out:st={total - 1.4:.2f}:d=1.4",
+            n = max(2, int((total + 0.5 - 2) // (dur(src) - 2)) + 1)            # enough crossfaded copies for long videos (m1 is 62 s)
+            chain = "".join(f"[{'0' if k == 1 else f'x{k - 1}'}][{k}]acrossfade=d=2:c1=tri:c2=tri" + (f"[x{k}];" if k < n - 1 else "") for k in range(1, n))
+            subprocess.run(["ffmpeg", "-y", "-v", "error"] + ["-i", src] * n + ["-filter_complex",
+                            f"{chain},volume=6dB,atrim=0:{total + 0.5:.2f},afade=t=in:d=0.6,afade=t=out:st={total - 1.4:.2f}:d=1.4",
                             "-c:a", "libmp3lame", "-q:a", "3", bed], check=True)
             self.audio.append(f'<audio id="bed" src="assets/sfx/fountain.mp3" data-start="0" data-duration="{total:.2f}" data-volume="0.1" data-track-index="8"></audio>')
         head = ['tl.fromTo("#glow", {scale:0.94}, {scale:1.08, duration:' + f'{total}' + ', ease:"none"}, 0);',
