@@ -1,0 +1,103 @@
+[
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "ha",
+  "text": "[shouting] MOST! [normal] people don't know mashallah is in the... [shouting] PAST tense!"
+ },
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "hb",
+  "text": "[shouting] MOST! [normal] people don't know mashallah is in the [shouting] PAST tense!"
+ },
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "hc",
+  "text": "[shouting] MOST! [excited] people don't know mashallah is in the... [shouting] PAST tense!"
+ },
+ {
+  "file": "c1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Word by word: what... has willed... Allah.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "c2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "What Allah has willed.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "c3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Notice: 'has willed' is past tense. So mashallah is for something good that's already there.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "c4",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "For the future, you say:",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "c5",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "If Allah wills.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "c6",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Same root as His will...",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "c7",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "and even 'a thing'.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "c8",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "And it's straight from the Quran. Surah al-Kahf, verse thirty-nine:",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "c9",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Quick test! Your friend says: see you at Jumuah tomorrow! Mashallah, or inshallah?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "c10",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Inshallah, because it's the future! Did you get it? Comment below, and send this to someone who says mashallah every day!",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ }
+]
