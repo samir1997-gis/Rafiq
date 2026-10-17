@@ -1,3 +1,4 @@
+# Result (17 Oct; keep watching / respectful / pays off, 3 viewers x 2): past 7.76 (chosen) · actually 7.22 · wrong 6.00 · nobody 5.12.
 # Spoken hook for m1-mashallah (owner, 17 Oct 2026: redo the mashallah video in the standard; Callum explains, Rafiq says the Arabic).
 # The video: ما شاءَ اللهُ word by word ("what Allah has willed"), شاءَ is past tense so it's for good you see, the future is
 # إِنْ شاءَ اللهُ; the root ش ي ء (مَشِيئَة, شَيْء); al-Kahf 18:39; a quick "mashallah or inshallah?" test with 3-2-1.
