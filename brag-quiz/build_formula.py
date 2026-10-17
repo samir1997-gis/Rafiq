@@ -562,6 +562,114 @@ def n1():
                "a baby in the womb", "Send this to someone you want to meet in Jannah 🤍",
                voice={"الْجَنَّة": V + "jannah.mp3", "جِنّ": V + "jinn.mp3", "مَجْنُون": V + "majnun.mp3", "جَنِين": V + "janin.mp3"})
 
+MASH_CSS = (
+    ".chips { position:absolute; left:70px; right:70px; display:flex; flex-direction:row-reverse; justify-content:center; gap:26px; }"
+    ".chip { width:290px; padding:18px 0 22px; text-align:center; background:var(--card); border:4px solid rgba(23,38,43,.13); border-radius:32px; "
+    "box-shadow:0 12px 26px -16px rgba(23,38,43,.35); } .chip .ar { font-family:var(--ar); font-weight:700; font-size:84px; line-height:1.35; color:var(--rubric); }"
+    ".chip b { display:block; font-size:42px; color:var(--ink); } .big .w { display:inline-block; }"
+    ".stamp { position:absolute; left:50%; top:560px; transform:translateX(-50%) rotate(-8deg); padding:10px 34px; border:8px solid var(--rubric); border-radius:22px; "
+    "font-family:\"Fredoka\", var(--la); font-size:76px; font-weight:700; letter-spacing:.04em; color:var(--rubric); white-space:nowrap; }"
+    ".card2 { position:absolute; left:80px; right:80px; display:flex; align-items:center; gap:30px; padding:22px 36px; background:var(--card); "
+    "border:4px solid rgba(23,38,43,.13); border-radius:32px; box-shadow:0 12px 26px -16px rgba(23,38,43,.35); }"
+    ".card2 .ar { font-family:var(--ar); font-weight:700; font-size:70px; line-height:1.4; min-width:380px; text-align:center; }"
+    ".card2 .t { font-size:44px; font-weight:700; line-height:1.15; } .card2 .t small { display:block; font-size:32px; color:var(--ink-soft); }"
+    ".card2.ok { border-color:var(--verdigris); } .card2.ok .t { color:var(--verdigris); } .card2.fut .t { color:#a8842c; }"
+    ".rootq { position:absolute; left:0; right:0; top:420px; text-align:center; font-family:var(--ar); font-weight:700; font-size:150px; color:var(--rubric); }"
+    ".qr { position:absolute; left:60px; right:60px; top:440px; text-align:center; font-family:var(--ar); font-weight:700; font-size:104px; line-height:1.55; direction:rtl; }"
+    ".qr .w { display:inline-block; color:rgba(23,38,43,.28); } .qref { position:absolute; left:0; right:0; top:330px; text-align:center; font-size:40px; "
+    "font-weight:700; letter-spacing:.12em; color:#a8842c; } .qen { position:absolute; left:90px; right:90px; top:900px; text-align:center; "
+    "font-family:\"Instrument Serif\", serif; font-style:italic; font-size:60px; line-height:1.2; color:var(--ink); }"
+    ".bub { position:absolute; left:120px; right:120px; top:420px; padding:30px 40px; background:var(--card); border:4px solid rgba(23,38,43,.13); "
+    "border-radius:40px 40px 40px 8px; font-size:60px; font-weight:700; line-height:1.15; text-align:center; box-shadow:0 12px 26px -16px rgba(23,38,43,.35); }"
+    ".ops2 { position:absolute; left:80px; right:80px; top:1000px; display:flex; flex-direction:column; gap:28px; }"
+    ".ops2 .op { height:170px; border-radius:36px; background:var(--card); border:4px solid rgba(23,38,43,.13); display:flex; align-items:center; justify-content:center; }"
+    ".ops2 .op b { font-family:var(--ar); font-size:84px; line-height:1.4; color:var(--ink); }")
+
+def m1():
+    """Mashallah in the standard (owner, 17 Oct 2026; replaces r4-insha's mashallah half). Callum explains, Rafiq says the Arabic:
+    ما شاءَ اللهُ word by word ("what Allah has willed"); شاءَ is past tense, so it's for good that's already there, and the future takes
+    إِنْ شاءَ اللهُ; the root ش ي ء (مَشِيئَة, شَيْء); al-Kahf 18:39 in al-Husary's recitation (reciter 12, as in the app; word timings
+    from api.quran.com, Saheeh International's translation); a quick test, 3-2-1. Hook tested: tools/typesafe-exp/mashallah_hook.py.
+    Voices: brag-quiz/voice/mashallah-lines.json."""
+    V, Q = "brag-quiz/voice/mashallah/", "brag-quiz/voice/mashallah-quran/kahf-18-39.mp3"
+    c = SO.vcomp("m1-mashallah", "ARABIC · WHAT YOU REALLY SAY"); c.bed = True; body = []
+    t = hook_in(c, body, ("MOST people don’t know mashallah is in the PAST tense!".split(), {0: "loud", 4: "red", 8: "circle"}, V + "hb.mp3"))
+    c.css += MASH_CSS
+    # 1. word by word: the chips come in as Callum names them; the matching word in the big line turns red
+    body.append('<div class="sec" id="a"><div class="q2">Word by word:</div>'
+                '<div class="big" style="top:330px;font-size:170px" lang="ar" dir="rtl"><span class="w" id="aw0">ما</span> <span class="w" id="aw1">شاءَ</span> <span class="w" id="aw2">اللهُ</span></div>'
+                '<div class="chips" style="top:720px">' + "".join(f'<div class="chip" id="ac{i}"><div class="ar">{a}</div><b>{en}</b></div>'
+                for i, (a, en) in enumerate([("ما", "what"), ("شاءَ", "has willed"), ("اللهُ", "Allah")])) + '</div>'
+                '<div class="say" id="as" style="top:1110px">= what Allah has willed</div></div>')
+    c.t(f'tl.fromTo("#a", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
+    d = say_up(c, "ما شاءَ اللهُ", t + 0.1); t += d + 0.3
+    W = words_at(V + "c1.mp3"); d = clip(c, V + "c1.mp3", t)
+    for i, key in enumerate(("what", "willed", "allah")):
+        at = t + next((s for w, s in W if key in w.lower()), d * (i + 1) / 4)
+        c.inn(f"#ac{i}", at - 0.05, 30); c.sfx("tap", at)
+        c.t(f'tl.to("#aw{i}", {{color:"{T.RED}", duration:0.2}}, {at:.2f});')
+        c.t(f'tl.fromTo("#aw{i}", {{scale:1}}, {{scale:1.12, duration:0.15, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {at:.2f});')
+    t += d; c.inn("#as", t - 0.1); c.sfx("correct", t)                 # the meaning lands as the last word is said
+    c.t(f'tl.fromTo("#as", {{scale:1}}, {{scale:1.05, duration:0.16, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t + 0.3:.2f});')
+    t += 1.3; c.t(f'tl.to("#a", {{x:-700, opacity:0, filter:"blur(18px)", duration:0.3, ease:"power3.in"}}, {t:.2f});')
+    clip(c, "brag-quiz/sfx/ref/swoosh.wav", t - 0.05, 0.5); t += 0.35
+    # 2. past tense: the stamp slams on "past"; mashallah is for good that's already there, the future is in shā' Allāh
+    body.append('<div class="sec" id="b"><div class="big" style="top:260px;font-size:200px" lang="ar">شاءَ</div><div class="stamp" id="bs">PAST TENSE</div>'
+                '<div class="card2 ok" id="b1" style="top:820px"><div class="ar">ما شاءَ اللهُ</div><div class="t">something good<small>that’s already there ✓</small></div></div>'
+                '<div class="card2 fut" id="b2" style="top:1090px"><div class="ar">إِنْ شاءَ اللهُ</div><div class="t" id="b2t">the future<small>if Allah wills</small></div></div></div>')
+    c.t(f'tl.fromTo("#b", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
+    W = words_at(V + "c3b.mp3"); d = clip(c, V + "c3b.mp3", t)
+    hit = t + next((s for w, s in W if "past" in w.lower()), 1.2) + 0.1
+    c.t(f'tl.fromTo("#bs", {{opacity:0, scale:2.6}}, {{opacity:1, scale:1, duration:0.18, ease:"power4.in"}}, {hit - 0.18:.2f});')
+    c.t(f'tl.to("#b", {{keyframes:[{{x:-24, y:16, duration:0.04}}, {{x:20, y:-12, duration:0.04}}, {{x:-10, y:6, duration:0.05}}, {{x:0, y:0, duration:0.06}}]}}, {hit:.2f});')
+    clip(c, "brag-quiz/sfx/crash.wav", hit - 0.02, 0.6)
+    ok = t + next((s for w, s in W if "mashallah" in w.lower() or "masha" in w.lower()), d * 0.55)
+    c.inn("#b1", ok, 30); c.sfx("tap", ok)
+    t += d + 0.1; d = clip(c, V + "c4.mp3", t); c.inn("#b2", t + 0.2, 30); c.sfx("tap", t + 0.2)
+    t += d + 0.1; d = say_up(c, "إِنْ شاءَ اللهُ", t); t += d + 0.15; d = clip(c, V + "c5.mp3", t)
+    c.t(f'tl.fromTo("#b2t small", {{color:"{T.INK}"}}, {{color:"#a8842c", duration:0.3}}, {t:.2f});')
+    t += d + 0.3; c.t(f'tl.to("#b", {{x:-700, opacity:0, filter:"blur(18px)", duration:0.3, ease:"power3.in"}}, {t:.2f});')
+    clip(c, "brag-quiz/sfx/ref/swoosh.wav", t - 0.05, 0.5); t += 0.35
+    # 3. the root: ش ي ء, then its will and "a thing"
+    body.append('<div class="sec" id="r"><div class="q2">Same three letters:</div><div class="rootq" lang="ar">ش ي ء</div>'
+                '<div class="card2" id="r1" style="top:780px"><div class="ar">' + word([("مَ", ""), ("شِ", "r"), ("ي", "r"), ("ئَ", "r"), ("ة", "")]) + '</div><div class="t">will<small>Allah’s will</small></div></div>'
+                '<div class="card2" id="r2" style="top:1050px"><div class="ar">' + word([("شَ", "r"), ("يْ", "r"), ("ء", "r")]) + '</div><div class="t">a thing<small>the same root</small></div></div></div>')
+    c.t(f'tl.fromTo("#r", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
+    d = clip(c, V + "c6.mp3", t); c.inn("#r1", t + d - 0.3, 30); c.sfx("tap", t + d - 0.3)
+    t += d; d = say_any(c, "مَشِيئَة", t, {"مَشِيئَة": "brag-quiz/voice/recreate/mashia.mp3"}); t += d + 0.1
+    d = clip(c, V + "c7.mp3", t); c.inn("#r2", t + 0.3, 30); c.sfx("tap", t + 0.3)
+    t += d + 0.05; d = say_up(c, "شَيْء", t); t += d + 0.3
+    c.t(f'tl.to("#r", {{x:-700, opacity:0, filter:"blur(18px)", duration:0.3, ease:"power3.in"}}, {t:.2f});')
+    clip(c, "brag-quiz/sfx/ref/swoosh.wav", t - 0.05, 0.5); t += 0.35
+    # 4. al-Kahf 18:39: each word lights up gold as al-Husary recites it (api.quran.com segments, from 7.33 s into the verse)
+    QW = [("ما", 0.04), ("شاءَ", 0.65), ("اللَّهُ", 2.80), ("لا", 4.17), ("قُوَّةَ", 4.72), ("إِلّا", 5.98), ("بِاللَّهِ", 7.32)]
+    body.append('<div class="sec" id="k"><div class="q2">Straight from the Qur’an</div><div class="qref">AL-KAHF · 18:39</div><div class="qr">'
+                + " ".join(f'<span class="w" id="kw{i}">{a}</span>' + ("<br>" if i == 2 else "") for i, (a, _) in enumerate(QW)) +
+                '</div><div class="qen" id="ke">“What Allah willed; there is no power except in Allah.”</div></div>')
+    c.t(f'tl.fromTo("#k", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
+    d = clip(c, V + "c8b.mp3", t); t += d + 0.15
+    dq = say_up(c, "", t, src=Q)
+    for i, (_, s) in enumerate(QW):
+        c.t(f'tl.to("#kw{i}", {{color:"#a8842c", duration:0.25}}, {t + s:.2f});')
+        c.t(f'tl.fromTo("#kw{i}", {{scale:1}}, {{scale:1.1, duration:0.18, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t + s:.2f});')
+    c.inn("#ke", t + 4.2); t += dq + 0.3
+    c.t(f'tl.to("#k", {{x:-700, opacity:0, filter:"blur(18px)", duration:0.3, ease:"power3.in"}}, {t:.2f});')
+    clip(c, "brag-quiz/sfx/ref/swoosh.wav", t - 0.05, 0.5); t += 0.35
+    # 5. the quick test: 3-2-1, in shā' Allāh turns green and Rafiq says it, then the closing ask is heard in full
+    body.append('<div class="sec" id="z"><div class="q2">Quick test!</div><div class="bub" id="zb">“See you at Jumuʿah tomorrow!”</div>'
+                + cnt("zc", 760) + '<div class="ops2"><div class="op" id="zo0"><b>ما شاءَ اللهُ</b></div><div class="op" id="zo1"><b>إِنْ شاءَ اللهُ</b></div></div></div>')
+    c.t(f'tl.fromTo("#z", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
+    W = words_at(V + "c9.mp3"); d = clip(c, V + "c9.mp3", t)
+    c.inn("#zb", t + next((s for w, s in W if "see" in w.lower()), 1.0) - 0.1, 30)
+    o = t + next((s for i, (w, s) in enumerate(W) if "mashallah" in w.lower() or "masha" in w.lower()), d - 1.6)
+    c.inn("#zo0", o - 0.1, 30); c.inn("#zo1", o + 0.5, 30)
+    done = count_down(c, "zc", t + d + 0.35)
+    reveal(c, "#zo1", ["#zo0"], done); d = say_up(c, "إِنْ شاءَ اللهُ", done + 0.3)
+    t = done + 0.3 + d + 0.2; end = clip(c, V + "c10b.mp3", t)
+    E = t + 2.2; c.out_("#z", E - 0.4)
+    body.append(c.end(E, "Comment below 👇 and send this to someone who says mashallah every day"))
+    c.write("\n".join("      " + b for b in body), round(max(E + 2.9, t + end + 0.8), 2))
+
 LADDER_CSS = (
     # one page that moves (MOTION-STYLE rule 6, the owner's reference reel): the rounds sit one under another and the page slides up
     # to the next; a rail on the left keeps the share of people still in the game, its marker dropping a rung each round
@@ -645,7 +753,7 @@ def l1():
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "w8-subhana-azim": w8,
-       "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "l1-ladder": l1}
+       "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "l1-ladder": l1}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
