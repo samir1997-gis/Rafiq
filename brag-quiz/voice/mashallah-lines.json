@@ -99,5 +99,29 @@
   "stability": 0.35,
   "style": 0.45,
   "speed": 1.05
+ },
+ {
+  "file": "c3b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "'Has willed' is past tense. So mashallah is for good that's already there.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.1
+ },
+ {
+  "file": "c8b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "And it's straight from the Quran:",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.1
+ },
+ {
+  "file": "c10b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Inshallah: it's the future! Comment below, and send this to someone who says mashallah every day!",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.1
  }
 ]
