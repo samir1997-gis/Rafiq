@@ -1,0 +1,93 @@
+[
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "ha",
+  "text": "Do you [shouting] KNOW! [normal] the difference between mashallah and Allahumma barik?"
+ },
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "hb",
+  "text": "Do you... [shouting] KNOW! [excited] the difference between mashallah, and Allahumma barik?"
+ },
+ {
+  "file": "d2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "In the Quran, a man is told he should have said it over his own garden:",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.1
+ },
+ {
+  "file": "d4",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "But when you admire someone else's blessing, the Prophet, peace be upon him, taught you to pray for blessing:",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.1
+ },
+ {
+  "file": "d5",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Oh Allah... bless.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.1
+ },
+ {
+  "file": "d7a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Same root as...",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.1
+ },
+ {
+  "file": "d7b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "and Eid...",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.1
+ },
+ {
+  "file": "d8",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Quick test! Your friend shows you their new baby. What do you say?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.1
+ },
+ {
+  "file": "d9",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Both! Mashallah for the blessing, and Allahumma barik for them. Comment below, and send this to someone who says mashallah every day!",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.1
+ },
+ {
+  "file": "allahumma-barik",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "text": "اللَّهُمَّ بارِكْ",
+  "stability": 0.55,
+  "style": 0
+ },
+ {
+  "file": "barakah",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "text": "بَرَكَة",
+  "stability": 0.55,
+  "style": 0
+ },
+ {
+  "file": "both",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "text": "ما شاءَ اللهُ، اللَّهُمَّ بارِكْ",
+  "stability": 0.55,
+  "style": 0
+ }
+]
