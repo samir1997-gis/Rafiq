@@ -688,7 +688,7 @@ def m2():
     is the moments people say it, tagged "mashallah?" / "Allahumma barik?" as each is said. Voices: brag-quiz/voice/barik-lines.json."""
     V, M, Q = "brag-quiz/voice/barik/", "brag-quiz/voice/mashallah/", "brag-quiz/voice/mashallah-quran/kahf-18-39.mp3"
     c = SO.vcomp("m2-barik", "ARABIC · WHAT YOU REALLY SAY"); c.bed = True; body = []
-    words = "Do you KNOW the difference between mashallah and Allahumma barik?".split()
+    words = "Do YOU know the difference between mashallah and Allahumma barik?".split()   # the stress on YOU (owner)
     bub = "".join(f'<div class="hb2" id="hb{k}" style="left:{x}px;top:{y}px">{t}<i>{"mashallah?" if g == "a" else "Allahumma barik?"}</i></div>'
                   for k, (x, y, t, g) in enumerate(BUBBLES))
     def anim(c, at, d):
@@ -697,7 +697,7 @@ def m2():
             tg = at(6 if g == "a" else 8) + 0.1 * (k % 3)
             c.t(f'tl.fromTo("#hb{k} i", {{opacity:0, scale:1.6}}, {{opacity:1, scale:1, duration:0.22, ease:"back.out(2)"}}, {tg:.2f});')
             if k % 3 == 0: c.sfx("tap", tg)
-    t = hook_in(c, body, (words, {2: "loud", 6: "red", 9: "circle"}, V + "hb.mp3"), bg=(bub, anim))
+    t = hook_in(c, body, (words, {1: "loud", 6: "red", 9: "circle"}, V + "hy1.mp3"), bg=(bub, anim))
     c.css += MASH_CSS + (".hb2 { position:absolute; padding:22px 30px; background:var(--card); border:4px solid rgba(23,38,43,.12); border-radius:34px 34px 34px 8px; "
                          "font-family:\"Fredoka\", var(--la); font-weight:600; font-size:44px; color:var(--ink); white-space:nowrap; box-shadow:0 14px 30px -18px rgba(23,38,43,.4); }"
                          ".hb2 i { position:absolute; right:-18px; top:-34px; font-style:normal; font-size:30px; font-weight:700; padding:6px 16px; border-radius:20px; "
