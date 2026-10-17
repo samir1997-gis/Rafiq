@@ -87,6 +87,10 @@ Already made: videos سَمِعَ (q1), رَبَّنا (q2), ruku → sujood (q3
 Also made since (don't repeat the format without a twist): the salah word-by-word series s1-s3 (`build_series.py`: اللَّهُ أَكْبَرُ,
 سُبْحانَ رَبِّيَ الْعَظِيمِ, سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ), f1-f2 (`build_fresh.py`), x1-x2 (`build_wild.py`), m01-m10 (`build_mix.py`); see FRESH.md, WILD.md, MIX.md.
 
+**Made 17 Oct 2026 (`build_formula.py`):** `m1-mashallah` (mashallah redone in the standard, 62 s: Callum explains, Rafiq and al-Husary's
+18:39 for the Arabic; word by word, past tense vs إِنْ شاءَ اللهُ, the root ش ي ء, a "mashallah or inshallah?" test. Hook and caption
+tested: `tools/typesafe-exp/mashallah_hook.py`, `mashallah_caption.py`). The longest generated video so far: compare its watch time.
+
 **Made 13–14 Oct 2026 (`build_formula.py`):** `n1-jannah` (root series part 3, ج ن ن: Jannah, jinn, majnūn; your turn جَنِين; the owner
 stitches himself under it); `l1-ladder` (the difficulty ladder, owner approved: one page that slides up, a % rail on the left, 90% → 5%,
 words ordered by the Kelly list's CEFR levels (ssharoff.github.io/kelly): far/near A1, cold A2, hot/fat/thin B1, final boss خائِن C1;
