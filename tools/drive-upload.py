@@ -2,7 +2,7 @@
 Needs GDRIVE_CLIENT_ID, GDRIVE_CLIENT_SECRET and GDRIVE_REFRESH_TOKEN in the session's environment (owner, 13 Oct 2026);
 the token's scope is drive.file, so it only sees files it made itself.
   python3 tools/drive-upload.py <file.mp4> [more files...]      → prints each file's Drive link"""
-import json, os, sys, urllib.parse, urllib.request
+import json, mimetypes, os, sys, urllib.parse, urllib.request
 
 FOLDER = "Rafiq videos"
 def call(url, data=None, headers={}, method=None):
@@ -20,9 +20,10 @@ folder = found[0]["id"] if found else json.loads(call("https://www.googleapis.co
     {"name": FOLDER, "mimeType": "application/vnd.google-apps.folder"}).encode(), {**auth, "Content-Type": "application/json"})[1])["id"]
 
 for path in sys.argv[1:]:                                 # resumable upload: one session URL, then the whole file in one PUT
+    mime = mimetypes.guess_type(path)[0] or "application/octet-stream"
     h, _ = call("https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable&fields=id,webViewLink",
                 json.dumps({"name": os.path.basename(path), "parents": [folder]}).encode(),
-                {**auth, "Content-Type": "application/json", "X-Upload-Content-Type": "video/mp4"})
+                {**auth, "Content-Type": "application/json", "X-Upload-Content-Type": mime})
     with open(path, "rb") as f:
-        meta = json.loads(call(h["Location"], f.read(), {"Content-Type": "video/mp4"}, "PUT")[1])
+        meta = json.loads(call(h["Location"], f.read(), {"Content-Type": mime}, "PUT")[1])
     print(os.path.basename(path), meta["webViewLink"])
