@@ -28,6 +28,9 @@ kind (quiz, root, salah line, data reel, carousel-to-video, edits where it fits)
    sides with blur and a soft swoosh; a whip with a swoosh between sections.
 4. **The page is never still**: numbers that fit the line count up all over the background (`HOOK_NUMS`), and a counter or
    timer ring for the key number.
+   **The background must fit this hook's own words** (owner, 17 Oct 2026): the counting numbers and the "7 YEARS" timer were made
+   for g4's "people learn Arabic for years" and mean nothing elsewhere. Give `hook_in(..., bg=(html, animate))` something from the
+   hook itself (m2-barik: the moments people say mashallah, tagged as each phrase is said).
 5. **A sound on every count**: a clear click (`brag-quiz/sfx/ref/click.wav`) on every tick of a timer or counter and on
    every countdown second (`count_down()`); the countdown stays **3-2-1**.
 6. **Voiceover all the way through** (Callum): the question asked around the Arabic word, the rule, and a closing ask that
@@ -62,6 +65,8 @@ kind (quiz, root, salah line, data reel, carousel-to-video, edits where it fits)
       blank. Run `python3 brag-quiz/check_frame0.py <video>.mp4` on every video before it goes in the folder; it must say `ok`.
       (q4-azim opened blank and most TikTok viewers left at 0:01; on 12 Oct 12 of 23 scheduled videos did the same.)
 - [ ] **Captions checked with TypeSafe** (`tools/typesafe-exp/`).
+- [ ] **The claim is checked against sources, not just the voice**: grammar against the Arabic (m1 said mashallah is "for the past"
+      because شاءَ is past tense, but إِنْ شاءَ اللهُ has the same past form), anything religious against the hadith or tafsir, cited on screen.
 - [ ] **A spoken hook** (owner, 12 Oct 2026): a bold, curiosity-first opening line ("Most people learn Arabic for years before they
       notice this trick"), on screen from frame 0 and spoken in the hook voice, **Callum** (`N2lVS1w4EtoT3dr4eOWO`, ElevenLabs);
       the Rafiq voice stays for the Arabic. The line can tease, the video must pay it off. `change(..., hook=(words, marks, mp3))` (`hook_in`) in

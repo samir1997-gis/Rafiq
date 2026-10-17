@@ -1,3 +1,4 @@
+# Result (17 Oct; keep watching / respectful / fair, 3 viewers x 2): know 7.75 (chosen) · mix 6.41 · half 5.14 · this 3.77 (preachy, overclaims).
 # Spoken hook for m2-barik (owner, 17 Oct 2026): mashallah vs Allahumma barik. m1's "past tense" angle was wrong (إِنْ شاءَ اللهُ uses the
 # same past form), so the video is now: ما شاءَ اللهُ word by word, al-Kahf 18:39 (said over your own blessing), then the Sunnah's
 # barakah dua when you admire someone else's (Ibn Mājah 3509, Sahl ibn Ḥunayf), the root ب ر ك (بَرَكَة, مُبارَك), a "new baby" test.

@@ -141,7 +141,8 @@ def hook_in(c, body, hook, bg=None):
         "#htimer .tn { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1; }"
         "#htimer .tn b { font-size:120px; color:var(--rubric); } #htimer .tn span { font-size:30px; letter-spacing:.2em; color:var(--ink); margin-top:4px; }"
         "#hflash { position:absolute; inset:0; background:#fff8e6; opacity:0; pointer-events:none; }")
-    for i in range(1, len(words)):      # each word swooshes in from alternating sides, blurred
+    for i in range(1, len(words)):      # each word swooshes in from alternating sides, blurred (the loud word is already there, huge)
+        if marks.get(i) == "loud": continue
         x = -560 if i % 2 else 560
         c.t(f'tl.fromTo("#hw{i}", {{opacity:0, x:{x}, scale:1.3, filter:"blur(16px)"}}, {{opacity:1, x:0, scale:1, filter:"blur(0px)", duration:0.32, ease:"expo.out"}}, {at(i) - 0.08:.2f});')
     for k, (x, y, sz, a, b, u, col, r) in enumerate([] if bg else HOOK_NUMS):   # the numbers count up and drift, from frame 0
@@ -676,8 +677,8 @@ def m1():
     c.write("\n".join("      " + b for b in body), round(max(E + 2.9, t + end + 0.8), 2))
 
 BUBBLES = [  # moments people say it, round the hook line: (left, top, text, side "a" = tagged on mashallah, "b" = on Allahumma barik)
-    (70, 190, "new baby 👶", "a"), (600, 230, "new car 🚗", "a"), (330, 420, "wedding photos 💍", "a"),
-    (60, 1280, "exam results 🎓", "b"), (620, 1330, "new house 🏡", "b"), (300, 1530, "her cooking 🍲", "b")]
+    (70, 300, "new baby 👶", "a"), (620, 330, "new car 🚗", "a"), (330, 480, "wedding photos 💍", "a"),
+    (60, 1420, "exam results 🎓", "b"), (620, 1470, "new house 🏡", "b"), (300, 1650, "her cooking 🍲", "b")]
 
 def m2():
     """Mashallah vs Allahumma barik (owner, 17 Oct 2026; replaces m1, whose "past tense" angle was wrong: إِنْ شاءَ اللهُ has the same
@@ -740,7 +741,7 @@ def m2():
                 '<div class="big" style="top:330px;font-size:170px" lang="ar" dir="rtl"><span class="w" id="bw0">اللَّهُمَّ</span> <span class="w" id="bw1">بارِكْ</span></div>'
                 + chips("b", [("اللَّهُمَّ", "O Allah"), ("بارِكْ", "bless")], 720) +
                 '<div class="ref" id="br" style="top:1130px">“Why didn’t you pray for blessing?”<br><span style="font-weight:500;letter-spacing:0">the Prophet ﷺ · Ibn Mājah 3509</span></div></div>')
-    whip_in("b", t); d = clip(c, V + "d4.mp3", t); c.inn("#br", t + d * 0.45); t += d + 0.1
+    whip_in("b", t); d = clip(c, V + "d4b.mp3", t); c.inn("#br", t + d * 0.4); t += d + 0.1
     d = say_up(c, "", t, src=V + "allahumma-barik.mp3"); t += d + 0.2
     t += light("b", V + "d5.mp3", ("allah", "bless"), t); t = whip_out("b", t + 1.0)
     # 4. the root ب ر ك
@@ -759,8 +760,8 @@ def m2():
     for i in range(3): c.inn(f"#zo{i}", t + d - 1.0 + i * 0.15, 30)
     done = count_down(c, "zc", t + d + 0.35)
     reveal(c, "#zo2", ["#zo0", "#zo1"], done); d = say_up(c, "", done + 0.3, src=V + "both.mp3")
-    t = done + 0.3 + d + 0.2; end = clip(c, V + "d9.mp3", t)
-    E = t + 3.0; c.out_("#z", E - 0.4)
+    t = done + 0.3 + d + 0.2; end = clip(c, V + "d9b.mp3", t)
+    E = t + 2.4; c.out_("#z", E - 0.4)
     body.append(c.end(E, "Comment below 👇 and send this to someone who says mashallah every day"))
     c.write("\n".join("      " + b for b in body), round(max(E + 2.9, t + end + 0.8), 2))
 

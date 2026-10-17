@@ -87,7 +87,10 @@ Already made: videos سَمِعَ (q1), رَبَّنا (q2), ruku → sujood (q3
 Also made since (don't repeat the format without a twist): the salah word-by-word series s1-s3 (`build_series.py`: اللَّهُ أَكْبَرُ,
 سُبْحانَ رَبِّيَ الْعَظِيمِ, سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ), f1-f2 (`build_fresh.py`), x1-x2 (`build_wild.py`), m01-m10 (`build_mix.py`); see FRESH.md, WILD.md, MIX.md.
 
-**Made 17 Oct 2026 (`build_formula.py`):** `m1-mashallah` (mashallah redone in the standard, 62 s: Callum explains, Rafiq and al-Husary's
+**Made 17 Oct 2026 (`build_formula.py`):** `m2-barik` (mashallah vs Allahumma barik: 18:39 said over your own garden; the barakah
+dua for someone else's blessing, Ibn Mājah 3509; root ب ر ك; a "new baby" test, answer both; hook `tools/typesafe-exp/barik_hook.py`).
+**Don't post** `m1-mashallah`, which it replaces: its "past tense, so for the past" point is wrong (إِنْ شاءَ اللهُ is the same form).
+Also  (mashallah redone in the standard, 62 s: Callum explains, Rafiq and al-Husary's
 18:39 for the Arabic; word by word, past tense vs إِنْ شاءَ اللهُ, the root ش ي ء, a "mashallah or inshallah?" test. Hook and caption
 tested: `tools/typesafe-exp/mashallah_hook.py`, `mashallah_caption.py`). The longest generated video so far: compare its watch time.
 
