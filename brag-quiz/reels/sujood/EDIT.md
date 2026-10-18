@@ -25,3 +25,6 @@ python3 $R $W zoom; python3 $R $W masks; python3 $R $W layers; python3 $R $W mix
   The re-recording's picture is cut in for those moments (lips match), graded and cropped 1/1.22; its sound is raised 2.3 dB
   to match his voice in the reel (speech RMS). Nothing else in the voice is touched.
 - v3 (owner): the re-recording's picture didn't match (framing, light), so the original picture stays and only the two words' sound is swapped.
+- v4 (owner): "the Most High" (5.58, 27.12, 33.48) is a zoom step and a hit per word with a boom under "High" (`steps`); the hadith
+  he quotes gets a panel 69.0-74.4 with its Arabic, English and source (Sahih Muslim 482); frame 0 is no longer a white flash
+  (template fix in layers.html: the opening flicker starts on the speaker).
