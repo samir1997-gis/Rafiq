@@ -19,8 +19,8 @@ def config():
     pose = json.load(open("pose.json")); N = len(pose)
     raw = [p["ri"][:2] for p in pose]                                    # his right index fingertip (screen left) does every move
     hand = [[round(sum(raw[j][a] for j in range(max(0, i - 1), min(N, i + 2))) / len(range(max(0, i - 1), min(N, i + 2))), 1) for a in (0, 1)] for i in range(N)]
-    # hook take A (ha.mp3): the shouted YOU is 0.45-0.75 s (loudness; whisper puts the words after it too early)
-    hook = [["Can", 0, False], ["YOU", .42, True], ["finish", 1.22, False], ["these", 1.6, False], ["Arabic", 1.85, False], ["sentences?", 2.3, False]]
+    # hook take hs1: the shouted YOU is 0.55-0.75 s (loudness; whisper puts the words after it too early)
+    hook = [["Can", 0, False], ["YOU", .5, True], ["finish", 1.25, False], ["this", 1.62, False], ["Arabic", 1.95, False], ["sentence?", 2.45, False]]
     # contact = the frame his reach is furthest out (pose.json): the tile is already waiting there
     return dict(N=N, hand=hand, cx=585, cy=1120, rx=480, ry=210, w0=.55, w1=6.0, fling=[3.45, 4.6],
         words=[["مَنْ", "who"], ["كَيْفَ", "how"], ["أَيْنَ", "where"], ["ما", "what"], ["مَتى", "when"], ["لِماذا", "why"], ["كَمْ", "how many"]],
@@ -63,7 +63,7 @@ elif STEP == "mix":
         A.append((f, at, 10 ** ((target - lufs(f)) / 20))); return at + dur(f)
     SX = os.path.join(REPO, "brag-quiz/sfx"); fx = lambda n, at, v: A.append((f"{SX}/{n}", at, v))
     ar = lambda text: os.path.join(REPO, "audio", T.AUDIO[text] + ".mp3")
-    say(V + "ha.mp3", .05, -16); fx("crash.wav", .52, .8)
+    say(V + "hs1.mp3", .05, -16); fx("crash.wav", .62, .8)
     fx("ref/swoosh.wav", 2.95, .45); fx("ref/charge-swoosh.wav", 3.3, .5); say(V + "o1.mp3", 3.6, -17)
     fx("ref/shutter.wav", 5.7, .6); say(V + "o2.mp3", 5.9, -17)
     for c in C["cds"]:
