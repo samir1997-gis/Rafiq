@@ -17,3 +17,10 @@ echo '[[0.0, 91.367]]' > $W/chunks.json; python3 $R $W base nologo      # no wat
 python3 $R $W plan; (cd $W && python3 brag-quiz/reels/sujood/mkconfig.py)
 python3 $R $W zoom; python3 $R $W masks; python3 $R $W layers; python3 $R $W mix keepvoice
 ```
+
+## v2 (owner's notes, 18 Oct 2026)
+- The sitting B-roll stops at 18.6 s in DJI_..._0042 (he reaches for his phone after): cutaway 34.78-38.38 from 15.0 s.
+- Two slips fixed with his re-recording (Drive 1SciSENQqFuHFUE_SELk5xhFVY9GmWPNV, wider framing): "al-a'la" (fix 17.93-19.12 s)
+  replaces 25.0-26.6, "ighfir li" (fix 28.40-29.53 s) replaces 41.85-43.15. Both fit the original gaps, so no timing moves.
+  The re-recording's picture is cut in for those moments (lips match), graded and cropped 1/1.22; its sound is raised 2.3 dB
+  to match his voice in the reel (speech RMS). Nothing else in the voice is touched.
