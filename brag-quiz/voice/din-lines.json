@@ -1,0 +1,80 @@
+[
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "h1a",
+  "text": "[shouting] SEVENTEEN! [excited] times a day... do you know what this word means?"
+ },
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "h1b",
+  "text": "[shouting] SEVENTEEN! [normal] times a day... do you know what this word... [shouting] MEANS?"
+ },
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "h1c",
+  "text": "[shouting] SEVENTEEN! [curious] times a day... do you know what this word means?"
+ },
+ {
+  "file": "c1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "In every rakah of al-Fatiha, you say:",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "c2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Master... of the Day... of what?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "q1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "You know deen as religion. But here, what does it mean?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "r1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Repayment. The Day everyone is repaid for what they did. That's why we call it the Day of Judgement.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "n1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Seventeen times a day is over six thousand times a year. Now you'll know what you're saying.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "end",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Did you know this one? Comment yes or no below, and send this to someone you pray with.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "fatiha-1-4",
+  "url": [
+   "https://verses.quran.foundation/Husary/Muallim/mp3/001004.mp3",
+   "https://verses.quran.com/Husary/Muallim/mp3/001004.mp3",
+   "https://everyayah.com/data/Husary_Muallim_128kbps/001004.mp3",
+   "https://everyayah.com/data/Husary_128kbps/001004.mp3"
+  ]
+ }
+]

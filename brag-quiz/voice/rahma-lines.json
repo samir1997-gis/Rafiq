@@ -1,0 +1,160 @@
+[
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "h1a",
+  "text": "[shouting] FAMILY! [excited] is hiding inside a word you say in every prayer!"
+ },
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "h1b",
+  "text": "[shouting] FAMILY! [whispers] is hiding inside a word... [excited] you say in every prayer!"
+ },
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "h1c",
+  "text": "[shouting] FAMILY! [normal] is hiding inside a word you say in... [shouting] EVERY prayer!"
+ },
+ {
+  "file": "c1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "You say it in al-Fatiha:",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "c2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Three letters. One meaning: mercy.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "c3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Now watch what grows from them.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "b1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Mercy.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "b2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Merciful. Like the name Raheem.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "b3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "May Allah have mercy on him.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "b4a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "And this one...",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "b4b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "the WOMB!",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "c5",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "The Prophet, peace be upon him, said the womb takes its name from the Most Merciful. Family is built on mercy.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "t1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Your turn. What does this one mean?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "t2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Your relatives. Everyone tied to you by the womb.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "end",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Who in your family needs a call from you today? Comment below, and send this to them.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "file": "rahim",
+  "text": "رَحِيم"
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "file": "rahimahu",
+  "text": "رَحِمَهُ اللهُ"
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "file": "rahim-womb",
+  "text": "رَحِم"
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "file": "arham",
+  "text": "أَرْحام"
+ },
+ {
+  "file": "fatiha-1-3",
+  "url": [
+   "https://verses.quran.foundation/Husary/Muallim/mp3/001003.mp3",
+   "https://verses.quran.com/Husary/Muallim/mp3/001003.mp3",
+   "https://everyayah.com/data/Husary_Muallim_128kbps/001003.mp3",
+   "https://everyayah.com/data/Husary_128kbps/001003.mp3"
+  ]
+ }
+]
