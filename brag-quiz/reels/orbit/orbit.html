@@ -70,7 +70,7 @@ function update(t, layer) {
   C.words.forEach((w, i) => {
     const el = document.getElementById('t' + i), th = PH[fi] + 2 * Math.PI * i / n;
     let x = cx + C.rx * Math.cos(th), y = cy + C.ry * Math.sin(th), d = Math.sin(th), s = .74 + .26 * (d + 1) / 2, rot = -6 * Math.cos(th), o = 1, inFront = d >= 0, held = false;
-    const pop = eo((t - .0 - i * .0) / .3);
+    const pop = 1;                                   // on screen from frame 0 (the cover)
     const r = st[i];
     if (r) {
       const hx = handAt(fi)[0], hy = handAt(fi)[1] - 70;
