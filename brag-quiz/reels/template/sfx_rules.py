@@ -55,7 +55,8 @@ def events(C):
     for a, _ in C.get("punch", []): add(pick("punch"), "swoosh", a)
     for c in C["caps"]:                                                       # other stressed words pop with a tap
         for w, s, em in c[2]:
-            if em and round(s, 2) not in punches | stepped: add(pick("emph"), "tap", s)
+            if em and round(s, 2) not in punches | stepped and not any(p[0] <= s < p[1] for p in C.get("panels", [])):
+                add(pick("emph"), "tap", s)                                   # (captions are hidden under a panel: its tiles tap)
     if C.get("split") and C["split"][0] >= 0:
         s0, s1 = C["split"]
         add("charge-swoosh", "charge", s0); add("n03", "boom", s0)            # builds and lands on the cut
