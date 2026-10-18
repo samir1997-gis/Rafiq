@@ -113,6 +113,12 @@ for "your turn": رَحِم, 3-2-1, the womb; al-Bukhārī 5988, "the womb takes
 42 s). Captions: `tools/typesafe-exp/rahma_caption.py`, `din_caption.py` (not run yet: no TypeSafe key). Word timings from
 `brag-quiz/align_words.py` (pocketsphinx), as huggingface.co was blocked.
 
+**Made 18 Oct 2026 (`build_formula.py`, #265; owner asked for it after n2-rahma):** `f4-family` (the family tree: hook "TWO words for
+'aunty' in Arabic, and one's like your MUM!" over the family popping in; the tree in Arabic, dad's side green, mum's side gold; the camera
+zooms into عَمَّة (dad's sister) and pans to خالَة (mum's sister); fun fact: Ḥamza's daughter went to her khala, "the maternal aunt is in
+the place of the mother" (al-Bukhārī 2699); your turn: mum's brother, 3-2-1, خال; ask: tag your khala; 45 s). Caption candidates:
+`tools/typesafe-exp/family_caption.py` (not run yet). Next in this format: zoom into grandpa/grandma, or عَمّ and its root.
+
 ## More ideas (not made yet)
 - Root series part 5: another word tree (the format above), e.g. ع ل م (ʿilm, ʿālam, al-ʿālamīn in al-Fātiḥah, muʿallim).
 

@@ -1020,6 +1020,143 @@ def d1():
     body.append(c.end(t, "Did you know this one? Comment yes or no 👇 and send this to someone you pray with"))
     c.write("\n".join("      " + b for b in body), round(t + end + 0.9, 2))
 
+FT = [  # the family tree: (id, centre x, centre y, emoji, English, Arabic, side: "d" dad's, "m" mum's, "" you)
+    ("g1", 150, 480, "👴🏽", "Grandpa", "جَدّ", "d"), ("g2", 360, 480, "👵🏽", "Grandma", "جَدَّة", "d"),
+    ("g3", 720, 480, "👴🏽", "Grandpa", "جَدّ", "m"), ("g4", 930, 480, "👵🏽", "Grandma", "جَدَّة", "m"),
+    ("u1", 95, 830, "🧔🏽", "Uncle", "عَمّ", "d"), ("a1", 270, 830, "🧕🏽", "Aunty", "عَمَّة", "d"), ("fa", 445, 830, "🧔🏽", "Dad", "أَب", "d"),
+    ("mo", 635, 830, "🧕🏽", "Mum", "أُمّ", "m"), ("a2", 810, 830, "🧕🏽", "Aunty", "خالَة", "m"), ("u2", 985, 830, "🧔🏽", "Uncle", "خال", "m"),
+    ("me", 540, 1180, "🧒🏽", "You", "أَنا", "")]
+FT_LINES = ("M150,480 H360 M255,480 V700 M95,700 H445 M95,700 V770 M270,700 V770 M445,700 V770"
+            " M720,480 H930 M825,480 V700 M635,700 H985 M635,700 V770 M810,700 V770 M985,700 V770 M445,830 H635 M540,830 V1120")
+HFAM = [(70, 290, "👴🏽", "Grandpa", ""), (310, 260, "👵🏽", "Grandma", ""), (580, 290, "🧔🏽", "Dad", ""), (820, 260, "🧕🏽", "Mum", "mum"),
+        (50, 1330, "🧕🏽", "Aunty", "a"), (300, 1400, "🧔🏽", "Uncle", ""), (570, 1330, "🧕🏽", "Aunty", "a"), (820, 1400, "🧔🏽", "Uncle", "")]
+
+FAM_CSS = (
+    "#ft { position:absolute; left:0; top:0; width:1080px; height:1920px; transform-origin:0 0; } #ft svg { position:absolute; inset:0; overflow:visible; }"
+    "#ft path { fill:none; stroke:rgba(23,38,43,.32); stroke-width:6; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; }"
+    ".fn { position:absolute; width:170px; text-align:center; } .fc { position:relative; width:132px; height:132px; margin:0 auto; border-radius:50%; "
+    "background:var(--card); border:7px solid rgba(23,38,43,.25); display:grid; place-items:center; font-family:\"Noto Color Emoji\", sans-serif; font-size:74px; "
+    "line-height:1; box-shadow:0 14px 28px -16px rgba(23,38,43,.5); } .fn.d .fc { border-color:var(--verdigris); } .fn.m .fc { border-color:#E9B949; }"
+    ".fn b { display:block; margin-top:6px; font-family:\"Fredoka\", var(--la); font-weight:600; font-size:32px; color:var(--ink); }"
+    ".fn i { position:relative; display:block; height:64px; font-style:normal; } .fn i span { position:absolute; left:-20px; right:-20px; top:0; font-family:var(--ar); "
+    "font-weight:700; font-size:48px; line-height:1.3; color:var(--rubric); opacity:0; } .fn i .q { font-family:\"Fredoka\", var(--la); color:#7f611b; }"
+    ".badge { position:absolute; right:-12px; top:-12px; width:52px; height:52px; border-radius:50%; background:var(--rubric); color:#fff; font-family:\"Fredoka\", var(--la); "
+    "font-weight:700; font-size:34px; display:grid; place-items:center; opacity:0; } .side { position:absolute; top:330px; font-weight:700; font-size:28px; letter-spacing:.16em; }"
+    ".side.d { left:70px; color:var(--verdigris); } .side.m { right:70px; color:#9a7826; } .heart { position:absolute; font-family:\"Noto Color Emoji\", sans-serif; font-size:70px; opacity:0; }"
+    ".rp { position:absolute; left:50%; top:1290px; transform:translateX(-50%); padding:14px 40px; border-radius:50px; font-size:48px; font-weight:700; color:#fff; white-space:nowrap; }"
+    ".rp.d { background:var(--verdigris); } .rp.m { background:#a8842c; } .rp em { font-style:normal; opacity:.75; font-weight:500; }"
+    ".hp { position:absolute; text-align:center; width:200px; } .hp .fc { width:120px; height:120px; font-size:66px; } .hp b { display:block; margin-top:6px; "
+    "font-family:\"Fredoka\", var(--la); font-weight:600; font-size:34px; color:var(--ink); } .hp.a .fc { border-color:var(--rubric); }"
+    ".opts .op2 .ar { font-family:var(--ar); font-size:62px; line-height:1.3; } .sum { position:absolute; left:70px; right:70px; display:flex; gap:20px; }"
+    ".sum div { flex:1; padding:14px 0 18px; border-radius:30px; text-align:center; font-weight:700; font-size:30px; letter-spacing:.06em; color:#fff; }"
+    ".sum .d { background:var(--verdigris); } .sum .m { background:#a8842c; } .sum span { display:block; font-family:var(--ar); font-size:54px; letter-spacing:0; line-height:1.35; }")
+
+def f4():
+    """The family tree (owner, 18 Oct 2026: "a family tree, then zoom in to one and explain the background, aunty, uncle, grandma or
+    grandpa; a fun fact would be nice"). Hook "TWO words for 'aunty' in Arabic, and one's like your MUM!" over the family's faces popping
+    in with a click each, the two aunties turning red; the tree, dad's side green and mum's side gold, its words in Arabic (vocab-data.js:
+    عَمّ paternal uncle, عَمَّة paternal aunt); the camera zooms into dad's sister, عَمَّة, then pans to mum's sister, خالَة; the fun fact:
+    Ḥamza's daughter given to her khala, "the maternal aunt is in the place of the mother" (al-Bukhārī 2699, also 4251; Tirmidhī 1904);
+    your turn: mum's brother, 3-2-1, خال. Voices: brag-quiz/voice/family-lines.json (Rafiq for خالَة and خال; the app's recordings for
+    the rest)."""
+    V = "brag-quiz/voice/family/"
+    c = SO.vcomp("f4-family", "ARABIC · YOUR FAMILY"); c.bed = True; body = []; serif(c)
+    c.css += MASH_CSS + GROW_CSS + FAM_CSS
+    hp = "".join(f'<div class="hp{" a" if r == "a" else ""}" id="hp{k}" style="left:{x}px;top:{y}px"><div class="fc">{em}</div><b>{en}</b></div>' for k, (x, y, em, en, r) in enumerate(HFAM))
+    hearts = ('<div class="heart" id="hh0" data-layout-allow-overlap style="left:930px;top:250px">❤️</div>'
+              '<div class="heart" id="hh1" data-layout-allow-overlap style="left:680px;top:1320px">❤️</div>')
+    def anim(c, at, d):                              # the family pops in, a click each; the aunties last, red, as "aunty" is said; hearts on MUM
+        rest = [k for k, h in enumerate(HFAM) if h[4] != "a"]
+        for n, k in enumerate(rest):
+            s = 0.1 + (at(3) - 0.5) * n / len(rest)
+            c.t(f'tl.fromTo("#hp{k}", {{scale:0, opacity:0}}, {{scale:1, opacity:1, duration:0.3, ease:"back.out(2.2)"}}, {s:.2f});')
+            clip(c, "brag-quiz/sfx/ref/click.wav", s, 0.55)
+        for j, k in enumerate(k for k, h in enumerate(HFAM) if h[4] == "a"):
+            s = at(3) + 0.12 * j
+            c.t(f'tl.fromTo("#hp{k}", {{scale:0, opacity:0}}, {{scale:1, opacity:1, duration:0.32, ease:"back.out(2.6)"}}, {s:.2f});')
+            c.t(f'tl.fromTo("#hp{k}", {{scale:1}}, {{scale:1.18, duration:0.16, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {s + 0.35:.2f});')
+            c.t(f'tl.to("#hp{k} b", {{color:"{T.RED}", duration:0.2}}, {s:.2f});'); clip(c, "brag-quiz/sfx/ref/click.wav", s, 0.8)
+        for k in range(len(HFAM)): c.t(f'tl.to("#hp{k}", {{y:{-18 if k % 2 else 16}, duration:{d:.2f}, ease:"none"}}, 0.4);')
+        for j in range(2): c.t(f'tl.fromTo("#hh{j}", {{opacity:0, scale:0.2, y:30}}, {{opacity:1, scale:1, y:0, duration:0.35, ease:"back.out(3)"}}, {at(10) + 0.1 * j:.2f});')
+    words = "TWO words for “aunty” in Arabic, and one’s like your MUM!".split()
+    t = hook_in(c, body, (words, {0: "loud", 3: "red", 10: "circle"}, V + "h1a.mp3"), bg=(hp + hearts, anim))
+    # 1. the tree: lines draw, the family pops in, then their words turn Arabic
+    nodes = "".join(f'<div class="fn {sd}" id="n{i}" style="left:{x - 85}px;top:{y - 66}px"><div class="fc">{em}'
+                    + (f'<span class="badge" id="bd{i}">{1 if i == "a1" else 2}</span>' if i in ("a1", "a2") else "")
+                    + f'</div><b>{en}</b><i><span id="n{i}a" lang="ar">{ar}</span>' + ('<span class="q" id="nu2q">?</span>' if i == "u2" else "") + '</i></div>'
+                    for i, x, y, em, en, ar, sd in FT)
+    body.append(f'<div class="sec" id="t"><div id="ft" data-layout-allow-overflow data-layout-allow-occlusion><svg viewBox="0 0 1080 1920"><path d="{FT_LINES}" pathLength="1"/></svg>'
+                f'<div class="side d" id="sd">DAD’S SIDE</div><div class="side m" id="sm">MUM’S SIDE</div>{nodes}'
+                '<div class="heart" id="th" data-layout-allow-overlap style="left:688px;top:770px">❤️</div></div>'
+                '<div class="rp d" id="rp1">ʿamma <em>· dad’s sister</em></div><div class="rp m" id="rp2">khāla <em>· mum’s sister</em></div>'
+                '<div class="quote" id="tq" style="top:1440px"><small id="tqs" style="margin:0 0 12px">Ḥamza’s daughter needed a home. She went to her khala:</small>'
+                '<q>The maternal aunt is in the place of the mother.</q><small>the Prophet <span class="pbuh">ﷺ</span> · al-Bukhārī 2699</small></div>'
+                f'{cnt("tc", 1365)}<div class="opts" id="to" style="top:1545px">' + "".join(f'<div class="op2" id="to{k}"><b class="ar">{a}</b></div>' for k, a in enumerate(["عَمّ", "خال", "جَدّ"]))
+                + '</div><div class="sum" id="ts" style="top:1440px"><div class="d">DAD’S SIDE<span>عَمّ · عَمَّة</span></div><div class="m">MUM’S SIDE<span>خال · خالَة</span></div></div></div>')
+    whip_in(c, "t", t); c.t('tl.set("#ft", {transformOrigin:"0 0"}, 0);')
+    c.t(f'tl.to("#ft path", {{strokeDashoffset:0, duration:0.9, ease:"power2.inOut"}}, {t:.2f});')
+    for n, (i, x, y, *_ ) in enumerate(FT):
+        c.t(f'tl.fromTo("#n{i}", {{scale:0, opacity:0}}, {{scale:1, opacity:1, duration:0.3, ease:"back.out(2.2)"}}, {t + 0.1 + 0.07 * n:.2f});')
+    for i in ("sd", "sm"): c.inn(f"#{i}", t + 0.5)
+    clip(c, "brag-quiz/sfx/ref/short-swoosh.wav", t, 0.3)
+    d = clip(c, V + "v1.mp3", t + 0.3); a = t + 0.3 + key_at(V + "v1.mp3", "arabic", d - 0.6)
+    for n, (i, *_ ) in enumerate(FT):               # the words turn Arabic, a click each (mum's brother stays a "?" for the quiz)
+        s = a + 0.06 * n; sel = "#nu2q" if i == "u2" else f"#n{i}a"
+        c.t(f'tl.fromTo("{sel}", {{opacity:0, rotationX:90}}, {{opacity:1, rotationX:0, duration:0.25, ease:"power2.out"}}, {s:.2f});')
+        if n % 2 == 0: clip(c, "brag-quiz/sfx/ref/click.wav", s, 0.45)
+    t = max(t + 0.3 + d, a + 0.8) + 0.1
+    # 2. two aunties: a badge and a click each, then the camera zooms into dad's sister and pans to mum's sister
+    d = clip(c, V + "v2.mp3", t); b = t + key_at(V + "v2.mp3", "both", 0.9)
+    for j, i in enumerate(("a1", "a2")):
+        s = b + 0.35 * j
+        c.t(f'tl.fromTo("#bd{i}", {{opacity:0, scale:2}}, {{opacity:1, scale:1, duration:0.25, ease:"back.out(2.5)"}}, {s:.2f});'); clip(c, "brag-quiz/sfx/ref/click.wav", s, 0.9)
+        c.t(f'tl.fromTo("#n{i} .fc", {{scale:1}}, {{scale:1.15, duration:0.16, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {s:.2f});')
+    t += d + 0.1
+    def cam(s, cx, cy, at, dur=0.8):                 # point (cx, cy) of the tree to (540, 700) on screen, at scale s
+        c.t(f'tl.to("#ft", {{scale:{s}, x:{540 - s * cx:.0f}, y:{700 - s * cy:.0f}, duration:{dur}, ease:"power3.inOut"}}, {at:.2f});')
+        clip(c, "brag-quiz/sfx/ref/short-swoosh.wav", at, 0.3)
+    cam(2.1, 270, 830, t); c.t(f'tl.to("#bda1, #bda2", {{opacity:0, duration:0.2}}, {t:.2f});')
+    c.t(f'tl.to(["#brand", "#kicker", "#nme"], {{autoAlpha:0, duration:0.25}}, {t:.2f});')   # out of the camera's way until the quiz
+    d = clip(c, V + "v3.mp3", t + 0.1); t += 0.1 + d
+    c.inn("#rp1", t); d = say_up(c, "عَمَّة", t + 0.05); t += 0.05 + d + 0.3
+    c.t(f'tl.to("#rp1", {{opacity:0, duration:0.25}}, {t:.2f});'); cam(2.1, 810, 830, t)
+    d = clip(c, V + "v4.mp3", t + 0.1); t += 0.1 + d
+    c.inn("#rp2", t); d = say_up(c, "", t + 0.05, src=V + "khala.mp3")
+    c.t(f'tl.fromTo("#na2 .fc", {{scale:1}}, {{scale:1.12, duration:0.18, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t + 0.1:.2f});'); c.sfx("tap", t + 0.1)
+    t += 0.05 + d + 0.4
+    # 3. the fun fact: back out to khala and mum side by side, the story, the hadith, a heart between them
+    c.t(f'tl.to("#rp2", {{opacity:0, duration:0.25}}, {t - 0.1:.2f});'); cam(1.45, 722, 830, t)
+    d = clip(c, V + "v5.mp3", t + 0.2); v = t + 0.2
+    c.t(f'tl.fromTo("#tq", {{autoAlpha:0, y:40}}, {{autoAlpha:1, y:0, duration:0.45, ease:"power3.out"}}, {v + key_at(V + "v5.mp3", "hamza", 0.3) - 0.1:.2f});')
+    c.t(f'tl.set("#tq q, #tq small:last-child", {{opacity:0}}, 0);')
+    q = v + key_at(V + "v5.mp3", "maternal", d - 3.0) - 0.4
+    c.t(f'tl.fromTo("#tq q, #tq small:last-child", {{opacity:0, y:14}}, {{opacity:1, y:0, duration:0.35, ease:"power3.out", immediateRender:false}}, {q:.2f});')
+    h = v + key_at(V + "v5.mp3", "mother", d - 0.6)
+    c.t(f'tl.fromTo("#th", {{opacity:0, scale:0.2}}, {{opacity:1, scale:1.3, duration:0.35, ease:"back.out(3)"}}, {h:.2f});')
+    c.t(f'tl.to("#th", {{scale:1.1, duration:0.3, yoyo:true, repeat:3, ease:"sine.inOut"}}, {h + 0.35:.2f});'); c.sfx("correct", h)
+    t = v + d + 0.6
+    # 4. your turn: back to the whole tree, mum's brother, 3-2-1, خال; then the two sides side by side
+    c.t(f'tl.to("#tq", {{autoAlpha:0, y:30, duration:0.3}}, {t - 0.3:.2f});'); cam(1, 540, 700, t)
+    c.t(f'tl.to(["#brand", "#kicker", "#nme"], {{autoAlpha:1, duration:0.3}}, {t + 0.6:.2f});')
+    d = clip(c, V + "q1.mp3", t + 0.3)
+    c.t(f'tl.to("#nu2 .fc", {{scale:1.15, duration:0.3, yoyo:true, repeat:5, ease:"sine.inOut"}}, {t + 0.6:.2f});')
+    for k in range(3): c.inn(f"#to{k}", t + 0.3 + d - 0.6 + 0.12 * k, 30)
+    done = count_down(c, "tc", t + 0.3 + d + 0.3)
+    reveal(c, "#to1", ["#to0", "#to2"], done)
+    c.t(f'tl.to("#nu2q", {{opacity:0, duration:0.1}}, {done:.2f});')
+    c.t(f'tl.fromTo("#nu2a", {{opacity:0, scale:2.4}}, {{opacity:1, scale:1, duration:0.2, ease:"power4.in"}}, {done:.2f});'); clip(c, "brag-quiz/sfx/crash.wav", done + 0.18, 0.5)
+    d = say_up(c, "", done + 0.3, src=V + "khal.mp3"); t = done + 0.3 + d + 0.1
+    d = clip(c, V + "r1.mp3", t)
+    c.t(f'tl.to(["#to", "#tc"], {{opacity:0, duration:0.25}}, {t + 0.4:.2f});')
+    c.t('tl.set("#ts", {autoAlpha:0}, 0);'); c.t(f'tl.set("#ts", {{autoAlpha:1}}, {t + 0.6:.2f});')
+    c.t(f'tl.fromTo("#ts div", {{opacity:0, y:30}}, {{opacity:1, y:0, duration:0.4, stagger:0.15, ease:"power3.out"}}, {t + 0.6:.2f});')
+    c.t(f'tl.to(".fn.m .fc", {{scale:1.1, duration:0.2, yoyo:true, repeat:1, stagger:0.06}}, {t + 0.6:.2f});'); c.sfx("tap", t + 0.6)
+    t += d + 0.9
+    # 5. the closing ask, heard in full on the end card
+    c.out_("#t", t - 0.4); end = clip(c, V + "end.mp3", t)
+    body.append(c.end(t, "Tag your khala 👇 and tell her she’s basically your mum 🤍"))
+    c.write("\n".join("      " + b for b in body), round(t + end + 0.9, 2))
+
 LADDER_CSS = (
     # one page that moves (MOTION-STYLE rule 6, the owner's reference reel): the rounds sit one under another and the page slides up
     # to the next; a rail on the left keeps the share of people still in the game, its marker dropping a rung each round
@@ -1104,7 +1241,7 @@ ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-a
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "w8-subhana-azim": w8,
        "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1,
-       "n2-rahma": n2, "d1-din": d1}
+       "n2-rahma": n2, "d1-din": d1, "f4-family": f4}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
