@@ -13,7 +13,8 @@
   python3 reel.py WORK zoom       the slow push per section → WORK/base.mov
   python3 reel.py WORK masks      the speaker cut out wherever a title sits behind him (rembg; about a second a frame)
   python3 reel.py WORK layers     titles (behind) and captions, split frame, flicker (in front)
-  python3 reel.py WORK mix        clean the voice before the gain, -14 LUFS, sound effects by sfx_rules.py, punch-ins → WORK/reel.mp4
+  python3 reel.py WORK mix [keepvoice]   clean the voice before the gain, -14 LUFS, sound effects by sfx_rules.py, punch-ins → WORK/reel.mp4
+                                  (keepvoice: the voice exactly as recorded, sound effects added on top)
 """
 import json, os, re, subprocess, sys, shutil
 HERE = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
@@ -149,9 +150,10 @@ elif STEP == "mix":
     sys.path.insert(0, HERE); from sfx_rules import events
     C = J("config.json")
     CLEAN = "highpass=f=80,lowpass=f=13000,afftdn=nr=18:nf=-66:tn=1,agate=threshold=0.003:ratio=2.5:range=0.15:attack=6:release=220,acompressor=threshold=-28dB:ratio=2:attack=12:release=220"
-    sh("ffmpeg", "-v", "error", "-y", "-i", "base.mov", "-vn", "-af", CLEAN, "-ar", "48000", "-ac", "2", "voice_clean.wav")
+    keep = "keepvoice" in sys.argv     # the owner's sound as recorded: no cleaning, no gain, no limiter (owner, 18 Oct 2026: sujood reel)
+    sh("ffmpeg", "-v", "error", "-y", "-i", "base.mov", "-vn", *([] if keep else ["-af", CLEAN]), "-ar", "48000", "-ac", "2", "voice_clean.wav")
     m = subprocess.run(["ffmpeg", "-i", "voice_clean.wav", "-af", "ebur128", "-f", "null", "-"], capture_output=True, text=True).stderr
-    gain = -14.5 - float(re.findall(r"I:\s+(-?[\d.]+) LUFS", m)[-1])
+    gain = 0 if keep else -14.5 - float(re.findall(r"I:\s+(-?[\d.]+) LUFS", m)[-1])
     # zoom builds through a section: each emphasis (punch or step word) goes one level deeper (slow, eased),
     # and it only eases back out as the section ends (next title, split, flicker or the end): in, in, in, out
     sm = lambda u: f"({u})*({u})*(3-2*({u}))"
@@ -180,9 +182,10 @@ elif STEP == "mix":
             fc.insert(-1, f"[zp{i}][qs{i}]overlay=x={hx - fx * s_:.0f}:y={hy - fy * s_:.0f}:enable='between(t,{p0},{p1})'[zp{i + 1}]")
         fc.insert(-1, f"[zp{len(pips)}][3:v]overlay=0:0:format=auto,format=yuv420p[v]")
     for i, (f, t, v) in enumerate(E):
+        if keep: v *= 10 ** ((float(re.findall(r"I:\s+(-?[\d.]+) LUFS", m)[-1]) + 14.5) / 20)   # effects sit against the voice as it is
         ms = int(max(0, t) * 1000); fc.append(f"[{i+5}:a]aresample=48000,aformat=channel_layouts=stereo,volume={v},adelay={ms}|{ms}[s{i}]")
     fc.append("".join(f"[s{i}]" for i in range(len(E))) + f"amix=inputs={len(E)}:normalize=0,apad[sfx]")
-    fc.append("[voice][sfx]amix=inputs=2:normalize=0:duration=first,lowpass=f=16000:poles=2,alimiter=limit=0.8:level=false[a]")
+    fc.append("[voice][sfx]amix=inputs=2:normalize=0:duration=first" + ("[a]" if keep else ",lowpass=f=16000:poles=2,alimiter=limit=0.8:level=false[a]"))
     sh(*args, "-filter_complex", ";".join(fc), "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "21", "-preset", "slow", "-maxrate", "4.2M", "-bufsize", "8M",
        "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "reel.mp4")
     print("reel.mp4 ready")

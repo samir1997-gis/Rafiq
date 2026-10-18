@@ -1,0 +1,19 @@
+# Editing the sujood reel (18 Oct 2026, #263)
+
+Footage (Drive, the owner's): `subhana.mp4` (1E7abPEJN55i1h_Ok6GsYnmS6_oFFJw3N, the talking head, already cut by him, 91 s)
+and `DJI_20261018181326_0042_D.MP4` (1ksEtTdrGxpNARGlvUBoqXgdzDSaYkZhK, B-roll: sitting 2-8 s, down 9 s, sujood 10-14 s, up 15 s, sitting 16-20 s).
+
+The owner's rules: **no cuts, no trims, the voice as recorded** (no cleaning, no gain). So `cut` is skipped (one chunk, the whole
+clip) and the mix is `mix keepvoice`. Everything else is the template, in the ruku reel's style.
+
+```
+W=/tmp/reel-sujood; R=brag-quiz/reels/template/reel.py
+cp subhana.mp4 $W/clip.mp4; python3 $R $W words
+echo '[[0.0, 91.367]]' > $W/chunks.json; python3 $R $W base nologo      # no watermark on his export
+# B-roll over the picture while he keeps talking (graded with template/grade.txt, 1404x2496):
+#   7.68-13.14 sujood (B-roll 8.7 s on) · 34.78-39.18 sitting up (15.0 s on) · 70.32-74.38 sujood (10.0 s on)
+# → overlay onto cut.mov's picture, audio copied (see the ffmpeg command in the session notes)
+# flicker/split frames: broll/sujood (11 s, 3 s), broll/sit (3 s, 3 s), broll/sujoodcut (9 s, 6 s), broll/sitcut (15.2 s, 4.8 s)
+python3 $R $W plan; (cd $W && python3 brag-quiz/reels/sujood/mkconfig.py)
+python3 $R $W zoom; python3 $R $W masks; python3 $R $W layers; python3 $R $W mix keepvoice
+```
