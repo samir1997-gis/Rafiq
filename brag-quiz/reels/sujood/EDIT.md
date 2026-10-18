@@ -24,3 +24,4 @@ python3 $R $W zoom; python3 $R $W masks; python3 $R $W layers; python3 $R $W mix
   replaces 25.0-26.6, "ighfir li" (fix 28.40-29.53 s) replaces 41.85-43.15. Both fit the original gaps, so no timing moves.
   The re-recording's picture is cut in for those moments (lips match), graded and cropped 1/1.22; its sound is raised 2.3 dB
   to match his voice in the reel (speech RMS). Nothing else in the voice is touched.
+- v3 (owner): the re-recording's picture didn't match (framing, light), so the original picture stays and only the two words' sound is swapped.
