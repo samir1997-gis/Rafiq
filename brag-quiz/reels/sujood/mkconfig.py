@@ -17,10 +17,15 @@ C["panels"] = [
      "line": "“My Lord, forgive me and have mercy on me.”"}],
   [55.8, 61.0, "count", {"title": "EVERY RAKAH, EVERY DAY", "prayers": [["FAJR", 2], ["DHUHR", 4], ["ASR", 4], ["MAGHRIB", 3], ["ISHA", 4]],
      "fill": 55.9, "dur": 0.8, "big": "100+", "sub": "times a day<br><small>102 in sujood · 17 sitting between</small>", "big_t": 58.96,
-     "year": "43,000+ A YEAR", "year_t": 60.0}]]
+     "year": "43,000+ A YEAR", "year_t": 60.0}],
+  # the hadith he quotes, with its source (owner, 18 Oct 2026); each part lights as he says it
+  [69.0, 74.4, "words", {"title": "THE PROPHET (PBUH) SAID · SAHIH MUSLIM 482", "ar": 54,
+     "words": [["أَقْرَبُ مَا يَكُونُ الْعَبْدُ", "the closest a servant is", 71.06], ["مِنْ رَبِّهِ", "to his Lord", 72.1], ["وَهُوَ سَاجِدٌ", "is in sujood", 73.86]],
+     "line": "“The closest a servant is to his Lord is when he is in sujood, so make lots of du'a.”"}]]
 C["split"] = [79.5, 84.5]
-C["steps"] = []
-C["punch"] = [[5.58, 6.2], [8.62, 9.2], [71.06, 71.8], [75.3, 75.7], [78.56, 79.1], [84.92, 85.5]]
+# "the Most High": a zoom step and a hit on each word, a boom under "High" (owner, 18 Oct 2026: not emphasised enough)
+C["steps"] = [[[5.58, 5.94], 6.3], [[27.12, 27.46], 27.9], [[33.48, 33.78], 34.3]]
+C["punch"] = [[8.62, 9.2], [71.06, 71.8], [75.3, 75.7], [78.56, 79.1], [84.92, 85.5]]
 C["sections"] = [[0, 7.66], [7.66, 15.0], [15.0, 34.78], [34.78, 55.8], [55.8, 64.96], [64.96, 74.4], [74.4, 79.5], [79.5, C["end"]]]
 C["broll"] = {"split": ["sujoodcut", "prayalong", "sitcut"], "flick": ["self0", "sujood", "self1", "sit", "self2", "self3"]}
 # captions: fix what speech recognition got wrong, and the gold pops

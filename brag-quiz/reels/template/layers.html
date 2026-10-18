@@ -80,8 +80,9 @@ function update(t, layer) {
     const [f0, f1, title, size] = C.flicks[F], f = Math.floor((t - f0) * 30), k = Math.floor(f / 8), r = f % 8, clips = C.broll.flick;
     const c = clips[((r === 1 && k > 0 ? k - 1 : k) + F * 3) % clips.length];
     fl.style.display = 'block'; document.getElementById('fimg').src = `broll/${c}/${String(f % C.n[c] + 1).padStart(4, '0')}.jpg`;
-    document.getElementById('fimg').style.filter = r === 0 ? 'brightness(2.4) saturate(.3)' : r === 2 ? 'brightness(1.35)' : 'none';
-    document.getElementById('fflash').style.opacity = f < 2 ? 1 - f * .45 : 0;
+    const open = f0 === 0 && k === 0;        // the reel's first frames show the speaker, never a white flash (frame 0 rule)
+    document.getElementById('fimg').style.filter = r === 0 && !open ? 'brightness(2.4) saturate(.3)' : r === 2 ? 'brightness(1.35)' : 'none';
+    document.getElementById('fflash').style.opacity = f < 2 && !open ? 1 - f * .45 : 0;
     const ft = document.getElementById('ftitle'); ft.textContent = title; ft.style.fontSize = (size || 150) + 'px';
     ft.style.transform = `scale(${1 + .12 * Math.exp(-(t - f0) * 8)})`;
     const w = (t - (f1 - .3)) / .3;          // circle wipe back to the speaker (not at the very end of the reel)
@@ -92,7 +93,7 @@ function update(t, layer) {
   if (PN) {
     const [p0, p1, kind, o] = PN, pop = s => 1 + .12 * Math.exp(-Math.max(0, t - s) * 9) * (t >= s ? 1 : 0);
     if (pn.dataset.k !== String(p0)) { pn.dataset.k = String(p0); pn.className = 'pn ' + kind; pn.innerHTML = '<div class="bg"></div>' + ({
-      words: () => `<div class="lab" style="top:1465px">${o.title}</div><div class="ww">${o.words.map(([a, e]) => `<div class="w"><span class="ar">${a}</span><span class="en">${e}</span></div>`).join('')}</div><div class="tr">${o.line}</div>`,
+      words: () => `<div class="lab" style="top:1465px">${o.title}</div><div class="ww">${o.words.map(([a, e]) => `<div class="w"><span class="ar"${o.ar ? ` style="font-size:${o.ar}px;white-space:nowrap"` : ''}>${a}</span><span class="en">${e}</span></div>`).join('')}</div><div class="tr">${o.line}</div>`,
       chat: () => `<div class="lab" style="top:150px;color:#B4322A">${o.title}</div>${o.lines.map(([w, a, e], i) => `<div class="bub ${i ? 'r' : 'l'}"><div class="when">${w}</div><div class="ar">${a}</div><div class="en">${e}</div></div>`).join('')}`,
       wall: () => `<div class="lab" style="top:130px">${o.title}</div><div class="grid">${[...o.seq].map(c => `<i data-g="${c === 'g' ? 1 : 0}"></i>`).join('')}</div>${o.pre ? `<div class="pre stat" style="top:1300px;font-size:240px;color:#E9B949">${o.pre}</div>` : ''}<div class="stat big" style="top:1300px;font-size:240px">${o.big}</div><div class="sub" style="top:1600px">${o.sub}</div>`,
       count: () => `<div class="lab" style="top:150px">${o.title}</div><div class="days">${o.prayers.map(([p, n]) => `<div class="d"><div class="dots">${'<i></i>'.repeat(n)}</div><div class="dn">${p}</div></div>`).join('')}</div><div class="stat" id="pc17" style="top:960px;font-size:330px;color:#C8372D">${o.big}</div><div class="sub" id="pcs" style="top:1400px">${o.sub}</div><div class="stat" id="pcy" style="top:1560px;font-size:150px">${o.year}</div>`
