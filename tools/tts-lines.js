@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 /* Speaks a list of lines with ElevenLabs: [{file, voice, text, stability?, style?, speed?}, ...] → <out-dir>/<file>.mp3
+   A line with a url ({file, url}) is downloaded instead (a recitation this session's network can't reach).
    Usage: ELEVENLABS_API_KEY=… node tools/tts-lines.js <lines.json> <out-dir> [--force]
    Write Arabic names in Arabic script inside English lines (e.g. "Meet رَفِيق") so they're said the Arabic way. */
 const fs=require('fs'), path=require('path');
@@ -10,6 +11,10 @@ const items=JSON.parse(fs.readFileSync(list,'utf8')); fs.mkdirSync(out,{recursiv
   for(const it of items){
     const file=path.join(out,it.file+'.mp3');
     if(!FORCE&&fs.existsSync(file)){console.log('  = '+it.file);continue;}
+    if(it.url){   // a recording to fetch instead of speak (e.g. a Qur'an recitation): {file, url: one URL or a list to try in order}
+      let got=null; for(const u of [].concat(it.url)){ const q=await fetch(u); if(q.ok){got=q;break;} console.error('  x '+u+' '+q.status); }
+      if(got){ fs.writeFileSync(file,Buffer.from(await got.arrayBuffer())); ok++; console.log('  ✓ '+it.file+'  '+got.url); } else fail++;
+      continue; }
     const r=await fetch('https://api.elevenlabs.io/v1/text-to-speech/'+it.voice,{method:'POST',
       headers:{'xi-api-key':KEY,'Content-Type':'application/json','Accept':'audio/mpeg'},
       body:JSON.stringify({text:it.text,model_id:it.model||'eleven_multilingual_v2',

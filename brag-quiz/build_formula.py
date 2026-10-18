@@ -765,6 +765,398 @@ def m2():
     body.append(c.end(E, "Comment below 👇 and send this to someone who says mashallah every day"))
     c.write("\n".join("      " + b for b in body), round(max(E + 2.9, t + end + 0.8), 2))
 
+def whip_in(c, sec, at): c.t(f'tl.fromTo("#{sec}", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {at - 0.2:.2f});')
+def whip_out(c, sec, at):
+    c.t(f'tl.to("#{sec}", {{x:-700, opacity:0, filter:"blur(18px)", duration:0.3, ease:"power3.in"}}, {at:.2f});')
+    clip(c, "brag-quiz/sfx/ref/swoosh.wav", at - 0.05, 0.5); return at + 0.35
+def key_at(mp3, key, fallback):
+    """When Callum says the first word containing key, in seconds from the start of his line."""
+    return next((s for w, s in words_at(mp3) if key in w.lower()), fallback)
+def serif(c):
+    """A quoted source (a hadith, a tafsir) in a card, in Instrument Serif; the reference line darker gold, for contrast."""
+    shutil.copy(os.path.join(T.ROOT, "brag-quiz/fonts/instrument-serif-latin-400-normal.woff2"), os.path.join(c.a, "fonts"))
+    c.css += ('@font-face { font-family:"Instrument Serif"; src:url("assets/fonts/instrument-serif-latin-400-normal.woff2") format("woff2"); }'
+              ".quote { position:absolute; left:70px; right:70px; padding:26px 40px 30px; text-align:center; background:var(--card); border:4px solid rgba(23,38,43,.13); "
+              "border-radius:36px; box-shadow:0 14px 30px -16px rgba(23,38,43,.4); } .quote q { display:block; font-family:\"Instrument Serif\", serif; font-style:italic; "
+              "font-size:66px; line-height:1.12; color:var(--ink); quotes:\"\\201C\" \"\\201D\"; } .quote small { display:block; margin-top:14px; font-size:32px; "
+              "font-weight:700; letter-spacing:.04em; color:var(--ink-soft); } .quote .pbuh { font-family:var(--ar); font-size:46px; vertical-align:-6px; }")
+
+GROW_CSS = (
+    ".soil { position:absolute; left:180px; top:1600px; width:720px; height:92px; border-radius:50%; background:#e3d6b8; }"
+    ".seed { position:absolute; left:50%; top:1560px; transform:translateX(-50%); padding:4px 34px 10px; border-radius:40px; background:#E9B949; "
+    "font-family:var(--ar); font-weight:700; font-size:66px; line-height:1.35; color:var(--rubric); white-space:nowrap; box-shadow:0 14px 30px -14px rgba(23,38,43,.45); }"
+    ".seed small { font-family:var(--la); font-size:38px; color:var(--ink); margin-right:14px; }"
+    ".tree { position:absolute; inset:0; overflow:visible; } .tree path { fill:none; stroke:var(--verdigris); stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; }"
+    ".leaf { position:absolute; width:58px; height:30px; border-radius:0 100%; background:#3f8f7d; transform-origin:0 50%; }"
+    ".leaf.b { background:#2e7263; } .bloom { position:absolute; padding:14px 18px 22px; text-align:center; background:var(--card); border:6px solid var(--verdigris); "
+    "border-radius:56px; box-shadow:0 18px 34px -18px rgba(23,38,43,.5); } .bloom .ar { font-family:var(--ar); font-weight:700; font-size:84px; line-height:1.45; color:var(--rubric); }"
+    ".bloom b { display:block; font-size:42px; line-height:1.1; color:var(--ink); } .bloom.crown { border-color:#E9B949; border-width:10px; }"
+    ".bloom.crown .ar { font-size:110px; } .bloom .lab { position:relative; } .bloom.crown .lab { height:64px; } .bloom.crown .lab b { position:absolute; left:0; right:0; top:0; }"
+    ".bloom .qm { color:var(--rubric); font-size:56px; } .bloom.crown .lab b { font-size:54px; }"
+    ".pet { position:absolute; left:50%; top:50%; width:26px; height:26px; margin:-13px; border-radius:50%; background:#E9B949; opacity:0; }"
+    ".pet:nth-child(odd) { background:var(--rubric); width:18px; height:18px; margin:-9px; }"
+    "#wc { position:absolute; left:830px; top:590px; width:190px; height:190px; } #wc svg { position:absolute; inset:0; transform:rotate(-90deg); }"
+    "#wc circle { fill:none; stroke-width:16; } #wc .bg { stroke:rgba(23,38,43,.1); } #wc .fg { stroke:var(--rubric); stroke-linecap:round; stroke-dasharray:503; stroke-dashoffset:503; }"
+    "#wc span { position:absolute; inset:0; display:grid; place-items:center; font-family:\"Fredoka\", var(--la); font-weight:700; font-size:96px; color:var(--rubric); opacity:0; }"
+    "#wc small { position:absolute; left:-70px; right:-70px; top:196px; text-align:center; font-weight:700; font-size:23px; letter-spacing:.12em; color:var(--ink-soft); white-space:nowrap; }"
+    ".opts { position:absolute; left:50px; right:50px; display:flex; gap:22px; } .opts .op2 { flex:1; height:128px; border-radius:64px; background:var(--card); "
+    "border:4px solid rgba(23,38,43,.13); display:flex; align-items:center; justify-content:center; } .opts .op2 b { font-size:50px; font-weight:700; color:var(--ink); }"
+    "#tflash { position:absolute; inset:0; background:#fff8e6; opacity:0; pointer-events:none; }"
+    ".hb3 { position:absolute; padding:20px 30px; background:var(--card); border:4px solid rgba(23,38,43,.12); border-radius:34px; font-family:\"Fredoka\", var(--la); "
+    "font-weight:600; font-size:46px; color:var(--ink); white-space:nowrap; box-shadow:0 14px 30px -18px rgba(23,38,43,.4); } .vine { position:absolute; inset:0; overflow:visible; }"
+    ".vine path { fill:none; stroke:#3f8f7d; stroke-width:9; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; opacity:.8; }")
+
+FAMILY = [(70, 290, "mum 🤍", 250), (650, 320, "dad", 150), (330, 470, "grandma", 250),     # the hook's "family", round the hook line:
+          (70, 1400, "my sister", 280), (660, 1430, "cousins", 250), (330, 1610, "my brother", 320)]   # (left, top, text, width)
+TRUNK = "M540,1615 C548,1470 512,1340 532,1190 S562,930 538,770 S526,610 540,540"
+GROW = [  # the blooms, bottom to top: (branch path, left, top, width, Arabic, meaning, Rafiq's recording or None for the app's, Callum's line)
+    ("M534,1330 C480,1300 450,1250 440,1205", 60, 1110, 380, "رَحْمَة", "mercy", None, "b1"),
+    ("M545,1070 C580,1040 596,990 604,955", 600, 830, 420, "رَحِمَهُ اللهُ", "may Allah have mercy on him", "rahimahu", "b3")]
+LEAVES = [(560, 1500, -40), (476, 1440, 210), (560, 1300, -30), (470, 1120, 200), (566, 1010, -35), (480, 900, 205), (562, 690, -30),
+          (484, 620, 210), (470, 1265, 160), (590, 1020, -60), (466, 790, 150)]   # (x, y, rotation) along the trunk
+
+def n2():
+    """The word tree (IDEAS "a word tree", owner 18 Oct 2026: "be more creative"), root series part 4: ر ح م. The hook's family,
+    round the line, gets hidden under leaves as the vine creeps in ("FAMILY is hiding inside a word you say in every prayer!");
+    al-Fātiḥah 1:3 in al-Husary's recitation (reciter 12, as in the app), the three letters turn red and drop into the soil as a
+    seed; a trunk grows and words bloom on its branches (رَحْمَة mercy, رَحِمَهُ اللهُ "may Allah have mercy on him"), a counter clicking
+    up the words; then the tree pulls back for "your turn": the crown, رَحِم, 3-2-1, the WOMB. The Prophet ﷺ: the womb takes its
+    name from ar-Raḥmān (al-Bukhārī 5988, Abu Hurayrah, sahih). Voices: brag-quiz/voice/rahma-lines.json (Rafiq for رَحِمَهُ اللهُ and رَحِم;
+    the app's recording for رَحْمَة). Cut for length: the رَحِيم bloom, c3 and the أَرْحام round (their recordings stay unused)."""
+    V = "brag-quiz/voice/rahma/"
+    c = SO.vcomp("n2-rahma", "ARABIC · ONE ROOT"); c.bed = True; body = []; serif(c)
+    bub = "".join(f'<div class="hb3" id="fb{k}" style="left:{x}px;top:{y}px">{t}</div>' for k, (x, y, t, w) in enumerate(FAMILY))
+    vines, leaves = [], ""
+    for k, (x, y, t, w) in enumerate(FAMILY):       # a vine from the nearest edge to each of them, and leaves that grow over them
+        cx, cy = x + w / 2, y + 45; sx = 0 if cx < 540 else 1080
+        vines.append(f'<path d="M{sx},{cy + 170} Q{(sx + cx) / 2:.0f},{cy + 230} {cx:.0f},{cy + 30}" pathLength="1"/>')
+        for j, (dx, dy, r) in enumerate([(-24, 40, -30), (w * 0.35, 58, 20), (w * 0.62, -8, -150), (w - 20, 46, 35)]):
+            leaves += f'<i class="leaf{" b" if j % 2 else ""}" id="fl{k}{j}" style="left:{x + dx:.0f}px;top:{y + dy:.0f}px;transform:rotate({r}deg)"></i>'
+    bg = f'<svg class="vine" viewBox="0 0 1080 1920">{"".join(vines)}</svg>{bub}{leaves}'
+    def anim(c, at, d):
+        c.t(f'tl.fromTo(".vine path", {{strokeDashoffset:1}}, {{strokeDashoffset:0, duration:{at(3) - 0.1:.2f}, ease:"power1.inOut", stagger:0.06}}, 0.05);')
+        for k in range(len(FAMILY)):
+            c.t(f'tl.fromTo("#fb{k}", {{y:0, rotation:{-3 if k % 2 else 3}}}, {{y:{-24 if k % 2 else 20}, rotation:{2 if k % 2 else -2}, duration:{d + 0.3:.2f}, ease:"none"}}, 0);')
+            for j in range(4):                       # "hiding inside": the leaves cover them
+                c.t(f'tl.fromTo("#fl{k}{j}", {{scale:0, opacity:0}}, {{scale:1.25, opacity:1, duration:0.3, ease:"back.out(2.4)"}}, {at(2) + 0.08 * k + 0.05 * j:.2f});')
+            c.t(f'tl.to("#fb{k}", {{opacity:0.55, filter:"blur(2px)", duration:0.4}}, {at(3) + 0.05 * k:.2f});')
+        for k in (0, 3): c.sfx("tap", at(2) + 0.08 * k)
+    words = "FAMILY is hiding inside a word you say in every prayer!".split()
+    t = hook_in(c, body, (words, {0: "loud", 2: "red", 10: "circle"}, V + "h1a.mp3"), bg=(bg, anim))
+    c.css += MASH_CSS + GROW_CSS + ".qref { color:#9a7826; }"
+    # 1. al-Fātiḥah 1:3: each word lights up as al-Husary recites it (from the audio: the ḥ of each word, minus its r-ra), then the root
+    R1, R2 = [("ال", ""), ("رَّ", "r"), ("حْ", "r"), ("مَٰ", "r"), ("نِ", "")], [("ال", ""), ("رَّ", "r"), ("حِ", "r"), ("ي", ""), ("مِ", "r")]
+    body.append('<div class="sec" id="a"><div class="q2">You say it in al-Fātiḥah:</div><div class="qref" style="top:350px">AL-FĀTIḤAH · 1:3</div>'
+                f'<div class="big" style="top:470px;font-size:140px" dir="rtl"><span class="w" id="aw0">{word(R1)}</span> <span class="w" id="aw1">{word(R2)}</span></div></div>')
+    whip_in(c, "a", t); d = clip(c, V + "c1.mp3", t + 0.1); t += 0.1 + d + 0.1
+    dq = say_up(c, "", t, src=V + "fatiha-1-3t.mp3")
+    for i, s in enumerate((0.22, 1.55)):
+        c.t(f'tl.fromTo("#aw{i}", {{scale:1}}, {{scale:1.1, duration:0.18, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t + s:.2f});')
+    t += dq + 0.1; c.t(f'tl.to("#a .pr", {{color:"{T.RED}", duration:0.3, stagger:0.08}}, {t:.2f});'); c.sfx("tap", t)
+    t = whip_out(c, "a", t + 0.8)
+    # 2. the tree: the three letters drop into the soil as a seed, the trunk grows, a word blooms on each branch as it's said
+    pets = "".join('<i class="pet"></i>' for _ in range(8))
+    blooms = "".join(f'<div class="bloom" id="bl{k}" style="left:{x}px;top:{y}px;width:{w}px"><div class="ar">{ar}</div><div class="lab"><b id="bl{k}e">{en}</b></div>{pets}</div>'
+                     for k, (_, x, y, w, ar, en, _, _) in enumerate(GROW))
+    n = len(GROW)                                    # the crown is bloom n
+    crown = (f'<div class="bloom crown" id="bl{n}" style="left:260px;top:290px;width:560px"><div class="ar">رَحِم</div><div class="lab"><b class="qm" id="bl{n}q">?</b>'
+             f'<b id="bl{n}e" style="color:var(--rubric)">the womb</b></div>{pets}</div>')
+    paths = (f'<path id="trunk" d="{TRUNK}" pathLength="1" style="stroke-width:30"/>' + "".join(f'<path id="br{k}" d="{p}" pathLength="1" style="stroke-width:18"/>'
+             for k, (p, *_ ) in enumerate(GROW)) + '<path id="br3" d="M540,560 C540,548 540,536 540,522" pathLength="1" style="stroke-width:22"/>')
+    lv = "".join(f'<i class="leaf{" b" if k % 2 else ""}" id="lv{k}" style="left:{x}px;top:{y}px;transform:rotate({r}deg)"></i>' for k, (x, y, r) in enumerate(LEAVES))
+    ring = ('<div id="wc"><svg viewBox="0 0 190 190"><circle class="bg" cx="95" cy="95" r="80"/><circle class="fg" cx="95" cy="95" r="80"/></svg>'
+            + "".join(f'<span id="wc{k}">{k}</span>' for k in range(n + 2)) + '<small>WORDS, ONE ROOT</small></div>')
+    opts = '<div class="opts" id="qo" style="top:1450px">' + "".join(f'<div class="op2" id="qo{i}"><b>{o}</b></div>' for i, o in enumerate(["mercy", "the womb", "a family"])) + '</div>'
+    body.append(f'<div class="sec" id="tr"><div id="tv"><div class="soil"></div><svg class="tree" viewBox="0 0 1080 1920">{paths}</svg>{lv}'
+                f'<div class="seed" id="seed"><small>mercy =</small>ر ح م</div>{blooms}{crown}{ring}</div>'
+                f'{cnt("qc", 1270)}{opts}<div class="quote" id="hq" style="top:1290px"><q>The womb takes its name from <span style="font-style:normal;white-space:nowrap">ar-Raḥmān</span>.</q>'
+                f'<small>the Prophet <span class="pbuh">ﷺ</span> · al-Bukhārī 5988</small></div><div class="say" id="hs" style="top:1640px">Family is built on mercy.</div><div id="tflash"></div></div>')
+    whip_in(c, "tr", t)
+    c.t(f'tl.fromTo("#seed", {{y:-760, scale:0.3, opacity:0}}, {{scale:2.1, opacity:1, duration:0.45, ease:"back.out(2)"}}, {t:.2f});'); c.sfx("tap", t + 0.1)
+    c.t(f'tl.fromTo(".soil", {{scaleX:0, opacity:0}}, {{scaleX:1, opacity:1, duration:0.4, ease:"power3.out"}}, {t + 0.3:.2f});')
+    d = clip(c, V + "c2.mp3", t + 0.1); m = t + 0.1 + key_at(V + "c2.mp3", "mercy", 2.2)
+    c.t(f'tl.fromTo("#seed", {{scale:2.1}}, {{scale:2.35, duration:0.14, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {m:.2f});')
+    c.t(f'tl.to("#seed", {{y:0, scale:1, duration:0.45, ease:"power2.in"}}, {m + 0.45:.2f});'); c.sfx("tap", m + 0.9)   # it drops into the soil
+    g = m + 1.0; t += 0.1 + d
+    c.t(f'tl.to("#trunk", {{strokeDashoffset:0, duration:1.3, ease:"power2.inOut"}}, {g - 0.2:.2f});'); clip(c, "brag-quiz/sfx/ref/swoosh.wav", g - 0.2, 0.35)
+    for k, (x, y, r) in enumerate(LEAVES):           # the leaves open as the trunk passes them
+        c.t(f'tl.fromTo("#lv{k}", {{scale:0}}, {{scale:1, duration:0.35, ease:"back.out(2.5)"}}, {g - 0.2 + 1.3 * (1615 - y) / 1075:.2f});')
+    c.t(f'tl.fromTo("#wc", {{opacity:0, scale:0.6}}, {{opacity:1, scale:1, duration:0.35, ease:"back.out(2)"}}, {g:.2f});'); c.t(f'tl.set("#wc0", {{opacity:1}}, {g:.2f});')
+    t = max(t, g + 1.1)
+    def pop(k, at):                                  # a bloom opens: petals burst, a tap, and the counter clicks up
+        c.t(f'tl.fromTo("#bl{k}", {{opacity:0, scale:0.15, rotation:{-14 if k % 2 else 14}}}, {{opacity:1, scale:1, rotation:0, duration:0.5, ease:"back.out(2.2)"}}, {at:.2f});')
+        c.t(f'tl.fromTo("#bl{k} .pet", {{opacity:1, x:0, y:0}}, {{opacity:0, x:(i) => Math.cos(i * Math.PI / 4) * 230, y:(i) => Math.sin(i * Math.PI / 4) * 150, '
+            f'duration:0.6, ease:"expo.out", immediateRender:false}}, {at + 0.05:.2f});')
+        c.t(f'tl.to("#wc{k}", {{opacity:0, duration:0.1}}, {at:.2f});')
+        c.t(f'tl.fromTo("#wc{k + 1}", {{opacity:0, scale:1.6}}, {{opacity:1, scale:1, duration:0.25, ease:"back.out(2)"}}, {at:.2f});')
+        c.t(f'tl.to("#wc .fg", {{strokeDashoffset:{503 * (1 - (k + 1) / (n + 1)):.0f}, duration:0.3, ease:"power2.out"}}, {at:.2f});')
+        clip(c, "brag-quiz/sfx/ref/click.wav", at, 0.8); c.sfx("tap", at + 0.05)
+    for k, (_, x, y, w, ar, en, rec, line) in enumerate(GROW):
+        c.t(f'tl.to("#br{k}", {{strokeDashoffset:0, duration:0.4, ease:"power2.out"}}, {t:.2f});'); clip(c, "brag-quiz/sfx/ref/short-swoosh.wav", t, 0.25)
+        pop(k, t + 0.3)
+        d = say_up(c, ar, t + 0.4) if rec is None else say_up(c, "", t + 0.4, src=V + rec + ".mp3"); t += 0.4 + d + 0.1
+        c.t(f'tl.fromTo("#bl{k}e", {{opacity:0, y:16}}, {{opacity:1, y:0, duration:0.3, ease:"power3.out"}}, {t:.2f});')
+        d = clip(c, V + line + ".mp3", t); t += d
+    # 3. your turn: the tree pulls back, the crown buds with رَحِم, 3-2-1, the WOMB slams on, then the hadith
+    c.t(f'tl.to("#tv", {{scale:0.7, y:-20, transformOrigin:"540px 240px", duration:0.7, ease:"power3.inOut"}}, {t:.2f});')
+    d = clip(c, V + "t1.mp3", t + 0.1)
+    c.t(f'tl.to("#br3", {{strokeDashoffset:0, duration:0.3}}, {t + 0.5:.2f});'); pop(n, t + 0.7)
+    c.t(f'tl.set("#bl{n}e", {{opacity:0}}, 0);'); t += 0.1 + d + 0.05
+    d = say_up(c, "", t, src=V + "rahim-womb.mp3")
+    for i in range(3): c.inn(f"#qo{i}", t + 0.1 + i * 0.12, 30)
+    done = count_down(c, "qc", t + d + 0.3)
+    reveal(c, "#qo1", ["#qo0", "#qo2"], done)
+    d = clip(c, V + "b4b.mp3", done); hit = done + key_at(V + "b4b.mp3", "womb", 0.14) + 0.05
+    c.t(f'tl.to("#bl{n}q", {{opacity:0, duration:0.1}}, {hit - 0.1:.2f});')
+    c.t(f'tl.fromTo("#bl{n}e", {{opacity:0, scale:2.6}}, {{opacity:1, scale:1, duration:0.2, ease:"power4.in"}}, {hit - 0.2:.2f});')
+    c.t(f'tl.fromTo("#tflash", {{opacity:0.8}}, {{opacity:0, duration:0.3, ease:"power2.out", immediateRender:false}}, {hit:.2f});')
+    c.t(f'tl.to("#tr", {{keyframes:[{{x:-26, y:16, duration:0.04}}, {{x:22, y:-12, duration:0.04}}, {{x:-12, y:8, duration:0.05}}, {{x:0, y:0, duration:0.06}}]}}, {hit:.2f});')
+    clip(c, "brag-quiz/sfx/crash.wav", hit - 0.02, 0.7); c.sfx("correct", hit + 0.1)
+    t = done + d + 0.5
+    c.t(f'tl.to(["#qo"], {{opacity:0, y:30, duration:0.3}}, {t - 0.3:.2f});')
+    d = clip(c, V + "c5.mp3", t)
+    c.t(f'tl.fromTo("#hq", {{opacity:0, y:40, scale:0.96}}, {{opacity:1, y:0, scale:1, duration:0.45, ease:"power3.out"}}, {t + key_at(V + "c5.mp3", "said", 1.6) - 0.1:.2f});')
+    f = t + key_at(V + "c5.mp3", "family", 4.8); c.inn("#hs", f - 0.05); c.sfx("correct", f + 0.3)
+    t += d + 0.5
+    # 4. the closing ask, heard in full on the end card
+    c.out_("#tr", t - 0.4); end = clip(c, V + "end.mp3", t)
+    body.append(c.end(t, "Who in your family needs a call today? Comment below 👇 and send this to them 🤍"))
+    c.write("\n".join("      " + b for b in body), round(t + end + 0.9, 2))
+
+TALLY = [("Fajr", 2, 70, 300), ("Dhuhr", 4, 590, 300), ("ʿAsr", 4, 330, 460), ("Maghrib", 3, 60, 1320), ("ʿIshāʾ", 4, 600, 1320)]   # 17 rakʿahs
+
+DIN_CSS = (
+    ".tp { position:absolute; display:flex; align-items:center; gap:14px; padding:16px 26px; background:var(--card); border:4px solid rgba(23,38,43,.12); "
+    "border-radius:34px; box-shadow:0 14px 30px -18px rgba(23,38,43,.4); } .tp span { font-family:\"Fredoka\", var(--la); font-weight:600; font-size:46px; "
+    "margin-right:8px; } .tp i { width:34px; height:34px; border-radius:50%; border:5px solid rgba(23,38,43,.22); box-sizing:border-box; }"
+    "#dring { position:absolute; left:400px; top:1490px; width:280px; height:280px; } #dring svg { position:absolute; inset:0; transform:rotate(-90deg); }"
+    "#dring circle { fill:none; stroke-width:20; } #dring .bg { stroke:rgba(23,38,43,.1); } #dring .fg { stroke:var(--rubric); stroke-linecap:round; "
+    "stroke-dasharray:741; stroke-dashoffset:741; } #dring .tn { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; "
+    "justify-content:center; line-height:1; font-family:\"Fredoka\", var(--la); } #dring b { font-size:120px; color:var(--rubric); } #dring span { position:absolute; "
+    "left:-80px; right:-80px; top:294px; text-align:center; font-size:30px; letter-spacing:.14em; font-weight:700; } .chip .q { font-family:\"Fredoka\", var(--la); font-size:84px; line-height:1.35; color:var(--rubric); }"
+    ".ops2 .op b.en { font-family:var(--la); font-size:62px; line-height:1.2; } .ref { position:absolute; left:70px; right:70px; text-align:center; font-size:34px; "
+    "font-weight:700; letter-spacing:.03em; color:var(--ink-soft); line-height:1.3; } .yrow { position:absolute; left:0; right:0; top:330px; text-align:center; "
+    "font-family:\"Fredoka\", var(--la); font-weight:700; color:var(--rubric); } .yrow b { font-size:190px; letter-spacing:-.02em; } .yrow span { display:block; "
+    "font-size:60px; color:var(--ink); margin-top:-10px; } .yu { position:relative; height:80px; } .yu em { position:absolute; left:0; right:0; font-style:normal; } .grid { position:absolute; left:80px; top:680px; width:920px; display:grid; grid-template-columns:repeat(20, 1fr); "
+    "gap:8px; } .grid i { height:38px; border-radius:9px; background:rgba(23,38,43,.08); }")
+
+def d1():
+    """Seventeen times a day (owner 18 Oct 2026: "be more creative"): the hook's background is the day's prayers, a dot for each
+    rakʿah, clicking up to 17 on a ring as Callum says it; al-Fātiḥah 1:4 in al-Husary's recitation (reciter 12, as in the app);
+    مالِكِ "Master" · يَوْمِ "of the Day" · الدِّينِ "?"; the quiz: you know دِين as "religion", but here? 3-2-1: repayment. Ibn Kathīr on
+    1:4, from Ibn ʿAbbās: "the Day of Recompense for the creatures, the Day of Judgement". Then a year of it: 365 squares fill as the
+    count rolls 17 → 6,205. Voices: brag-quiz/voice/din-lines.json."""
+    V = "brag-quiz/voice/din/"
+    c = SO.vcomp("d1-din", "ARABIC · WHAT YOU REALLY SAY"); c.bed = True; body = []; serif(c)
+    pills = "".join(f'<div class="tp" id="tp{k}" style="left:{x}px;top:{y}px"><span>{n}</span>' + "".join(f'<i id="td{k}{j}"></i>' for j in range(r)) + '</div>'
+                    for k, (n, r, x, y) in enumerate(TALLY))
+    ring = ('<div id="dring"><svg viewBox="0 0 280 280"><circle class="bg" cx="140" cy="140" r="118"/><circle class="fg" cx="140" cy="140" r="118"/></svg>'
+            '<div class="tn"><b id="dn">0</b><span>RAKʿAHS A DAY</span></div></div>')
+    def anim(c, at, d):
+        a, b = at(1) - 0.1, at(10) - 0.35          # from "times" to just before "MEANS": a dot fills and the ring clicks for every rakʿah
+        dots = [(k, j) for k, (_, r, _, _) in enumerate(TALLY) for j in range(r)]
+        for n, (k, j) in enumerate(dots):
+            s = a + (b - a) * n / 17
+            c.t(f'tl.to("#td{k}{j}", {{backgroundColor:"{T.RED}", borderColor:"{T.RED}", duration:0.08}}, {s:.2f});')
+            c.t(f'tl.fromTo("#td{k}{j}", {{scale:1.7}}, {{scale:1, duration:0.2, ease:"back.out(3)", immediateRender:false}}, {s:.2f});')
+            clip(c, "brag-quiz/sfx/ref/click.wav", s, 0.55)
+            if j == TALLY[k][1] - 1: c.t(f'tl.to("#tp{k}", {{borderColor:"{T.RED}", duration:0.2}}, {s:.2f});')
+        c.t(f'(() => {{ const o = {{v:0}}; tl.to(o, {{v:17, duration:{b - a + (b - a) / 17:.2f}, ease:"none", onUpdate:() => {{ document.getElementById("dn").textContent = Math.min(17, Math.floor(o.v)); }}}}, {a:.2f}); }})();')
+        c.t(f'tl.to("#dring .fg", {{strokeDashoffset:0, duration:{b - a:.2f}, ease:"none"}}, {a:.2f});')
+        c.t(f'tl.fromTo("#dring", {{scale:1}}, {{scale:1.12, duration:0.16, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {b:.2f});')
+        for k in range(len(TALLY)): c.t(f'tl.fromTo("#tp{k}", {{y:0}}, {{y:{-18 if k % 2 else 16}, duration:{d + 0.3:.2f}, ease:"none"}}, 0);')
+    words = "17 times a day… do you know what this word MEANS?".split()   # SEVENTEEN, said; 17 fits the cover
+    t = hook_in(c, body, (words, {0: "loud", 6: "red", 10: "circle"}, V + "h1b.mp3"), bg=(pills + ring, anim))
+    c.css += MASH_CSS + DIN_CSS + ".qref { color:#9a7826; } #hw0 { font-size:2.1em; color:var(--rubric); }"
+    # 1. al-Fātiḥah 1:4: each word lights up as al-Husary recites it (from the audio), then Master · of the Day · ?
+    QW = [("مَالِكِ", 0.25), ("يَوْمِ", 0.95), ("الدِّينِ", 1.95)]
+    body.append('<div class="sec" id="a"><div class="q2">In every rakʿah you say:</div><div class="qref" style="top:350px">AL-FĀTIḤAH · 1:4</div>'
+                '<div class="qr" style="top:470px;font-size:124px">' + " ".join(f'<span class="w" id="aw{i}">{w}</span>' for i, (w, _) in enumerate(QW)) + '</div>'
+                '<div class="chips" style="top:860px">' + "".join(f'<div class="chip" id="ac{i}"><div class="ar">{a}</div><b>{en}</b></div>' for i, (a, en) in
+                enumerate([("مَالِكِ", "Master"), ("يَوْمِ", "of the Day")])) + '<div class="chip" id="ac2"><div class="ar">الدِّينِ</div><b class="q" id="acq">?</b></div></div></div>')
+    whip_in(c, "a", t); t += 0.3                       # the line on screen says "In every rakʿah you say:", so no c1
+    dq = say_up(c, "", t, src=V + "fatiha-1-4t.mp3")
+    for i, (_, s) in enumerate(QW):
+        c.t(f'tl.to("#aw{i}", {{color:"#a8842c", duration:0.25}}, {t + s:.2f});')
+        c.t(f'tl.fromTo("#aw{i}", {{scale:1}}, {{scale:1.1, duration:0.18, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t + s:.2f});')
+    t += dq; d = clip(c, V + "c2.mp3", t)
+    for i, key in enumerate(("master", "day", "what")):
+        s = t + key_at(V + "c2.mp3", key, d * i / 3); c.inn(f"#ac{i}", s - 0.05, 30); c.sfx("tap", s)
+    w = t + key_at(V + "c2.mp3", "what", d - 0.5)
+    c.t(f'tl.fromTo("#acq", {{rotation:0, scale:1}}, {{keyframes:[{{rotation:-14, scale:1.3, duration:0.12}}, {{rotation:12, duration:0.12}}, {{rotation:0, scale:1, duration:0.16}}]}}, {w + 0.1:.2f});')
+    t = whip_out(c, "a", t + d + 0.4)
+    # 2. the quiz: 3-2-1, repayment, with Ibn Kathīr's source on screen
+    body.append('<div class="sec" id="q"><div class="q2">You know <bdi class="ar" lang="ar">دِين</bdi> as “religion”…</div>'
+                '<div class="big" id="qb" style="top:430px;font-size:170px;color:var(--rubric)" lang="ar">الدِّينِ</div>'
+                f'<div class="ques" id="qq" style="top:720px;font-size:70px">but here, it means…?</div>{cnt("qc", 830)}'
+                '<div class="ops2" style="top:1000px">' + "".join(f'<div class="op" id="qo{i}"><b class="en">{o}</b></div>' for i, o in enumerate(["religion", "repayment", "faith"])) + '</div>'
+                '<div class="quote" id="qs" style="top:1230px"><q>The Day of Recompense for the creatures: the Day of Judgement.</q><small>Ibn ʿAbbās, in Tafsīr Ibn Kathīr on 1:4</small></div></div>')
+    whip_in(c, "q", t); c.inn("#q .q2", t); SO.bigin(c, "#qb", t + 0.3)
+    d = clip(c, V + "q1.mp3", t + 0.1)
+    c.inn("#qq", t + 0.1 + key_at(V + "q1.mp3", "here", 2.1) - 0.05)
+    o = t + 0.1 + key_at(V + "q1.mp3", "what", 2.4)
+    for i in range(3): c.inn(f"#qo{i}", o + i * 0.12, 30)
+    done = count_down(c, "qc", t + 0.1 + d + 0.3)
+    reveal(c, "#qo1", ["#qo0", "#qo2"], done); c.sfx("correct", done)
+    d = clip(c, V + "r1.mp3", done + 0.3)
+    j = done + 0.3 + key_at(V + "r1.mp3", "that's", 4.1)
+    c.t(f'tl.to(["#qo0", "#qo2"], {{opacity:0, duration:0.25}}, {j - 0.3:.2f});'); c.t(f'tl.to("#qo1", {{y:-198, duration:0.4, ease:"power3.inOut"}}, {j - 0.3:.2f});')
+    c.t(f'tl.fromTo("#qs", {{opacity:0, y:40}}, {{opacity:1, y:0, duration:0.45, ease:"power3.out"}}, {j - 0.1:.2f});')
+    t = whip_out(c, "q", done + 0.3 + d + 0.5)
+    # 3. a year of it: 365 squares fill row by row, a click on every row, as the count rolls 17 → 6,205
+    body.append('<div class="sec" id="y"><div class="yrow"><b id="yn">17</b><span class="yu"><em id="yd">times a day</em><em id="yy">times a year</em></span></div><div class="grid">'
+                + '<i></i>' * 365 + '</div><div class="say" id="ys" style="top:1620px">Now you’ll know what you’re saying.</div></div>')
+    whip_in(c, "y", t); d = clip(c, V + "n1.mp3", t + 0.1)
+    a = t + 0.1 + key_at(V + "n1.mp3", "is", 1.46); b = t + 0.1 + key_at(V + "n1.mp3", "year", 3.09) + 0.1
+    c.t(f'tl.to(".grid i", {{backgroundColor:"{T.GREEN}", duration:0.05, stagger:{(b - a) / 365:.4f}}}, {a:.2f});')
+    for r in range(19): clip(c, "brag-quiz/sfx/ref/click.wav", a + (b - a) * r / 19, 0.5)
+    c.t(f'(() => {{ const o = {{v:17}}; tl.to(o, {{v:6205, duration:{b - a:.2f}, ease:"none", onUpdate:() => {{ document.getElementById("yn").textContent = Math.round(o.v).toLocaleString("en-GB"); }}}}, {a:.2f}); }})();')
+    c.t(f'tl.to("#yd", {{opacity:0, duration:0.15}}, {a:.2f});')
+    c.t(f'tl.fromTo("#yy", {{opacity:0, y:20}}, {{opacity:1, y:0, duration:0.25, ease:"back.out(2)"}}, {b:.2f});')
+    c.t(f'tl.fromTo("#yn", {{scale:1}}, {{scale:1.12, duration:0.16, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {b:.2f});'); c.sfx("correct", b)
+    c.inn("#ys", t + 0.1 + key_at(V + "n1.mp3", "now", 4.2) - 0.05)
+    t += 0.1 + d + 0.6
+    c.out_("#y", t - 0.4); end = clip(c, V + "end.mp3", t)
+    body.append(c.end(t, "Did you know this one? Comment yes or no 👇 and send this to someone you pray with"))
+    c.write("\n".join("      " + b for b in body), round(t + end + 0.9, 2))
+
+FT = [  # the family tree: (id, centre x, centre y, emoji, English, Arabic, side: "d" dad's, "m" mum's, "" you)
+    ("g1", 150, 480, "👴🏽", "Grandpa", "جَدّ", "d"), ("g2", 360, 480, "👵🏽", "Grandma", "جَدَّة", "d"),
+    ("g3", 720, 480, "👴🏽", "Grandpa", "جَدّ", "m"), ("g4", 930, 480, "👵🏽", "Grandma", "جَدَّة", "m"),
+    ("u1", 95, 830, "🧔🏽", "Uncle", "عَمّ", "d"), ("a1", 270, 830, "🧕🏽", "Aunty", "عَمَّة", "d"), ("fa", 445, 830, "🧔🏽", "Dad", "أَب", "d"),
+    ("mo", 635, 830, "🧕🏽", "Mum", "أُمّ", "m"), ("a2", 810, 830, "🧕🏽", "Aunty", "خالَة", "m"), ("u2", 985, 830, "🧔🏽", "Uncle", "خال", "m"),
+    ("me", 540, 1180, "🧒🏽", "You", "أَنا", "")]
+FT_LINES = ("M150,480 H360 M255,480 V700 M95,700 H445 M95,700 V770 M270,700 V770 M445,700 V770"
+            " M720,480 H930 M825,480 V700 M635,700 H985 M635,700 V770 M810,700 V770 M985,700 V770 M445,830 H635 M540,830 V1120")
+HFAM = [(70, 290, "👴🏽", "Grandpa", ""), (310, 260, "👵🏽", "Grandma", ""), (580, 290, "🧔🏽", "Dad", ""), (820, 260, "🧕🏽", "Mum", "mum"),
+        (50, 1330, "🧕🏽", "Aunty", "a"), (300, 1400, "🧔🏽", "Uncle", ""), (570, 1330, "🧕🏽", "Aunty", "a"), (820, 1400, "🧔🏽", "Uncle", "")]
+
+FAM_CSS = (
+    "#ft { position:absolute; left:0; top:0; width:1080px; height:1920px; transform-origin:0 0; } #ft svg { position:absolute; inset:0; overflow:visible; }"
+    "#ft path { fill:none; stroke:rgba(23,38,43,.32); stroke-width:6; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; }"
+    ".fn { position:absolute; width:170px; text-align:center; } .fc { position:relative; width:132px; height:132px; margin:0 auto; border-radius:50%; "
+    "background:var(--card); border:7px solid rgba(23,38,43,.25); display:grid; place-items:center; font-family:\"Noto Color Emoji\", sans-serif; font-size:74px; "
+    "line-height:1; box-shadow:0 14px 28px -16px rgba(23,38,43,.5); } .fn.d .fc { border-color:var(--verdigris); } .fn.m .fc { border-color:#E9B949; }"
+    ".fn b { display:block; margin-top:6px; font-family:\"Fredoka\", var(--la); font-weight:600; font-size:32px; color:var(--ink); }"
+    ".fn i { position:relative; display:block; height:64px; font-style:normal; } .fn i span { position:absolute; left:-20px; right:-20px; top:0; font-family:var(--ar); "
+    "font-weight:700; font-size:48px; line-height:1.3; color:var(--rubric); opacity:0; } .fn i .q { font-family:\"Fredoka\", var(--la); color:#7f611b; }"
+    ".badge { position:absolute; right:-12px; top:-12px; width:52px; height:52px; border-radius:50%; background:var(--rubric); color:#fff; font-family:\"Fredoka\", var(--la); "
+    "font-weight:700; font-size:34px; display:grid; place-items:center; opacity:0; } .side { position:absolute; top:330px; font-weight:700; font-size:28px; letter-spacing:.16em; }"
+    ".side.d { left:70px; color:var(--verdigris); } .side.m { right:70px; color:#9a7826; } .heart { position:absolute; font-family:\"Noto Color Emoji\", sans-serif; font-size:70px; opacity:0; }"
+    ".rp { position:absolute; left:50%; top:1290px; transform:translateX(-50%); padding:14px 40px; border-radius:50px; font-size:48px; font-weight:700; color:#fff; white-space:nowrap; }"
+    ".rp.d { background:var(--verdigris); } .rp.m { background:#a8842c; } .rp em { font-style:normal; opacity:.75; font-weight:500; }"
+    ".hp { position:absolute; text-align:center; width:200px; } .hp .fc { width:120px; height:120px; font-size:66px; } .hp b { display:block; margin-top:6px; "
+    "font-family:\"Fredoka\", var(--la); font-weight:600; font-size:34px; color:var(--ink); } .hp.a .fc { border-color:var(--rubric); }"
+    ".opts .op2 .ar { font-family:var(--ar); font-size:62px; line-height:1.3; } .sum { position:absolute; left:70px; right:70px; display:flex; gap:20px; }"
+    ".sum div { flex:1; padding:14px 0 18px; border-radius:30px; text-align:center; font-weight:700; font-size:30px; letter-spacing:.06em; color:#fff; }"
+    ".sum .d { background:var(--verdigris); } .sum .m { background:#a8842c; } .sum span { display:block; font-family:var(--ar); font-size:54px; letter-spacing:0; line-height:1.35; }")
+
+def f4():
+    """The family tree (owner, 18 Oct 2026: "a family tree, then zoom in to one and explain the background, aunty, uncle, grandma or
+    grandpa; a fun fact would be nice"). Hook "TWO words for 'aunty' in Arabic, and one's like your MUM!" over the family's faces popping
+    in with a click each, the two aunties turning red; the tree, dad's side green and mum's side gold, its words in Arabic (vocab-data.js:
+    عَمّ paternal uncle, عَمَّة paternal aunt); the camera zooms into dad's sister, عَمَّة, then pans to mum's sister, خالَة; the fun fact:
+    Ḥamza's daughter given to her khala, "the maternal aunt is in the place of the mother" (al-Bukhārī 2699, also 4251; Tirmidhī 1904);
+    your turn: mum's brother, 3-2-1, خال. Voices: brag-quiz/voice/family-lines.json (Rafiq for خالَة and خال; the app's recordings for
+    the rest)."""
+    V = "brag-quiz/voice/family/"
+    c = SO.vcomp("f4-family", "ARABIC · YOUR FAMILY"); c.bed = True; body = []; serif(c)
+    c.css += MASH_CSS + GROW_CSS + FAM_CSS
+    hp = "".join(f'<div class="hp{" a" if r == "a" else ""}" id="hp{k}" style="left:{x}px;top:{y}px"><div class="fc">{em}</div><b>{en}</b></div>' for k, (x, y, em, en, r) in enumerate(HFAM))
+    hearts = ('<div class="heart" id="hh0" data-layout-allow-overlap style="left:930px;top:250px">❤️</div>'
+              '<div class="heart" id="hh1" data-layout-allow-overlap style="left:680px;top:1320px">❤️</div>')
+    def anim(c, at, d):                              # the family pops in, a click each; the aunties last, red, as "aunty" is said; hearts on MUM
+        rest = [k for k, h in enumerate(HFAM) if h[4] != "a"]
+        for n, k in enumerate(rest):
+            s = 0.1 + (at(3) - 0.5) * n / len(rest)
+            c.t(f'tl.fromTo("#hp{k}", {{scale:0, opacity:0}}, {{scale:1, opacity:1, duration:0.3, ease:"back.out(2.2)"}}, {s:.2f});')
+            clip(c, "brag-quiz/sfx/ref/click.wav", s, 0.55)
+        for j, k in enumerate(k for k, h in enumerate(HFAM) if h[4] == "a"):
+            s = at(3) + 0.12 * j
+            c.t(f'tl.fromTo("#hp{k}", {{scale:0, opacity:0}}, {{scale:1, opacity:1, duration:0.32, ease:"back.out(2.6)"}}, {s:.2f});')
+            c.t(f'tl.fromTo("#hp{k}", {{scale:1}}, {{scale:1.18, duration:0.16, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {s + 0.35:.2f});')
+            c.t(f'tl.to("#hp{k} b", {{color:"{T.RED}", duration:0.2}}, {s:.2f});'); clip(c, "brag-quiz/sfx/ref/click.wav", s, 0.8)
+        for k in range(len(HFAM)): c.t(f'tl.to("#hp{k}", {{y:{-18 if k % 2 else 16}, duration:{d:.2f}, ease:"none"}}, 0.4);')
+        for j in range(2): c.t(f'tl.fromTo("#hh{j}", {{opacity:0, scale:0.2, y:30}}, {{opacity:1, scale:1, y:0, duration:0.35, ease:"back.out(3)"}}, {at(10) + 0.1 * j:.2f});')
+    words = "TWO words for “aunty” in Arabic, and one’s like your MUM!".split()
+    t = hook_in(c, body, (words, {0: "loud", 3: "red", 10: "circle"}, V + "h1a.mp3"), bg=(hp + hearts, anim))
+    # 1. the tree: lines draw, the family pops in, then their words turn Arabic
+    nodes = "".join(f'<div class="fn {sd}" id="n{i}" style="left:{x - 85}px;top:{y - 66}px"><div class="fc">{em}'
+                    + (f'<span class="badge" id="bd{i}">{1 if i == "a1" else 2}</span>' if i in ("a1", "a2") else "")
+                    + f'</div><b>{en}</b><i><span id="n{i}a" lang="ar">{ar}</span>' + ('<span class="q" id="nu2q">?</span>' if i == "u2" else "") + '</i></div>'
+                    for i, x, y, em, en, ar, sd in FT)
+    body.append(f'<div class="sec" id="t"><div id="ft" data-layout-allow-overflow data-layout-allow-occlusion><svg viewBox="0 0 1080 1920"><path d="{FT_LINES}" pathLength="1"/></svg>'
+                f'<div class="side d" id="sd">DAD’S SIDE</div><div class="side m" id="sm">MUM’S SIDE</div>{nodes}'
+                '<div class="heart" id="th" data-layout-allow-overlap style="left:688px;top:770px">❤️</div></div>'
+                '<div class="rp d" id="rp1">ʿamma <em>· dad’s sister</em></div><div class="rp m" id="rp2">khāla <em>· mum’s sister</em></div>'
+                '<div class="quote" id="tq" style="top:1440px"><small id="tqs" style="margin:0 0 12px">Ḥamza’s daughter needed a home. She went to her khala:</small>'
+                '<q>The maternal aunt is in the place of the mother.</q><small>the Prophet <span class="pbuh">ﷺ</span> · al-Bukhārī 2699</small></div>'
+                f'{cnt("tc", 1365)}<div class="opts" id="to" style="top:1545px">' + "".join(f'<div class="op2" id="to{k}"><b class="ar">{a}</b></div>' for k, a in enumerate(["عَمّ", "خال", "جَدّ"]))
+                + '</div><div class="sum" id="ts" style="top:1440px"><div class="d">DAD’S SIDE<span>عَمّ · عَمَّة</span></div><div class="m">MUM’S SIDE<span>خال · خالَة</span></div></div></div>')
+    whip_in(c, "t", t); c.t('tl.set("#ft", {transformOrigin:"0 0"}, 0);')
+    c.t(f'tl.to("#ft path", {{strokeDashoffset:0, duration:0.9, ease:"power2.inOut"}}, {t:.2f});')
+    for n, (i, x, y, *_ ) in enumerate(FT):
+        c.t(f'tl.fromTo("#n{i}", {{scale:0, opacity:0}}, {{scale:1, opacity:1, duration:0.3, ease:"back.out(2.2)"}}, {t + 0.1 + 0.07 * n:.2f});')
+    for i in ("sd", "sm"): c.inn(f"#{i}", t + 0.5)
+    clip(c, "brag-quiz/sfx/ref/short-swoosh.wav", t, 0.3)
+    d = clip(c, V + "v1.mp3", t + 0.3); a = t + 0.3 + key_at(V + "v1.mp3", "arabic", d - 0.6)
+    for n, (i, *_ ) in enumerate(FT):               # the words turn Arabic, a click each (mum's brother stays a "?" for the quiz)
+        s = a + 0.06 * n; sel = "#nu2q" if i == "u2" else f"#n{i}a"
+        c.t(f'tl.fromTo("{sel}", {{opacity:0, rotationX:90}}, {{opacity:1, rotationX:0, duration:0.25, ease:"power2.out"}}, {s:.2f});')
+        if n % 2 == 0: clip(c, "brag-quiz/sfx/ref/click.wav", s, 0.45)
+    t = max(t + 0.3 + d, a + 0.8) + 0.1
+    # 2. two aunties: a badge and a click each, then the camera zooms into dad's sister and pans to mum's sister
+    d = clip(c, V + "v2.mp3", t); b = t + key_at(V + "v2.mp3", "both", 0.9)
+    for j, i in enumerate(("a1", "a2")):
+        s = b + 0.35 * j
+        c.t(f'tl.fromTo("#bd{i}", {{opacity:0, scale:2}}, {{opacity:1, scale:1, duration:0.25, ease:"back.out(2.5)"}}, {s:.2f});'); clip(c, "brag-quiz/sfx/ref/click.wav", s, 0.9)
+        c.t(f'tl.fromTo("#n{i} .fc", {{scale:1}}, {{scale:1.15, duration:0.16, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {s:.2f});')
+    t += d + 0.1
+    def cam(s, cx, cy, at, dur=0.8):                 # point (cx, cy) of the tree to (540, 700) on screen, at scale s
+        c.t(f'tl.to("#ft", {{scale:{s}, x:{540 - s * cx:.0f}, y:{700 - s * cy:.0f}, duration:{dur}, ease:"power3.inOut"}}, {at:.2f});')
+        clip(c, "brag-quiz/sfx/ref/short-swoosh.wav", at, 0.3)
+    cam(2.1, 270, 830, t); c.t(f'tl.to("#bda1, #bda2", {{opacity:0, duration:0.2}}, {t:.2f});')
+    c.t(f'tl.to(["#brand", "#kicker", "#nme"], {{autoAlpha:0, duration:0.25}}, {t:.2f});')   # out of the camera's way until the quiz
+    d = clip(c, V + "v3.mp3", t + 0.1); t += 0.1 + d
+    c.inn("#rp1", t); d = say_up(c, "عَمَّة", t + 0.05); t += 0.05 + d + 0.3
+    c.t(f'tl.to("#rp1", {{opacity:0, duration:0.25}}, {t:.2f});'); cam(2.1, 810, 830, t)
+    d = clip(c, V + "v4.mp3", t + 0.1); t += 0.1 + d
+    c.inn("#rp2", t); d = say_up(c, "", t + 0.05, src=V + "khala.mp3")
+    c.t(f'tl.fromTo("#na2 .fc", {{scale:1}}, {{scale:1.12, duration:0.18, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t + 0.1:.2f});'); c.sfx("tap", t + 0.1)
+    t += 0.05 + d + 0.4
+    # 3. the fun fact: back out to khala and mum side by side, the story, the hadith, a heart between them
+    c.t(f'tl.to("#rp2", {{opacity:0, duration:0.25}}, {t - 0.1:.2f});'); cam(1.45, 722, 830, t)
+    d = clip(c, V + "v5.mp3", t + 0.2); v = t + 0.2
+    c.t(f'tl.fromTo("#tq", {{autoAlpha:0, y:40}}, {{autoAlpha:1, y:0, duration:0.45, ease:"power3.out"}}, {v + key_at(V + "v5.mp3", "hamza", 0.3) - 0.1:.2f});')
+    c.t(f'tl.set("#tq q, #tq small:last-child", {{opacity:0}}, 0);')
+    q = v + key_at(V + "v5.mp3", "maternal", d - 3.0) - 0.4
+    c.t(f'tl.fromTo("#tq q, #tq small:last-child", {{opacity:0, y:14}}, {{opacity:1, y:0, duration:0.35, ease:"power3.out", immediateRender:false}}, {q:.2f});')
+    h = v + key_at(V + "v5.mp3", "mother", d - 0.6)
+    c.t(f'tl.fromTo("#th", {{opacity:0, scale:0.2}}, {{opacity:1, scale:1.3, duration:0.35, ease:"back.out(3)"}}, {h:.2f});')
+    c.t(f'tl.to("#th", {{scale:1.1, duration:0.3, yoyo:true, repeat:3, ease:"sine.inOut"}}, {h + 0.35:.2f});'); c.sfx("correct", h)
+    t = v + d + 0.6
+    # 4. your turn: back to the whole tree, mum's brother, 3-2-1, خال; then the two sides side by side
+    c.t(f'tl.to("#tq", {{autoAlpha:0, y:30, duration:0.3}}, {t - 0.3:.2f});'); cam(1, 540, 700, t)
+    c.t(f'tl.to(["#brand", "#kicker", "#nme"], {{autoAlpha:1, duration:0.3}}, {t + 0.6:.2f});')
+    d = clip(c, V + "q1.mp3", t + 0.3)
+    c.t(f'tl.to("#nu2 .fc", {{scale:1.15, duration:0.3, yoyo:true, repeat:5, ease:"sine.inOut"}}, {t + 0.6:.2f});')
+    for k in range(3): c.inn(f"#to{k}", t + 0.3 + d - 0.6 + 0.12 * k, 30)
+    done = count_down(c, "tc", t + 0.3 + d + 0.3)
+    reveal(c, "#to1", ["#to0", "#to2"], done)
+    c.t(f'tl.to("#nu2q", {{opacity:0, duration:0.1}}, {done:.2f});')
+    c.t(f'tl.fromTo("#nu2a", {{opacity:0, scale:2.4}}, {{opacity:1, scale:1, duration:0.2, ease:"power4.in"}}, {done:.2f});'); clip(c, "brag-quiz/sfx/crash.wav", done + 0.18, 0.5)
+    d = say_up(c, "", done + 0.3, src=V + "khal.mp3"); t = done + 0.3 + d + 0.1
+    d = clip(c, V + "r1.mp3", t)
+    c.t(f'tl.to(["#to", "#tc"], {{opacity:0, duration:0.25}}, {t + 0.4:.2f});')
+    c.t('tl.set("#ts", {autoAlpha:0}, 0);'); c.t(f'tl.set("#ts", {{autoAlpha:1}}, {t + 0.6:.2f});')
+    c.t(f'tl.fromTo("#ts div", {{opacity:0, y:30}}, {{opacity:1, y:0, duration:0.4, stagger:0.15, ease:"power3.out"}}, {t + 0.6:.2f});')
+    c.t(f'tl.to(".fn.m .fc", {{scale:1.1, duration:0.2, yoyo:true, repeat:1, stagger:0.06}}, {t + 0.6:.2f});'); c.sfx("tap", t + 0.6)
+    t += d + 0.9
+    # 5. the closing ask, heard in full on the end card
+    c.out_("#t", t - 0.4); end = clip(c, V + "end.mp3", t)
+    body.append(c.end(t, "Tag your khala 👇 and tell her she’s basically your mum 🤍"))
+    c.write("\n".join("      " + b for b in body), round(t + end + 0.9, 2))
+
 LADDER_CSS = (
     # one page that moves (MOTION-STYLE rule 6, the owner's reference reel): the rounds sit one under another and the page slides up
     # to the next; a rail on the left keeps the share of people still in the game, its marker dropping a rung each round
@@ -848,7 +1240,8 @@ def l1():
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "w8-subhana-azim": w8,
-       "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1}
+       "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1,
+       "n2-rahma": n2, "d1-din": d1, "f4-family": f4}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})

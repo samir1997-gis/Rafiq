@@ -1,0 +1,103 @@
+[
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "h1a",
+  "text": "[shouting] TWO! [excited] words for aunty in Arabic, and one's like your mum!"
+ },
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "h1b",
+  "text": "[shouting] TWO! [excited] words for aunty in Arabic... and one's like your... [shouting] MUM!"
+ },
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "h1c",
+  "text": "[shouting] TWO! [curious] words for aunty in Arabic... and one's like your mum!"
+ },
+ {
+  "file": "v1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Here's your family, in Arabic.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "v2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "In English, both of these are just aunty.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "v3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "But dad's sister is...",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "v4",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "and mum's sister is...",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "v5",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "When Hamza's daughter needed a home, the Prophet, peace be upon him, gave her to her khala, and said: the maternal aunt is in the place of the mother.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "q1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Your turn. What do you call mum's brother?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "r1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Khal! Mum's side, same family of words.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "end",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Tag your khala in the comments, and tell her she's basically your mum!",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "file": "khala",
+  "text": "خالَة"
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "file": "khal",
+  "text": "خال"
+ }
+]

@@ -104,8 +104,23 @@ percentages are a game device, never stated as data.
 standard: hook "NOBODY tells you Arabic has no word for 'my'!", then اسْمِي "my name" → his name (ـهُ) and بَيْتُكَ "your house" →
 her house (ـها, the trap is ـهُ). More endings (our, their, your f.) are left for a part 2.
 
+**Made 18 Oct 2026 (`build_formula.py`, #264; owner: "be more creative"), both in the standard:** `n2-rahma` (the word tree, root
+series part 4: hook "FAMILY is hiding inside a word you say in every prayer!" over family names that leaves grow over; al-Fātiḥah 1:3
+(al-Husary); ر ح م drops into the soil as a seed, a trunk grows, رَحْمَة and رَحِمَهُ اللهُ bloom with a word counter; the tree pulls back
+for "your turn": رَحِم, 3-2-1, the womb; al-Bukhārī 5988, "the womb takes its name from ar-Raḥmān"; 44 s) and `d1-din` (hook
+"SEVENTEEN times a day… do you know what this word MEANS?" over the day's prayers ticking up to 17 rakʿahs; al-Fātiḥah 1:4 (al-Husary);
+"you know دِين as religion, but here?" 3-2-1: repayment, Ibn Kathīr on 1:4 from Ibn ʿAbbās; a year of squares filling, 17 → 6,205;
+42 s). Captions: `tools/typesafe-exp/rahma_caption.py`, `din_caption.py` (not run yet: no TypeSafe key). Word timings from
+`brag-quiz/align_words.py` (pocketsphinx), as huggingface.co was blocked.
+
+**Made 18 Oct 2026 (`build_formula.py`, #265; owner asked for it after n2-rahma):** `f4-family` (the family tree: hook "TWO words for
+'aunty' in Arabic, and one's like your MUM!" over the family popping in; the tree in Arabic, dad's side green, mum's side gold; the camera
+zooms into عَمَّة (dad's sister) and pans to خالَة (mum's sister); fun fact: Ḥamza's daughter went to her khala, "the maternal aunt is in
+the place of the mother" (al-Bukhārī 2699); your turn: mum's brother, 3-2-1, خال; ask: tag your khala; 45 s). Caption candidates:
+`tools/typesafe-exp/family_caption.py` (not run yet). Next in this format: zoom into grandpa/grandma, or عَمّ and its root.
+
 ## More ideas (not made yet)
-- A word tree: a root grows like a vine, a word blooms on each branch (softer, for family or salah words).
+- Root series part 5: another word tree (the format above), e.g. ع ل م (ʿilm, ʿālam, al-ʿālamīn in al-Fātiḥah, muʿallim).
 
 ## Ramadan countdown (parked by the owner, 4 Oct 2026, to come back to)
 
