@@ -36,10 +36,7 @@ const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), eo = x => 1 - Math.
 const back = x => { x = cl(x); const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
 function init() {
   // the orbit's angle, integrated from its speed: slow, then the swipe flings it (C.fling) and it settles back
-  PH = [0]; const dt = 1 / 30;
-  for (let i = 1; i <= C.N + 60; i++) { const t = i * dt, [f0, f1] = C.fling;
-    const w = C.w0 + C.w1 * (t > f0 ? Math.exp(-(t - f0) * 1.1) * cl((t - f0) / .25) : 0);
-    PH.push(PH[i - 1] + w * dt); }
+  PH = C.PH;                                   // the orbit's angle per frame, solved in render.py
   document.getElementById('L').innerHTML = C.words.map(([a, e], i) => `<div class="tile" id="t${i}"><span class="ar">${a}</span><span class="en">${e}</span></div>`).join('');
 }
 function update(t, layer) {
@@ -70,8 +67,7 @@ function update(t, layer) {
     let x = cx + C.rx * Math.cos(th), y = cy + C.ry * Math.sin(th), d = Math.sin(th), s = .74 + .26 * (d + 1) / 2, rot = -6 * Math.cos(th), o = 1, inFront = d >= 0, held = false;
     for (const a of (AT[i] || [])) {
       const P = tip(Math.round(a.contact * 30)), pre = a.contact - 1.0, S = C.slot || [700, 335];
-      if (t >= pre && t < a.contact) { const k = eio((t - pre) / .85); x += (P[0] - x) * k; y += (P[1] - y) * k + Math.sin(t * 9) * 6 * k; s += (1.05 - s) * k; rot *= 1 - k; inFront = true; }
-      else if (t >= a.contact && t < a.rel) { const h = tip(fi); x = h[0]; y = h[1]; s = 1.05; rot = 0; inFront = true; held = true; }
+      if (t >= a.contact && t < a.rel) { const h = tip(fi), k = eo((t - a.contact) / .25); x = h[0]; y = h[1]; s += (1.05 - s) * k; rot *= 1 - k; inFront = true; held = true; }
       else if (t >= a.rel && t < a.land) { const k = eio((t - a.rel) / (a.land - a.rel)), h = tip(Math.round(a.rel * 30));
         x = h[0] + (S[0] - h[0]) * k; y = h[1] + (S[1] - h[1]) * k - Math.sin(k * Math.PI) * 120; s = 1.05 + .25 * Math.sin(k * Math.PI); rot = 12 * Math.sin(k * Math.PI * 2); inFront = true; }
       else if (t >= a.land && (!a.back || t < a.back)) o = 0;

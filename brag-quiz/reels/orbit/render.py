@@ -22,12 +22,31 @@ def config():
     # hook take hs1: the shouted YOU is 0.55-0.75 s (loudness; whisper puts the words after it too early)
     hook = [["Can", 0, False], ["YOU", .5, True], ["finish", 1.25, False], ["this", 1.62, False], ["Arabic", 1.95, False], ["sentence?", 2.45, False]]
     # contact = the frame his reach is furthest out (pose.json): the tile is already waiting there
-    return dict(N=N, hand=hand, cx=585, cy=1120, rx=480, ry=210, w0=.55, w1=6.0, fling=[3.45, 4.6],
+    att = [dict(k=2, contact=10.9, rel=14.95, land=15.25, wrong=True, back=17.4, en="<s style='color:#C8372D'>Where</s> are you? ✗"),
+           dict(k=1, contact=27.3, rel=30.55, land=30.85)]
+    # the orbit goes through his hand (owner, 18 Oct 2026: "the circle should be exactly where my hand is as I pick it up"):
+    # the ellipse passes through both reach points, and the spin is timed so each word is at that point as his fingers get there
+    import math
+    tip = lambda tt: (hand[round(tt * FPS)][0], hand[round(tt * FPS)][1] - 22)
+    (x1, y1), (x2, y2) = tip(att[0]["contact"]), tip(att[1]["contact"])
+    cx = 585; rx = 650                            # wide enough for a real oval (a tight fit through both points is a flat band)
+    A1, A2 = 1 - ((x1 - cx) / rx) ** 2, 1 - ((x2 - cx) / rx) ** 2
+    r = math.sqrt(A1 / A2); cy = (r * y2 - y1) / (r - 1); ry = abs(y1 - cy) / math.sqrt(A1)
+    w0, w1, f0, n = .55, 6.0, 3.45, 7
+    I = [0.0]
+    for i in range(1, N + 61): t = i / FPS; I.append(I[-1] + (w0 + w1 * (math.exp(-(t - f0) * 1.1) * min(1, (t - f0) / .25) if t > f0 else 0)) / FPS)
+    th = lambda x, y: math.atan2((y - cy) / ry, (x - cx) / rx)
+    t1, t2 = att[0]["contact"], att[1]["contact"]; k1, k2 = att[0]["k"], att[1]["k"]
+    phi0 = th(x1, y1) - 2 * math.pi * k1 / n - I[round(t1 * FPS)]
+    D = (th(x2, y2) - 2 * math.pi * k2 / n - phi0 - I[round(t2 * FPS)] + math.pi) % (2 * math.pi) - math.pi
+    sm = lambda u: 0 if u <= 0 else 1 if u >= 1 else u * u * (3 - 2 * u)
+    PH = [round(phi0 + I[i] + D * sm((i / FPS - t1) / (t2 - t1)), 5) for i in range(N + 61)]
+    print(f"orbit: centre ({cx}, {cy:.0f}), radii {rx:.0f} x {ry:.0f}; reach points {tip(t1)} {tip(t2)}; phase fix {D:.2f} rad over {t2 - t1:.1f} s")
+    return dict(N=N, hand=hand, cx=cx, cy=round(cy, 1), rx=round(rx, 1), ry=round(ry, 1), PH=PH, fling=[f0, 4.6],
         words=[["مَنْ", "who"], ["كَيْفَ", "how"], ["أَيْنَ", "where"], ["ما", "what"], ["مَتى", "when"], ["لِماذا", "why"], ["كَمْ", "how many"]],
         hook=hook, hookEnd=3.45, lab=[3.5, 5.65, "PICK THE MISSING WORD"], flashes=[3.0, 5.7],
         card=dict(c0=5.7, rest=["حالُكَ؟"], en="___ are you?", ans="How"),
-        attempts=[dict(k=2, contact=10.9, rel=14.95, land=15.25, wrong=True, back=17.4, en="<s style='color:#C8372D'>Where</s> are you? ✗"),
-                  dict(k=1, contact=27.3, rel=30.55, land=30.85)],
+        attempts=att,
         cds=[7.6, 23.6], ask=[34.0, "Did you get it <b>first time?</b><br>Comment 👇"])
 
 if STEP == "frames":
