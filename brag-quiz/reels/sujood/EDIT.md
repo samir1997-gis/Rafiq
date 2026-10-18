@@ -28,3 +28,6 @@ python3 $R $W zoom; python3 $R $W masks; python3 $R $W layers; python3 $R $W mix
 - v4 (owner): "the Most High" (5.58, 27.12, 33.48) is a zoom step and a hit per word with a boom under "High" (`steps`); the hadith
   he quotes gets a panel 69.0-74.4 with its Arabic, English and source (Sahih Muslim 482); frame 0 is no longer a white flash
   (template fix in layers.html: the opening flicker starts on the speaker).
+- v5 (owner asked to check SFX sync): sounds were placed exactly (±25 ms) but on whisper's word times, up to 0.6 s off in the
+  slow Arabic. Every word now sits on its forced-aligned start (`wordtimes.json`, torchaudio MMS_FA, 40 ms early), checked
+  by plotting the voice at 18 key moments; captions hidden under a panel no longer tap (template `sfx_rules.py`).
