@@ -1,0 +1,63 @@
+[
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "ha",
+  "text": "Can [shouting] YOU [normal] finish these Arabic sentences?"
+ },
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "hb",
+  "text": "Can [shouting] YOUUU [excited] finish these Arabic sentences?"
+ },
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "hc",
+  "text": "Can... [shouting] YOU... [normal] finish these Arabic sentences?"
+ },
+ {
+  "file": "o1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Pick the missing word!",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.1
+ },
+ {
+  "file": "o2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Blank... are you?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.1
+ },
+ {
+  "file": "o3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Kayfa means how!",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.1
+ },
+ {
+  "file": "o4",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Harder one! Blank... is your name?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.1
+ },
+ {
+  "file": "o5",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Ma means what! How many did you get? Zero, one, or two? Comment below!",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.1
+ }
+]
