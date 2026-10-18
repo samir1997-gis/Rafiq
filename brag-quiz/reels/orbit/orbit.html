@@ -12,7 +12,7 @@ html,body{margin:0;width:1080px;height:1920px;background:transparent;overflow:hi
 #card .s{position:absolute;left:0;right:0;top:40px;display:flex;flex-direction:row;justify-content:center;align-items:center;gap:26px;direction:rtl}
 #card .s .w{font-family:AR;font-size:100px;color:#17262B;line-height:1.35}
 #card .slot{min-width:220px;height:130px;border:6px dashed #C8372D;border-radius:26px;display:flex;align-items:center;justify-content:center;font-family:AR;font-size:96px;color:#17262B}
-#card .slot.full{border:6px solid #E9B949;background:#E9B949}
+#card .slot.full{border:6px solid #E9B949;background:#E9B949}#card .slot.bad{border:6px solid #C8372D;background:#F6D5D0;color:#C8372D}
 #card .e{position:absolute;left:0;right:0;top:212px;text-align:center;font-family:FR;font-weight:700;font-size:56px;color:#2E7263}
 #card .e b{color:#C8372D}
 #ring{position:absolute;left:880px;top:560px;width:150px;height:150px;display:none}
@@ -42,48 +42,49 @@ function init() {
     PH.push(PH[i - 1] + w * dt); }
   document.getElementById('L').innerHTML = C.words.map(([a, e], i) => `<div class="tile" id="t${i}"><span class="ar">${a}</span><span class="en">${e}</span></div>`).join('');
 }
-function slotPos(r) { return r.slot; }
 function update(t, layer) {
   if (!PH) init();
-  const fi = Math.min(C.N - 1, Math.round(t * 30));
-  if (layer === 'front') {
-  // the sentence card for this round
-    const cd = document.getElementById('card'), R = C.rounds.find(r => t >= r.c0 && t < r.c1);
-    if (R) { cd.style.display = 'block';
-      if (cd.dataset.k !== String(R.c0)) { cd.dataset.k = String(R.c0); cd.querySelector('.n').textContent = R.n;
+  const fi = Math.min(C.N - 1, Math.round(t * 30)), n = C.words.length, cx = C.cx, cy = C.cy, front = layer === 'front';
+  if (front) {
+    // the sentence card: a wrong pick sits in the slot in red until it's knocked out, then the right one in gold
+    const cd = document.getElementById('card'), R = C.card;
+    if (t >= R.c0) { cd.style.display = 'block';
+      if (!cd.dataset.k) { cd.dataset.k = 1; cd.querySelector('.n').textContent = R.n || '';
         cd.querySelector('.s').innerHTML = `<div class="slot"></div>` + R.rest.map(w => `<span class="w">${w}</span>`).join(''); }
       const k = back((t - R.c0) / .45); cd.style.transform = `translateY(${(1 - eo((t - R.c0) / .35)) * -300}px) scale(${.9 + .1 * k})`;
-      const out = eo((t - (R.c1 - .3)) / .3); cd.style.opacity = 1 - (R.last ? 0 : out);
-      const full = t >= R.land, sl = cd.querySelector('.slot');
-      sl.classList.toggle('full', full); sl.textContent = full ? C.words[R.k][0] : '';
-      sl.style.transform = full ? `scale(${1 + .25 * Math.exp(-(t - R.land) * 7)})` : 'none';
-      cd.querySelector('.e').innerHTML = full ? R.en.replace('___', `<b>${R.ans}</b>`) : R.en.replace('___', '<b>___</b>');
-      cd.style.marginLeft = (t >= R.land && t < R.land + .25 ? Math.sin((t - R.land) * 80) * 14 : 0) + 'px';
-      const sr = sl.getBoundingClientRect(); R.slot = [sr.left + sr.width / 2, sr.top + sr.height / 2];
+      const A = C.attempts.filter(a => t >= a.land && (!a.back || t < a.back)).pop(), sl = cd.querySelector('.slot');
+      sl.className = 'slot' + (A ? (A.wrong ? ' bad' : ' full') : ''); sl.textContent = A ? C.words[A.k][0] : '';
+      sl.style.transform = A ? `scale(${1 + .25 * Math.exp(-(t - A.land) * 7)})` : 'none';
+      cd.querySelector('.e').innerHTML = A ? (A.wrong ? A.en : R.en.replace('___', `<b>${R.ans}</b>`)) : R.en.replace('___', '<b>___</b>');
+      const dt = A ? t - A.land : 9;
+      cd.style.marginLeft = (A && A.wrong && dt < .5 ? Math.sin(dt * 70) * 28 * (1 - dt / .5) : (A && dt < .25 ? Math.sin(dt * 80) * 10 : 0)) + 'px';
+      const sr = sl.getBoundingClientRect(); C.slot = [sr.left + sr.width / 2, sr.top + sr.height / 2];
     } else cd.style.display = 'none';
   }
-  const n = C.words.length, cx = C.cx, cy = C.cy;
-  const front = layer === 'front';
-  // rounds: which tile is held / flying / placed
-  const st = {};
-  C.rounds.forEach(r => { st[r.k] = r; r.slot = r.slot || [700, 335]; });
+  // the tiles: each attempt's tile waits where his hand will reach (it leaves the orbit early), sits on his fingertip,
+  // flies into the gap; a wrong one is knocked back out into the orbit
+  const tip = f => { const h = handAt(f); return [h[0], h[1] - 22]; };
+  const AT = {}; C.attempts.forEach(a => { (AT[a.k] = AT[a.k] || []).push(a); });
   C.words.forEach((w, i) => {
     const el = document.getElementById('t' + i), th = PH[fi] + 2 * Math.PI * i / n;
     let x = cx + C.rx * Math.cos(th), y = cy + C.ry * Math.sin(th), d = Math.sin(th), s = .74 + .26 * (d + 1) / 2, rot = -6 * Math.cos(th), o = 1, inFront = d >= 0, held = false;
-    const pop = 1;                                   // on screen from frame 0 (the cover)
-    const r = st[i];
-    if (r) {
-      const hx = handAt(fi)[0], hy = handAt(fi)[1] - 70;
-      if (t >= r.g0 && t < r.rel) { const k = eio((t - r.g0) / (r.g1 - r.g0)); x += (hx - x) * k; y += (hy - y) * k; s += (1.08 - s) * k; rot *= 1 - k; inFront = true; held = t >= r.g1 - .05; }
-      else if (t >= r.rel && t < r.land) { const k = eio((t - r.rel) / (r.land - r.rel)), [hx0, hy0] = handAt(Math.round(r.rel * 30)), sx = r.slot[0], sy = r.slot[1];
-        x = hx0 + (sx - hx0) * k; y = hy0 - 70 + (sy - hy0 + 70) * k - Math.sin(k * Math.PI) * 120; s = 1.08 + .25 * Math.sin(k * Math.PI); rot = 12 * Math.sin(k * Math.PI * 2); inFront = true; }
-      else if (t >= r.land) o = 0;       // it's in the sentence now
+    for (const a of (AT[i] || [])) {
+      const P = tip(Math.round(a.contact * 30)), pre = a.contact - 1.0, S = C.slot || [700, 335];
+      if (t >= pre && t < a.contact) { const k = eio((t - pre) / .85); x += (P[0] - x) * k; y += (P[1] - y) * k + Math.sin(t * 9) * 6 * k; s += (1.05 - s) * k; rot *= 1 - k; inFront = true; }
+      else if (t >= a.contact && t < a.rel) { const h = tip(fi); x = h[0]; y = h[1]; s = 1.05; rot = 0; inFront = true; held = true; }
+      else if (t >= a.rel && t < a.land) { const k = eio((t - a.rel) / (a.land - a.rel)), h = tip(Math.round(a.rel * 30));
+        x = h[0] + (S[0] - h[0]) * k; y = h[1] + (S[1] - h[1]) * k - Math.sin(k * Math.PI) * 120; s = 1.05 + .25 * Math.sin(k * Math.PI); rot = 12 * Math.sin(k * Math.PI * 2); inFront = true; }
+      else if (t >= a.land && (!a.back || t < a.back)) o = 0;
+      else if (a.back && t >= a.back && t < a.back + .8) { const k = eio((t - a.back) / .8);
+        x = S[0] + (x - S[0]) * k; y = S[1] + (y - S[1]) * k - Math.sin(k * Math.PI) * 160; rot = 40 * (1 - k); inFront = true; }
+      else continue;
+      break;
     }
     const show = front ? inFront : !inFront;
     el.style.display = show && o > 0 ? 'flex' : 'none';
     el.classList.toggle('held', held);
     el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.zIndex = Math.round(1000 + y);
-    el.style.opacity = (inFront ? 1 : .9) * pop; el.style.transform = `scale(${s * (.6 + .4 * pop)}) rotate(${rot}deg)`;
+    el.style.opacity = inFront ? 1 : .9; el.style.transform = `scale(${s}) rotate(${rot}deg)`;
     el.style.filter = inFront ? 'none' : `brightness(${.82 + .18 * (d + 1)})`;
   });
   ['card', 'ring', 'hook', 'lab', 'ask', 'flash'].forEach(id => document.getElementById(id).style.visibility = front ? 'visible' : 'hidden');
@@ -93,23 +94,22 @@ function update(t, layer) {
   if (t < C.hookEnd) { hk.style.display = 'block';
     if (!hk.dataset.k) { hk.dataset.k = 1; hk.innerHTML = C.hook.map(([w, s, l], i) => `<span id="h${i}" class="${l ? 'loud' : ''}">${w}</span>`).join(' '); }
     C.hook.forEach(([w, s, l], i) => { const el = document.getElementById('h' + i);
-      if (l) { const k = cl((t - 0) / Math.max(.15, s + .1)); el.style.opacity = 1; el.style.transform = `scale(${2.2 - 1.2 * Math.pow(k, 3) + (t > s + .1 ? .18 * Math.exp(-(t - s - .1) * 10) : 0)}) rotate(${-7 * (1 - Math.pow(k, 3))}deg)`; }
+      if (l) { const k = cl(t / Math.max(.15, s + .1)); el.style.opacity = 1; el.style.transform = `scale(${2.2 - 1.2 * Math.pow(k, 3) + (t > s + .1 ? .18 * Math.exp(-(t - s - .1) * 10) : 0)}) rotate(${-7 * (1 - Math.pow(k, 3))}deg)`; }
       else { const k = eo((t - s + .06) / .25); el.style.opacity = i === 0 ? 1 : k; el.style.transform = `translateX(${(1 - k) * (i % 2 ? -260 : 260)}px)`; el.style.filter = `blur(${(1 - k) * 12}px)`; } });
-    const sh = C.hook.find(h => h[2]), ht = sh ? sh[1] + .1 : -9, a = t - ht;
+    const sh = C.hook.find(h => h[2]), a = t - (sh ? sh[1] + .1 : -9);
     hk.style.transform = a > 0 && a < .3 ? `translate(${Math.sin(a * 90) * 26 * (1 - a / .3)}px,${Math.cos(a * 70) * 16 * (1 - a / .3)}px)` : 'none';
-    const out = eo((t - (C.hookEnd - .3)) / .3); hk.style.opacity = 1 - out;
+    hk.style.opacity = 1 - eo((t - (C.hookEnd - .3)) / .3);
   } else hk.style.display = 'none';
-  const fl = document.getElementById('flash'); const fs = C.flashes.map(f => t - f).filter(a => a >= 0 && a < .3);
+  const fl = document.getElementById('flash'), fs = C.flashes.map(f => t - f).filter(a => a >= 0 && a < .3);
   fl.style.opacity = fs.length ? .75 * (1 - fs[0] / .3) : 0;
-  // the label between the hook and the first sentence
   const lb = document.getElementById('lab'), [l0, l1, ltxt] = C.lab;
   if (t >= l0 && t < l1) { lb.style.display = 'block'; lb.textContent = ltxt; const k = eo((t - l0) / .25), o = eo((t - (l1 - .25)) / .25); lb.style.opacity = k * (1 - o); lb.style.transform = `scale(${1.3 - .3 * k})`; }
   else lb.style.display = 'none';
-  // the 3-2-1
-  const rg = document.getElementById('ring'), Q = C.rounds.find(r => t >= r.cd - .3 && t < r.cd + 3);
-  if (Q) { rg.style.display = 'block'; const a = t - Q.cd, k = Math.floor(cl(a, 0, 2.999)), e = eo((a + .3) / .3);
+  // the 3-2-1s
+  const rg = document.getElementById('ring'), Q = C.cds.find(c => t >= c - .3 && t < c + 3);
+  if (Q !== undefined) { rg.style.display = 'block'; const a = t - Q, k = Math.floor(cl(a, 0, 2.999));
     rg.querySelector('b').textContent = 3 - k; rg.querySelector('.fg').style.strokeDashoffset = 408 * cl(a / 3);
-    rg.style.opacity = e * (1 - eo((a - 2.75) / .25)); rg.querySelector('b').style.transform = `scale(${1 + .35 * Math.exp(-((a % 1) + 1) % 1 * 9)})`; }
+    rg.style.opacity = eo((a + .3) / .3) * (1 - eo((a - 2.75) / .25)); }
   else rg.style.display = 'none';
   const ak = document.getElementById('ask'); if (t >= C.ask[0]) { ak.style.display = 'block'; ak.innerHTML = C.ask[1]; const k = eo((t - C.ask[0]) / .35); ak.style.opacity = k; ak.style.transform = `translateY(${(1 - k) * 60}px)`; } else ak.style.display = 'none';
 }

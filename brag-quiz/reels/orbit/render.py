@@ -10,22 +10,25 @@ import json, os, re, shutil, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"; FPS = 30
 W = sys.argv[1]; STEP = sys.argv[2]; os.chdir(W)
-# source seconds (take 1 10-29, take 2 30-67, take 3 68-89) → the cut: hook, swipe, think, grab+push, look up; think, grab+push, look up
-CUTS = [(30.5, 3.0), (82.2, 2.7), (77.0, 2.6), (72.5, 4.2), (56.4, 2.4), (46.0, 3.5), (50.5, 5.2), (57.5, 3.3), (63.0, 4.3)]   # 31.2 s, 936 frames
+# v2 (owner, 18 Oct 2026): one round, wrong then right, from the continuous take 2 (21-67 s: pick, frown, think again, pick, smile)
+# source seconds → the cut: hook, swipe (take 3), think, reach + push (wrong), look up, frown, think again, reach + push (right), smile, look up
+CUTS = [(10.5, 3.0), (82.2, 2.7), (17.5, 4.1), (21.6, 5.2), (26.8, 2.5), (37.5, 3.8), (46.0, 4.4), (50.4, 5.4), (56.4, 3.5), (63.0, 3.5)]   # 38.1 s
 V = os.path.join(REPO, "brag-quiz/voice/orbit/")
 
 def config():
     pose = json.load(open("pose.json")); N = len(pose)
-    raw = [p["ri"][:2] for p in pose]                                    # his right hand (screen left) does every move
-    hand = [[round(sum(raw[j][a] for j in range(max(0, i - 2), min(N, i + 3))) / len(range(max(0, i - 2), min(N, i + 3))), 1) for a in (0, 1)] for i in range(N)]
+    raw = [p["ri"][:2] for p in pose]                                    # his right index fingertip (screen left) does every move
+    hand = [[round(sum(raw[j][a] for j in range(max(0, i - 1), min(N, i + 2))) / len(range(max(0, i - 1), min(N, i + 2))), 1) for a in (0, 1)] for i in range(N)]
     # hook take A (ha.mp3): the shouted YOU is 0.45-0.75 s (loudness; whisper puts the words after it too early)
     hook = [["Can", 0, False], ["YOU", .42, True], ["finish", 1.22, False], ["these", 1.6, False], ["Arabic", 1.85, False], ["sentences?", 2.3, False]]
+    # contact = the frame his reach is furthest out (pose.json): the tile is already waiting there
     return dict(N=N, hand=hand, cx=585, cy=1120, rx=480, ry=210, w0=.55, w1=6.0, fling=[3.45, 4.6],
         words=[["مَنْ", "who"], ["كَيْفَ", "how"], ["أَيْنَ", "where"], ["ما", "what"], ["مَتى", "when"], ["لِماذا", "why"], ["كَمْ", "how many"]],
-        hook=hook, hookEnd=3.45, lab=[3.5, 5.65, "PICK THE MISSING WORD"], flashes=[3.0, 5.7, 14.9],
-        rounds=[dict(n="1/2", k=1, rest=["حالُكَ؟"], en="___ are you?", ans="How", c0=5.7, c1=14.9, cd=7.5, g0=8.75, g1=9.35, rel=11.3, land=11.62),
-                dict(n="2/2", k=3, rest=["اسْمُكَ؟"], en="___ is your name?", ans="What", c0=14.9, c1=99, cd=17.7, g0=19.25, g1=19.8, rel=22.35, land=22.68, last=True)],
-        ask=[26.0, "How many did you get?<br><b>0, 1 or 2?</b> Comment 👇"])
+        hook=hook, hookEnd=3.45, lab=[3.5, 5.65, "PICK THE MISSING WORD"], flashes=[3.0, 5.7],
+        card=dict(c0=5.7, rest=["حالُكَ؟"], en="___ are you?", ans="How"),
+        attempts=[dict(k=2, contact=10.9, rel=14.95, land=15.25, wrong=True, back=17.4, en="<s style='color:#C8372D'>Where</s> are you? ✗"),
+                  dict(k=1, contact=27.3, rel=30.55, land=30.85)],
+        cds=[7.6, 23.6], ask=[34.0, "Did you get it <b>first time?</b><br>Comment 👇"])
 
 if STEP == "frames":
     from playwright.sync_api import sync_playwright
@@ -51,7 +54,7 @@ elif STEP == "worker":
 
 elif STEP == "mix":
     sys.path.insert(0, os.path.join(REPO, "brag-quiz")); import build_teach as T
-    C = json.load(open("orbit.json")); A, R = [], C["rounds"]
+    C = json.load(open("orbit.json")); A = []
     def lufs(f):
         m = subprocess.run(["ffmpeg", "-i", f, "-af", "ebur128", "-f", "null", "-"], capture_output=True, text=True).stderr
         return float(re.findall(r"I:\s+(-?[\d.]+) LUFS", m)[-1])
@@ -62,12 +65,16 @@ elif STEP == "mix":
     ar = lambda text: os.path.join(REPO, "audio", T.AUDIO[text] + ".mp3")
     say(V + "ha.mp3", .05, -16); fx("crash.wav", .52, .8)
     fx("ref/swoosh.wav", 2.95, .45); fx("ref/charge-swoosh.wav", 3.3, .5); say(V + "o1.mp3", 3.6, -17)
-    for r, line, arabic, after in ((R[0], "o2", "كَيْفَ حالُكَ؟", "o3"), (R[1], "o4", "ما اسْمُكَ؟", "o5")):
-        fx("ref/shutter.wav", r["c0"], .6); say(V + line + ".mp3", r["c0"] + .2, -17)
-        for k in range(3): fx("ref/click.wav", r["cd"] + k, .9)
-        fx("ref/tap.wav", r["g1"], .7); fx("ref/short-swoosh.wav", r["rel"] - .05, .6)
-        fx("owner/n03.wav", r["land"], .7); A.append((os.path.join(REPO, "sounds/correct.mp3"), r["land"] + .03, .5))
-        e = say(ar(arabic), r["land"] + .3, -18); say(V + after + ".mp3", e + .2, -17)
+    fx("ref/shutter.wav", 5.7, .6); say(V + "o2.mp3", 5.9, -17)
+    for c in C["cds"]:
+        for k in range(3): fx("ref/click.wav", c + k, .9)
+    for a in C["attempts"]:
+        fx("ref/tap.wav", a["contact"], .7); fx("ref/short-swoosh.wav", a["rel"] - .05, .6); fx("owner/n03.wav", a["land"], .7)
+    w, r = C["attempts"]
+    A.append((os.path.join(REPO, "sounds/wrong.mp3"), w["land"] + .03, .6)); say(V + "w1.mp3", w["land"] + .35, -17)
+    fx("ref/swoosh.wav", w["back"], .45); say(V + "w2.mp3", 21.4, -17)
+    A.append((os.path.join(REPO, "sounds/correct.mp3"), r["land"] + .03, .55))
+    e = say(ar("كَيْفَ حالُكَ؟"), r["land"] + .3, -18); e = say(V + "o3.mp3", e + .15, -17); say(V + "e1.mp3", max(e + .2, 33.85), -17)
     end = round(C["N"] / 30, 2)
     bed = os.path.join(REPO, "brag-output-v6/composition/assets/sfx-gen/fountain.mp3")
     args = ["ffmpeg", "-v", "error", "-y", "-i", "cut.mp4", "-framerate", "30", "-i", "back/%05d.png", "-framerate", "30", "-i", "mask/%05d.png",
