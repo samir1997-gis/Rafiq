@@ -1,7 +1,8 @@
 """Upload finished videos to the owner's Google Drive, into a "Rafiq videos" folder (made on first use), at full quality.
 Needs GDRIVE_CLIENT_ID, GDRIVE_CLIENT_SECRET and GDRIVE_REFRESH_TOKEN in the session's environment (owner, 13 Oct 2026);
 the token's scope is drive.file, so it only sees files it made itself.
-  python3 tools/drive-upload.py <file.mp4> [more files...]      → prints each file's Drive link"""
+  python3 tools/drive-upload.py <file.mp4> [more files...]      → prints each file's Drive link
+  python3 tools/drive-upload.py --sub "Folder name" <files...>   → into that folder inside "Rafiq videos" (made on first use)"""
 import json, mimetypes, os, sys, urllib.parse, urllib.request
 
 FOLDER = "Rafiq videos"
@@ -19,7 +20,16 @@ found = json.loads(call(f"https://www.googleapis.com/drive/v3/files?q={q}&fields
 folder = found[0]["id"] if found else json.loads(call("https://www.googleapis.com/drive/v3/files", json.dumps(
     {"name": FOLDER, "mimeType": "application/vnd.google-apps.folder"}).encode(), {**auth, "Content-Type": "application/json"})[1])["id"]
 
-for path in sys.argv[1:]:                                 # resumable upload: one session URL, then the whole file in one PUT
+files = sys.argv[1:]
+if files[:1] == ["--sub"]:                                # a subfolder inside "Rafiq videos"
+    name, files = files[1], files[2:]
+    q = urllib.parse.quote(f"name='{name}' and '{folder}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false")
+    found = json.loads(call(f"https://www.googleapis.com/drive/v3/files?q={q}&fields=files(id)", headers=auth)[1])["files"]
+    folder = found[0]["id"] if found else json.loads(call("https://www.googleapis.com/drive/v3/files", json.dumps(
+        {"name": name, "mimeType": "application/vnd.google-apps.folder", "parents": [folder]}).encode(), {**auth, "Content-Type": "application/json"})[1])["id"]
+    print("folder", name, f"https://drive.google.com/drive/folders/{folder}")
+
+for path in files:                                 # resumable upload: one session URL, then the whole file in one PUT
     mime = mimetypes.guess_type(path)[0] or "application/octet-stream"
     h, _ = call("https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable&fields=id,webViewLink",
                 json.dumps({"name": os.path.basename(path), "parents": [folder]}).encode(),

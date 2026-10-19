@@ -151,3 +151,9 @@ TypeSafe ranking of other fun formats (tools/typesafe-exp/fun_content.py; viral 
 5. "You say this 17 times a day" (al-Fātiḥah, 17 rakʿahs) (1.92 / 2.14 / 2.33)
 Weaker: younger sibling corrects your Arabic; guess the word from the emoji; "green flag in a spouse"; "what your mum means
 by in shā' Allāh" (respect 1.37: avoid jokes on religious phrases); loanwords (fit 0.83).
+
+**Word-set carousels (19 Oct 2026, `build_word_carousels.py`).** The question-words carousel did best of the carousels (owner: "people
+like the simple ones they can relate to"), so five more in the same format, words and sentences from the course: `pronouns`
+(I/you/he/she/we, "we" in نَعْبُدُ), `time` (today/tomorrow/yesterday/now/after that), `here-this` (here/there/this m/f),
+`feelings` (happy/hungry/ill/busy), `yes-no` (yes/no/of course/OK). Drive: "Rafiq videos" → one "Carousel - …" folder each.
+Next in the series, if they work: colours, numbers 1-10 with a salah link (rakahs), "and/but/with/in".
