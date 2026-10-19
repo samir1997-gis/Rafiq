@@ -3,6 +3,7 @@
    The repo is public, so Action logs are public: emails are always masked.
 
      node tools/supabase-users.js list [days]      accounts created in the last N days (default 3)
+     node tools/supabase-users.js trials           who's on a plan, free-week days left and last study day for every account (read only)
      node tools/supabase-users.js billing-test     billing rows with Stripe details (read only)
      node tools/supabase-users.js billing-check    each billing row next to what Stripe itself says (needs STRIPE_SECRET_KEY; read only)
      node tools/supabase-users.js billing-clear-test CLEAR-TEST-BILLING   empty them, when going live (#70)
@@ -218,6 +219,24 @@ async function userTables() {
     const r = await sql(`update auth.users set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb) || '{"admin": true}'
                          where id = '${arg}' returning email`);
     console.log(r.length ? `${mask(r[0].email)} can now open admin.html (sign out and in again)` : 'no such account');
+    return;
+  }
+  if (cmd === 'trials') {
+    // who has picked a plan, and how much of the free week each account has left, next to when they last studied (read only)
+    const rows = await sql(`select u.email, u.created_at::date::text as joined, b.trial_ends_at, b.plan, b.status, b.interval, b.cancel_at_period_end,
+                              greatest(0, ceil(extract(epoch from b.trial_ends_at - now()) / 86400))::int as left_days,
+                              (select max(substr(p.item_id, 3)) from public.item_progress p where p.user_id = u.id and p.item_id like 's:%') as last_study,
+                              (select count(*)::int from public.item_progress p where p.user_id = u.id and p.item_id like 's:%') as study_days
+                            from auth.users u left join public.billing b on b.user_id = u.id
+                            where coalesce(u.raw_app_meta_data->>'admin', '') <> 'true' order by b.trial_ends_at desc nulls last`);
+    const week = new Date(Date.now() - 6 * 864e5).toISOString().slice(0, 10);
+    const paid = rows.filter(r => r.plan || r.status), free = rows.filter(r => !r.plan && !r.status && r.left_days > 0);
+    console.log(`${rows.length} accounts (owner accounts left out). On a plan or started checkout: ${paid.length}. ` +
+                `Free week still running: ${free.length}, of whom ${free.filter(r => r.last_study >= week).length} studied in the last 7 days. ` +
+                `Free week over, no plan: ${rows.length - paid.length - free.length}.`);
+    for (const r of rows) console.log(`${mask(r.email)}  joined ${r.joined}  free week ends ${String(r.trial_ends_at).slice(0, 10)} (${r.left_days} day(s) left)  ` +
+      `plan ${r.plan ? `${r.plan} ${r.interval || ''} ${r.status}${r.cancel_at_period_end ? ' (cancels at period end)' : ''}` : r.status || 'none'}  ` +
+      `studied on ${r.study_days} day(s), last ${r.last_study || 'never'}`);
     return;
   }
   if (cmd === 'billing-check') {
