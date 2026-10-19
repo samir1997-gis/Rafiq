@@ -157,3 +157,5 @@ like the simple ones they can relate to"), so five more in the same format, word
 (I/you/he/she/we, "we" in نَعْبُدُ), `time` (today/tomorrow/yesterday/now/after that), `here-this` (here/there/this m/f),
 `feelings` (happy/hungry/ill/busy), `yes-no` (yes/no/of course/OK). Drive: "Rafiq videos" → one "Carousel - …" folder each.
 Next in the series, if they work: colours, numbers 1-10 with a salah link (rakahs), "and/but/with/in".
+**Made 19 Oct 2026:** `ghurabaa` carousel (`build_ghurabaa_carousel.py`): the strangers hadith (Muslim 145) word by word, the root غ ر ب
+(Maghrib and stranger are family), Bukhari 6416. Drive: "Carousel - Strangers (ghurabaa)". Teacher to check the glosses.
