@@ -62,8 +62,8 @@ def build():
 
     au = [f'<audio id="{f}" src="assets/{f}.wav" data-start="{at[f]:.2f}" data-duration="{D[f]:.2f}" data-volume="1" data-track-index="{1 + i % 2}"></audio>' for i, f in enumerate(ORDER)]
     src = os.path.join(V6, "sfx-gen/fountain.mp3")
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", src, "-i", src, "-filter_complex",
-                    f"[0][1]acrossfade=d=2:c1=tri:c2=tri,volume=6dB,atrim=0:{END + 0.5:.2f},afade=t=in:d=0.3,afade=t=out:st={END - 1.4:.2f}:d=1.4",
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-stream_loop", "-1", "-i", src, "-filter_complex",   # looped: one copy is shorter than this video
+                    f"[0]volume=6dB,atrim=0:{END + 0.5:.2f},afade=t=in:d=0.3,afade=t=out:st={END - 1.4:.2f}:d=1.4",
                     "-c:a", "libmp3lame", "-q:a", "3", os.path.join(a, "fountain.mp3")], check=True)
     au.append(f'<audio id="bed" src="assets/fountain.mp3" data-start="0" data-duration="{END:.2f}" data-volume="0.1" data-track-index="8"></audio>')
     sfx = []
@@ -162,6 +162,7 @@ def build():
     cam("end", at["c10"] - 0.05)
     swoop("#far", w("c10", "far") - 0.1, 1); glow("#far", w("c10", "home"), GOLD)
     off("#farWrap", w("c10", "said") - 0.25, -360, snd=True)
+    pop("#bkLab", w("c10", "said") - 0.05, "{opacity:0, y:-20}")
     BK = ["كُنْ", "فِي", "الدُّنْيا", "كَأَنَّكَ", "غَرِيبٌ", "أَوْ", "عابِرُ", "سَبِيلٍ"]
     for i, t0 in enumerate(spread("r8", BK)): zoomin(f"#b{i}", t0 - 0.05)
     glow("#b4", spread("r8", BK)[4] + 0.2, RED)
@@ -195,7 +196,7 @@ def build():
    <div class="card" id="f1"><span class="ar">غَرْب</span><span class="en">gharb<small>the west</small></span></div>
    <div class="card" id="f2"><span class="ar">غُرْبَة</span><span class="en">ghurba<small>being far from home</small></span></div></section>
  <section style="left:0;top:7680px"><div id="farWrap"><div id="farBig">a stranger is someone</div><div id="far">far from home</div></div>
-   <div id="bukh"><div class="lab" style="top:420px">AND HE (PBUH) SAID</div>
+   <div id="bukh"><div class="lab" id="bkLab" style="top:420px;opacity:0">AND HE (PBUH) SAID</div>
      <div id="bkAr">{" ".join(f'<span class="aw" id="b{i}">{x}</span>' for i, x in enumerate(BK))}</div>
      <div id="bkEn">{span("k", EN2)}</div><div class="ref" id="ref2" style="top:1240px">SAHIH AL-BUKHARI 6416</div></div>
    <div id="ask">Are you one of<br>the <span class="acc">strangers?</span></div><div id="arrow">👇</div>
@@ -206,7 +207,7 @@ def build():
 @font-face {{ font-family:"Ar"; src:url("assets/ibm-plex-sans-arabic-arabic-700-normal.woff2"); font-weight:700; }}
 @font-face {{ font-family:"Karla"; src:url("assets/karla-latin-500-normal.woff2"); font-weight:500; }}
 @font-face {{ font-family:"Karla"; src:url("assets/karla-latin-700-normal.woff2"); font-weight:700; }}
-@font-face {{ font-family:"Serif"; src:url("assets/instrument-serif-latin-400-normal.woff2"); }}
+@font-face {{ font-family:"InstrumentSerif"; src:url("assets/instrument-serif-latin-400-normal.woff2"); }}
 @font-face {{ font-family:"Fredoka"; src:url("assets/fredoka-latin-700-normal.woff2"); font-weight:700; }}
 body {{ margin:0; background:#000; }}
 #root {{ position:relative; width:1080px; height:1920px; overflow:hidden; background:{CREAM}; color:{INK}; font-family:"Karla";
@@ -224,18 +225,18 @@ section {{ position:absolute; width:1080px; height:1920px; }}
 .hring {{ position:absolute; left:50%; top:50%; width:300px; height:300px; margin:-150px; border-radius:50%; border:14px solid {GOLD2}; opacity:0; }}
 .hring.r2 {{ border-color:{RED}; border-width:8px; }}
 .hspark {{ position:absolute; left:50%; top:50%; width:110px; height:12px; margin-top:-6px; border-radius:6px; background:{GOLD2}; transform-origin:0 50%; opacity:0; }}
-#pline {{ position:absolute; left:90px; right:90px; top:1130px; text-align:center; font-family:"Serif"; font-style:italic; font-size:68px; line-height:1.15; }}
+#pline {{ position:absolute; left:90px; right:90px; top:1130px; text-align:center; font-family:"InstrumentSerif"; font-style:italic; font-size:68px; line-height:1.15; }}
 .pw, .ew {{ display:inline-block; opacity:0; }} #p3 {{ font-size:.7em; }}
 #hadAr {{ position:absolute; left:60px; right:60px; top:470px; text-align:center; direction:rtl; font-family:"Ar"; font-weight:700; font-size:92px; line-height:1.75; }}
 .aw {{ display:inline-block; opacity:0; }}
-#hadEn {{ position:absolute; left:90px; right:90px; top:1080px; text-align:center; font-family:"Serif"; font-style:italic; font-size:60px; line-height:1.2; }}
+#hadEn {{ position:absolute; left:90px; right:90px; top:1080px; text-align:center; font-family:"InstrumentSerif"; font-style:italic; font-size:60px; line-height:1.2; }}
 .ref {{ position:absolute; left:0; right:0; top:1500px; text-align:center; font-weight:700; font-size:34px; letter-spacing:.16em; color:{TEAL}; opacity:0; }}
 #big {{ position:absolute; left:0; right:0; top:520px; text-align:center; font-family:"Ar"; font-weight:700; font-size:330px; line-height:1.3; color:{RED}; opacity:0; }}
 .tr {{ position:absolute; left:0; right:0; text-align:center; font-family:"Karla"; font-weight:500; font-size:40px; letter-spacing:.08em; color:#5c6e70; opacity:0; }}
 #tr2 {{ top:1000px; }}
-#strangers {{ position:absolute; left:0; right:0; top:1060px; text-align:center; font-family:"Serif"; font-size:170px; line-height:1; letter-spacing:-.02em; opacity:0; }}
+#strangers {{ position:absolute; left:0; right:0; top:1060px; text-align:center; font-family:"InstrumentSerif"; font-size:170px; line-height:1; letter-spacing:-.02em; opacity:0; }}
 #gw {{ position:absolute; left:0; right:0; top:1300px; height:600px; }}
-#oneLab {{ position:absolute; left:0; right:0; top:0; text-align:center; font-family:"Serif"; font-style:italic; font-size:56px; color:#5c6e70; }} #one {{ display:inline-block; opacity:0; }}
+#oneLab {{ position:absolute; left:0; right:0; top:0; text-align:center; font-family:"InstrumentSerif"; font-style:italic; font-size:56px; color:#5c6e70; }} #one {{ display:inline-block; opacity:0; }}
 #g1, #letters {{ position:absolute; left:0; right:0; top:90px; text-align:center; font-family:"Ar"; font-weight:700; font-size:180px; line-height:1.3; }}
 #g1 {{ opacity:0; }} #letters {{ opacity:0; display:flex; justify-content:center; direction:rtl; }}
 .lt {{ display:inline-block; width:150px; text-align:center; color:{INK}; }}
@@ -244,19 +245,19 @@ section {{ position:absolute; width:1080px; height:1920px; }}
 #sunball {{ position:absolute; left:390px; top:820px; width:300px; height:300px; border-radius:50%; background:radial-gradient(circle, #ffe9a6, {GOLD2} 60%, #e07b39); box-shadow:0 0 120px 40px rgba(233,185,73,.5); }}
 #horizon {{ position:absolute; left:0; right:0; top:1240px; height:680px; background:{CREAM}; border-top:6px solid {INK}; }}
 #rootTop {{ position:absolute; left:0; right:0; top:260px; text-align:center; font-family:"Ar"; font-weight:700; font-size:170px; color:{RED}; letter-spacing:.14em; direction:rtl; }}
-#go {{ position:absolute; left:0; right:0; top:1330px; text-align:center; font-family:"Serif"; font-size:170px; line-height:1; letter-spacing:-.02em; opacity:0; }}
-#sets {{ position:absolute; left:0; right:0; top:1540px; text-align:center; font-family:"Serif"; font-style:italic; font-size:62px; color:#5c6e70; opacity:0; }}
+#go {{ position:absolute; left:0; right:0; top:1330px; text-align:center; font-family:"InstrumentSerif"; font-size:170px; line-height:1; letter-spacing:-.02em; opacity:0; }}
+#sets {{ position:absolute; left:0; right:0; top:1540px; text-align:center; font-family:"InstrumentSerif"; font-style:italic; font-size:62px; color:#5c6e70; opacity:0; }}
 .card {{ position:absolute; left:90px; right:90px; height:300px; border-radius:40px; background:#fff8ec; box-shadow:0 30px 60px -30px rgba(23,38,43,.45);
   display:flex; align-items:center; justify-content:space-between; padding:0 60px; opacity:0; }}
 #f0 {{ top:520px; }} #f1 {{ top:880px; }} #f2 {{ top:1240px; }}
 .card .ar {{ font-family:"Ar"; font-weight:700; font-size:120px; line-height:1.4; direction:rtl; display:inline-block; }}
-.card .en {{ font-family:"Serif"; font-size:76px; line-height:1; text-align:left; }} .card small {{ display:block; font-style:italic; font-size:44px; color:#5c6e70; margin-top:12px; }}
+.card .en {{ font-family:"InstrumentSerif"; font-size:76px; line-height:1; text-align:left; }} .card small {{ display:block; font-style:italic; font-size:44px; color:#5c6e70; margin-top:12px; }}
 #famLab {{ opacity:0; }}
 #farWrap {{ position:absolute; left:0; right:0; top:700px; text-align:center; }}
-#farBig {{ font-family:"Serif"; font-style:italic; font-size:72px; color:#5c6e70; }}
-#far {{ display:inline-block; font-family:"Serif"; font-size:170px; line-height:1.05; letter-spacing:-.02em; opacity:0; }}
+#farBig {{ font-family:"InstrumentSerif"; font-style:italic; font-size:72px; color:#5c6e70; }}
+#far {{ display:inline-block; font-family:"InstrumentSerif"; font-size:170px; line-height:1.05; letter-spacing:-.02em; opacity:0; }}
 #bkAr {{ position:absolute; left:60px; right:60px; top:560px; text-align:center; direction:rtl; font-family:"Ar"; font-weight:700; font-size:92px; line-height:1.75; }}
-#bkEn {{ position:absolute; left:100px; right:100px; top:900px; text-align:center; font-family:"Serif"; font-style:italic; font-size:66px; line-height:1.2; }}
+#bkEn {{ position:absolute; left:100px; right:100px; top:900px; text-align:center; font-family:"InstrumentSerif"; font-style:italic; font-size:66px; line-height:1.2; }}
 #ask {{ position:absolute; left:40px; right:40px; top:520px; text-align:center; font-family:"Fredoka"; font-weight:700; font-size:130px; line-height:1.05; opacity:0; }}
 #ask .acc {{ color:{RED}; display:inline-block; }}
 #arrow {{ position:absolute; left:0; right:0; top:900px; text-align:center; font-size:150px; opacity:0; }}
