@@ -1,0 +1,183 @@
+[
+ {
+  "file": "ha",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "Islam is so [shouting] STRANGE!"
+ },
+ {
+  "file": "hb",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "Islam is SO... [shouting] STRANGE!"
+ },
+ {
+  "file": "hc",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[excited] Islam is so [shouting] STRANGE!"
+ },
+ {
+  "file": "c1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "And the Prophet, peace be upon him, told us it would be.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "r1",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "text": "بَدَأَ الإِسْلامُ غَرِيبًا، وَسَيَعُودُ كَما بَدَأَ غَرِيبًا، فَطُوبى لِلْغُرَباءِ",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.85
+ },
+ {
+  "file": "c2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Islam began as something strange, and it will return to being strange, as it began. So glad tidings to the strangers.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "c3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Let's zoom in on that last word.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "r2",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "text": "غُرَباء",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9
+ },
+ {
+  "file": "c4",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Ghuraba means strangers. Just one stranger is a ghareeb.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "r3",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "text": "غَرِيب",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9
+ },
+ {
+  "file": "c5",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Now break it down to its root. Three letters.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "r4",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "text": "غَيْن، راء، باء",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.85
+ },
+ {
+  "file": "c6",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "They mean to go away, like the sun when it sets.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "c7",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "That's why the sunset prayer is called Maghrib.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "r5",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "text": "الْمَغْرِب",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9
+ },
+ {
+  "file": "c8",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "The west is gharb, where the sun goes away.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "r6",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "text": "غَرْب",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9
+ },
+ {
+  "file": "c9",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "And ghurba is the feeling of being far from home.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "r7",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "text": "غُرْبَة",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9
+ },
+ {
+  "file": "c10",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "So a stranger is simply someone far from home. And the Prophet, peace be upon him, said:",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "r8",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "text": "كُنْ فِي الدُّنْيا كَأَنَّكَ غَرِيبٌ أَوْ عابِرُ سَبِيلٍ",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.85
+ },
+ {
+  "file": "c11",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Be in this world as if you were a stranger, or a traveller.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "c12",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Are you one of the strangers? Comment down below!",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ }
+]
