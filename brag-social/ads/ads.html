@@ -1,0 +1,95 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+/* Simple image ads (#266), 1080x1350. Rendered by render.py, one #ad-* block per PNG. */
+@font-face{font-family:AN;src:url(../../brag-quiz/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:SE;src:url(../../brag-quiz/fonts/instrument-serif-latin-400-normal.woff2)}
+@font-face{font-family:AR;src:url(../../brag-quiz/fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2)}
+@font-face{font-family:FR;src:url(../../brag-quiz/fonts/fredoka-latin-600-normal.woff2)}
+:root{--ink:#17262B;--paper:#F1ECE0;--gold:#E9B949;--red:#C8372D;--teal:#2E7263}
+*{box-sizing:border-box;margin:0;padding:0}body{background:#000}
+.ad{width:1080px;height:1350px;position:relative;overflow:hidden;display:none}
+.ar{font-family:AR;direction:rtl}
+/* 1. breaking news */
+#ad-news{background:#fff;color:#111}
+#ad-news .bar{height:120px;background:var(--red);display:flex;align-items:center;padding:0 48px;gap:26px}
+#ad-news .bar b{font-family:AN;font-size:78px;color:#fff;letter-spacing:2px}
+#ad-news .bar i{width:26px;height:26px;border-radius:50%;background:#fff;animation:none}
+#ad-news .bar span{margin-left:auto;font-family:FR;font-size:30px;color:#fff;opacity:.9}
+#ad-news .date{padding:18px 48px;font-family:FR;font-size:28px;color:#555;border-bottom:3px solid #111;display:flex;justify-content:space-between}
+#ad-news h1{font-family:AN;font-weight:400;font-size:92px;line-height:1.02;padding:26px 48px 0;letter-spacing:.5px;text-transform:uppercase}
+#ad-news h1 em{font-style:normal;color:var(--red)}
+#ad-news .photo{position:absolute;right:48px;top:540px;width:470px;height:700px;background:url(src/b11.5.jpg) 30% 62%/cover}
+#ad-news .cap{position:absolute;left:48px;top:560px;width:470px;font-family:SE;font-style:italic;font-size:46px;line-height:1.15;color:#333;border-left:8px solid var(--red);padding-left:24px}
+#ad-news ul{position:absolute;left:48px;width:480px;top:880px;list-style:none}
+#ad-news li{font-family:FR;font-size:36px;line-height:1.3;margin-bottom:18px;padding-left:40px;position:relative}
+#ad-news li::before{content:"";position:absolute;left:0;top:19px;width:20px;height:20px;background:var(--red)}
+#ad-news .url{position:absolute;left:48px;bottom:40px;display:flex;align-items:center;gap:16px;font-family:AN;font-size:46px}
+#ad-news .url img{width:66px;height:66px;border-radius:14px}
+/* 2. timeline */
+#ad-time{background:radial-gradient(circle at 50% 20%,#21343A,#0E181B 75%);color:var(--paper)}
+#ad-time h2{font-family:AN;font-weight:400;font-size:96px;line-height:1;text-align:center;padding-top:70px;text-transform:uppercase}
+#ad-time h2 span{color:var(--gold)}
+#ad-time .line{position:absolute;left:150px;top:357px;height:600px;width:6px;background:linear-gradient(#5C6E70,var(--gold))}
+#ad-time .st{position:absolute;left:96px;right:60px;display:flex;gap:44px;align-items:flex-start}
+#ad-time .dot{flex:none;width:114px;height:114px;border-radius:50%;background:#0E181B;border:6px solid #5C6E70;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:AN;line-height:.95}
+#ad-time .dot small{font-size:22px;letter-spacing:2px;color:#A69C8C}#ad-time .dot b{font-weight:400;font-size:50px}
+#ad-time .st.on .dot{border-color:var(--gold);background:var(--gold);color:var(--ink)}#ad-time .st.on .dot small{color:var(--ink)}
+#ad-time .tx h3{font-family:AN;font-weight:400;font-size:52px;line-height:1.05;text-transform:uppercase;padding-top:4px}
+#ad-time .tx p{font-family:SE;font-size:40px;line-height:1.2;color:#cfd6d6;margin-top:8px}
+#ad-time .tx .ar{font-size:44px;color:#7d8b8d;margin-top:10px;text-align:left}
+#ad-time .st.on h3{color:var(--gold)}
+#ad-time .foot{position:absolute;left:0;right:0;bottom:60px;text-align:center;font-family:FR;font-size:34px}
+#ad-time .foot b{color:var(--gold)}
+#ad-time .logo{position:absolute;left:50%;bottom:118px;transform:translateX(-50%);display:flex;align-items:center;gap:14px;font-family:AN;font-size:44px}
+#ad-time .logo img{width:58px;height:58px;border-radius:12px}
+/* 3. before / after */
+#ad-ba{background:var(--paper);color:var(--ink)}
+#ad-ba .half{position:absolute;left:0;right:0;height:540px;padding:56px 60px}
+#ad-ba .b{top:0;background:#E2DCCD}#ad-ba .a{top:540px;background:var(--ink);color:var(--paper)}
+#ad-ba .tag{font-family:AN;font-size:44px;letter-spacing:3px}#ad-ba .b .tag{color:#8a8576}#ad-ba .a .tag{color:var(--gold)}
+#ad-ba .say{font-family:SE;font-size:46px;margin-top:6px}
+#ad-ba .row{display:flex;flex-direction:row-reverse;justify-content:center;gap:22px;margin-top:44px}
+#ad-ba .w{display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 26px;border-radius:22px}
+#ad-ba .w .ar{font-size:96px;line-height:1.35}
+#ad-ba .w span{font-family:SE;font-size:42px;white-space:nowrap}
+#ad-ba .b .w{background:rgba(0,0,0,.05)}#ad-ba .b .w span{color:#9a9586;letter-spacing:6px}
+#ad-ba .a .w{background:var(--gold);color:var(--ink)}
+#ad-ba .cta{position:absolute;left:0;right:0;bottom:0;height:270px;background:var(--ink);border-top:2px solid rgba(255,255,255,.12);color:var(--paper);text-align:center;padding-top:38px}
+#ad-ba .cta h4{font-family:AN;font-weight:400;font-size:62px;text-transform:uppercase}
+#ad-ba .cta p{font-family:FR;font-size:34px;margin-top:12px;opacity:.85}
+#ad-ba .cta p b{color:var(--gold)}
+</style></head><body>
+
+<div class="ad" id="ad-news">
+  <div class="bar"><i></i><b>BREAKING NEWS</b><span>rafiq-arabic.com</span></div>
+  <div class="date"><span>MONDAY 19 OCTOBER 2026</span><span>FAITH · LEARNING</span></div>
+  <h1>Rafiq is <em>now live</em>: the app that teaches you every word you say in salah</h1>
+  <div class="cap">Five times a day, millions pray in a language they don't understand.</div><div class="photo"></div>
+  <ul><li>Every word of the prayer, plus 10 short surahs</li><li>5 minutes a day</li><li>Free for 7 days, no card</li></ul>
+  <div class="url"><img src="src/logo.png">RAFIQ</div>
+</div>
+
+<div class="ad" id="ad-time">
+  <h2>Your salah,<br><span>30 days from now</span></h2>
+  <div class="line"></div>
+  <div class="st" style="top:300px"><div class="dot"><small>DAY</small><b>0</b></div><div class="tx"><h3>You say it. You don't know it.</h3>
+    <p>Five times a day, every word in a language you can't follow.</p></div></div>
+  <div class="st" style="top:500px"><div class="dot"><small>DAY</small><b>1</b></div><div class="tx"><h3>5 words. A third of your prayer.</h3>
+    <p>The words you say most: subhana, rabbi, Allah, al-a'la…</p></div></div>
+  <div class="st" style="top:700px"><div class="dot"><small>DAY</small><b>14</b></div><div class="tx"><h3>The whole prayer.</h3>
+    <p>From Allahu akbar to the salam: al-Fatiha, ruku, sujood, tashahhud.</p></div></div>
+  <div class="st on" style="top:900px"><div class="dot"><small>DAY</small><b>30</b></div><div class="tx"><h3>Every word. And 10 short surahs.</h3>
+    <p>You pray knowing exactly what you're saying to Allah.</p></div></div>
+  <div class="logo"><img src="src/logo.png">RAFIQ</div>
+  <div class="foot">One 5-minute part a day · <b>free for 7 days</b> · rafiq-arabic.com</div>
+</div>
+
+<div class="ad" id="ad-ba">
+  <div class="half b"><div class="tag">BEFORE</div><div class="say">You've said this in every sujood of your life.</div>
+    <div class="row"><div class="w"><div class="ar">سُبْحانَ</div><span>? ? ?</span></div><div class="w"><div class="ar">رَبِّيَ</div><span>? ? ?</span></div><div class="w"><div class="ar">الْأَعْلى</div><span>? ? ?</span></div></div></div>
+  <div class="half a"><div class="tag">AFTER RAFIQ</div><div class="say">Now you know what you're saying.</div>
+    <div class="row"><div class="w"><div class="ar">سُبْحانَ</div><span>glory be</span></div><div class="w"><div class="ar">رَبِّيَ</div><span>to my Lord</span></div><div class="w"><div class="ar">الْأَعْلى</div><span>the Most High</span></div></div></div>
+  <div class="cta"><h4>Understand every word of your salah</h4><p>5 minutes a day · <b>free for 7 days, no card</b> · rafiq-arabic.com</p></div>
+</div>
+
+<script>function show(id){document.querySelectorAll('.ad').forEach(a=>a.style.display=a.id===id?'block':'none')}</script>
+</body></html>
