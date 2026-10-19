@@ -1,67 +1,73 @@
-"""Carousel: the strangers hadith and the root غ ر ب (owner, 19 Oct 2026). Format "one important word traced to its root".
-Hook (TypeSafe, tools/typesafe-exp/ghurabaa_hook.py: the three tied at 8.0/9; the question kept, question hooks hold best).
-Hadith: Sahih Muslim 145 (the plain wording, without the later "who are the strangers?" additions); Bukhari 6416.
-For the teacher: the word-by-word glosses and "غَرَبَ: to go away; the sun set".
+"""Carousel: the strangers hadith and the root غ ر ب (owner, 19 Oct 2026; v2 in the owner's order and hook).
+1 ISLAM IS SO STRANGE! · 2 the hadith (Sahih Muslim 145, plain wording) · 3 غُرَباء = strangers · 4 the root · 5 other words from it ·
+6 Bukhari 6416 above "Comment below if you're a stranger".
+Hook: tools/typesafe-exp/ghurabaa_hook2.py (alone: respect 1.62/3; with the line pointing to the hadith 2.10, swipe up too, so kept).
+Layout (the apple-design skill): one focal element per slide, centred in one frame that every slide shares (brand, label, counter
+always in the same place); hierarchy from size and weight; tight leading and slight negative tracking on display text, open tracking
+on small labels; one accent colour, only on the word that matters; spacing on an 8 px grid.
+For the teacher: the glosses and "غ ر ب: to go away; the sun set".
 
-  python3 brag-quiz/build_ghurabaa_carousel.py   ->  brag-quiz/stills/ghurabaa/ghurabaa-1.png ... -7.png
+  python3 brag-quiz/build_ghurabaa_carousel.py   ->  brag-quiz/stills/ghurabaa/ghurabaa-1.png ... -6.png
 """
 import os
 from playwright.sync_api import sync_playwright
 import build_salah_numbers as S
-import build_questions_carousel as QC
 
-R, G, T = S.RED, S.GOLD, S.TEAL
-CSS = QC.CSS + f"""
-.hk {{ position:absolute; top:250px; left:60px; right:60px; text-align:center; font-family:"Instrument Serif"; font-size:104px; line-height:1.04; }}
-.pair {{ position:absolute; top:760px; left:0; right:0; display:flex; justify-content:center; gap:90px; direction:rtl; }}
-.pair div {{ text-align:center; }} .pair b {{ display:block; font-family:"Plex Arabic"; font-size:150px; line-height:1.25; color:{R}; }}
-.pair span {{ display:block; margin-top:22px; font-family:"JetBrains Mono"; font-size:30px; color:#4f6163; }}
-.lab {{ position:absolute; top:170px; left:0; right:0; text-align:center; font-family:"JetBrains Mono"; font-size:28px; letter-spacing:.16em; color:#4f6163; }}
-.had {{ position:absolute; top:270px; left:70px; right:70px; text-align:center; font-family:"Plex Arabic"; font-weight:700; font-size:84px; line-height:1.6; direction:rtl; }}
-.had i {{ font-style:normal; color:{R}; }}
-.hen {{ position:absolute; top:850px; left:90px; right:90px; text-align:center; font-family:"Instrument Serif"; font-style:italic; font-size:56px; line-height:1.15; }}
-.ref {{ position:absolute; top:1150px; left:0; right:0; text-align:center; font-family:"JetBrains Mono"; font-size:30px; letter-spacing:.12em; color:{T}; font-weight:700; }}
-.wbw {{ position:absolute; top:260px; left:50px; right:50px; display:flex; flex-wrap:wrap; flex-direction:row-reverse; justify-content:center; gap:22px; }}
-.wbw div {{ background:rgba(23,38,43,.05); border-radius:22px; padding:18px 22px; text-align:center; min-width:250px; }}
-.wbw div.k {{ background:{R}; color:#fff; }} .wbw div.k span {{ color:#fde; }}
-.wbw b {{ display:block; font-family:"Plex Arabic"; font-size:70px; line-height:1.45; direction:rtl; }}
-.wbw span {{ font-family:"Instrument Serif"; font-size:40px; color:#4f6163; }}
-.rt {{ position:absolute; top:300px; left:0; right:0; text-align:center; font-family:"Plex Arabic"; font-size:260px; color:{R}; direction:rtl; letter-spacing:.12em; }}
-.rm {{ position:absolute; top:760px; left:80px; right:80px; text-align:center; font-family:"Instrument Serif"; font-size:78px; line-height:1.1; }}
-.rs {{ position:absolute; top:1040px; left:110px; right:110px; text-align:center; font-size:36px; font-weight:700; color:{T}; }}
-.fam {{ position:absolute; top:250px; left:70px; right:70px; display:grid; gap:20px; }}
-.fam div {{ display:flex; align-items:center; justify-content:space-between; background:rgba(23,38,43,.05); border-radius:22px; padding:14px 34px; }}
-.fam b {{ font-family:"Plex Arabic"; font-size:76px; line-height:1.4; color:{R}; direction:rtl; }}
-.fam span {{ font-family:"Instrument Serif"; font-size:46px; text-align:left; }} .fam small {{ display:block; font-family:"JetBrains Mono"; font-size:24px; color:#6b7a7c; }}
-.tie {{ position:absolute; top:1060px; left:80px; right:80px; text-align:center; font-family:"Instrument Serif"; font-size:60px; line-height:1.1; }}
+GOLD, MUTE = "#E9B949", "#5c6e70"
+CSS = S.CSS + f"""
+@font-face {{ font-family:"Anton"; src:url("file://{os.path.join(S.HERE, "fonts", "anton-latin-400-normal.woff2")}"); }}
+.frame {{ position:absolute; inset:0; padding:160px 96px 88px; display:flex; flex-direction:column; align-items:center; text-align:center; }}
+.lab {{ font-family:"JetBrains Mono"; font-size:26px; letter-spacing:.18em; color:{MUTE}; text-transform:uppercase; height:40px; }}
+.dark .lab {{ color:rgba(241,236,224,.55); }}
+.main {{ flex:1; width:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:40px; }}
+.foot {{ font-family:"JetBrains Mono"; font-size:24px; letter-spacing:.18em; color:{MUTE}; height:32px; }}
+.dark .foot {{ color:{GOLD}; font-family:"Karla"; font-weight:700; font-size:36px; letter-spacing:0; }}
+.arb {{ font-family:"Plex Arabic"; font-weight:700; direction:rtl; }}
+.acc {{ color:{S.RED}; }} .dark .acc {{ color:{GOLD}; }}
+.disp {{ font-family:"Instrument Serif"; line-height:1.0; letter-spacing:-.02em; }}
+.it {{ font-family:"Instrument Serif"; font-style:italic; line-height:1.2; }}
+.mono {{ font-family:"JetBrains Mono"; font-size:30px; letter-spacing:.06em; color:{MUTE}; }}
+.rule {{ width:64px; height:4px; border-radius:2px; background:{S.RED}; opacity:.8; }}
+.hook {{ font-family:"Anton"; font-size:184px; line-height:.92; letter-spacing:-.005em; text-transform:uppercase; }}
+.rows {{ width:100%; display:flex; flex-direction:column; }}
+.row {{ display:flex; align-items:center; justify-content:space-between; padding:22px 8px; border-bottom:2px solid rgba(23,38,43,.10); }}
+.row:last-child {{ border-bottom:0; }}
+.row .l {{ text-align:left; }} .row .l b {{ display:block; font-family:"Instrument Serif"; font-weight:400; font-size:50px; line-height:1.1; letter-spacing:-.01em; }}
+.row .l span {{ font-family:"JetBrains Mono"; font-size:24px; letter-spacing:.06em; color:{MUTE}; }}
+.row .arb {{ font-size:84px; line-height:1.45; color:{S.RED}; }}
 """
-FAM = [("غَرَبَ", "the sun set", "gharaba"), ("الْمَغْرِب", "Maghrib, the sunset prayer", "al-maghrib"), ("غَرْب", "west", "gharb"),
-       ("غَرِيب", "a stranger, far from home", "gharīb"), ("غُرْبَة", "being away from home", "ghurbah"), ("غُرَباء", "strangers", "ghurabā'")]
-WBW = [("بَدَأَ", "began"), ("الإِسْلامُ", "Islam"), ("غَرِيبًا", "as a stranger", 1), ("وَسَيَعُودُ", "and it will return"),
-       ("كَما بَدَأَ", "as it began"), ("غَرِيبًا", "a stranger", 1), ("فَطُوبى", "so glad tidings"), ("لِلْغُرَباءِ", "to the strangers", 1)]
+FAM = [("غَرَبَ", "the sun set", "gharaba"), ("الْمَغْرِب", "Maghrib, the sunset prayer", "al-maghrib"), ("غَرْب", "the west", "gharb"),
+       ("غَرِيب", "a stranger", "gharīb"), ("غُرْبَة", "being far from home", "ghurbah")]
+N = 6
+
+def page(k, lab, main, dark=False, foot=None):
+    foot = foot if foot is not None else f"{k} / {N}"
+    return f'<body class="{"dark" if dark else ""}">{S.BRAND}<div class="frame"><div class="lab">{lab}</div><div class="main">{main}</div><div class="foot">{foot}</div></div></body>'
 
 def slides():
-    B = S.BRAND
     return {
-     "1": f'<body>{B}<div class="hk">What does a <i style="color:{R};font-style:normal">stranger</i><br>have to do with<br>Maghrib? 🌅</div>'
-          '<div class="pair"><div><b>غَرِيب</b><span>gharīb · stranger</span></div><div><b>الْمَغْرِب</b><span>al-maghrib · sunset</span></div></div>'
-          '<div class="cs" style="top:1180px">SWIPE →</div></body>',
-     "2": f'<body>{B}<div class="lab">THE PROPHET (PBUH) SAID</div><div class="had">بَدَأَ الإِسْلامُ <i>غَرِيبًا</i>، وَسَيَعُودُ كَما بَدَأَ <i>غَرِيبًا</i>، فَطُوبى <i>لِلْغُرَباءِ</i></div>'
-          '<div class="hen">“Islam began as something strange, and it will return to being strange as it began, so glad tidings to the strangers.”</div>'
-          '<div class="ref">SAHIH MUSLIM 145</div></body>',
-     "3": f'<body>{B}<div class="lab">WORD BY WORD</div><div class="wbw">' +
-          "".join(f'<div class="{"k" if len(w) > 2 else ""}"><b>{w[0]}</b><span>{w[1]}</span></div>' for w in WBW) + '</div></body>',
-     "4": f'<body>{B}<div class="lab">THE ROOT</div><div class="rt">غ ر ب</div>'
-          '<div class="rm">to go away,<br>like the sun when it <i style="color:#C8372D">sets</i></div>'
-          '<div class="rs">A غَرِيب is someone who has gone far from home.</div></body>',
-     "5": f'<body>{B}<div class="lab">ONE ROOT, ONE FAMILY</div><div class="fam">' +
-          "".join(f'<div><span>{e}<small>{t}</small></span><b>{a}</b></div>' for a, e, t in FAM) + '</div></body>',
-     "6": f'<body>{B}<div class="lab">AND HE (PBUH) SAID</div><div class="had" style="top:300px">كُنْ فِي الدُّنْيا كَأَنَّكَ <i>غَرِيبٌ</i> أَوْ عابِرُ سَبِيلٍ</div>'
-          '<div class="hen" style="top:640px">“Be in this world as if you were a stranger or a traveller.”</div>'
-          '<div class="ref" style="top:860px">SAHIH AL-BUKHARI 6416</div>'
-          '<div class="tie">A stranger is far from home.<br>Our home is somewhere else. 🤍</div></body>',
-     "7": f'<body class="dark">{B}<div class="endq">Did you know<br>Maghrib and <i>stranger</i><br>were family? 👇</div>'
-          '<div class="ends"><div>Save this 📌 for later</div><div>Send it to someone who feels like a stranger</div></div></body>'}
+     "1": page(1, "", '<div class="hook">Islam is<br>so <span class="acc">strange!</span></div>'
+                      '<div class="it" style="font-size:56px;opacity:.85">…and the Prophet <span class="arb" style="font-style:normal">ﷺ</span> said it would be.</div>',
+               dark=True, foot="Swipe →"),
+     "2": page(2, "The Prophet ﷺ said".replace("ﷺ", "(pbuh)"),
+               '<div class="arb" style="font-size:80px;line-height:1.75">بَدَأَ الإِسْلامُ <span class="acc">غَرِيبًا</span>، وَسَيَعُودُ كَما بَدَأَ <span class="acc">غَرِيبًا</span>، فَطُوبى <span class="acc">لِلْغُرَباءِ</span></div>'
+               '<div class="rule"></div>'
+               '<div class="it" style="font-size:52px">“Islam began as something strange, and it will return to being strange as it began, so glad tidings to the strangers.”</div>'
+               '<div class="mono" style="color:#2e7263;font-weight:500">SAHIH MUSLIM 145</div>'),
+     "3": page(3, "The word", '<div class="arb acc" style="font-size:300px;line-height:1.3">غُرَباء</div>'
+                              '<div class="mono">ghurabāʾ</div><div class="disp" style="font-size:150px">strangers</div>'
+                              '<div class="it" style="font-size:44px;color:#5c6e70">One stranger: <span class="arb" style="font-style:normal">غَرِيب</span> · gharīb</div>'),
+     "4": page(4, "The root", '<div class="arb acc" style="font-size:280px;line-height:1.3;letter-spacing:.14em">غ ر ب</div>'
+                              '<div class="disp" style="font-size:132px">to go away</div>'
+                              '<div class="it" style="font-size:52px;color:#5c6e70">like the sun when it sets 🌅<br>A stranger is someone far from home.</div>'),
+     "5": page(5, "Same root", '<div class="rows">' + "".join(f'<div class="row"><div class="l"><b>{e}</b><span>{t}</span></div><div class="arb">{a}</div></div>' for a, e, t in FAM) + '</div>'),
+     "6": page(6, "And he (pbuh) said",
+               '<div class="arb" style="font-size:60px;line-height:1.7;white-space:nowrap">كُنْ فِي الدُّنْيا كَأَنَّكَ <span class="acc">غَرِيبٌ</span> أَوْ عابِرُ سَبِيلٍ</div>'
+               '<div class="it" style="font-size:46px;opacity:.85">“Be in this world as if you were a stranger or a traveller.”</div>'
+               '<div class="mono" style="color:rgba(241,236,224,.55)">SAHIH AL-BUKHARI 6416</div>'
+               '<div style="height:24px"></div>'
+               '<div class="hook" style="font-size:112px;line-height:.98">Comment below<br>if you’re a <span class="acc">stranger</span> 👇</div>',
+               dark=True, foot="")}
 
 if __name__ == "__main__":
     out = os.path.join(S.HERE, "stills", "ghurabaa"); os.makedirs(out, exist_ok=True)
@@ -73,4 +79,4 @@ if __name__ == "__main__":
             pg.goto("file://" + tmp); pg.evaluate("document.fonts.ready"); pg.wait_for_timeout(300)
             pg.screenshot(path=os.path.join(out, f"ghurabaa-{k}.png"))
         os.remove(os.path.join(out, "_s.html")); b.close()
-    print("7 slides")
+    print(N, "slides")
