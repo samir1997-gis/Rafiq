@@ -15,6 +15,8 @@
      node tools/supabase-users.js thank SEND-THANKS   add 14 days to their free week and send Samir's thank-you email (needs RESEND_API_KEY)
      node tools/supabase-users.js mail-test        send one test email to support@rafiq-arabic.com (is forwarding working?)
      node tools/supabase-users.js make-admin id    let this account open the owner dashboard (admin.html)
+     node tools/supabase-users.js team             the team's own accounts (admin) and their access (read only)
+     node tools/supabase-users.js make-free id     free use for a team account: Complete until 2099
      node tools/supabase-users.js delete id1,id2   delete these accounts (max 5) and their rows
      node tools/supabase-users.js reset-preview    who a beta reset would wipe (changes nothing)
      node tools/supabase-users.js reset RESET-BETA wipe progress + onboarding answers for them
@@ -219,6 +221,23 @@ async function userTables() {
     const r = await sql(`update auth.users set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb) || '{"admin": true}'
                          where id = '${arg}' returning email`);
     console.log(r.length ? `${mask(r[0].email)} can now open admin.html (sign out and in again)` : 'no such account');
+    return;
+  }
+  if (cmd === 'team') {   // the Rafiq team's own accounts (app_metadata.admin) and their access (read only)
+    const r = await sql(`select u.id, u.email, u.last_sign_in_at, b.trial_ends_at, b.plan, b.status from auth.users u
+                         left join public.billing b on b.user_id = u.id where coalesce(u.raw_app_meta_data->>'admin', '') = 'true' order by u.created_at`);
+    console.log(`${r.length} team account(s):`);
+    r.forEach(u => console.log(`${u.id}  ${mask(u.email)}  free week ends ${String(u.trial_ends_at).slice(0, 10)}  plan ${u.plan || 'none'} ${u.status || ''}  ` +
+                               `last sign-in ${(u.last_sign_in_at || '—').slice(0, 10)}`));
+    return;
+  }
+  if (cmd === 'make-free') {
+    // free use for a team account: its free week runs to 2099, which the pages (plan.js) and the tutor both read as Complete.
+    // Undo: set billing.trial_ends_at back to the account's created_at + 7 days.
+    if (!UUID.test(arg || '')) { console.error('give the account id (from the team command)'); process.exit(1); }
+    const r = await sql(`update public.billing set trial_ends_at = '2099-12-31', updated_at = now() where user_id = '${arg}'
+                         returning (select email from auth.users where id = '${arg}') as email`);
+    console.log(r.length ? `${mask(r[0].email)} now has Complete free until 2099 (reload the app)` : 'no billing row for that account');
     return;
   }
   if (cmd === 'trials') {

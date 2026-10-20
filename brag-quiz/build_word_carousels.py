@@ -5,9 +5,9 @@ with the course's own example sentence (word in red), the end asks for a score. 
 (vocab-data.js, drills-data.js, toolkit-data.js, scenes-data.js) except أَنا مَشْغُولٌ and أَنا سَعِيدٌ هُنا (trimmed from
 "وَأَنا سَعِيدٌ هُنا"). Pure content (4 posts in 5): no app pitch.
 
-  python3 brag-quiz/build_word_carousels.py   ->  brag-quiz/stills/<set>/<set>-1.png ...
+  python3 brag-quiz/build_word_carousels.py [set ...]   ->  brag-quiz/stills/<set>/<set>-1.png ...
 """
-import os
+import os, sys
 from playwright.sync_api import sync_playwright
 import build_salah_numbers as S
 import build_questions_carousel as QC
@@ -52,12 +52,35 @@ SETS = {
    ("of course", "طَبْعًا", "ṭabʿan", [("طَبْعًا! نَتَوَضَّأُ فِي الْبَيْتِ، ثُمَّ نَمْشِي مَعًا.", "طَبْعًا", "ṭabʿan! natawaḍḍa'u fi l-bayti, thumma namshī maʿan.", "Of course! We'll do wudu at home, then walk together.")], ""),
    ("OK / fine", "طَيِّب", "ṭayyib", [("طَيِّبٌ، أُرِيدُ كِيلُو بُرْتُقالٍ.", "طَيِّبٌ", "ṭayyib, urīdu kīlū burtuqāl.", "Fine, I'd like a kilo of oranges.")],
     "Yes or no? Reply in Arabic in the comments 👇")]),
+ # numbers 1-10 with the salah link (IDEAS "next in the series"; owner 20 Oct 2026): the course's own words (vocab-data.js) and sentences
+ # (drills-data.js; 10 from scenes-data.js); 2 shows the dual instead (Arabic says "two sisters" with an ending, not the number)
+ "numbers": ("Can you count to 10<br>in Arabic? 👀", [
+   ("1 · one", "واحِد", "wāḥid · ١", [("الشَّقَّةُ فِي الدَّوْرِ الأَوَّلِ، وَرَقْمُها واحِدٌ.", "واحِدٌ", "ash-shaqqatu fi d-dawri l-awwali, wa raqmuhā wāḥid.",
+    "The flat is on the first floor, and its number is one.")], "Another “one”: أَحَد, in قُلْ هُوَ اللَّهُ أَحَدٌ."),
+   ("2 · two", "اثْنانِ", "ithnān · ٢", [("عِنْدِي ثَلاثَةُ إِخْوَةٍ وَأُخْتانِ.", "أُخْتانِ", "ʿindī thalāthatu ikhwatin wa ukhtān.", "I have three brothers and two sisters.")],
+    "For two, Arabic adds an ending instead: أُخْتانِ, two sisters. Fajr is رَكْعَتانِ, two rakʿahs."),
+   ("3 · three", "ثَلاثَة", "thalātha · ٣", [("عِنْدِي ثَلاثَةُ دُرُوسٍ: الْقِراءَةُ، وَالنَّحْوُ، وَالْمُحادَثَةُ.", "ثَلاثَةُ", "ʿindī thalāthatu durūs: al-qirā'a, wa n-naḥw, wa l-muḥādatha.",
+    "I have three lessons: reading, grammar and conversation.")], "Maghrib: three rakʿahs."),
+   ("4 · four", "أَرْبَعَة", "arbaʿa · ٤", [("اسْأَلْنِي أَرْبَعَةَ أَسْئِلَةٍ عَنْ نَفْسِي.", "أَرْبَعَةَ", "is'alnī arbaʿata as'ilatin ʿan nafsī.", "Ask me four questions about myself.")],
+    "Dhuhr, ʿAsr and ʿIshāʾ: four rakʿahs each."),
+   ("5 · five", "خَمْسَة", "khamsa · ٥", [("رَقْمُ البَيْتِ خَمْسَةٌ.", "خَمْسَةٌ", "raqmu l-bayti khamsa.", "The house number is five.")], "Five prayers a day."),
+   ("6 · six", "سِتَّة", "sitta · ٦", [("الْبُرْتُقالُ بِسِتَّةِ رِيالاتٍ لِلْكِيلُو، وَهُوَ طازَجٌ.", "سِتَّةِ", "al-burtuqālu bi-sittati riyālātin li-l-kīlū, wa huwa ṭāzaj.",
+    "Oranges are six riyals a kilo, and they're fresh.")], ""),
+   ("7 · seven", "سَبْعَة", "sabʿa · ٧", [("فِي أُسْرَتِي سَبْعَةُ أَوْلادٍ.", "سَبْعَةُ", "fī usratī sabʿatu awlād.", "In my family there are seven children.")],
+    "al-Fātiḥah has seven verses."),
+   ("8 · eight", "ثَمانِيَة", "thamāniya · ٨", [("أَعْمَلُ ثَمانِيَ ساعاتٍ فِي اليَوْمِ.", "ثَمانِيَ", "aʿmalu thamāniya sāʿātin fi l-yawm.", "I work eight hours a day.")],
+    "Numbers 3 to 10 work backwards: with a feminine word like ساعَة (hour), the ة goes."),
+   ("9 · nine", "تِسْعَة", "tisʿa · ٩", [("فِي أُسْرَتِي تِسْعَةُ أَوْلادٍ، وَكُلُّهُمْ طُلَّابٌ.", "تِسْعَةُ", "fī usratī tisʿatu awlādin, wa kulluhum ṭullāb.",
+    "In my family there are nine children, and they're all students.")], ""),
+   ("10 · ten", "عَشَرَة", "ʿashara · ١٠", [("بَعْدَ عَشْرِ دَقائِقَ.", "عَشْرِ", "baʿda ʿashri daqā'iq.", "In ten minutes.")],
+    "The digits you write are called “Arabic numerals”. In Arabic: 1 = ١ · 2 = ٢ · 3 = ٣ · 10 = ١٠"),
+ ]),
 }
 
 CSS = QC.CSS + ".en.long { font-size:80px; top:245px; } .ar.long { font-size:160px; top:390px; } .note span { unicode-bidi:isolate; } .cov.few b { font-size:150px; }"
 # the cover: the short words only
 COVER = {"pronouns": "I · You · He · She · We", "time": "Today · Tomorrow · Yesterday · Now · After that", "here-this": "Here · There · This",
-         "feelings": "Happy · Hungry · Ill · Busy", "yes-no": "Yes · No · Of course · OK"}
+         "feelings": "Happy · Hungry · Ill · Busy", "yes-no": "Yes · No · Of course · OK", "numbers": "1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 9 · 10"}
 
 def ar_spans(note):     # Arabic inside an English note gets the Arabic font
     import re
@@ -84,6 +107,7 @@ if __name__ == "__main__":
         b = pw.chromium.launch(executable_path=S.CHROME if os.path.exists(S.CHROME) else None)
         pg = b.new_page(viewport={"width": 1080, "height": 1350})
         for sid, (cover, W) in SETS.items():
+            if sys.argv[1:] and sid not in sys.argv[1:]: continue      # python3 brag-quiz/build_word_carousels.py numbers
             out = os.path.join(S.HERE, "stills", sid); os.makedirs(out, exist_ok=True)
             for k, body in slides(cover, W, sid).items():
                 tmp = os.path.join(out, "_s.html"); open(tmp, "w").write(f'<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head>{body}</html>')
