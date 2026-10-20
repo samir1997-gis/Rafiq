@@ -42,3 +42,11 @@ shapes**: our palette and our own graphics, always.
 ## Sound
 The voice, the fountain bed underneath (`build_teach.py`'s crossfaded loop, volume 0.1), a soft swoosh on each camera move
 and a click on each pill or pop. Level to -16 LUFS. Everything in `FORMATS.md`'s checklist still applies.
+
+## The quiet style, no voice (owner, 20 Oct 2026; reference reel analysed, `reels/ghurabaa-quiet/build.py`)
+For text-only videos. Dark page in our ink, cream and gold. Each beat: a short **italic serif headline** at the top whose words arrive
+left to right from blur; **one thing in the middle** (a gold-edged card, a box that **types** with a cursor, list lines and tiles that
+**tick in**, a highlight that **hops across a grid and lands**, bubbles that **stack**); a **blur cross-fade** between beats, never a
+camera move; one **big gold reveal** that materialises with small lines ticking in under it. Sound (measured on the reference without
+its voice): a quiet bed, **one soft airy whoosh per scene change**, **tiny pitched ticks** for each thing that appears, typing clicks,
+**one low thump** on the big reveal (`brag-quiz/sfx/soft/`, made for this). Levelled to about -18 LUFS (no voice to carry -16).
