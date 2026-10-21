@@ -156,7 +156,8 @@ by in shā' Allāh" (respect 1.37: avoid jokes on religious phrases); loanwords 
 like the simple ones they can relate to"), so five more in the same format, words and sentences from the course: `pronouns`
 (I/you/he/she/we, "we" in نَعْبُدُ), `time` (today/tomorrow/yesterday/now/after that), `here-this` (here/there/this m/f),
 `feelings` (happy/hungry/ill/busy), `yes-no` (yes/no/of course/OK). Drive: "Rafiq videos" → one "Carousel - …" folder each.
-Next in the series, if they work: colours, "and/but/with/in".
+Next in the series, if they work: "and/but/with/in", family words (to go with f4-family).
+**Made 21 Oct 2026:** `colours` (`build_word_carousels.py colours`, #272): six colours in both forms (أَحْمَر / حَمْراء), the course's own sentences, the Green Dome, al-Baqarah 2:69, the Black Stone; a swatch on each slide and the cover's words in their own colours. Caption candidates: `tools/typesafe-exp/colours_caption.py` (not run yet).
 **Made 20 Oct 2026:** `numbers` (1–10, `build_word_carousels.py numbers`): the course's own words and sentences, a salah link on 2/3/4/5/7 (Fajr رَكْعَتانِ, Maghrib 3, Dhuhr/ʿAsr/ʿIshāʾ 4, five prayers, al-Fātiḥah's 7 verses), أَحَد in al-Ikhlāṣ, the dual for two, 3–10 working backwards, Arabic numerals ١٢٣. Caption candidates: `tools/typesafe-exp/numbers_caption.py` (not run yet).
 **Made 19 Oct 2026:** `ghurabaa` carousel (`build_ghurabaa_carousel.py`): the strangers hadith (Muslim 145) word by word, the root غ ر ب
 (Maghrib and stranger are family), Bukhari 6416. Drive: "Carousel - Strangers (ghurabaa)". Teacher to check the glosses.

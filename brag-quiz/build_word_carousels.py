@@ -75,12 +75,34 @@ SETS = {
    ("10 · ten", "عَشَرَة", "ʿashara · ١٠", [("بَعْدَ عَشْرِ دَقائِقَ.", "عَشْرِ", "baʿda ʿashri daqā'iq.", "In ten minutes.")],
     "The digits you write are called “Arabic numerals”. In Arabic: 1 = ١ · 2 = ٢ · 3 = ٣ · 10 = ١٠"),
  ]),
+ # colours (IDEAS "next in the series"; owner 21 Oct 2026): the course's own words (vocab-data.js), sentences (drills-data.js: the
+ # thobe/car templates, the "five things in your house" answer, the shop dialogue) and its rule (essentials-data.js: the second form
+ # is for feminine nouns). Notes: the Green Dome, al-Baqarah 2:69, the Black Stone.
+ "colours": ("Can you say all 6<br>in Arabic? 👀", [
+   ("red", "أَحْمَر · حَمْراء", '<i class="sw" style="background:#c0392b"></i> aḥmar · ḥamrāʾ (f)', [("هَذا ثَوْبٌ أَحْمَرُ.", "أَحْمَرُ", "hādhā thawbun aḥmar.", "This is a red thobe."),
+                                                    ("هَذِهِ سَيَّارَةٌ حَمْراءُ.", "حَمْراءُ", "hādhihi sayyāratun ḥamrā'.", "This is a red car.")],
+    "Every colour has a second form for feminine words: حَمْراء, like سَيَّارَةٌ حَمْراءُ (a red car)."),
+   ("blue", "أَزْرَق · زَرْقاء", '<i class="sw" style="background:#2f6fb5"></i> azraq · zarqāʾ (f)', [("وَهَلْ عِنْدَكَ قَمِيصٌ أَزْرَقُ؟", "أَزْرَقُ", "wa hal ʿindaka qamīṣun azraq?", "And do you have a blue shirt?"),
+                                                      ("السَّيَّارَةُ زَرْقاءُ.", "زَرْقاءُ", "as-sayyāratu zarqā'.", "The car is blue.")], ""),
+   ("green", "أَخْضَر · خَضْراء", '<i class="sw" style="background:#2e7d4f"></i> akhḍar · khaḍrāʾ (f)', [("الْقَمِيصُ أَخْضَرُ.", "أَخْضَرُ", "al-qamīṣu akhḍar.", "The shirt is green.")],
+    "The Green Dome in Madinah: الْقُبَّةُ الْخَضْراءُ."),
+   ("yellow", "أَصْفَر · صَفْراء", '<i class="sw" style="background:#e9b949"></i> aṣfar · ṣafrāʾ (f)', [("الثَّوْبُ أَصْفَرُ.", "أَصْفَرُ", "ath-thawbu aṣfar.", "The thobe is yellow.")],
+    "In al-Baqarah (2:69), the cow is بَقَرَةٌ صَفْراءُ: a yellow cow."),
+   ("white", "أَبْيَض · بَيْضاء", '<i class="sw" style="background:#ffffff"></i> abyaḍ · bayḍāʾ (f)', [("هَذا ثَوْبٌ أَبْيَضُ جَمِيلٌ.", "أَبْيَضُ", "hādhā thawbun abyaḍu jamīl.", "This is a beautiful white thobe."),
+                                                       ("السَّيَّارَةُ بَيْضاءُ.", "بَيْضاءُ", "as-sayyāratu bayḍā'.", "The car is white.")], ""),
+   ("black", "أَسْوَد · سَوْداء", '<i class="sw" style="background:#17262b"></i> aswad · sawdāʾ (f)', [("الْمِظَلَّةُ سَوْداءُ.", "سَوْداءُ", "al-miẓallatu sawdā'.", "The umbrella is black.")],
+    "The Black Stone of the Kaaba: الْحَجَرُ الْأَسْوَدُ."),
+ ]),
 }
 
-CSS = QC.CSS + ".en.long { font-size:80px; top:245px; } .ar.long { font-size:160px; top:390px; } .note span { unicode-bidi:isolate; } .cov.few b { font-size:150px; }"
+CSS = QC.CSS + (".sw { display:inline-block; width:34px; height:34px; border-radius:50%; border:3px solid rgba(23,38,43,.25); vertical-align:-6px; margin-right:6px; }"
+               ".cov.colours b:nth-child(1) { color:#c0392b; } .cov.colours b:nth-child(2) { color:#2f6fb5; } .cov.colours b:nth-child(3) { color:#2e7d4f; }"
+               ".cov.colours b:nth-child(4) { color:#d9a514; } .cov.colours b:nth-child(5) { color:#fff; -webkit-text-stroke:2px #17262b; }"
+               ".cov.colours b:nth-child(6) { color:#17262b; }") + ".en.long { font-size:80px; top:245px; } .ar.long { font-size:160px; top:390px; } .note span { unicode-bidi:isolate; } .cov.few b { font-size:150px; }"
 # the cover: the short words only
 COVER = {"pronouns": "I · You · He · She · We", "time": "Today · Tomorrow · Yesterday · Now · After that", "here-this": "Here · There · This",
-         "feelings": "Happy · Hungry · Ill · Busy", "yes-no": "Yes · No · Of course · OK", "numbers": "1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 9 · 10"}
+         "feelings": "Happy · Hungry · Ill · Busy", "yes-no": "Yes · No · Of course · OK", "numbers": "1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 9 · 10",
+         "colours": "Red · Blue · Green · Yellow · White · Black"}
 
 def ar_spans(note):     # Arabic inside an English note gets the Arabic font
     import re
@@ -88,7 +110,7 @@ def ar_spans(note):     # Arabic inside an English note gets the Arabic font
 
 def slides(cover, W, sid):
     n = len(W); cw = COVER[sid].split(" · ")
-    out = {"1": f'<body>{S.BRAND}<div class="cov{" few" if len(cw) < 6 else ""}">' + "".join(f"<b>{e}</b>" for e in cw) + '</div>'
+    out = {"1": f'<body>{S.BRAND}<div class="cov{" few" if len(cw) < 6 else ""} {sid}">' + "".join(f"<b>{e}</b>" for e in cw) + '</div>'
                 f'<div class="cq">{cover}</div><div class="cs">SWIPE AND COUNT YOUR SCORE →</div></body>'}
     for k, (en, ar, tr, ex, note) in enumerate(W, 2):
         top = 760 if len(ex) == 1 else 690
