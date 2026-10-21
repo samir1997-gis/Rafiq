@@ -8,23 +8,23 @@ import numpy as np
 W = sys.argv[1]
 U = {   # sentence: (from, to) in assembly.mp4
  "A": (0.00, 11.60),    # If you are a Muslim in 2026, you need to realise the odds are already stacked against you, especially … in the West.
- "B": (12.15, 20.75),   # Everywhere you look, everywhere you turn, there is fitna, there is a war being waged against you,
- "C": (20.85, 32.00),   # there are forces that are secretly conspiring to act against you … they want to take you away from your deen.
+ "B": (12.15, 20.62),   # Everywhere you look, everywhere you turn, there is fitna, there is a war being waged against you,
+ "C": (20.62, 32.00),   # there are forces that are secretly conspiring to act against you … they want to take you away from your deen.
  "D": (32.05, 37.60),   # It's a reality, and the sooner we realise that reality, the sooner we can combat this.
  "E": (37.65, 41.60),   # The reality is we have to level up as Muslims.
  "F": (41.95, 49.37),   # It's not enough to just be passive Muslims … it's really not enough anymore.
  "H": (52.35, 57.65),   # We have to start investing in ourselves, we have to start investing in our deen.
  "I": (57.65, 63.60),   # From my personal experience, the easiest way to do this is by studying the Arabic language.
- "J": (63.85, 69.95),   # The Quran was sent down to the Prophet Muhammad ﷺ in Arabic.
- "L": (77.65, 82.05),   # Learning Arabic can change your life, and I know that's a big statement, but it's the truth,
+ "J": (63.85, 70.08),   # The Quran was sent down to the Prophet Muhammad ﷺ in Arabic.
+ "L": (77.88, 82.05),   # Learning Arabic can change your life, and I know that's a big statement, but it's the truth,
  "M": (82.05, 91.00),   # because not only will you be able to understand what you say in your salah … directly communicating with Allah.
  "P": (106.15, 113.60), # I know, I know you have heard all your life that learning the Arabic language is super duper difficult.
  "Q": (113.65, 119.95), # People start learning Arabic, they get nowhere and they quit, but I have a solution for you.
- "R": (119.89, 123.34), # I'm not here to sell you on something that I personally don't believe in.
- "S": (123.62, 137.45), # Look, my proposal is very simple. Sign up to Rafiq, try it for one month … and if you do not see a change in your life, in your salah,
- "S4": (143.35, 146.50),# cancel your subscription and I will give you a full refund.
- "T": (147.87, 153.90), # Within days you will start seeing a difference in your salah, you'll start seeing a difference in your duʿa.
- "X": (167.81, 172.90), # One month of Rafiq costs about the same as a cup of coffee does nowadays.
+ "R": (120.21, 123.68), # I'm not here to sell you on something that I personally don't believe in.
+ "S": (123.95, 137.45), # Look, my proposal is very simple. Sign up to Rafiq, try it for one month … and if you do not see a change in your life, in your salah,
+ "S4": (143.35, 146.93),# cancel your subscription and I will give you a full refund.
+ "T": (148.52, 153.90), # Within days you will start seeing a difference in your salah, you'll start seeing a difference in your duʿa.
+ "X": (168.27, 172.90), # One month of Rafiq costs about the same as a cup of coffee does nowadays.
  "Y": (173.00, 181.40), # If you're ready to level up as a Muslim … then sign up to RafiqArabic.com.
  "Z": (181.50, 999)} # Everyone who signs up gets a 7-day free trial, no card details required … you can just walk away.
 V = {"v1": "A B E F I J R S S4 X Y Z",   # the odds are stacked against you (~86 s)
@@ -35,9 +35,9 @@ V = {"v1": "A B E F I J R S S4 X Y Z",   # the odds are stacked against you (~86
 x = np.frombuffer(subprocess.run(["ffmpeg", "-v", "error", "-i", os.path.join(W, "assembly.mp4"), "-vn", "-ac", "1", "-ar", "16000", "-f", "s16le", "-"],
                                  capture_output=True).stdout, np.int16).astype(float) / 32768
 e = np.sqrt(np.convolve(x ** 2, np.ones(320) / 320, "same"))
-def snap(t, w=0.03):                                     # the quietest 20 ms near t (the times above are already measured gaps)
+def snap(t, w=0.0):                                      # no snapping: the times above are measured (word edges from short transcripts, joins between takes)
     a, b = max(0, int((t - w) * 16000)), min(len(e) - 1, int((t + w) * 16000))
-    return round((a + int(np.argmin(e[a:b]))) / 16000, 3) if b > a else t
+    return round((a + int(np.argmin(e[a:b]))) / 16000, 3) if b > a else round(t, 3)
 for name, seq in V.items():
     d = os.path.join(W, name); os.makedirs(d, exist_ok=True); lst = []
     for k, u in enumerate(seq.split()):
