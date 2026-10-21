@@ -126,6 +126,9 @@ elif STEP == "layers":
     for c in C["broll"]["flick"]:
         if not os.path.exists(f"broll/{c}"):
             os.makedirs(f"broll/{c}"); sh("ffmpeg", "-v", "error", "-y", "-i", f"{clips}/{c}.mp4", "-t", "3", "-vf", "fps=30,scale=920:-2,crop=920:1500:0:(ih-1500)*0.3", "-q:v", "3", f"broll/{c}/%04d.jpg")
+    for c in {p[3]["clip"] for p in C.get("panels", []) if p[2] == "app"}:    # the phone cutaways: the whole recording
+        if not os.path.exists(f"broll/app_{c}"):
+            os.makedirs(f"broll/app_{c}"); sh("ffmpeg", "-v", "error", "-y", "-i", f"{clips}/{c}.mp4", "-vf", "fps=30,scale=610:-2", "-q:v", "3", f"broll/app_{c}/%04d.jpg")
     C["n"] = {c: len(os.listdir(f"broll/{c}")) for c in os.listdir("broll")}
     C["split"] = C["split"] or [-1, -1]
     for L in ("back", "front"): os.makedirs(L, exist_ok=True)
@@ -185,7 +188,7 @@ elif STEP == "mix":
         if keep: v *= 10 ** ((float(re.findall(r"I:\s+(-?[\d.]+) LUFS", m)[-1]) + 14.5) / 20)   # effects sit against the voice as it is
         ms = int(max(0, t) * 1000); fc.append(f"[{i+5}:a]aresample=48000,aformat=channel_layouts=stereo,volume={v},adelay={ms}|{ms}[s{i}]")
     fc.append("".join(f"[s{i}]" for i in range(len(E))) + f"amix=inputs={len(E)}:normalize=0,apad[sfx]")
-    fc.append("[voice][sfx]amix=inputs=2:normalize=0:duration=first" + ("[a]" if keep else ",lowpass=f=16000:poles=2,alimiter=limit=0.8:level=false[a]"))
+    fc.append("[voice][sfx]amix=inputs=2:normalize=0:duration=first" + ("[a]" if keep else ",lowpass=f=16000:poles=2,alimiter=limit=0.7:attack=1:release=60:level=false[a]"))
     sh(*args, "-filter_complex", ";".join(fc), "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "21", "-preset", "slow", "-maxrate", "4.2M", "-bufsize", "8M",
        "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "reel.mp4")
     print("reel.mp4 ready")

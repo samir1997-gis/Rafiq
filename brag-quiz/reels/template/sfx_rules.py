@@ -55,7 +55,7 @@ def events(C):
     for a, _ in C.get("punch", []): add(pick("punch"), "swoosh", a)
     for c in C["caps"]:                                                       # other stressed words pop with a tap
         for w, s, em in c[2]:
-            if em and round(s, 2) not in punches | stepped and not any(p[0] <= s < p[1] for p in C.get("panels", [])):
+            if em and round(s, 2) not in punches | stepped and not any(p[0] <= s < p[1] and p[2] != "app" for p in C.get("panels", [])):
                 add(pick("emph"), "tap", s)                                   # (captions are hidden under a panel: its tiles tap)
     if C.get("split") and C["split"][0] >= 0:
         s0, s1 = C["split"]
@@ -88,6 +88,6 @@ def events(C):
     busy = [e[1] + info(e[0])[1] for e in E]                                  # when each sound lands
     for c in C["caps"]:                                                       # every caption line appears with a soft tap,
         t = c[0]                                                              # unless another sound already lands there
-        if any(p[0] <= t < p[1] for p in C.get("panels", [])) or any(abs(t - b) < .15 for b in busy): continue
+        if any(p[0] <= t < p[1] and p[2] != "app" for p in C.get("panels", [])) or any(abs(t - b) < .15 for b in busy): continue   # (an app panel keeps its captions)
         add(pick("text"), "text", t); busy.append(t)
     return sorted(E, key=lambda e: e[1])
