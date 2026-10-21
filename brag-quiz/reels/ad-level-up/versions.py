@@ -27,11 +27,11 @@ U = {   # sentence: (from, to) in assembly.mp4
  "X": (168.27, 173.44), # One month of Rafiq costs about the same as a cup of coffee does nowadays.
  "Y": (173.44, 181.81), # If you're ready to level up as a Muslim … then sign up to RafiqArabic.com.
  "Z": (181.81, 999)} # Everyone who signs up gets a 7-day free trial, no card details required … you can just walk away.
-V = {"v1": "A B E F I J R S S4 X Y Z",   # the odds are stacked against you (~86 s)
-     "v2": "L A F I M X Y Z",            # learning Arabic can change your life (~60 s)
-     "v3": "C D F I J X Y",              # forces want to take you away from your deen (~50 s)
+V = {"v1": "A B F E H I J R S S4 X Y Z",   # the odds are stacked against you (~86 s)
+     "v2": "L A F E H I M X Y Z",            # learning Arabic can change your life (~60 s)
+     "v3": "C D F E H I J X Y",              # forces want to take you away from your deen (~50 s)
      "v4": "T P Q R S S4 Y",             # within days, a difference in your salah (~49 s)
-     "v5": "F E I X Y"}                  # it's not enough to be passive Muslims (~31 s)
+     "v5": "F E H I X Y"}                  # it's not enough to be passive Muslims (~31 s)
 x = np.frombuffer(subprocess.run(["ffmpeg", "-v", "error", "-i", os.path.join(W, "assembly.mp4"), "-vn", "-ac", "1", "-ar", "16000", "-f", "s16le", "-"],
                                  capture_output=True).stdout, np.int16).astype(float) / 32768
 e = np.sqrt(np.convolve(x ** 2, np.ones(320) / 320, "same"))
