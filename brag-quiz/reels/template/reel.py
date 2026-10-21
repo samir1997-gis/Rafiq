@@ -188,7 +188,7 @@ elif STEP == "mix":
         if keep: v *= 10 ** ((float(re.findall(r"I:\s+(-?[\d.]+) LUFS", m)[-1]) + 14.5) / 20)   # effects sit against the voice as it is
         ms = int(max(0, t) * 1000); fc.append(f"[{i+5}:a]aresample=48000,aformat=channel_layouts=stereo,volume={v},adelay={ms}|{ms}[s{i}]")
     fc.append("".join(f"[s{i}]" for i in range(len(E))) + f"amix=inputs={len(E)}:normalize=0,apad[sfx]")
-    fc.append("[voice][sfx]amix=inputs=2:normalize=0:duration=first" + ("[a]" if keep else ",lowpass=f=16000:poles=2,alimiter=limit=0.7:attack=1:release=60:level=false[a]"))
+    fc.append("[voice][sfx]amix=inputs=2:normalize=0:duration=first" + ("[a]" if keep else ",lowpass=f=16000:poles=2,aresample=192000,alimiter=limit=0.7:attack=1:release=60:level=false,aresample=48000[a]"))
     sh(*args, "-filter_complex", ";".join(fc), "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "21", "-preset", "slow", "-maxrate", "4.2M", "-bufsize", "8M",
        "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "reel.mp4")
     print("reel.mp4 ready")
