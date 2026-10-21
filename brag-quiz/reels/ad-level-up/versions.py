@@ -12,12 +12,12 @@ U = {   # sentence: (from, to) in assembly.mp4
  "C": (20.62, 32.00),   # there are forces that are secretly conspiring to act against you … they want to take you away from your deen.
  "D": (32.05, 37.60),   # It's a reality, and the sooner we realise that reality, the sooner we can combat this.
  "E": (37.65, 41.60),   # The reality is we have to level up as Muslims.
- "F": (41.95, 49.37),   # It's not enough to just be passive Muslims … it's really not enough anymore.
+ "F": (41.95, 49.54),   # It's not enough to just be passive Muslims … it's really not enough anymore.
  "H": (52.35, 57.65),   # We have to start investing in ourselves, we have to start investing in our deen.
  "I": (57.65, 63.60),   # From my personal experience, the easiest way to do this is by studying the Arabic language.
  "J": (63.85, 70.08),   # The Quran was sent down to the Prophet Muhammad ﷺ in Arabic.
- "L": (77.88, 82.05),   # Learning Arabic can change your life, and I know that's a big statement, but it's the truth,
- "M": (82.05, 91.00),   # because not only will you be able to understand what you say in your salah … directly communicating with Allah.
+ "L": (77.88, 82.11),   # Learning Arabic can change your life, and I know that's a big statement, but it's the truth,
+ "M": (82.11, 91.00),   # because not only will you be able to understand what you say in your salah … directly communicating with Allah.
  "P": (106.15, 113.60), # I know, I know you have heard all your life that learning the Arabic language is super duper difficult.
  "Q": (113.65, 119.95), # People start learning Arabic, they get nowhere and they quit, but I have a solution for you.
  "R": (120.21, 123.68), # I'm not here to sell you on something that I personally don't believe in.
@@ -41,11 +41,11 @@ def snap(t, w=0.0):                                      # no snapping: the time
 for name, seq in V.items():
     d = os.path.join(W, name); os.makedirs(d, exist_ok=True); lst = []
     for k, u in enumerate(seq.split()):
-        a, b = U[u]; a, b = (snap(a) if a > 0 else 0.0), (snap(b) if b < len(e) / 16000 - 0.1 else len(e) / 16000)
+        a, b = U[u]; a, b = (snap(a) if a > 0 else 0.0), (snap(b) if b < 999 else 999.0)   # 999: to the end of the file (trim stops there)
         f = os.path.join(d, f"{k:02d}.mov"); lst.append(f"file '{f}'")
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", os.path.join(W, "assembly.mp4"),     # trim filters: exact, and the fades sit on the piece
                         "-vf", f"trim={a:.3f}:{b:.3f},setpts=PTS-STARTPTS,fps=30,format=yuv420p",
-                        "-af", f"atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS,afade=t=in:d=0.012,afade=t=out:st={b - a - 0.02:.3f}:d=0.02",
+                        "-af", f"atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS,afade=t=in:d=0.012,afade=t=out:st={(b if b < 999 else 190.88) - a - 0.02:.3f}:d=0.02",
                         "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-c:a", "pcm_s16le", f], check=True)
     open(os.path.join(d, "list.txt"), "w").write("\n".join(lst))
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", os.path.join(d, "list.txt"), "-af", "loudnorm=I=-16:TP=-1.5:LRA=11",
