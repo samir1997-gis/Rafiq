@@ -7,7 +7,7 @@ import numpy as np
 W = sys.argv[1]
 # (take, from, to, what's said): times are the take's own, from the transcript
 PIECES = [
- ("0045", 20.90, 71.65, "If you are a Muslim in 2026 … the sooner we can combat this."),
+ ("0045", 31.85, 71.65, "If you are a Muslim in 2026 … the sooner we can combat this."),   # the clean take (31.9 s; the first try stops at "the…")
  ("0045", 110.05, 124.05, "the reality is we have to level up as Muslims … It's really not enough anymore."),
  ("0045", 124.45, 127.75, "Look around you. Look what's happening in the world."),
  ("0046", 5.95, 11.30, "We have to start investing in ourselves, we have to start investing in our deen."),
