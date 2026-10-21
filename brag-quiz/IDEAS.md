@@ -119,8 +119,10 @@ zooms into عَمَّة (dad's sister) and pans to خالَة (mum's sister); fu
 the place of the mother" (al-Bukhārī 2699); your turn: mum's brother, 3-2-1, خال; ask: tag your khala; 45 s). Caption candidates:
 `tools/typesafe-exp/family_caption.py` (not run yet). Next in this format: zoom into grandpa/grandma, or عَمّ and its root.
 
+**Made 21 Oct 2026 (`build_formula.py`, #272):** `n3-ilm` (the word tree, part 2, now `word_tree()` shared with n2-rahma: hook "The WORLD is a sign, and you say it in every prayer!" over the sun, moon, stars, mountains, sea and trees tagged "a sign"; al-Fātiḥah 1:2 (al-Husary); ع ل م grows عِلْم and مُعَلِّم; your turn عَلامَة, 3-2-1, a sign; Ibn Kathīr on 1:2, ʿālam from ʿalāma; then the owner's end card (`brag-quiz/out/endcard/endcard-cream.mp4`); 50.5 s). Caption candidates: `tools/typesafe-exp/ilm_caption.py` (not run yet).
+
 ## More ideas (not made yet)
-- Root series part 5: another word tree (the format above), e.g. ع ل م (ʿilm, ʿālam, al-ʿālamīn in al-Fātiḥah, muʿallim).
+- Root series part 6: another word tree (`word_tree()` in `build_formula.py`), e.g. ح م د (al-ḥamd, Muḥammad, Aḥmad, Maḥmūd) or ص ل و.
 
 ## Ramadan countdown (parked by the owner, 4 Oct 2026, to come back to)
 
@@ -156,7 +158,8 @@ by in shā' Allāh" (respect 1.37: avoid jokes on religious phrases); loanwords 
 like the simple ones they can relate to"), so five more in the same format, words and sentences from the course: `pronouns`
 (I/you/he/she/we, "we" in نَعْبُدُ), `time` (today/tomorrow/yesterday/now/after that), `here-this` (here/there/this m/f),
 `feelings` (happy/hungry/ill/busy), `yes-no` (yes/no/of course/OK). Drive: "Rafiq videos" → one "Carousel - …" folder each.
-Next in the series, if they work: colours, "and/but/with/in".
+Next in the series, if they work: "and/but/with/in", family words (to go with f4-family).
+**Made 21 Oct 2026:** `colours` (`build_word_carousels.py colours`, #272): six colours in both forms (أَحْمَر / حَمْراء), the course's own sentences, the Green Dome, al-Baqarah 2:69, the Black Stone; a swatch on each slide and the cover's words in their own colours. Caption candidates: `tools/typesafe-exp/colours_caption.py` (not run yet).
 **Made 20 Oct 2026:** `numbers` (1–10, `build_word_carousels.py numbers`): the course's own words and sentences, a salah link on 2/3/4/5/7 (Fajr رَكْعَتانِ, Maghrib 3, Dhuhr/ʿAsr/ʿIshāʾ 4, five prayers, al-Fātiḥah's 7 verses), أَحَد in al-Ikhlāṣ, the dual for two, 3–10 working backwards, Arabic numerals ١٢٣. Caption candidates: `tools/typesafe-exp/numbers_caption.py` (not run yet).
 **Made 19 Oct 2026:** `ghurabaa` carousel (`build_ghurabaa_carousel.py`): the strangers hadith (Muslim 145) word by word, the root غ ر ب
 (Maghrib and stranger are family), Bukhari 6416. Drive: "Carousel - Strangers (ghurabaa)". Teacher to check the glosses.
