@@ -68,7 +68,7 @@ V = {   # per version: gold words (their start times), titles, app panels, flick
         flicks=[[0, 2.6, "NOT ENOUGH", 190], [35.36, None, "RAFIQARABIC.COM", 120]],
         punch=[[5.64, 6.0], [6.86, 7.1], [10.18, 10.6], [18.96, 19.5], [29.24, 29.5]]),
 }
-FIX = {"fitment": "fitna", "din": "deen", "car": "card", "rafah": "Rafiq", "rafik": "Rafiq", "rafih": "Rafiq", "rafeeq": "Rafiq", "rafiq": "Rafiq", "wall": "war"}
+FIX = {"fitment": "fitna", "din": "deen", "car": "card", "rafah": "Rafiq", "rafik": "Rafiq", "rafih": "Rafiq", "rafeeq": "Rafiq", "rafiq": "Rafiq", "wall": "war", "realize": "realise"}
 
 C = json.load(open(f"{W}/config.json")); S = V[N]; end = C["end"]
 for c in C["caps"]:                                      # the brand and Arabic words spelled right; "RafiqArabic .com" as one word
