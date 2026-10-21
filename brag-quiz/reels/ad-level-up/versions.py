@@ -20,13 +20,13 @@ U = {   # sentence: (from, to) in assembly.mp4
  "M": (82.05, 91.00),   # because not only will you be able to understand what you say in your salah … directly communicating with Allah.
  "P": (106.15, 113.60), # I know, I know you have heard all your life that learning the Arabic language is super duper difficult.
  "Q": (113.65, 119.95), # People start learning Arabic, they get nowhere and they quit, but I have a solution for you.
- "R": (119.95, 123.50), # I'm not here to sell you on something that I personally don't believe in.
- "S": (123.55, 137.45), # Look, my proposal is very simple. Sign up to Rafiq, try it for one month … and if you do not see a change in your life, in your salah,
- "S4": (143.35, 146.45),# cancel your subscription and I will give you a full refund.
- "T": (148.05, 153.90), # Within days you will start seeing a difference in your salah, you'll start seeing a difference in your duʿa.
- "X": (168.00, 172.90), # One month of Rafiq costs about the same as a cup of coffee does nowadays.
+ "R": (119.89, 123.34), # I'm not here to sell you on something that I personally don't believe in.
+ "S": (123.62, 137.45), # Look, my proposal is very simple. Sign up to Rafiq, try it for one month … and if you do not see a change in your life, in your salah,
+ "S4": (143.35, 146.50),# cancel your subscription and I will give you a full refund.
+ "T": (147.87, 153.90), # Within days you will start seeing a difference in your salah, you'll start seeing a difference in your duʿa.
+ "X": (167.81, 172.90), # One month of Rafiq costs about the same as a cup of coffee does nowadays.
  "Y": (173.00, 181.40), # If you're ready to level up as a Muslim … then sign up to RafiqArabic.com.
- "Z": (181.50, 190.40)} # Everyone who signs up gets a 7-day free trial, no card details required … you can just walk away.
+ "Z": (181.50, 999)} # Everyone who signs up gets a 7-day free trial, no card details required … you can just walk away.
 V = {"v1": "A B E F I J R S S4 X Y Z",   # the odds are stacked against you (~86 s)
      "v2": "L A F I M X Y Z",            # learning Arabic can change your life (~60 s)
      "v3": "C D F I J X Y",              # forces want to take you away from your deen (~50 s)
@@ -35,13 +35,13 @@ V = {"v1": "A B E F I J R S S4 X Y Z",   # the odds are stacked against you (~86
 x = np.frombuffer(subprocess.run(["ffmpeg", "-v", "error", "-i", os.path.join(W, "assembly.mp4"), "-vn", "-ac", "1", "-ar", "16000", "-f", "s16le", "-"],
                                  capture_output=True).stdout, np.int16).astype(float) / 32768
 e = np.sqrt(np.convolve(x ** 2, np.ones(320) / 320, "same"))
-def snap(t, w=0.15):                                     # the quietest 20 ms near t
+def snap(t, w=0.03):                                     # the quietest 20 ms near t (the times above are already measured gaps)
     a, b = max(0, int((t - w) * 16000)), min(len(e) - 1, int((t + w) * 16000))
     return round((a + int(np.argmin(e[a:b]))) / 16000, 3) if b > a else t
 for name, seq in V.items():
     d = os.path.join(W, name); os.makedirs(d, exist_ok=True); lst = []
     for k, u in enumerate(seq.split()):
-        a, b = U[u]; a, b = (snap(a) if a > 0 else 0.0), snap(b)
+        a, b = U[u]; a, b = (snap(a) if a > 0 else 0.0), (snap(b) if b < len(e) / 16000 - 0.1 else len(e) / 16000)
         f = os.path.join(d, f"{k:02d}.mov"); lst.append(f"file '{f}'")
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{a:.3f}", "-i", os.path.join(W, "assembly.mp4"), "-t", f"{b - a:.3f}", "-vf", "fps=30,format=yuv420p",
                         "-af", f"afade=t=in:d=0.012,afade=t=out:st={b - a - 0.02:.3f}:d=0.02", "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-c:a", "pcm_s16le", f], check=True)

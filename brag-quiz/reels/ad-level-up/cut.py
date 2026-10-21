@@ -22,7 +22,7 @@ PIECES = [
  ("0048", 0.65, 23.30, "Forget a full month … It's more personal."),
  ("0047", 0.00, 5.85, "1 month of Rafiq costs about the same as a cup of coffee does nowadays."),
  ("0052", 0.00, 9.00, "If you're ready to level up as a Muslim … sign up to RafiqArabic.com"),
- ("0052", 16.70, 26.70, "Everyone who signs up gets a 7 day free trial … you can just walk away")]
+ ("0052", 16.70, 27.40, "Everyone who signs up gets a 7 day free trial … you can just walk away")]   # to 27.4: "away" trails off
 GAP, PAD, KEEP = 0.33, 0.07, 0.22        # a pause longer than GAP inside a piece becomes KEEP long; PAD of air around each spoken bit
 
 def env(n):
