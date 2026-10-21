@@ -17,16 +17,16 @@ U = {   # sentence: (from, to) in assembly.mp4
  "I": (57.65, 63.60),   # From my personal experience, the easiest way to do this is by studying the Arabic language.
  "J": (63.85, 70.08),   # The Quran was sent down to the Prophet Muhammad ﷺ in Arabic.
  "L": (77.88, 82.11),   # Learning Arabic can change your life, and I know that's a big statement, but it's the truth,
- "M": (82.11, 91.00),   # because not only will you be able to understand what you say in your salah … directly communicating with Allah.
+ "M": (82.11, 91.51),   # because not only will you be able to understand what you say in your salah … directly communicating with Allah.
  "P": (106.15, 113.60), # I know, I know you have heard all your life that learning the Arabic language is super duper difficult.
  "Q": (113.65, 119.95), # People start learning Arabic, they get nowhere and they quit, but I have a solution for you.
  "R": (120.21, 123.68), # I'm not here to sell you on something that I personally don't believe in.
  "S": (123.95, 137.45), # Look, my proposal is very simple. Sign up to Rafiq, try it for one month … and if you do not see a change in your life, in your salah,
  "S4": (143.35, 146.93),# cancel your subscription and I will give you a full refund.
- "T": (148.52, 153.90), # Within days you will start seeing a difference in your salah, you'll start seeing a difference in your duʿa.
- "X": (168.27, 172.90), # One month of Rafiq costs about the same as a cup of coffee does nowadays.
- "Y": (173.00, 181.40), # If you're ready to level up as a Muslim … then sign up to RafiqArabic.com.
- "Z": (181.50, 999)} # Everyone who signs up gets a 7-day free trial, no card details required … you can just walk away.
+ "T": (148.52, 154.20), # Within days you will start seeing a difference in your salah, you'll start seeing a difference in your duʿa.
+ "X": (168.27, 173.44), # One month of Rafiq costs about the same as a cup of coffee does nowadays.
+ "Y": (173.44, 181.81), # If you're ready to level up as a Muslim … then sign up to RafiqArabic.com.
+ "Z": (181.81, 999)} # Everyone who signs up gets a 7-day free trial, no card details required … you can just walk away.
 V = {"v1": "A B E F I J R S S4 X Y Z",   # the odds are stacked against you (~86 s)
      "v2": "L A F I M X Y Z",            # learning Arabic can change your life (~60 s)
      "v3": "C D F I J X Y",              # forces want to take you away from your deen (~50 s)
