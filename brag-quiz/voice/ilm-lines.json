@@ -1,0 +1,96 @@
+[
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "h1a",
+  "text": "The [shouting] WORLD! [excited] is a sign, and you say it in every prayer!"
+ },
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "h1b",
+  "text": "The... [shouting] WORLD! [excited] is a sign... and you say it in every prayer!"
+ },
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "h1c",
+  "text": "[curious] The [shouting] WORLD! [normal] is a sign, and you say it in every prayer!"
+ },
+ {
+  "file": "c2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Three letters. One meaning: to know.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "b1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Knowledge.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "b2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "A teacher.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "b4b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "A SIGN!",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "c5",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Ibn Kathir explains: the world is called aalam because it's a sign, pointing to its Creator.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "file": "end",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "What sign of Allah did you notice today? Comment below!",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "file": "ilm",
+  "text": "عِلْم"
+ },
+ {
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "file": "alama",
+  "text": "عَلامَة"
+ },
+ {
+  "file": "fatiha-1-2",
+  "url": [
+   "https://verses.quran.foundation/Husary/Muallim/mp3/001002.mp3",
+   "https://verses.quran.com/Husary/Muallim/mp3/001002.mp3",
+   "https://everyayah.com/data/Husary_Muallim_128kbps/001002.mp3",
+   "https://everyayah.com/data/Husary_128kbps/001002.mp3"
+  ]
+ }
+]
