@@ -119,8 +119,10 @@ zooms into عَمَّة (dad's sister) and pans to خالَة (mum's sister); fu
 the place of the mother" (al-Bukhārī 2699); your turn: mum's brother, 3-2-1, خال; ask: tag your khala; 45 s). Caption candidates:
 `tools/typesafe-exp/family_caption.py` (not run yet). Next in this format: zoom into grandpa/grandma, or عَمّ and its root.
 
+**Made 21 Oct 2026 (`build_formula.py`, #272):** `n3-ilm` (the word tree, part 2, now `word_tree()` shared with n2-rahma: hook "The WORLD is a sign, and you say it in every prayer!" over the sun, moon, stars, mountains, sea and trees tagged "a sign"; al-Fātiḥah 1:2 (al-Husary); ع ل م grows عِلْم and مُعَلِّم; your turn عَلامَة, 3-2-1, a sign; Ibn Kathīr on 1:2, ʿālam from ʿalāma; then the owner's end card (`brag-quiz/out/endcard/endcard-cream.mp4`); 50.5 s). Caption candidates: `tools/typesafe-exp/ilm_caption.py` (not run yet).
+
 ## More ideas (not made yet)
-- Root series part 5: another word tree (the format above), e.g. ع ل م (ʿilm, ʿālam, al-ʿālamīn in al-Fātiḥah, muʿallim).
+- Root series part 6: another word tree (`word_tree()` in `build_formula.py`), e.g. ح م د (al-ḥamd, Muḥammad, Aḥmad, Maḥmūd) or ص ل و.
 
 ## Ramadan countdown (parked by the owner, 4 Oct 2026, to come back to)
 

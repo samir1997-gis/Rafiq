@@ -815,6 +815,90 @@ GROW = [  # the blooms, bottom to top: (branch path, left, top, width, Arabic, m
 LEAVES = [(560, 1500, -40), (476, 1440, 210), (560, 1300, -30), (470, 1120, 200), (566, 1010, -35), (480, 900, 205), (562, 690, -30),
           (484, 620, 210), (470, 1265, 160), (590, 1020, -60), (466, 790, 150)]   # (x, y, rotation) along the trunk
 
+def word_tree(c, body, t, cf):
+    """The word tree after its hook (n2-rahma, n3-ilm): the verse in al-Husary's recitation, its root letters turn red and drop in as
+    a seed, a trunk grows and a word blooms on each branch (cf["grow"]) with a counter clicking up, then the tree pulls back for
+    "your turn" on the crown (3-2-1, its meaning slams on), the source in a quote card, and the closing ask on the end card."""
+    V = cf["V"]
+    c.css += MASH_CSS + GROW_CSS + ".qref { color:#9a7826; }"
+    # 1. al-Fātiḥah 1:3: each word lights up as al-Husary recites it (from the audio: the ḥ of each word, minus its r-ra), then the root
+    body.append(f'<div class="sec" id="a"><div class="q2">You say it in al-Fātiḥah:</div><div class="qref" style="top:350px">{cf["ref"]}</div>'
+                '<div class="big" style="top:470px;font-size:140px" dir="rtl">' + " ".join(f'<span class="w" id="aw{i}">{word(w)}</span>' for i, w in enumerate(cf["verse"])) + '</div></div>')
+    whip_in(c, "a", t); d = clip(c, cf["c1"], t + 0.1); t += 0.1 + d + 0.1
+    dq = say_up(c, "", t, src=cf["recite"])
+    for i, s in enumerate(cf["times"]):
+        c.t(f'tl.fromTo("#aw{i}", {{scale:1}}, {{scale:1.1, duration:0.18, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t + s:.2f});')
+    t += dq + 0.1; c.t(f'tl.to("#a .pr", {{color:"{T.RED}", duration:0.3, stagger:0.08}}, {t:.2f});'); c.sfx("tap", t)
+    t = whip_out(c, "a", t + 0.8)
+    # 2. the tree: the three letters drop into the soil as a seed, the trunk grows, a word blooms on each branch as it's said
+    pets = "".join('<i class="pet"></i>' for _ in range(8))
+    blooms = "".join(f'<div class="bloom" id="bl{k}" style="left:{x}px;top:{y}px;width:{w}px"><div class="ar">{ar}</div><div class="lab"><b id="bl{k}e">{en}</b></div>{pets}</div>'
+                     for k, (_, x, y, w, ar, en, _, _) in enumerate(cf["grow"]))
+    n = len(cf["grow"])                              # the crown is bloom n
+    crown = (f'<div class="bloom crown" id="bl{n}" style="left:260px;top:290px;width:560px"><div class="ar">{cf["crown"][0]}</div><div class="lab"><b class="qm" id="bl{n}q">?</b>'
+             f'<b id="bl{n}e" style="color:var(--rubric)">{cf["crown"][1]}</b></div>{pets}</div>')
+    paths = (f'<path id="trunk" d="{TRUNK}" pathLength="1" style="stroke-width:30"/>' + "".join(f'<path id="br{k}" d="{p}" pathLength="1" style="stroke-width:18"/>'
+             for k, (p, *_ ) in enumerate(cf["grow"])) + '<path id="br3" d="M540,560 C540,548 540,536 540,522" pathLength="1" style="stroke-width:22"/>')
+    lv = "".join(f'<i class="leaf{" b" if k % 2 else ""}" id="lv{k}" style="left:{x}px;top:{y}px;transform:rotate({r}deg)"></i>' for k, (x, y, r) in enumerate(LEAVES))
+    ring = ('<div id="wc"><svg viewBox="0 0 190 190"><circle class="bg" cx="95" cy="95" r="80"/><circle class="fg" cx="95" cy="95" r="80"/></svg>'
+            + "".join(f'<span id="wc{k}">{k}</span>' for k in range(n + 2)) + '<small>WORDS, ONE ROOT</small></div>')
+    opts = '<div class="opts" id="qo" style="top:1450px">' + "".join(f'<div class="op2" id="qo{i}"><b>{o}</b></div>' for i, o in enumerate(cf["opts"])) + '</div>'
+    body.append(f'<div class="sec" id="tr"><div id="tv"><div class="soil"></div><svg class="tree" viewBox="0 0 1080 1920">{paths}</svg>{lv}'
+                f'<div class="seed" id="seed"><small>{cf["seed"][0]}</small>{cf["seed"][1]}</div>{blooms}{crown}{ring}</div>'
+                f'{cnt("qc", 1270)}{opts}<div class="quote" id="hq" style="top:1290px">{cf["quote"]}</div><div class="say" id="hs" style="top:1640px">{cf["say"]}</div><div id="tflash"></div></div>')
+    whip_in(c, "tr", t)
+    c.t(f'tl.fromTo("#seed", {{y:-760, scale:0.3, opacity:0}}, {{scale:2.1, opacity:1, duration:0.45, ease:"back.out(2)"}}, {t:.2f});'); c.sfx("tap", t + 0.1)
+    c.t(f'tl.fromTo(".soil", {{scaleX:0, opacity:0}}, {{scaleX:1, opacity:1, duration:0.4, ease:"power3.out"}}, {t + 0.3:.2f});')
+    d = clip(c, cf["c2"], t + 0.1); m = t + 0.1 + key_at(cf["c2"], cf["c2key"], 2.2)
+    c.t(f'tl.fromTo("#seed", {{scale:2.1}}, {{scale:2.35, duration:0.14, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {m:.2f});')
+    c.t(f'tl.to("#seed", {{y:0, scale:1, duration:0.45, ease:"power2.in"}}, {m + 0.45:.2f});'); c.sfx("tap", m + 0.9)   # it drops into the soil
+    g = m + 1.0; t += 0.1 + d
+    c.t(f'tl.to("#trunk", {{strokeDashoffset:0, duration:1.3, ease:"power2.inOut"}}, {g - 0.2:.2f});'); clip(c, "brag-quiz/sfx/ref/swoosh.wav", g - 0.2, 0.35)
+    for k, (x, y, r) in enumerate(LEAVES):           # the leaves open as the trunk passes them
+        c.t(f'tl.fromTo("#lv{k}", {{scale:0}}, {{scale:1, duration:0.35, ease:"back.out(2.5)"}}, {g - 0.2 + 1.3 * (1615 - y) / 1075:.2f});')
+    c.t(f'tl.fromTo("#wc", {{opacity:0, scale:0.6}}, {{opacity:1, scale:1, duration:0.35, ease:"back.out(2)"}}, {g:.2f});'); c.t(f'tl.set("#wc0", {{opacity:1}}, {g:.2f});')
+    t = max(t, g + 1.1)
+    def pop(k, at):                                  # a bloom opens: petals burst, a tap, and the counter clicks up
+        c.t(f'tl.fromTo("#bl{k}", {{opacity:0, scale:0.15, rotation:{-14 if k % 2 else 14}}}, {{opacity:1, scale:1, rotation:0, duration:0.5, ease:"back.out(2.2)"}}, {at:.2f});')
+        c.t(f'tl.fromTo("#bl{k} .pet", {{opacity:1, x:0, y:0}}, {{opacity:0, x:(i) => Math.cos(i * Math.PI / 4) * 230, y:(i) => Math.sin(i * Math.PI / 4) * 150, '
+            f'duration:0.6, ease:"expo.out", immediateRender:false}}, {at + 0.05:.2f});')
+        c.t(f'tl.to("#wc{k}", {{opacity:0, duration:0.1}}, {at:.2f});')
+        c.t(f'tl.fromTo("#wc{k + 1}", {{opacity:0, scale:1.6}}, {{opacity:1, scale:1, duration:0.25, ease:"back.out(2)"}}, {at:.2f});')
+        c.t(f'tl.to("#wc .fg", {{strokeDashoffset:{503 * (1 - (k + 1) / (n + 1)):.0f}, duration:0.3, ease:"power2.out"}}, {at:.2f});')
+        clip(c, "brag-quiz/sfx/ref/click.wav", at, 0.8); c.sfx("tap", at + 0.05)
+    for k, (_, x, y, w, ar, en, rec, line) in enumerate(cf["grow"]):
+        c.t(f'tl.to("#br{k}", {{strokeDashoffset:0, duration:0.4, ease:"power2.out"}}, {t:.2f});'); clip(c, "brag-quiz/sfx/ref/short-swoosh.wav", t, 0.25)
+        pop(k, t + 0.3)
+        d = say_up(c, ar, t + 0.4) if rec is None else say_up(c, "", t + 0.4, src=V + rec + ".mp3"); t += 0.4 + d + 0.1
+        c.t(f'tl.fromTo("#bl{k}e", {{opacity:0, y:16}}, {{opacity:1, y:0, duration:0.3, ease:"power3.out"}}, {t:.2f});')
+        d = clip(c, V + line + ".mp3", t); t += d
+    # 3. your turn: the tree pulls back, the crown buds, 3-2-1, its meaning slams on, then the source
+    c.t(f'tl.to("#tv", {{scale:0.7, y:-20, transformOrigin:"540px 240px", duration:0.7, ease:"power3.inOut"}}, {t:.2f});')
+    d = clip(c, cf["t1"], t + 0.1)
+    c.t(f'tl.to("#br3", {{strokeDashoffset:0, duration:0.3}}, {t + 0.5:.2f});'); pop(n, t + 0.7)
+    c.t(f'tl.set("#bl{n}e", {{opacity:0}}, 0);'); t += 0.1 + d + 0.05
+    d = say_up(c, "", t, src=cf["crown_say"])
+    for i in range(3): c.inn(f"#qo{i}", t + 0.1 + i * 0.12, 30)
+    done = count_down(c, "qc", t + d + 0.3)
+    reveal(c, f"#qo{cf['right']}", [f"#qo{i}" for i in range(3) if i != cf["right"]], done)
+    d = clip(c, cf["slam"], done); hit = done + key_at(cf["slam"], cf["slam_key"], 0.14) + 0.05
+    c.t(f'tl.to("#bl{n}q", {{opacity:0, duration:0.1}}, {hit - 0.1:.2f});')
+    c.t(f'tl.fromTo("#bl{n}e", {{opacity:0, scale:2.6}}, {{opacity:1, scale:1, duration:0.2, ease:"power4.in"}}, {hit - 0.2:.2f});')
+    c.t(f'tl.fromTo("#tflash", {{opacity:0.8}}, {{opacity:0, duration:0.3, ease:"power2.out", immediateRender:false}}, {hit:.2f});')
+    c.t(f'tl.to("#tr", {{keyframes:[{{x:-26, y:16, duration:0.04}}, {{x:22, y:-12, duration:0.04}}, {{x:-12, y:8, duration:0.05}}, {{x:0, y:0, duration:0.06}}]}}, {hit:.2f});')
+    clip(c, "brag-quiz/sfx/crash.wav", hit - 0.02, 0.7); c.sfx("correct", hit + 0.1)
+    t = done + d + 0.5
+    c.t(f'tl.to(["#qo"], {{opacity:0, y:30, duration:0.3}}, {t - 0.3:.2f});')
+    d = clip(c, cf["c5"], t)
+    c.t(f'tl.fromTo("#hq", {{opacity:0, y:40, scale:0.96}}, {{opacity:1, y:0, scale:1, duration:0.45, ease:"power3.out"}}, {t + key_at(cf["c5"], cf["quote_key"], 1.6) - 0.1:.2f});')
+    f = t + key_at(cf["c5"], cf["say_key"], 4.8); c.inn("#hs", f - 0.05); c.sfx("correct", f + 0.3)
+    t += d + 0.5
+    # 4. the closing ask, heard in full on the end card
+    c.out_("#tr", t - 0.4); end = clip(c, cf["end"], t)
+    body.append(c.end(t, cf["end_line"]))
+    c.write("\n".join("      " + b for b in body), round(t + end + 0.9, 2))
+
+
 def n2():
     """The word tree (IDEAS "a word tree", owner 18 Oct 2026: "be more creative"), root series part 4: ر ح م. The hook's family,
     round the line, gets hidden under leaves as the vine creeps in ("FAMILY is hiding inside a word you say in every prayer!");
@@ -843,85 +927,48 @@ def n2():
         for k in (0, 3): c.sfx("tap", at(2) + 0.08 * k)
     words = "FAMILY is hiding inside a word you say in every prayer!".split()
     t = hook_in(c, body, (words, {0: "loud", 2: "red", 10: "circle"}, V + "h1a.mp3"), bg=(bg, anim))
-    c.css += MASH_CSS + GROW_CSS + ".qref { color:#9a7826; }"
-    # 1. al-Fātiḥah 1:3: each word lights up as al-Husary recites it (from the audio: the ḥ of each word, minus its r-ra), then the root
-    R1, R2 = [("ال", ""), ("رَّ", "r"), ("حْ", "r"), ("مَٰ", "r"), ("نِ", "")], [("ال", ""), ("رَّ", "r"), ("حِ", "r"), ("ي", ""), ("مِ", "r")]
-    body.append('<div class="sec" id="a"><div class="q2">You say it in al-Fātiḥah:</div><div class="qref" style="top:350px">AL-FĀTIḤAH · 1:3</div>'
-                f'<div class="big" style="top:470px;font-size:140px" dir="rtl"><span class="w" id="aw0">{word(R1)}</span> <span class="w" id="aw1">{word(R2)}</span></div></div>')
-    whip_in(c, "a", t); d = clip(c, V + "c1.mp3", t + 0.1); t += 0.1 + d + 0.1
-    dq = say_up(c, "", t, src=V + "fatiha-1-3t.mp3")
-    for i, s in enumerate((0.22, 1.55)):
-        c.t(f'tl.fromTo("#aw{i}", {{scale:1}}, {{scale:1.1, duration:0.18, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t + s:.2f});')
-    t += dq + 0.1; c.t(f'tl.to("#a .pr", {{color:"{T.RED}", duration:0.3, stagger:0.08}}, {t:.2f});'); c.sfx("tap", t)
-    t = whip_out(c, "a", t + 0.8)
-    # 2. the tree: the three letters drop into the soil as a seed, the trunk grows, a word blooms on each branch as it's said
-    pets = "".join('<i class="pet"></i>' for _ in range(8))
-    blooms = "".join(f'<div class="bloom" id="bl{k}" style="left:{x}px;top:{y}px;width:{w}px"><div class="ar">{ar}</div><div class="lab"><b id="bl{k}e">{en}</b></div>{pets}</div>'
-                     for k, (_, x, y, w, ar, en, _, _) in enumerate(GROW))
-    n = len(GROW)                                    # the crown is bloom n
-    crown = (f'<div class="bloom crown" id="bl{n}" style="left:260px;top:290px;width:560px"><div class="ar">رَحِم</div><div class="lab"><b class="qm" id="bl{n}q">?</b>'
-             f'<b id="bl{n}e" style="color:var(--rubric)">the womb</b></div>{pets}</div>')
-    paths = (f'<path id="trunk" d="{TRUNK}" pathLength="1" style="stroke-width:30"/>' + "".join(f'<path id="br{k}" d="{p}" pathLength="1" style="stroke-width:18"/>'
-             for k, (p, *_ ) in enumerate(GROW)) + '<path id="br3" d="M540,560 C540,548 540,536 540,522" pathLength="1" style="stroke-width:22"/>')
-    lv = "".join(f'<i class="leaf{" b" if k % 2 else ""}" id="lv{k}" style="left:{x}px;top:{y}px;transform:rotate({r}deg)"></i>' for k, (x, y, r) in enumerate(LEAVES))
-    ring = ('<div id="wc"><svg viewBox="0 0 190 190"><circle class="bg" cx="95" cy="95" r="80"/><circle class="fg" cx="95" cy="95" r="80"/></svg>'
-            + "".join(f'<span id="wc{k}">{k}</span>' for k in range(n + 2)) + '<small>WORDS, ONE ROOT</small></div>')
-    opts = '<div class="opts" id="qo" style="top:1450px">' + "".join(f'<div class="op2" id="qo{i}"><b>{o}</b></div>' for i, o in enumerate(["mercy", "the womb", "a family"])) + '</div>'
-    body.append(f'<div class="sec" id="tr"><div id="tv"><div class="soil"></div><svg class="tree" viewBox="0 0 1080 1920">{paths}</svg>{lv}'
-                f'<div class="seed" id="seed"><small>mercy =</small>ر ح م</div>{blooms}{crown}{ring}</div>'
-                f'{cnt("qc", 1270)}{opts}<div class="quote" id="hq" style="top:1290px"><q>The womb takes its name from <span style="font-style:normal;white-space:nowrap">ar-Raḥmān</span>.</q>'
-                f'<small>the Prophet <span class="pbuh">ﷺ</span> · al-Bukhārī 5988</small></div><div class="say" id="hs" style="top:1640px">Family is built on mercy.</div><div id="tflash"></div></div>')
-    whip_in(c, "tr", t)
-    c.t(f'tl.fromTo("#seed", {{y:-760, scale:0.3, opacity:0}}, {{scale:2.1, opacity:1, duration:0.45, ease:"back.out(2)"}}, {t:.2f});'); c.sfx("tap", t + 0.1)
-    c.t(f'tl.fromTo(".soil", {{scaleX:0, opacity:0}}, {{scaleX:1, opacity:1, duration:0.4, ease:"power3.out"}}, {t + 0.3:.2f});')
-    d = clip(c, V + "c2.mp3", t + 0.1); m = t + 0.1 + key_at(V + "c2.mp3", "mercy", 2.2)
-    c.t(f'tl.fromTo("#seed", {{scale:2.1}}, {{scale:2.35, duration:0.14, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {m:.2f});')
-    c.t(f'tl.to("#seed", {{y:0, scale:1, duration:0.45, ease:"power2.in"}}, {m + 0.45:.2f});'); c.sfx("tap", m + 0.9)   # it drops into the soil
-    g = m + 1.0; t += 0.1 + d
-    c.t(f'tl.to("#trunk", {{strokeDashoffset:0, duration:1.3, ease:"power2.inOut"}}, {g - 0.2:.2f});'); clip(c, "brag-quiz/sfx/ref/swoosh.wav", g - 0.2, 0.35)
-    for k, (x, y, r) in enumerate(LEAVES):           # the leaves open as the trunk passes them
-        c.t(f'tl.fromTo("#lv{k}", {{scale:0}}, {{scale:1, duration:0.35, ease:"back.out(2.5)"}}, {g - 0.2 + 1.3 * (1615 - y) / 1075:.2f});')
-    c.t(f'tl.fromTo("#wc", {{opacity:0, scale:0.6}}, {{opacity:1, scale:1, duration:0.35, ease:"back.out(2)"}}, {g:.2f});'); c.t(f'tl.set("#wc0", {{opacity:1}}, {g:.2f});')
-    t = max(t, g + 1.1)
-    def pop(k, at):                                  # a bloom opens: petals burst, a tap, and the counter clicks up
-        c.t(f'tl.fromTo("#bl{k}", {{opacity:0, scale:0.15, rotation:{-14 if k % 2 else 14}}}, {{opacity:1, scale:1, rotation:0, duration:0.5, ease:"back.out(2.2)"}}, {at:.2f});')
-        c.t(f'tl.fromTo("#bl{k} .pet", {{opacity:1, x:0, y:0}}, {{opacity:0, x:(i) => Math.cos(i * Math.PI / 4) * 230, y:(i) => Math.sin(i * Math.PI / 4) * 150, '
-            f'duration:0.6, ease:"expo.out", immediateRender:false}}, {at + 0.05:.2f});')
-        c.t(f'tl.to("#wc{k}", {{opacity:0, duration:0.1}}, {at:.2f});')
-        c.t(f'tl.fromTo("#wc{k + 1}", {{opacity:0, scale:1.6}}, {{opacity:1, scale:1, duration:0.25, ease:"back.out(2)"}}, {at:.2f});')
-        c.t(f'tl.to("#wc .fg", {{strokeDashoffset:{503 * (1 - (k + 1) / (n + 1)):.0f}, duration:0.3, ease:"power2.out"}}, {at:.2f});')
-        clip(c, "brag-quiz/sfx/ref/click.wav", at, 0.8); c.sfx("tap", at + 0.05)
-    for k, (_, x, y, w, ar, en, rec, line) in enumerate(GROW):
-        c.t(f'tl.to("#br{k}", {{strokeDashoffset:0, duration:0.4, ease:"power2.out"}}, {t:.2f});'); clip(c, "brag-quiz/sfx/ref/short-swoosh.wav", t, 0.25)
-        pop(k, t + 0.3)
-        d = say_up(c, ar, t + 0.4) if rec is None else say_up(c, "", t + 0.4, src=V + rec + ".mp3"); t += 0.4 + d + 0.1
-        c.t(f'tl.fromTo("#bl{k}e", {{opacity:0, y:16}}, {{opacity:1, y:0, duration:0.3, ease:"power3.out"}}, {t:.2f});')
-        d = clip(c, V + line + ".mp3", t); t += d
-    # 3. your turn: the tree pulls back, the crown buds with رَحِم, 3-2-1, the WOMB slams on, then the hadith
-    c.t(f'tl.to("#tv", {{scale:0.7, y:-20, transformOrigin:"540px 240px", duration:0.7, ease:"power3.inOut"}}, {t:.2f});')
-    d = clip(c, V + "t1.mp3", t + 0.1)
-    c.t(f'tl.to("#br3", {{strokeDashoffset:0, duration:0.3}}, {t + 0.5:.2f});'); pop(n, t + 0.7)
-    c.t(f'tl.set("#bl{n}e", {{opacity:0}}, 0);'); t += 0.1 + d + 0.05
-    d = say_up(c, "", t, src=V + "rahim-womb.mp3")
-    for i in range(3): c.inn(f"#qo{i}", t + 0.1 + i * 0.12, 30)
-    done = count_down(c, "qc", t + d + 0.3)
-    reveal(c, "#qo1", ["#qo0", "#qo2"], done)
-    d = clip(c, V + "b4b.mp3", done); hit = done + key_at(V + "b4b.mp3", "womb", 0.14) + 0.05
-    c.t(f'tl.to("#bl{n}q", {{opacity:0, duration:0.1}}, {hit - 0.1:.2f});')
-    c.t(f'tl.fromTo("#bl{n}e", {{opacity:0, scale:2.6}}, {{opacity:1, scale:1, duration:0.2, ease:"power4.in"}}, {hit - 0.2:.2f});')
-    c.t(f'tl.fromTo("#tflash", {{opacity:0.8}}, {{opacity:0, duration:0.3, ease:"power2.out", immediateRender:false}}, {hit:.2f});')
-    c.t(f'tl.to("#tr", {{keyframes:[{{x:-26, y:16, duration:0.04}}, {{x:22, y:-12, duration:0.04}}, {{x:-12, y:8, duration:0.05}}, {{x:0, y:0, duration:0.06}}]}}, {hit:.2f});')
-    clip(c, "brag-quiz/sfx/crash.wav", hit - 0.02, 0.7); c.sfx("correct", hit + 0.1)
-    t = done + d + 0.5
-    c.t(f'tl.to(["#qo"], {{opacity:0, y:30, duration:0.3}}, {t - 0.3:.2f});')
-    d = clip(c, V + "c5.mp3", t)
-    c.t(f'tl.fromTo("#hq", {{opacity:0, y:40, scale:0.96}}, {{opacity:1, y:0, scale:1, duration:0.45, ease:"power3.out"}}, {t + key_at(V + "c5.mp3", "said", 1.6) - 0.1:.2f});')
-    f = t + key_at(V + "c5.mp3", "family", 4.8); c.inn("#hs", f - 0.05); c.sfx("correct", f + 0.3)
-    t += d + 0.5
-    # 4. the closing ask, heard in full on the end card
-    c.out_("#tr", t - 0.4); end = clip(c, V + "end.mp3", t)
-    body.append(c.end(t, "Who in your family needs a call today? Comment below 👇 and send this to them 🤍"))
-    c.write("\n".join("      " + b for b in body), round(t + end + 0.9, 2))
+    word_tree(c, body, t, dict(V=V, grow=GROW, ref="AL-FĀTIḤAH · 1:3", c1=V + "c1.mp3", recite=V + "fatiha-1-3t.mp3",
+        verse=[[("ال", ""), ("رَّ", "r"), ("حْ", "r"), ("مَٰ", "r"), ("نِ", "")], [("ال", ""), ("رَّ", "r"), ("حِ", "r"), ("ي", ""), ("مِ", "r")]],
+        times=(0.22, 1.55), seed=("mercy =", "ر ح م"), c2=V + "c2.mp3", c2key="mercy",
+        crown=("رَحِم", "the womb"), opts=["mercy", "the womb", "a family"], right=1, crown_say=V + "rahim-womb.mp3", t1=V + "t1.mp3",
+        slam=V + "b4b.mp3", slam_key="womb", c5=V + "c5.mp3", quote_key="said", say_key="family",
+        quote='<q>The womb takes its name from <span style="font-style:normal;white-space:nowrap">ar-Raḥmān</span>.</q>'
+              '<small>the Prophet <span class="pbuh">ﷺ</span> · al-Bukhārī 5988</small>',
+        say="Family is built on mercy.", end=V + "end.mp3", end_line="Who in your family needs a call today? Comment below 👇 and send this to them 🤍"))
+
+WORLD = [(70, 290, "☀️ the sun", 260), (640, 320, "🌙 the moon", 290), (330, 470, "✨ the stars", 280),   # the hook's world, round the line:
+         (60, 1400, "⛰️ mountains", 300), (650, 1430, "🌊 the sea", 260), (330, 1610, "🌳 trees", 220)]   # each gets "a sign" on "sign"
+GROW_ILM = [("M534,1330 C480,1300 450,1250 440,1205", 60, 1110, 380, "عِلْم", "knowledge", "ilm", "b1"),
+            ("M545,1070 C580,1040 596,990 604,955", 600, 830, 420, "مُعَلِّم", "a teacher", None, "b2")]
+
+def n3():
+    """The word tree, part 2 (owner 21 Oct 2026, after n2-rahma): ع ل م "to know". Hook "The WORLD is a sign, and you say it in every
+    prayer!" over the sun, moon, stars, mountains, sea and trees, each tagged "a sign" as Callum says it; al-Fātiḥah 1:2 in al-Husary's
+    recitation (reciter 12, as in the app), رَبِّ الْعالَمِينَ; the root grows عِلْم knowledge and مُعَلِّم teacher (vocab-data.js); your turn:
+    عَلامَة, 3-2-1, a SIGN; Ibn Kathīr on 1:2: ʿālam is derived from ʿalāma, a sign testifying to its Creator (quran.com, the English
+    abridgement). Voices: brag-quiz/voice/ilm-lines.json (Rafiq for عِلْم and عَلامَة; the app's recording for مُعَلِّم; c1 and t1 from n2)."""
+    V, VR = "brag-quiz/voice/ilm/", "brag-quiz/voice/rahma/"
+    c = SO.vcomp("n3-ilm", "ARABIC · ONE ROOT"); c.bed = True; body = []; serif(c)
+    bub = "".join(f'<div class="hb3" id="wb{k}" style="left:{x}px;top:{y}px">{t}<i>a sign</i></div>' for k, (x, y, t, w) in enumerate(WORLD))
+    def anim(c, at, d):
+        for k in range(len(WORLD)):
+            c.t(f'tl.fromTo("#wb{k}", {{y:0, rotation:{-3 if k % 2 else 3}}}, {{y:{-24 if k % 2 else 20}, rotation:{2 if k % 2 else -2}, duration:{d + 0.3:.2f}, ease:"none"}}, 0);')
+            s = at(4) + 0.1 * k                      # "sign": each of them is tagged
+            c.t(f'tl.fromTo("#wb{k} i", {{opacity:0, scale:1.7}}, {{opacity:1, scale:1, duration:0.22, ease:"back.out(2.4)"}}, {s:.2f});')
+            clip(c, "brag-quiz/sfx/ref/click.wav", s, 0.5)
+    words = "The WORLD is a sign, and you say it in every prayer!".split()
+    t = hook_in(c, body, (words, {1: "loud", 4: "red", 11: "circle"}, V + "h1c.mp3"), bg=(bub, anim))
+    c.css += ("#hw1 { font-size:0.9em; } "                  # WORLD, shouted: small enough to fit the cover at its slam-in size
+              ".hb3 i { position:absolute; right:-16px; top:-30px; font-style:normal; font-family:var(--la); font-size:28px; font-weight:700; "
+              "padding:5px 14px; border-radius:18px; background:#E9B949; color:var(--ink); white-space:nowrap; opacity:0; }")
+    word_tree(c, body, t, dict(V=V, grow=GROW_ILM, ref="AL-FĀTIḤAH · 1:2", c1=VR + "c1.mp3", recite=V + "fatiha-1-2t.mp3",
+        verse=[[("الْحَمْدُ", "")], [("لِلَّهِ", "")], [("رَبِّ", "")], [("الْ", ""), ("عَ", "r"), ("ا", ""), ("لَ", "r"), ("مِ", "r"), ("ينَ", "")]],
+        times=(0.2, 0.92, 1.43, 2.45), seed=("to know =", "ع ل م"), c2=V + "c2.mp3", c2key="know",
+        crown=("عَلامَة", "a sign"), opts=["a world", "a sign", "a teacher"], right=1, crown_say=V + "alama.mp3", t1=VR + "t1.mp3",
+        slam=V + "b4b.mp3", slam_key="sign", c5=V + "c5.mp3", quote_key="explains", say_key="pointing",
+        quote='<q style="font-size:54px">ʿĀlam is derived from ʿalāma, because it is a sign testifying to the existence of its Creator…</q>'
+              '<small>Ibn Kathīr on al-Fātiḥah 1:2</small>',
+        say="The whole world is a sign 🌍", end=V + "end.mp3", end_line="What sign of Allah did you notice today? Comment below 👇"))
 
 TALLY = [("Fajr", 2, 70, 300), ("Dhuhr", 4, 590, 300), ("ʿAsr", 4, 330, 460), ("Maghrib", 3, 60, 1320), ("ʿIshāʾ", 4, 600, 1320)]   # 17 rakʿahs
 
@@ -1241,7 +1288,7 @@ ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-a
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "w8-subhana-azim": w8,
        "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1,
-       "n2-rahma": n2, "d1-din": d1, "f4-family": f4}
+       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
