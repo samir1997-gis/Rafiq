@@ -43,7 +43,7 @@ for name, seq in V.items():
     for k, u in enumerate(seq.split()):
         a, b = U[u]; a, b = (snap(a) if a > 0 else 0.0), (snap(b) if b < len(e) / 16000 - 0.1 else len(e) / 16000)
         f = os.path.join(d, f"{k:02d}.mov"); lst.append(f"file '{f}'")
-        subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{a:.3f}", "-i", os.path.join(W, "assembly.mp4"), "-t", f"{b - a:.3f}", "-vf", "fps=30,format=yuv420p",
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", os.path.join(W, "assembly.mp4"), "-ss", f"{a:.3f}", "-t", f"{b - a:.3f}",   # seek after -i: exact (a fast seek here started the sound ~0.5 s early) "-vf", "fps=30,format=yuv420p",
                         "-af", f"afade=t=in:d=0.012,afade=t=out:st={b - a - 0.02:.3f}:d=0.02", "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-c:a", "pcm_s16le", f], check=True)
     open(os.path.join(d, "list.txt"), "w").write("\n".join(lst))
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", os.path.join(d, "list.txt"), "-af", "loudnorm=I=-16:TP=-1.5:LRA=11",
