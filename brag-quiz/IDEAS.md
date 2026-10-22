@@ -7,6 +7,13 @@ Posts are for reach and engagement first; follows bring people to the site over 
 - TypeSafe, 0-3 averaged over three viewers: this mix grows the accounts about twice as much as every post ending on
   the link (1.19 vs 0.51) and is trusted more (1.51 vs 0.99), for the same sign-ups (0.25 vs 0.24).
 
+**When to post (Metricool, @rafiqarabic, best times for 22–28 Oct 2026, UK time):** 10:00 is the peak every day; weekdays beat
+weekends about 2 to 1 (Fri 10:00 the best slot of the week, then Wed and Thu; 18:00 the second peak). Post at 10:00 on weekdays.
+**Trial reels (the level-up ad, #273):** don't post the ten at once (near-copies compete and can read as repeated content); post
+one version a day as a pair, the edited one at 10:00 and the plain one at 10:30, as Instagram trial reels (non-followers only,
+so the ads don't fill the grid): Thu 23 v1 · Fri 24 v2 · Mon 27 v3 · Tue 28 v4 · Wed 29 v5. Judge on hold and watch time;
+share the winner to the profile afterwards.
+
 ## What our best videos do (owner's top three on Instagram, analysed 8 Oct 2026)
 
 The winners: `s3-samiallahu` (rising from ruku, word by word), `t1-masjid` (why a mosque is a مَسْجِد) and `v3-drink`
