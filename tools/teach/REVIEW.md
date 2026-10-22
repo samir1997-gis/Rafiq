@@ -362,3 +362,242 @@ The goal sentence uses the first name given at sign-up. A common name is written
 | نَبِيلَة | nabila, nabeela | |
 | سَمِيرَة | samira, sameera | |
 | كَرِيمَة | karima, kareema | |
+
+## Added 22 Oct 2026 (#276, #277): a fuller reading starter and basics — for the teacher to check
+
+Checked by machine only: CAMeL Tools finds nothing to flag in the new words (tools/camel-report.md unchanged). Not yet through TypeSafe (no key in that session, #262).
+
+### Reading rules 2: the hamza
+
+**The hamza ء: a catch in the throat**: ء is a stop in the throat, like the catch in "uh-oh". It often sits on a seat: on ا (أ, or إ for an "i"), on و (ؤ) or on ي without its dots (ئ). The seat isn’t said: you hear only the catch and its vowel.
+
+| Example | Read | Meaning | Said from | OK? |
+|---|---|---|---|---|
+| أَنا | ʾanā | I |  | |
+| سُؤال | suʾāl | a question |  | |
+| ماء | māʾ | water |  | |
+
+Check: What do you hear for the ؤ in سُؤال? → **a catch in the throat** (also offered: a "w", nothing at all). The و is only a seat: you hear the catch, "suʾāl".
+
+**Madda: آ**: آ is an ا with a wavy line on top, the madda. It says a catch and then a long "ā".
+
+| Example | Read | Meaning | Said from | OK? |
+|---|---|---|---|---|
+| آمِين | ʾāmīn | amen |  | |
+| الْقُرْآن | al-qurʾān | the Qurʾān |  | |
+
+Check: How is آمِين said? → **āmīn** (also offered: amīn, imīn). آ is a long "ā", with a catch before it.
+
+**ى at the end: a long "ā"**: At the end of a word, ى looks like ي without its dots, but it says a long "ā", like ا. It’s called alif maqṣūra.
+
+| Example | Read | Meaning | Said from | OK? |
+|---|---|---|---|---|
+| عَلى | ʿalā | on |  | |
+| إِلى | ilā | to |  | |
+| مُصْطَفى | muṣṭafā | Mustafa (a name) |  | |
+
+Check: How is عَلى said? → **ʿalā** (also offered: ʿalī, ʿalay). ى at the end says "ā": عَلى is "ʿalā".
+
+### Reading rules 3: the spellings in al-Fātiḥah’s first line
+
+**The small alif ـٰ**: A small upright alif above a letter (ـٰ) is a long "ā" that isn’t written as a full letter. You’ll find it in هٰذا, and in الرَّحْمٰن in the first line of al-Fātiḥah.
+
+| Example | Read | Meaning | Said from | OK? |
+|---|---|---|---|---|
+| هٰذا | hādhā | this | هَذا | |
+| الرَّحْمٰنِ | ar-raḥmāni | the Most Gracious | الرَّحْمانِ | |
+| ذٰلِكَ | dhālika | that | ذَلِكَ | |
+
+Check: How is الرَّحْمٰنِ said? → **ar-raḥmāni** (also offered: ar-raḥmani, ar-raḥmini). The small alif is a long "ā": raḥ-mā-ni.
+
+**The joining alif**: The ا at the start of اسْم (name) and ابْن (son), and the ا of ال, has no hamza. At the start of a sentence you say it: "ism". After another word it’s silent, and you go straight on: بِسْمِ اللهِ is "bismillāh", not "bi-ismi Allāh".
+
+| Example | Read | Meaning | Said from | OK? |
+|---|---|---|---|---|
+| اسْمِي | ismī | my name |  | |
+| وَاسْمِي | wasmī | and my name |  | |
+| بِسْمِ اللهِ | bismillāh | in the name of Allah |  | |
+
+Check: How is وَاسْمِي said? → **wasmī** (also offered: wa-ismī, wa-asmī). After وَ the ا is silent: "wasmī".
+
+**لا: ل and ا together**: When ل comes before ا, the two join into one shape: لا. It says "lā".
+
+| Example | Read | Meaning | Said from | OK? |
+|---|---|---|---|---|
+| لا | lā | no |  | |
+| سَلام | salām | peace |  | |
+| الصَّلاة | aṣ-ṣalāh | the prayer |  | |
+
+Check: Which two letters make لا? (read right to left) → **ل + ا** (also offered: ا + ل, ك + ا). لا is ل followed by ا, joined.
+
+### Sounding out (word in pieces, then the whole word)
+
+| Word | Pieces | Meaning | Wrong readings offered | OK? |
+|---|---|---|---|---|
+| كَتَبَ | كَ ka · تَ ta · بَ ba | he wrote | kitiba, kutuba | |
+| ذَهَبَ | ذَ dha · هَ ha · بَ ba | he went | dhihiba, dhuhuba | |
+| دَرَسَ | دَ da · رَ ra · سَ sa | he studied | durusa, dirisa | |
+| شَرِبَ | شَ sha · رِ ri · بَ ba | he drank | sharaba, shuruba | |
+| سَمِعَ | سَ sa · مِ mi · عَ ʿa | he heard | samaʿa, sumiʿa | |
+| كِتاب | كِ ki · تا tā · ب b | a book | katab, kutub | |
+| مَسْجِد | مَسْ mas · جِد jid | a mosque | musjad, masjad | |
+
+### Your first words (read, pick how it’s said, then hear it)
+
+| Word | Read | Wrong readings offered | Meaning | OK? |
+|---|---|---|---|---|
+| يَد | yad | yid, yud | hand | |
+| أَخ | akh | ukh, ikh | brother | |
+| قَلَم | qalam | qilam, qulum | pen | |
+| وَلَد | walad | wilid, wulud | boy | |
+| سَمَك | samak | simak, sumuk | fish | |
+| بَيْت | bayt | būt, bīt | house | |
+| شَمْس | shams | shims, shums | sun | |
+| كِتاب | kitāb | katab, kutub | book | |
+| صَدِيق | ṣadīq | ṣadaq, ṣudūq | friend | |
+| مَسْجِد | masjid | musjad, masjad | mosque | |
+| مَدْرَسَة | madrasa | mudarrisa, madrisa | school | |
+| تِلْمِيذ | tilmīdh | talmadh, tulmūdh | pupil | |
+
+### Read your first line: how each word of al-Fātiḥah 1:1–2 is shown
+
+- 1:1: bismi · llāhi · r-raḥmāni · r-raḥīm
+- 1:2: al-ḥamdu · lillāhi · rabbi · l-ʿālamīn
+
+### The basics: Words to keep you going
+
+**When you don’t understand**: Phrases that keep a conversation going, in a class or at the masjid. مِنْ فَضْلِكَ (please) is to a man; to a woman it’s مِنْ فَضْلِكِ.
+
+| Arabic | English | OK? |
+|---|---|---|
+| مَرْحَبًا | hello | |
+| لا أَفْهَمُ | I don’t understand | |
+| مَرَّةً أُخْرى، مِنْ فَضْلِكَ | again, please | |
+| بِبُطْءٍ، مِنْ فَضْلِكَ | slowly, please | |
+
+**Asking about a word**: لا before a verb makes it ‘don’t’: أَعْرِفُ I know, لا أَعْرِفُ I don’t know. أَفْهَمُ I understand, لا أَفْهَمُ I don’t understand.
+
+| Arabic | English | OK? |
+|---|---|---|
+| ما مَعْنى هَذِهِ الْكَلِمَةِ؟ | what does this word mean? | |
+| كَيْفَ أَقُولُ هَذا بِالْعَرَبِيَّةِ؟ | how do I say this in Arabic? | |
+| أَعْرِفُ | I know | |
+| لا أَعْرِفُ | I don’t know | |
+
+| Question | Shown | Right answer | Also offered | OK? |
+|---|---|---|---|---|
+| How do you say ‘I don’t understand’? |  | لا أَفْهَمُ | أَفْهَمُ, لا أَعْرِفُ | |
+| What does it mean? | مَرْحَبًا | hello | goodbye, please | |
+| What does it mean? | مَرَّةً أُخْرى، مِنْ فَضْلِكَ | again, please | slowly, please, I don’t understand | |
+| How do you ask someone to speak slowly? |  | بِبُطْءٍ، مِنْ فَضْلِكَ | مَرَّةً أُخْرى، مِنْ فَضْلِكَ, مَرْحَبًا | |
+| What does it mean? | لا أَعْرِفُ | I don’t know | I know, I don’t understand | |
+| How do you say ‘I know’? |  | أَعْرِفُ | لا أَعْرِفُ, أَفْهَمُ | |
+| You hear a new word. What do you ask? |  | ما مَعْنى هَذِهِ الْكَلِمَةِ؟ | كَيْفَ حالُكَ؟, ما اسْمُكَ؟ | |
+| Which fits? (to a man) | مَرَّةً أُخْرى، ___ | مِنْ فَضْلِكَ | مِنْ فَضْلِكِ | |
+
+Bonus sentence at the end: مَرْحَبًا! لا أَفْهَمُ. مَرَّةً أُخْرى، مِنْ فَضْلِكَ. (Hello! I don’t understand. Again, please.)
+
+### The basics: Describing words
+
+**Describing words come after, and match**: A describing word comes after the noun and matches it: ة if the noun is feminine, and ال if the noun has ال. لُغَة (language) is feminine, so it’s الْعَرَبِيَّة.
+
+| Arabic | English | OK? |
+|---|---|---|
+| بَيْتٌ كَبِيرٌ | a big house | |
+| غُرْفَةٌ كَبِيرَةٌ | a big room | |
+| اللُّغَةُ الْعَرَبِيَّةُ | the Arabic language | |
+
+**Big, small, new**: Each describing word has two forms: one for masculine nouns, and one with ة for feminine nouns.
+
+| Arabic | English | OK? |
+|---|---|---|
+| كِتابٌ جَدِيدٌ | a new book | |
+| مَدْرَسَةٌ جَدِيدَةٌ | a new school | |
+| بَيْتٌ صَغِيرٌ | a small house | |
+| غُرْفَةٌ صَغِيرَةٌ | a small room | |
+
+| Question | Shown | Right answer | Also offered | OK? |
+|---|---|---|---|---|
+| How do you say ‘a big house’? |  | بَيْتٌ كَبِيرٌ | بَيْتٌ كَبِيرَةٌ, كَبِيرٌ بَيْتٌ | |
+| How do you say ‘a big room’? |  | غُرْفَةٌ كَبِيرَةٌ | غُرْفَةٌ كَبِيرٌ, كَبِيرَةٌ غُرْفَةٌ | |
+| How do you say ‘the Arabic language’? |  | اللُّغَةُ الْعَرَبِيَّةُ | اللُّغَةُ عَرَبِيٌّ, لُغَةٌ الْعَرَبِيَّةُ | |
+| How do you say ‘a new book’? |  | كِتابٌ جَدِيدٌ | كِتابٌ جَدِيدَةٌ, جَدِيدٌ كِتابٌ | |
+| How do you say ‘a small room’? |  | غُرْفَةٌ صَغِيرَةٌ | غُرْفَةٌ صَغِيرٌ, صَغِيرَةٌ غُرْفَةٌ | |
+| What does it mean? | مَدْرَسَةٌ جَدِيدَةٌ | a new school | a big school, a new teacher | |
+| Which fits? | بَيْتٌ ___ | صَغِيرٌ | صَغِيرَةٌ | |
+| Which fits? | مَدْرَسَةٌ ___ | كَبِيرَةٌ | كَبِيرٌ | |
+
+Bonus sentence at the end: هَذا بَيْتٌ كَبِيرٌ، وَهَذِهِ غُرْفَةٌ صَغِيرَةٌ (This is a big house, and this is a small room.)
+
+### The basics: ‘Of’ (changed: describing words moved to their own lesson)
+
+**‘Of’: two nouns side by side**: There’s no separate word for ‘of’: put the two nouns side by side. The first loses ال and the -un ending; the second ends in -i.
+
+| Arabic | English | OK? |
+|---|---|---|
+| بابُ الْبَيْتِ | the door of the house | |
+| كِتابُ الطّالِبِ | the student’s book (the book of the student) | |
+| طالِبُ اللُّغَةِ | a student of the language | |
+
+**‘Of’, with a describing word**: A describing word follows the noun it describes, even after ‘of’, and matches its -i: اللُّغَةِ الْعَرَبِيَّةِ.
+
+| Arabic | English | OK? |
+|---|---|---|
+| طالِبُ اللُّغَةِ الْعَرَبِيَّةِ | a student of the Arabic language | |
+| بابُ الْبَيْتِ الْكَبِيرِ | the door of the big house | |
+
+| Question | Shown | Right answer | Also offered | OK? |
+|---|---|---|---|---|
+| How do you say ‘the door of the house’? |  | بابُ الْبَيْتِ | الْبابُ الْبَيْتِ, بابٌ الْبَيْتُ | |
+| What does it mean? | اسْمُ الْمُدَرِّسِ | the teacher’s name | the teacher, my name | |
+| How do you say ‘the girl’s room’? |  | غُرْفَةُ الْبِنْتِ | الْغُرْفَةُ الْبِنْتِ, غُرْفَةٌ الْبِنْتُ | |
+| How do you say ‘a student of the language’? |  | طالِبُ اللُّغَةِ | طالِبٌ اللُّغَةُ, الطّالِبُ اللُّغَةِ | |
+| How do you say ‘the student’s book’? |  | كِتابُ الطّالِبِ | الْكِتابُ الطّالِبِ, كِتابٌ الطّالِبُ | |
+| What does it mean? | بابُ الْبَيْتِ | the door of the house | a big door, the house | |
+| Which fits? | طالِبُ اللُّغَةِ ___ | الْعَرَبِيَّةِ | عَرَبِيَّةٌ | |
+| A woman says ‘I’m a student of the Arabic language’: |  | أَنا طالِبَةُ اللُّغَةِ الْعَرَبِيَّةِ | أَنا طالِبُ اللُّغَةِ الْعَرَبِيَّةِ, أَنا طالِبَةٌ اللُّغَةُ الْعَرَبِيَّةُ | |
+
+
+### The basics: Your first verbs
+
+**أَ at the start means ‘I’**: An Arabic verb shows who is doing it with a piece at the start. أَ means ‘I’: أَذْهَبُ, I go. You can add أَنا too: أَنا أَذْهَبُ.
+
+| Arabic | English | OK? |
+|---|---|---|
+| أَذْهَبُ | I go | |
+| أَدْرُسُ | I study | |
+| أَقْرَأُ | I read | |
+| أَسْكُنُ | I live | |
+
+**Sometimes it’s أُ**: A few verbs start with أُ instead: أُصَلِّي, I pray. What you study or read ends in -a: أَدْرُسُ اللُّغَةَ. Unit 2 shows ‘he’ and ‘we’.
+
+| Arabic | English | OK? |
+|---|---|---|
+| أُصَلِّي | I pray | |
+| أُحِبُّ | I love, I like | |
+| أَنا أَدْرُسُ اللُّغَةَ الْعَرَبِيَّةَ | I study the Arabic language | |
+
+| Question | Shown | Right answer | Also offered | OK? |
+|---|---|---|---|---|
+| What does it mean? | أَذْهَبُ | I go | he goes, I went | |
+| How do you say ‘I study’? |  | أَدْرُسُ | دَرَسَ, يَدْرُسُ | |
+| What does it mean? | أُصَلِّي | I pray | I read, I go | |
+| How do you say ‘I read’? |  | أَقْرَأُ | أَذْهَبُ, أَسْكُنُ | |
+| What does it mean? | أَسْكُنُ فِي بَيْتٍ كَبِيرٍ | I live in a big house | I go to a big house, I study in a big house | |
+| Which fits? | أَنا ___ اللُّغَةَ الْعَرَبِيَّةَ | أَدْرُسُ | أَذْهَبُ | |
+| What does it mean? | أَذْهَبُ إِلى الْمَسْجِدِ | I go to the mosque | I pray in the mosque, He goes to the mosque | |
+| Who is doing it? | أَقْرَأُ | I | he, we | |
+
+Bonus sentence at the end: أَنا أَدْرُسُ اللُّغَةَ الْعَرَبِيَّةَ (I study the Arabic language.)
+
+### The basics: Put it together
+
+| Sentence | English | Tile that doesn’t belong | OK? |
+|---|---|---|---|
+| هَذا بَيْتٌ كَبِيرٌ | This is a big house. | هَذِهِ | |
+| هَذِهِ غُرْفَتِي | This is my room. | هَذا | |
+| كِتابُ الطّالِبِ جَدِيدٌ | The student’s book is new. | الْكِتابُ | |
+| أَنا طالِبٌ وَهِيَ مُدَرِّسَةٌ | I’m a student and she’s a teacher. | هُوَ | |
+| اسْمُ الْمُدَرِّسِ يُوسُفُ | The teacher’s name is Yusuf. | اسْمِي | |
+| نَحْنُ طُلّابُ اللُّغَةِ الْعَرَبِيَّةِ | We’re students of the Arabic language. | طالِبُ | |
+

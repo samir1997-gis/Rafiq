@@ -121,9 +121,11 @@ function decide(row, now = new Date()) {
   return (row.done_today || 0) >= (row.goal || 2) ? 'done' : 'send';
 }
 function message(row, today) {
-  const s = streak(row.days, today), due = +row.due || 0;
+  const s = streak(row.days, today), due = +row.due || 0, letters = +row.letters || 0;
   const title = s > 1 ? `Keep your ${s}-day streak going` : 'A few minutes of Arabic today';
-  const line = s > 1 ? `You're on a ${s}-day streak. A few minutes today keeps it going.`
+  // still in the reading starter (#276): the letters met but not yet known wait for their check-in
+  const line = letters > 0 ? `${letters} ${letters === 1 ? 'letter is' : 'letters are'} waiting for a quick check-in. Get ${letters === 1 ? 'it' : 'them'} right today and ${letters === 1 ? 'it turns' : 'they turn'} green.`
+             : s > 1 ? `You're on a ${s}-day streak. A few minutes today keeps it going.`
                      : 'Your next step is ready. A few minutes is enough.';
   const reviews = due > 0 ? `${due} ${due === 1 ? 'word or sentence is' : 'words and sentences are'} due for review.` : '';
   return { title, line, reviews, streak: s, due };
@@ -138,7 +140,11 @@ function rowsQuery(where, today) {
            (select count(*) from public.item_progress p where p.user_id = r.user_id and p.box > 0 and p.due is not null
               and p.due::text <= ${q(today)} and (p.item_id like 'v:%' or p.item_id like 'd:%')) as due,
            (select array_agg(substr(p.item_id, 3)) from public.item_progress p where p.user_id = r.user_id
-              and p.item_id like 's:%' and p.item_id >= ${q('s:' + utcDay(new Date(Date.now() - 400 * 864e5)))}) as days
+              and p.item_id like 's:%' and p.item_id >= ${q('s:' + utcDay(new Date(Date.now() - 400 * 864e5)))}) as days,
+           -- letters met (l:) but not known yet (no lk:), while the reading starter is all they've done (#276)
+           (select count(*) from public.item_progress p where p.user_id = r.user_id and p.item_id like 'l:%'
+              and not exists (select 1 from public.item_progress k where k.user_id = r.user_id and k.item_id = 'lk:' || substr(p.item_id, 3))
+              and not exists (select 1 from public.item_progress x where x.user_id = r.user_id and x.item_id like 'p:%' and x.item_id not like 'p:00|%')) as letters
     from public.reminders r join auth.users u on u.id = r.user_id
     where ${where}`);
 }
@@ -274,5 +280,9 @@ function selfTest() {
   assert.strictEqual(m.reviews, '12 words and sentences are due for review.');
   assert.strictEqual(message({ days: [], due: 0 }, '2026-09-27').reviews, '');
   assert.strictEqual(message({ days: [], due: 1 }, '2026-09-27').reviews, '1 word or sentence is due for review.');
+  // in the reading starter: letters waiting for their check-in (#276)
+  assert.strictEqual(message({ days: [], due: 0, letters: '4' }, '2026-09-27').line, '4 letters are waiting for a quick check-in. Get them right today and they turn green.');
+  assert.strictEqual(message({ days: [], due: 0, letters: 1 }, '2026-09-27').line, '1 letter is waiting for a quick check-in. Get it right today and it turns green.');
+  assert.strictEqual(message({ days: [], due: 0, letters: 0 }, '2026-09-27').line, 'Your next step is ready. A few minutes is enough.');
   console.log('self-test passed');
 }

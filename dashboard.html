@@ -66,6 +66,20 @@
 .today-card .u{font-family:var(--ar);direction:rtl;text-align:left;font-size:22px;line-height:1.8;color:var(--rubric)}
 .today-card .t{font-size:20px;font-weight:700;margin-top:2px}
 .today-card .m{font-size:13.5px;color:var(--ink-soft);margin-top:4px}
+/* the alphabet board (#276): during the reading starter, how well each letter is known */
+.board{margin:0 0 18px;padding:14px;border-radius:12px;background:var(--card);border:1px solid var(--rule)}
+.board .k{font-family:var(--ut);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+.bgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;direction:rtl}
+.bl{font-family:var(--ar);font-size:1.35rem;line-height:1;height:40px;display:flex;align-items:center;justify-content:center;padding-bottom:3px;
+  border-radius:8px;border:1px dashed var(--rule);color:var(--ink-soft);opacity:.6}
+.bl.met{opacity:1;color:var(--ink);border:1px solid var(--ink-soft)}
+.bl.known{opacity:1;color:#fff;background:var(--verdigris);border:1px solid var(--verdigris)}
+.bl.gold{opacity:1;color:var(--ink);background:color-mix(in srgb,var(--gold) 45%,var(--card));border:1px solid var(--gold)}
+.bkey{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--ink-soft);margin:8px 0 0}
+.bkey span{display:inline-flex;align-items:center;gap:5px}
+.bkey i{width:11px;height:11px;border-radius:3px;border:1px solid var(--ink-soft)}
+.bkey i.known{background:var(--verdigris);border-color:var(--verdigris)}
+.bkey i.gold{background:color-mix(in srgb,var(--gold) 45%,var(--card));border-color:var(--gold)}
 .cont{display:block;text-align:center;text-decoration:none;margin-top:16px;min-height:52px;line-height:52px;border-radius:12px;background:var(--verdigris);color:#fff;font-size:16.5px;font-weight:600}
 .cont:active{transform:scale(.98)}
 .stats{display:flex;gap:10px;margin:6px 0 22px}
@@ -178,10 +192,10 @@
   <div id="remPrompt"></div>
   <div id="home"></div>
 </main>
-<script src="vocab-data.js?v=20260930"></script>
+<script src="vocab-data.js?v=20261022a"></script>
 <script src="drills-data.js?v=20260930h"></script>
 <script src="path-data.js?v=20260930b"></script>
-<script src="alphabet-data.js?v=20260930b"></script>
+<script src="alphabet-data.js?v=20261022a"></script>
 <script>
 /* Both apps keep their own schedule; the dashboard just reports on each. */
 const DAY=86400000, dayNow=Math.floor(Date.now()/DAY), iso=new Date().toISOString().slice(0,10);
@@ -220,14 +234,28 @@ function paintHome(){
   const steps=RafiqPath.steps(n.unit), doneN=steps.filter(x=>RafiqPath.stepDone(n.unit.n,x.key)).length;
   const due=RafiqPath.reviewDue();
   const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  /* The reading starter (#276): the next step opens with a check-in on letters from an earlier day, and
+     once its steps are done the check-in is all that's left, until every letter is green. */
+  const ci=n.unit.alpha ? RafiqPath.checkInLetters().length : 0;
   const card = n.finishedAll
     ? `<div class="today-card"><div class="k">All units done</div><div class="t">Mabrook — you've finished the path 🎉</div>
        <div class="m">Keep what you've learned fresh with a daily review.</div><a class="cont" href="session.html">Daily review</a></div>`
+    : n.step.kind==='checkin'
+    ? `<div class="today-card"><div class="k">Reading Arabic · the last letters</div><div class="u">${esc(n.unit.ar)}</div>
+       ${ci ? `<div class="t">Letter check-in</div><div class="m">${ci} ${ci===1?'letter':'letters'} to turn green · about 2 minutes</div>
+         <a class="cont" href="learn.html?u=${n.unit.n}&s=checkin">Continue</a>`
+       : `<div class="t">Your last letters need a night’s sleep</div>
+         <div class="m">A letter turns green when you get it right on two different days. Come back tomorrow for a quick check-in, and the basics open.</div>`}</div>`
     : `<div class="today-card"><div class="k">${n.unit.alpha?'Start here':n.unit.basics?'Before unit 1':'Unit '+(+n.unit.n)+' of '+U.filter(u=>!u.pre).length} · step ${doneN+1} of ${steps.length}</div>
        <div class="u">${esc(n.unit.ar)}</div><div class="t">${esc(n.step.title)}</div>
-       <div class="m">${esc(n.unit.en)} · about ${n.step.mins} minutes</div>
+       <div class="m">${esc(n.unit.en)} · about ${n.step.mins} minutes${ci&&n.unit.alpha?` · starts with a quick check-in on ${Math.min(ci,5)} ${Math.min(ci,5)===1?'letter':'letters'} from before`:''}</div>
        <a class="cont" href="learn.html?u=${n.unit.n}&s=${n.step.key}">Continue</a>
        ${n.unit.alpha?'<button type="button" class="skipbtn" id="skipRead">I can read Arabic — skip this</button>':''}</div>`;
+  /* The alphabet board (#276): while the reading starter is the unit you're on */
+  const board = n.unit.alpha && !n.finishedAll ? (()=>{ const L=RafiqPath.LETTERS, st=L.map(ch=>[ch, RafiqPath.letterState(ch)]);
+    return `<div class="board"><div class="k">Your alphabet · ${st.filter(([,x])=>/known|gold/.test(x)).length} of ${L.length} known</div>
+      <div class="bgrid">${st.map(([ch,x])=>`<span class="bl ${x}" aria-label="${x==='new'?'not met yet':x}">${ch}</span>`).join('')}</div>
+      <p class="bkey"><span><i></i>met</span><span><i class="known"></i>right on 2 different days</span><span><i class="gold"></i>read in words</span></p></div>`; })() : '';
   const sg=RafiqPath.streakGoal(s);
   /* The streak counts days the goal is met, with one freeze for a missed day (#256);
      today's goal is a ring that closes, and turns green with a tick, when it's met. */
@@ -281,7 +309,7 @@ function paintHome(){
       <span class="nm"><b>${esc(c.en)}</b><span>${esc(c.d)}</span></span><span class="ua">${esc(c.ar)}</span></div>`).join('')}</div>`;
   // "Your salah": its own track, right under the daily path (salah.js; off until the teacher signs off)
   const salah = window.RafiqSalah && RafiqSalah.enabled() ? (RafiqSalah.styles(), RafiqSalah.cardHTML()) : '';
-  el.innerHTML=card+salah+wtoday+stats+'<div id="pwaInstall"></div>'+week+focus+review+`<div class="ph">Your path</div><div class="units">${units}</div>`+coming;
+  el.innerHTML=card+board+salah+wtoday+stats+'<div id="pwaInstall"></div>'+week+focus+review+`<div class="ph">Your path</div><div class="units">${units}</div>`+coming;
   // "Get a daily reminder / put Rafiq on your home screen" (pwa.js), once a first lesson step is done
   if(window.RafiqPWA) RafiqPWA.card(document.getElementById('pwaInstall'), { ready: U.some(p => RafiqPath.steps(p).some(x => RafiqPath.stepDone(p.n, x.key))) });
   el.querySelectorAll('[data-lock]').forEach(b=>b.onclick=()=>{
@@ -330,9 +358,9 @@ function paintHome(){
 })();
 </script>
 <script src="fsrs.js?v=20260929"></script>
-<script src="progress.js?v=20261001c"></script>
-<script src="basics-data.js?v=4"></script>
-<script src="path.js?v=20261013a"></script>
+<script src="progress.js?v=20261022a"></script>
+<script src="basics-data.js?v=5"></script>
+<script src="path.js?v=20261022a"></script>
 <script src="salah-data.js?v=1"></script>
 <script src="salah.js?v=6"></script>
 <script src="mistakes.js?v=20260922"></script>

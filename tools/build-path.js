@@ -26,7 +26,7 @@ const lateIds = new Set(Object.values(LATE).flat());
 // ما 'what' in unit 1 doesn't bring in ما 'not (past)', nor لا 'no' the لا of 'not' and 'don't'
 const BY_TOPIC_ONLY = new Set([127, 163, 213]);
 // words taught in the basics section (#168, basics-data.js), before unit 1: never placed in a unit
-const BASICS_ONLY = new Set([784, 785]);                                   // اسْم name, لُغَة language
+const BASICS_ONLY = new Set([784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794]);   // اسْم name, لُغَة language; #277: hello … word
 // unit → words it starts with (#156, teach first): unit 1 opens with ten single words, before the
 // greeting phrases, so its first lesson is words a beginner can hold on to (I, you, he, she, this…)
 const FIRST = { '01': [15, 16, 17, 18, 19, 20, 21, 26, 30, 28] };      // أَنا أَنْتَ أَنْتِ هُوَ هِيَ هَذا هَذِهِ صَدِيق مُدَرِّس طالِبَة

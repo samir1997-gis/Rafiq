@@ -38,6 +38,7 @@ what you make into its "Already made" list.
 - Browser smoke test (webapp-testing skill): every page loads with no JavaScript errors.
   `python3 .claude/skills/webapp-testing/scripts/with_server.py --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/smoke.py`
 - Lesson layout (heading at the top, exercise centred, Listen cue): `... -- python3 tests/lesson_layout.py` (same server command as the smoke test).
+- Reading starter and basics (alphabet board, letter check-in, Play rounds and stars, reading ladder, al-Fātiḥah's first line, Put it together): `... -- python3 tests/starter_game.py` (same server command as the smoke test).
 - Start-up speed (pages show within 600 ms online and offline; background sync keeps local changes): `... -- python3 tests/startup_speed.py` (same server command as the smoke test).
 - Login page (opening, Sign in / Create account switch, field messages, spinner and tick): `... -- python3 tests/login_page.py` (same server command as the smoke test).
 - Landing page (compact tiles, hover and tap, scroll-in, reduced motion): `... -- python3 tests/landing.py` (same server command as the smoke test).

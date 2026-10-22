@@ -37,7 +37,8 @@ def main():
         # the steps
         p = page_with(b, {}, errors); p.goto(BASE + "dashboard.html"); p.wait_for_timeout(1500)
         k0 = keys(p, "00")
-        ok.append(("reading starter: rules after the vowel marks " + str(k0[-3:]), k0[-3:] == ["vowels", "rules", "hear"]))
+        ok.append(("reading starter: rules after the vowel marks and the reading ladder " + str(k0[-8:]),
+                   k0[-8:] == ["vowels", "sound", "firstwords", "rules", "rules2", "rules3", "hear", "line"]))
         ok.append(("unit 1 has no part 2", "grammar2" not in keys(p, "01")))
         ok.append(("unit 3 has no part 2 now (#166)", "grammar2" not in keys(p, "03")))
         for n in ("02",):
@@ -60,19 +61,22 @@ def main():
         ok.append(("everything in unit 2 but part 2: part 2 is next (" + nxt + ")", nxt == "02|grammar2"))
         p.close()
 
-        # the reading rules step: 5 rules, each with a quick check
-        alpha = seen(*[f"p:00|{k}" for k in ["letters1", "letters2", "letters3", "letters4", "letters5", "letters6", "letters7", "vowels"]])
-        p = page_with(b, alpha, errors); p.goto(BASE + "learn.html?u=00&s=rules"); p.wait_for_timeout(1500)
-        rules = checks = 0
-        for _ in range(12):
-            k = kicker(p)
-            if k.startswith("Reading rules"): rules += 1; go(p)
-            elif k.startswith("Quick check"):
-                checks += 1; p.locator(".opt").first.click(); p.wait_for_timeout(150); go(p)
-            else: break
-        ok.append(("reading rules: %d rules, %d checks" % (rules, checks), rules == 3 and checks == 3))   # ال and sun letters moved to the basics (#166)
-        ok.append(("reading rules step done", p.evaluate("RafiqPath.stepDone('00','rules')")))
-        p.close()
+        # the reading rules steps: 3 rules each, each with a quick check (#276: two more sets)
+        before = k0[:k0.index("rules")]
+        for key in ("rules", "rules2", "rules3"):
+            alpha = seen(*[f"p:00|{k}" for k in before])
+            p = page_with(b, alpha, errors); p.goto(BASE + "learn.html?u=00&s=" + key); p.wait_for_timeout(1500)
+            rules = checks = 0
+            for _ in range(12):
+                k = kicker(p)
+                if k.startswith("Reading rules"): rules += 1; go(p)
+                elif k.startswith("Quick check"):
+                    checks += 1; p.locator(".opt").first.click(); p.wait_for_timeout(150); go(p)
+                else: break
+            ok.append((f"{key}: %d rules, %d checks" % (rules, checks), rules == 3 and checks == 3))   # ال and sun letters moved to the basics (#166)
+            ok.append((f"{key} step done", p.evaluate(f"RafiqPath.stepDone('00','{key}')")))
+            p.close()
+            before.append(key)
 
         # unit 2 part 2: "How do you say ‘we study’?"
         p = page_with(b, seen("p:00|placed", *[f"p:01|{k}" for k in U1], *u2[:5]), errors)

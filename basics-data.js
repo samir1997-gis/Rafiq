@@ -6,8 +6,11 @@
    Each lesson: {key, title, words (word-list ids it uses, which count as met when it's done),
    teach: [{h, pairs: [[arabic, english], ...], en}], drills: [[question, arabic shown or '',
    options (the right one first; shown shuffled), why]], sofar: {m, f, en, adds}} — the sentence
-   so far as a man and as a woman says it, its meaning, and the part this lesson added. Missed drills
-   come back at the end of the lesson. The names are examples: the learner says their own.
+   so far as a man and as a woman says it, its meaning, and the part this lesson added (bonus: a
+   sentence that isn't a piece of the goal). Missed drills come back at the end of the lesson, then
+   three drills from earlier lessons (#277). A lesson with build (Put it together, #277) has no teach
+   or drills: sentences made from word tiles [{ar, en, extra}], then the learner says the goal
+   sentence with their own name. The names are examples: the learner says their own.
    The Arabic is listed for the teacher in tools/teach/REVIEW.md. */
 const BASICS_GOAL = {m:'السَّلامُ عَلَيْكُمْ، اسْمِي سَمِير، وَأَنا طالِبُ اللُّغَةِ الْعَرَبِيَّةِ.',
                      f:'السَّلامُ عَلَيْكُمْ، اسْمِي مَرْيَم، وَأَنا طالِبَةُ اللُّغَةِ الْعَرَبِيَّةِ.',
@@ -29,6 +32,23 @@ const BASICS = [
     ['How is it said?', 'الْبابُ', ['al-bāb','ab-bāb'], 'ب is a moon letter: you say the ل.'],
     ['How is it said?', 'الْمَسْجِدُ', ['al-masjid','am-masjid'], 'م is a moon letter: you say the ل.']],
    sofar:{m:'السَّلامُ عَلَيْكُمْ', f:'السَّلامُ عَلَيْكُمْ', en:'Peace be upon you. (السَّلامُ: the peace; عَلَيْكُمْ: upon you)', adds:'السَّلامُ عَلَيْكُمْ'}},
+
+  {key:'keep', title:'Words to keep you going', words:[786, 787, 788, 109, 789, 790, 791, 794],
+   teach:[
+    {h:'When you don’t understand', pairs:[['مَرْحَبًا','hello'],['لا أَفْهَمُ','I don’t understand'],['مَرَّةً أُخْرى، مِنْ فَضْلِكَ','again, please'],['بِبُطْءٍ، مِنْ فَضْلِكَ','slowly, please']],
+     en:'Phrases that keep a conversation going, in a class or at the masjid. مِنْ فَضْلِكَ (please) is to a man; to a woman it’s مِنْ فَضْلِكِ.'},
+    {h:'Asking about a word', pairs:[['ما مَعْنى هَذِهِ الْكَلِمَةِ؟','what does this word mean?'],['كَيْفَ أَقُولُ هَذا بِالْعَرَبِيَّةِ؟','how do I say this in Arabic?'],['أَعْرِفُ','I know'],['لا أَعْرِفُ','I don’t know']],
+     en:'لا before a verb makes it ‘don’t’: أَعْرِفُ I know, لا أَعْرِفُ I don’t know. أَفْهَمُ I understand, لا أَفْهَمُ I don’t understand.'}],
+   drills:[
+    ['How do you say ‘I don’t understand’?', '', ['لا أَفْهَمُ','أَفْهَمُ','لا أَعْرِفُ'], 'لا before the verb: ‘don’t’. أَفْهَمُ is ‘I understand’.'],
+    ['What does it mean?', 'مَرْحَبًا', ['hello','goodbye','please'], 'مَرْحَبًا is ‘hello’.'],
+    ['What does it mean?', 'مَرَّةً أُخْرى، مِنْ فَضْلِكَ', ['again, please','slowly, please','I don’t understand'], 'مَرَّةً أُخْرى: once more.'],
+    ['How do you ask someone to speak slowly?', '', ['بِبُطْءٍ، مِنْ فَضْلِكَ','مَرَّةً أُخْرى، مِنْ فَضْلِكَ','مَرْحَبًا'], 'بِبُطْءٍ is ‘slowly’.'],
+    ['What does it mean?', 'لا أَعْرِفُ', ['I don’t know','I know','I don’t understand'], 'لا: don’t. أَعْرِفُ: I know.'],
+    ['How do you say ‘I know’?', '', ['أَعْرِفُ','لا أَعْرِفُ','أَفْهَمُ'], 'أَعْرِفُ is ‘I know’.'],
+    ['You hear a new word. What do you ask?', '', ['ما مَعْنى هَذِهِ الْكَلِمَةِ؟','كَيْفَ حالُكَ؟','ما اسْمُكَ؟'], '‘What does this word mean?’'],
+    ['Which fits? (to a man)', 'مَرَّةً أُخْرى، ___', ['مِنْ فَضْلِكَ','مِنْ فَضْلِكِ'], 'To a man: مِنْ فَضْلِكَ.']],
+   sofar:{m:'مَرْحَبًا! لا أَفْهَمُ. مَرَّةً أُخْرى، مِنْ فَضْلِكَ.', f:'مَرْحَبًا! لا أَفْهَمُ. مَرَّةً أُخْرى، مِنْ فَضْلِكَ.', en:'Hello! I don’t understand. Again, please.', adds:'لا أَفْهَمُ', bonus:true}},
 
   {key:'my', title:'My, your, his, her', words:[784, 50, 32, 75, 150, 90, 26, 27, 149],
    teach:[
@@ -83,19 +103,36 @@ const BASICS = [
     ['A woman says ‘I’m a student’:', '', ['أَنا طالِبَةٌ','أَنا طالِبٌ','هِيَ طالِبٌ'], 'A woman: طالِبَة, with ة.']],
    sofar:{m:'السَّلامُ عَلَيْكُمْ، اسْمِي سَمِير، وَأَنا طالِبٌ', f:'السَّلامُ عَلَيْكُمْ، اسْمِي مَرْيَم، وَأَنا طالِبَةٌ', en:'Peace be upon you. My name is …, and I’m a student. (A man says طالِبٌ, a woman طالِبَةٌ.)', adds:'طالِب'}},
 
-  {key:'of', title:'‘Of’, and describing words', words:[785, 58, 28, 150, 90, 627, 75, 161, 449],
+  {key:'describe', title:'Describing words', words:[161, 792, 793, 449, 785, 90, 75, 150, 627],
+   teach:[
+    {h:'Describing words come after, and match', pairs:[['بَيْتٌ كَبِيرٌ','a big house'],['غُرْفَةٌ كَبِيرَةٌ','a big room'],['اللُّغَةُ الْعَرَبِيَّةُ','the Arabic language']],
+     en:'A describing word comes after the noun and matches it: ة if the noun is feminine, and ال if the noun has ال. لُغَة (language) is feminine, so it’s الْعَرَبِيَّة.'},
+    {h:'Big, small, new', pairs:[['كِتابٌ جَدِيدٌ','a new book'],['مَدْرَسَةٌ جَدِيدَةٌ','a new school'],['بَيْتٌ صَغِيرٌ','a small house'],['غُرْفَةٌ صَغِيرَةٌ','a small room']],
+     en:'Each describing word has two forms: one for masculine nouns, and one with ة for feminine nouns.'}],
+   drills:[
+    ['How do you say ‘a big house’?', '', ['بَيْتٌ كَبِيرٌ','بَيْتٌ كَبِيرَةٌ','كَبِيرٌ بَيْتٌ'], 'بَيْت is masculine: no ة.'],
+    ['How do you say ‘a big room’?', '', ['غُرْفَةٌ كَبِيرَةٌ','غُرْفَةٌ كَبِيرٌ','كَبِيرَةٌ غُرْفَةٌ'], 'After the noun, with ة for a feminine noun.'],
+    ['How do you say ‘the Arabic language’?', '', ['اللُّغَةُ الْعَرَبِيَّةُ','اللُّغَةُ عَرَبِيٌّ','لُغَةٌ الْعَرَبِيَّةُ'], 'The describing word matches: ال and ة.'],
+    ['How do you say ‘a new book’?', '', ['كِتابٌ جَدِيدٌ','كِتابٌ جَدِيدَةٌ','جَدِيدٌ كِتابٌ'], 'After the noun; كِتاب is masculine.'],
+    ['How do you say ‘a small room’?', '', ['غُرْفَةٌ صَغِيرَةٌ','غُرْفَةٌ صَغِيرٌ','صَغِيرَةٌ غُرْفَةٌ'], 'غُرْفَة is feminine: صَغِيرَة.'],
+    ['What does it mean?', 'مَدْرَسَةٌ جَدِيدَةٌ', ['a new school','a big school','a new teacher'], 'جَدِيدَة: new, with ة to match مَدْرَسَة.'],
+    ['Which fits?', 'بَيْتٌ ___', ['صَغِيرٌ','صَغِيرَةٌ'], 'بَيْت is masculine: no ة.'],
+    ['Which fits?', 'مَدْرَسَةٌ ___', ['كَبِيرَةٌ','كَبِيرٌ'], 'مَدْرَسَة ends in ة: كَبِيرَة.']],
+   sofar:{m:'هَذا بَيْتٌ كَبِيرٌ، وَهَذِهِ غُرْفَةٌ صَغِيرَةٌ', f:'هَذا بَيْتٌ كَبِيرٌ، وَهَذِهِ غُرْفَةٌ صَغِيرَةٌ', en:'This is a big house, and this is a small room.', adds:'كَبِيرٌ', bonus:true}},
+
+  {key:'of', title:'‘Of’', words:[785, 58, 28, 150, 90, 627, 75, 161, 449],
    teach:[
     {h:'‘Of’: two nouns side by side', pairs:[['بابُ الْبَيْتِ','the door of the house'],['كِتابُ الطّالِبِ','the student’s book (the book of the student)'],['طالِبُ اللُّغَةِ','a student of the language']],
      en:'There’s no separate word for ‘of’: put the two nouns side by side. The first loses ال and the -un ending; the second ends in -i.'},
-    {h:'Describing words come after, and match', pairs:[['بَيْتٌ كَبِيرٌ','a big house'],['غُرْفَةٌ كَبِيرَةٌ','a big room'],['اللُّغَةُ الْعَرَبِيَّةُ','the Arabic language']],
-     en:'A describing word comes after the noun and matches it: ة if the noun is feminine, and ال if the noun has ال. لُغَة (language) is feminine, so it’s الْعَرَبِيَّة.'}],
+    {h:'‘Of’, with a describing word', pairs:[['طالِبُ اللُّغَةِ الْعَرَبِيَّةِ','a student of the Arabic language'],['بابُ الْبَيْتِ الْكَبِيرِ','the door of the big house']],
+     en:'A describing word follows the noun it describes, even after ‘of’, and matches its -i: اللُّغَةِ الْعَرَبِيَّةِ.'}],
    drills:[
+    ['How do you say ‘the door of the house’?', '', ['بابُ الْبَيْتِ','الْبابُ الْبَيْتِ','بابٌ الْبَيْتُ'], 'Side by side: بابُ loses ال and -un.'],
+    ['What does it mean?', 'اسْمُ الْمُدَرِّسِ', ['the teacher’s name','the teacher','my name'], 'Two nouns side by side: ‘the name of the teacher’.'],
+    ['How do you say ‘the girl’s room’?', '', ['غُرْفَةُ الْبِنْتِ','الْغُرْفَةُ الْبِنْتِ','غُرْفَةٌ الْبِنْتُ'], 'غُرْفَةُ, then الْبِنْتِ ending in -i.'],
     ['How do you say ‘a student of the language’?', '', ['طالِبُ اللُّغَةِ','طالِبٌ اللُّغَةُ','الطّالِبُ اللُّغَةِ'], 'Side by side: the first word loses ال and -un.'],
     ['How do you say ‘the student’s book’?', '', ['كِتابُ الطّالِبِ','الْكِتابُ الطّالِبِ','كِتابٌ الطّالِبُ'], 'كِتابُ, then الطّالِبِ ending in -i.'],
     ['What does it mean?', 'بابُ الْبَيْتِ', ['the door of the house','a big door','the house'], 'Two nouns side by side: ‘of’.'],
-    ['How do you say ‘the Arabic language’?', '', ['اللُّغَةُ الْعَرَبِيَّةُ','اللُّغَةُ عَرَبِيٌّ','لُغَةٌ الْعَرَبِيَّةُ'], 'The describing word matches: ال and ة.'],
-    ['How do you say ‘a big room’?', '', ['غُرْفَةٌ كَبِيرَةٌ','غُرْفَةٌ كَبِيرٌ','كَبِيرَةٌ غُرْفَةٌ'], 'After the noun, with ة for a feminine noun.'],
-    ['How do you say ‘a big house’?', '', ['بَيْتٌ كَبِيرٌ','بَيْتٌ كَبِيرَةٌ','كَبِيرٌ بَيْتٌ'], 'بَيْت is masculine: no ة.'],
     ['Which fits?', 'طالِبُ اللُّغَةِ ___', ['الْعَرَبِيَّةِ','عَرَبِيَّةٌ'], 'It matches اللُّغَةِ: ال, ة and -i.'],
     ['A woman says ‘I’m a student of the Arabic language’:', '', ['أَنا طالِبَةُ اللُّغَةِ الْعَرَبِيَّةِ','أَنا طالِبُ اللُّغَةِ الْعَرَبِيَّةِ','أَنا طالِبَةٌ اللُّغَةُ الْعَرَبِيَّةُ'], 'طالِبَة for a woman; side by side, no -un.']],
    sofar:{m:BASICS_GOAL.m, f:BASICS_GOAL.f, en:BASICS_GOAL.en, adds:'اللُّغَةِ الْعَرَبِيَّةِ'}},
@@ -116,6 +153,35 @@ const BASICS = [
     ['How do you say ‘they’re boys’?', '', ['هُمْ أَوْلادٌ','نَحْنُ أَوْلادٌ','هُوَ وَلَدٌ'], 'هُمْ is ‘they’.'],
     ['Which fits?', 'نَحْنُ ___ اللُّغَةِ الْعَرَبِيَّةِ', ['طُلّابُ','طالِبُ'], 'نَحْنُ is more than one: the plural, طُلّاب.']],
    sofar:{m:'نَحْنُ طُلّابُ اللُّغَةِ الْعَرَبِيَّةِ', f:'نَحْنُ طُلّابُ اللُّغَةِ الْعَرَبِيَّةِ', en:'A bonus: we’re students of the Arabic language.', adds:'نَحْنُ طُلّابُ', bonus:true}},
+
+  {key:'verbs', title:'Your first verbs', words:[131, 265, 66, 106, 64, 284],
+   teach:[
+    {h:'أَ at the start means ‘I’', pairs:[['أَذْهَبُ','I go'],['أَدْرُسُ','I study'],['أَقْرَأُ','I read'],['أَسْكُنُ','I live']],
+     en:'An Arabic verb shows who is doing it with a piece at the start. أَ means ‘I’: أَذْهَبُ, I go. You can add أَنا too: أَنا أَذْهَبُ.'},
+    {h:'Sometimes it’s أُ', pairs:[['أُصَلِّي','I pray'],['أُحِبُّ','I love, I like'],['أَنا أَدْرُسُ اللُّغَةَ الْعَرَبِيَّةَ','I study the Arabic language']],
+     en:'A few verbs start with أُ instead: أُصَلِّي, I pray. What you study or read ends in -a: أَدْرُسُ اللُّغَةَ. Unit 2 shows ‘he’ and ‘we’.'}],
+   drills:[
+    ['What does it mean?', 'أَذْهَبُ', ['I go','he goes','I went'], 'أَ at the start: ‘I’.'],
+    ['How do you say ‘I study’?', '', ['أَدْرُسُ','دَرَسَ','يَدْرُسُ'], 'أَ for ‘I’: أَدْرُسُ.'],
+    ['What does it mean?', 'أُصَلِّي', ['I pray','I read','I go'], 'أُصَلِّي: I pray.'],
+    ['How do you say ‘I read’?', '', ['أَقْرَأُ','أَذْهَبُ','أَسْكُنُ'], 'أَقْرَأُ: I read.'],
+    ['What does it mean?', 'أَسْكُنُ فِي بَيْتٍ كَبِيرٍ', ['I live in a big house','I go to a big house','I study in a big house'], 'أَسْكُنُ: I live. فِي: in.'],
+    ['Which fits?', 'أَنا ___ اللُّغَةَ الْعَرَبِيَّةَ', ['أَدْرُسُ','أَذْهَبُ'], '‘I study the Arabic language’.'],
+    ['What does it mean?', 'أَذْهَبُ إِلى الْمَسْجِدِ', ['I go to the mosque','I pray in the mosque','He goes to the mosque'], 'أَذْهَبُ: I go. إِلى: to.'],
+    ['Who is doing it?', 'أَقْرَأُ', ['I','he','we'], 'أَ at the start means ‘I’.']],
+   sofar:{m:'أَنا أَدْرُسُ اللُّغَةَ الْعَرَبِيَّةَ', f:'أَنا أَدْرُسُ اللُّغَةَ الْعَرَبِيَّةَ', en:'I study the Arabic language.', adds:'أَدْرُسُ', bonus:true}},
+
+  /* Put it together (#277): no new words. Build six sentences from word tiles (extra: a tile that
+     doesn't belong), then say your own goal sentence and, where the browser can, record it. */
+  {key:'together', title:'Put it together', words:[], teach:[], drills:[],
+   build:[
+    {ar:'هَذا بَيْتٌ كَبِيرٌ', en:'This is a big house.', extra:['هَذِهِ']},
+    {ar:'هَذِهِ غُرْفَتِي', en:'This is my room.', extra:['هَذا']},
+    {ar:'كِتابُ الطّالِبِ جَدِيدٌ', en:'The student’s book is new.', extra:['الْكِتابُ']},
+    {ar:'أَنا طالِبٌ وَهِيَ مُدَرِّسَةٌ', en:'I’m a student and she’s a teacher.', extra:['هُوَ']},
+    {ar:'اسْمُ الْمُدَرِّسِ يُوسُفُ', en:'The teacher’s name is Yusuf.', extra:['اسْمِي']},
+    {ar:'نَحْنُ طُلّابُ اللُّغَةِ الْعَرَبِيَّةِ', en:'We’re students of the Arabic language.', extra:['طالِبُ']}],
+   sofar:{m:BASICS_GOAL.m, f:BASICS_GOAL.f, en:BASICS_GOAL.en, adds:'', bonus:true}},
 ];
 
 /* The learner's own name in the goal sentence (#169): the first name given at sign-up, written in

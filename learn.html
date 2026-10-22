@@ -160,11 +160,38 @@ mark{background:color-mix(in srgb,var(--gold) 35%,transparent);color:inherit;bor
   background:var(--card);color:var(--ink-soft);opacity:.5;cursor:pointer;touch-action:manipulation;transition:transform var(--press) var(--ease-out)}
 .abc-l:active{transform:scale(.92)}
 .abc.intro .abc-l{opacity:1;color:var(--ink);background:var(--paper)}
-.abc-l.got{opacity:1;color:#fff;background:var(--verdigris);border-color:var(--verdigris)}
-/* letters just learned turn green one after another (off with reduced motion, via site.css) */
-.abc-l.new{animation:abc-in 380ms var(--ease-out) both}
+.abc-l.st-met{opacity:1;color:var(--ink);background:var(--card);border-color:var(--ink-soft)}
+.abc-l.st-known{opacity:1;color:#fff;background:var(--verdigris);border-color:var(--verdigris)}
+.abc-l.st-gold{opacity:1;color:var(--ink);background:color-mix(in srgb,var(--gold) 45%,var(--card));border-color:var(--gold)}
+/* letters that just changed settle in one after another (off with reduced motion, via site.css) */
+.abc-l.in{animation:abc-in 380ms var(--ease-out) both}
 @keyframes abc-in{from{opacity:.5;transform:scale(.84);background:var(--card);color:var(--ink-soft);border-color:var(--rule)}}
 .abc-tip{font-size:.9rem;color:var(--ink-soft);text-align:center;margin-top:8px}
+/* the alphabet board's key (#276) */
+.abc-key{display:flex;justify-content:center;flex-wrap:wrap;gap:4px 12px;font-size:.8rem;color:var(--ink-soft);margin:10px 0 0}
+.abc-key span{display:inline-flex;align-items:center;gap:5px}
+.abc-key i{width:12px;height:12px;border-radius:3px;border:1px solid var(--ink-soft);display:inline-block}
+.abc-key i.k-known{background:var(--verdigris);border-color:var(--verdigris)}
+.abc-key i.k-gold{background:color-mix(in srgb,var(--gold) 45%,var(--card));border-color:var(--gold)}
+/* Play (#276): the stars at the end */
+.stars{font-size:40px;letter-spacing:6px;color:var(--gold);margin:10px 0 0;line-height:1.2}
+.stars .off{color:var(--rule)}
+/* Sounding out (#276): a word in pieces, each tapped to see how it's said */
+.sx{display:flex;justify-content:center;gap:10px;direction:rtl;margin:16px 0 4px;flex-wrap:wrap}
+.sx button{font-family:var(--ar);font-size:30px;line-height:1.6;min-width:64px;padding:2px 10px 6px;border-radius:12px;border:1px solid var(--rule);
+  background:var(--paper);color:var(--ink);cursor:pointer;touch-action:manipulation;display:flex;flex-direction:column;align-items:center}
+.sx button.on{border-color:var(--verdigris)}
+.sx button i{font-style:normal;font-family:var(--ut);font-size:.9rem;color:var(--verdigris);min-height:1.3em;direction:ltr;line-height:1.3}
+/* Read your first line (#276): tap a word to see how it's read; lit while it's recited */
+.fl{display:flex;flex-wrap:wrap;direction:rtl;justify-content:center;gap:8px 10px;margin:4px 0 8px}
+.fl button{display:flex;flex-direction:column;align-items:center;border:0;background:transparent;border-radius:12px;padding:4px 8px;
+  cursor:pointer;color:var(--ink);touch-action:manipulation;transition:background .2s}
+.fl button b{font-family:var(--ar);font-size:clamp(1.8rem,8vw,2.4rem);line-height:1.6;font-weight:600}
+.fl button i{font-style:normal;font-size:.85rem;color:var(--ink-soft);direction:ltr;line-height:1.25;max-width:8em;text-align:center}
+.fl button.on{background:color-mix(in srgb,var(--verdigris) 22%,transparent)}
+/* Put it together (#277): record yourself saying your sentence */
+.rec{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.rec .hear{margin-top:8px}
 .abc-h{font-size:22px;margin:4px 0 8px}
 .abc-p{color:var(--ink-soft);font-size:1.05rem;line-height:1.55;margin:0}
 .hear-big{font-size:40px;width:96px;height:96px;border-radius:50%;border:1px solid var(--verdigris);background:var(--paper);cursor:pointer;
@@ -246,18 +273,18 @@ bdi[lang=ar]{white-space:nowrap;font-family:var(--ar)}
   <div class="stage" id="stage"></div>
 </div>
 
-<script src="vocab-data.js?v=20260930"></script>
+<script src="vocab-data.js?v=20261022a"></script>
 <script src="drills-data.js?v=20260930h"></script>
 <script src="path-data.js?v=20260930b"></script>
-<script src="alphabet-data.js?v=20260930b"></script>
+<script src="alphabet-data.js?v=20261022a"></script>
 <script src="scenes-data.js?v=20260922"></script>
 <script src="audio.js?v=904"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=10"></script>
 <script src="fsrs.js?v=20260929"></script>
-<script src="progress.js?v=20261001c"></script>
-<script src="basics-data.js?v=4"></script>
-<script src="path.js?v=20261013a"></script>
+<script src="progress.js?v=20261022a"></script>
+<script src="basics-data.js?v=5"></script>
+<script src="path.js?v=20261022a"></script>
 <script src="plan.js?v=20261001live"></script>
 <script src="report.js?v=1"></script>
 <script src="teach.js?v=3"></script>
@@ -466,7 +493,7 @@ const tooClose=(a,b)=>{ a=gloss(a).toLowerCase(); b=gloss(b).toLowerCase(); retu
 // English with Arabic inside: each Arabic run kept together, in its own direction
 const withAr=t=>esc(t).replace(/[\u0600-\u06FF][\u0600-\u06FF\s]*/g, m=>{ const w=m.trimEnd(); return `<bdi lang="ar" dir="rtl">${w}</bdi>`+m.slice(w.length); });
 function quickCheck(g, kicker, then){
-  const [q, opts, a, why, word]=g.check, right=opts[a];   // word: Arabic to hear with the question
+  const [q, opts, a, why, word, sayAs]=g.check, right=opts[a];   // word: Arabic to hear with the question (said from sayAs if given)
   const ar=/[\u0600-\u06FF]/.test(opts.join(''));
   const body=el(`<div><p class="kicker">${esc(kicker)}</p><div class="card">${word?`<div class="big" id="qw">${esc(word)}</div>`:''}<div class="en" style="margin-top:${word?14:0}px">${withAr(q)}</div></div>
     <div class="opts${ar?' ar-opts':''}" id="o"></div><p class="why hide" id="w">${withAr(why||'')}</p></div>`);
@@ -483,7 +510,7 @@ function quickCheck(g, kicker, then){
     body.querySelector('#o').appendChild(b);
   });
   screen(body,[next]);
-  const qw=body.querySelector('#qw'); if(qw){ qw.onclick=()=>say(word,qw); say(word,qw); }
+  const qw=body.querySelector('#qw'); if(qw){ qw.onclick=()=>say(sayAs||word,qw); say(sayAs||word,qw); }
 }
 function runGrammar(p, step){
   // part 2 (#163): the cards marked part 2 get their own step, after the later words
@@ -528,7 +555,7 @@ const letterOf=ch=>(ALL_LETTERS.find(x=>x.ch===ch)||{}).l;
 function forms(l, joins){
   return joins ? [l, l+ZWJ, ZWJ+l+ZWJ, ZWJ+l] : [l, ZWJ+l];
 }
-const gradeLetter=(ch,ok)=>Progress.grade('l:'+ch, ok?'good':'again');
+const gradeLetter=(ch,ok)=>RafiqPath.letterAnswer(ch,ok);
 const weakLetter=ch=>{ const r=Progress.get('l:'+ch); return !!(r && r.box===1); };
 const lastSeen=ch=>{ const r=Progress.get('l:'+ch); return (r && r.at) || ''; };
 const trHTML=t=>esc(t).replace(/\[(.+?)\]/g,'<b class="hl">$1</b>');
@@ -558,23 +585,24 @@ function hlMark(word, mark){
   return `<span class="mk"><span class="mk-r">${esc(word)}</span><span class="mk-i" aria-hidden="true">${esc(word.slice(0,i)+word.slice(i+mark.length))}</span></span>`;
 }
 
-/* The whole alphabet, right to left from the top right. intro: every letter
-   plain. Otherwise letters from finished groups are green (the ones just learned
-   settle in last) and the rest greyed. Tap any letter to hear its name. */
-function learnedLetters(){
-  return new Set(ALPHABET_GROUPS.flatMap((g,i)=>RafiqPath.stepDone('00','letters'+(i+1)) ? g.letters.map(l=>l[0]) : []));
-}
+/* The alphabet board (#276): the whole alphabet, right to left from the top right. intro: every letter
+   plain. Otherwise each letter shows how well it's known: greyed (not met yet), outlined (met), green
+   (right on two different days) or gold (read inside words too), and the letters in `fresh` settle in
+   one after another. Tap any letter to hear its name. */
+const STATE_SAYS={new:'not met yet', met:'met', known:'known', gold:'known, and read inside words'};
 function alphabetChart(title, fresh, intro){
-  const got=intro?null:learnedLetters();
-  const w=el(`<div class="abc${intro?' intro':''}"><p class="kicker">${esc(title)}${got?` · ${got.size} of ${ALL_LETTERS.length}`:''}</p>
-    <div class="abc-grid"></div><p class="abc-tip">Tap a letter to hear its name</p></div>`);
+  const st=ch=>intro?'new':RafiqPath.letterState(ch);
+  const known=intro?0:ALL_LETTERS.filter(x=>/known|gold/.test(st(x.ch))).length;
+  const w=el(`<div class="abc${intro?' intro':''}"><p class="kicker">${esc(title)}${intro?'':` · ${known} of ${ALL_LETTERS.length} known`}</p>
+    <div class="abc-grid"></div>${intro?'':'<p class="abc-key"><span><i></i>met</span><span><i class="k-known"></i>right on 2 days</span><span><i class="k-gold"></i>read in words</span></p>'}
+    <p class="abc-tip">Tap a letter to hear its name</p></div>`);
   const grid=w.querySelector('.abc-grid');
   ALL_LETTERS.forEach(x=>{
     const b=document.createElement('button'); b.type='button'; b.textContent=x.ch;
-    const on=!!(got&&got.has(x.ch)), nu=on&&!!fresh&&fresh.includes(x.ch);
-    b.className='abc-l'+(on?' got':'')+(nu?' new':'');
+    const s=st(x.ch), nu=!intro&&!!fresh&&fresh.includes(x.ch);
+    b.className='abc-l'+(s!=='new'?' st-'+s:'')+(nu?' in':'');
     if(nu) b.style.animationDelay=(150+70*fresh.indexOf(x.ch))+'ms';
-    b.setAttribute('aria-label', x.name+(got?(on?', learned':', not learned yet'):''));
+    b.setAttribute('aria-label', x.name+(intro?'':', '+STATE_SAYS[s]));
     b.onclick=()=>say(x.name,b);
     grid.appendChild(b);
   });
@@ -603,7 +631,7 @@ function letterCard(l, kicker){
 }
 
 /* "Which letter is this?": the sound, and the first sound of its example word. */
-function letterQuestion({t, options, kicker, at, total, onNext}){
+function letterQuestion({t, options, kicker, at, total, onAnswer, onNext}){
   setBar(at,total);
   const [ch,name,sound,,exEn]=t;
   const body=el(`<div><p class="kicker">${esc(kicker)}</p>
@@ -616,6 +644,7 @@ function letterQuestion({t, options, kicker, at, total, onNext}){
     b.onclick=()=>{ if(!next.disabled) return;
       const ok=x===t; b.classList.add(ok?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(ok); gradeLetter(ch,ok);
       if(!ok) [...body.querySelectorAll('.opt')].find(o=>o.textContent===ch).classList.add('right');
+      if(onAnswer) onAnswer(ok);
       next.disabled=false;
       if(ok) autoNext(next, name, null); else say(name,null); };
     body.querySelector('#o').appendChild(b);
@@ -634,11 +663,69 @@ function warmUpLetters(group){
   return shuffle(pick);
 }
 
+/* Letters that are easy to mix up with ch: its own group and the letters that differ only by their
+   dots, then any other letter met so far; n in all, ch first (options are shuffled where they're shown). */
+const FAMILIES=['بتثني','جحخ','دذ','رز','سش','صض','طظ','عغ','فق'];
+function alikeLetters(ch, n){
+  const met=c=>RafiqPath.letterState(c)!=='new' || c===ch;
+  const grp=(ALL_LETTERS.find(x=>x.ch===ch)||{}).group;
+  const fam=[...(FAMILIES.find(f=>f.includes(ch))||'')], mates=shuffle(ALL_LETTERS.filter(x=>x.group===grp).map(x=>x.ch));
+  const out=[ch];
+  shuffle(fam).concat(mates).concat(shuffle(ALL_LETTERS.map(x=>x.ch))).forEach(c=>{ if(out.length<n && !out.includes(c) && met(c)) out.push(c); });
+  return out;
+}
+
+/* The letter check-in (#276): letters met on an earlier day and not known yet come back, and one right
+   again on a later day turns green on the board. It opens a reading-starter step (up to 5 letters,
+   then = what comes next), and once every step is done it's a step of its own (then = null) until all
+   28 letters are green. */
+let checkedIn=false;
+function runCheckIn(letters, then){
+  const home=()=>{location.href='dashboard.html'};
+  if(!letters.length){                     // nothing left to ask today: the letters still to go were answered today
+    setBar(1,1);
+    const left=RafiqPath.LETTERS.filter(ch=>RafiqPath.letterState(ch)==='met').length;
+    const body=el(`<div class="done"><div class="tick">🌙</div><h2>Your last letters need a night’s sleep</h2>
+      <p>A letter turns green when you get it right on two different days. Come back tomorrow for a quick check-in on ${left===1?'the last one':'the last '+left}, and the basics open.</p></div>`);
+    body.appendChild(alphabetChart('Your alphabet'));
+    return screen(body,[button('Back to home',home)]);
+  }
+  const L=letters.map(letterOf).filter(Boolean);
+  let k=0;
+  const q=()=>{
+    if(k>=L.length) return done();
+    const t=L[k];
+    letterQuestion({t, options:alikeLetters(t[0],4).map(letterOf), kicker:`Check-in: letters from before · ${k+1} of ${L.length}`,
+      at:k, total:L.length, onNext:()=>{k++;q();}});
+  };
+  const done=()=>{
+    const green=letters.filter(ch=>/known|gold/.test(RafiqPath.letterState(ch)));
+    if(then && !green.length) return then();
+    if(!then) RafiqPath.markDay();
+    setBar(1,1);
+    const all=RafiqPath.lettersKnown();
+    const body=el(`<div class="done"><div class="tick">${all?'🎉':green.length?'🌱':'💪'}</div>
+      <h2>${all?'Every letter is green':green.length?`${green.length} ${green.length===1?'letter':'letters'} turned green`:'Not green yet'}</h2>
+      <p>${all?'You know all 28 letters: the reading starter is done.':green.length?'Right on two different days: they’re yours now.':'They’ll come back tomorrow. Getting them right on a later day is what turns them green.'}</p></div>`);
+    body.appendChild(alphabetChart('Your alphabet', green));
+    screen(body, then ? [button('Continue',then)] : doneButtons(RafiqPath.next(), false));
+  };
+  q();
+}
+/* Two new letter groups in a day is plenty (#276): before a third, a nudge to stop, with a way on. */
+function plenty(go){
+  setBar(0,1);
+  const body=el(`<div class="done"><div class="tick">🌙</div><h2>That’s plenty of new letters for today</h2>
+    <p>You’ve met two new groups of letters today. They stick best after a night’s sleep: tomorrow starts with a quick check-in on today’s letters, and the ones you get right turn green.</p></div>`);
+  body.appendChild(alphabetChart('Your alphabet'));
+  screen(body,[button('Back to home',()=>{location.href='dashboard.html'}), button('Keep going anyway',go,true)]);
+}
+
 function runLetters(p, step){
   const g=ALPHABET_GROUPS[step.group], L=g.letters;
   const intro=step.group===0;
   // straight on from the last group (Continue learning) the earlier letters are fresh: no warm-up
-  const warm=step.group>0 && !qs.get('cont') ? warmUpLetters(step.group) : [];
+  const warm=step.group>0 && !qs.get('cont') && !checkedIn ? warmUpLetters(step.group) : [];
   const earlier=ALPHABET_GROUPS.slice(0,step.group).flatMap(x=>x.letters);
   const before=(intro?1:0)+warm.length, total=before+L.length*2;
   const start=()=>{
@@ -670,7 +757,8 @@ function runLetters(p, step){
     if(k>=order.length) return finish(p, step);
     letterQuestion({t:order[k], options:L, kicker:'Which letter is this?', at:before+L.length+k, total, onNext:()=>check(k+1)});
   };
-  start();
+  // two new letter groups a day is plenty (#276): a third waits for tomorrow, unless the learner insists
+  if(!RafiqPath.stepDone(p.n, step.key) && RafiqPath.newGroupsToday()>=2) plenty(start); else start();
 }
 
 function runVowels(p, step){
@@ -713,22 +801,160 @@ function runVowels(p, step){
   meet(0);
 }
 
+/* Play (#276): after each letter group, a round of quick questions on its letters, with three from
+   earlier groups mixed in: which letter is red inside a word, which letter a joined form is, letters
+   that differ only by their dots, and the first letter of a word you hear. Stars for answers right
+   first time (no clock, so care beats speed); a missed question comes back once at the end. */
+function pickLetter({kicker, show, sub, ch, at, total, inWord, sayAfter, reveal, onAnswer, onNext}){
+  setBar(at,total);
+  const body=el(`<div><p class="kicker">${esc(kicker)}</p>
+    <div class="card"><div class="big" id="w" style="cursor:default">${show}</div><div class="tr">${esc(sub)}</div><div id="rev" class="rev hide"></div></div>
+    <div class="opts" id="o"></div></div>`);
+  const next=button('Next',onNext); next.disabled=true;
+  shuffle(alikeLetters(ch,4)).forEach(c=>{
+    const b=document.createElement('button'); b.className='opt'; b.type='button';
+    b.style.fontFamily='var(--ar)'; b.style.fontSize='28px'; b.textContent=c;
+    b.onclick=()=>{ if(!next.disabled) return;
+      const ok=c===ch; b.classList.add(ok?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(ok);
+      RafiqPath.letterAnswer(ch, ok, inWord);
+      if(!ok) [...body.querySelectorAll('.opt')].find(o=>o.textContent===ch).classList.add('right');
+      if(reveal){ const rv=body.querySelector('#rev'); rv.innerHTML=reveal; rv.classList.remove('hide'); }
+      onAnswer(ok); next.disabled=false;
+      const w=body.querySelector('#w');
+      if(ok) autoNext(next, sayAfter, w); else say(sayAfter, w); };
+    body.querySelector('#o').appendChild(b);
+  });
+  screen(body,[next]);
+}
+function playItems(group){
+  const G=ALPHABET_GROUPS[group].letters, E=ALPHABET_GROUPS.slice(0,group).flatMap(g=>g.letters);
+  const spot=l=>{ const k=Math.floor(Math.random()*3); return {type:'spot', l, k}; };
+  const form=l=>({type:'form', l});
+  const items=[];
+  shuffle(G).slice(0,3).forEach(l=>items.push(spot(l)));
+  shuffle(G).slice(0,3).forEach(l=>items.push(form(l)));
+  shuffle(G.filter(l=>FAMILIES.some(f=>f.includes(l[0])))).slice(0,2).forEach(l=>items.push({type:'dots', l}));
+  shuffle(G).slice(0,2).forEach(l=>items.push({type:'hear', l}));
+  // keep it fresh: three from earlier groups
+  shuffle(E).slice(0,3).forEach((l,i)=>items.push(i===0?spot(l):i===1?{type:'hear', l}:form(l)));
+  return shuffle(items);
+}
+let playAnswer=null;                     // the letter the Play question on screen wants (for tests/starter_game.py)
+function playQuestion(it, kicker, at, total, onAnswer, onNext){
+  const l=it.l, [ch,name,sound,,exEn,exs]=l;
+  playAnswer=ch;
+  if(it.type==='spot'){ const [w,tr,en]=exs[it.k];
+    return pickLetter({kicker, show:hlWord(w,ch,POS[it.k]), sub:'Which letter is in red?', ch, at, total, inWord:true, sayAfter:w,
+      reveal:`<div class="tr">${trHTML(tr)} · ${esc(en)}</div>`, onAnswer, onNext}); }
+  if(it.type==='form'){ const joins=!sound.includes('*'), f=forms(ch,joins), k=joins?1+Math.floor(Math.random()*3):1;
+    const where=joins?['','at the start of a word','in the middle of a word','at the end of a word'][k]:'at the end of a word';
+    return pickLetter({kicker, show:`<span style="font-size:72px">${f[k]}</span>`, sub:`Which letter is this? It’s its shape ${where}.`, ch, at, total, sayAfter:name, onAnswer, onNext}); }
+  if(it.type==='dots')
+    return letterQuestion({t:l, options:alikeLetters(ch,4).map(letterOf), kicker, at, total, onAnswer, onNext});
+  hearQuestion({it:[exs[0][0], ch, alikeLetters(ch,3).join(''), exs[0][2]], kicker, at, total, onAnswer, onNext});
+}
+const starsHTML=n=>`<div class="stars" aria-label="${n} of 3 stars">${'★'.repeat(n)}<span class="off">${'★'.repeat(3-n)}</span></div>`;
+function runPlay(p, step){
+  const items=playItems(step.group), total=items.length, again=[];
+  let k=0, firstRight=0, combo=0;
+  const streak=()=>combo>=2?` · 🔥 ${combo} in a row`:'';
+  const q=()=>{
+    if(k>=total) return retry(0);
+    playQuestion(items[k], `Play · ${k+1} of ${total}`+streak(), k, total+again.length,
+      ok=>{ if(ok){ firstRight++; combo++; } else { combo=0; again.push(items[k]); } }, ()=>{k++;q();});
+  };
+  // the ones missed come back once, for practice: they don't change the stars
+  const retry=i=>{
+    if(i>=again.length) return end();
+    playQuestion(again[i], 'Play · one more try'+streak(), total+i, total+again.length,
+      ok=>{ combo=ok?combo+1:0; }, ()=>retry(i+1));
+  };
+  const end=()=>{
+    const n=firstRight/total>=0.9?3:firstRight/total>=0.7?2:1, best=Math.max(n, RafiqPath.stars(p.n, step.key));
+    RafiqPath.saveStars(p.n, step.key, n);
+    const more=n<3 ? [button('Play again for more stars',()=>{location.href='learn.html?u='+p.n+'&s='+step.key},true)] : [];
+    finish(p, step, `${starsHTML(n)}<p>${firstRight} of ${total} right first time${best>n?` · your best: ${best} stars`:''}</p>`
+      + (step.group===ALPHABET_GROUPS.length-1 ? `<div class="wnote up">🔓 You’ve met all 28 letters. Next: the vowel marks, then your first words.</div>` : ''), more);
+  };
+  q();
+}
+
+/* Read a word, then pick how it's said: you hear it, with its meaning, once you've chosen (#276).
+   Right first time: every letter in it counts as read inside a word (gold on the board). */
+function readPick({kicker, word, right, wrong, en, at, total, onAnswer, onNext}){
+  setBar(at,total);
+  const body=el(`<div><p class="kicker">${esc(kicker)}</p><div class="card"><div class="big" id="w" style="cursor:default">${esc(word)}</div>
+    <div class="en hide" id="m">${esc(en)}</div></div><p class="howto">How is it said?</p><div class="opts" id="o"></div></div>`);
+  const w=body.querySelector('#w');
+  const next=button('Next',onNext); next.disabled=true;
+  shuffle([right].concat(wrong)).forEach(o=>{
+    const b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=o;
+    b.onclick=()=>{ if(!next.disabled) return;
+      const ok=o===right; b.classList.add(ok?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(ok);
+      if(ok) RafiqPath.readWord(word); else [...body.querySelectorAll('.opt')].find(e=>e.textContent===right).classList.add('right');
+      body.querySelector('#m').classList.remove('hide'); next.disabled=false; if(onAnswer) onAnswer(ok);
+      w.style.cursor='pointer'; w.onclick=()=>say(word,w);       // heard only once you've read it
+      if(ok) autoNext(next, word, w); else say(word, w); };
+    body.querySelector('#o').appendChild(b);
+  });
+  screen(body,[next]);
+}
+/* Sounding out (#276): a word in pieces, each a letter with its vowel. Tap each piece, from the right,
+   to see how it's said and say it aloud, then pick how the whole word is said, and hear it. */
+function runSound(p, step){
+  const W=SOUNDING, total=W.length*2;
+  let i=0;
+  const pieces=()=>{
+    if(i>=W.length) return finish(p, step);
+    setBar(i*2,total);
+    const [word, ps]=W[i];
+    const body=el(`<div><p class="kicker">Sounding out · ${i+1} of ${W.length}</p><div class="card">
+      <div class="big" style="cursor:default">${esc(word)}</div>
+      <div class="sx">${ps.map(([a],k)=>`<button type="button" data-k="${k}"><span>${esc(a)}</span><i></i></button>`).join('')}</div>
+      <p class="howto">Tap each piece, from the right, and say it aloud</p></div></div>`);
+    const btns=[...body.querySelectorAll('.sx button')];
+    const next=button('Now the whole word',whole); next.disabled=true;
+    btns.forEach((b,k)=>b.onclick=()=>{ b.querySelector('i').textContent=ps[k][1]; b.classList.add('on');
+      if(btns.every(x=>x.classList.contains('on'))) next.disabled=false; });
+    screen(body,[next]);
+  };
+  const whole=()=>{
+    const [word, ps, en, wrong]=W[i];
+    readPick({kicker:`Sounding out · ${i+1} of ${W.length} · the whole word`, word, right:ps.map(x=>x[1]).join(''), wrong, en,
+      at:i*2+1, total, onNext:()=>{i++;pieces();}});
+  };
+  pieces();
+}
+/* Your first words (#276): twelve words from the letter cards, easy to harder, each read before it's heard. */
+function runFirstWords(p, step){
+  const W=FIRST_WORDS;
+  let i=0, right=0;
+  const q=()=>{
+    if(i>=W.length) return finish(p, step, `<div class="wnote up">📖 <b>${right} of ${W.length}</b> Arabic words read right first time</div>`);
+    const [word, reading, wrong, en]=W[i];
+    readPick({kicker:`Your first words · ${i+1} of ${W.length}`, word, right:reading, wrong, en, at:i, total:W.length,
+      onAnswer:ok=>{ if(ok) right++; }, onNext:()=>{i++;q();}});
+  };
+  q();
+}
+
 /* Reading rules (#163): what the marks alone don't tell you (ة, ال, sun letters, the joining alif,
    stopping), one rule a screen with examples to tap, each followed by a quick check. */
+const RULE_SETS={rules:()=>READING_RULES, rules2:()=>READING_RULES_2, rules3:()=>READING_RULES_3};   // #276: two more sets
 function runRules(p, step){
-  const R=READING_RULES;
+  const R=RULE_SETS[step.key](), sayOf=e=>e[3]||e[0];
   const show=i=>{
     if(i>=R.length) return finish(p, step);
     setBar(i,R.length);
     const [title, what, exs, check]=R[i];
-    const body=el(`<div><p class="kicker">Reading rules · ${i+1} of ${R.length}</p>
+    const body=el(`<div><p class="kicker">${esc(step.title)} · ${i+1} of ${R.length}</p>
       <div class="card note"><h3 class="gh">${withAr(title)}</h3><p style="text-align:left">${withAr(what)}</p>
       <p class="kicker ex-k">Tap to hear</p><div class="exs">${exs.map((e,k)=>`<button type="button" class="ex" data-k="${k}">
         <span class="ex-ar">${esc(e[0])}</span><span class="ex-tx"><span class="ex-tr">${trHTML(e[1])}</span><span class="ex-en">${esc(e[2])}</span></span></button>`).join('')}</div></div></div>`);
     const btns=[...body.querySelectorAll('.ex')];
-    btns.forEach(b=>b.onclick=()=>say(exs[+b.dataset.k][0],b));
+    btns.forEach(b=>b.onclick=()=>say(sayOf(exs[+b.dataset.k]),b));
     screen(body,[button('Check yourself',()=>quickCheck({check}, 'Quick check', ()=>show(i+1)))]);
-    const play=k=>{ if(k<btns.length && btns[k].isConnected) say(exs[k][0],btns[k],()=>setTimeout(()=>play(k+1),400)); };
+    const play=k=>{ if(k<btns.length && btns[k].isConnected) say(sayOf(exs[k]),btns[k],()=>setTimeout(()=>play(k+1),400)); };
     play(0);
   };
   show(0);
@@ -824,6 +1050,49 @@ function runHearing(p, step){
     card(0);
   };
   intro();
+}
+
+/* Read your first line (#276): the first two verses of al-Fātiḥah. Read each verse yourself first (tap
+   a word to see how it's read and what it means), then hear al-Husary recite it, each word lighting up
+   as he says it. Only ever his licensed recitation (salah.js), never a generated voice: without it,
+   a read-along. */
+function runLine(p, step){
+  const S=window.RafiqSalah, part=S && S.part && S.part('fatiha1');
+  const lines=FIRST_LINE.map(f=>({tr:f.tr, line:part && part.lines.find(l=>l.ref===f.ref)})).filter(x=>x.line);
+  const total=lines.length*2;
+  let i=0;
+  const read=()=>{
+    if(i>=lines.length) return end();
+    setBar(i*2,total);
+    const {tr, line}=lines[i];
+    const body=el(`<div><p class="kicker">Read your first line · al-Fātiḥah ${esc(line.ref)}</p><div class="card">
+      <div class="fl">${line.words.map((w,k)=>`<button type="button" data-k="${k}"><b>${esc(w.ar)}</b><i></i></button>`).join('')}</div>
+      <p class="howto">Read it yourself first, from the right. Tap a word to check how it’s read.</p></div></div>`);
+    body.querySelectorAll('.fl button').forEach(b=>b.onclick=()=>{ const k=+b.dataset.k; b.classList.add('on');
+      b.querySelector('i').innerHTML=`${esc(tr[k])}<br>${esc(line.words[k].en)}`; });
+    screen(body,[button('Now hear al-Husary',hear)]);
+  };
+  const hear=()=>{
+    setBar(i*2+1,total);
+    const {line}=lines[i];
+    const body=el(`<div><p class="kicker">Al-Fātiḥah ${esc(line.ref)} · recited by al-Husary</p><div class="card">
+      <div class="fl">${line.words.map(w=>`<button type="button" tabindex="-1"><b>${esc(w.ar)}</b></button>`).join('')}</div>
+      <div class="en">${esc(line.en)}</div><p class="taphint" id="nt">Loading the recitation…</p></div></div>`);
+    const ws=[...body.querySelectorAll('.fl button')], note=body.querySelector('#nt');
+    const lit=k=>ws.forEach((w,j)=>w.classList.toggle('on',j===k));
+    const play=()=>{ const go=()=>{ if(!note.isConnected) return;
+        if(S.recitation(line)){ note.textContent=S.credit()||''; recite(line, lit, ()=>lit(-1)); } else note.textContent=silentWhy(); };
+      S.ready().then(go, go); };
+    screen(body,[button(i<lines.length-1?'Next verse':'Continue',()=>{i++;read();}), button('Hear it again',play,true)]);
+    play();
+  };
+  const end=()=>{
+    const share=navigator.share ? [button('Share it',()=>navigator.share({title:'Rafiq',
+      text:'I just read the first line of al-Fātiḥah in Arabic, letter by letter, with Rafiq.', url:'https://rafiq-arabic.com'}).catch(()=>{}),true)] : [];
+    finish(p, step, `<div class="wnote up">📖 <b>You read the first line of al-Fātiḥah</b>, letter by letter<br><span lang="ar" dir="rtl" style="font-family:var(--ar);font-size:1.3rem">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span></div>`, share);
+  };
+  if(!lines.length) return end();          // no salah data on this page: nothing to read
+  read();
 }
 
 /* Conversation partner: the other speaker's lines are the unit's own
@@ -1038,7 +1307,7 @@ function runRecap(p, then){
 const PASS=0.8;
 function testQuestions(p){
   if(p.basics){ const ws=shuffle(RafiqPath.wordsOf(p));
-    return shuffle(BASICS.flatMap((l,li)=>shuffle(l.drills.map((_,i)=>({t:'b', id:li*100+i}))).slice(0,2)))
+    return shuffle(BASICS.flatMap((l,li)=>shuffle(l.drills.map((_,i)=>({t:'b', id:li*100+i}))).slice(0,2))).slice(0,12)   // 18 in all, however many lessons (#277)
       .concat(ws.slice(0,4).map(w=>({t:'mean',id:w.id})), ws.slice(4,6).map(w=>({t:'hear',id:w.id}))); }
   const words=shuffle(RafiqPath.wordsOf(p)), u=RafiqPath.unitData(p.n);
   let cl=((u&&u.cloze)||[]).map((d,i)=>({t:'cloze',u:p.n,i,d}));
@@ -1050,8 +1319,9 @@ function testQuestions(p){
     cl.map(({t,u,i})=>({t,u,i})));
 }
 function runTest(p, step){
-  const pool=RafiqPath.wordsOf(p), missedBefore=RafiqPath.testReview(p.n);
-  if(missedBefore) return reviewMistakes(p, step, missedBefore);
+  const pool=RafiqPath.wordsOf(p), drillOf=q=>(BASICS[Math.floor(q.id/100)]||{drills:[]}).drills[q.id%100];
+  const missedBefore=(RafiqPath.testReview(p.n)||[]).filter(q=>q.t!=='b' || drillOf(q));   // the basics' lessons moved (#277)
+  if(missedBefore.length) return reviewMistakes(p, step, missedBefore);
   const qs=testQuestions(p), missed=[];
   let k=0;
   const show=()=>{
@@ -1168,20 +1438,23 @@ function basicsGoal(then){
 function basicsSoFar(L, i, then){
   const so=L.sofar, line=so[basicsG()], mine=withMyName(line);
   const shown=mine.html.replace(esc(so.adds), `<mark class="new">${esc(so.adds)}</mark>`);
-  const pieces=BASICS.filter(l=>!l.sofar.bonus).length;
-  const body=el(`<div><p class="kicker">${so.bonus?'A bonus':`Your sentence so far · ${Math.min(i+1,pieces)} of ${pieces}`}</p><div class="card note">
-    <h3 class="gh">${so.bonus?'You can also say':i+1>=pieces?'You can say the whole sentence':'You can now say'}</h3>
+  const pieces=BASICS.filter(l=>!l.sofar.bonus).length, piece=BASICS.slice(0,i+1).filter(l=>!l.sofar.bonus).length;
+  const body=el(`<div><p class="kicker">${so.bonus?'A bonus':`Your sentence so far · ${piece} of ${pieces}`}</p><div class="card note">
+    <h3 class="gh">${so.bonus?'You can also say':piece>=pieces?'You can say the whole sentence':'You can now say'}</h3>
     <div class="mid" id="s" style="line-height:1.9">${shown}</div><div class="gtr">${withAr(mine.own ? so.en.replace('…', myName().latin) : so.en)}</div>
-    <p class="taphint">🔊 Tap to hear it, then say it aloud${so.bonus||i===0||mine.own?'':' with your own name'}</p></div></div>`);
+    <p class="taphint">🔊 Tap to hear it, then say it aloud${so.bonus||piece===1||mine.own?'':' with your own name'}</p></div></div>`);
   const sEl=body.querySelector('#s'); sEl.onclick=()=>sayInTurn(mine.play,sEl);
   screen(body,[button('Continue',then)]);
   sayInTurn(mine.play,sEl);
 }
 function runBasics(p, step){
   const L=BASICS[step.lesson], T=L.teach;
+  if(L.build) return runTogether(p, step, L);
+  // three drills from earlier lessons at the end (#277), so nothing is learned once and dropped
+  const fresh=shuffle(BASICS.slice(0,step.lesson).flatMap(l=>l.drills)).slice(0,3), all=T.length+L.drills.length+fresh.length;
   const teach=i=>{
     if(i>=T.length) return drill();
-    setBar(i, T.length+L.drills.length);
+    setBar(i, all);
     const t=T[i];
     const body=el(`<div><p class="kicker">${esc(L.title)} · ${i+1} of ${T.length}</p><div class="card note">
       <h3 class="gh">${withAr(t.h)}</h3>
@@ -1193,13 +1466,17 @@ function runBasics(p, step){
     const playRow=k=>{ if(k<rows.length && rows[k].isConnected) say(rows[k].dataset.say, rows[k].querySelector('.mid'), ()=>setTimeout(()=>playRow(k+1),350)); };
     playRow(0);
   };
-  let queue=[], right=0;
+  let queue=[], right=0, f=0;
   const drill=()=>{
     if(!queue.length && !right) queue=shuffle(L.drills.map((_,k)=>k));
-    if(!queue.length) return done();
+    if(!queue.length) return f<fresh.length ? again() : done();
     const k=queue.shift();
-    setBar(T.length+right, T.length+L.drills.length);
+    setBar(T.length+right, all);
     basicsDrill(L.drills[k], `${L.title} · practise`, ok=>{ if(ok) right++; else queue.push(k); }, drill);
+  };
+  const again=()=>{
+    setBar(T.length+L.drills.length+f, all);
+    basicsDrill(fresh[f], 'Keep it fresh · from earlier lessons', ()=>{}, ()=>{f++; drill();});
   };
   const done=()=>{
     const first=!RafiqPath.stepDone(p.n, step.key);
@@ -1208,6 +1485,57 @@ function runBasics(p, step){
   };
   // the first lesson opens with the goal (#168)
   if(step.lesson===0 && !RafiqPath.stepDone(p.n, step.key)) basicsGoal(()=>teach(0)); else teach(0);
+}
+
+/* Put it together (#277): six sentences built from word tiles, each with a tile that doesn't belong;
+   then the goal sentence with your own name: hear it, say it, and record yourself where the browser
+   can, to hear the two side by side. */
+function runTogether(p, step, L){
+  const B=L.build, total=B.length+1;
+  let i=0;
+  const build=()=>{
+    if(i>=B.length) return sayIt();
+    setBar(i,total);
+    const s=B[i];
+    const body=el(`<div><p class="kicker">Put it together · ${i+1} of ${B.length}</p><div class="card"><div class="en" style="margin:0">${esc(s.en)}</div>
+      <p class="howto">Build it in Arabic. One tile doesn’t belong.</p></div><div id="t"></div></div>`);
+    const next=button('Next',()=>{i++;build();}); next.disabled=true;
+    const tl=RafiqTiles.create({parts:s.ar.split(' '), extra:s.extra||[], en:s.en, say:(t,e)=>say(t,e), onCorrect:()=>{ next.disabled=false; }});
+    body.querySelector('#t').appendChild(tl.el);
+    screen(body,[next, button('Show the answer',()=>{ tl.reveal(); say(s.ar,null); next.disabled=false; },true)]);
+  };
+  const sayIt=()=>{
+    setBar(B.length,total);
+    const mine=withMyName(BASICS_GOAL[basicsG()]);
+    const body=el(`<div><p class="kicker">Put it together · your sentence</p><div class="card note">
+      <h3 class="gh">Now say your sentence</h3><div class="mid" id="s" style="line-height:1.9">${mine.html}</div>
+      <div class="gtr">${esc(mine.own?BASICS_GOAL.en.replace('…', myName().latin):BASICS_GOAL.en)}</div>
+      <p class="taphint">🔊 Tap to hear it, then say it aloud${mine.own?'':' with your own name'}</p><div class="rec" id="rec"></div></div></div>`);
+    const sEl=body.querySelector('#s'); sEl.onclick=()=>sayInTurn(mine.play,sEl);
+    recorder(body.querySelector('#rec'));
+    screen(body,[button('Finish the lesson',()=>finish(p, step, `<div class="wnote up">🗣 <b>Your first Arabic sentence</b>, with your own name</div>`))]);
+    sayInTurn(mine.play,sEl);
+  };
+  build();
+}
+/* Record yourself (#277), where the browser can: the recording stays on this device and is only played back. */
+function recorder(box){
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) return;
+  let rec=null, url=null;
+  const mk=(t,fn)=>{ const b=document.createElement('button'); b.type='button'; b.className='hear'; b.textContent=t; b.onclick=fn; box.appendChild(b); return b; };
+  const recBtn=mk('🎙 Record yourself',()=>toggle()), playBtn=mk('▶ Play yours',()=>{ if(url) new Audio(url).play().catch(()=>{}); });
+  playBtn.style.display='none';
+  async function toggle(){
+    if(rec && rec.state==='recording'){ rec.stop(); return; }
+    try{
+      const stream=await navigator.mediaDevices.getUserMedia({audio:true}), chunks=[];
+      rec=new MediaRecorder(stream);
+      rec.ondataavailable=e=>{ if(e.data.size) chunks.push(e.data); };
+      rec.onstop=()=>{ stream.getTracks().forEach(t=>t.stop()); if(url) URL.revokeObjectURL(url);
+        url=URL.createObjectURL(new Blob(chunks,{type:rec.mimeType||'audio/webm'})); recBtn.textContent='🎙 Record again'; playBtn.style.display=''; };
+      rec.start(); recBtn.textContent='■ Stop';
+    }catch(_){ recBtn.textContent='The microphone isn’t available'; recBtn.disabled=true; }
+  }
 }
 
 /* "Say it yourself" in units 1-3 (#164): no writing from scratch. Build your own sentences one gap at
@@ -1340,7 +1668,7 @@ function wordsNote(step){
     : `<b>${r.today}</b> new word${r.today===1?'':'s'} today`;
   return `<div class="wnote${r.record||r.aboveUsual?' up':''}">${msg}</div>`;
 }
-function finish(p, step, note){
+function finish(p, step, note, extra){
   RafiqPath.complete(p.n, step.key);
   setBar(1,1);
   const n=RafiqPath.next();
@@ -1352,9 +1680,9 @@ function finish(p, step, note){
     <p>${hit?esc(sg.reached.why):today>=RafiqPath.GOAL?'Daily goal reached. Anything more is a bonus.':'One more step and today\'s goal is done.'}</p>
     ${note||''}${wordsNote(step)}
     <span class="streak">🔥 ${s}-day streak${sg.next?` · next goal ${sg.next.days} days`:''}</span></div>`);
-  if(p.alpha && step.kind==='letters') body.appendChild(alphabetChart('Letters you can read so far', ALPHABET_GROUPS[step.group].letters.map(l=>l[0])));
-  if(p.alpha && step.kind==='hearing') body.appendChild(alphabetChart('The whole alphabet', []));
-  screen(body,doneButtons(n, sameUnit));
+  if(p.alpha && step.kind==='letters') body.appendChild(alphabetChart('Your alphabet', ALPHABET_GROUPS[step.group].letters.map(l=>l[0])));
+  if(p.alpha && (step.kind==='play' || step.kind==='hearing')) body.appendChild(alphabetChart('Your alphabet', []));
+  screen(body,doneButtons(n, sameUnit).concat(extra||[]));
 }
 /* Every finished step: Complete (home) first, Continue learning (the next step,
    named underneath) second. cont=1 tells the next step it follows straight on. */
@@ -1738,14 +2066,20 @@ function showBridge(b, then){
   // A locked unit or step (someone typed the address, or an old link) sends
   // you to where you actually are on the path.
   if(!RafiqPath.unitOpen(p.n)) p=RafiqPath.next().unit;
+  // every step of the reading starter done, letters still to turn green: the check-in (#276)
+  if(p.alpha && qs.get('s')==='checkin'){ document.title='Letter check-in — Rafiq'; return runCheckIn(RafiqPath.checkInLetters().slice(0,10), null); }
   const steps=RafiqPath.steps(p);
   let step=steps.find(s=>s.key===qs.get('s'))||steps.find(s=>!RafiqPath.stepDone(p.n,s.key))||steps[0];
   if(!RafiqPath.stepOpen(p.n,step.key)) step=steps.find(s=>RafiqPath.stepOpen(p.n,s.key)&&!RafiqPath.stepDone(p.n,s.key))||steps[0];
   document.title=step.title+' — Rafiq';
   const run=()=>({words:runWords,listen:runListen,grammar:runGrammar,practise:runPractise,speak:runSpeak,
-    letters:runLetters,vowels:runVowels,rules:runRules,hearing:runHearing,chat:runChat,test:runTest,basics:runBasics})[step.kind](p,step);
+    letters:runLetters,vowels:runVowels,rules:runRules,hearing:runHearing,chat:runChat,test:runTest,basics:runBasics,
+    play:runPlay,sound:runSound,firstwords:runFirstWords,line:runLine})[step.kind](p,step);
+  // a new reading-starter step starts with a check-in on letters from an earlier day (#276)
+  const ci=p.alpha && step.kind!=='hearing' && !RafiqPath.stepDone(p.n,step.key) ? RafiqPath.checkInLetters().slice(0,5) : [];
+  if(ci.length) runCheckIn(ci, ()=>{ checkedIn=true; run(); });
   // every two lessons, a short recap before the next new one (#158)
-  if(!p.pre && step.kind!=='test' && !RafiqPath.stepDone(p.n,step.key) && RafiqPath.recapDue()) runRecap(p, run); else run();
+  else if(!p.pre && step.kind!=='test' && !RafiqPath.stepDone(p.n,step.key) && RafiqPath.recapDue()) runRecap(p, run); else run();
 })();
 </script>
 </body>

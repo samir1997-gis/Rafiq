@@ -85,14 +85,19 @@ DATA.forEach(u=>{
 /* Reading starter: each letter's name, its example words, the vowel-mark
    examples and the listening-test words (said without being shown). */
 eval(fs.readFileSync(path.join(root,'alphabet-data.js'),'utf8')
-      .replace(/const (ALPHABET_GROUPS|VOWEL_MARKS|READING_RULES|LISTEN_TEST)/g,'globalThis.$1'));
+      .replace(/const (ALPHABET_GROUPS|VOWEL_MARKS|READING_RULES_2|READING_RULES_3|READING_RULES|LISTEN_TEST|SOUNDING|FIRST_WORDS|FIRST_LINE)\b/g,'globalThis.$1'));
 ALPHABET_GROUPS.forEach(g=>g.letters.forEach(l=>{
   add('alphabet','00',l[1]); add('alphabet','00',l[3]);
   (l[5]||[]).forEach(e=>add('alphabet','00',e[0]));
 }));
 VOWEL_MARKS.forEach(v=>{ if(v[3]) add('alphabet','00',v[3][0]); });
 LISTEN_TEST.forEach(t=>add('alphabet','00',t[0]));
-READING_RULES.forEach(r=>{ r[2].forEach(e=>add('alphabet','00',e[0])); add('alphabet','00',r[3][4]); });
+// an example or a check may name the spelling to say it from (a small alif ٰ said from a full ا, #276)
+READING_RULES.concat(READING_RULES_2, READING_RULES_3).forEach(r=>{ r[2].forEach(e=>add('alphabet','00',e[3]||e[0])); add('alphabet','00',r[3][5]||r[3][4]); });
+// the reading ladder (#276): each word is heard once it's been read. Never FIRST_LINE: that's the Quran,
+// only ever al-Husary's recitation.
+SOUNDING.forEach(w=>add('alphabet','00',w[0]));
+FIRST_WORDS.forEach(w=>add('alphabet','00',w[0]));
 // the basics (#165): each example, and what's said after each pick (the finished sentence, the right answer, or the word shown)
 eval(fs.readFileSync(path.join(root,'basics-data.js'),'utf8').replace(/const (BASICS_GOAL|BASICS_NAMES|BASICS) =/g,'globalThis.$1 ='));
 // the goal sentence and each lesson's 'sentence so far' (#168), as a man and as a woman says it
@@ -104,6 +109,8 @@ eval(fs.readFileSync(path.join(root,'basics-data.js'),'utf8').replace(/const (BA
 }));
 [...new Set(Object.values(BASICS_NAMES))].forEach(n=>add('names','0b',n));
 const hasAr=t=>/[\u0600-\u06FF]/.test(t);
+// Put it together (#277): each sentence, and each tile, said when it's tapped
+BASICS.forEach(l=>(l.build||[]).forEach(b=>{ add('basics','0b',b.ar); b.ar.split(' ').concat(b.extra||[]).forEach(t=>tile('0b',t)); }));
 BASICS.forEach(l=>{
   l.teach.forEach(t=>t.pairs.forEach(([a])=>add('basics','0b',a.replace(/ · /g,'، '))));
   l.drills.forEach(([q,shown,opts])=>{ const gap=shown.includes('___');

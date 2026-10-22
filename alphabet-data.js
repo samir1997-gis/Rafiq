@@ -112,3 +112,67 @@ const LISTEN_TEST = [
   ['عَشَرَة','ع','عاه','ten'],    ['أَنا','ا','عاه','I'],
   ['غُرْفَة','غ','غخر','room'],
 ];
+
+/* ── Added with #276: the reading ladder and the spellings the first rules don't cover ──
+   A teacher should check all of this; it's listed in tools/teach/REVIEW.md. */
+
+/* Sounding out, after the vowel marks: a word in pieces (each letter with its vowel), the learner
+   says each piece, then picks how the whole word is said. [word, pieces [[piece, sound], …],
+   meaning, two wrong readings]. The verbs are past tense ("he wrote"), every letter with a vowel. */
+const SOUNDING = [
+  ['كَتَبَ', [['كَ','ka'],['تَ','ta'],['بَ','ba']], 'he wrote', ['kitiba','kutuba']],
+  ['ذَهَبَ', [['ذَ','dha'],['هَ','ha'],['بَ','ba']], 'he went', ['dhihiba','dhuhuba']],
+  ['دَرَسَ', [['دَ','da'],['رَ','ra'],['سَ','sa']], 'he studied', ['durusa','dirisa']],
+  ['شَرِبَ', [['شَ','sha'],['رِ','ri'],['بَ','ba']], 'he drank', ['sharaba','shuruba']],
+  ['سَمِعَ', [['سَ','sa'],['مِ','mi'],['عَ','ʿa']], 'he heard', ['samaʿa','sumiʿa']],
+  ['كِتاب', [['كِ','ki'],['تا','tā'],['ب','b']], 'a book', ['katab','kutub']],
+  ['مَسْجِد', [['مَسْ','mas'],['جِد','jid']], 'a mosque', ['musjad','masjad']],
+];
+/* Your first words: read a word with its vowels, pick how it's said, then hear it. Easy to harder;
+   all from the letter cards, so every one has a recording. [word, reading, two wrong readings, meaning] */
+const FIRST_WORDS = [
+  ['يَد','yad',['yid','yud'],'hand'],
+  ['أَخ','akh',['ukh','ikh'],'brother'],
+  ['قَلَم','qalam',['qilam','qulum'],'pen'],
+  ['وَلَد','walad',['wilid','wulud'],'boy'],
+  ['سَمَك','samak',['simak','sumuk'],'fish'],
+  ['بَيْت','bayt',['būt','bīt'],'house'],
+  ['شَمْس','shams',['shims','shums'],'sun'],
+  ['كِتاب','kitāb',['katab','kutub'],'book'],
+  ['صَدِيق','ṣadīq',['ṣadaq','ṣudūq'],'friend'],
+  ['مَسْجِد','masjid',['musjad','masjad'],'mosque'],
+  ['مَدْرَسَة','madrasa',['mudarrisa','madrisa'],'school'],
+  ['تِلْمِيذ','tilmīdh',['talmadh','tulmūdh'],'pupil'],
+];
+/* Reading rules 2 and 3, in the same form as READING_RULES. An example may have a fourth item, the
+   spelling to say it from (the recording), and a check a sixth: a small alif ـٰ is said from the same
+   word with a full ا, so the recording can't miss it. */
+const READING_RULES_2 = [
+  ['The hamza ء: a catch in the throat', 'ء is a stop in the throat, like the catch in "uh-oh". It often sits on a seat: on ا (أ, or إ for an "i"), on و (ؤ) or on ي without its dots (ئ). The seat isn’t said: you hear only the catch and its vowel.',
+    [['أَنا','[ʾ]anā','I'],['سُؤال','su[ʾ]āl','a question'],['ماء','mā[ʾ]','water']],
+    ['What do you hear for the ؤ in سُؤال?', ['a catch in the throat','a "w"','nothing at all'], 0, 'The و is only a seat: you hear the catch, "suʾāl".', 'سُؤال']],
+  ['Madda: آ', 'آ is an ا with a wavy line on top, the madda. It says a catch and then a long "ā".',
+    [['آمِين','[ʾā]mīn','amen'],['الْقُرْآن','al-qur[ʾā]n','the Qurʾān']],
+    ['How is آمِين said?', ['āmīn','amīn','imīn'], 0, 'آ is a long "ā", with a catch before it.', 'آمِين']],
+  ['ى at the end: a long "ā"', 'At the end of a word, ى looks like ي without its dots, but it says a long "ā", like ا. It’s called alif maqṣūra.',
+    [['عَلى','ʿal[ā]','on'],['إِلى','il[ā]','to'],['مُصْطَفى','muṣṭaf[ā]','Mustafa (a name)']],
+    ['How is عَلى said?', ['ʿalā','ʿalī','ʿalay'], 0, 'ى at the end says "ā": عَلى is "ʿalā".', 'عَلى']],
+];
+const READING_RULES_3 = [
+  ['The small alif ـٰ', 'A small upright alif above a letter (ـٰ) is a long "ā" that isn’t written as a full letter. You’ll find it in هٰذا, and in الرَّحْمٰن in the first line of al-Fātiḥah.',
+    [['هٰذا','h[ā]dhā','this','هَذا'],['الرَّحْمٰنِ','ar-raḥm[ā]ni','the Most Gracious','الرَّحْمانِ'],['ذٰلِكَ','dh[ā]lika','that','ذَلِكَ']],
+    ['How is الرَّحْمٰنِ said?', ['ar-raḥmāni','ar-raḥmani','ar-raḥmini'], 0, 'The small alif is a long "ā": raḥ-mā-ni.', 'الرَّحْمٰنِ', 'الرَّحْمانِ']],
+  ['The joining alif', 'The ا at the start of اسْم (name) and ابْن (son), and the ا of ال, has no hamza. At the start of a sentence you say it: "ism". After another word it’s silent, and you go straight on: بِسْمِ اللهِ is "bismillāh", not "bi-ismi Allāh".',
+    [['اسْمِي','[i]smī','my name'],['وَاسْمِي','w[a]smī','and my name'],['بِسْمِ اللهِ','bism[i]llāh','in the name of Allah']],
+    ['How is وَاسْمِي said?', ['wasmī','wa-ismī','wa-asmī'], 0, 'After وَ the ا is silent: "wasmī".', 'وَاسْمِي']],
+  ['لا: ل and ا together', 'When ل comes before ا, the two join into one shape: لا. It says "lā".',
+    [['لا','l[ā]','no'],['سَلام','sal[ā]m','peace'],['الصَّلاة','aṣ-ṣal[ā]h','the prayer']],
+    ['Which two letters make لا? (read right to left)', ['ل + ا','ا + ل','ك + ا'], 0, 'لا is ل followed by ا, joined.', 'لا']],
+];
+/* Read your first line: the first two verses of al-Fātiḥah, word by word, then al-Husary's
+   recitation (salah.js; never a generated voice). The words and meanings come from salah-data.js;
+   here only how each word is read. */
+const FIRST_LINE = [
+  {ref:'1:1', tr:['bismi','llāhi','r-raḥmāni','r-raḥīm']},
+  {ref:'1:2', tr:['al-ḥamdu','lillāhi','rabbi','l-ʿālamīn']},
+];

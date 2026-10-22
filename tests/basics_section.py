@@ -16,8 +16,10 @@ from playwright.sync_api import sync_playwright
 BASE = "http://localhost:8765/"
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 seen = lambda *ks: {k: {"box": 0, "seen": 1} for k in ks}
-ALPHA = ["letters1", "letters2", "letters3", "letters4", "letters5", "letters6", "letters7", "vowels", "rules", "hear"]
-LESSONS = ["b-the", "b-my", "b-people", "b-gender", "b-of", "b-many"]
+ALPHA = [k for i in range(1, 8) for k in (f"letters{i}", f"play{i}")] + ["vowels", "sound", "firstwords", "rules", "rules2", "rules3", "hear", "line"]
+LESSONS = ["b-the", "b-keep", "b-my", "b-people", "b-gender", "b-describe", "b-of", "b-many", "b-verbs", "b-together"]
+# the reading starter is done when every letter is known too (#276)
+KNOWN = [f"lk:{ch}" for ch in "ابتثجحخدذرزسشصضطظعغفقكلمنهوي"] + [f"l:{ch}" for ch in "ابتثجحخدذرزسشصضطظعغفقكلمنهوي"]
 
 def page_with(b, mirror, errors):
     c = b.new_context(viewport={"width": 390, "height": 844})
@@ -36,7 +38,7 @@ def main():
         b = pw.chromium.launch(executable_path=CHROME if os.path.exists(CHROME) else None)
 
         # where it sits
-        p = page_with(b, seen(*[f"p:00|{k}" for k in ALPHA]), errors); p.goto(BASE + "dashboard.html"); p.wait_for_timeout(1500)
+        p = page_with(b, seen(*KNOWN, *[f"p:00|{k}" for k in ALPHA]), errors); p.goto(BASE + "dashboard.html"); p.wait_for_timeout(1500)
         order = p.evaluate("RafiqPath.units().slice(0, 3).map(u => u.n)")
         ok.append(("reading starter, the basics, unit 1: " + str(order), order == ["00", "0b", "01"]))
         nxt = p.evaluate("(() => { const n = RafiqPath.next(); return n.unit.n + '|' + n.step.key; })()")
@@ -48,14 +50,14 @@ def main():
         p.close()
 
         # a lesson: teach, 8 picks, a miss comes back
-        p = page_with(b, seen(*[f"p:00|{k}" for k in ALPHA], "p:0b|b-the", "p:0b|b-my", "p:0b|b-people"), errors); p.goto(BASE + "learn.html?u=0b&s=b-gender"); p.wait_for_timeout(1500)
+        p = page_with(b, seen(*KNOWN, *[f"p:00|{k}" for k in ALPHA], "p:0b|b-the", "p:0b|b-keep", "p:0b|b-my", "p:0b|b-people"), errors); p.goto(BASE + "learn.html?u=0b&s=b-gender"); p.wait_for_timeout(1500)
         teach = 0
         while kicker(p).startswith("Masculine and feminine ·") and "practise" not in kicker(p):
             teach += 1; go(p)
         picks, missed = 0, False
         for _ in range(20):
             if "practise" not in kicker(p): break
-            right = p.evaluate("""(() => { const L = BASICS[3], card = document.querySelector('.card').innerText;
+            right = p.evaluate("""(() => { const L = BASICS.find(l => l.key === 'gender'), card = document.querySelector('.card').innerText;
               const d = L.drills.find(d => card.includes(d[0]) && (!d[1] || card.includes(d[1].replace('___','').trim()))); return d ? d[2][0] : null; })()""")
             opts = p.locator(".opt")
             if not missed:                                               # the first one wrong on purpose
@@ -64,6 +66,10 @@ def main():
                 [o for o in opts.all() if o.inner_text() == right][0].click()
             p.wait_for_timeout(120); picks += 1; go(p)
         ok.append(("gender lesson: %d teaching screens, %d picks (8 + the one missed)" % (teach, picks), teach == 3 and picks == 9))
+        fresh = 0                                                        # then three from earlier lessons (#277)
+        while kicker(p).startswith("Keep it fresh") and fresh < 5:
+            p.locator(".opt").first.click(); p.wait_for_timeout(120); fresh += 1; go(p)
+        ok.append(("then %d from earlier lessons" % fresh, fresh == 3))
         so = kicker(p); line = p.inner_text("#s")
         ok.append(("then your sentence so far (" + so + ")", so.startswith("Your sentence so far · 4 of 5") and "طالِب" in line and p.locator("mark.new").count() == 1))
         go(p)
@@ -73,7 +79,7 @@ def main():
         p.close()
 
         # the goal (#168): lesson 1 opens with the sentence you'll build; as a woman here
-        p = page_with(b, seen(*[f"p:00|{k}" for k in ALPHA]), errors); p.goto(BASE + "learn.html?u=0b&s=b-the"); p.wait_for_timeout(1500)
+        p = page_with(b, seen(*KNOWN, *[f"p:00|{k}" for k in ALPHA]), errors); p.goto(BASE + "learn.html?u=0b&s=b-the"); p.wait_for_timeout(1500)
         ok.append(("lesson 1 opens with the goal (" + kicker(p) + ")", kicker(p) == "The basics · your goal" and "طالِبُ اللُّغَةِ الْعَرَبِيَّةِ" in p.inner_text("#g")))
         p.locator("button.go", has_text="As a woman").click(); p.wait_for_timeout(300)
         ok.append(("then the lesson", kicker(p).startswith("‘The’ and ‘a’ ·")))
@@ -84,7 +90,7 @@ def main():
         for signup, want in (("Aisha Khan", "عائِشَة"), ("Zorro", "Zorro")):
             c = b.new_context(viewport={"width": 390, "height": 844}); c.route("**/@supabase/**", lambda r: r.abort())
             c.add_init_script("localStorage.setItem('rafiq_progress_mirror',%s);localStorage.setItem('bay_name',%s)"
-                              % (json.dumps(json.dumps(seen(*[f"p:00|{k}" for k in ALPHA]))), json.dumps(signup)))
+                              % (json.dumps(json.dumps(seen(*KNOWN, *[f"p:00|{k}" for k in ALPHA]))), json.dumps(signup)))
             p = c.new_page(); p.on("pageerror", lambda e: errors.append(str(e)))
             p.goto(BASE + "learn.html?u=0b&s=b-the"); p.wait_for_timeout(1500)
             goal = p.inner_text("#g")
@@ -92,7 +98,7 @@ def main():
             c.close()
 
         # the check at the end, then unit 1 opens
-        p = page_with(b, seen(*[f"p:00|{k}" for k in ALPHA], *[f"p:0b|{k}" for k in LESSONS]), errors)
+        p = page_with(b, seen(*KNOWN, *[f"p:00|{k}" for k in ALPHA], *[f"p:0b|{k}" for k in LESSONS]), errors)
         p.goto(BASE + "learn.html?u=0b&s=test"); p.wait_for_timeout(1500)
         n = 0
         while kicker(p).startswith("Unit test") and n < 30:

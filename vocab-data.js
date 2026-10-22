@@ -788,4 +788,14 @@ const VOCAB = [
   { id: 783, ar: "سِتَّة", en: "six", tr: "sitta", unit: "02 · Core sentence-building" },
   { id: 784, ar: "اسْم", en: "name", tr: "ism", unit: "02 · Core sentence-building" },        // taught in the basics (#168)
   { id: 785, ar: "لُغَة", en: "language", tr: "lugha", unit: "02 · Core sentence-building" },   // taught in the basics (#168)
+  // taught in the basics (#277): words to keep you going, and describing words
+  { id: 786, ar: "مَرْحَبًا", en: "hello", tr: "marḥaban", unit: "01 · Greetings" },
+  { id: 787, ar: "لا أَفْهَمُ", en: "I don't understand", tr: "lā afhamu", unit: "01 · Greetings" },
+  { id: 788, ar: "مَرَّةً أُخْرى", en: "again, once more", tr: "marratan ukhrā", unit: "01 · Greetings" },
+  { id: 789, ar: "بِبُطْءٍ", en: "slowly", tr: "bi-buṭʾin", unit: "01 · Greetings" },
+  { id: 790, ar: "أَعْرِفُ", en: "I know", tr: "aʿrifu", unit: "02 · Core sentence-building" },
+  { id: 791, ar: "لا أَعْرِفُ", en: "I don't know", tr: "lā aʿrifu", unit: "02 · Core sentence-building" },
+  { id: 792, ar: "صَغِير", en: "small", tr: "ṣaghīr", unit: "02 · Core sentence-building" },
+  { id: 793, ar: "جَدِيد", en: "new", tr: "jadīd", unit: "02 · Core sentence-building" },
+  { id: 794, ar: "كَلِمَة", en: "word", tr: "kalima", unit: "02 · Core sentence-building" },
 ];

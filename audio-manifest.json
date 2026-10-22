@@ -13419,6 +13419,69 @@
   "chars": 5
  },
  {
+  "id": "1v6yznu",
+  "text": "مَرْحَبًا",
+  "bucket": "vocab",
+  "unit": "01 · Greetings",
+  "chars": 9
+ },
+ {
+  "id": "109h60r",
+  "text": "لا أَفْهَمُ",
+  "bucket": "vocab",
+  "unit": "01 · Greetings",
+  "chars": 11
+ },
+ {
+  "id": "1kw051m",
+  "text": "مَرَّةً أُخْرى",
+  "bucket": "vocab",
+  "unit": "01 · Greetings",
+  "chars": 14
+ },
+ {
+  "id": "1uxebdf",
+  "text": "بِبُطْءٍ",
+  "bucket": "vocab",
+  "unit": "01 · Greetings",
+  "chars": 8
+ },
+ {
+  "id": "1t1x3ho",
+  "text": "أَعْرِفُ",
+  "bucket": "vocab",
+  "unit": "02 · Core sentence-building",
+  "chars": 8
+ },
+ {
+  "id": "og4zu7",
+  "text": "لا أَعْرِفُ",
+  "bucket": "vocab",
+  "unit": "02 · Core sentence-building",
+  "chars": 11
+ },
+ {
+  "id": "2x19an",
+  "text": "صَغِير",
+  "bucket": "vocab",
+  "unit": "02 · Core sentence-building",
+  "chars": 6
+ },
+ {
+  "id": "1x48uu5",
+  "text": "جَدِيد",
+  "bucket": "vocab",
+  "unit": "02 · Core sentence-building",
+  "chars": 6
+ },
+ {
+  "id": "nk234u",
+  "text": "كَلِمَة",
+  "bucket": "vocab",
+  "unit": "02 · Core sentence-building",
+  "chars": 7
+ },
+ {
   "id": "1xvhh9f",
   "text": "السَّلامُ",
   "bucket": "tile",
@@ -20979,13 +21042,6 @@
   "chars": 5
  },
  {
-  "id": "2x19an",
-  "text": "صَغِير",
-  "bucket": "alphabet",
-  "unit": "00",
-  "chars": 6
- },
- {
   "id": "1tb4a2g",
   "text": "فارِغ",
   "bucket": "alphabet",
@@ -21105,11 +21161,95 @@
   "chars": 6
  },
  {
+  "id": "1pz274u",
+  "text": "سُؤال",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 5
+ },
+ {
+  "id": "1q8sz9a",
+  "text": "آمِين",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 5
+ },
+ {
+  "id": "adqoji",
+  "text": "الْقُرْآن",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 9
+ },
+ {
+  "id": "1863gbd",
+  "text": "مُصْطَفى",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 8
+ },
+ {
+  "id": "1xg0rz7",
+  "text": "الرَّحْمانِ",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 11
+ },
+ {
+  "id": "1lidoai",
+  "text": "وَاسْمِي",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 8
+ },
+ {
+  "id": "1pz3ndq",
+  "text": "سَلام",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 5
+ },
+ {
+  "id": "so84ru",
+  "text": "كَتَبَ",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 6
+ },
+ {
+  "id": "1wfvu6e",
+  "text": "دَرَسَ",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 6
+ },
+ {
+  "id": "4toy6w",
+  "text": "شَرِبَ",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 6
+ },
+ {
+  "id": "1kb5whm",
+  "text": "سَمِعَ",
+  "bucket": "alphabet",
+  "unit": "00",
+  "chars": 6
+ },
+ {
   "id": "ikrde1",
   "text": "السَّلامُ عَلَيْكُمْ، اسْمِي سَمِير، وَأَنا طالِبُ اللُّغَةِ الْعَرَبِيَّةِ.",
   "bucket": "basics",
   "unit": "0b",
   "chars": 76
+ },
+ {
+  "id": "1an8zmt",
+  "text": "مَرْحَبًا! لا أَفْهَمُ. مَرَّةً أُخْرى، مِنْ فَضْلِكَ.",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 54
  },
  {
   "id": "yocntn",
@@ -21126,11 +21266,25 @@
   "chars": 50
  },
  {
+  "id": "1j647bc",
+  "text": "هَذا بَيْتٌ كَبِيرٌ، وَهَذِهِ غُرْفَةٌ صَغِيرَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 48
+ },
+ {
   "id": "8r5hlb",
   "text": "نَحْنُ طُلّابُ اللُّغَةِ الْعَرَبِيَّةِ",
   "bucket": "basics",
   "unit": "0b",
   "chars": 39
+ },
+ {
+  "id": "133gqbm",
+  "text": "أَنا أَدْرُسُ اللُّغَةَ الْعَرَبِيَّةَ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 38
  },
  {
   "id": "1vojzhw",
@@ -21868,11 +22022,123 @@
   "chars": 8
  },
  {
-  "id": "a299hp",
-  "text": "الْكِتابُ",
+  "id": "jfub35",
+  "text": "هَذا بَيْتٌ كَبِيرٌ",
   "bucket": "basics",
   "unit": "0b",
+  "chars": 19
+ },
+ {
+  "id": "n9k98n",
+  "text": "كَبِيرٌ",
+  "bucket": "tile",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "i3klu",
+  "text": "هَذِهِ غُرْفَتِي",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 16
+ },
+ {
+  "id": "qkmujw",
+  "text": "غُرْفَتِي",
+  "bucket": "tile",
+  "unit": "0b",
   "chars": 9
+ },
+ {
+  "id": "146zt7q",
+  "text": "كِتابُ الطّالِبِ جَدِيدٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 24
+ },
+ {
+  "id": "scfhp8",
+  "text": "كِتابُ",
+  "bucket": "tile",
+  "unit": "0b",
+  "chars": 6
+ },
+ {
+  "id": "8vi4ej",
+  "text": "الطّالِبِ",
+  "bucket": "tile",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "a299hp",
+  "text": "الْكِتابُ",
+  "bucket": "tile",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "i6ren3",
+  "text": "أَنا طالِبٌ وَهِيَ مُدَرِّسَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 30
+ },
+ {
+  "id": "1baukau",
+  "text": "مُدَرِّسَةٌ",
+  "bucket": "tile",
+  "unit": "0b",
+  "chars": 11
+ },
+ {
+  "id": "qtqm0v",
+  "text": "اسْمُ الْمُدَرِّسِ يُوسُفُ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 26
+ },
+ {
+  "id": "1qufrop",
+  "text": "اسْمُ",
+  "bucket": "tile",
+  "unit": "0b",
+  "chars": 5
+ },
+ {
+  "id": "1hdf3zg",
+  "text": "الْمُدَرِّسِ",
+  "bucket": "tile",
+  "unit": "0b",
+  "chars": 12
+ },
+ {
+  "id": "1l2sgi0",
+  "text": "طُلّابُ",
+  "bucket": "tile",
+  "unit": "0b",
+  "chars": 7
+ },
+ {
+  "id": "1mksx",
+  "text": "اللُّغَةِ",
+  "bucket": "tile",
+  "unit": "0b",
+  "chars": 9
+ },
+ {
+  "id": "14rvy94",
+  "text": "الْعَرَبِيَّةِ",
+  "bucket": "tile",
+  "unit": "0b",
+  "chars": 14
+ },
+ {
+  "id": "4m60jq",
+  "text": "طالِبُ",
+  "bucket": "tile",
+  "unit": "0b",
+  "chars": 6
  },
  {
   "id": "19dkrgm",
@@ -21894,6 +22160,34 @@
   "bucket": "basics",
   "unit": "0b",
   "chars": 7
+ },
+ {
+  "id": "1hi8sfp",
+  "text": "مَرَّةً أُخْرى، مِنْ فَضْلِكَ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 29
+ },
+ {
+  "id": "56eoss",
+  "text": "بِبُطْءٍ، مِنْ فَضْلِكَ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 23
+ },
+ {
+  "id": "1h75t2r",
+  "text": "ما مَعْنى هَذِهِ الْكَلِمَةِ؟",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 29
+ },
+ {
+  "id": "1ccz42w",
+  "text": "كَيْفَ أَقُولُ هَذا بِالْعَرَبِيَّةِ؟",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 37
  },
  {
   "id": "1qufroq",
@@ -21922,13 +22216,6 @@
   "bucket": "basics",
   "unit": "0b",
   "chars": 10
- },
- {
-  "id": "qkmujw",
-  "text": "غُرْفَتِي",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 9
  },
  {
   "id": "14lphkf",
@@ -22036,13 +22323,6 @@
   "chars": 9
  },
  {
-  "id": "1baukau",
-  "text": "مُدَرِّسَةٌ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 11
- },
- {
   "id": "14zvx0u",
   "text": "هَذا مَسْجِدٌ",
   "bucket": "basics",
@@ -22062,27 +22342,6 @@
   "bucket": "basics",
   "unit": "0b",
   "chars": 13
- },
- {
-  "id": "13l59x4",
-  "text": "بابُ الْبَيْتِ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 14
- },
- {
-  "id": "186vj4i",
-  "text": "كِتابُ الطّالِبِ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 16
- },
- {
-  "id": "1fuzo2a",
-  "text": "طالِبُ اللُّغَةِ",
-  "bucket": "basics",
-  "unit": "0b",
-  "chars": 16
  },
  {
   "id": "590tr3",
@@ -22106,11 +22365,88 @@
   "chars": 24
  },
  {
+  "id": "i8pxnv",
+  "text": "كِتابٌ جَدِيدٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 14
+ },
+ {
+  "id": "cceekn",
+  "text": "مَدْرَسَةٌ جَدِيدَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 20
+ },
+ {
+  "id": "1pcn3jv",
+  "text": "بَيْتٌ صَغِيرٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 14
+ },
+ {
+  "id": "12jzgfs",
+  "text": "غُرْفَةٌ صَغِيرَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 18
+ },
+ {
+  "id": "ha233l",
+  "text": "مَدْرَسَةٌ كَبِيرَةٌ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 20
+ },
+ {
+  "id": "13l59x4",
+  "text": "بابُ الْبَيْتِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 14
+ },
+ {
+  "id": "186vj4i",
+  "text": "كِتابُ الطّالِبِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 16
+ },
+ {
+  "id": "1fuzo2a",
+  "text": "طالِبُ اللُّغَةِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 16
+ },
+ {
   "id": "asgfmn",
   "text": "طالِبُ اللُّغَةِ الْعَرَبِيَّةِ",
   "bucket": "basics",
   "unit": "0b",
   "chars": 31
+ },
+ {
+  "id": "ofibnb",
+  "text": "بابُ الْبَيْتِ الْكَبِيرِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 25
+ },
+ {
+  "id": "1t5efsw",
+  "text": "اسْمُ الْمُدَرِّسِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 18
+ },
+ {
+  "id": "3hzw2l",
+  "text": "غُرْفَةُ الْبِنْتِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 18
  },
  {
   "id": "vwmx1w",
@@ -22181,6 +22517,20 @@
   "bucket": "basics",
   "unit": "0b",
   "chars": 13
+ },
+ {
+  "id": "v3pn9p",
+  "text": "أَسْكُنُ فِي بَيْتٍ كَبِيرٍ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 27
+ },
+ {
+  "id": "77os78",
+  "text": "أَذْهَبُ إِلى الْمَسْجِدِ",
+  "bucket": "basics",
+  "unit": "0b",
+  "chars": 25
  },
  {
   "id": "qk3rwy",
@@ -23401,13 +23751,6 @@
   "chars": 10
  },
  {
-  "id": "1q8sz9a",
-  "text": "آمِين",
-  "bucket": "salah",
-  "unit": "fatiha2",
-  "chars": 5
- },
- {
   "id": "1x2jwn6",
   "text": "سُبْحانَ رَبِّيَ الْعَظِيمِ",
   "bucket": "salah",
@@ -23441,13 +23784,6 @@
   "bucket": "salah",
   "unit": "rising",
   "chars": 30
- },
- {
-  "id": "1kb5whm",
-  "text": "سَمِعَ",
-  "bucket": "salah",
-  "unit": "rising",
-  "chars": 6
  },
  {
   "id": "qbo432",
@@ -24458,13 +24794,6 @@
   "chars": 8
  },
  {
-  "id": "1wfvu6e",
-  "text": "دَرَسَ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 6
- },
- {
   "id": "l2yc6z",
   "text": "دَرَسْنا",
   "bucket": "verb",
@@ -24519,13 +24848,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 8
- },
- {
-  "id": "so84ru",
-  "text": "كَتَبَ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 6
  },
  {
   "id": "169j7rm",
@@ -24624,13 +24946,6 @@
   "bucket": "verb",
   "unit": "-",
   "chars": 8
- },
- {
-  "id": "4toy6w",
-  "text": "شَرِبَ",
-  "bucket": "verb",
-  "unit": "-",
-  "chars": 6
  },
  {
   "id": "1wyio80",

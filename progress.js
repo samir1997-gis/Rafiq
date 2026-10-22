@@ -131,6 +131,19 @@
     schedule();
     return r;
   }
+  /* A best score kept with the account (the stars won in a Play round, #276): seen holds the
+     highest n so far; a lower one changes nothing. Never scheduled (box 0). */
+  function best(id, n){
+    const r = mem[id] || {box:0, due:null, seen:0};
+    if(n <= (r.seen||0)) return r;
+    r.seen = n;
+    r.at = new Date().toISOString();
+    mem[id]=r;
+    writeLS(MIRROR, mem);
+    dirty.add(id);
+    schedule();
+    return r;
+  }
   /* Ids with any activity, optionally only those starting with a prefix. */
   const ids = prefix => Object.keys(mem).filter(id => (!prefix || id.startsWith(prefix)) && mem[id].seen>0);
   const seenCount = prefix =>
@@ -277,6 +290,6 @@
   window.addEventListener('pagehide', ()=>{ flush(); });
   document.addEventListener('visibilitychange', ()=>{ if(document.hidden) flush(); });
 
-  window.Progress = { init, get, isDue, isNew, dueIds, stats, grade, touch, hasSeen, seenCount, ids,
+  window.Progress = { init, get, isDue, isNew, dueIds, stats, grade, touch, best, hasSeen, seenCount, ids,
                       flush, todayISO, ns, GAPS };
 })();

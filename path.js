@@ -44,11 +44,19 @@
   const wordById = (() => { const m = new Map(); VOCAB.forEach(w => m.set(w.id, w)); return id => m.get(id); })();
 
   function steps(p){
-    if(p.alpha) return ALPHABET_GROUPS.map((g,i) => ({key:'letters'+(i+1), kind:'letters', group:i,
-        title:g.title.replace(/^Letters \d+: /,'Letters: '), mins:5}))
+    /* #276: each letter group is followed by a Play round; after the vowel marks, a ladder from sounds
+       to words, the spellings the first rules don't cover, and a last step that reads al-Fātiḥah. */
+    if(p.alpha) return ALPHABET_GROUPS.flatMap((g,i) => [{key:'letters'+(i+1), kind:'letters', group:i,
+        title:g.title.replace(/^Letters \d+: /,'Letters: '), mins:5},
+        {key:'play'+(i+1), kind:'play', group:i, title:g.title.replace(/^Letters \d+: /,'Play: '), mins:5}])
       .concat([{key:'vowels', kind:'vowels', title:'The vowel marks', mins:5},
+               {key:'sound', kind:'sound', title:'Sounding out', mins:5},
+               {key:'firstwords', kind:'firstwords', title:'Your first words', mins:5},
                {key:'rules', kind:'rules', title:'Reading rules', mins:5},        // #163: ة, ال, sun letters, joining, pauses
-               {key:'hear', kind:'hearing', title:'Listening test', mins:6}]);
+               {key:'rules2', kind:'rules', title:'Reading rules: the hamza', mins:5},
+               {key:'rules3', kind:'rules', title:'Reading rules: al-Fātiḥah’s spellings', mins:5},
+               {key:'hear', kind:'hearing', title:'Listening test', mins:6},
+               {key:'line', kind:'line', title:'Read your first line', mins:6}]);
     if(p.basics) return BASICS.map((l,i) => ({key:'b-'+l.key, kind:'basics', lesson:i, title:l.title, mins:5, words:l.words}))
       .concat([{key:'test', kind:'test', title:'Check the basics', mins:6}]);
     const nb = Math.ceil(p.words.length / BATCH), out = [];
@@ -102,12 +110,49 @@
   const movedPast = p => { const i = UNITS.indexOf(p);
     return UNITS.slice(i + 1).some(u => placed(u.n) || steps(u).some(s => stepDone(u.n, s.key))); };
   // the unit test came later too (#158): learners already past a unit aren't sent back for it
+  // and so did the reading starter's Play rounds, reading ladder, extra rules and al-Fātiḥah line (#276)
+  const LATE_ALPHA = /^(play\d+|sound|firstwords|rules2|rules3|line)$/;
   function unitDone(p){
-    return placed(p.n) || steps(p).every(s => stepDone(p.n, s.key)
+    return placed(p.n) || (steps(p).every(s => stepDone(p.n, s.key)
       || (p.alpha && (s.key === 'hear' || s.key === 'rules') && movedOn())
+      || (p.alpha && LATE_ALPHA.test(s.key) && movedPast(p))
       || (p.basics && movedOn())            // the basics came later too: open to anyone already in the units, never pulling them back
-      || ((late(p, s) || s.kind === 'test' || s.key === 'grammar2') && movedPast(p)));
+      || ((late(p, s) || s.kind === 'test' || s.key === 'grammar2') && movedPast(p)))
+      // the reading starter is finished when every letter is known, not when its screens are done (#276)
+      && (!p.alpha || lettersKnown() || movedPast(p)));
   }
+
+  /* The alphabet board (#276). Each letter is 'new', 'met', 'known' (right on two different days)
+     or 'gold' (known, and found inside words twice). 'l:<letter>' is graded on every answer about
+     the letter; 'lk:<letter>' is saved the first time it's right on a later day than its last right
+     answer, and 'lw:<letter>' counts right answers that found it inside a word. */
+  const LETTERS = ALPHA.length ? ALPHABET_GROUPS.flatMap(g => g.letters.map(l => l[0])) : [];
+  const today = () => iso(new Date());
+  const dayOfRow = r => r && r.at ? String(r.at).slice(0, 10) : null;
+  function letterState(ch){
+    if(Progress.hasSeen('lk:' + ch)) return ((Progress.get('lw:' + ch) || {}).seen || 0) >= 2 ? 'gold' : 'known';
+    return Progress.hasSeen('l:' + ch) ? 'met' : 'new';
+  }
+  const lettersKnown = () => LETTERS.every(ch => /known|gold/.test(letterState(ch)));
+  function letterAnswer(ch, ok, inWord){
+    const r = Progress.get('l:' + ch), lastRight = r && r.box > 1 ? dayOfRow(r) : null;
+    Progress.grade('l:' + ch, ok ? 'good' : 'again');
+    if(!ok) return;
+    if(lastRight && lastRight < today() && !Progress.hasSeen('lk:' + ch)) Progress.touch('lk:' + ch);
+    if(inWord) Progress.touch('lw:' + ch);
+  }
+  // a word read right: each letter in it was found inside a word
+  const readWord = word => [...new Set([...word].map(c => /[أإآ]/.test(c) ? 'ا' : c).filter(c => LETTERS.includes(c)))]
+    .forEach(ch => { if(Progress.hasSeen('l:' + ch)) Progress.touch('lw:' + ch); });
+  /* The letter check-in: letters met but not known, not answered yet today (a letter only turns
+     green on a later day, so asking again today wouldn't move it). Missed ones first. */
+  const checkInLetters = () => LETTERS.filter(ch => letterState(ch) === 'met' && dayOfRow(Progress.get('l:' + ch)) < today())
+    .sort((a, b) => (Progress.get('l:' + a).box === 1 ? 0 : 1) - (Progress.get('l:' + b).box === 1 ? 0 : 1));
+  // letter groups first met today: two a day is plenty (#276)
+  const newGroupsToday = () => ALPHA.length ? ALPHABET_GROUPS.filter((g, i) => dayOfRow(Progress.get(sid('00', 'letters' + (i + 1)))) === today()).length : 0;
+  // the best stars won in a Play round
+  const stars = (n, key) => (Progress.get('st:' + n + '|' + key) || {}).seen || 0;
+  const saveStars = (n, key, k) => Progress.best('st:' + n + '|' + key, k);
   // a finished unit with a late step still to do (Home can point it out)
   const lateLeft = p => !placed(p.n) && steps(p).some(s => late(p, s) && !stepDone(p.n, s.key));
 
@@ -117,9 +162,11 @@
     const i = UNITS.findIndex(p => !unitDone(p));
     return i < 0 ? UNITS.length - 1 : i;
   }
+  /* Every step of the reading starter done but some letters not known yet: the check-in is next (#276). */
+  const CHECKIN = {key:'checkin', kind:'checkin', title:'Letter check-in', mins:2};
   function next(){
     const i = currentIndex(), p = UNITS[i];
-    const s = steps(p).find(s => !stepDone(p.n, s.key)) || null;
+    const s = steps(p).find(s => !stepDone(p.n, s.key)) || (p.alpha && !unitDone(p) ? CHECKIN : null);
     return {unit:p, index:i, step:s, finishedAll: i === UNITS.length-1 && unitDone(p)};
   }
   /* Locks: a unit opens once every unit before it is done (or skipped by
@@ -351,5 +398,6 @@
 
   window.RafiqPath = { recapDue, recapDone, testFailed, testReview, testReviewed, teaches: n => TEACH.has(n), lateLeft, reviewScope, metWords, masteredWords, sentenceDone, period, wordsByDay, wordsReport, bestStreak, reviewDue, hasLearned, COMING, STREAK_GOALS, streakGoal, BATCH, GOAL, units, skipReading, unitOpen, stepOpen, steps, stepDone, unitDone, placed, currentIndex, next, reached,
                        complete, place, markDay, wordMet, week, doneToday, streak, streakState, FREEZE_EARN, wordsOf, unitData, wordById,
-                       answerStyle, answered, answerPref };
+                       answerStyle, answered, answerPref,
+                       LETTERS, letterState, lettersKnown, letterAnswer, readWord, checkInLetters, newGroupsToday, stars, saveStars };
 })();
