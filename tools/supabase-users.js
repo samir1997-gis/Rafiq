@@ -18,6 +18,8 @@
      node tools/supabase-users.js team             the team's own accounts (admin) and their access (read only)
      node tools/supabase-users.js make-free id     free use for a team account: Complete until 2099
      node tools/supabase-users.js delete id1,id2   delete these accounts (max 5) and their rows
+     node tools/supabase-users.js reset-progress id   start this one account again from the beginning: its progress
+                                                   rows go; the account, billing, onboarding answers and settings stay
      node tools/supabase-users.js reset-preview    who a beta reset would wipe (changes nothing)
      node tools/supabase-users.js reset RESET-BETA wipe progress + onboarding answers for them
      node tools/supabase-users.js signout SIGN-OUT-ALL  end every session on every device
@@ -313,6 +315,16 @@ async function userTables() {
     }
     await sql(`delete from auth.users where id in (${list})`);
     found.forEach(u => console.log(`deleted ${u.id}  ${mask(u.email)}`));
+    return;
+  }
+  if (cmd === 'reset-progress') {
+    // one account from the beginning (#284): its progress rows (lessons, words, letters, study days) are deleted;
+    // the account, its billing, onboarding answers (profiles) and settings are kept. Can't be undone.
+    if (!UUID.test(arg || '')) { console.error('give the account id (from the list or team command)'); process.exit(1); }
+    const u = await sql(`select email from auth.users where id = '${arg}'`);
+    if (!u.length) { console.error('no such account; nothing deleted'); process.exit(1); }
+    const r = await sql(`with d as (delete from public.item_progress where user_id = '${arg}' returning 1) select count(*)::int as n from d`);
+    console.log(`${mask(u[0].email)}: ${r[0].n} progress rows deleted; it starts again from the reading starter (reload the app)`);
     return;
   }
   if (cmd === 'reset-preview' || cmd === 'reset') {
