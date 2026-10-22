@@ -163,7 +163,7 @@ def hook_in(c, body, hook, bg=None):
             hit = max(0.16, at(i) + 0.1)
             fx = '<i class="hring"></i><i class="hring r2"></i>' + "".join(f'<i class="hspark" style="transform:rotate({a}deg)"></i>' for a in range(0, 360, 36))
             body[-1] = body[-1].replace(f'id="hw{i}">{words[i]}</span>', f'id="hw{i}">{words[i]}{fx}</span>')
-            c.t(f'tl.fromTo("#hw{i}", {{scale:1.9, rotation:-7, x:180}}, {{scale:1, rotation:0, x:0, duration:{hit:.2f}, ease:"power4.in"}}, 0);')
+            c.t(f'tl.fromTo("#hw{i}", {{scale:1.9, rotation:-7, x:{getattr(c, "slam_x", 180)}}}, {{scale:1, rotation:0, x:0, duration:{hit:.2f}, ease:"power4.in"}}, 0);')   # c.slam_x: where it starts (a long word on its own line: 0)
             c.t(f'tl.to("#hw{i}", {{keyframes:[{{scaleX:1.18, scaleY:0.78, duration:0.06}}, {{scaleX:0.94, scaleY:1.08, duration:0.08}}, {{scaleX:1, scaleY:1, duration:0.12}}]}}, {hit:.2f});')
             c.t(f'tl.fromTo("#hw{i} .hring", {{scale:0.3, opacity:0.9}}, {{scale:3.2, opacity:0, duration:0.55, ease:"expo.out", stagger:0.07, immediateRender:false}}, {hit:.2f});')
             c.t(f'tl.fromTo("#hw{i} .hspark", {{opacity:1, scaleX:0.2, x:60}}, {{opacity:0, scaleX:1.4, x:260, duration:0.4, ease:"expo.out", immediateRender:false}}, {hit:.2f});')
@@ -822,7 +822,7 @@ def word_tree(c, body, t, cf):
     V = cf["V"]
     c.css += MASH_CSS + GROW_CSS + ".qref { color:#9a7826; }"
     # 1. al-Fātiḥah 1:3: each word lights up as al-Husary recites it (from the audio: the ḥ of each word, minus its r-ra), then the root
-    body.append(f'<div class="sec" id="a"><div class="q2">You say it in al-Fātiḥah:</div><div class="qref" style="top:350px">{cf["ref"]}</div>'
+    body.append(f'<div class="sec" id="a"><div class="q2">{cf.get("intro", "You say it in al-Fātiḥah:")}</div><div class="qref" style="top:350px">{cf["ref"]}</div>'
                 '<div class="big" style="top:470px;font-size:140px" dir="rtl">' + " ".join(f'<span class="w" id="aw{i}">{word(w)}</span>' for i, w in enumerate(cf["verse"])) + '</div></div>')
     whip_in(c, "a", t); d = clip(c, cf["c1"], t + 0.1); t += 0.1 + d + 0.1
     dq = say_up(c, "", t, src=cf["recite"])
@@ -969,6 +969,47 @@ def n3():
         quote='<q style="font-size:54px">ʿĀlam is derived from ʿalāma, because it is a sign testifying to the existence of its Creator…</q>'
               '<small>Ibn Kathīr on al-Fātiḥah 1:2</small>',
         say="The whole world is a sign 🌍", end=V + "end.mp3", end_line="What sign of Allah did you notice today? Comment below 👇"))
+
+HIDDEN = [(70, 290, "🌴 gardens", 250), (650, 320, "🌙 the night", 270), (330, 470, "🛡️ a shield", 260),   # the hook: things from the root,
+          (70, 1400, "👶 a baby", 230), (640, 1430, "👁️ the unseen", 290), (330, 1610, "🔥 the jinn", 250)]   # hidden by leaves on "same root"
+TIMES_6_76 = (0.11, 1.05, 2.39, 3.40)   # فَلَمَّا · جَنَّ · عَلَيْهِ · اللَّيْلُ in anam-6-76t.mp3 (al-Husary, 0.40-4.62 s of 6:76: "when the night covered him")
+GROW_JANNA = [("M534,1330 C480,1300 450,1250 440,1205", 60, 1110, 380, "جَنَّة", "a garden", "jannah", "b1"),
+              ("M545,1070 C580,1040 596,990 604,955", 600, 830, 420, "جِنّ", "the jinn", "jinn", "b2")]
+
+def n4():
+    """The word tree, part 3 (owner 22 Oct 2026, #281): "Why does JANNAH share the same root as the jinn?" over things from the root
+    (gardens, the night, a shield, a baby, the unseen, the jinn) that leaves grow over and hide; al-Anʿām 6:76 in al-Husary's
+    recitation, فَلَمَّا جَنَّ عَلَيْهِ اللَّيْلُ "when the night covered him": ج ن ن = to cover; the root grows جَنَّة (a garden so thick its
+    trees cover the ground) and جِنّ (beings hidden from our eyes); your turn: جُنَّة, 3-2-1, a SHIELD; then why Jannah: hidden from you for
+    now. Ibn Fāris, Maqāyīs al-Lugha (ج ن): Jannah is "a reward hidden from them today"; Allah in a ḥadīth qudsī (al-Bukhārī 3244,
+    Muslim 2824). n1-jannah (13 Oct) did the root in the old format. Voices: brag-quiz/voice/jannah2-lines.json (Rafiq for جُنَّة; جَنَّة
+    and جِنّ are n1's recordings)."""
+    V = "brag-quiz/voice/jannah2/"
+    c = SO.vcomp("n4-jannah", "ARABIC · ONE ROOT"); c.bed = True; body = []; serif(c)
+    bub = "".join(f'<div class="hb3" id="fb{k}" style="left:{x}px;top:{y}px">{t}</div>' for k, (x, y, t, w) in enumerate(HIDDEN))
+    leaves = "".join(f'<i class="leaf{" b" if j % 2 else ""}" id="fl{k}{j}" style="left:{x + dx:.0f}px;top:{y + dy:.0f}px;transform:rotate({r}deg)"></i>'
+                     for k, (x, y, t, w) in enumerate(HIDDEN) for j, (dx, dy, r) in enumerate([(-24, 40, -30), (w * 0.35, 58, 20), (w * 0.62, -8, -150), (w - 20, 46, 35)]))
+    def anim(c, at, d):
+        for k in range(len(HIDDEN)):
+            c.t(f'tl.fromTo("#fb{k}", {{y:0, rotation:{-3 if k % 2 else 3}}}, {{y:{-24 if k % 2 else 20}, rotation:{2 if k % 2 else -2}, duration:{d + 0.3:.2f}, ease:"none"}}, 0);')
+            for j in range(4):                       # "the same root": leaves grow over each of them and hide it
+                c.t(f'tl.fromTo("#fl{k}{j}", {{scale:0, opacity:0}}, {{scale:1.3, opacity:1, duration:0.3, ease:"back.out(2.4)"}}, {at(5) + 0.08 * k + 0.05 * j:.2f});')
+            c.t(f'tl.to("#fb{k}", {{opacity:0.45, filter:"blur(3px)", duration:0.4}}, {at(6) + 0.05 * k:.2f});')
+        for k in (0, 3): c.sfx("tap", at(5) + 0.08 * k)
+    words = "Why does JANNAH share the same root as the jinn?".split()
+    c.slam_x = 0                                         # JANNAH slams in on its own line, centred, so it fits the cover
+    t = hook_in(c, body, (words, {2: "loud", 6: "circle", 9: "red"}, V + "h1a.mp3"), bg=(bub + leaves, anim))
+    c.css += "#hw2 { display:block; width:max-content; margin:0 auto; font-size:1.05em; } "
+    word_tree(c, body, t, dict(V=V, grow=GROW_JANNA, intro="In the Qur’an:", ref="AL-ANʿĀM · 6:76", c1=V + "c1.mp3", recite=V + "anam-6-76t.mp3",
+        verse=[[("فَلَمَّا", "")], [("جَ", "r"), ("نَّ", "r")], [("عَلَيْهِ", "")], [("اللَّيْلُ", "")]],
+        times=TIMES_6_76, seed=("to cover =", "ج ن ن"), c2=V + "c2.mp3", c2key="cover",
+        crown=("جُنَّة", "a shield"), opts=["a garden", "a shield", "a jinn"], right=1, crown_say=V + "junna.mp3", t1=V + "t1.mp3",
+        slam=V + "b4b.mp3", slam_key="shield", c5=V + "c5.mp3", quote_key="prepared", say_key="hidden",
+        quote='<q style="font-size:54px">I have prepared for My righteous servants what no eye has seen, no ear has heard, and no heart has ever imagined.</q>'
+              '<small>Allah, in a ḥadīth qudsī · al-Bukhārī 3244</small>',
+        say='Hidden from you… for now 🤍<small style="display:block;font-size:30px;font-weight:700;color:var(--ink-soft);margin-top:10px">'
+            'Jannah: “a reward hidden from them today” · Ibn Fāris, Maqāyīs al-Lugha</small>',
+        end=V + "end.mp3", end_line="Send this to someone you want to meet in Jannah 🤍 What will you ask for first? 👇"))
 
 TALLY = [("Fajr", 2, 70, 300), ("Dhuhr", 4, 590, 300), ("ʿAsr", 4, 330, 460), ("Maghrib", 3, 60, 1320), ("ʿIshāʾ", 4, 600, 1320)]   # 17 rakʿahs
 
@@ -1288,7 +1329,7 @@ ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-a
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "w8-subhana-azim": w8,
        "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1,
-       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3}
+       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
