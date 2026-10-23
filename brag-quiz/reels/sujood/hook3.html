@@ -1,0 +1,41 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:AN;src:url(fonts/anton-latin-400-normal.woff2)}
+*{margin:0;box-sizing:border-box} html,body{width:1080px;height:1920px;background:transparent;overflow:hidden}
+.t{position:absolute;left:0;right:0;text-align:center;line-height:.95;white-space:nowrap;font-family:AN}
+#small{top:150px;font-size:84px;color:#E9B949;letter-spacing:1px} #big{top:240px;font-size:300px;color:#C8372D;transform-origin:50% 60%}
+#cap{position:absolute;top:1250px;left:70px;right:70px;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;column-gap:16px;
+  font-family:AN;font-size:62px;letter-spacing:1px;color:#fff;text-transform:uppercase;line-height:1.05;text-shadow:0 4px 18px rgba(0,0,0,.6),0 0 2px rgba(0,0,0,.45)}
+#cap .w{display:inline-block;transform-origin:50% 80%} #cap .em{color:#E9B949;font-size:128px;line-height:.95}
+#flash{position:absolute;inset:0;background:#fff;opacity:0}
+</style></head><body>
+<div id="back"><div id="small" class="t">AT YOUR</div><div id="big" class="t">LOWEST</div></div>
+<div id="front"><div id="cap"></div><div id="flash"></div></div>
+<script>
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), eo = x => 1 - Math.pow(1 - cl(x), 3);
+let C = null;
+function update(t, layer) {
+  document.getElementById('back').style.display = layer === 'back' ? 'block' : 'none';
+  document.getElementById('front').style.display = layer === 'front' ? 'block' : 'none';
+  const H = C.hit, out = cl((t - (C.end - .3)) / .3);
+  if (layer === 'back') {   // "AT YOUR" is there from frame 0 (the cover); "LOWEST" slams down on the word, squashes, settles
+    const s = document.getElementById('small'), b = document.getElementById('big');
+    s.style.opacity = 1 - out;
+    const l = t - (H - .18);
+    if (l < 0) { b.style.opacity = 0; return; }
+    const k = cl(l / .18), sq = l > .18 ? Math.exp(-(l - .18) * 14) : 0;
+    b.style.opacity = (1 - out); b.style.transform = `scale(${2.4 - 1.4 * k * k}) scaleX(${1 + .16 * sq}) scaleY(${1 - .2 * sq})`;
+    return;
+  }
+  document.getElementById('flash').style.opacity = t >= H ? .85 * Math.exp(-(t - H) * 9) : 0;   // the one flash, on the word
+  const cap = document.getElementById('cap'); let cur = null;
+  for (const c of C.caps) if (t >= c[0] && t < c[1]) cur = c;
+  if (!cur) { cap.style.opacity = 0; return; }
+  if (cap.dataset.k !== String(cur[0])) { cap.dataset.k = String(cur[0]);
+    cap.innerHTML = cur[2].map(([w, s, e]) => `<span class="w${e ? ' em' : ''}" data-s="${s}">${w}</span>`).join(''); }
+  const o = eo((t - (cur[1] - .16)) / .16); cap.style.opacity = 1 - o; cap.style.transform = `translateY(${-50 * o}px)`;
+  cap.querySelectorAll('.w').forEach(el => { const l = t - +el.dataset.s, k = eo(l / (el.classList.contains('em') ? .2 : .14));
+    if (l < -.02) { el.style.opacity = 0; return; }
+    el.style.opacity = k; el.style.filter = `blur(${(1 - k) * 10}px)`;
+    el.style.transform = el.classList.contains('em') ? `scale(${1.7 - .7 * k})` : `translateY(${(1 - k) * 34}px)`; });
+}
+</script></body></html>

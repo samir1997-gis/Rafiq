@@ -31,3 +31,7 @@ python3 $R $W zoom; python3 $R $W masks; python3 $R $W layers; python3 $R $W mix
 - v5 (owner asked to check SFX sync): sounds were placed exactly (±25 ms) but on whisper's word times, up to 0.6 s off in the
   slow Arabic. Every word now sits on its forced-aligned start (`wordtimes.json`, torchaudio MMS_FA, 40 ms early), checked
   by plotting the voice at 18 key moments; captions hidden under a panel no longer tap (template `sfx_rules.py`).
+- v6 (owner, 23 Oct 2026): 1.25x speed and 5% closer; the red flicker opening (0-2.6 s) replaced with hook idea 3, "one flash, one hit":
+  his talking shot from subhana.mp4 (graded and pushed as the master), "AT YOUR" behind his head from frame 0, "LOWEST" slamming
+  down on the word with one white flash and one boom (n03). His voice untouched (owner: don't raise the volume). `hook3.py`.
+  The sujood B-roll (DJI_..._0042) is no longer on Drive (404), so hook idea 1 (a cold open on the sujood) needs it re-uploaded.
