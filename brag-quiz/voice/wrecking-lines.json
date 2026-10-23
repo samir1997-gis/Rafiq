@@ -1,9 +1,86 @@
 [
- {"voice": "JBFqnCBsd6RMkjVDRZzb", "model": "eleven_v3", "stability": 0.5, "file": "w1", "text": "You just watched a wrecking ball for seven seconds... [chuckles softly] a wrecking ball that was never there."},
- {"voice": "JBFqnCBsd6RMkjVDRZzb", "model": "eleven_v3", "stability": 0.5, "file": "w2", "text": "And if you can watch that for seven seconds... you can watch this for another fifteen."},
- {"voice": "JBFqnCBsd6RMkjVDRZzb", "model": "eleven_v3", "stability": 0.5, "file": "w3", "text": "Arabic... is the key to unlocking your religion."},
- {"voice": "JBFqnCBsd6RMkjVDRZzb", "model": "eleven_v3", "stability": 0.5, "file": "w4", "text": "Behind that door: every word of your salah. The Qur'an, in the language it came down in. Your du'a... finally understood."},
- {"voice": "JBFqnCBsd6RMkjVDRZzb", "model": "eleven_v3", "stability": 0.5, "file": "w5", "text": "Without Arabic, it's like trying to read a book... in the dark."},
- {"voice": "JBFqnCBsd6RMkjVDRZzb", "model": "eleven_v3", "stability": 0.5, "file": "w6", "text": "So... unlock it. رَفِيق Arabic dot com."},
- {"voice": "nPczCjzI2devNBz1zQrb", "model": "eleven_v3", "stability": 0.5, "file": "b1", "text": "You just watched a wrecking ball for seven seconds... [chuckles softly] a wrecking ball that was never there."}
+ {
+  "voice": "JBFqnCBsd6RMkjVDRZzb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "file": "w1",
+  "text": "You just watched a wrecking ball for seven seconds... [chuckles softly] a wrecking ball that was never there."
+ },
+ {
+  "voice": "JBFqnCBsd6RMkjVDRZzb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "file": "w2",
+  "text": "And if you can watch that for seven seconds... you can watch this for another fifteen."
+ },
+ {
+  "voice": "JBFqnCBsd6RMkjVDRZzb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "file": "w3",
+  "text": "Arabic... is the key to unlocking your religion."
+ },
+ {
+  "voice": "JBFqnCBsd6RMkjVDRZzb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "file": "w4",
+  "text": "Behind that door: every word of your salah. The Qur'an, in the language it came down in. Your du'a... finally understood."
+ },
+ {
+  "voice": "JBFqnCBsd6RMkjVDRZzb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "file": "w5",
+  "text": "Without Arabic, it's like trying to read a book... in the dark."
+ },
+ {
+  "voice": "JBFqnCBsd6RMkjVDRZzb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "file": "w6",
+  "text": "So... unlock it. رَفِيق Arabic dot com."
+ },
+ {
+  "voice": "nPczCjzI2devNBz1zQrb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "file": "b1",
+  "text": "You just watched a wrecking ball for seven seconds... [chuckles softly] a wrecking ball that was never there."
+ },
+ {
+  "voice": "nPczCjzI2devNBz1zQrb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "file": "b2",
+  "text": "And if you can watch that for seven seconds... you can watch this for another fifteen."
+ },
+ {
+  "voice": "nPczCjzI2devNBz1zQrb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "file": "b3",
+  "text": "Arabic... is the key to unlocking your religion."
+ },
+ {
+  "voice": "nPczCjzI2devNBz1zQrb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "file": "b4",
+  "text": "Behind that door: every word of your salah. The Qur'an, in the language it came down in. Your du'a... finally understood."
+ },
+ {
+  "voice": "nPczCjzI2devNBz1zQrb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "file": "b5",
+  "text": "Without Arabic, it's like trying to read a book... in the dark."
+ },
+ {
+  "voice": "nPczCjzI2devNBz1zQrb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "file": "b6",
+  "text": "So... unlock it. رَفِيق Arabic dot com."
+ }
 ]
