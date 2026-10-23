@@ -132,6 +132,8 @@ the place of the mother" (al-Bukhārī 2699); your turn: mum's brother, 3-2-1, �
 
 **Made 23 Oct 2026 (`build_formula.py`):** `l2-jumuah` (the difficulty ladder #2, Jumuʿah edition, for the owner to stitch under himself, 3 s to answer each: غُسْل 90% → جَماعَة 70% → عِطْر 45% → لِباس 20% → the final boss أَنْصِتْ "be quiet and listen!" 1% (al-Bukhārī 934, Muslim 851); hadith for each word in the owner's notes: ghusl al-Bukhārī 877, congregation al-Bukhārī 645, perfume al-Bukhārī 880 / al-Nasāʾī 3939, best clothes Abū Dāwūd 343; ask: send it to who you're going to Jumuʿah with; 49 s). Percentages are a game device, not data.
 
+**Made 23 Oct 2026 (`brag-quiz/reels/wrecking/build.py`):** `wrecking` (the owner's pick, in the style of @aperturemotion's "a wrecking ball that was never there": 8 s of a wrecking ball swinging at a rubric brick wall with ر on it, a FRAMES TO IMPACT counter, no voice; it freezes, a calm narrator says the reference's line with a soft chuckle, the scene turns to a blueprint; then ours: "watch this for another fifteen", Arabic is the key (a gold key, a door onto light: salah, the Qur'an (Yūsuf 12:2), du'a), without it a book in the dark, "unlock it, RafiqArabic.com", the owner's end card; 48 s). Two voices to compare: George (`wrecking-george.mp4`) and Brian (`wrecking-brian.mp4`, the hook only). Sounds made for it: `sfx/soft/drone.wav`, `shimmer.wav`, `darkhum.wav`.
+
 ## More ideas (not made yet)
 - Root series part 6: another word tree (`word_tree()` in `build_formula.py`), e.g. ح م د (al-ḥamd, Muḥammad, Aḥmad, Maḥmūd) or ص ل و.
 
