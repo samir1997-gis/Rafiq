@@ -130,6 +130,8 @@ the place of the mother" (al-Bukhārī 2699); your turn: mum's brother, 3-2-1, �
 
 **Made 22 Oct 2026 (`build_formula.py`, #281):** `n4-jannah` (the word tree, part 3, the owner's hook "Why does JANNAH share the same root as the jinn?" over gardens, the night, a shield, a baby, the unseen and the jinn, hidden by leaves on "same root"; al-Anʿām 6:76 (al-Husary) "when the night covered him": ج ن ن = to cover; جَنَّة (a garden so thick its trees cover the ground) and جِنّ (hidden from our eyes) bloom; your turn جُنَّة, 3-2-1, a SHIELD; why Jannah: hidden from you for now, Ibn Fāris (Maqāyīs) and the ḥadīth qudsī "what no eye has seen…" (al-Bukhārī 3244); ask: send it to someone you want to meet in Jannah, what will you ask for first?; then the owner's end card; 70.8 s). Replaces `n1-jannah` (old format). Caption: `tools/typesafe-exp/jannah_caption.py` ("question").
 
+**Made 23 Oct 2026 (`build_formula.py`):** `l2-jumuah` (the difficulty ladder #2, Jumuʿah edition, for the owner to stitch under himself, 3 s to answer each: غُسْل 90% → جَماعَة 70% → عِطْر 45% → لِباس 20% → the final boss أَنْصِتْ "be quiet and listen!" 1% (al-Bukhārī 934, Muslim 851); hadith for each word in the owner's notes: ghusl al-Bukhārī 877, congregation al-Bukhārī 645, perfume al-Bukhārī 880 / al-Nasāʾī 3939, best clothes Abū Dāwūd 343; ask: send it to who you're going to Jumuʿah with; 49 s). Percentages are a game device, not data.
+
 ## More ideas (not made yet)
 - Root series part 6: another word tree (`word_tree()` in `build_formula.py`), e.g. ح م د (al-ḥamd, Muḥammad, Aḥmad, Maḥmūd) or ص ل و.
 
