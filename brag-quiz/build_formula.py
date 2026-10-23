@@ -1264,12 +1264,12 @@ LADDER_CSS = (
     "#mark b { display:inline-block; padding:8px 14px; border-radius:30px; background:var(--rubric); color:#fff; font-size:38px; font-weight:800; box-shadow:0 8px 24px rgba(180,50,42,.35); }"
     "#mark small { display:block; font-size:19px; letter-spacing:.12em; font-weight:800; color:var(--rubric); margin-top:6px; }")
 
-def ladder(vid, R, ask, voice={}):
+def ladder(vid, R, ask, voice={}, kicker="QUIZ · HOW FAR CAN YOU GET?"):
     """The difficulty ladder (owner, 14 Oct 2026). The owner says each line, stitched under the video, so it all sits in the top
     ~1,150 px. One page: each round sits under the last and the page slides up to it; the rail on the left drops its marker a rung
     (the share counts down, a click per 10%); the question, a 3-2-1 with clicks, the answer pops green and Rafiq says it.
     R: (percent, question html, big html or "", answer html, Arabic said, "big" | "ans" (when Rafiq says it), extra line or "")."""
-    c = SO.vcomp(vid, "QUIZ · HOW FAR CAN YOU GET?"); c.bed = True; c.css += LADDER_CSS
+    c = SO.vcomp(vid, kicker); c.bed = True; c.css += LADDER_CSS
     n, H, GAP = len(R), 860, 760
     ry = lambda k: 20 + k * (H - 40) / (n - 1)                    # rung k's height on the rail
     rungs = "".join(f'<div class="rung" id="g{k}" style="top:{ry(k):.0f}px"><i></i><span>{p}%</span></div>' for k, (p, *_ ) in enumerate(R))
@@ -1325,11 +1325,27 @@ def l1():
     ], "How far did you get? Comment your score 👇",
            voice={"حارّ": V + "har.mp3", "أَمِين": V + "amin.mp3", "خائِن": V + "khain.mp3"})
 
+def l2():
+    """The difficulty ladder #2, Jumuʿah edition (owner, 23 Oct 2026; he films himself saying each line, 3 s to answer, stitched under
+    it): غُسْل ghusl 90% → جَماعَة congregation 70% → عِطْر perfume 45% → لِباس clothes 20% → the final boss أَنْصِتْ "be quiet and listen!" 1%
+    (the khutbah hadith, al-Bukhārī 934). The percentages are a game device, not data. Spoken: brag-quiz/voice/ladder2-lines.json."""
+    A = lambda w: f'<span class="ar" lang="ar">{w}</span>'
+    V = "brag-quiz/voice/ladder2/"
+    ladder("l2-jumuah", [
+        (90, "What does this mean?", A("غُسْل"), "<b>a full bath</b>", "غُسْل", "ans", ""),
+        (70, "What does this mean?", A("جَماعَة"), "<b>congregation</b>", "جَماعَة", "ans", ""),
+        (45, "What does this mean?", A("عِطْر"), "<b>perfume</b>", "عِطْر", "ans", ""),
+        (20, "What does this mean?", A("لِباس"), "<b>clothes</b>", "لِباس", "ans", "Got this far? Comment below 👇"),
+        (1, "The final boss 😈 What does this mean?", A("أَنْصِتْ"), "<b>Be quiet and listen!</b>", "أَنْصِتْ", "ans", ""),
+    ], "How far did you get? Comment your score 👇 Send this to who you’re going to Jumuʿah with 🤍",
+           voice={"غُسْل": V + "ghusl.mp3", "جَماعَة": V + "jamaa.mp3", "عِطْر": V + "itr.mp3", "لِباس": V + "libas.mp3", "أَنْصِتْ": V + "ansit.mp3"},
+           kicker="QUIZ · JUMUʿAH EDITION")
+
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "w8-subhana-azim": w8,
        "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1,
-       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4}
+       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
