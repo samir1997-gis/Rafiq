@@ -1011,6 +1011,44 @@ def n4():
             'Jannah: “a reward hidden from them today” · Ibn Fāris, Maqāyīs al-Lugha</small>',
         end=V + "end.mp3", end_line="Send this to someone you want to meet in Jannah 🤍 What will you ask for first? 👇"))
 
+PRAYERS = [(70, 290, "🌅 Fajr"), (640, 320, "☀️ Dhuhr"), (330, 470, "🌤️ ʿAsr"),   # the hook's five prayers round the line,
+           (60, 1400, "🌇 Maghrib"), (650, 1430, "🌙 ʿIshāʾ")]                     # numbered 1 to 5 as FIVE lands
+TIMES_HAYYA = (0.06, 0.60, 0.88)   # حَيَّ · عَلَى · الصَّلاةِ in hayya.mp3 (Rafiq), from the dips in its loudness
+GROW_SALAH = [("M534,1330 C480,1300 450,1250 440,1205", 60, 1110, 380, "الصَّلاة", "the prayer", None, "b1"),
+              ("M545,1070 C580,1040 596,990 604,955", 600, 830, 420, "مُصَلَّى", "a place of prayer", None, "b2")]
+
+def n5():
+    """The word tree, part 4 (IDEAS "root series part 6", 24 Oct 2026, #290): ص ل و. Hook "You do it FIVE times a day… but what does
+    salah really mean?" over the five prayers, numbered 1 to 5 with a click each as FIVE lands; حَيَّ عَلَى الصَّلاةِ from the adhān in
+    Rafiq's voice (no Qur'an recitation this time: #289, reused recitation audio may be why TikTok kept m2-barik off the For You
+    feed); the root grows الصَّلاة the prayer and مُصَلَّى a place of prayer (the app's recordings); your turn: فَلْيُصَلِّ, 3-2-1, make
+    DUʿĀʾ: invited to a meal while fasting, "let him pray" (Muslim 1431, Abū Hurayrah), and al-Tirmidhī 780 adds "meaning duʿāʾ";
+    so in Arabic ṣalāh is duʿāʾ, calling on Allah. Voices: brag-quiz/voice/salah5-lines.json."""
+    V = "brag-quiz/voice/salah5/"
+    c = SO.vcomp("n5-salah", "ARABIC · ONE ROOT"); c.bed = True; body = []; serif(c)
+    bub = "".join(f'<div class="hb3" id="pb{k}" style="left:{x}px;top:{y}px">{t}<i>{k + 1}</i></div>' for k, (x, y, t) in enumerate(PRAYERS))
+    def anim(c, at, d):
+        for k in range(len(PRAYERS)):
+            c.t(f'tl.fromTo("#pb{k}", {{y:0, rotation:{-3 if k % 2 else 3}}}, {{y:{-24 if k % 2 else 20}, rotation:{2 if k % 2 else -2}, duration:{d + 0.3:.2f}, ease:"none"}}, 0);')
+            s = at(3) + 0.2 + 0.14 * k                # FIVE: they're counted, 1 to 5, a click on each
+            c.t(f'tl.fromTo("#pb{k} i", {{opacity:0, scale:1.8}}, {{opacity:1, scale:1, duration:0.22, ease:"back.out(2.4)"}}, {s:.2f});')
+            clip(c, "brag-quiz/sfx/ref/click.wav", s, 0.6)
+    words = "You do it FIVE times a day… but what does salah really mean?".split()
+    c.slam_x = 0                                         # FIVE slams in on its own line, centred, so it fits the cover
+    t = hook_in(c, body, (words, {3: "loud", 10: "red", 12: "circle"}, V + "h1a.mp3"), bg=(bub, anim))
+    c.css += ("#hw3 { display:block; width:max-content; margin:0 auto; letter-spacing:.1em; transform-origin:50% 8%; } "
+              ".hb3 i { position:absolute; right:-16px; top:-30px; font-style:normal; font-family:\"Fredoka\", var(--la); font-size:34px; font-weight:700; "
+              "width:52px; height:52px; line-height:52px; text-align:center; border-radius:50%; background:#E9B949; color:var(--ink); opacity:0; }")
+    word_tree(c, body, t, dict(V=V, grow=GROW_SALAH, intro="You hear it in every adhān:", ref="THE ADHĀN", c1=V + "c1.mp3", recite=V + "hayya.mp3",
+        verse=[[("حَيَّ", "")], [("عَلَى", "")], [("ال", ""), ("صَّ", "r"), ("لا", "r"), ("ةِ", "")]],
+        times=TIMES_HAYYA, seed=("to pray =", "ص ل و"), c2=V + "c2.mp3", c2key="pray",
+        crown=("فَلْيُصَلِّ", "make duʿāʾ"), opts=["ṣalāh", "duʿāʾ", "eat"], right=1, crown_say=V + "falyusalli.mp3", t1=V + "t1.mp3",
+        slam=V + "b4b.mp3", slam_key="dua", c5=V + "c5.mp3", quote_key="narration", say_key="every",
+        quote='<q style="font-size:54px">If one of you is invited to a meal… and he is fasting, let him pray.</q>'
+              '<small>the Prophet <span class="pbuh">ﷺ</span> · Muslim 1431</small>'
+              '<small style="margin-top:6px">“meaning: duʿāʾ” · al-Tirmidhī 780</small>',
+        say="Every ṣalāh is a duʿāʾ 🤲", end=V + "end.mp3", end_line="Who do you make duʿāʾ for first? Comment below 👇 and send this to them 🤲"))
+
 TALLY = [("Fajr", 2, 70, 300), ("Dhuhr", 4, 590, 300), ("ʿAsr", 4, 330, 460), ("Maghrib", 3, 60, 1320), ("ʿIshāʾ", 4, 600, 1320)]   # 17 rakʿahs
 
 DIN_CSS = (
@@ -1345,7 +1383,7 @@ ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-a
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "w8-subhana-azim": w8,
        "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1,
-       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2}
+       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2, "n5-salah": n5}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
