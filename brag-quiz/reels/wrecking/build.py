@@ -9,7 +9,7 @@ darkhum) plus our library. Voice: brag-quiz/voice/wrecking-lines.json (b1: Brian
 
   python3 brag-quiz/reels/wrecking/build.py [b1]   then  cd brag-quiz/reels/wrecking/out/v && npx hyperframes render -o ../wrecking.mp4
 """
-import json, os, shutil, subprocess, sys
+import json, math, os, shutil, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
 V6 = os.path.join(ROOT, "brag-output-v6/composition/assets"); VO = os.path.join(ROOT, "brag-quiz/voice/wrecking")
 INK, CREAM, GOLD, GOLD2, RED, TEAL, DARK = "#17262b", "#f1ece0", "#a8842c", "#E9B949", "#B4322A", "#2e7263", "#0c1214"
@@ -26,9 +26,11 @@ def at(n, key, last=False):                                                     
     return L[n] + (hits[-1] if last else hits[0])
 END = round(L["w6"] + dur(src("w6") + ".mp3") + 1.2, 2)
 PIV, R, BR = (450, -900), 2150, 130                       # the pendulum: pivot high above, a long chain, so the ball arrives mid-wall
-TH0, TH1 = -38.0, 0.8                                     # one sweep from far left to just short of the wall
+TH0, THC = -36.0, 1.07                                    # the ball comes in from far up-left (off screen); THC: where it would touch
+N0, T0 = 204, 0.3                                         # as in the reference: 204 frames to impact, falling by ~12% every quarter second
+KF = math.log(N0 / 6) / (FREEZE - T0)                     # (204 → 105 in 1.5 s, then a crawl down to 006 at the freeze)
 WX0, WX1, WY = 620, 880, 900                              # the wall: left, right, top (11 rows of bricks below)
-CAM0, CAM1 = (-20, 1000, 0.5), (560, 1200, 1.25)           # the camera: wide on the whole swing, then in on the ball and the wall
+CAM0, CAM1 = (400, 1130, 0.45), (545, 1225, 1.35)         # the camera: wide on the wall, zooming in steadily the whole way
 
 def build():
     out = os.path.join(HERE, "out", "v"); a = os.path.join(out, "assets")
@@ -50,23 +52,25 @@ def build():
     snd("bed.mp3", FREEZE, 0.06, END - FREEZE, track=2)                                    # a very quiet bed under the voice, so nothing is ever silent
     js = []; T = js.append
 
-    # 1 · the swing (0-8.1): one sweep in from far left, fast then slowing as it nears the wall (ease out); the camera eases in from
-    # wide to the ball and the wall; the counter ticks down; it stops just short of touching
+    # 1 · the swing (0-8.1), timed like the reference: the wall alone, then the ball rushes in from off screen and covers most of the
+    # way at once; it then crawls, the gap shrinking by the same share every moment (so the counter falls fast, then barely), and it
+    # stops just short of touching. The camera zooms in steadily throughout.
     T(f'''(() => {{ const o = {{t:0}}, ch = document.getElementById("chain"), ch2 = document.getElementById("chain2"), b = document.getElementById("ball"),
         sh = document.getElementById("bshadow"), n = document.getElementById("cnum"), cam = document.getElementById("cam");
-      const out = (u) => 1 - Math.pow(1 - u, 3), io = (u) => u * u * (3 - 2 * u);
-      const draw = (t) => {{ const u = Math.min(1, t / {FREEZE}), th = ({TH0} + ({TH1} - {TH0}) * out(u)) * Math.PI / 180;
-        const x = {PIV[0]} + {R} * Math.sin(th), y = {PIV[1]} + {R} * Math.cos(th);
+      const draw = (t) => {{ const f = Math.exp(-{KF:.4f} * Math.max(0, t - {T0})), g = {THC - TH0 - 8} * Math.pow(f, 3) + 8 * f;   // the gap, in degrees
+        const th = ({THC} - g) * Math.PI / 180, x = {PIV[0]} + {R} * Math.sin(th), y = {PIV[1]} + {R} * Math.cos(th);
         for (const c of [ch, ch2]) {{ c.setAttribute("x2", x); c.setAttribute("y2", y - {BR}); }}
         b.setAttribute("transform", `translate(${{x}},${{y}})`); sh.setAttribute("cx", x);
-        const k = io(u), cx = {CAM0[0]} + ({CAM1[0]} - {CAM0[0]}) * k, cy = {CAM0[1]} + ({CAM1[1]} - {CAM0[1]}) * k, sc = {CAM0[2]} + ({CAM1[2]} - {CAM0[2]}) * k;
+        const u = Math.min(1, t / {FREEZE}), k = u, cx = {CAM0[0]} + ({CAM1[0]} - {CAM0[0]}) * k, cy = {CAM0[1]} + ({CAM1[1]} - {CAM0[1]}) * k, sc = {CAM0[2]} + ({CAM1[2]} - {CAM0[2]}) * k;
         cam.style.transform = `translate(${{540 - cx * sc}}px, ${{960 - cy * sc}}px) scale(${{sc}})`;
-        const v = Math.max(8, Math.round(162 - 154 * u)); n.textContent = String(v).padStart(3, "0"); n.style.color = v < 25 ? "{RED}" : "{INK}"; }};
+        const v = Math.max(6, Math.round({N0} * f)); n.textContent = String(v).padStart(3, "0"); n.style.color = v <= 30 ? "{RED}" : "{INK}"; }};
       draw(0); tl.to(o, {{t:{FREEZE}, duration:{FREEZE}, ease:"none", onUpdate:() => draw(o.t)}}, 0); }})();''')
     snd("drone.wav", 0, 0.55, FREEZE)
-    snd("swoosh.wav", 0.0, 0.45); snd("swoosh-low.wav", 0.6, 0.4)                                   # the sweep begins: a rush of air, then it slows
-    t = 0.3
-    while t < FREEZE - 0.05: snd("tick.wav", t, 0.09); t += 0.3 - 0.16 * t / FREEZE                 # the counter's ticks, quickening as it runs out
+    snd("swoosh.wav", T0 - 0.05, 0.55); snd("swoosh-low.wav", T0 + 0.35, 0.4)                          # it rushes in, then slows
+    last = -1                                                                                        # a tick each time the counter drops,
+    for m in range(N0 - 1, 5, -1):                                                                   # as fast as a buzz at first
+        t = T0 + math.log(N0 / (m + 0.5)) / KF
+        if t - last >= 0.07 and t < FREEZE: snd("tick.wav", t, 0.09); last = t
     T(f'tl.to("#counter", {{opacity:0, y:-20, duration:0.3}}, {L["w1"] - 0.1:.2f});')
     # 2 · the line (the reference's), and the blueprint on "never"
     nv = at("w1", "never")
@@ -187,7 +191,7 @@ def build():
 </div>
   <div class="note" style="left:80px;top:250px">time to impact = never</div><div class="note" style="left:80px;top:300px">distance to impact = ∞</div>
   <div class="note" style="left:640px;top:250px">attention = held</div>
-  <div id="counter"><small>FRAMES TO IMPACT</small><b id="cnum">162</b></div>
+  <div id="counter"><small>FRAMES TO IMPACT</small><b id="cnum">204</b></div>
 </div>
 <div class="sc" id="s2"><div id="door"><div id="frame"><div id="glow"></div><div id="leaf"><i style="top:60px"></i><i style="top:400px;height:330px"></i><div id="hole"></div></div></div></div>
   <div id="key">{keysvg}</div>
