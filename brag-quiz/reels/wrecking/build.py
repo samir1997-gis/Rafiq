@@ -25,8 +25,8 @@ def at(n, key, last=False):                                                     
     hits = [s for w, s, e in words(n) if key in w.lower()]
     return L[n] + (hits[-1] if last else hits[0])
 END = round(L["w6"] + dur(src("w6") + ".mp3") + 1.2, 2)
-PIV, R, BR = (450, -900), 2150, 130                       # the pendulum: pivot high above, a long chain, so the ball arrives mid-wall
-TH0, THC = -36.0, 1.07                                    # the ball comes in from far up-left (off screen); THC: where it would touch
+PIV, R, BR = (1440, -437), 1900, 130                      # the pendulum: pivot high up beyond the wall (as in the reference), so the ball
+TH0, THC = -70.0, -30.0                                   # reaches the wall mid-swing, chain diagonal: from up-left (TH0) to where it would touch (THC)
 N0, T0 = 204, 0.3                                         # as in the reference: 204 frames to impact, falling by ~12% every quarter second
 KF = math.log(N0 / 6) / (FREEZE - T0)                     # (204 → 105 in 1.5 s, then a crawl down to 006 at the freeze)
 WX0, WX1, WY = 620, 880, 900                              # the wall: left, right, top (11 rows of bricks below)
@@ -59,8 +59,8 @@ def build():
         sh = document.getElementById("bshadow"), n = document.getElementById("cnum"), cam = document.getElementById("cam");
       const draw = (t) => {{ const f = Math.exp(-{KF:.4f} * Math.max(0, t - {T0})), g = {THC - TH0 - 8} * Math.pow(f, 3) + 8 * f;   // the gap, in degrees
         const th = ({THC} - g) * Math.PI / 180, x = {PIV[0]} + {R} * Math.sin(th), y = {PIV[1]} + {R} * Math.cos(th);
-        for (const c of [ch, ch2]) {{ c.setAttribute("x2", x); c.setAttribute("y2", y - {BR}); }}
-        b.setAttribute("transform", `translate(${{x}},${{y}})`); sh.setAttribute("cx", x);
+        for (const c of [ch, ch2]) {{ c.setAttribute("x2", x - {BR} * Math.sin(th)); c.setAttribute("y2", y - {BR} * Math.cos(th)); }}
+        b.setAttribute("transform", `translate(${{x}},${{y}}) rotate(${{-th * 180 / Math.PI}})`); sh.setAttribute("cx", x);
         const u = Math.min(1, t / {FREEZE}), k = u, cx = {CAM0[0]} + ({CAM1[0]} - {CAM0[0]}) * k, cy = {CAM0[1]} + ({CAM1[1]} - {CAM0[1]}) * k, sc = {CAM0[2]} + ({CAM1[2]} - {CAM0[2]}) * k;
         cam.style.transform = `translate(${{540 - cx * sc}}px, ${{960 - cy * sc}}px) scale(${{sc}})`;
         const v = Math.max(6, Math.round({N0} * f)); n.textContent = String(v).padStart(3, "0"); n.style.color = v <= 30 ? "{RED}" : "{INK}"; }};
