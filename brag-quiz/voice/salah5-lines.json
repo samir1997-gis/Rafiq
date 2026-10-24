@@ -1,0 +1,16 @@
+[
+ {"voice": "N2lVS1w4EtoT3dr4eOWO", "model": "eleven_v3", "stability": 0.0, "file": "h1a",
+  "text": "[curious] You do it [shouting] FIVE! [normal] times a day... but what does salah really mean?"},
+ {"voice": "N2lVS1w4EtoT3dr4eOWO", "model": "eleven_v3", "stability": 0.0, "file": "h1b",
+  "text": "You do it [shouting] FIVE! [curious] times a day... but what does salah really mean?"},
+ {"file": "c1", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "You hear it in every adhan:", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "c2", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Saad, laam, waw. It means: to pray.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "b1", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "The prayer itself.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "b2", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "A musalla: the place where you pray.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "t1", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Your turn. The Prophet, peace be upon him, said: if you're invited to a meal and you're fasting, then do this:", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "b4b", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Make DUA! For the one who invited you.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "c5", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Because in Arabic, salah means dua: calling on Allah. Another narration says it plainly: meaning, dua. So every salah you pray is a dua.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "end", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Comment below: who's the first person you make dua for? And send this to them.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "hayya", "text": "حَيَّ عَلَى الصَّلاةِ"},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "falyusalli", "text": "فَلْيُصَلِّ"}
+]

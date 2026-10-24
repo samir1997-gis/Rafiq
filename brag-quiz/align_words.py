@@ -9,7 +9,8 @@ import json, os, re, subprocess, sys
 from pocketsphinx import Decoder
 
 EXTRA = {"fatiha": "F AA T IH HH AH", "raheem": "R AH HH IY M", "rakah": "R AA K AH", "deen": "D IY N", "allah": "AA L AH",
-         "mashallah": "M AA SH AA L AH", "barik": "B AA R IH K", "allahumma": "AA L AH HH UH M AH"}
+         "mashallah": "M AA SH AA L AH", "barik": "B AA R IH K", "allahumma": "AA L AH HH UH M AH",
+         "salah": "S AH L AA", "dua": "D UW AA", "adhan": "AH DH AA N", "musalla": "M UH S AH L AA"}
 
 def pcm(path):
     return subprocess.run(["ffmpeg", "-v", "error", "-i", path, "-ac", "1", "-ar", "16000", "-f", "s16le", "-"], capture_output=True, check=True).stdout
