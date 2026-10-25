@@ -102,6 +102,8 @@ for c in C["caps"]:
         k, tail = nz(w[0]), re.sub(r"^[\w'-]+", "", w[0])
         if re.search(r"[\u0600-\u06FF]", w[0]): w[0] = "at-taswif" if "ط" in w[0] or "ت" in w[0][:2] else "sawfa"
         elif k in FIX: w[0] = FIX[k] + tail
+        nx = [v for v in c[2] if v[1] > w[1]] or [n for n in C["caps"] if n[0] > c[0]][:1] and [n for n in C["caps"] if n[0] > c[0]][0][2]
+        if k == "now" and nx and nz(nx[0][0]) in ("im", "ill"): w[0] = "No,"            # the skit's "No, I'm gonna…", heard as "now"
         w[2] = nz(w[0]) in EM                                                     # the script's key words land gold
 C["title_top"] = 470
 C["titles"] = sorted(titles); C["flicks"] = flicks; C["split"] = None; C["steps"] = []
