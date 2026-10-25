@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The five versions of the tomorrow-people reel (SCRIPTS.md), assembled from the owner's one take before the reel template runs
 (owner, 25 Oct 2026, #292). Each version is a list of stretches of the take; inside each, the voice is followed by its level
-(10 ms steps) so no word is clipped, and pauses longer than 0.45 s close up to about 0.3 s. A "hold" is a stretch of him silent,
+(10 ms steps) so no word is clipped, and pauses longer than 0.3 s close up to about 0.2 s (owner, 25 Oct: "tighten it up"), except a few kept for effect (KEEP). A "hold" is a stretch of him silent,
 looped to a length: V3's recitation of al-Ḥijr 15:3 plays over it (behind the ayah screen). The template's own cut step is
 skipped (chunks.json = the whole clip). Writes WORK/vN/clip.mp4 and WORK/vN/map.json ([out start, take start, length] per piece).
 
@@ -10,19 +10,24 @@ import json, os, subprocess, sys
 import numpy as np
 W = sys.argv[1]; FPS = 30
 REC = 15.2                                                  # al-Husary (Muallim) reciting 15:3: the words end at 14.91 s
+SKIT = [(57.93, 59.75), (69.5, 73.55), (74.15, 76.6)]     # owner, 25 Oct: two lines of the skit, not four ("Just leave it, I'll start
+                                                          # tomorrow" · "I'm gonna start studying the deen properly tomorrow, I'll
+                                                          # learn Arabic…"), then "These are known as the tomorrow people"
+KEEP = [124.1, 131.9, 138.4, 143.2, 168.0]                # pauses for effect, kept at ~0.55 s: after "might not reach tomorrow",
+                                                          # each "it's too late", "…have been shut", "but it'll be too late"
 V = {
- "v1": [(57.93, 93.1), (104.6, 124.4), (202.3, 230.4)],                     # 57.93: after a half-said "just-" (57.4)
- "v2": [(127.6, 148.2), (50.2, 53.6), (57.93, 76.6), (104.6, 124.4), (213.0, 230.4)],   # 50.2: he restarts "so who are…" (48.6)
+ "v1": SKIT + [(76.65, 93.1), (104.6, 124.4), (202.3, 230.4)],                # 57.93: after a half-said "just-" (57.4)
+ "v2": [(127.6, 148.2), (50.2, 53.6)] + SKIT + [(104.6, 124.4), (213.0, 230.4)],   # 50.2: he restarts "so who are…" (48.6)
  "v3": [(133.2, 148.2), (0.0, 30.4), ("hold", 30.6, REC), (35.2, 48.0), (213.0, 230.4)],
  "v4": [(151.0, 168.3), (169.7, 201.8), (104.6, 124.4), (213.0, 230.4)],
- "v5": [(77.3, 93.1), (57.93, 76.6), (127.6, 148.2), (185.5, 201.8), (213.0, 230.4)],
+ "v5": [(77.3, 93.1)] + SKIT + [(127.6, 148.2), (185.5, 201.8), (213.0, 230.4)],
 }
 x = np.frombuffer(subprocess.run(["ffmpeg", "-v", "error", "-i", f"{W}/a.wav", "-f", "s16le", "-"], capture_output=True).stdout, np.int16) / 32768
 env = 20 * np.log10(np.sqrt(np.convolve(x ** 2, np.ones(320) / 320, "same"))[::160] + 1e-7)   # dB per 10 ms
 room = np.percentile(env, 10); VOICE = room + 12
 
 def pieces(a, b):
-    """The spoken runs between a and b (s), each padded so soft starts and endings stay, pauses over 0.45 s closed to ~0.3 s."""
+    """The spoken runs between a and b (s), each padded so soft starts and endings stay, pauses over 0.3 s closed to ~0.2 s."""
     on = env[int(a * 100):int(b * 100)] > VOICE; runs, i = [], 0
     while i < len(on):
         if on[i]:
@@ -32,15 +37,17 @@ def pieces(a, b):
         else: i += 1
     merged = []
     for r in runs:
-        if merged and r[0] - merged[-1][1] < 45: merged[-1][1] = r[1]
+        if merged and r[0] - merged[-1][1] < 30: merged[-1][1] = r[1]
         else: merged.append(r)
     out = []
     for s, e in merged:
         if e - s < 6: continue                                # a click, not a word
-        s0, e0 = a + s / 100 - .10, a + e / 100 + .16           # a breath before, the tail of the word after
+        s0, e0 = a + s / 100 - .07, a + e / 100 + .12           # a breath before, the tail of the word after
         k = int(e0 * 100)                                       # follow the word's tail until it reaches the room's level
         while k < int(b * 100) and k < int(e0 * 100) + 30 and env[k] > room + 6: k += 1
-        out.append([max(a, s0), min(b, max(e0, k / 100 + .04))])
+        e1 = max(e0, k / 100 + .04)
+        if any(abs(e1 - kp) < .45 for kp in KEEP): e1 += .4    # a pause for effect stays
+        out.append([max(a, s0), min(b + .45, e1)])
     for p, q in zip(out, out[1:]):                              # never overlap; keep about 0.3 s between runs
         if q[0] - p[1] < 0: p[1] = q[0] = (p[1] + q[0]) / 2
     return out

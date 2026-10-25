@@ -8,7 +8,15 @@ import json, os, re, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__)); G = os.path.join(HERE, "out")
 W, V = sys.argv[1], sys.argv[2]; D = os.path.join(W, V)
 C = json.load(open(f"{D}/config.json")); ws = json.load(open(f"{D}/cutwords.json")); END = C["end"]
-nz = lambda w: re.sub(r"[^a-z]", "", w.lower())
+for w in ws:                                                  # the transcriber's slips on this take
+    if w["w"].lower().startswith("peep"): w["w"] = "people."
+if ws and ws[0]["w"].lower() == "and" and ws[0]["e"] < 0.2: ws = ws[1:]                    # a breath heard as "and"
+for c in C["caps"]:
+    for w in c[2]:
+        if w[0].lower().startswith("peep"): w[0] = "people."
+    c[2] = [w for w in c[2] if not (w[1] < 0.15 and w[0].lower() == "and")]
+C["caps"] = [c for c in C["caps"] if c[2]]
+nz = lambda w: re.sub(r"[^a-z]", "", w.lower()).replace("shaitan", "shaytan").replace("gonna", "going")   # one spelling for the transcriber's two
 
 def at(phrase, after=0.0, end=False):
     """When the words of phrase are said (the first time after `after`): their start, or the end of the last one."""
@@ -18,7 +26,44 @@ def at(phrase, after=0.0, end=False):
             return ws[i + len(p) - 1]["e"] if end else ws[i]["s"]
     raise SystemExit(f"{V}: not found: {phrase!r} after {after}")
 
-panels, titles, flicks = [], [], []
+panels, titles, flicks, AUDIO = [], [], [], []
+# sound design (owner, 25 Oct: "more engaging with sound effects… echoes, booms… a loud door closing"): every level is set against his
+# own voice as recorded (VL, LUFS), since his voice is never raised; a sound's loudest 50 ms lands on its moment
+sys.path.insert(0, os.path.join(HERE, "..", "template")); from sfx_rules import info
+SFX = os.path.join(HERE, "..", "..", "sfx")
+lvl = lambda f: float(re.findall(r"I:\s+(-?[\d.]+) LUFS", subprocess.run(["ffmpeg", "-i", f, "-af", "ebur128", "-f", "null", "-"], capture_output=True, text=True).stderr)[-1])
+VL = lvl(f"{D}/cut.wav")
+def fx(name, t, db=0.0):
+    f = next(os.path.join(SFX, d, name + ".wav") for d in ("soft", "owner", "ref", ".") if os.path.exists(os.path.join(SFX, d, name + ".wav")))
+    if t < 0: return
+    pk_db, pk = info(f); AUDIO.append([f, round(max(0, t - pk), 3), round(10 ** ((VL - 3 + db - pk_db) / 20), 3)])
+def bed(name, t0, t1, db):
+    out = f"{D}/bed{len(AUDIO)}.wav"; d = max(0.5, t1 - t0)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-stream_loop", "-1", "-i", os.path.join(SFX, "soft", name + ".wav"), "-t", f"{d:.2f}",
+                    "-af", f"afade=t=in:d=0.4,afade=t=out:st={d - 0.5:.2f}:d=0.5", "-ar", "48000", "-ac", "2", out], check=True)
+    AUDIO.append([out, round(t0, 3), round(10 ** ((VL + db - lvl(out)) / 20), 3)])
+def echo(phrase, after=0.0, back=0, db=0.0):
+    """His own word repeating behind him, fading and darker (three repeats, 0.22 s apart), so the word lands."""
+    p = [nz(x) for x in phrase.split()]
+    i = next(i for i in range(len(ws)) if ws[i]["s"] >= after and all(i + k < len(ws) and nz(ws[i + k]["w"]) == p[k] for k in range(len(p)))) - back
+    w = ws[i]; out = f"{D}/echo{len(AUDIO)}.wav"
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{w['s']:.3f}", "-t", f"{w['e'] - w['s'] + 0.06:.3f}", "-i", f"{D}/cut.mov", "-vn", "-filter_complex",
+                    "[0:a]asplit=3[a][b][c];[a]adelay=220|220,volume=0.5[x];[b]adelay=440|440,volume=0.28[y];[c]adelay=660|660,volume=0.15[z];"
+                    "[x][y][z]amix=inputs=3:normalize=0,lowpass=f=3200,aecho=0.8:0.6:60:0.3[o]", "-map", "[o]", "-ar", "48000", "-ac", "2", out], check=True)
+    AUDIO.append([out, round(w["s"], 3), round(10 ** (db / 20), 3)])
+PENDING = []
+RECIPE = {                                                     # each graphic's own sounds, at its moments (s into its clip)
+ "t1-tomorrow": lambda L, a, b: ([fx("flip", L(t), -8) for t in (0.6, 1.3, 1.9, 2.4, 2.8, 3.1)], fx("impact", L(3.9), -3)),
+ "c1-clock":    lambda L, a, b: ([fx("tick", a + k * 0.25, -12) for k in range(int((b - a) / 0.25))], [fx("thump", L(t), -2) for t in (0.7, 1.4, 2.1, 4.2)]),
+ "t7-graves":   lambda L, a, b: (bed("wind", a, b, -15), fx("impact", L(0.3), -8)),
+ "t4-dajjal":   lambda L, a, b: (bed("rumble", a, b, -9), fx("impact", L(0.5), -1)),
+ "t5-sun-west": lambda L, a, b: (fx("whoosh", L(0.4), -8), fx("shimmer", L(1.0), -12), fx("impact", L(2.3), -1)),
+ "t6-too-late": lambda L, a, b: (fx("creak", L(0.35), -9), fx("doorslam", L(1.9), 4), fx("impact", L(1.9), -4)),
+ "s1-sajdah":   lambda L, a, b: (bed("crackle", a, b, -16), bed("rumble", a, b, -11)),
+ "t9-today":    lambda L, a, b: (fx("rip", L(1.05), 0), fx("impact", L(2.2), -5)),
+ "p1-pack":     lambda L, a, b: (fx("n04", L(0.2), -4),),
+ "t2-taswif":   lambda L, a, b: (fx("shimmer", L(2.3), -12),),
+}
 def gfx(name, anchor, beat, lead=None, until=None, dur=None, after=0.0, slams=(), hits=(), **o):
     """A graphic whose moment `beat` (s into its clip) lands on the word(s) `anchor`; it comes in `lead` s before that word."""
     A = at(anchor, after); lead = beat if lead is None else lead; frm = max(0.0, beat - lead); s0 = A - lead
@@ -26,6 +71,7 @@ def gfx(name, anchor, beat, lead=None, until=None, dur=None, after=0.0, slams=()
     loc = lambda t: round(s0 + t - frm, 2)
     panels.append([round(s0, 2), round(min(s1, END), 2), "gfx", dict(src=f"{G}/{name}.mp4", **({"from": round(frm, 2)} if frm else {}),
                    slams=[loc(t) for t in slams if t >= frm], hits=[loc(t) for t in hits if t >= frm], **o)])
+    PENDING.append((name, loc, frm, s0))
 def title(phrase, small, big, size, until=None, dur=3.0, after=0.0):
     a = at(phrase, after); titles.append([round(a, 2), round(at(until, a, end=True) + 0.3 if until else a + dur, 2), small, big, size])
 def flick(until, text, size=120):
@@ -35,8 +81,10 @@ ENDING = lambda: (gfx("t9-today", "start today", 1.05, lead=1.05, dur=3.0, after
                   gfx("p1-pack", "comment", 0.15, dur="end", slams=[0.15], hits=[0.9, 1.2, 1.5, 1.9]))
 if V == "v1":
     flick("I'll start tomorrow", "I'LL START TOMORROW", 110)
+    echo("start tomorrow", back=-1); echo("ploys"); echo("win", db=-2); echo("grave"); fx("impact", at("grave"), -6)
+    echo("reach tomorrow", back=-1); echo("today", after=at("don't say"))
     gfx("t1-tomorrow", "tomorrow people", 3.9, lead=1.2, until="people", slams=[3.9], hits=[3.35])
-    title("Shaitan's biggest", "SHAYTAN'S BIGGEST", "PLOY", 300, until="ploys")
+    title("Shaytan's biggest", "SHAYTAN'S BIGGEST", "PLOY", 300, until="ploys")
     gfx("c1-clock", "as long as", 2.8, until="win", hits=[0.7, 1.4, 2.1, 4.2])
     gfx("t7-graves", "grave", 0.3, until="tomorrow")
     title("little do they know", "THEY MIGHT NOT REACH", "TOMORROW", 230, until="reach tomorrow")
@@ -44,6 +92,8 @@ if V == "v1":
     ENDING()
 elif V == "v2":
     flick("too late", "IT'S TOO LATE", 140)
+    echo("has come out", back=1); fx("impact", at("has come out") - 0.35, -1); echo("late"); echo("west"); echo("late", after=at("west"))
+    echo("shut"); echo("grave"); echo("reach tomorrow", back=-1); echo("today", after=at("don't say"))
     gfx("t5-sun-west", "west", 2.3, lead=1.4, until="too late", slams=[2.3])
     gfx("t6-too-late", "shut", 1.9, lead=1.5, until="anyone", slams=[1.9])
     title("who are the tomorrow", "WHO ARE THE", "TOMORROW PEOPLE", 170, until="people")
@@ -53,6 +103,7 @@ elif V == "v2":
     ENDING()
 elif V == "v3":
     flick("from the west", "FROM THE WEST", 130)
+    echo("west"); fx("impact", at("west"), -2); echo("late"); echo("shut"); echo("today", after=at("don't say"))
     title("it's too late", "IT'S", "TOO LATE", 300, until="late")
     gfx("t6-too-late", "shut", 1.9, lead=1.5, until="anyone", slams=[1.9])
     title("there's even an arabic", "THERE'S A", "WORD FOR IT", 230, until="for it")
@@ -71,10 +122,12 @@ elif V == "v3":
     r = os.path.join(W, "015003.mp3"); trim = os.path.join(D, "hijr-15-3.wav")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", r, "-t", "15.2", "-af", "afade=t=out:st=14.9:d=0.3", "-ar", "48000", "-ac", "2", trim], check=True)
     lv = lambda f: float(re.findall(r"I:\s+(-?[\d.]+) LUFS", subprocess.run(["ffmpeg", "-i", f, "-af", "ebur128", "-f", "null", "-"], capture_output=True, text=True).stderr)[-1])
-    C["audio"] = [[trim, round(rec, 2), round(10 ** ((lv(f"{D}/cut.wav") - lv(trim) - 1.0) / 20), 3)]]   # the recitation a touch under his voice
+    AUDIO.append([trim, round(rec, 2), round(10 ** ((lv(f"{D}/cut.wav") - lv(trim) - 1.0) / 20), 3)])   # the recitation a touch under his voice
     ENDING()
 elif V == "v4":
     flick("they will say", "SEND US BACK", 150)
+    fx("impact", at("thrown"), -3); echo("jahannam") if any(nz(w["w"]) == "jahannam" for w in ws) else None
+    echo("back", after=at("send us back") + 0.5); echo("late"); echo("never"); echo("grave"); echo("reach tomorrow", back=-1)
     gfx("s1-sajdah", "send us back", 1.9, lead=2.2, until="your worship", hits=[0.4, 1.1, 1.9, 2.4])
     gfx("t6-too-late", "too late", 1.9, lead=1.5, dur=3.2, after=at("but it'll"), slams=[1.9])
     title("problem with being", "THE PROBLEM WITH", "TOMORROW", 230, until="person")
@@ -85,6 +138,8 @@ elif V == "v4":
     ENDING()
 elif V == "v5":
     flick("biggest ploys", "SHAYTAN'S BIGGEST PLOY", 100)
+    echo("ploys"); echo("win", db=-2); echo("has come out", back=1); echo("late"); echo("west"); echo("late", after=at("west"))
+    echo("shut"); echo("never"); echo("today", after=at("don't say"))
     gfx("c1-clock", "as long as", 2.8, until="win", hits=[0.7, 1.4, 2.1, 4.2])
     gfx("t1-tomorrow", "tomorrow people", 3.9, lead=1.2, until="people", slams=[3.9], hits=[3.35])
     gfx("t4-dajjal", "has come out", 0.9, lead=0.45, until="too late", hits=[1.2, 2.2])
@@ -112,6 +167,10 @@ busy = [(p[0], p[1]) for p in panels] + [(f[0], f[1]) for f in flicks]
 PANELS = sorted(panels)
 for p, q in zip(PANELS, PANELS[1:]): p[1] = min(p[1], q[0])                   # one graphic hands straight to the next
 C["panels"] = PANELS
+for name, loc, frm, s0 in PENDING:                      # each graphic's own sounds, inside its time on screen
+    p = [q for q in sorted(panels) if q[0] == round(s0, 2)][0]
+    if name in RECIPE: RECIPE[name](lambda t, loc=loc, frm=frm: loc(t) if t >= frm else -1, p[0], p[1])
+C["audio"] = [x for x in AUDIO if x[1] >= 0 and x[1] < END]
 em = [w for c in C["caps"] for w in c[2] if w[2] and not any(a - .4 <= w[1] < b + .4 for a, b in busy)]
 nxt = lambda s: min([x["e"] for x in ws if abs(x["s"] - s) < .01] or [s + .35])
 C["punch"] = [[w[1], nxt(w[1])] for w in em[::2]][:8]                         # every other gold word outside a graphic punches in
