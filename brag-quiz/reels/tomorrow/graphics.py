@@ -92,12 +92,12 @@ def taswif():
             f'<div class="big ar" id="rl" style="top:880px;font-size:110px;line-height:1.4;color:{GOLD};letter-spacing:.3em;opacity:0">س و ف</div>'
             f'<div class="big" id="tsl" style="top:1110px;font-size:120px;color:{GOLD};opacity:0">AT-TASWĪF</div>'
             f'<div class="cap" id="tsc" style="top:1260px;opacity:0">procrastination: <i>saying “sawfa”</i></div>')
-    js = ['tl.to(".p", {y:-120, duration:5, ease:"none", stagger:{each:0.02, from:"random"}}, 0);',
+    js = ['tl.to(".p", {y:-200, duration:8, ease:"none", stagger:{each:0.02, from:"random"}}, 0);',
           IN("#k", 0.1), IN("#sw", 0.3, 0, 0.8), IN("#swc", 1.0),
           OUT("#sw, #swc", 2.0),
           'tl.fromTo("#ts", {opacity:0, scale:0.7, filter:"blur(14px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:0.7, ease:"expo.out"}, 2.3);',
           IN("#rl", 2.8, 20), IN("#tsl", 3.2), IN("#tsc", 3.6)]
-    scene("t2-taswif", 5.0, body, js)
+    scene("t2-taswif", 8.0, body, js)
 
 def hijr():
     """Al-Ḥijr 15:3 on a paper page, word by word; فَسَوْفَ يَعْلَمُونَ is swept in gold."""
@@ -215,7 +215,7 @@ def today():
 def clock():
     """Shaytan's ploy: a clock whose hands race while TOMORROW is stamped on it again and again; he keeps delaying you."""
     ticks = "".join(f'<line x1="540" y1="{560 if i % 5 else 545}" x2="540" y2="{585 if i % 5 else 600}" stroke="{INK}" stroke-width="{4 if i % 5 else 10}" transform="rotate({i * 6} 540 860)"/>' for i in range(60))
-    stamps = [(-14, 790, 0.7), (11, 790, 1.4), (-6, 790, 2.1)]                     # one at a time, each replacing the last
+    stamps = [(-14, 790, 0.7), (11, 790, 1.4), (-6, 790, 2.1), (8, 790, 4.2)]                     # one at a time, each replacing the last
     body = (f'<div class="full" style="background:radial-gradient(ellipse at 50% 40%,#22363d 0%,#0b1316 75%)"></div>'
             f'<div class="label" id="k" style="top:200px;font-size:56px;opacity:0">SHAYṬĀN’S PLOY</div>'
             f'<svg class="full" viewBox="0 0 1080 1920"><circle cx="540" cy="860" r="330" fill="{PAPER}" stroke="{GOLD}" stroke-width="16"/>{ticks}'
@@ -223,12 +223,12 @@ def clock():
             f'<line id="mh" x1="540" y1="860" x2="540" y2="580" stroke="{RED}" stroke-width="9" stroke-linecap="round"/><circle cx="540" cy="860" r="18" fill="{INK}"/></svg>'
             + "".join(f'<div class="big st" id="s{i}" style="top:{y}px;font-size:130px;color:{RED};opacity:0;transform:rotate({r}deg)"><span style="border:8px solid {RED};padding:0 26px;border-radius:14px">TOMORROW</span></div>' for i, (r, y, _) in enumerate(stamps))
             + f'<div class="cap" id="c" style="top:1450px;opacity:0">…as long as he can keep <span class="g">delaying</span> you.</div>')
-    js = [IN("#k", 0.1), 'tl.to("#mh", {rotation:1440, svgOrigin:"540 860", duration:4.6, ease:"power1.in"}, 0.2);',
-          'tl.to("#hh", {rotation:120, svgOrigin:"540 860", duration:4.6, ease:"power1.in"}, 0.2);']
+    js = [IN("#k", 0.1), 'tl.to("#mh", {rotation:2880, svgOrigin:"540 860", duration:8.2, ease:"power1.in"}, 0.2);',
+          'tl.to("#hh", {rotation:240, svgOrigin:"540 860", duration:8.2, ease:"power1.in"}, 0.2);']
     js += [f'tl.fromTo("#s{i}", {{opacity:0, scale:1.8}}, {{opacity:0.92, scale:1, duration:0.18, ease:"power4.in"}}, {t});' for i, (_, _, t) in enumerate(stamps)]
     js += [f'tl.to("#s{i}", {{opacity:0, scale:0.9, duration:0.15}}, {stamps[i + 1][2] - 0.05});' for i in range(len(stamps) - 1)]
     js += [IN("#c", 2.8)]
-    scene("c1-clock", 5.0, body, js)
+    scene("c1-clock", 8.5, body, js)
 
 def sajdah():
     """"Send us back": as-Sajdah 32:12, the ayah that says it, over a deep red glow (no figures); فَارْجِعْنا swept in gold."""
@@ -239,9 +239,9 @@ def sajdah():
             f'<div class="ar" id="a1" style="position:absolute;left:60px;right:60px;top:460px;text-align:center;font-size:100px;line-height:1.7;color:{PAPER};opacity:0">رَبَّنا أَبْصَرْنا وَسَمِعْنا</div>'
             f'<div class="ar" id="a2" style="position:absolute;left:60px;right:60px;top:640px;text-align:center;font-size:100px;line-height:1.7;color:{PAPER};opacity:0"><span id="hl">فَارْجِعْنا</span> نَعْمَلْ صالِحًا</div>'
             f'<div class="cap" id="en" style="top:1000px;opacity:0">“Our Lord, we have seen and heard,<br>so <span class="g">send us back</span>; we will do good.”</div>')
-    js = ['tl.fromTo("#glow", {opacity:0.4}, {opacity:1, duration:1.2, yoyo:true, repeat:3, ease:"sine.inOut"}, 0);',
+    js = ['tl.fromTo("#glow", {opacity:0.4}, {opacity:1, duration:1.2, yoyo:true, repeat:6, ease:"sine.inOut"}, 0);',
           IN("#k", 0.1), IN("#a1", 0.4, 20, 0.6), IN("#a2", 1.1, 20, 0.6), 'tl.to("#hl", {backgroundSize:"100% 100%", duration:0.6, ease:"power2.inOut"}, 1.9);', IN("#en", 2.4)]
-    scene("s1-sajdah", 6.0, body, js)
+    scene("s1-sajdah", 8.5, body, js)
 
 def pack():
     """The ending ask: comment NOW for the free starter pack, the 20 words of your salah (tiles of its words fanning in)."""

@@ -37,7 +37,7 @@ if V == "v1":
     flick("I'll start tomorrow", "I'LL START TOMORROW", 110)
     gfx("t1-tomorrow", "tomorrow people", 3.9, lead=1.2, until="people", slams=[3.9], hits=[3.35])
     title("Shaitan's biggest", "SHAYTAN'S BIGGEST", "PLOY", 300, until="ploys")
-    gfx("c1-clock", "as long as", 2.8, until="win", hits=[0.7, 1.4, 2.1])
+    gfx("c1-clock", "as long as", 2.8, until="win", hits=[0.7, 1.4, 2.1, 4.2])
     gfx("t7-graves", "grave", 0.3, until="tomorrow")
     title("little do they know", "THEY MIGHT NOT REACH", "TOMORROW", 230, until="reach tomorrow")
     title("biggest gift", "THE BIGGEST", "GIFT", 320, until="present")
@@ -78,13 +78,14 @@ elif V == "v4":
     gfx("s1-sajdah", "send us back", 1.9, lead=2.2, until="your worship", hits=[0.4, 1.1, 1.9, 2.4])
     gfx("t6-too-late", "too late", 1.9, lead=1.5, dur=3.2, after=at("but it'll"), slams=[1.9])
     title("problem with being", "THE PROBLEM WITH", "TOMORROW", 230, until="person")
-    gfx("c1-clock", "as long as they can keep delaying", 2.8, until="comes", hits=[0.7, 1.4, 2.1])
+    gfx("c1-clock", "as long as they can keep delaying", 2.8, dur=7.0, hits=[0.7, 1.4, 2.1, 4.2])
+    title("winding down your clock", "UNTIL TOMORROW", "NEVER COMES", 220, until="comes")
     gfx("t7-graves", "grave", 0.3, until="tomorrow")
     title("little do they know", "THEY MIGHT NOT REACH", "TOMORROW", 230, until="reach tomorrow")
     ENDING()
 elif V == "v5":
     flick("biggest ploys", "SHAYTAN'S BIGGEST PLOY", 100)
-    gfx("c1-clock", "as long as", 2.8, until="win", hits=[0.7, 1.4, 2.1])
+    gfx("c1-clock", "as long as", 2.8, until="win", hits=[0.7, 1.4, 2.1, 4.2])
     gfx("t1-tomorrow", "tomorrow people", 3.9, lead=1.2, until="people", slams=[3.9], hits=[3.35])
     gfx("t4-dajjal", "has come out", 0.9, lead=1.0, until="too late", hits=[1.2, 2.2])
     gfx("t5-sun-west", "west", 2.3, lead=1.4, until="too late", after=at("sun"), slams=[2.3])
@@ -104,6 +105,7 @@ for c in C["caps"]:
         w[2] = nz(w[0]) in EM                                                     # the script's key words land gold
 C["title_top"] = 470
 C["titles"] = sorted(titles); C["flicks"] = flicks; C["split"] = None; C["steps"] = []
+for f in flicks: f[1] = min([f[1]] + [p[0] for p in panels if p[0] > f[0]])   # the hook hands straight to a graphic
 busy = [(p[0], p[1]) for p in panels] + [(f[0], f[1]) for f in flicks]
 PANELS = sorted(panels)
 for p, q in zip(PANELS, PANELS[1:]): p[1] = min(p[1], q[0])                   # one graphic hands straight to the next
