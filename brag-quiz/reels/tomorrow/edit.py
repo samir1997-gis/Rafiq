@@ -87,7 +87,7 @@ elif V == "v5":
     flick("biggest ploys", "SHAYTAN'S BIGGEST PLOY", 100)
     gfx("c1-clock", "as long as", 2.8, until="win", hits=[0.7, 1.4, 2.1, 4.2])
     gfx("t1-tomorrow", "tomorrow people", 3.9, lead=1.2, until="people", slams=[3.9], hits=[3.35])
-    gfx("t4-dajjal", "has come out", 0.9, lead=1.0, until="too late", hits=[1.2, 2.2])
+    gfx("t4-dajjal", "has come out", 0.9, lead=0.45, until="too late", hits=[1.2, 2.2])
     gfx("t5-sun-west", "west", 2.3, lead=1.4, until="too late", after=at("sun"), slams=[2.3])
     gfx("t6-too-late", "shut", 1.9, lead=1.5, until="anyone", slams=[1.9])
     title("winding down your clock", "UNTIL TOMORROW", "NEVER COMES", 220, until="comes")
