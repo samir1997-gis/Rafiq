@@ -151,11 +151,12 @@ def toolate():
             f'#light {{ position:absolute; inset:0; background:radial-gradient(ellipse at 50% 60%,#fffdf2 0%,#fff1c2 35%,#e9b949 70%,#a8842c 100%); }}'
             f'.lf {{ position:absolute; top:0; height:100%; width:50%; background:{INK}; }} #lL {{ left:0; transform-origin:0 50%; }} #lR {{ right:0; transform-origin:100% 50%; }}</style>'
             f'<div id="spill" style="position:absolute;left:140px;top:1230px;width:800px;height:240px;background:radial-gradient(ellipse,rgba(233,185,73,.45),rgba(233,185,73,0) 70%)"></div>'
+            f'<div class="label" id="dl" style="top:290px;font-size:54px;opacity:0">THE DOOR OF REPENTANCE</div>'
             f'<div id="arch"><div id="light"></div><div class="lf" id="lL"></div><div class="lf" id="lR"></div></div>'
             f'<div id="flash" class="full" style="background:#fff3d0;opacity:0"></div>'
             f'<div class="big" id="t" style="top:1310px;font-size:200px;color:{RED};opacity:0">TOO LATE.</div>'
-            f'<div class="cap" id="c" style="top:1560px;font-size:50px;opacity:0">“…faith will not benefit a soul<br>that did not believe before.”<br><span style="font-size:40px;color:{GOLD}">Ṣaḥīḥ Muslim 158</span></div>')
-    js = ['tl.fromTo(["#lL", "#lR"], {scaleX:0.05}, {scaleX:0.6, duration:1.4, ease:"sine.in"}, 0.3);',
+            f'<div class="cap" id="c" style="top:1560px;font-size:50px;opacity:0">“…faith will not benefit a soul<br>that did not believe before.”<br><span style="font-size:40px;color:{GOLD}">Ṣaḥīḥ Muslim 158 · 2703</span></div>')
+    js = [IN("#dl", 0.1), 'tl.fromTo(["#lL", "#lR"], {scaleX:0.05}, {scaleX:0.6, duration:1.4, ease:"sine.in"}, 0.3);',
           'tl.to(["#lL", "#lR"], {scaleX:1, duration:0.18, ease:"power4.in"}, 1.7);', 'tl.to("#spill", {opacity:0, duration:0.3}, 1.75);',
           'tl.to("#flash", {opacity:0.35, duration:0.06}, 1.88);', 'tl.to("#flash", {opacity:0, duration:0.5}, 1.94);',
           SLAM("#t", 1.9), IN("#c", 2.7)]
@@ -211,7 +212,82 @@ def today():
           'tl.fromTo("#under i", {scale:0.9}, {scale:1.08, duration:0.18, yoyo:true, repeat:1, ease:"power2.out"}, 1.35);', SLAM("#t", 2.2)]
     scene("t9-today", 4.5, body, js, vig=False)
 
+def clock():
+    """Shaytan's ploy: a clock whose hands race while TOMORROW is stamped on it again and again; he keeps delaying you."""
+    ticks = "".join(f'<line x1="540" y1="{560 if i % 5 else 545}" x2="540" y2="{585 if i % 5 else 600}" stroke="{INK}" stroke-width="{4 if i % 5 else 10}" transform="rotate({i * 6} 540 860)"/>' for i in range(60))
+    stamps = [(-14, 790, 0.7), (11, 790, 1.4), (-6, 790, 2.1)]                     # one at a time, each replacing the last
+    body = (f'<div class="full" style="background:radial-gradient(ellipse at 50% 40%,#22363d 0%,#0b1316 75%)"></div>'
+            f'<div class="label" id="k" style="top:200px;font-size:56px;opacity:0">SHAYṬĀN’S PLOY</div>'
+            f'<svg class="full" viewBox="0 0 1080 1920"><circle cx="540" cy="860" r="330" fill="{PAPER}" stroke="{GOLD}" stroke-width="16"/>{ticks}'
+            f'<line id="hh" x1="540" y1="860" x2="540" y2="690" stroke="{INK}" stroke-width="18" stroke-linecap="round"/>'
+            f'<line id="mh" x1="540" y1="860" x2="540" y2="580" stroke="{RED}" stroke-width="9" stroke-linecap="round"/><circle cx="540" cy="860" r="18" fill="{INK}"/></svg>'
+            + "".join(f'<div class="big st" id="s{i}" style="top:{y}px;font-size:130px;color:{RED};opacity:0;transform:rotate({r}deg)"><span style="border:8px solid {RED};padding:0 26px;border-radius:14px">TOMORROW</span></div>' for i, (r, y, _) in enumerate(stamps))
+            + f'<div class="cap" id="c" style="top:1450px;opacity:0">…as long as he can keep <span class="g">delaying</span> you.</div>')
+    js = [IN("#k", 0.1), 'tl.to("#mh", {rotation:1440, svgOrigin:"540 860", duration:4.6, ease:"power1.in"}, 0.2);',
+          'tl.to("#hh", {rotation:120, svgOrigin:"540 860", duration:4.6, ease:"power1.in"}, 0.2);']
+    js += [f'tl.fromTo("#s{i}", {{opacity:0, scale:1.8}}, {{opacity:0.92, scale:1, duration:0.18, ease:"power4.in"}}, {t});' for i, (_, _, t) in enumerate(stamps)]
+    js += [f'tl.to("#s{i}", {{opacity:0, scale:0.9, duration:0.15}}, {stamps[i + 1][2] - 0.05});' for i in range(len(stamps) - 1)]
+    js += [IN("#c", 2.8)]
+    scene("c1-clock", 5.0, body, js)
+
+def sajdah():
+    """"Send us back": as-Sajdah 32:12, the ayah that says it, over a deep red glow (no figures); فَارْجِعْنا swept in gold."""
+    body = (f'<div class="full" style="background:linear-gradient(#060303 0%,#140504 55%,#3a0c06 85%,#5a1408 100%)"></div>'
+            f'<div id="glow" class="full" style="background:radial-gradient(ellipse at 50% 105%,rgba(242,120,40,.55) 0%,rgba(200,55,45,.25) 35%,rgba(200,55,45,0) 60%)"></div>'
+            f'<style>#hl {{ padding:0 22px; border-radius:18px; background:linear-gradient(rgba(233,185,73,.55),rgba(233,185,73,.55)) right / 0% 100% no-repeat; }}</style>'
+            f'<div class="label" id="k" style="top:320px;font-size:50px;opacity:0">AS-SAJDAH 32:12</div>'
+            f'<div class="ar" id="a1" style="position:absolute;left:60px;right:60px;top:460px;text-align:center;font-size:100px;line-height:1.7;color:{PAPER};opacity:0">رَبَّنا أَبْصَرْنا وَسَمِعْنا</div>'
+            f'<div class="ar" id="a2" style="position:absolute;left:60px;right:60px;top:640px;text-align:center;font-size:100px;line-height:1.7;color:{PAPER};opacity:0"><span id="hl">فَارْجِعْنا</span> نَعْمَلْ صالِحًا</div>'
+            f'<div class="cap" id="en" style="top:1000px;opacity:0">“Our Lord, we have seen and heard,<br>so <span class="g">send us back</span>; we will do good.”</div>')
+    js = ['tl.fromTo("#glow", {opacity:0.4}, {opacity:1, duration:1.2, yoyo:true, repeat:3, ease:"sine.inOut"}, 0);',
+          IN("#k", 0.1), IN("#a1", 0.4, 20, 0.6), IN("#a2", 1.1, 20, 0.6), 'tl.to("#hl", {backgroundSize:"100% 100%", duration:0.6, ease:"power2.inOut"}, 1.9);', IN("#en", 2.4)]
+    scene("s1-sajdah", 6.0, body, js)
+
+def pack():
+    """The ending ask: comment NOW for the free starter pack, the 20 words of your salah (tiles of its words fanning in)."""
+    tiles = ["اللهُ أَكْبَرُ", "سُبْحانَ", "رَبِّيَ", "العَظِيمِ", "سَمِعَ اللهُ", "الأَعْلى"]
+    body = (f'<div class="full" style="background:radial-gradient(ellipse at 50% 35%,#fbf7ee 0%,{PAPER} 60%,#ddd3bf 100%)"></div>'
+            f'<style>.tl {{ position:absolute; width:300px; height:150px; border-radius:26px; background:#fff; border:5px solid {GOLD}; display:flex; align-items:center; justify-content:center;'
+            f' font-family:Ar; font-weight:700; font-size:54px; color:{INK}; box-shadow:0 18px 40px -20px rgba(23,38,43,.5); opacity:0; }}</style>'
+            f'<div class="big" id="h" style="top:230px;font-size:150px;color:{INK};opacity:0">COMMENT <span style="color:{RED}">“NOW”</span></div>'
+            f'<svg id="arr" style="position:absolute;left:490px;top:420px;width:100px;height:130px;opacity:0" viewBox="0 0 100 130"><path d="M50 5 V110 M15 75 L50 115 L85 75" fill="none" stroke="{RED}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+            + "".join(f'<div class="tl" id="tl{i}" style="left:{90 + (i % 3) * 315}px;top:{640 + (i // 3) * 175}px">{w}</div>' for i, w in enumerate(tiles))
+            + f'<div class="big" id="p1" style="top:1060px;font-size:90px;color:{TEAL};opacity:0">FREE STARTER PACK</div>'
+            f'<div class="cap" id="p2" style="top:1170px;color:{INK};text-shadow:none;font-size:70px;opacity:0">the <span style="color:{GOLD};font-family:Anton;font-size:84px">20 words</span> of your salah</div>')
+    js = [SLAM("#h", 0.15), 'tl.fromTo("#arr", {opacity:0, y:-30}, {opacity:1, y:0, duration:0.4, ease:"back.out(2)"}, 0.5);',
+          'tl.to("#arr", {y:16, duration:0.4, yoyo:true, repeat:5, ease:"sine.inOut"}, 0.9);']
+    js += [f'tl.fromTo("#tl{i}", {{opacity:0, y:60, rotation:{(-1) ** i * 8}}}, {{opacity:1, y:0, rotation:{(-1) ** i * 2}, duration:0.4, ease:"back.out(1.8)"}}, {0.9 + i * 0.15:.2f});' for i in range(len(tiles))]
+    js += [IN("#p1", 1.9), IN("#p2", 2.3)]
+    scene("p1-pack", 5.0, body, js, vig=False)
+
+def hijr_screen(rec, tr):
+    """V3's ayah screen: al-Ḥijr 15:3 held on screen while al-Ḥusarī recites it (each word lights as he says it, from the
+    api.quran.com segments), then as the owner translates, each phrase turns gold with his English popping in underneath.
+    rec: when the recitation starts in this clip (s); tr: [when he starts each of the three phrases] (s, in this clip)."""
+    words = ["ذَرْهُمْ", "يَأْكُلُوا", "وَيَتَمَتَّعُوا", "وَيُلْهِهِمُ", "الْأَمَلُ", "فَسَوْفَ", "يَعْلَمُونَ"]
+    seg = [0.2, 1.33, 2.94, 5.34, 7.09, 12.0, 13.06]                          # api.quran.com, recitation 12, 15:3
+    ph = [(0, 3, "let them eat and enjoy themselves"), (3, 5, "distracted by false hopes"), (5, 7, "they will come to know")]
+    sp = lambda i: f'<span class="w" id="w{i}">{words[i]}</span>'
+    ar = "<br>".join(f'<span class="ph" id="ph{k}">{" ".join(sp(i) for i in range(a, b))}</span>' for k, (a, b, _) in enumerate(ph))
+    body = (f'<div class="full" style="background:radial-gradient(ellipse at 50% 35%,#1d2f35 0%,#0b1316 75%)"></div>'
+            f'<style>.w {{ color:rgba(241,236,224,.35); }} .ph {{ padding:0 22px; border-radius:20px; background:linear-gradient(rgba(233,185,73,.9),rgba(233,185,73,.9)) right / 0% 100% no-repeat; }}'
+            f'.en {{ position:absolute; left:60px; right:60px; text-align:center; font-family:"Instrument Serif"; font-style:italic; font-size:66px; color:{PAPER}; opacity:0; }}</style>'
+            f'<div class="label" id="k" style="top:300px;font-size:52px;opacity:0">SŪRAT AL-ḤIJR · 15:3</div>'
+            f'<div class="ar" style="position:absolute;left:60px;right:60px;top:430px;text-align:center;font-size:110px;line-height:1.75">{ar}</div>'
+            + "".join(f'<div class="en" id="e{k}" style="top:{1130 + k * 110}px">{e}</div>' for k, (_, _, e) in enumerate(ph))
+            + f'<div class="cap" id="rc" style="top:1560px;font-size:40px;color:{GOLD};opacity:0">recited by al-Ḥuṣarī</div>')
+    js = [IN("#k", 0.1), IN("#rc", 0.3)] + [f'tl.to("#w{i}", {{color:"{PAPER}", duration:0.25}}, {rec + s:.2f});' for i, s in enumerate(seg)]
+    js += ['tl.to("#rc", {opacity:0, duration:0.4}, ' + f'{tr[0] - 0.3:.2f});']
+    for k, t in enumerate(tr):
+        js += [f'tl.to("#ph{k}", {{backgroundSize:"100% 100%", duration:0.35, ease:"power2.out"}}, {t - 0.05:.2f});',
+               f'tl.to("#ph{k} .w", {{color:"{INK}", duration:0.2}}, {t:.2f});',
+               f'tl.fromTo("#e{k}", {{opacity:0, y:24, scale:1.15}}, {{opacity:1, y:0, scale:1, duration:0.35, ease:"back.out(2)"}}, {t + 0.05:.2f});']
+        if k: js += [f'tl.to("#ph{k - 1}", {{backgroundSize:"100% 7%", backgroundPosition:"right bottom", duration:0.3}}, {t - 0.05:.2f});', f'tl.to("#ph{k - 1} .w", {{color:"{GOLD}", duration:0.2}}, {t:.2f});']
+    scene("q1-hijr", round(tr[-1] + 3.0, 2), body, js)
+
 ALL = {"t1-tomorrow": tomorrow, "t2-taswif": taswif, "t3-hijr": hijr, "t4-dajjal": dajjal, "t5-sun-west": sunwest,
-       "t6-too-late": toolate, "t7-graves": graves, "t8-ibn-umar": ibnumar, "t9-today": today}
+       "t6-too-late": toolate, "t7-graves": graves, "t8-ibn-umar": ibnumar, "t9-today": today, "c1-clock": clock, "s1-sajdah": sajdah, "p1-pack": pack}
 if __name__ == "__main__":
-    for k in (sys.argv[1:] or ALL): ALL[k]()
+    if sys.argv[1:2] == ["q1-hijr"]: hijr_screen(*__import__("json").loads(sys.argv[2]))      # its timings come from edit.py (V3)
+    else:
+        for k in (sys.argv[1:] or ALL): ALL[k]()

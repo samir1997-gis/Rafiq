@@ -4,7 +4,8 @@
   python3 reel.py WORK fetch <google-drive-file-id>   download the clip to WORK/clip.mp4
   python3 reel.py WORK words      transcribe (WORK/words.json)
   python3 reel.py WORK cut        cut only true silences, keep a breath; prints the cut's transcript to check no word is clipped
-  python3 reel.py WORK base [nologo]   frame-exact pieces (sound stays in sync), DJI watermark out (nologo: footage without one), the grade → WORK/cut.mov; word times
+  python3 reel.py WORK base [nologo] [dark] [tight]   frame-exact pieces (sound stays in sync), DJI watermark out (nologo: footage without one), the grade
+                                  (dark: a little darker; tight: a touch closer, 6%) → WORK/cut.mov; word times
   python3 reel.py WORK plan       draft WORK/config.json: captions, stressed words (gold pops), punch-ins. Then fill in by hand,
                                   from the transcript: "titles" [start, end, small line, BIG WORD, size], "split" [start, end],
                                   "flicks" [[start, end, TITLE], ...] (the hook at 0, the ending, camera changes),
@@ -51,6 +52,8 @@ elif STEP == "cut":     # only true silence (-40 dB, 0.4 s+), a 0.12 s breath ke
 
 elif STEP == "base":
     G = open(os.path.join(HERE, "grade.txt")).read().strip(); os.makedirs("parts", exist_ok=True); lst = []
+    if "dark" in sys.argv: G += ",eq=brightness=-0.045:gamma=0.93"                  # owner, 25 Oct 2026 (tomorrow people): a bit darker
+    if "tight" in sys.argv: G = "crop=trunc(iw/1.06/2)*2:trunc(ih/1.06/2)*2," + G      # and a touch closer
     w, h = map(int, subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v", "-show_entries", "stream=width,height", "-of", "csv=p=0", "clip.mp4"], capture_output=True, text=True).stdout.strip().split(","))
     logo = f"delogo=x={int(90*w/2160)}:y={int(600*h/3840)}:w={int(780*w/2160)}:h={int(110*h/3840)}," if w * 16 == h * 9 and "nologo" not in sys.argv else ""
     for i, (a, b) in enumerate(J("chunks.json")):
@@ -129,6 +132,10 @@ elif STEP == "layers":
     for c in {p[3]["clip"] for p in C.get("panels", []) if p[2] == "app"}:    # the phone cutaways: the whole recording
         if not os.path.exists(f"broll/app_{c}"):
             os.makedirs(f"broll/app_{c}"); sh("ffmpeg", "-v", "error", "-y", "-i", f"{clips}/{c}.mp4", "-vf", "fps=30,scale=610:-2", "-q:v", "3", f"broll/app_{c}/%04d.jpg")
+    for p in [p for p in C.get("panels", []) if p[2] == "gfx"]:        # full-screen motion graphics (a rendered clip) while the speaker keeps talking
+        c = "gfx_" + os.path.splitext(os.path.basename(p[3]["src"]))[0]; p[3]["clip"] = c
+        if not os.path.exists(f"broll/{c}"):
+            os.makedirs(f"broll/{c}"); sh("ffmpeg", "-v", "error", "-y", "-i", p[3]["src"], "-vf", "fps=30,scale=1080:1920", "-q:v", "2", f"broll/{c}/%04d.jpg")
     C["n"] = {c: len(os.listdir(f"broll/{c}")) for c in os.listdir("broll")}
     C["split"] = C["split"] or [-1, -1]
     for L in ("back", "front"): os.makedirs(L, exist_ok=True)
@@ -187,6 +194,8 @@ elif STEP == "mix":
     for i, (f, t, v) in enumerate(E):
         if keep: v *= 10 ** ((float(re.findall(r"I:\s+(-?[\d.]+) LUFS", m)[-1]) + 14.5) / 20)   # effects sit against the voice as it is
         ms = int(max(0, t) * 1000); fc.append(f"[{i+5}:a]aresample=48000,aformat=channel_layouts=stereo,volume={v},adelay={ms}|{ms}[s{i}]")
+    for f, t, v in C.get("audio", []):                                      # other sound at its own level (a recitation): [file, start, volume]
+        args += ["-i", f]; ms = int(max(0, t) * 1000); fc.append(f"[{len(E) + 5}:a]aresample=48000,aformat=channel_layouts=stereo,volume={v},adelay={ms}|{ms}[s{len(E)}]"); E.append((f, t, v))
     fc.append("".join(f"[s{i}]" for i in range(len(E))) + f"amix=inputs={len(E)}:normalize=0,apad[sfx]")
     fc.append("[voice][sfx]amix=inputs=2:normalize=0:duration=first" + ("[a]" if keep else ",lowpass=f=16000:poles=2,aresample=192000,alimiter=limit=0.7:attack=1:release=60:level=false,aresample=48000[a]"))
     sh(*args, "-filter_complex", ";".join(fc), "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "21", "-preset", "slow", "-maxrate", "4.2M", "-bufsize", "8M",

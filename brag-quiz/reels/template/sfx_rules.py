@@ -78,6 +78,8 @@ def events(C):
             add(pick("punch"), "swoosh", p1 - .15)                            # slides out
             if round(p1, 2) not in starts: add("shutter", "hit", p1)          # back to the speaker: a new shot
         for w in o.get("words", []): add(pick("emph"), "tap", w[2])
+        for t_ in o.get("hits", []): add(pick("emph"), "tap", t_)            # a graphic's own moments: a word or card landing
+        for t_ in o.get("slams", []): add("n03", "boom", t_, -3); add("shutter", "hit", t_)   # a big word slamming down
         for l in o.get("lines", []): add(pick("emph"), "tap", l[3])
         if kind == "wall" and o.get("pre"): add(pick("title"), "hit", o["pre_t"])
         if kind == "wall": add("charge-taps", "charge", o["light"] + o["dur"]); add("shutter", "hit", o["stat"]); add("n03", "boom", o["stat"], -3)

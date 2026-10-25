@@ -101,6 +101,7 @@ function update(t, layer) {
       chat: () => `<div class="lab" style="top:150px;color:#B4322A">${o.title}</div>${o.lines.map(([w, a, e], i) => `<div class="bub ${i ? 'r' : 'l'}"><div class="when">${w}</div><div class="ar">${a}</div><div class="en">${e}</div></div>`).join('')}`,
       wall: () => `<div class="lab" style="top:130px">${o.title}</div><div class="grid">${[...o.seq].map(c => `<i data-g="${c === 'g' ? 1 : 0}"></i>`).join('')}</div>${o.pre ? `<div class="pre stat" style="top:1300px;font-size:240px;color:#E9B949">${o.pre}</div>` : ''}<div class="stat big" style="top:1300px;font-size:240px">${o.big}</div><div class="sub" style="top:1600px">${o.sub}</div>`,
       app: () => `<div class="lab" style="top:100px">${o.title || ''}</div><div class="ph"><img></div>`,
+      gfx: () => `<img class="gx" style="position:absolute;left:0;top:0;width:1080px;height:1920px">`,
       count: () => `<div class="lab" style="top:150px">${o.title}</div><div class="days">${o.prayers.map(([p, n]) => `<div class="d"><div class="dots">${'<i></i>'.repeat(n)}</div><div class="dn">${p}</div></div>`).join('')}</div><div class="stat" id="pc17" style="top:960px;font-size:330px;color:#C8372D">${o.big}</div><div class="sub" id="pcs" style="top:1400px">${o.sub}</div><div class="stat" id="pcy" style="top:1560px;font-size:150px">${o.year}</div>`
     })[kind](); }
     pn.style.display = 'block';
@@ -115,6 +116,8 @@ function update(t, layer) {
     if (kind === 'app') { const c = 'app_' + o.clip, f = Math.floor(((o.from || 0) + t - p0) * 30);
       pn.querySelector('.ph img').src = `broll/${c}/${String(Math.min(f, C.n[c] - 1) + 1).padStart(4, '0')}.jpg`;
       const e = eo((t - p0) / .45); pn.querySelector('.ph').style.transform = `translateY(${(1 - e) * 120}px) scale(${.96 + .04 * e + .015 * (t - p0) / (p1 - p0)})`; }
+    if (kind === 'gfx') { const f = Math.floor(((o.from || 0) + t - p0) * 30);   // a rendered clip, held on its last frame
+      pn.querySelector('.gx').src = `broll/${o.clip}/${String(Math.min(Math.max(f, 0), C.n[o.clip] - 1) + 1).padStart(4, '0')}.jpg`; }
     if (kind === 'count') { const d = [...pn.querySelectorAll('.dots i')], f = cl((t - o.fill) / o.dur);
       d.forEach((el, i) => el.classList.toggle('on', i < Math.round(f * d.length)));
       [['pc17', o.big_t], ['pcs', o.big_t], ['pcy', o.year_t]].forEach(([id, s]) => { const el = document.getElementById(id), e = eo((t - s) / .3); el.style.opacity = e; el.style.transform = `scale(${pop(s)})`; }); }
