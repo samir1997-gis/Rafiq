@@ -138,9 +138,21 @@ the place of the mother" (al-Bukhārī 2699); your turn: mum's brother, 3-2-1, �
 
 **Made 24 Oct 2026 (`build_formula.py`, #290):** `n5-salah` (the word tree, part 4, root series part 6: ص ل و. Hook "You do it FIVE times a day… but what does salah really mean?" over the five prayers, counted 1 to 5 with a click each as FIVE lands; حَيَّ عَلَى الصَّلاةِ from the adhān in Rafiq's voice; الصَّلاة and مُصَلَّى bloom (the app's recordings); your turn فَلْيُصَلِّ (ṣalāh, duʿāʾ or eat?), 3-2-1, make DUʿĀʾ: a fasting guest is told to "pray" for his host, Muslim 1431, and al-Tirmidhī 780 adds "meaning duʿāʾ"; "every ṣalāh is a duʿāʾ"; ask: who do you make duʿāʾ for first, send this to them; then the owner's end card; 67 s). **No Qur'an recitation in it**, on purpose: TikTok kept m2-barik off the For You feed as "unoriginal" (#289), and reused recitation audio is one suspect, so compare how this one is treated. Caption candidates: `tools/typesafe-exp/salah_caption.py` (not run yet: no TypeSafe key).
 
+**Made 25 Oct 2026 (`brag-quiz/reels/board/build.py`, #293; owner: "something new that doesn't feel like AI", clear of #289):** `board` (root series
+part 7, ذ ك ر, in a new format: the whole video is a split-flap departure board at night, with a paper ticket in front of it and a station clock.
+Hook on the board "WHY IS DHIKR HIDING IN THE ARABIC WORD FOR TICKET?" over تَذْكِرَة, whose root letters light up; "same letters: ذ ك ر, to
+remember" (row 2: ذِكْر); "tadhkira literally means a reminder" (the ticket gets punched); your turn ذاكِرَة: memory, prayer mat or station?,
+3-2-1 flipping on the board, MEMORY ("your phone's memory is ذاكِرَة too"); "Remember Me, and I will remember you", فَاذْكُرُونِي أَذْكُرْكُمْ
+(al-Baqarah 2:152); ask: what dhikr do you say the most? comment it; send this to the friend who always reminds you; 27.8 s, no end card).
+**Deliberately outside the Callum standard**, as the owner asked: no voice at all (no ElevenLabs), no Qur'an recitation or other reused
+audio (every sound is synthesised in `build.py`: the station hall, each flap's clatter on its own flip, chimes, the clock, the punch), no text
+cards, no QR codes or barcodes. Compare its hold and For You reach with the voiced videos. Caption candidates: `tools/typesafe-exp/board_caption.py`
+(not run yet: no TypeSafe key). Teacher to glance at: ذاكِرَة "memory" and "tadhkira literally means a reminder" (Hans Wehr: memorandum, note;
+ticket), not from the app's data.
+
 ## More ideas (not made yet)
-- Root series part 7: another word tree (`word_tree()` in `build_formula.py`), e.g. ح م د (al-ḥamd, Muḥammad, Aḥmad, Maḥmūd), done twice
-  already in older formats (p4-hamd, r2-muhammad), so only with a new angle; or ذ ك ر (dhikr, tadhkira, dhakar).
+- Root series part 8: another word tree (`word_tree()` in `build_formula.py`), or the departure board again (`reels/board/build.py`), e.g.
+  ح م د (al-ḥamd, Muḥammad, Aḥmad, Maḥmūd), done twice already in older formats (p4-hamd, r2-muhammad), so only with a new angle.
 
 ## Ramadan countdown (parked by the owner, 4 Oct 2026, to come back to)
 
