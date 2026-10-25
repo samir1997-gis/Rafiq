@@ -13,6 +13,7 @@
                                                    (default 7; needs CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID; read only)
      node tools/supabase-users.js thank-preview    new learners (joined in the last 7 days, studied on 3+ days) who'd get the thank-you (read only)
      node tools/supabase-users.js thank SEND-THANKS   add 14 days to their free week and send Samir's thank-you email (needs RESEND_API_KEY)
+     node tools/supabase-users.js extend-trial 'id [months]'   free trial ends 2 months (or N) from now, or later if it already does; sends the thank-you with the end date (needs RESEND_API_KEY)
      node tools/supabase-users.js mail-test        send one test email to support@rafiq-arabic.com (is forwarding working?)
      node tools/supabase-users.js make-admin id    let this account open the owner dashboard (admin.html)
      node tools/supabase-users.js team             the team's own accounts (admin) and their access (read only)
@@ -102,6 +103,35 @@ async function userTables() {
       body: JSON.stringify({ from: 'Rafiq <hello@contact.rafiq-arabic.com>', to: ['support@rafiq-arabic.com'],
                              subject: `Forwarding test ${at} UTC`, text: `If this reached your inbox, support@rafiq-arabic.com forwarding works. Sent ${at} UTC.` }) });
     console.log(`test to support@rafiq-arabic.com at ${at} UTC: ${r.status} ${(await r.text()).slice(0, 200)}`);
+    return;
+  }
+  if (cmd === 'extend-trial') {
+    // one account, chosen by id (emails stay out of the public Action inputs): free trial runs to 'months' from now
+    // (never shorter than it already was), reminders cleared so they come at the new end, then Samir's thank-you with the date.
+    const [id, m] = String(arg || '').trim().split(/[\s,]+/), months = Math.max(1, Math.min(12, parseInt(m, 10) || 2));
+    if (!UUID.test(id || '')) { console.error('give the account id and months, e.g. "<id> 2"'); process.exit(1); }
+    if (!process.env.RESEND_API_KEY) { console.error('RESEND_API_KEY is not set'); process.exit(1); }
+    const u = (await sql(`select email, coalesce(raw_user_meta_data->>'full_name', raw_user_meta_data->>'name', '') as name from auth.users where id = '${id}'`))[0];
+    if (!u) { console.error('no account with that id'); process.exit(1); }
+    const b = await sql(`update public.billing set trial_ends_at = greatest(trial_ends_at, now() + interval '${months} months'),
+                         trial_soon_sent_at = null, trial_last_sent_at = null, trial_ended_sent_at = null, updated_at = now()
+                         where user_id = '${id}'
+                         returning to_char(trial_ends_at at time zone 'Europe/London', 'FMDD FMMonth YYYY') as ends, status`);
+    if (!b.length) { console.error('that account has no billing row; nothing changed'); process.exit(1); }
+    const end = b[0].ends, first = (u.name.trim().split(/\s+/)[0] || '').replace(/[<>&"]/g, '');
+    console.log(`${mask(u.email)}  plan status ${b[0].status || 'none'}  free trial now ends ${end}`);
+    const hi = first ? `Hi ${first},` : 'Hi there,';
+    const paras = [`I'm Samir, and I made Rafiq. I just wanted to say a huge thank you for your support. It genuinely means a lot this early on.`,
+      `As a thank you, I've extended your free trial of Rafiq Complete: it now runs until ${end}. No strings attached, and there's nothing you need to do.`,
+      `If there's anything you'd like Rafiq to do better, just hit reply and tell me. I read every message.`];
+    const text = [hi, ...paras, 'Thanks again,\nSamir'].join('\n\n');
+    const html = `<div style="font-family:Georgia,serif;font-size:16px;line-height:1.6;color:#17262B;max-width:560px">` +
+      [hi, ...paras].map(t => `<p>${t}</p>`).join('') + `<p>Thanks again,<br>Samir</p></div>`;
+    const r = await fetch('https://api.resend.com/emails', { method: 'POST',
+      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: 'Samir from Rafiq <hello@contact.rafiq-arabic.com>', to: [u.email], reply_to: 'support@rafiq-arabic.com',
+                             subject: 'Thank you, and your extended free trial', html, text }) });
+    console.log(`email ${r.ok ? 'sent' : 'FAILED ' + r.status + ' ' + (await r.text()).slice(0, 200)}`);
     return;
   }
   if (cmd === 'thank-preview' || cmd === 'thank') {
