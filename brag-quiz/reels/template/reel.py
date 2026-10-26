@@ -177,7 +177,6 @@ elif STEP == "mix":
     E = events(C)
     args = ["ffmpeg", "-v", "error", "-y", "-i", "base.mov", "-framerate", "30", "-i", "back/%05d.png", "-framerate", "30", "-i", "mask/%05d.png",
             "-framerate", "30", "-i", "front/%05d.png", "-i", "voice_clean.wav"]
-    for f, _, _ in E: args += ["-i", f]
     fc = ["[0:v]split=2[v0][v1]", "[v0][1:v]overlay=0:0:format=auto[bb]", "[2:v]format=gray[m]", "[v1][m]alphamerge[fg]",
           "[bb][fg]overlay=0:0:format=auto,format=yuv420p[sc]",
           f"[sc]scale=w='trunc(1080*({Z})/2)*2':h='trunc(1920*({Z})/2)*2':eval=frame:flags=bicubic,crop=1080:1920:'(1080*({Z})-1080)/2':'(1920*({Z})-1920)*0.4'[zs]",
@@ -191,13 +190,20 @@ elif STEP == "mix":
             fc.insert(-1, f"[q{i}]scale=trunc(iw*{s_}/2)*2:-2[qs{i}]")
             fc.insert(-1, f"[zp{i}][qs{i}]overlay=x={hx - fx * s_:.0f}:y={hy - fy * s_:.0f}:enable='between(t,{p0},{p1})'[zp{i + 1}]")
         fc.insert(-1, f"[zp{len(pips)}][3:v]overlay=0:0:format=auto,format=yuv420p[v]")
-    for i, (f, t, v) in enumerate(E):
+    # the sound effects are mixed on their own first, into one track (sfx.wav): with a hundred-odd inputs in the same pass as the
+    # video, ffmpeg's mixer let the later ones drop out (found on the tomorrow-people reel, 26 Oct 2026)
+    S = []
+    for f, t, v in E:
         if keep: v *= 10 ** ((float(re.findall(r"I:\s+(-?[\d.]+) LUFS", m)[-1]) + 14.5) / 20)   # effects sit against the voice as it is
-        ms = int(max(0, t) * 1000); fc.append(f"[{i+5}:a]aresample=48000,aformat=channel_layouts=stereo,volume={v},adelay={ms}|{ms}[s{i}]")
-    for f, t, v in C.get("audio", []):                                      # other sound at its own level (a recitation): [file, start, volume]
-        args += ["-i", f]; ms = int(max(0, t) * 1000); fc.append(f"[{len(E) + 5}:a]aresample=48000,aformat=channel_layouts=stereo,volume={v},adelay={ms}|{ms}[s{len(E)}]"); E.append((f, t, v))
-    fc.append("".join(f"[s{i}]" for i in range(len(E))) + f"amix=inputs={len(E)}:normalize=0,apad[sfx]")
-    fc.append("[voice][sfx]amix=inputs=2:normalize=0:duration=first" + ("[a]" if keep else ",lowpass=f=16000:poles=2,aresample=192000,alimiter=limit=0.7:attack=1:release=60:level=false,aresample=48000[a]"))
+        S.append((f, t, v))
+    S += [tuple(x) for x in C.get("audio", [])]                             # other sound at its own level (a recitation): [file, start, volume]
+    sa, sf = ["ffmpeg", "-v", "error", "-y"], []
+    for i, (f, t, v) in enumerate(S):
+        ms = int(max(0, t) * 1000); sa += ["-i", f]; sf.append(f"[{i}:a]aresample=48000,aformat=channel_layouts=stereo,volume={v},adelay={ms}|{ms}[s{i}]")
+    sf.append("".join(f"[s{i}]" for i in range(len(S))) + f"amix=inputs={len(S)}:normalize=0:duration=longest,apad,atrim=0:{C['end'] + 1}[o]")
+    sh(*sa, "-filter_complex", ";".join(sf), "-map", "[o]", "-c:a", "pcm_s24le", "sfx.wav")
+    args += ["-i", "sfx.wav"]
+    fc.append("[voice][5:a]amix=inputs=2:normalize=0:duration=first" + ("[a]" if keep else ",lowpass=f=16000:poles=2,aresample=192000,alimiter=limit=0.7:attack=1:release=60:level=false,aresample=48000[a]"))
     sh(*args, "-filter_complex", ";".join(fc), "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "21", "-preset", "slow", "-maxrate", "4.2M", "-bufsize", "8M",
        "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "reel.mp4")
     print("reel.mp4 ready")
