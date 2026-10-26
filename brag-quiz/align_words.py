@@ -10,7 +10,11 @@ from pocketsphinx import Decoder
 
 EXTRA = {"fatiha": "F AA T IH HH AH", "raheem": "R AH HH IY M", "rakah": "R AA K AH", "deen": "D IY N", "allah": "AA L AH",
          "mashallah": "M AA SH AA L AH", "barik": "B AA R IH K", "allahumma": "AA L AH HH UH M AH",
-         "salah": "S AH L AA", "dua": "D UW AA", "adhan": "AH DH AA N", "musalla": "M UH S AH L AA"}
+         "salah": "S AH L AA", "dua": "D UW AA", "adhan": "AH DH AA N", "musalla": "M UH S AH L AA",
+         "jabr": "JH AE B ER", "aljabr": "AE L JH AE B ER", "khwarizmi": "K W AA R IH Z M IY", "alkhwarizmi": "AE L K W AA R IH Z M IY",
+         "alkhwarizmi's": "AE L K W AA R IH Z M IY Z", "bonesetter": "B OW N S EH T ER", "algebrista": "AE L JH AH B R IY S T AH",
+         "sujood": "S UW JH UW D", "qahwa": "K AA HH W AH", "kahve": "K AA V EY", "koffie": "K AO F IY", "sufis": "S UW F IY Z",
+         "makkah": "M AE K AH", "masjid": "M AA S JH IH D", "820": "EY T T W EH N T IY", "1582": "F IH F T IY N EY T IY T UW"}
 
 def pcm(path):
     return subprocess.run(["ffmpeg", "-v", "error", "-i", path, "-ac", "1", "-ar", "16000", "-f", "s16le", "-"], capture_output=True, check=True).stdout
@@ -18,7 +22,7 @@ def pcm(path):
 def align(mp3, text):
     """[(word as written, start s)] for every word of text; a word the model can't place gets a start between its neighbours."""
     shown = re.sub(r"\[[^\]]*\]", " ", text).split()
-    keys = [re.sub(r"[^a-z']", "", w.lower()) for w in shown]
+    keys = [re.sub(r"[^a-z0-9']", "", w.lower()) for w in shown]                 # years are in EXTRA as spoken ("820": eight twenty)
     d = Decoder(samprate=16000, bestpath=False)
     for k, ph in EXTRA.items():
         if not d.lookup_word(k): d.add_word(k, ph, False)
