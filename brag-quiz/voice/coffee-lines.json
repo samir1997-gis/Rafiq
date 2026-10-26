@@ -1,0 +1,15 @@
+[
+ {"voice": "N2lVS1w4EtoT3dr4eOWO", "model": "eleven_v3", "stability": 0.0, "file": "h1a", "text": "[curious] The Arabic word for coffee... used to mean [shouting] WINE!"},
+ {"voice": "N2lVS1w4EtoT3dr4eOWO", "model": "eleven_v3", "stability": 0.0, "file": "h1b", "text": "The Arabic word for coffee used to mean [shouting] WINE!"},
+ {"file": "b1", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Coffee comes from this word:", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "b1b", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Qahwa. Old Arabic dictionaries say it meant wine, because it puts you off your food.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "b2", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Then, in the fourteen-hundreds, Sufis in Yemen drank a dark brew of coffee beans to stay awake for their night prayers. And the name moved over: qahwa.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "b3", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "It spread to Makkah, Cairo and Istanbul, where it became kahve. The Dutch said koffie, and by 1582, English had: coffee.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "t1", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Your turn. A masjid is the place of sujood. So what's this?", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "maqha", "text": "مَقْهى"},
+ {"file": "b6", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "A CAFE! The place of qahwa.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "end", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "So every coffee you order is a little bit of Arabic. How do you take yours? Comment below!", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "b2s", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "In the 1400s, Sufis in Yemen drank coffee to stay up for night prayers... and called it: qahwa.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "b3s", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Istanbul made it kahve, the Dutch made it koffie, and by 1582, English had: coffee.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "h1c", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "The Arabic word for coffee used to mean... wine.", "stability": 0.35, "style": 0.45, "speed": 1.08}
+]

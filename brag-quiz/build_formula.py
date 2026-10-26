@@ -1379,11 +1379,327 @@ def l2():
            voice={"غُسْل": V + "ghusl.mp3", "جَماعَة": V + "jamaa.mp3", "عِطْر": V + "itr.mp3", "لِباس": V + "libas.mp3", "أَنْصِتْ": V + "ansit.mp3"},
            kicker="QUIZ · JUMUʿAH EDITION")
 
+# ---------------------------------------------------------------- the story of a word (owner 26 Oct 2026, #296): a light pastel page,
+# hand-drawn doodles behind it, in the Callum standard (spoken hook, every move on its word, captions word by word, a 3-2-1, Rafiq for the Arabic)
+PASTEL = [(-260, -160, 820, "#cfe8dc"), (560, 200, 720, "#f9dcc6"), (-220, 860, 760, "#f7e8b8"), (600, 1180, 820, "#f5d3cf"), (40, 1600, 720, "#d5e8ec")]
+DCOL = {"sage": ("#6aa893", "#dcefe6"), "peach": ("#e09868", "#fbe3d2"), "butter": ("#d1a63c", "#f8ebc4"), "blush": ("#d6807b", "#f7d9d6"),
+        "sky": ("#6fa5b5", "#d9ebf0"), "ink": ("#2b3a3e", "#fbf7ef"), "red": ("#b4322a", "none")}
+DOODLE = {  # hand-drawn shapes in a 100 x 100 box: [(path, filled)]
+    "bone": [("M30 43 H70 A10 10 0 1 1 80 50 A10 10 0 1 1 70 57 H30 A10 10 0 1 1 20 50 A10 10 0 1 1 30 43 Z", 1)],
+    "boneL": [("M50 43 H30 A10 10 0 1 0 20 50 A10 10 0 1 0 30 57 H50 L47 54 L52 51 L47 47 Z", 1)],
+    "boneR": [("M50 43 H70 A10 10 0 1 1 80 50 A10 10 0 1 1 70 57 H50 L47 54 L52 51 L47 47 Z", 1)],
+    "cup": [("M22 40 H70 V58 C70 74 60 82 46 82 C32 82 22 74 22 58 Z", 1), ("M70 46 C84 46 84 64 70 64", 0), ("M14 88 H78", 0),
+            ("M36 32 C30 24 42 20 36 12", 0), ("M52 32 C46 24 58 20 52 12", 0)],
+    "bean": [("M50 18 C72 18 82 40 78 58 C74 78 56 86 44 82 C24 76 18 54 24 38 C28 26 38 18 50 18 Z", 1), ("M52 22 C40 40 62 58 46 80", 0)],
+    "dallah": [("M40 30 C30 40 30 62 36 78 H64 C70 62 70 40 60 30 Z", 1), ("M44 30 C44 22 56 22 56 30", 0), ("M50 22 V14 M46 14 H54", 0),
+               ("M36 46 C24 42 18 32 10 24", 0), ("M64 38 C80 40 82 64 66 70", 0), ("M32 84 H68", 0)],
+    "moon": [("M60 14 A36 36 0 1 0 86 70 A28 28 0 1 1 60 14 Z", 1)],
+    "star": [("M50 12 L57 43 L88 50 L57 57 L50 88 L43 57 L12 50 L43 43 Z", 1)],
+    "lantern": [("M50 6 V14 M40 14 H60", 0), ("M34 26 L40 14 H60 L66 26 Z", 1), ("M34 26 L28 66 H72 L66 26 Z", 1), ("M28 66 L38 82 H62 L72 66", 0), ("M50 26 V66", 0)],
+    "book": [("M50 26 C38 18 22 18 12 24 V80 C22 74 38 74 50 82 C62 74 78 74 88 80 V24 C78 18 62 18 50 26 Z", 1), ("M50 26 V82", 0),
+             ("M20 36 C28 33 36 33 42 36 M20 48 C28 45 36 45 42 48 M58 36 C64 33 72 33 80 36 M58 48 C64 45 72 45 80 48", 0)],
+    "dome": [("M18 92 V62 H76 V92 Z", 1), ("M24 62 C24 34 70 34 70 62", 1), ("M47 38 V24 M43 24 H51", 0), ("M86 92 V40 M82 40 H90 M86 40 V30", 0)],
+    "palm": [("M52 92 C50 72 48 52 52 32", 0), ("M52 32 C40 20 26 22 16 30 M52 32 C46 18 50 10 60 8 M52 32 C64 20 78 22 86 32 M52 32 C66 30 74 40 76 52", 0)],
+    "compass": [("M50 12 V22 M50 22 L30 88 M50 22 L70 88 M38 60 H62", 0), ("M46 22 A4 4 0 1 0 54 22 A4 4 0 1 0 46 22", 1)],
+    "phone": [("M32 8 H68 A8 8 0 0 1 76 16 V84 A8 8 0 0 1 68 92 H32 A8 8 0 0 1 24 84 V16 A8 8 0 0 1 32 8 Z", 1), ("M44 84 H56", 0)],
+    "plate": [("M28 52 A22 22 0 1 0 72 52 A22 22 0 1 0 28 52 Z", 1), ("M38 52 A12 12 0 1 0 62 52 A12 12 0 1 0 38 52", 0),
+              ("M14 30 V76 M10 30 V42 C10 47 18 47 18 42 V30", 0), ("M88 30 C80 40 80 52 88 55 V76", 0)],
+    "cross": [("M18 22 L82 82 M82 22 L18 82", 0)],
+    "pin": [("M50 88 C40 68 26 58 26 40 A24 24 0 1 1 74 40 C74 58 60 68 50 88 Z", 1), ("M42 40 A8 8 0 1 0 58 40 A8 8 0 1 0 42 40", 0)],
+    "arrow": [("M50 8 V82 M32 64 L50 86 L68 64", 0)],
+}
+STORY_CSS = (
+    "#root { background:#fbf7ef; } #glow { display:none; } #pastel, #doodles { position:absolute; inset:0; overflow:hidden; pointer-events:none; }"
+    "#pastel { z-index:0; } #doodles { z-index:1; } .sec { z-index:2; } #brand, #kicker, #end, #pflash { z-index:3; }"
+    "#pastel i { position:absolute; border-radius:50%; filter:blur(70px); opacity:.85; } .dd { position:absolute; overflow:visible; }"
+    ".dd path { stroke-linecap:round; stroke-linejoin:round; } .drw { visibility:hidden; } .drw .dr { stroke-dasharray:1; stroke-dashoffset:1; fill-opacity:0; }"
+    ".tdd { position:absolute; font-family:\"Fredoka\", var(--la); font-weight:600; white-space:nowrap; }"
+    ".cc { position:absolute; left:100px; right:100px; top:1300px; text-align:center; font-family:\"Fredoka\", var(--la); font-weight:600; font-size:58px; "
+    "line-height:1.16; color:var(--ink); } .cc.ccs { font-size:48px; } .cw { display:inline-block; opacity:0; } .cw.r { color:var(--rubric); } "
+    ".cw.g { color:var(--verdigris); } .cw.y { color:#8f6f1d; }"
+    ".bigw { position:absolute; left:0; right:0; text-align:center; font-family:var(--ar); font-weight:700; line-height:1.4; color:var(--ink); }"
+    ".bigw .pr { color:var(--rubric); } .bigw .pv { color:var(--verdigris); }"
+    ".sp { position:absolute; padding:12px 34px 16px; border-radius:46px; background:#fffdf8; border:4px solid rgba(23,38,43,.12); "
+    "font-family:\"Fredoka\", var(--la); font-weight:600; font-size:50px; color:var(--ink); white-space:nowrap; box-shadow:0 14px 28px -18px rgba(23,38,43,.45); }"
+    ".sp.mid { left:0; right:0; margin:0 auto; width:max-content; } .sp .ar { font-family:var(--ar); font-weight:700; } .sp .pr { color:var(--rubric); } .sp .pv { color:var(--verdigris); }"
+    ".yr { position:absolute; left:0; right:0; text-align:center; font-family:\"Fredoka\", var(--la); font-weight:700; color:#8f6f1d; line-height:1; }"
+    ".yr small { display:block; font-size:30px; letter-spacing:.2em; color:var(--ink-soft); margin-bottom:8px; } .yr b { font-size:190px; }"
+    ".slamw { position:absolute; left:40px; right:40px; text-align:center; font-family:\"Fredoka\", var(--la); font-weight:700; font-size:120px; line-height:1.05; color:var(--ink); }"
+    ".slamw em { font-style:normal; color:var(--rubric); } .opts.col { flex-direction:column; gap:18px; left:150px; right:150px; } .opts.col .op2 { flex:none; height:112px; }"
+    ".burst { position:absolute; width:0; height:0; } .burst i { position:absolute; left:-11px; top:-11px; width:22px; height:22px; border-radius:50%; background:#E9B949; opacity:0; }"
+    ".burst i:nth-child(odd) { background:#e09868; width:16px; height:16px; left:-8px; top:-8px; }"
+    "#pflash { position:absolute; inset:0; background:#fffaf0; opacity:0; pointer-events:none; }")
+
+def doodle(shape, x, y, size, col, did="", draw=False, sw=5, rot=0):
+    """One of DOODLE's shapes, drawn by hand: a pastel line and fill, with a second faint line just off it (a sketch). draw: it starts
+    undrawn and draw_on() draws it."""
+    s, f = DCOL[col]; kl = ' class="dr"' if draw else ""; w = sw * 100 / size           # sw: the line's width on screen, in px
+    one = lambda dx, op: "".join(f'<path{kl} d="{d}" pathLength="1" fill="{f if fill else "none"}" stroke="{s}" stroke-width="{w:.2f}" '
+                                 f'opacity="{op}" transform="translate({dx:.2f},{dx * .7:.2f})"/>' for d, fill in DOODLE[shape])
+    return (f'<svg class="dd{" drw" if draw else ""}"{f" id={chr(34)}{did}{chr(34)}" if did else ""} viewBox="0 0 100 100" '
+            f'style="left:{x}px;top:{y}px;width:{size}px;height:{size}px;transform:rotate({rot}deg)">{one(1.6 * 100 / size, .3)}{one(0, 1)}</svg>')
+
+def pastel(c, body, items):
+    """The pastel page: soft blobs of colour that drift, and doodles round the edges that bob (items: (shape or "txt:…", x, y, size, rotation,
+    colour)). Returns finish(total), which adds their movement once the length is known."""
+    c.css += STORY_CSS
+    blobs = "".join(f'<i style="left:{x}px;top:{y}px;width:{s}px;height:{s}px;background:{col}"></i>' for x, y, s, col in PASTEL)
+    dd = "".join(f'<div class="tdd" data-layout-ignore id="dd{k}" style="left:{x}px;top:{y}px;font-size:{s}px;color:{DCOL[col][0]}">{sh[4:]}</div>' if sh.startswith("txt:")
+                 else doodle(sh, x, y, s, col, f"dd{k}") for k, (sh, x, y, s, r, col) in enumerate(items))
+    body.insert(0, f'<div id="pastel" data-layout-ignore>{blobs}</div><div id="doodles" data-layout-ignore>{dd.replace("<svg class=", "<svg data-layout-ignore class=")}</div>')
+    def finish(total):
+        c.t(f'tl.fromTo("#pastel i", {{x:0, y:0}}, {{x:(i) => [60, -50, 40, -60, 50][i], y:(i) => [40, 60, -50, 30, -40][i], duration:{total:.2f}, ease:"none"}}, 0);')
+        for k, (sh, x, y, s, r, col) in enumerate(items):
+            p = 2.2 + 0.37 * (k % 4)
+            c.t(f'tl.fromTo("#dd{k}", {{y:0, rotation:{r}}}, {{y:{-14 if k % 2 else 12}, rotation:{r + (4 if k % 2 else -4)}, duration:{p:.2f}, '
+                f'yoyo:true, repeat:{int(total / p) + 1}, ease:"sine.inOut"}}, 0);')
+    return finish
+
+def cap(c, cid, mp3, at, keys=(), cls=""):
+    """Callum's line as a caption, each word coming in as he says it; keys: (lowercase piece of a word, "r" | "g" | "y") to colour it."""
+    W = words_at(mp3)
+    col = lambda w: next((" " + k for p, k in keys if p in w.lower()), "")
+    for i, (w, s) in enumerate(W):
+        c.t(f'tl.fromTo("#{cid}w{i}", {{opacity:0, y:18, filter:"blur(8px)"}}, {{opacity:1, y:0, filter:"blur(0px)", duration:0.22, ease:"power3.out"}}, {at + s - 0.03:.2f});')
+    return f'<div class="cc {cls}" id="{cid}">' + " ".join(f'<span class="cw{col(w)}" id="{cid}w{i}">{e(w)}</span>' for i, (w, s) in enumerate(W)) + '</div>'
+
+def cap_out(c, cid, at): c.t(f'tl.to("#{cid}", {{opacity:0, y:-18, duration:0.25, ease:"power2.in"}}, {at:.2f});')
+def key_last(mp3, key, fallback):
+    return next((s for w, s in reversed(words_at(mp3)) if key in w.lower()), fallback)
+def zoom_in(c, sel, at):
+    c.t(f'tl.fromTo("{sel}", {{opacity:0, scale:1.6, filter:"blur(14px)"}}, {{opacity:1, scale:1, filter:"blur(0px)", duration:0.38, ease:"expo.out"}}, {at - 0.05:.2f});')
+def pop(c, sel, at, tap=True):
+    c.t(f'tl.fromTo("{sel}", {{opacity:0, scale:0.3}}, {{opacity:1, scale:1, duration:0.42, ease:"back.out(2.2)"}}, {at:.2f});')
+    if tap: c.sfx("tap", at)
+def draw_on(c, did, at, d=0.8):
+    c.t(f'tl.set("#{did}", {{visibility:"visible"}}, {at:.2f});')         # hidden till then: an undrawn round-capped line still shows a dot
+    c.t(f'tl.to("#{did} .dr", {{strokeDashoffset:0, duration:{d}, ease:"power2.inOut", stagger:{d / 5:.2f}}}, {at:.2f});')
+    c.t(f'tl.to("#{did} .dr", {{fillOpacity:1, duration:0.4}}, {at + d * 0.7:.2f});')
+    clip(c, "brag-quiz/sfx/soft/scratch.wav", at, 0.18)
+def burst(c, bid, x, y, at, n=8):
+    c.t(f'tl.fromTo("#{bid} i", {{opacity:1, x:0, y:0, scale:1}}, {{opacity:0, x:(i) => Math.cos(i * {6.283 / n:.3f}) * 170, y:(i) => Math.sin(i * {6.283 / n:.3f}) * 170, '
+        f'scale:0.4, duration:0.6, ease:"expo.out", immediateRender:false}}, {at:.2f});')
+    return f'<div class="burst" id="{bid}" style="left:{x}px;top:{y}px">' + "<i></i>" * n + '</div>'
+def year(c, cid, frm, to, at, d, ticks=8, suffix=""):
+    """A year that rolls up, a click on each step of the way (they bunch at the start: it slows as it lands)."""
+    c.t(f'(() => {{ const o = {{v:{frm}}}, el = document.getElementById("{cid}"); tl.fromTo(o, {{v:{frm}}}, {{v:{to}, duration:{d:.2f}, ease:"power2.out", '
+        f'immediateRender:false, onUpdate:() => {{ el.textContent = Math.round(o.v) + "{suffix}"; }}}}, {at:.2f}); }})();')
+    for k in range(1, ticks + 1): clip(c, "brag-quiz/sfx/ref/click.wav", at + d * (1 - (1 - k / ticks) ** 0.5), 0.45)
+def slam(c, sel, sec, at):
+    c.t(f'tl.fromTo("{sel}", {{opacity:0, scale:2.6}}, {{opacity:1, scale:1, duration:0.2, ease:"power4.in"}}, {at - 0.2:.2f});')
+    c.t(f'tl.fromTo("#pflash", {{opacity:0.8}}, {{opacity:0, duration:0.3, ease:"power2.out", immediateRender:false}}, {at:.2f});')
+    c.t(f'tl.to("#{sec}", {{keyframes:[{{x:-26, y:16, duration:0.04}}, {{x:22, y:-12, duration:0.04}}, {{x:-12, y:8, duration:0.05}}, {{x:0, y:0, duration:0.06}}]}}, {at:.2f});')
+    clip(c, "brag-quiz/sfx/crash.wav", at - 0.02, 0.7); c.sfx("correct", at + 0.1)
+
+ALG_DOODLES = [("txt:x + 2 = 5", 50, 1560, 54, -8, "sage"), ("txt:√49 = 7", 780, 1540, 52, 9, "peach"), ("star", 120, 540, 64, 0, "butter"),
+               ("txt:÷", 960, 560, 84, 0, "blush"), ("txt:×", 50, 1120, 80, 0, "sky"), ("star", 930, 1180, 56, 0, "sage"), ("book", 850, 1400, 130, -10, "peach"),
+               ("compass", 915, 1200, 110, 12, "sky"), ("bone", 360, 1700, 170, -16, "butter"), ("txt:2x = 10", 720, 1760, 50, 6, "blush")]
+JABR = [("الْ", ""), ("جَ", "r"), ("بْ", "r"), ("ر", "r")]
+WAJBURNI = [("وَا", ""), ("جْ", "r"), ("بُ", "r"), ("رْ", "r"), ("نِي", "")]
+
+def h1():
+    """The story of a word #1 (owner 26 Oct 2026, #296: "the history of a word… a light background with a pastel feel, drawings"): ALGEBRA.
+    Hook "Algebra is named after an Arabic word for setting broken BONES!" (the bone at the bottom snaps on "broken"); الْجَبْر "putting broken
+    pieces back together" (the bone is set); al-Khwārizmī's book, Baghdad, about 820 (x² + 10x = 39 is his own example); Europe turned al-jabr
+    into "algebra" and his name into "algorithm"; your turn: وَاجْبُرْنِي, from the duʿāʾ between the two sujood (al-Tirmidhī 284, Ibn ʿAbbās),
+    3-2-1, "and MEND me". Sources: Wiktionary and American Heritage, "algebra" (al-jabr "reunion of broken parts", bone-setting).
+    Voices: brag-quiz/voice/algebra-lines.json (b1, b4, b5 and t1 were cut for length; b3s and t1s replace b3 and t1)."""
+    V = "brag-quiz/voice/algebra/"
+    c = SO.vcomp("h1-algebra", "THE STORY OF A WORD"); c.bed = True; body = []; serif(c); c.css += GROW_CSS
+    finish = pastel(c, body, ALG_DOODLES)
+    def anim(c, at, d):                                  # "broken": the bone snaps in two
+        b = at(9) + 0.15
+        c.t(f'tl.to("#hbL", {{x:-46, y:10, rotation:-16, duration:0.25, ease:"back.out(3)"}}, {b:.2f});')
+        c.t(f'tl.to("#hbR", {{x:46, y:10, rotation:16, duration:0.25, ease:"back.out(3)"}}, {b:.2f});')
+        clip(c, "brag-quiz/sfx/soft/thump.wav", b, 0.5); c.sfx("tap", b)
+    words = "Algebra is named after an Arabic word for setting broken BONES!".split()
+    c.slam_x = 0
+    hb = doodle("boneL", 290, 1250, 500, "butter", "hbL", sw=7) + doodle("boneR", 290, 1250, 500, "butter", "hbR", sw=7)
+    t = hook_in(c, body, (words, {0: "red", 5: "circle", 10: "loud"}, V + "h1c.mp3"), bg=(hb, anim))   # h1c: no shouting (owner, 26 Oct)
+    c.css += "#hw10 { display:block; width:max-content; margin:0 auto; } #hook .hookline { top:560px; }"
+    # 1. الْجَبْر: putting broken pieces back together, and the bone is set
+    B = V + "b1b.mp3"
+    whip_in(c, "s1", t); dj = say_up(c, "", t + 0.15, src=V + "jabr.mp3"); zoom_in(c, "#s1w", t + 0.15); pop(c, "#s1t", t + 0.15 + dj, False)
+    t3 = t + 0.15 + dj + 0.25; db = clip(c, B, t3); h = cap(c, "s1b", B, t3, (("broken", "r"), ("together", "g"), ("bone", "r")))
+    br = t3 + key_at(B, "broken", 0.3); draw_on(c, "s1L", br); draw_on(c, "s1R", br + 0.1)
+    tog = t3 + key_at(B, "together", 2.5)
+    for k in "LR": c.t(f'tl.to("#s1{k}", {{x:0, rotation:0, duration:0.3, ease:"back.out(2)"}}, {tog:.2f});')
+    bu = burst(c, "s1x", 540, 950, tog + 0.25); clip(c, "brag-quiz/sfx/ref/click.wav", tog + 0.25, 0.9)
+    c.t(f'tl.fromTo("#s1bone", {{scale:1}}, {{scale:1.1, duration:0.16, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t3 + key_at(B, "bone.", 4.0):.2f});')
+    c.t('tl.set("#s1L", {x:-60, rotation:-14}, 0); tl.set("#s1R", {x:60, rotation:14}, 0);')
+    body.append(f'<div class="sec" id="s1"><div class="bigw" id="s1w" style="top:330px;font-size:200px">{word(JABR)}</div>'
+                f'<div class="sp mid" id="s1t" style="top:640px">al-jabr</div><div id="s1bone" style="position:absolute;left:290px;top:700px;width:500px;height:500px">'
+                + doodle("boneL", 0, 0, 500, "butter", "s1L", True, 7) + doodle("boneR", 0, 0, 500, "butter", "s1R", True, 7) + f'</div>{bu}{h}</div>')
+    t = whip_out(c, "s1", t3 + db + 0.35)
+    # 2. Baghdad, about 820: al-Khwārizmī's book (the year rolls up; the city and the book are drawn; his own equation is written out)
+    B = V + "b2.mp3"; whip_in(c, "s2", t); d = clip(c, B, t + 0.1); s = t + 0.1
+    h = cap(c, "s2a", B, s, (("820", "y"), ("baghdad", "g"), ("khwarizmi", "g"), ("al-jabr", "r")))
+    year(c, "s2y", 0, 820, s + key_at(B, "year", 0.4), max(0.6, key_at(B, "820", 0.8) - key_at(B, "year", 0.4) + 0.5))
+    bg = s + key_at(B, "baghdad", 2.0); draw_on(c, "s2d", bg - 0.1); draw_on(c, "s2p", bg); pop(c, "#s2bl", bg + 0.2)
+    pop(c, "#s2k", s + key_at(B, "khwarizmi", 2.9)); bk = s + key_at(B, "book", 4.1); draw_on(c, "s2b", bk - 0.1)
+    eq = s + key_at(B, "equations", 5.1)
+    c.t(f'tl.fromTo("#s2e", {{opacity:1, clipPath:"inset(0 100% 0 0)"}}, {{opacity:1, clipPath:"inset(0 0% 0 0)", duration:0.7, ease:"steps(13)"}}, {eq - 0.3:.2f});')
+    for k in range(5): clip(c, "brag-quiz/sfx/soft/type.wav", eq - 0.3 + k * 0.14, 0.3)
+    pop(c, "#s2j", s + key_at(B, "al-jabr", 5.9))
+    body.append('<div class="sec" id="s2"><div class="yr" style="top:250px"><small>AROUND THE YEAR</small><b id="s2y">0</b></div>'
+                + doodle("dome", 70, 560, 380, "sage", "s2d", True, 6) + doodle("palm", 300, 600, 240, "sage", "s2p", True, 6)
+                + '<div class="sp" id="s2bl" style="left:120px;top:960px">Baghdad</div>'
+                + doodle("book", 590, 560, 360, "peach", "s2b", True, 6) + '<div class="sp" id="s2j" style="left:660px;top:690px;font-size:44px;color:var(--rubric)">al-jabr</div>'
+                + '<div class="tdd" id="s2e" style="left:600px;top:930px;font-size:56px;color:var(--ink);opacity:0">x² + 10x = 39</div>'
+                + f'<div class="sp mid" id="s2k" style="top:1110px">al-Khwarizmi</div>{h}</div>')
+    t = whip_out(c, "s2", s + d + 0.4)
+    # 3. Europe: al-jabr → ALGEBRA, and al-Khwārizmī → ALGORITHM
+    B = V + "b3s.mp3"; whip_in(c, "s3", t); d = clip(c, B, t + 0.1); s = t + 0.1
+    h = cap(c, "s3a", B, s, (("algebra", "y"), ("khwarizmi", "g"), ("algorithm", "g")))
+    pop(c, "#s3a1", s + 0.15); c.inn("#s3r1", s + key_at(B, "turned", 0.4))
+    al = s + key_at(B, "algebra", 1.4); zoom_in(c, "#s3a3", al); bu = burst(c, "s3x", 540, 560, al + 0.1); c.sfx("correct", al)
+    pop(c, "#s3k", s + key_at(B, "khwarizmi", 2.6)); c.inn("#s3r2", s + key_at(B, "name", 3.3))
+    ag = s + key_at(B, "algorithm", 4.0); zoom_in(c, "#s3w", ag); draw_on(c, "s3p", ag - 0.3, 0.6)
+    body.append('<div class="sec" id="s3"><div class="sp mid" id="s3a1" style="top:290px"><span class="ar">' + word(JABR) + '</span></div>'
+                + doodle("arrow", 490, 400, 100, "ink", "s3r1", sw=6) + '<div class="slamw" id="s3a3" style="top:500px;color:#8f6f1d">ALGEBRA</div>'
+                + '<div class="sp mid" id="s3k" style="top:700px">al-Khwarizmi</div>' + doodle("arrow", 490, 810, 100, "ink", "s3r2", sw=6)
+                + '<div class="slamw" id="s3w" style="top:910px;font-size:110px;color:var(--verdigris)">ALGORITHM</div>'
+                + doodle("phone", 820, 640, 170, "sky", "s3p", True, 6) + f'{bu}{h}</div>')
+    t = whip_out(c, "s3", s + d + 0.5)
+    # 4. your turn: وَاجْبُرْنِي, from the duʿāʾ between the two sujood; 3-2-1; "and MEND me"; the source
+    B, Q, S = V + "t1s.mp3", V + "t1b.mp3", V + "b6.mp3"
+    whip_in(c, "s5", t); d = clip(c, B, t + 0.1); h = cap(c, "s5a", B, t + 0.1, (("turn", "r"), ("sujood", "g")), "ccs")
+    t2 = t + 0.1 + d + 0.05; dw = say_up(c, "", t2, src=V + "wajburni.mp3"); zoom_in(c, "#s5w", t2)
+    t3 = t2 + dw + 0.15; dq = clip(c, Q, t3); h2 = cap(c, "s5b", Q, t3, (("mean", "r"),))
+    for i in range(3): c.inn(f"#qo{i}", t3 + 0.1 + i * 0.12, 30)
+    done = count_down(c, "qc", t3 + dq + 0.3)
+    reveal(c, "#qo1", ["#qo0", "#qo2"], done)
+    d6 = clip(c, S, done); hit = done + key_at(S, "mend", 0.2) + 0.05
+    c.t(f'tl.to(["#qo0", "#qo2", "#s5b"], {{opacity:0, duration:0.25}}, {hit - 0.3:.2f});')
+    slam(c, "#s5s", "s5", hit); bu = burst(c, "s5x", 540, 1290, hit + 0.05)
+    c.t(f'tl.to("#qo", {{opacity:0, y:30, duration:0.3}}, {hit + 1.2:.2f});')
+    c.t(f'tl.fromTo("#s5q", {{opacity:0, y:40, scale:0.96}}, {{opacity:1, y:0, scale:1, duration:0.45, ease:"power3.out"}}, {hit + 1.4:.2f});')
+    opts = '<div class="opts col" id="qo" style="top:800px">' + "".join(f'<div class="op2" id="qo{i}"><b>{o}</b></div>' for i, o in enumerate(["and forgive me", "and mend me", "and guide me"])) + '</div>'
+    body.append(f'<div class="sec" id="s5">{h}<div class="bigw" id="s5w" style="top:430px;font-size:170px">{word(WAJBURNI)}</div>{h2}'
+                f'{opts}{cnt("qc", 1230)}<div class="slamw" id="s5s" style="top:1240px;font-size:104px">and <em>MEND</em> me</div>{bu}'
+                '<div class="quote" id="s5q" style="top:820px"><q style="font-size:50px">O Allah, forgive me, have mercy on me, mend me, guide me and provide for me.</q>'
+                '<small>between the two sujood · al-Tirmidhī 284</small></div></div>')
+    c.css += "#s5a { top:270px; } #s5b { top:720px; }"
+    t = done + d6 + 1.2
+    # the closing ask, heard in full on the end card
+    c.out_("#s5", t - 0.4); end = clip(c, V + "end.mp3", t)
+    body.append('<div id="pflash"></div>' + c.end(t, "What do you say between the two sujood? Comment below 👇"))
+    total = round(t + end + 0.9, 2); finish(total)
+    c.write("\n".join("      " + b for b in body), total)
+
+COF_DOODLES = [("cup", 30, 1380, 140, -10, "peach"), ("bean", 900, 1300, 100, 25, "butter"), ("moon", 60, 600, 110, -12, "sky"), ("star", 940, 620, 60, 0, "sage"),
+               ("bean", 50, 1150, 90, -30, "peach"), ("star", 140, 900, 50, 0, "butter"), ("dallah", 850, 1420, 160, 8, "sage"), ("lantern", 60, 1640, 130, 6, "blush"),
+               ("bean", 720, 1760, 100, 60, "blush")]
+QAHWA = [("قَ", "r"), ("هْ", "r"), ("وَ", "r"), ("ة", "")]
+MAQHA = [("مَ", "v"), ("قْ", "r"), ("هى", "r")]
+ROUTE = [("Yemen", 720, 1120, "", 770), ("Istanbul · kahve", 600, 790, "kahve", 650), ("Dutch · koffie", 400, 570, "koffie", 450),
+         ("English · coffee", 220, 450, "coffee.", 270)]   # (label, x, y, the word it's reached on, label left)
+
+def h2():
+    """The story of a word #2 (owner 26 Oct 2026, #296): COFFEE. Hook "The Arabic word for coffee used to mean WINE!"; قَهْوَة (the app's
+    recording): old Arabic dictionaries say it meant wine, "so named because it puts the drinker off his food" (Hattox, Coffee and
+    Coffeehouses, quoting the lexicographers; modern scholars doubt it, so it's said as the dictionaries' view); the Sufis of Yemen, mid-1400s,
+    drank coffee to stay awake for their night devotions (the earliest credible evidence of coffee drinking) and the name moved over;
+    Istanbul (kahve), the Dutch (koffie), English "coffee" by 1582 (Wikipedia, Coffee and History of coffee); your turn: مَقْهى,
+    masjid's مَـ "the place of", 3-2-1, a CAFÉ. Voices: brag-quiz/voice/coffee-lines.json (b1 cut; b2s and b3s replace b2 and b3, for length)."""
+    V = "brag-quiz/voice/coffee/"
+    c = SO.vcomp("h2-coffee", "THE STORY OF A WORD"); c.bed = True; body = []; c.css += GROW_CSS
+    finish = pastel(c, body, COF_DOODLES)
+    def anim(c, at, d):                                  # "coffee": the cup steams; WINE: it wobbles
+        c.t(f'tl.set("#hcup .dr", {{visibility:"visible"}}, {at(4) - 0.1:.2f});')
+        c.t(f'tl.to("#hcup .dr", {{strokeDashoffset:0, duration:0.6, ease:"power2.out", stagger:0.08}}, {at(4) - 0.1:.2f});')
+        c.t(f'tl.fromTo("#hcup", {{rotation:0}}, {{rotation:7, duration:0.08, yoyo:true, repeat:5, ease:"sine.inOut", immediateRender:false}}, {at(8) + 0.12:.2f});')
+    words = "The Arabic word for coffee used to mean WINE!".split()
+    c.slam_x = 0
+    hc = doodle("cup", 330, 1240, 420, "peach", "hcup", sw=7)          # the steam is undrawn until "coffee"
+    hc = hc.replace('<path d="M36 32', '<path class="dr" style="stroke-dasharray:1;stroke-dashoffset:1;visibility:hidden" d="M36 32').replace('<path d="M52 32', '<path class="dr" style="stroke-dasharray:1;stroke-dashoffset:1;visibility:hidden" d="M52 32')
+    t = hook_in(c, body, (words, {1: "circle", 4: "red", 8: "loud"}, V + "h1c.mp3"), bg=(hc, anim))   # h1c: no shouting (owner, 26 Oct)
+    c.css += "#hw8 { display:block; width:max-content; margin:0 auto; } #hook .hookline { top:560px; }"
+    # 1. قَهْوَة: old dictionaries say it meant wine, because it puts you off your food
+    B = V + "b1b.mp3"
+    whip_in(c, "s1", t); dq = say_up(c, "قَهْوَة", t + 0.15); zoom_in(c, "#s1w", t + 0.15); pop(c, "#s1t", t + 0.15 + dq, False)
+    t3 = t + 0.15 + dq + 0.25; db = clip(c, B, t3); h = cap(c, "s1b", B, t3, (("wine", "r"), ("dictionaries", "g"), ("food", "g")))
+    draw_on(c, "s1d", t3 + key_at(B, "dictionaries", 1.2) - 0.1); draw_on(c, "s1f", t3 + key_at(B, "puts", 3.2) - 0.2)
+    draw_on(c, "s1x", t3 + key_at(B, "food", 4.0), 0.35); c.sfx("tap", t3 + key_at(B, "food", 4.0) + 0.3)
+    body.append(f'<div class="sec" id="s1"><div class="bigw" id="s1w" style="top:330px;font-size:200px">{word(QAHWA)}</div>'
+                f'<div class="sp mid" id="s1t" style="top:640px">qahwa</div>' + doodle("book", 110, 760, 360, "peach", "s1d", True, 6)
+                + doodle("plate", 590, 760, 360, "sage", "s1f", True, 6) + doodle("cross", 610, 780, 320, "red", "s1x", True, 9) + f'{h}</div>')
+    t = whip_out(c, "s1", t3 + db + 0.35)
+    # 2. Yemen, the 1400s: Sufis drink it to stay awake for night prayers (the night is drawn), and the name moves over
+    B = V + "b2s.mp3"; whip_in(c, "s2", t); d = clip(c, B, t + 0.1); s = t + 0.1
+    h = cap(c, "s2a", B, s, (("1400s", "y"), ("yemen", "g"), ("up", "r"), ("night", "g"), ("qahwa", "r")))
+    year(c, "s2y", 1000, 1400, s + key_at(B, "1400s", 0.3) - 0.2, 0.8, suffix="s")
+    pop(c, "#s2yl", s + key_at(B, "yemen", 1.6)); draw_on(c, "s2l", s + key_at(B, "sufis", 1.2) - 0.1)
+    br = s + key_at(B, "drank", 2.2); draw_on(c, "s2p", br - 0.1); draw_on(c, "s2c", br + 0.2)
+    for k in range(3): pop(c, f"#s2b{k}", s + key_at(B, "coffee", 2.6) + 0.1 * k, k == 0)
+    ni = s + key_at(B, "night", 5.0); draw_on(c, "s2m", ni - 0.15); [pop(c, f"#s2s{k}", ni + 0.15 + 0.12 * k, False) for k in range(3)]
+    pop(c, "#s2q", s + key_last(B, "qahwa", d - 0.8))
+    body.append('<div class="sec" id="s2"><div class="yr" style="top:250px"><small>IN THE</small><b id="s2y">1000s</b></div>'
+                + doodle("moon", 760, 470, 200, "sky", "s2m", True, 6) + "".join(doodle("star", x, y, 60, "butter", f"s2s{k}") for k, (x, y) in enumerate([(690, 470), (930, 640), (700, 650)]))
+                + doodle("lantern", 110, 500, 260, "butter", "s2l", True, 6) + doodle("dallah", 260, 760, 330, "sage", "s2p", True, 6)
+                + doodle("cup", 600, 820, 260, "peach", "s2c", True, 6)
+                + "".join(doodle("bean", x, y, 90, "butter", f"s2b{k}") for k, (x, y) in enumerate([(560, 1060), (670, 1090), (790, 1050)]))
+                + '<div class="sp" id="s2yl" style="left:120px;top:1110px">Yemen</div>'
+                + f'<div class="sp" id="s2q" style="left:640px;top:740px"><span class="ar">{word(QAHWA)}</span></div>{h}</div>')
+    c.t("".join(f'tl.set("#s2s{k}, #s2b{k}", {{opacity:0}}, 0);' for k in range(3)))
+    t = whip_out(c, "s2", s + d + 0.4)
+    # 3. the route: Makkah, Cairo, Istanbul (kahve), the Dutch (koffie), English (coffee, 1582); a cup travels the line as each is said
+    B = V + "b3s.mp3"; whip_in(c, "s3", t); d = clip(c, B, t + 0.1); s = t + 0.1
+    h = cap(c, "s3a", B, s, (("istanbul", "g"), ("kahve", "r"), ("dutch", "g"), ("koffie", "r"), ("1582", "y"), ("coffee.", "r")))
+    P = [(x, y) for _, x, y, _, _ in ROUTE]
+    segs = []
+    for i in range(len(P) - 1):                          # a smooth line through the stops (Catmull-Rom as cubic Béziers)
+        p0, p1, p2 = P[max(i - 1, 0)], P[i], P[i + 1]; p3 = P[min(i + 2, len(P) - 1)]
+        c1 = (p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6); c2 = (p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6)
+        segs.append(f"M{p1[0]} {p1[1]} C{c1[0]:.0f} {c1[1]:.0f} {c2[0]:.0f} {c2[1]:.0f} {p2[0]} {p2[1]}")
+    pop(c, "#s3n0", s + 0.1); pop(c, "#s3l0", s + 0.2, False)
+    prev = s + 0.3
+    for i in range(1, len(ROUTE)):
+        at = s + key_at(B, ROUTE[i][3], prev - s + 0.8)
+        c.t(f'(() => {{ const P = document.getElementById("s3g{i - 1}"), L = P.getTotalLength(), cup = document.getElementById("s3cup"), o = {{p:0}}; '
+            f'tl.fromTo(o, {{p:0}}, {{p:1, duration:{max(0.3, at - prev - 0.05):.2f}, ease:"power1.inOut", immediateRender:false, onUpdate:() => {{ const q = P.getPointAtLength(o.p * L); '
+            f'cup.style.transform = `translate(${{q.x - 45}}px, ${{q.y - 60}}px)`; }}}}, {prev:.2f}); }})();')
+        c.t(f'tl.fromTo("#s3g{i - 1}", {{strokeDashoffset:1}}, {{strokeDashoffset:0, duration:{max(0.3, at - prev - 0.05):.2f}, ease:"power1.inOut", immediateRender:false}}, {prev:.2f});')
+        pop(c, f"#s3n{i}", at); pop(c, f"#s3l{i}", at + 0.08, False); prev = at
+    yc = s + key_at(B, "1582", d - 1.6); year(c, "s3y", 1450, 1582, yc - 0.3, 0.7)
+    c.t(f'tl.fromTo("#s3cupi", {{opacity:0, scale:0.4}}, {{opacity:1, scale:1, duration:0.3, ease:"back.out(2)"}}, {s + 0.2:.2f});')
+    c.t(f'document.getElementById("s3cup").style.transform = "translate({P[0][0] - 45}px, {P[0][1] - 60}px)";')
+    lab = "".join(f'<div class="sp" id="s3l{i}" style="left:{lx}px;top:{y - 40}px;font-size:40px">{n}</div>' for i, (n, x, y, _, lx) in enumerate(ROUTE))
+    pins = "".join(doodle("pin", x - 35, y - 62, 70, "blush", f"s3n{i}", sw=5) for i, (n, x, y, _, _) in enumerate(ROUTE))
+    body.append('<div class="sec" id="s3"><svg class="dd" viewBox="0 0 1080 1920" style="left:0;top:0;width:1080px;height:1920px">'
+                + "".join(f'<path id="s3g{i}" d="{g}" pathLength="1" fill="none" stroke="#e09868" stroke-width="9" stroke-linecap="round" style="stroke-dasharray:1;stroke-dashoffset:1"/>' for i, g in enumerate(segs))
+                + f'</svg>{pins}{lab}<div id="s3cup" style="position:absolute;left:0;top:0;width:90px;height:90px">' + doodle("cup", 0, 0, 90, "peach", "s3cupi", sw=5) + '</div>'
+                + f'<div class="yr" style="top:250px;left:560px;right:40px"><small>BY</small><b id="s3y" style="font-size:130px">1450</b></div>{h}</div>')
+    c.t("".join(f'tl.set("#s3n{i}, #s3l{i}", {{opacity:0}}, 0);' for i in range(len(ROUTE))))
+    t = whip_out(c, "s3", s + d + 0.5)
+    # 4. your turn: masjid is the place of sujood, so what's a مَقْهى? 3-2-1, a CAFÉ
+    B, S = V + "t1.mp3", V + "b6.mp3"
+    whip_in(c, "s4", t); d = clip(c, B, t + 0.1); h = cap(c, "s4a", B, t + 0.1, (("turn", "r"), ("masjid", "g"), ("place", "g")), "ccs")
+    pop(c, "#s4m", t + 0.1 + key_at(B, "masjid", 1.0))
+    t2 = t + 0.1 + d + 0.05; dw = say_up(c, "", t2, src=V + "maqha.mp3"); zoom_in(c, "#s4w", t2)
+    for i in range(3): c.inn(f"#qo{i}", t2 + 0.2 + i * 0.12, 30)
+    done = count_down(c, "qc", t2 + dw + 0.4)
+    reveal(c, "#qo1", ["#qo0", "#qo2"], done)
+    d6 = clip(c, S, done); hit = done + key_at(S, "cafe", 0.1) + 0.05
+    c.t(f'tl.to(["#qo0", "#qo2"], {{opacity:0, duration:0.25}}, {hit - 0.3:.2f});')
+    slam(c, "#s4s", "s4", hit); bu = burst(c, "s4x", 540, 1300, hit + 0.05); draw_on(c, "s4c", hit + 0.2, 0.6)
+    opts = '<div class="opts col" id="qo" style="top:860px">' + "".join(f'<div class="op2" id="qo{i}"><b>{o}</b></div>' for i, o in enumerate(["a coffee pot", "a café", "a coffee bean"])) + '</div>'
+    body.append(f'<div class="sec" id="s4">{h}<div class="sp mid" id="s4m" style="top:400px;font-size:44px"><span class="ar">{word([("مَ", "v"), ("سْجِد", "")])}</span>'
+                f' = the place of sujood</div><div class="bigw" id="s4w" style="top:520px;font-size:180px">{word(MAQHA)}</div>'
+                f'{opts}{cnt("qc", 1270)}<div class="slamw" id="s4s" style="top:1260px;font-size:110px">a <em>CAFÉ</em>!</div>{bu}'
+                + doodle("cup", 800, 1220, 170, "peach", "s4c", True, 6) + '</div>')
+    c.css += "#s4a { top:270px; }"
+    t = done + d6 + 0.9
+    c.out_("#s4", t - 0.4); end = clip(c, V + "end.mp3", t)
+    body.append('<div id="pflash"></div>' + c.end(t, "How do you take your coffee? Comment below 👇 Send this to your coffee-addict friend ☕"))
+    total = round(t + end + 0.9, 2); finish(total)
+    c.write("\n".join("      " + b for b in body), total)
+
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "w8-subhana-azim": w8,
        "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1,
-       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2, "n5-salah": n5}
+       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2, "n5-salah": n5, "h1-algebra": h1, "h2-coffee": h2}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
