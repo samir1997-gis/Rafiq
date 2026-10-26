@@ -14,7 +14,8 @@ EXTRA = {"fatiha": "F AA T IH HH AH", "raheem": "R AH HH IY M", "rakah": "R AA K
          "jabr": "JH AE B ER", "aljabr": "AE L JH AE B ER", "khwarizmi": "K W AA R IH Z M IY", "alkhwarizmi": "AE L K W AA R IH Z M IY",
          "alkhwarizmi's": "AE L K W AA R IH Z M IY Z", "bonesetter": "B OW N S EH T ER", "algebrista": "AE L JH AH B R IY S T AH",
          "sujood": "S UW JH UW D", "qahwa": "K AA HH W AH", "kahve": "K AA V EY", "koffie": "K AO F IY", "sufis": "S UW F IY Z",
-         "makkah": "M AE K AH", "masjid": "M AA S JH IH D", "820": "EY T T W EH N T IY", "1582": "F IH F T IY N EY T IY T UW"}
+         "makkah": "M AE K AH", "masjid": "M AA S JH IH D", "820": "EY T T W EH N T IY", "1582": "F IH F T IY N EY T IY T UW",
+         "1400s": "F AO R T IY N HH AH N D R AH D Z", "fourteenhundreds": "F AO R T IY N HH AH N D R AH D Z"}
 
 def pcm(path):
     return subprocess.run(["ffmpeg", "-v", "error", "-i", path, "-ac", "1", "-ar", "16000", "-f", "s16le", "-"], capture_output=True, check=True).stdout
