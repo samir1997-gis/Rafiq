@@ -1606,12 +1606,13 @@ def h2():
     c = SO.vcomp("h2-coffee", "THE STORY OF A WORD"); c.bed = True; body = []; c.css += GROW_CSS
     finish = pastel(c, body, COF_DOODLES)
     def anim(c, at, d):                                  # "coffee": the cup steams; WINE: it wobbles
+        c.t(f'tl.set("#hcup .dr", {{visibility:"visible"}}, {at(4) - 0.1:.2f});')
         c.t(f'tl.to("#hcup .dr", {{strokeDashoffset:0, duration:0.6, ease:"power2.out", stagger:0.08}}, {at(4) - 0.1:.2f});')
         c.t(f'tl.fromTo("#hcup", {{rotation:0}}, {{rotation:7, duration:0.08, yoyo:true, repeat:5, ease:"sine.inOut", immediateRender:false}}, {at(8) + 0.12:.2f});')
     words = "The Arabic word for coffee used to mean WINE!".split()
     c.slam_x = 0
     hc = doodle("cup", 330, 1240, 420, "peach", "hcup", sw=7)          # the steam is undrawn until "coffee"
-    hc = hc.replace('<path d="M36 32', '<path class="dr" style="stroke-dasharray:1;stroke-dashoffset:1" d="M36 32').replace('<path d="M52 32', '<path class="dr" style="stroke-dasharray:1;stroke-dashoffset:1" d="M52 32')
+    hc = hc.replace('<path d="M36 32', '<path class="dr" style="stroke-dasharray:1;stroke-dashoffset:1;visibility:hidden" d="M36 32').replace('<path d="M52 32', '<path class="dr" style="stroke-dasharray:1;stroke-dashoffset:1;visibility:hidden" d="M52 32')
     t = hook_in(c, body, (words, {1: "circle", 4: "red", 8: "loud"}, V + "h1b.mp3"), bg=(hc, anim))
     c.css += "#hw8 { display:block; width:max-content; margin:0 auto; } #hook .hookline { top:560px; }"
     # 1. قَهْوَة: old dictionaries say it meant wine, because it puts you off your food
@@ -1668,7 +1669,7 @@ def h2():
     body.append('<div class="sec" id="s3"><svg class="dd" viewBox="0 0 1080 1920" style="left:0;top:0;width:1080px;height:1920px">'
                 + "".join(f'<path id="s3g{i}" d="{g}" pathLength="1" fill="none" stroke="#e09868" stroke-width="9" stroke-linecap="round" style="stroke-dasharray:1;stroke-dashoffset:1"/>' for i, g in enumerate(segs))
                 + f'</svg>{pins}{lab}<div id="s3cup" style="position:absolute;left:0;top:0;width:90px;height:90px">' + doodle("cup", 0, 0, 90, "peach", "s3cupi", sw=5) + '</div>'
-                + f'<div class="yr" style="top:230px;left:560px;right:40px"><small>BY</small><b id="s3y" style="font-size:130px">1450</b></div>{h}</div>')
+                + f'<div class="yr" style="top:250px;left:560px;right:40px"><small>BY</small><b id="s3y" style="font-size:130px">1450</b></div>{h}</div>')
     c.t("".join(f'tl.set("#s3n{i}, #s3l{i}", {{opacity:0}}, 0);' for i in range(len(ROUTE))))
     t = whip_out(c, "s3", s + d + 0.5)
     # 4. your turn: masjid is the place of sujood, so what's a مَقْهى? 3-2-1, a CAFÉ
