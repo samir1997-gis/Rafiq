@@ -56,14 +56,14 @@ def echo(phrase, after=0.0, back=0, db=0.0):
     AUDIO.append([out, round(w["s"], 3), round(10 ** (db / 20), 3)])
 PENDING = []
 RECIPE = {                                                     # each graphic's own sounds, at its moments (s into its clip)
- "t1-tomorrow": lambda L, a, b: ([fx("flip", L(t), -8) for t in (0.6, 1.3, 1.9, 2.4, 2.8, 3.1)], fx("impact", L(3.9), -3)),
- "c1-clock":    lambda L, a, b: ([fx("tick", a + k * 0.25, -12) for k in range(int((b - a) / 0.25))], [fx("thump", L(t), -2) for t in (0.7, 1.4, 2.1, 4.2)]),
- "t7-graves":   lambda L, a, b: (bed("wind", a, b, -15), fx("impact", L(0.3), -8)),
- "t4-dajjal":   lambda L, a, b: (bed("rumble", a, b, -9), fx("impact", L(0.5), -1)),
- "t5-sun-west": lambda L, a, b: (fx("whoosh", L(0.4), -8), fx("shimmer", L(1.0), -12), fx("impact", L(2.3), -1)),
- "t6-too-late": lambda L, a, b: (fx("creak", L(0.35), -9), fx("doorslam", L(1.9), 4), fx("impact", L(1.9), -4)),
+ "t1-tomorrow": lambda L, a, b: ([fx("flip", L(t), -3) for t in (0.6, 1.3, 1.9, 2.4, 2.8, 3.1)], fx("impact", L(3.9), 3)),
+ "c1-clock":    lambda L, a, b: ([fx("tick", a + k * 0.25, -12) for k in range(int((b - a) / 0.25))], [fx("thump", L(t), 3) for t in (0.7, 1.4, 2.1, 4.2)]),
+ "t7-graves":   lambda L, a, b: (bed("wind", a, b, -13), fx("impact", L(0.3), -2)),
+ "t4-dajjal":   lambda L, a, b: (bed("rumble", a, b, -7), fx("impact", L(0.5), 4)),
+ "t5-sun-west": lambda L, a, b: (fx("whoosh", L(0.4), -8), fx("shimmer", L(1.0), -12), fx("impact", L(2.3), 4)),
+ "t6-too-late": lambda L, a, b: (fx("creak", L(0.35), -9), fx("doorslam", L(1.9), 12), fx("impact", L(1.9), 2)),
  "s1-sajdah":   lambda L, a, b: (bed("crackle", a, b, -16), bed("rumble", a, b, -11)),
- "t9-today":    lambda L, a, b: (fx("rip", L(1.05), 0), fx("impact", L(2.2), -5)),
+ "t9-today":    lambda L, a, b: (fx("rip", L(1.05), 5), fx("impact", L(2.2), 1)),
  "p1-pack":     lambda L, a, b: (fx("n04", L(0.2), -4),),
  "t2-taswif":   lambda L, a, b: (fx("shimmer", L(2.3), -12),),
 }
