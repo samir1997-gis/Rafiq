@@ -152,6 +152,20 @@ cards, no QR codes or barcodes. Compare its hold and For You reach with the voic
 (not run yet: no TypeSafe key). Teacher to glance at: ذاكِرَة "memory" and "tadhkira literally means a reminder" (Hans Wehr: memorandum, note;
 ticket), not from the app's data.
 
+**Made 26 Oct 2026 (`build_formula.py` `h1()`, `h2()`, #296; owner: the board "did not do so well… take a change of route": short videos on the
+history of a word or interesting facts, a good hook, a light pastel background with drawings).** "The story of a word", a new look in the Callum
+standard: a pastel page (soft drifting blobs of our colours' tints) with hand-drawn doodles round the edges that bob, drawings that draw themselves
+on their word, captions word by word, Fredoka; the 3-2-1 and the closing ask as usual. `h1-algebra` (hook "Algebra is named after an Arabic word
+for setting broken BONES!", the bone snaps on "broken"; الْجَبْر "putting broken pieces back together", the bone is set; al-Khwārizmī, Baghdad,
+about 820, his own x² + 10x = 39; Europe turned al-jabr into algebra and his name into algorithm; your turn وَاجْبُرْنِي from the duʿāʾ between the
+two sujood (al-Tirmidhī 284): and forgive me / and MEND me / and guide me; ask: what do you say between the two sujood?) and `h2-coffee` (hook
+"The Arabic word for coffee used to mean WINE!"; قَهْوَة: old Arabic dictionaries say it meant wine, "because it puts you off your food" (Hattox,
+quoting the lexicographers; modern scholars doubt it, so it's said as theirs); Sufis in Yemen in the 1400s drank it to stay up for night prayers;
+a doodle map: Istanbul kahve → Dutch koffie → English coffee by 1582 (Wikipedia; not Italian caffè 1600, which didn't check out); your turn مَقْهى
+with masjid's مَـ: a coffee pot / a CAFÉ / a coffee bean; ask: how do you take yours?). Caption candidates: `tools/typesafe-exp/story_captions.py`
+(not run yet). Next in the series, if these work: zero/cipher ← صِفْر, admiral ← أَمِير الْبَحْر, magazine ← مَخازِن, safari ← سَفَر, sugar ← سُكَّر,
+cotton ← قُطْن, mattress ← مَطْرَح; tie each to a word from the salah or the Qur'an for the "your turn".
+
 ## More ideas (not made yet)
 - Root series part 8: another word tree (`word_tree()` in `build_formula.py`), or the departure board again (`reels/board/build.py`), e.g.
   ح م د (al-ḥamd, Muḥammad, Aḥmad, Maḥmūd), done twice already in older formats (p4-hamd, r2-muhammad), so only with a new angle.
