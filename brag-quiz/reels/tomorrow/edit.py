@@ -33,10 +33,13 @@ sys.path.insert(0, os.path.join(HERE, "..", "template")); from sfx_rules import 
 SFX = os.path.join(HERE, "..", "..", "sfx")
 lvl = lambda f: float(re.findall(r"I:\s+(-?[\d.]+) LUFS", subprocess.run(["ffmpeg", "-i", f, "-af", "ebur128", "-f", "null", "-"], capture_output=True, text=True).stderr)[-1])
 VL = lvl(f"{D}/cut.wav")
+import numpy as np                                            # his words' loudest 50 ms (90th percentile): what a hit is set against
+_x = np.frombuffer(subprocess.run(["ffmpeg", "-v", "error", "-i", f"{D}/cut.wav", "-f", "s16le", "-"], capture_output=True).stdout, np.int16) / 32768
+VP = float(np.percentile(20 * np.log10(np.sqrt(np.convolve(_x ** 2, np.ones(800) / 800, "valid"))[::400] + 1e-9), 90))
 def fx(name, t, db=0.0):
     f = next(os.path.join(SFX, d, name + ".wav") for d in ("soft", "owner", "ref", ".") if os.path.exists(os.path.join(SFX, d, name + ".wav")))
     if t < 0: return
-    pk_db, pk = info(f); AUDIO.append([f, round(max(0, t - pk), 3), round(10 ** ((VL - 3 + db - pk_db) / 20), 3)])
+    pk_db, pk = info(f); AUDIO.append([f, round(max(0, t - pk), 3), round(10 ** ((VP + db - pk_db) / 20), 3)])
 def bed(name, t0, t1, db):
     out = f"{D}/bed{len(AUDIO)}.wav"; d = max(0.5, t1 - t0)
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-stream_loop", "-1", "-i", os.path.join(SFX, "soft", name + ".wav"), "-t", f"{d:.2f}",
@@ -158,8 +161,10 @@ for c in C["caps"]:
         if re.search(r"[\u0600-\u06FF]", w[0]): w[0] = "at-taswif" if "ط" in w[0] or "ت" in w[0][:2] else "sawfa"
         elif k in FIX: w[0] = FIX[k] + tail
         nx = [v for v in c[2] if v[1] > w[1]] or [n for n in C["caps"] if n[0] > c[0]][:1] and [n for n in C["caps"] if n[0] > c[0]][0][2]
-        if k == "now" and nx and nz(nx[0][0]) in ("im", "ill"): w[0] = "No,"            # the skit's "No, I'm gonna…", heard as "now"
+        if k == "now" and nx and nz(nx[0][0]) in ("im", "ill"): w[0] = ""               # the breath before the skit's "I'm gonna…", heard as "now"
         w[2] = nz(w[0]) in EM                                                     # the script's key words land gold
+    c[2] = [w for w in c[2] if w[0]]
+C["caps"] = [c for c in C["caps"] if c[2]]
 C["title_top"] = 470
 C["titles"] = sorted(titles); C["flicks"] = flicks; C["split"] = None; C["steps"] = []
 for f in flicks: f[1] = min([f[1]] + [p[0] for p in panels if p[0] > f[0]])   # the hook hands straight to a graphic
