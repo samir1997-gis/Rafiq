@@ -10,5 +10,6 @@
  {"file": "b6", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "A CAFE! The place of qahwa.", "stability": 0.35, "style": 0.45, "speed": 1.08},
  {"file": "end", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "So every coffee you order is a little bit of Arabic. How do you take yours? Comment below!", "stability": 0.35, "style": 0.45, "speed": 1.08},
  {"file": "b2s", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "In the 1400s, Sufis in Yemen drank coffee to stay up for night prayers... and called it: qahwa.", "stability": 0.35, "style": 0.45, "speed": 1.08},
- {"file": "b3s", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Istanbul made it kahve, the Dutch made it koffie, and by 1582, English had: coffee.", "stability": 0.35, "style": 0.45, "speed": 1.08}
+ {"file": "b3s", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Istanbul made it kahve, the Dutch made it koffie, and by 1582, English had: coffee.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "h1c", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "The Arabic word for coffee used to mean... wine.", "stability": 0.35, "style": 0.45, "speed": 1.08}
 ]
