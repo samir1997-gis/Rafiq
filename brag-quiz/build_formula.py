@@ -1515,7 +1515,7 @@ def h1():
     words = "Algebra is named after an Arabic word for setting broken BONES!".split()
     c.slam_x = 0
     hb = doodle("boneL", 290, 1250, 500, "butter", "hbL", sw=7) + doodle("boneR", 290, 1250, 500, "butter", "hbR", sw=7)
-    t = hook_in(c, body, (words, {0: "red", 5: "circle", 10: "loud"}, V + "h1b.mp3"), bg=(hb, anim))
+    t = hook_in(c, body, (words, {0: "red", 5: "circle", 10: "loud"}, V + "h1c.mp3"), bg=(hb, anim))   # h1c: no shouting (owner, 26 Oct)
     c.css += "#hw10 { display:block; width:max-content; margin:0 auto; } #hook .hookline { top:560px; }"
     # 1. الْجَبْر: putting broken pieces back together, and the bone is set
     B = V + "b1b.mp3"
@@ -1613,7 +1613,7 @@ def h2():
     c.slam_x = 0
     hc = doodle("cup", 330, 1240, 420, "peach", "hcup", sw=7)          # the steam is undrawn until "coffee"
     hc = hc.replace('<path d="M36 32', '<path class="dr" style="stroke-dasharray:1;stroke-dashoffset:1;visibility:hidden" d="M36 32').replace('<path d="M52 32', '<path class="dr" style="stroke-dasharray:1;stroke-dashoffset:1;visibility:hidden" d="M52 32')
-    t = hook_in(c, body, (words, {1: "circle", 4: "red", 8: "loud"}, V + "h1b.mp3"), bg=(hc, anim))
+    t = hook_in(c, body, (words, {1: "circle", 4: "red", 8: "loud"}, V + "h1c.mp3"), bg=(hc, anim))   # h1c: no shouting (owner, 26 Oct)
     c.css += "#hw8 { display:block; width:max-content; margin:0 auto; } #hook .hookline { top:560px; }"
     # 1. قَهْوَة: old dictionaries say it meant wine, because it puts you off your food
     B = V + "b1b.mp3"
