@@ -13,7 +13,8 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
 V6 = os.path.join(ROOT, "brag-output-v6/composition/assets"); SFX = os.path.join(ROOT, "brag-quiz/sfx")
 SR = 48000; END = 999                                             # set at the end, from the last line
-INK, MAR, CREAM, GOLD, SKY, BONE = "#1b0b0f", "#5e1a24", "#f3e6cc", "#f0cf8a", "#a9cfe6", "#ecd3a6"
+INK, MAR, CREAM, GOLD, SKY, BONE = "#17262B", "#B4322A", "#F1ECE0", "#E9B949", "#2E7263", "#EADFC8"   # ink, rubric, paper, gold, verdigris, bone
+TEAL = SKY
 
 js, snd, body = [], [], []
 T = js.append
@@ -69,7 +70,7 @@ BONE_SVG = lambda id, w: f'''<svg id="{id}" width="{w}" viewBox="0 0 400 110"><g
 <path d="M40 30a22 22 0 1 1 30-14h260a22 22 0 1 1 30 14a22 22 0 1 1-30 14v22a22 22 0 1 1-30 14h-260a22 22 0 1 1-30-14a22 22 0 1 1 30-14z" transform="translate(0,6)"/></g></svg>'''
 
 # ---- 0 · hook, then the title and the fan of cards ------------------------------------------------------------------------
-hook, t = typed("k", [(" is an ", None), ("Arabic word.", "em")], 0.3, rate=0.05, tick=2); hook = "Algebra" + hook   # a word on frame 0
+hook, t = typed("k", [(" is an", None), ("", "br"), ("Arabic word.", "em")], 0.3, rate=0.05, tick=2); hook = "Algebra" + hook   # a word on frame 0
 TITLE_T = 2.0
 T(f'tl.set("#hook", {{opacity:0}}, {TITLE_T:.2f});')
 T(f'tl.fromTo("#title", {{opacity:0, scale:1.08}}, {{opacity:1, scale:1, duration:0.25, ease:"power2.out"}}, {TITLE_T:.2f});')
@@ -84,7 +85,8 @@ cards = ""
 for i in range(5):
     a = (i - 2) * 15; col = MAR if i == 2 else (CREAM if i % 2 == 0 else SKY)
     fg = CREAM if i == 2 else INK
-    icon = ICONS[i].replace(f'fill="{INK}"', f'fill="{fg}"').replace(f'stroke="{INK}"', f'stroke="{fg}"') if i == 2 else ICONS[i]
+    if i % 2: fg = CREAM
+    icon = ICONS[i] if fg == INK else ICONS[i].replace(f'stroke="{CREAM}"', 'stroke="#@"').replace(f'fill="{INK}"', f'fill="{fg}"').replace(f'stroke="{INK}"', f'stroke="{fg}"').replace('stroke="#@"', f'stroke="{INK}"')
     cards += f'<div class="card" id="cd{i}" style="background:{col};color:{fg}"><span>{i + 1}</span>{icon}</div>'
     if i == 2:
         T(f'tl.fromTo("#cd2", {{opacity:0, y:-260, rotation:0}}, {{opacity:1, y:0, duration:0.3, ease:"power3.in"}}, {TITLE_T:.2f});')
@@ -103,7 +105,7 @@ body.append(f'''<div class="sc" id="s0" style="opacity:1">
  <div id="fan">{cards}</div><div id="spark">{spark}</div></div>''')
 
 # ---- 1 · you learnt it at school -----------------------------------------------------------------------------------------------
-t1 = wipe(5.6, MAR); scene("s0", 0, t1); A = t1 + 0.25
+t1 = wipe(5.6, TEAL); scene("s0", 0, t1); A = t1 + 0.25
 l1, t = typed("a", [("You learnt algebra at school.", None)], A)
 l2, t = typed("b", [("Nobody told you where the ", None), ("word", "em"), (" comes from.", None)], t + 0.35)
 pop("#board", A + 0.1, 0.6, "soft/tick-lo.wav")
@@ -136,9 +138,9 @@ body.append(f'''<div class="sc" id="s2"><div class="hdw">{h}</div><div class="tx
   <div id="seam" style="position:absolute;left:254px;top:22px;width:16px;height:100px;background:{GOLD};border-radius:6px;box-shadow:0 0 22px {GOLD}"></div></div></div>''')
 
 # ---- 02 · Baghdad --------------------------------------------------------------------------------------------------------------
-t3 = wipe(SET + 2.3, MAR); scene("s2", t2, t3); A = t3 + 0.2
-h, t = head("p2", 2, [("Baghdad", "em"), (", 1,200 years ago", None)], A)
-b, t = typed("p2b", [("A scholar called al-Khwārizmī wrote a book on solving problems this way.", None)], t + 0.2)
+t3 = wipe(SET + 2.3, TEAL); scene("s2", t2, t3); A = t3 + 0.2
+h, t = head("p2", 2, [("Baghdad", "em")], A)
+b, t = typed("p2b", [("1,200 years ago, a scholar called al-\u2060Khwārizmī wrote a book on solving problems this way.", None)], t + 0.2)
 pop("#book2", t - 0.6, 0.3, "ref/click-x2.wav")
 T(f'tl.fromTo("#rays2 i", {{opacity:0, scaleY:0}}, {{opacity:1, scaleY:1, duration:0.25, stagger:0.03}}, {t - 0.3:.2f});'); S("soft/shimmer.wav", t - 0.3, 0.3)
 pop("#ktitle", t + 0.2, 0.7, "soft/tick.wav")
@@ -177,21 +179,21 @@ body.append(f'''<div class="sc" id="s4"><div class="hdw">{h}</div><div class="tx
  <div id="dia"><div id="sq" class="blk" style="left:0;top:0;width:150px;height:150px">x²</div>
   <div id="strip" class="blk" style="left:150px;top:0;width:500px;height:150px">10x</div>
   <div id="fA" class="blk" style="left:150px;top:0;width:250px;height:150px;opacity:0">5x</div>
-  <div id="fB" class="blk" style="left:400px;top:0;width:250px;height:150px;opacity:0">5x</div>
+  <div id="fB" class="blk" style="left:400px;top:0;width:250px;height:150px;opacity:0"><span style="transform:rotate(-90deg)">5x</span></div>
   <div id="corner" class="blk dash" style="left:150px;top:150px;width:250px;height:250px;opacity:0"><b>25</b></div>
   <div id="big" style="position:absolute;left:-10px;top:-10px;width:420px;height:420px;border:6px solid {GOLD};border-radius:14px;opacity:0"></div>
   <div class="eight" id="s8b" style="left:-70px;top:170px">8</div></div>
  {st_html}<div id="x3" class="eq gold" style="top:1390px">x = 3</div></div>''')
 
 # ---- 04 · al-jabr becomes algebra ----------------------------------------------------------------------------------------------
-t5 = wipe(tt + 0.6, MAR); scene("s4", t4, t5); A = t5 + 0.2
+t5 = wipe(tt + 0.6, TEAL); scene("s4", t4, t5); A = t5 + 0.2
 h, t = head("p4", 4, [("al-jabr", "em"), (" → ", None), ("algebra", "em")], A)
 b, t = typed("p4b", [("Europe translated his book into Latin.", None)], t + 0.2)
 pop("#ms", A + 0.4, 0.6, "soft/tick-lo.wav")
 FL = t + 0.1
 T(f'tl.to("#ms .ar", {{opacity:0, y:-20, duration:0.25}}, {FL:.2f});'); T(f'tl.fromTo("#ms .la", {{opacity:0, y:20}}, {{opacity:1, y:0, duration:0.3}}, {FL + 0.15:.2f});')
 S("soft/flip.wav", FL, 1.0)
-b2, t = typed("p4c", [("In Spain, a bone-setter was even called an ", None), ("algebrista", "em"), (".", None)], FL + 0.7)
+b2, t = typed("p4c", [("In Spain, a bone-\u2060setter was even called an ", None), ("algebrista", "em"), (".", None)], FL + 0.7)
 SG = t - 0.4
 T(f'tl.fromTo("#sign", {{opacity:0, y:-120, rotation:0}}, {{opacity:1, y:0, duration:0.3, ease:"power3.in"}}, {SG:.2f});'); S("soft/thump.wav", SG + 0.28, 0.8)
 T(f'tl.fromTo("#sign", {{rotation:7}}, {{rotation:-5, duration:0.6, yoyo:true, repeat:2, ease:"sine.inOut", immediateRender:false}}, {SG + 0.3:.2f});'); S("soft/creak.wav", SG + 0.35, 0.45)
@@ -212,7 +214,7 @@ body.append(f'''<div class="sc" id="s6"><div class="hdw">{h}</div><div class="tx
  <div id="box"><div class="du">{du}</div><div class="tr">{tr}</div><div id="src">JĀMIʿ AT-TIRMIDHĪ 284</div></div></div>''')
 
 # ---- the end ---------------------------------------------------------------------------------------------------------------------
-t7 = wipe(t + 2.6, MAR); scene("s6", t6, t7); A = t7 + 0.25
+t7 = wipe(t + 2.6, TEAL); scene("s6", t6, t7); A = t7 + 0.25
 e1, t = typed("e1", [("Know what you're saying", None), ("", "br"), ("in your ", None), ("salah", "em"), (".", None)], A, rate=0.04, tick=2)
 pop("#logo", A, 0.6, "soft/tick-lo.wav")
 pop("#site", t + 0.2, 0.4, "ref/click-x2.wav"); S("soft/thump.wav", t + 0.2, 0.7)
@@ -220,7 +222,7 @@ e2, t = typed("e2", [("Did you know? Tell me in the comments.", None)], t + 0.9,
 scene("s7", t7, END)
 END = round(t + 1.6, 2)
 body.append(f'''<div class="sc" id="s7"><div id="logo"><span class="tile"><span>ر</span><em></em></span><b>رَفِيق</b></div>
- <div class="tx big" style="top:520px">{e1}</div><div id="site">rafiq-arabic.com</div><div class="tx sm" style="top:1040px">{e2}</div></div>''')
+ <div class="tx big" style="top:520px;font-size:76px">{e1}</div><div id="site">rafiq-arabic.com</div><div class="tx sm" style="top:1080px">{e2}</div></div>''')
 
 # ---- sounds: one track, mixed here, plus a low room tone under it ---------------------------------------------------------------
 def load(f):
@@ -247,68 +249,70 @@ def build():
     if os.path.exists(out): shutil.rmtree(out)
     os.makedirs(a)
     for f in ("karla-latin-500-normal.woff2", "karla-latin-700-normal.woff2", "jetbrains-mono-latin-500-normal.woff2", "ibm-plex-sans-arabic-arabic-700-normal.woff2"): shutil.copy(os.path.join(V6, "fonts", f), a)
-    shutil.copy(os.path.join(ROOT, "brag-quiz/fonts/instrument-serif-latin-400-normal.woff2"), a); shutil.copy(os.path.join(V6, "lib/gsap.min.js"), a)
+    for f in ("playfair-display-latin-700-normal.woff2", "playfair-display-latin-700-italic.woff2", "playfair-display-latin-500-italic.woff2"): shutil.copy(os.path.join(ROOT, "brag-quiz/fonts", f), a); shutil.copy(os.path.join(V6, "lib/gsap.min.js"), a)
     mix(os.path.join(a, "sfx.wav"))
     css = f"""
 @font-face {{ font-family:"KA"; src:url("assets/karla-latin-500-normal.woff2"); font-weight:500; }}
 @font-face {{ font-family:"KA"; src:url("assets/karla-latin-700-normal.woff2"); font-weight:700; }}
 @font-face {{ font-family:"MO"; src:url("assets/jetbrains-mono-latin-500-normal.woff2"); }}
-@font-face {{ font-family:"SE"; src:url("assets/instrument-serif-latin-400-normal.woff2"); }}
+@font-face {{ font-family:"SE"; src:url("assets/playfair-display-latin-700-normal.woff2"); font-weight:700; }}
+@font-face {{ font-family:"SE"; src:url("assets/playfair-display-latin-700-italic.woff2"); font-weight:700; font-style:italic; }}
+@font-face {{ font-family:"SE"; src:url("assets/playfair-display-latin-500-italic.woff2"); font-weight:500; font-style:italic; }}
 @font-face {{ font-family:"AR"; src:url("assets/ibm-plex-sans-arabic-arabic-700-normal.woff2"); }}
 * {{ margin:0; box-sizing:border-box; }} html, body {{ width:1080px; height:1920px; overflow:hidden; background:#000; }}
-#root {{ position:relative; width:1080px; height:1920px; overflow:hidden; background:{INK}; color:{CREAM}; font-family:KA; font-weight:700; }}
+#root {{ position:relative; width:1080px; height:1920px; overflow:hidden; background:{INK}; color:{CREAM}; font-family:SE; font-weight:700; font-variant-numeric:lining-nums; }}
 #wall {{ position:absolute; inset:0 0 auto 0; height:1180px; background:
-  linear-gradient(rgba(243,230,204,.035) 2px, transparent 2px) 0 0/90px 90px, linear-gradient(90deg, rgba(243,230,204,.035) 2px, transparent 2px) 0 0/90px 90px,
-  radial-gradient(ellipse at 50% 60%, #2a1016 0%, {INK} 75%); }}
+  linear-gradient(rgba(241,236,224,.035) 2px, transparent 2px) 0 0/90px 90px, linear-gradient(90deg, rgba(241,236,224,.035) 2px, transparent 2px) 0 0/90px 90px,
+  radial-gradient(ellipse at 50% 60%, #22393f 0%, {INK} 75%); }}
 #floorw {{ position:absolute; left:0; right:0; top:1180px; bottom:0; perspective:700px; perspective-origin:50% 0; overflow:hidden; }}
 #floor {{ position:absolute; left:-1400px; right:-1400px; top:0; height:2600px; transform:rotateX(68deg); transform-origin:50% 0;
-  background:repeating-conic-gradient(#3a131b 0 25%, #260c12 0 50%) 0 0/180px 180px; }}
-#floorw::after {{ content:""; position:absolute; inset:0; background:linear-gradient({INK} 0%, rgba(27,11,15,.2) 30%, rgba(27,11,15,.55) 100%); }}
+  background:repeating-conic-gradient(#245a4e 0 25%, #1a3d37 0 50%) 0 0/180px 180px; }}
+#floorw::after {{ content:""; position:absolute; inset:0; background:linear-gradient({INK} 0%, rgba(23,38,43,.2) 30%, rgba(23,38,43,.55) 100%); }}
 .sc {{ position:absolute; inset:0; opacity:0; }}
-.tx {{ position:absolute; left:90px; right:90px; text-align:center; font-size:50px; line-height:1.3; }}
-.tx.big {{ font-size:72px; line-height:1.15; }} .tx.sm {{ font-size:42px; font-weight:500; line-height:1.35; color:#e9d6b4; }}
+.tx {{ position:absolute; left:70px; right:70px; text-align:center; font-size:62px; line-height:1.25; }}
+.tx.big {{ font-size:90px; line-height:1.12; }} .tx.sm {{ font-size:54px; font-weight:700; line-height:1.3; color:#dfe6e3; }}
 .ch {{ opacity:0; }} #title .ch, #title {{ opacity:1; }} #title {{ opacity:0; }}
-em {{ font-family:SE; font-style:italic; font-weight:400; font-size:1.18em; color:{GOLD}; letter-spacing:.01em; }}
+em {{ font-family:SE; font-style:italic; font-weight:700; color:{GOLD}; }}
 #hook em {{ border-bottom:3px solid {GOLD}; }}
-.num {{ position:absolute; top:330px; left:0; right:0; text-align:center; font-family:MO; font-size:30px; letter-spacing:.3em; color:#b99b78; opacity:0; }}
-.hdw .hd, .hd {{ position:absolute; top:390px; left:60px; right:60px; text-align:center; font-size:76px; line-height:1.1; }}
+.num {{ position:absolute; top:330px; left:0; right:0; text-align:center; font-family:MO; font-size:34px; letter-spacing:.3em; color:#8fb3a9; opacity:0; }}
+.hdw .hd, .hd {{ position:absolute; top:390px; left:60px; right:60px; text-align:center; font-size:96px; line-height:1.05; }}
 #fan {{ position:absolute; left:0; right:0; top:860px; height:400px; }}
 .card {{ position:absolute; left:450px; top:0; width:180px; height:250px; border-radius:20px; transform-origin:50% 230%; border:5px solid {INK};
   display:flex; flex-direction:column; align-items:center; justify-content:space-around; padding:14px 0 30px; box-shadow:0 18px 30px rgba(0,0,0,.45); opacity:0; }}
-.card span {{ font-family:SE; font-style:italic; font-size:64px; font-weight:400; line-height:1; }} #cd2 {{ z-index:2; }}
+.card span {{ font-family:SE; font-style:italic; font-size:70px; font-weight:700; line-height:1; }} #cd2 {{ z-index:2; }}
 #spark i {{ position:absolute; width:16px; height:16px; border-radius:50%; background:{GOLD}; opacity:0; }}
 .fig {{ position:absolute; top:960px; width:100px; height:250px; }}
 .fig i {{ position:absolute; left:22px; top:0; width:56px; height:56px; border-radius:50%; background:{BONE}; }}
 .fig b {{ position:absolute; left:10px; top:66px; width:80px; height:184px; border-radius:40px 40px 10px 10px; background:{BONE}; }}
 .obj {{ position:absolute; opacity:0; }}
-#board {{ padding:28px 34px; border-radius:14px; background:#123128; border:8px solid #6b4a2e; font-family:SE; font-style:italic; font-weight:400; font-size:58px; color:{CREAM}; }}
+#board {{ padding:28px 34px; border-radius:14px; background:#0f1a1d; border:8px solid {GOLD}; font-family:SE; font-style:italic; font-weight:700; font-size:62px; color:{CREAM}; }}
 .book {{ width:240px; height:170px; }} .book > i {{ position:absolute; top:20px; width:116px; height:150px; background:{BONE}; border:6px solid {INK};
-  background-image:repeating-linear-gradient(transparent 0 26px, rgba(27,11,15,.5) 26px 31px); background-position:0 30px; }}
+  background-image:repeating-linear-gradient(transparent 0 26px, rgba(23,38,43,.5) 26px 31px); background-position:0 30px; }}
 .book > i:nth-of-type(1) {{ left:2px; border-radius:12px 2px 2px 12px; transform:skewY(6deg); }} .book > i:nth-of-type(2) {{ left:122px; border-radius:2px 12px 12px 2px; transform:skewY(-6deg); }}
 #rays1, #rays2 {{ position:absolute; left:120px; top:90px; }} #rays1 i, #rays2 i {{ position:absolute; left:-4px; top:-30px; width:8px; height:56px; border-radius:4px; background:{BONE}; transform-origin:50% 100%; opacity:0; }}
-.ar {{ position:absolute; left:0; right:0; text-align:center; font-family:AR; font-size:150px; color:{GOLD}; direction:rtl; }} .ar.sm {{ font-size:66px; color:#e9d6b4; }}
+.ar {{ position:absolute; left:0; right:0; text-align:center; font-family:AR; font-size:150px; color:{GOLD}; direction:rtl; }} .ar.sm {{ font-size:70px; color:{CREAM}; }}
 #jabr, #ktitle {{ opacity:0; }}
-.eq {{ position:absolute; top:740px; left:0; right:0; text-align:center; font-family:SE; font-style:italic; font-weight:400; font-size:96px; color:{CREAM}; opacity:0; }}
-.eq.gold {{ color:{GOLD}; font-size:120px; }}
+.eq {{ position:absolute; top:715px; left:0; right:0; text-align:center; font-family:SE; font-style:italic; font-weight:700; font-size:104px; color:{CREAM}; opacity:0; }}
+.eq.gold {{ color:{GOLD}; font-size:130px; }}
 #dia {{ position:absolute; left:215px; top:880px; width:650px; height:400px; }}
-.blk {{ position:absolute; display:grid; place-items:center; background:{SKY}; color:{INK}; border:5px solid {INK}; font-family:SE; font-style:italic; font-weight:400; font-size:54px; border-radius:6px; opacity:0; }}
-#sq {{ background:{CREAM}; }} .blk.dash {{ background:transparent; border:5px dashed {GOLD}; }} .blk.dash b {{ font-family:SE; font-weight:400; font-size:80px; color:{INK}; opacity:0; }}
-.eight {{ position:absolute; font-family:SE; font-style:italic; font-size:64px; color:{GOLD}; font-weight:400; opacity:0; }}
-.step {{ position:absolute; top:1330px; left:80px; right:80px; text-align:center; font-size:44px; font-weight:700; }}
-#ms {{ position:absolute; left:290px; top:820px; width:500px; height:300px; border-radius:14px; background:#ecd9ae; box-shadow:0 20px 40px rgba(0,0,0,.5); opacity:0; }}
-#ms .ar {{ top:40px; font-size:130px; color:{MAR}; }} #ms .la {{ position:absolute; top:70px; left:0; right:0; text-align:center; font-family:SE; font-style:italic; font-weight:400; font-size:130px; color:#9b2a22; opacity:0; }}
-#ms small {{ position:absolute; bottom:22px; left:0; right:0; text-align:center; font-family:SE; font-style:italic; font-weight:400; font-size:30px; color:#7a5a46; }}
-#sign {{ position:absolute; left:340px; top:1160px; width:400px; transform-origin:50% 0; opacity:0; }} .rope {{ margin:0 auto; width:8px; height:50px; background:{BONE}; }}
-.plate {{ padding:18px 0 10px; border-radius:16px; background:{CREAM}; border:6px solid {INK}; text-align:center; font-size:50px; color:#2E7263; letter-spacing:.04em; }}
-#box {{ position:absolute; left:70px; right:70px; top:820px; padding:50px 40px 40px; border-radius:18px; background:#2a0f15; border:3px solid #4a1a22; opacity:0; transform-origin:50% 0; }}
-.du {{ text-align:center; direction:rtl; font-family:AR; font-size:66px; line-height:1.6; }} .aw {{ display:inline-block; opacity:0; }} .aw.gold {{ color:{GOLD}; }}
-.tr {{ margin-top:24px; text-align:center; font-size:42px; font-weight:500; line-height:1.35; }}
-#src {{ margin:30px auto 0; width:max-content; padding:10px 26px; border-radius:30px; background:{MAR}; font-family:MO; font-size:26px; letter-spacing:.12em; color:{GOLD}; opacity:0; }}
+.blk {{ position:absolute; display:grid; place-items:center; background:{TEAL}; color:{CREAM}; border:5px solid {INK}; font-family:SE; font-style:italic; font-weight:700; font-size:58px; border-radius:6px; opacity:0; }}
+#sq {{ background:{CREAM}; color:{INK}; }} .blk.dash {{ background:transparent; border:5px dashed {GOLD}; }} .blk.dash b {{ font-family:SE; font-weight:700; font-size:84px; color:{INK}; opacity:0; }}
+.eight {{ position:absolute; font-family:SE; font-style:italic; font-size:72px; color:{GOLD}; font-weight:700; opacity:0; }}
+.step {{ position:absolute; top:1320px; left:60px; right:60px; text-align:center; font-size:54px; font-weight:700; line-height:1.2; }}
+#ms {{ position:absolute; left:290px; top:900px; width:500px; height:300px; border-radius:14px; background:{CREAM}; box-shadow:0 20px 40px rgba(0,0,0,.5); opacity:0; }}
+#ms .ar {{ top:40px; font-size:130px; color:{MAR}; }} #ms .la {{ position:absolute; top:70px; left:0; right:0; text-align:center; font-family:SE; font-style:italic; font-weight:700; font-size:120px; color:{MAR}; opacity:0; }}
+#ms small {{ position:absolute; bottom:22px; left:0; right:0; text-align:center; font-family:SE; font-style:italic; font-weight:500; font-size:32px; color:#5c6e70; }}
+#sign {{ position:absolute; left:340px; top:1220px; width:400px; transform-origin:50% 0; opacity:0; }} .rope {{ margin:0 auto; width:8px; height:50px; background:{BONE}; }}
+.plate {{ padding:18px 0 10px; border-radius:16px; background:{CREAM}; border:6px solid {INK}; text-align:center; font-size:52px; color:{TEAL}; letter-spacing:.04em; font-family:KA; }}
+#box {{ position:absolute; left:70px; right:70px; top:820px; padding:50px 40px 40px; border-radius:18px; background:#0f1a1d; border:3px solid {TEAL}; opacity:0; transform-origin:50% 0; }}
+.du {{ text-align:center; direction:rtl; font-family:AR; font-size:74px; line-height:1.6; }} .aw {{ display:inline-block; opacity:0; }} .aw.gold {{ color:{GOLD}; }}
+.tr {{ margin-top:24px; text-align:center; font-size:52px; font-weight:700; line-height:1.3; }}
+#src {{ margin:30px auto 0; width:max-content; padding:10px 26px; border-radius:30px; background:{MAR}; font-family:MO; font-size:28px; letter-spacing:.12em; color:{GOLD}; opacity:0; }}
 #logo {{ position:absolute; top:330px; left:0; right:0; display:flex; justify-content:center; align-items:center; gap:18px; opacity:0; }}
 #logo .tile {{ position:relative; width:84px; height:84px; border-radius:22px; background:{CREAM}; display:grid; place-items:center; }}
 #logo .tile span {{ font-family:AR; font-size:52px; color:{INK}; margin-top:-6px; }} #logo .tile em {{ position:absolute; right:13px; top:12px; width:13px; height:13px; border-radius:50%; background:{GOLD}; }}
 #logo b {{ font-family:AR; font-size:64px; }}
-#site {{ position:absolute; top:820px; left:50%; margin-left:-300px; width:600px; padding:24px 0; text-align:center; border-radius:60px; background:{GOLD}; color:{INK}; font-size:52px; opacity:0; }}
+#site {{ position:absolute; top:860px; left:50%; margin-left:-340px; width:680px; font-family:KA; padding:24px 0; text-align:center; border-radius:60px; background:{GOLD}; color:{INK}; font-size:58px; opacity:0; }}
 .wipe {{ position:absolute; inset:0; z-index:50; transform:translateX(1100px); }}
 """
     open(os.path.join(out, "index.html"), "w").write(f"""<!doctype html>
