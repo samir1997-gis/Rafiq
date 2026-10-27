@@ -17,6 +17,17 @@ shapes**: our palette and our own graphics, always.
    (the ground cracks → the counter above it → the sun comes down onto that ground), whip to the next page, and come back to the
    speaker only on the line that lands (reference: `reels/salah-20/seq.py`).
 
+## Easing: every animation, every video (owner, 27 Oct 2026)
+From the owner's reference (a position-over-time graph for each). It applies to everything that moves: words, drawings, cards, scenes.
+| What | Ease | GSAP |
+|---|---|---|
+| **Entrances** (anything arriving) | **ease out**: fast, then settling into place | `power3.out` / `expo.out` |
+| **Exits** (anything leaving) | **ease in**: slow to start, then gone fast | `power2.in` / `power3.in` |
+| **Interface** (pills, buttons, cards, tiles, counters' pop) | **spring, slight overshoot** | `back.out(1.4)` (never more than about 1.7) |
+| Moving from A to B on screen | ease in and out | `power2.inOut` |
+| **Nothing linear.** | never `ease:"none"` / `"linear"`, not even for drawn lines or counters | draws `power2.inOut`, counters `power2.out` |
+A big overshoot (`back.out(3)`, `elastic`) only for one deliberate slam per video (the shouted word), never as the default.
+
 ## The moves (helpers in build2.py)
 | Move | When to use it | Helper |
 |---|---|---|
