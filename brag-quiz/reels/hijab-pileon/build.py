@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The animation for the hijab pile-on (owner, 27 Oct 2026, #302): a hijabi stands in the middle of a dark stage; an old woman shouts
 "We need to ban the hijab!" (her mouth follows the shout); a spotlight clunks on over the hijabi and she looks distressed (brows up,
-mouth down, hands clasp, she shrinks and trembles, a tear); then people join on their own "hijab" in the audio, one by one, then faster,
+mouth down, hands clasp; no eyes on anyone: owner, 27 Oct, she shrinks and trembles, a tear); then people join on their own "hijab" in the audio, one by one, then faster,
 each shouting with a bubble, until a crowd surrounds her shouting over each other, the camera pushing in, and it cuts dead to black.
 Every call is placed from the mixer's timings (brag-quiz/out/hijab/hijab-pileon.times.json, written by mix.py). Easing as
 MOTION-STYLE.md: entrances ease out, exits ease in, pops spring with a slight overshoot, nothing linear.
@@ -30,7 +30,6 @@ def person(id, x, feet, s, d, body, face, hair, light):
  <path d="M48 345 L 60 172 Q 100 140 140 172 L 152 345 Z" fill="{body}"/>
  <g id="{id}a"><path d="M100 178 L {100 + 128 * d} 172" stroke="{body}" stroke-width="26" stroke-linecap="round"/><circle cx="{100 + 132 * d}" cy="172" r="14" fill="{face}"/></g>
  <circle cx="100" cy="95" r="48" fill="{face}"/>{hairp}
- <ellipse cx="{86 + ex}" cy="94" rx="5" ry="6" fill="#111"/><ellipse cx="{114 + ex}" cy="94" rx="5" ry="6" fill="#111"/>
  <path d="M{76 + ex} {80 + 4 * d} L {94 + ex} {84 - 4 * d} M {106 + ex} {84 + 4 * d} L {124 + ex} {80 - 4 * d}" stroke="#111" stroke-width="5" stroke-linecap="round"/>
  <ellipse id="{id}m" cx="{100 + ex}" cy="122" rx="13" ry="3" fill="#3a1010"/>
 </g></svg></div>'''
@@ -108,7 +107,6 @@ def build():
         T(f'tl.fromTo("#{id}g", {{y:0}}, {{y:-10, duration:0.07, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t0:.2f});')
         if k < 70: T(f'tl.to("#{id}a", {{rotation:{-18 * d}, duration:0.12, ease:"back.out(1.4)", svgOrigin:"100 178"}}, {t0:.2f});')
         if k < 60: T(f'tl.to("#{id}a", {{rotation:{30 * d}, duration:0.25, ease:"power2.in", svgOrigin:"100 178"}}, {t0 + 0.4:.2f});')
-        if k < 8: T(f'tl.to("#eyes", {{x:{-5 if x < 540 else 5}, duration:0.2, ease:"power3.out"}}, {t0 + 0.05:.2f});')   # she looks at each one
         txt, cls = {"calm": ("hijab.", "b0"), "emph": ("Hijab!", "b1"), "shout": ("HIJAB!", "b2")}[kind]
         bx = x + d * 60 * s + rnd.uniform(-40, 40); by = top - 20 + rnd.uniform(-60, 30)
         if 400 < bx < 680 and 740 < by < 1130: bx = 390 if bx < 540 else 690   # never over her face
@@ -147,7 +145,6 @@ def build():
  <path d="M150 58 C 88 58 66 122 72 178 C 76 232 58 300 70 336 L 230 336 C 242 300 224 232 228 178 C 234 122 212 58 150 58 Z" fill="{TEAL}"/>
  <path d="M150 58 C 88 58 66 122 72 178 C 90 120 210 120 228 178 C 234 122 212 58 150 58 Z" fill="#256356"/>
  <ellipse cx="150" cy="168" rx="46" ry="56" fill="#c99a73"/>
- <g id="eyes"><ellipse cx="132" cy="163" rx="6" ry="7" fill="#1a1a1a"/><ellipse cx="168" cy="163" rx="6" ry="7" fill="#1a1a1a"/></g>
  <path id="brL" d="M122 146 L 140 144" stroke="#2a1d14" stroke-width="5" stroke-linecap="round"/><path id="brR" d="M160 144 L 178 146" stroke="#2a1d14" stroke-width="5" stroke-linecap="round"/>
  <path id="mo1" d="M138 196 Q 150 201 162 196" stroke="#6b2f24" stroke-width="5" fill="none" stroke-linecap="round"/>
  <path id="mo2" d="M138 201 Q 150 191 162 201" stroke="#6b2f24" stroke-width="5" fill="none" stroke-linecap="round" opacity="0"/>
