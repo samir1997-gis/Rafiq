@@ -1,5 +1,33 @@
 [
  {
+  "file": "ban5",
+  "voice": "XB0fDUnXU5powFXDhCwa",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[old woman, strong cockney accent] [furious] [screaming] We need to BAN the HIJAB!!"
+ },
+ {
+  "file": "ban4",
+  "voice": "Xb7hH8MSUJpSbSDYk0k2",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[old woman, strong cockney accent] [outraged, yelling at the top of her voice] We NEED to BAN... the HIJAB!!"
+ },
+ {
+  "file": "ban3",
+  "voice": "pFZP5JQG7iQjIQuC4Bku",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[old woman, strong cockney accent] [furious] [screaming] We need to BAN the HIJAB!!"
+ },
+ {
+  "file": "ban2",
+  "voice": "Xb7hH8MSUJpSbSDYk0k2",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[old woman, strong cockney accent] [furious] [screaming] We need to BAN the HIJAB!!"
+ },
+ {
   "file": "ban",
   "voice": "Xb7hH8MSUJpSbSDYk0k2",
   "model": "eleven_v3",
