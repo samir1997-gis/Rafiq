@@ -1,0 +1,394 @@
+[
+ {
+  "file": "ban",
+  "voice": "Xb7hH8MSUJpSbSDYk0k2",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[old woman, strong cockney accent, furious] [shouting] We need to BAN the hijab!"
+ },
+ {
+  "file": "ban-b",
+  "voice": "pFZP5JQG7iQjIQuC4Bku",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[old woman, strong cockney accent, furious] [shouting] We need to BAN the hijab!"
+ },
+ {
+  "file": "alice-calm",
+  "voice": "Xb7hH8MSUJpSbSDYk0k2",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "Hijab."
+ },
+ {
+  "file": "alice-emph",
+  "voice": "Xb7hH8MSUJpSbSDYk0k2",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[annoyed] Hijab!"
+ },
+ {
+  "file": "alice-shout",
+  "voice": "Xb7hH8MSUJpSbSDYk0k2",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] HIJAB!"
+ },
+ {
+  "file": "lily-calm",
+  "voice": "pFZP5JQG7iQjIQuC4Bku",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "Hijab."
+ },
+ {
+  "file": "lily-emph",
+  "voice": "pFZP5JQG7iQjIQuC4Bku",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[annoyed] Hijab!"
+ },
+ {
+  "file": "lily-shout",
+  "voice": "pFZP5JQG7iQjIQuC4Bku",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] HIJAB!"
+ },
+ {
+  "file": "charlotte-calm",
+  "voice": "XB0fDUnXU5powFXDhCwa",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "Hijab."
+ },
+ {
+  "file": "charlotte-emph",
+  "voice": "XB0fDUnXU5powFXDhCwa",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[annoyed] Hijab!"
+ },
+ {
+  "file": "charlotte-shout",
+  "voice": "XB0fDUnXU5powFXDhCwa",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] HIJAB!"
+ },
+ {
+  "file": "george-calm",
+  "voice": "JBFqnCBsd6RMkjVDRZzb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "Hijab."
+ },
+ {
+  "file": "george-emph",
+  "voice": "JBFqnCBsd6RMkjVDRZzb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[annoyed] Hijab!"
+ },
+ {
+  "file": "george-shout",
+  "voice": "JBFqnCBsd6RMkjVDRZzb",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] HIJAB!"
+ },
+ {
+  "file": "daniel-calm",
+  "voice": "onwK4e9ZLuTAKqWW03F9",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "Hijab."
+ },
+ {
+  "file": "daniel-emph",
+  "voice": "onwK4e9ZLuTAKqWW03F9",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[annoyed] Hijab!"
+ },
+ {
+  "file": "daniel-shout",
+  "voice": "onwK4e9ZLuTAKqWW03F9",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] HIJAB!"
+ },
+ {
+  "file": "callum-calm",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "Hijab."
+ },
+ {
+  "file": "callum-emph",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[annoyed] Hijab!"
+ },
+ {
+  "file": "callum-shout",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] HIJAB!"
+ },
+ {
+  "file": "brian-calm",
+  "voice": "nPczCjzI2devNBz1zQrb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "Hijab."
+ },
+ {
+  "file": "brian-emph",
+  "voice": "nPczCjzI2devNBz1zQrb",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[annoyed] Hijab!"
+ },
+ {
+  "file": "brian-shout",
+  "voice": "nPczCjzI2devNBz1zQrb",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] HIJAB!"
+ },
+ {
+  "file": "bill-calm",
+  "voice": "pqHfZKP75CvOlQylNhV4",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "Hijab."
+ },
+ {
+  "file": "bill-emph",
+  "voice": "pqHfZKP75CvOlQylNhV4",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[annoyed] Hijab!"
+ },
+ {
+  "file": "bill-shout",
+  "voice": "pqHfZKP75CvOlQylNhV4",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] HIJAB!"
+ },
+ {
+  "file": "jessica-calm",
+  "voice": "cgSgspJ2msm6clMCkdW9",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "Hijab."
+ },
+ {
+  "file": "jessica-emph",
+  "voice": "cgSgspJ2msm6clMCkdW9",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[annoyed] Hijab!"
+ },
+ {
+  "file": "jessica-shout",
+  "voice": "cgSgspJ2msm6clMCkdW9",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] HIJAB!"
+ },
+ {
+  "file": "will-calm",
+  "voice": "bIHbv24MWmeRgasZH58o",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "Hijab."
+ },
+ {
+  "file": "will-emph",
+  "voice": "bIHbv24MWmeRgasZH58o",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[annoyed] Hijab!"
+ },
+ {
+  "file": "will-shout",
+  "voice": "bIHbv24MWmeRgasZH58o",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] HIJAB!"
+ },
+ {
+  "file": "roger-calm",
+  "voice": "CwhRBWXzGAHq8TQ4Fs17",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "Hijab."
+ },
+ {
+  "file": "roger-emph",
+  "voice": "CwhRBWXzGAHq8TQ4Fs17",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[annoyed] Hijab!"
+ },
+ {
+  "file": "roger-shout",
+  "voice": "CwhRBWXzGAHq8TQ4Fs17",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] HIJAB!"
+ },
+ {
+  "file": "charlie-calm",
+  "voice": "IKne3meq5aSn9XLyUdCD",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "Hijab."
+ },
+ {
+  "file": "charlie-emph",
+  "voice": "IKne3meq5aSn9XLyUdCD",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[annoyed] Hijab!"
+ },
+ {
+  "file": "charlie-shout",
+  "voice": "IKne3meq5aSn9XLyUdCD",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] HIJAB!"
+ },
+ {
+  "file": "sarah-in-calm",
+  "voice": "EXAVITQu4vr4xnSDxMaL",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[strong Indian accent] Hijab."
+ },
+ {
+  "file": "sarah-in-emph",
+  "voice": "EXAVITQu4vr4xnSDxMaL",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[strong Indian accent] [annoyed] Hijab!"
+ },
+ {
+  "file": "sarah-in-shout",
+  "voice": "EXAVITQu4vr4xnSDxMaL",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[strong Indian accent] [shouting] HIJAB!"
+ },
+ {
+  "file": "laura-in-calm",
+  "voice": "FGY2WhTYpPnrIDTdsKH5",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[strong Indian accent] Hijab."
+ },
+ {
+  "file": "laura-in-emph",
+  "voice": "FGY2WhTYpPnrIDTdsKH5",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[strong Indian accent] [annoyed] Hijab!"
+ },
+ {
+  "file": "laura-in-shout",
+  "voice": "FGY2WhTYpPnrIDTdsKH5",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[strong Indian accent] [shouting] HIJAB!"
+ },
+ {
+  "file": "matilda-in-calm",
+  "voice": "XrExE9yKIg1WjnnlVkGX",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[strong Indian accent] Hijab."
+ },
+ {
+  "file": "matilda-in-emph",
+  "voice": "XrExE9yKIg1WjnnlVkGX",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[strong Indian accent] [annoyed] Hijab!"
+ },
+ {
+  "file": "matilda-in-shout",
+  "voice": "XrExE9yKIg1WjnnlVkGX",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[strong Indian accent] [shouting] HIJAB!"
+ },
+ {
+  "file": "eric-in-calm",
+  "voice": "cjVigY5qzO86Huf0OWal",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[strong Indian accent] Hijab."
+ },
+ {
+  "file": "eric-in-emph",
+  "voice": "cjVigY5qzO86Huf0OWal",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[strong Indian accent] [annoyed] Hijab!"
+ },
+ {
+  "file": "eric-in-shout",
+  "voice": "cjVigY5qzO86Huf0OWal",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[strong Indian accent] [shouting] HIJAB!"
+ },
+ {
+  "file": "chris-in-calm",
+  "voice": "iP95p4xoKVk53GoZ742B",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[strong Indian accent] Hijab."
+ },
+ {
+  "file": "chris-in-emph",
+  "voice": "iP95p4xoKVk53GoZ742B",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[strong Indian accent] [annoyed] Hijab!"
+ },
+ {
+  "file": "chris-in-shout",
+  "voice": "iP95p4xoKVk53GoZ742B",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[strong Indian accent] [shouting] HIJAB!"
+ },
+ {
+  "file": "liam-in-calm",
+  "voice": "TX3LPaxmHKxFdv7VOQHJ",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[strong Indian accent] Hijab."
+ },
+ {
+  "file": "liam-in-emph",
+  "voice": "TX3LPaxmHKxFdv7VOQHJ",
+  "model": "eleven_v3",
+  "stability": 0.5,
+  "text": "[strong Indian accent] [annoyed] Hijab!"
+ },
+ {
+  "file": "liam-in-shout",
+  "voice": "TX3LPaxmHKxFdv7VOQHJ",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[strong Indian accent] [shouting] HIJAB!"
+ }
+]
