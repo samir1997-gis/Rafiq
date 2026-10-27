@@ -56,4 +56,8 @@ for ext, codec in (("wav", ["-c:a", "pcm_s16le"]), ("mp3", ["-c:a", "libmp3lame"
                     "acompressor=threshold=-18dB:ratio=3:attack=5:release=80,loudnorm=I=-14:TP=-1.0:LRA=11,aresample=" + str(SR), *codec,
                     os.path.join(OUT, f"hijab-pileon{'' if OPEN == 'ban5' else '-' + OPEN}.{ext}")], check=True)
 os.remove(raw)
+if OPEN == "ban5":                                                        # the timings the animation follows (reels/hijab-pileon/build.py)
+    e = np.sqrt(np.convolve(ban ** 2, np.ones(1920) / 1920, "same"))[::1920]  # the opening shout, loud or not every 40 ms
+    json.dump({"end": round(END, 3), "ban": [round(float(v / e.max()), 2) for v in e], "calls": [[round(c[0], 3), c[1], round(c[3], 2)] for c in calls]},
+              open(os.path.join(OUT, "hijab-pileon.times.json"), "w"))
 print(f"{END:.1f} s, {len(calls)} calls, {sum(len(v) for v in takes.values())} takes")
