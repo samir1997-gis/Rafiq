@@ -19,7 +19,7 @@ def load(f):
 lines = json.load(open(os.path.join(ROOT, "brag-quiz/voice/hijab-lines.json")))
 takes = {k: [] for k in ("calm", "emph", "shout")}
 for l in lines:
-    if l["file"].startswith("ban"): continue
+    if l["file"].startswith("ban") or not os.path.exists(os.path.join(VO, l["file"] + ".mp3")): continue   # a voice that failed is left out
     takes[l["file"].split("-")[-1]].append(load(os.path.join(VO, l["file"] + ".mp3")))
 ban = load(os.path.join(VO, "ban.mp3"))
 
