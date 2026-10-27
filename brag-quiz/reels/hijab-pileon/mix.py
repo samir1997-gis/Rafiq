@@ -4,7 +4,7 @@ voices (American, Indian, English; men and women) say "hijab", one at a time at 
 shouted, until they're all shouting over each other, and it cuts dead.
 
   python3 brag-quiz/reels/hijab-pileon/mix.py [OPENER]   (reads brag-quiz/voice/hijab/*.mp3, spoken from hijab-lines.json;
-  OPENER = the take of the opening shout, ban3 by default: owner, 27 Oct, "louder and more animated")
+  OPENER = the take of the opening shout, ban5 by default: owner, 27 Oct, "louder and more animated", then "go for 5")
   → brag-quiz/out/hijab/hijab-pileon.wav and .mp3 (hijab-pileon-OPENER.* for another take)"""
 import json, os, random, subprocess, sys
 import numpy as np
@@ -22,7 +22,7 @@ takes = {k: [] for k in ("calm", "emph", "shout")}
 for l in lines:
     if l["file"].startswith("ban") or not os.path.exists(os.path.join(VO, l["file"] + ".mp3")): continue   # a voice that failed is left out
     takes[l["file"].split("-")[-1]].append(load(os.path.join(VO, l["file"] + ".mp3")))
-OPEN = sys.argv[1] if len(sys.argv) > 1 else "ban3"
+OPEN = sys.argv[1] if len(sys.argv) > 1 else "ban5"                    # the owner picked Charlotte's take (27 Oct)
 ban = load(os.path.join(VO, OPEN + ".mp3"))
 
 def place(buf, x, t, gain, pan, rate=1.0):
@@ -54,6 +54,6 @@ buf.tofile(raw)
 for ext, codec in (("wav", ["-c:a", "pcm_s16le"]), ("mp3", ["-c:a", "libmp3lame", "-b:a", "192k"])):
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", raw, "-af",
                     "acompressor=threshold=-18dB:ratio=3:attack=5:release=80,loudnorm=I=-14:TP=-1.0:LRA=11,aresample=" + str(SR), *codec,
-                    os.path.join(OUT, f"hijab-pileon{'' if OPEN == 'ban3' else '-' + OPEN}.{ext}")], check=True)
+                    os.path.join(OUT, f"hijab-pileon{'' if OPEN == 'ban5' else '-' + OPEN}.{ext}")], check=True)
 os.remove(raw)
 print(f"{END:.1f} s, {len(calls)} calls, {sum(len(v) for v in takes.values())} takes")
