@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The coffee story as a silent reel (owner, 27 Oct 2026, #301), the same look as the silent algebra reel (#299,
+"""The coffee story as a silent reel (owner, 27 Oct 2026, #300), the same look as the silent algebra reel (#299,
 reels/algebra-silent): our colours, Playfair Display, text typed out with one word in italic serif, a fan of numbered cards, numbered
 points with a wipe between them; no voice, only sound effects. Every move eased as MOTION-STYLE.md says (entrances ease out, exits ease in,
 interface springs with a slight overshoot, nothing linear).
