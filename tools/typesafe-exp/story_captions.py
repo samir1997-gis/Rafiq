@@ -1,4 +1,4 @@
-# Captions for "the story of a word" (26 Oct 2026, #296): h1-algebra and h2-coffee, the pastel doodle look, in the Callum standard.
+# Captions for "the story of a word" (26 Oct 2026, #296; h3-lisan the Dune edition, 28 Oct, #303): h1-algebra and h2-coffee, the pastel doodle look, in the Callum standard.
 # Each caption repeats the hook and keeps the quiz answer back (no "mend", no "café").
 # Not run yet: no TYPE_SAFE_KEY in the session that made them (#262).
 # Run: TYPE_SAFE_KEY=... python3 tools/typesafe-exp/story_captions.py
@@ -13,11 +13,18 @@ CTX = {
             "'The Arabic word for coffee used to mean WINE!'; old Arabic dictionaries say qahwa meant wine because it puts you off your food; Sufis "
             "in Yemen in the 1400s drank coffee to stay awake for night prayers and the name moved over; it travelled to Istanbul, the Dutch and "
             "English by 1582; then a quiz: masjid is the place of sujood, so what is a maqha (coffee pot / cafe / coffee bean?), 3-2-1. Ends: "
-            "'How do you take yours? Comment below!' Caption under it: ")}
+            "'How do you take yours? Comment below!' Caption under it: "),
+ "lisan": ("A TikTok/Instagram Reel from a small account teaching the Arabic Muslims use, on a drawn desert page (dunes, sand blowing, a worm). "
+           "A voice says 'Everyone in Dune chants Lisan al-Gaib... but what does it actually mean in Arabic?'; lisan means tongue and language "
+           "(the Qur'an came down in a clear Arabic tongue); a quiz on al-ghayb from the first page of al-Baqarah (the desert / the unseen / "
+           "the future?), 3-2-1; so it's 'the tongue of the unseen'; Frank Herbert didn't invent it: the Persian poet Hafez was called that over "
+           "500 years earlier. Ends: 'Which Dune word should I do next: Muad'Dib, or Usul? Comment below!' Caption under it: ")}
 C = {
  "algebra/question": ("algebra", "Algebra is named after an Arabic word for setting broken bones 🦴 Can you guess what وَاجْبُرْنِي means before the 3-2-1? Then tell me: what do you say between the two sujood? 👇 #learnarabic #arabic #etymology #history #muslimtiktok"),
  "algebra/share": ("algebra", "Your maths teacher never told you this 🦴📐 Algebra comes from an Arabic word for setting broken bones. Send this to someone who hated maths 😅 #learnarabic #arabic #etymology #history #muslimtiktok"),
  "coffee/question": ("coffee", "The Arabic word for coffee used to mean… wine?! ☕ Guess what a مَقْهى is before the 3-2-1, then tell me how you take yours 👇 #learnarabic #arabic #coffee #etymology #muslimtiktok"),
+ "lisan/question": ("lisan", "Everyone chants Lisan al-Gaib… but what does it actually mean in Arabic? 🏜️ Guess before the 3-2-1, then tell me: Muad'Dib or Usul next? 👇 #dune #duneparttwo #learnarabic #arabic #lisanalgaib"),
+ "lisan/fact": ("lisan", "Lisan al-Gaib is real Arabic, and it's older than Dune 🏜️ Did you know which part is from the Qur'an? Comment 👇 Send this to your Dune friend #dune #duneparttwo #learnarabic #arabic #lisanalgaib"),
  "coffee/share": ("coffee", "Every coffee you order is a little bit of Arabic ☕ Send this to your coffee-addict friend, and guess the last one before the 3-2-1 👇 #learnarabic #arabic #coffee #etymology #muslimtiktok"),
 }
 WHO = {"target": "a 27-year-old UK Muslim who prays but doesn't understand the Arabic", "revert": "a 31-year-old revert learning Arabic"}
