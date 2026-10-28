@@ -1721,10 +1721,13 @@ def desert(c, body):
     rnd = __import__("random").Random(9)
     dn = lambda k: (f'<svg class="dn" id="dn{k}" viewBox="0 0 1200 760" style="top:{DUNES[k][0]}px"><path d="{DUNES[k][1]}" fill="{DUNES[k][2]}"/>'
                     f'<path d="{DUNES[k][1].split(" V")[0]}" fill="none" stroke="#f9dfba" stroke-width="5" opacity=".55"/></svg>')
+    W = "M1000 2010 C990 1640 1075 1290 850 1050"          # the worm arches up out of the sand on the right and leans over the page
     worm = ('<svg id="worm" viewBox="0 0 1080 1920"><g id="wormg">'
-            '<path d="M905 2000 C912 1640 856 1290 930 1000" fill="none" stroke="#8d5b36" stroke-width="150" stroke-linecap="round"/>'
-            '<path d="M905 2000 C912 1640 856 1290 930 1000" fill="none" stroke="#6f4427" stroke-width="152" stroke-dasharray="7 44"/>'
-            '<ellipse cx="932" cy="1000" rx="78" ry="30" fill="#3a2314" transform="rotate(-12 932 1000)"/></g></svg>')
+            f'<path d="{W}" fill="none" stroke="#8d5b36" stroke-width="170" stroke-linecap="round"/>'
+            f'<path d="{W}" fill="none" stroke="#a87048" stroke-width="120" stroke-linecap="round" opacity=".55"/>'
+            f'<path d="{W}" fill="none" stroke="#6a4024" stroke-width="172" stroke-dasharray="5 36"/>'
+            '<ellipse cx="846" cy="1050" rx="92" ry="44" fill="#d39a64" transform="rotate(-38 846 1050)"/>'
+            '<ellipse cx="846" cy="1050" rx="74" ry="32" fill="#2f1b0f" transform="rotate(-38 846 1050)"/></g></svg>')
     sand = []
     for k in range(40):
         y, s = rnd.randint(860, 1900), rnd.choice([3, 4, 5, 6])
@@ -1733,7 +1736,9 @@ def desert(c, body):
     body.insert(0, '<div id="desert" data-layout-ignore><div id="sun"></div>' + doodle("moon", 70, 470, 84, "sky", "moon1", rot=-14) + doodle("moon", 175, 420, 44, "sky", "moon2", rot=8)
                 + dn(0) + dn(1) + worm + dn(2)
                 + "".join(f'<i class="sand" id="sd{k}" style="top:{y}px;width:{s}px;height:{s}px;background:{col};opacity:.75"></i>' for k, x, y, s, v, col in sand)
-                + "".join(f'<i class="gust" id="gs{k}" style="top:{y}px"></i>' for k, x, y, v in gusts) + '</div>')
+                + "".join(f'<i class="gust" id="gs{k}" style="top:{y}px"></i>' for k, x, y, v in gusts)
+                + '<div id="wspray" style="position:absolute;left:1000px;top:1560px">' + "".join(f'<i class="sand" style="left:0;top:0;width:{8 + k % 3 * 4}px;height:{8 + k % 3 * 4}px;'
+                  f'background:{["#f3cf9f", "#d9a46e", "#fbe6c4"][k % 3]};opacity:0"></i>' for k in range(12)) + '</div></div>')
     c.t('tl.set("#wormg", {y:1000}, 0);')
     def finish(total):
         for k, (top, p, col, dr) in enumerate(DUNES):
@@ -1752,6 +1757,8 @@ def worm_rise(c, at, hold=1.8):
     c.t(f'tl.to("#wormg", {{y:1000, duration:1.1, ease:"power2.in"}}, {at + 0.9 + hold:.2f});')
     c.t(f'tl.fromTo("#dn2", {{y:0}}, {{y:0, keyframes:[{{y:-10, duration:0.06}}, {{y:8, duration:0.06}}, {{y:-5, duration:0.06}}, {{y:0, duration:0.08}}], immediateRender:false}}, {at:.2f});')
     clip(c, "brag-quiz/sfx/soft/rumble.wav", at - 0.3, 0.6)
+    c.t(f'tl.fromTo("#wspray i", {{opacity:1, x:0, y:0, scale:1}}, {{opacity:0, x:(i) => (i % 2 ? 1 : -1) * (60 + 22 * i), y:(i) => -120 - 30 * (i % 4), '
+        f'scale:0.5, duration:0.8, ease:"power2.out", immediateRender:false}}, {at + 0.05:.2f});')
 
 GHAYB = [("الْ", ""), ("غَ", "r"), ("يْ", "r"), ("ب", "r")]
 LISAN = [("لِ", "r"), ("سا", "r"), ("ن", "r")]
@@ -1787,7 +1794,7 @@ def h3():
                 '<br>in a clear Arabic tongue</q><small>the Qur’an · ash-Shuʿarāʾ 26:195</small></div>' + f'{h}{h2}</div>')
     t = whip_out(c, "s1", t3 + db + 0.35)
     # 2. your turn: الْغَيْب (al-Baqarah 2:3): the desert, the unseen or the future? 3-2-1, the UNSEEN, and the worm rises out of the sand
-    B, Q, S = V + "t1.mp3", V + "t1b.mp3", V + "b2.mp3"
+    B, Q, S = V + "t1.mp3", V + "t1b.mp3", V + "b2t.mp3"      # b2t, b3t: the lines' last sentences cut for length
     whip_in(c, "s2", t); d = clip(c, B, t + 0.1); h = cap(c, "s2a", B, t + 0.1, (("turn", "r"), ("baqarah", "g")), "ccs")
     t2 = t + 0.1 + d + 0.05; dw = say_up(c, "", t2, src=V + "ghayb.mp3"); zoom_in(c, "#s2w", t2)
     t3 = t2 + dw + 0.15; dq = clip(c, Q, t3); h2 = cap(c, "s2b", Q, t3, (("it?", "r"),))
@@ -1799,7 +1806,7 @@ def h3():
     slam(c, "#s2s", "s2", hit, "brag-quiz/sfx/soft/impact.wav"); worm_rise(c, hit - 0.1)
     c.t(f'tl.to("#qo", {{opacity:0, y:30, duration:0.3}}, {hit + 1.0:.2f});')
     c.t(f'tl.fromTo("#s2q", {{opacity:0, y:40, scale:0.96}}, {{opacity:1, y:0, scale:1, duration:0.45, ease:"power3.out"}}, {done + key_at(S, "hidden", 1.4):.2f});')
-    pop(c, "#s2g", done + key_at(S, "'gh'.", d2 - 0.6))
+    pop(c, "#s2g", done + key_at(S, "hidden", 1.4) + 0.8)
     opts = '<div class="opts col" id="qo" style="top:800px">' + "".join(f'<div class="op2" id="qo{i}"><b>{o}</b></div>' for i, o in enumerate(["the desert", "the unseen", "the future"])) + '</div>'
     body.append(f'<div class="sec" id="s2">{h}<div class="bigw" id="s2w" style="top:430px;font-size:170px">{word(GHAYB)}</div>{h2}'
                 f'{opts}{cnt("qc", 1230)}<div class="slamw" id="s2s" style="top:1240px;font-size:110px">the <em>UNSEEN</em></div>'
@@ -1807,14 +1814,14 @@ def h3():
                 '<br>those who believe in the unseen</q><small>the Qur’an · al-Baqarah 2:3</small></div>'
                 f'<div class="sp mid" id="s2g" style="top:1110px"><span class="ar" style="color:var(--rubric)">غ</span> = gh, not g</div></div>')
     c.css += "#s2a { top:270px; } #s2b { top:720px; }"
-    t = whip_out(c, "s2", done + d2 + 0.6)
+    t = whip_out(c, "s2", done + d2 + 1.0)
     # 3. together: لِسانُ الْغَيْب, "the tongue of the unseen"
-    B = V + "b3.mp3"
+    B = V + "b3t.mp3"
     whip_in(c, "s3", t); dp = say_up(c, "", t + 0.15, src=V + "lisanghayb.mp3"); zoom_in(c, "#s3w", t + 0.15)
     pop(c, "#s3l0", t + 0.25, False); pop(c, "#s3l1", t + 0.15 + dp * 0.55, False)
     t2 = t + 0.15 + dp + 0.2; d = clip(c, B, t2); h = cap(c, "s3a", B, t2, (("tongue", "r"), ("unseen", "g")))
     tg = t2 + key_at(B, "tongue", 1.8); zoom_in(c, "#s3m", tg); c.sfx("correct", tg)
-    body.append(f'<div class="sec" id="s3"><div class="bigw" id="s3w" style="top:360px;font-size:150px">{word(LISAN + [("ُ", "")])} {word(GHAYB)}</div>'
+    body.append(f'<div class="sec" id="s3"><div class="bigw" id="s3w" dir="rtl" style="top:360px;font-size:150px;direction:rtl">{word(LISAN + [("ُ", "")])} {word(GHAYB)}</div>'
                 '<div class="sp" id="s3l0" style="left:600px;top:640px;color:var(--rubric)">tongue</div><div class="sp" id="s3l1" style="left:170px;top:640px;color:var(--verdigris)">the unseen</div>'
                 f'<div class="slamw" id="s3m" style="top:820px;font-size:92px;color:#8a4316">the tongue<br>of the unseen</div>{h}</div>')
     t = whip_out(c, "s3", t2 + d + 0.4)
