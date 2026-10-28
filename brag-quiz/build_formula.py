@@ -84,6 +84,7 @@ HOOK_VOICE = "N2lVS1w4EtoT3dr4eOWO"   # Callum: the owner's pick for spoken hook
 def clip(c, rel, at, vol=1.0):
     """Any sound file (path from the repo root) on the timeline; returns its length."""
     src = os.path.join(T.ROOT, rel); name = os.path.basename(src); shutil.copy(src, os.path.join(c.a, "audio", name)); d = T.dur(src)
+    if "/sfx/" in rel: vol = round(vol * getattr(c, "fx", 1.0), 3)       # c.fx: all the sound effects up or down, the voices as they are
     c.audio.append(f'<audio id="x{len(c.audio)}" src="assets/audio/{name}" data-start="{at:.2f}" data-duration="{d:.2f}" data-volume="{vol}" data-track-index="{16 + len(c.audio) % 3}"></audio>')
     return d
 
@@ -1773,6 +1774,7 @@ def h3():
     clips are what TikTok flags as unoriginal, #289); no Dune logo or the film's font. Voices: brag-quiz/voice/lisan-lines.json."""
     V = "brag-quiz/voice/lisan/"
     c = SO.vcomp("h3-lisan", "THE ARABIC IN DUNE"); c.bed = True; body = []; serif(c); c.css += GROW_CSS
+    c.fx = 0.7                                           # the background sounds 30% down (owner, 28 Oct 2026)
     finish = desert(c, body)
     def anim(c, at, d):                                  # "Lisan al-Gaib": the title glows as it's said, and the wind gusts
         c.t(f'tl.fromTo("#htitle", {{scale:1}}, {{scale:1.06, duration:0.25, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {at(4):.2f});')

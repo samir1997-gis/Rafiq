@@ -106,7 +106,7 @@ class Comp:
         self.audio.append(f'<audio id="s{len(self.audio)}" src="assets/audio/{AUDIO[text]}.mp3" data-start="{at:.2f}" data-duration="{d:.2f}" data-volume="{vol}" data-track-index="{10 + len(self.audio) % 2}"></audio>')
         return d
     def sfx(self, name, at, vol=None):
-        f = os.path.join(self.a, "sfx", name + ".mp3"); v = vol if vol is not None else {"tap": 0.45, "correct": 0.55}[name]
+        f = os.path.join(self.a, "sfx", name + ".mp3"); v = (vol if vol is not None else {"tap": 0.45, "correct": 0.55}[name]) * getattr(self, "fx", 1.0)
         self.audio.append(f'<audio id="s{len(self.audio)}" src="assets/sfx/{name}.mp3" data-start="{at:.2f}" data-duration="{dur(f):.2f}" data-volume="{v}" data-track-index="{14 + len(self.audio) % 2}"></audio>')
     def inn(self, sel, at, y=24, d=0.45):
         self.t(f'tl.fromTo("{sel}", {{opacity:0, y:{y}}}, {{opacity:1, y:0, duration:{d}, ease:"power3.out"}}, {at:.2f});')
@@ -125,7 +125,8 @@ class Comp:
             subprocess.run(["ffmpeg", "-y", "-v", "error"] + ["-i", src] * n + ["-filter_complex",
                             f"{chain},volume=6dB,atrim=0:{total + 0.5:.2f},afade=t=in:d=0.6,afade=t=out:st={total - 1.4:.2f}:d=1.4",
                             "-c:a", "libmp3lame", "-q:a", "3", bed], check=True)
-            self.audio.append(f'<audio id="bed" src="assets/sfx/fountain.mp3" data-start="0" data-duration="{total:.2f}" data-volume="0.1" data-track-index="8"></audio>')
+            bv = 0.1 * getattr(self, "fx", 1.0)                     # c.fx turns the bed down with the other effects
+            self.audio.append(f'<audio id="bed" src="assets/sfx/fountain.mp3" data-start="0" data-duration="{total:.2f}" data-volume="{bv:.3f}" data-track-index="8"></audio>')
         head = ['tl.fromTo("#glow", {scale:0.94}, {scale:1.08, duration:' + f'{total}' + ', ease:"none"}, 0);',
                 'tl.fromTo("#brand", {opacity:0, y:-10}, {opacity:1, y:0, duration:0.4, ease:"power3.out"}, 0);',
                 'tl.fromTo("#kicker", {opacity:0}, {opacity:1, duration:0.3}, 0.05);']
