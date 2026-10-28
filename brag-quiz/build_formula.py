@@ -1774,7 +1774,7 @@ def h3():
     clips are what TikTok flags as unoriginal, #289); no Dune logo or the film's font. Voices: brag-quiz/voice/lisan-lines.json."""
     V = "brag-quiz/voice/lisan/"
     c = SO.vcomp("h3-lisan", "THE ARABIC IN DUNE"); c.bed = True; body = []; serif(c); c.css += GROW_CSS
-    c.fx = 0.7                                           # the background sounds 30% down (owner, 28 Oct 2026)
+    c.fx = 0.5                                           # the background sounds about 30% down in the finished mix (owner, 28 Oct 2026; the render compresses, so 0.7 only gave ~1.7 dB)
     finish = desert(c, body)
     def anim(c, at, d):                                  # "Lisan al-Gaib": the title glows as it's said, and the wind gusts
         c.t(f'tl.fromTo("#htitle", {{scale:1}}, {{scale:1.06, duration:0.25, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {at(4):.2f});')
