@@ -127,6 +127,34 @@ ART = {"pronouns": {
        + "".join(person(x, 372, 1.0, sk, top, bd, None, "fold", legs=True) for x, sk, top, bd in
                  ((210, SKIN[2], "kufi", "#fff"), (420, SKIN[0], "kufi", "#cfe5ff"), (660, SKIN[1], "kufi", "#fff"), (870, SKIN[3], "kufi", "#FFE66D")))),
  "end": ("#2E7263", None, ["#FFC93C", "#fff", "#FF7A59"], None),
+},
+ # family (#305): mum and child with a heart; dad and son walking to the mosque; brother at the tap for wudu; big sister and little brother;
+ # grandad and uncle in the garden; grandma between two houses (she lives near us)
+ "family": {
+ "cover": ("#FFC93C", None, ["#fff", "#FF7A59", "#4D96FF"], None),
+ "mum": ("#FF7A59", "#FFE66D", ["#FFE66D", "#fff"],
+       person(600, 370, 1.15, SKIN[2], "hijab:#fff", "#2E7263", None, "fold") + person(400, 370, 0.75, SKIN[2], "hair:#3a2a1c", "#FFC93C", None, "wave")
+       + f'<path d="M500 110 C 470 70 420 90 440 130 L 500 190 L 560 130 C 580 90 530 70 500 110 Z" fill="{RED}" {O}/>'),
+ "dad": ("#4D96FF", "#FFC93C", ["#FFC93C", "#fff"],
+       mosque(300, 380, 0.9) + person(660, 370, 1.15, SKIN[3], "kufi", "#fff", "#2a1d14") + person(820, 370, 0.75, SKIN[3], "kufi", "#FFC93C", None, "wave")),
+ "brother": ("#2EB67D", "#FFE66D", ["#fff", "#FFE66D"],
+       f'<g transform="translate(380,0)"><rect x="-150" y="40" width="300" height="160" rx="10" fill="#cfe5ff" {O}/>'
+       f'<path d="M-10 200 L -10 130 C -10 100 60 100 60 130 L 60 150" fill="none" stroke="{INK}" stroke-width="14" stroke-linecap="round"/>'
+       + "".join(f'<path d="M60 {y} C 52 {y + 16} 52 {y + 26} 60 {y + 30} C 68 {y + 26} 68 {y + 16} 60 {y} Z" fill="#4D96FF" {O}/>' for y in (162, 196, 230))
+       + f'<path d="M-120 250 L 120 250 C 120 310 -120 310 -120 250 Z" fill="#fff" {O}/><rect x="-24" y="296" width="48" height="74" fill="#fff" {O}/></g>'
+       + person(680, 370, 1.15, SKIN[1], "hair:#3a2a1c", "#FF7A59", "#2a1d14", "fold")),
+ "sister": ("#9B6BFF", "#FFE66D", ["#fff", "#F49AC1"],
+       person(460, 370, 1.2, SKIN[0], "hijab:#FFC93C", "#2E7263", None, "book:#FF7A59") + person(660, 370, 0.7, SKIN[0], "kufi", "#FF7A59", None, "wave")),
+ "grandpa": ("#FFB23F", "#fff", ["#fff", "#2EB67D"],
+       f'<rect x="210" y="190" width="40" height="180" fill="#8d5f3e" {O}/><circle cx="230" cy="150" r="96" fill="#2EB67D" {O}/>'
+       + "".join(f'<path d="M{x} 370 L {x} 320" stroke="{TEAL}" stroke-width="6"/><circle cx="{x}" cy="312" r="14" fill="{c}" {O}/>' for x, c in ((340, RED), (380, "#fff"), (420, "#9B6BFF")))
+       + person(580, 370, 1.1, SKIN[0], "kufi", "#fff", "#f4f4f4", "fold") + person(790, 370, 1.1, SKIN[0], "hair:#3a2a1c", "#4D96FF", "#2a1d14", "wave")),
+ "grandma": ("#F49AC1", "#FFE66D", ["#fff", "#9B6BFF"],
+       "".join(f'<g transform="translate({x},370)"><rect x="-100" y="-160" width="200" height="160" fill="{c}" {O}/><path d="M-122 -160 L 0 -250 L 122 -160 Z" fill="{RED}" {O}/>'
+               f'<rect x="-26" y="-86" width="52" height="86" fill="{TEAL}" {O}/></g>' for x, c in ((200, "#fff"), (880, "#FFE66D")))
+       + f'<path d="M300 362 L 780 362" stroke="{INK}" stroke-width="6" stroke-dasharray="4 18" stroke-linecap="round"/>'
+       + person(540, 360, 1.05, SKIN[4], "hijab:#fff", "#9B6BFF", None, "wave")),
+ "end": ("#2E7263", None, ["#FFC93C", "#fff", "#FF7A59"], None),
 }}
 CAST = (person(130, 300, 0.85, SKIN[1], "hair:#3a2a1c", "#2E7263", "#2a1d14", "wave") + person(330, 300, 0.85, SKIN[3], "kufi", "#FF7A59", "#2a1d14")
         + person(530, 300, 0.85, SKIN[2], "hijab:#9B6BFF", "#2E7263") + person(730, 300, 0.85, SKIN[0], "kufi", "#fff", "#e6e6e6", "fold")

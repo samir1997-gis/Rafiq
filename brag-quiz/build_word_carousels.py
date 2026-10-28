@@ -93,6 +93,22 @@ SETS = {
    ("black", "أَسْوَد · سَوْداء", '<i class="sw" style="background:#17262b"></i> aswad · sawdāʾ (f)', [("الْمِظَلَّةُ سَوْداءُ.", "سَوْداءُ", "al-miẓallatu sawdā'.", "The umbrella is black.")],
     "The Black Stone of the Kaaba: الْحَجَرُ الْأَسْوَدُ."),
  ]),
+ # family (IDEAS "next in the series: family words", owner 28 Oct 2026, #305): the course's own words (vocab-data.js 50, 46, 32, 33, 52, 53) and
+ # sentences (drills-data.js); notes: al-Bukhārī 5971, Maryam 19:42, al-Ḥujurāt 49:10, عَمّ / خال (as in f4-family), the ة for feminine
+ "family": ("Can you say all 6<br>in Arabic? 👀", [
+   ("mum", "أُمّ", "umm", [("شُكْراً يا أُمِّي.", "أُمِّي", "shukran yā ummī.", "Thank you, mum.")],
+    "Who deserves your best company? «أُمُّكَ»: your mother, three times, then your father (al-Bukhārī 5971)."),
+   ("dad", "أَب", "ab", [("نَعَمْ يا أَبِي. هَيَّا بِنا إِلى المَسْجِدِ.", "أَبِي", "naʿam yā abī. hayyā binā ila l-masjid.", "Yes, dad. Let's go to the mosque.")],
+    "Ibrāhīm calls his father يا أَبَتِ: “O my father” (Maryam 19:42)."),
+   ("brother", "أَخ", "akh", [("أَخِي فِي الحَمَّامِ. هُوَ يَتَوَضَّأُ.", "أَخِي", "akhī fi l-ḥammām. huwa yatawaḍḍa'.", "My brother is in the bathroom. He's doing wudu.")],
+    "إِنَّمَا الْمُؤْمِنُونَ إِخْوَةٌ: “the believers are brothers” <b style=\"white-space:nowrap;font:inherit\">(al-Ḥujurāt 49:10)</b>."),
+   ("sister", "أُخْت", "ukht", [("هَذا أَخِي الصَّغِيرُ، وَهَذِهِ أُخْتِي الْكَبِيرَةُ.", "أُخْتِي", "hādhā akhi ṣ-ṣaghīr, wa hādhihi ukhti l-kabīrah.",
+    "That's my little brother, and this is my big sister.")], "أَخ → أُخْت: a ت on the end, and he's a she."),
+   ("grandpa", "جَدّ", "jadd", [("جَدِّي فِي الْحَدِيقَةِ مَعَ عَمِّي.", "جَدِّي", "jaddī fi l-ḥadīqati maʿa ʿammī.", "My grandad is in the garden with my uncle.")],
+    "عَمِّي is your dad's brother. Your mum's brother is خالِي."),
+   ("grandma", "جَدَّة", "jadda", [("جَدَّتِي تَسْكُنُ قَرِيبًا مِنَّا.", "جَدَّتِي", "jaddatī taskunu qarīban minnā.", "My grandma lives near us.")],
+    "جَدّ → جَدَّة: add ة and grandpa becomes grandma. Who do you call most? Comment in Arabic 👇"),
+ ]),
 }
 
 CSS = QC.CSS + (".sw { display:inline-block; width:34px; height:34px; border-radius:50%; border:3px solid rgba(23,38,43,.25); vertical-align:-6px; margin-right:6px; }"
@@ -102,7 +118,7 @@ CSS = QC.CSS + (".sw { display:inline-block; width:34px; height:34px; border-rad
 # the cover: the short words only
 COVER = {"pronouns": "I · You · He · She · We", "time": "Today · Tomorrow · Yesterday · Now · After that", "here-this": "Here · There · This",
          "feelings": "Happy · Hungry · Ill · Busy", "yes-no": "Yes · No · Of course · OK", "numbers": "1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 9 · 10",
-         "colours": "Red · Blue · Green · Yellow · White · Black"}
+         "colours": "Red · Blue · Green · Yellow · White · Black", "family": "Mum · Dad · Brother · Sister · Grandpa · Grandma"}
 
 def ar_spans(note):     # Arabic inside an English note gets the Arabic font
     import re
