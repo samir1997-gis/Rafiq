@@ -1,0 +1,14 @@
+[
+ {"file": "h1", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Everyone in Dune chants Lisan al-Gaib... but what does it actually mean in Arabic?", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "lisan", "text": "لِسان"},
+ {"file": "b1", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Lisan means tongue... and language.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "b1b", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "The Qur'an says it came down in a clear Arabic lisan: a clear Arabic tongue.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "t1", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Your turn. On the first page of al-Baqarah, the believers believe in this:", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "ghayb", "text": "الْغَيْب"},
+ {"file": "t1b", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "What is it?", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "b2", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "The UNSEEN! Everything hidden from our eyes. And it's ghayb, with a 'gh'.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "lisanghayb", "text": "لِسانُ الْغَيْب"},
+ {"file": "b3", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "So Lisan al-Ghayb means: the tongue of the unseen. The one who speaks what no one else can see.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "b4", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "And Frank Herbert didn't invent it. Over five hundred years before Dune, the Persian poet Hafez was already called Lisan al-Ghayb.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "end", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Which Dune word should I do next: Muad'Dib, or Usul? Comment below!", "stability": 0.35, "style": 0.45, "speed": 1.08}
+]
