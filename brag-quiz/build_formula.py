@@ -1485,11 +1485,11 @@ def year(c, cid, frm, to, at, d, ticks=8, suffix=""):
     c.t(f'(() => {{ const o = {{v:{frm}}}, el = document.getElementById("{cid}"); tl.fromTo(o, {{v:{frm}}}, {{v:{to}, duration:{d:.2f}, ease:"power2.out", '
         f'immediateRender:false, onUpdate:() => {{ el.textContent = Math.round(o.v) + "{suffix}"; }}}}, {at:.2f}); }})();')
     for k in range(1, ticks + 1): clip(c, "brag-quiz/sfx/ref/click.wav", at + d * (1 - (1 - k / ticks) ** 0.5), 0.45)
-def slam(c, sel, sec, at):
+def slam(c, sel, sec, at, snd="brag-quiz/sfx/crash.wav"):
     c.t(f'tl.fromTo("{sel}", {{opacity:0, scale:2.6}}, {{opacity:1, scale:1, duration:0.2, ease:"power4.in"}}, {at - 0.2:.2f});')
     c.t(f'tl.fromTo("#pflash", {{opacity:0.8}}, {{opacity:0, duration:0.3, ease:"power2.out", immediateRender:false}}, {at:.2f});')
     c.t(f'tl.to("#{sec}", {{keyframes:[{{x:-26, y:16, duration:0.04}}, {{x:22, y:-12, duration:0.04}}, {{x:-12, y:8, duration:0.05}}, {{x:0, y:0, duration:0.06}}]}}, {at:.2f});')
-    clip(c, "brag-quiz/sfx/crash.wav", at - 0.02, 0.7); c.sfx("correct", at + 0.1)
+    clip(c, snd, at - 0.02, 0.7); c.sfx("correct", at + 0.1)
 
 ALG_DOODLES = [("txt:x + 2 = 5", 50, 1560, 54, -8, "sage"), ("txt:√49 = 7", 780, 1540, 52, 9, "peach"), ("star", 120, 540, 64, 0, "butter"),
                ("txt:÷", 960, 560, 84, 0, "blush"), ("txt:×", 50, 1120, 80, 0, "sky"), ("star", 930, 1180, 56, 0, "sage"), ("book", 850, 1400, 130, -10, "peach"),
@@ -1695,11 +1695,152 @@ def h2():
     total = round(t + end + 0.9, 2); finish(total)
     c.write("\n".join("      " + b for b in body), total)
 
+# ---------------------------------------------------------------- the story of a word #3, the Dune edition (owner 28 Oct 2026, #303)
+DUNES = [(1040, "M0 260 C150 200 300 170 460 210 S760 290 900 230 S1120 160 1200 190 V760 H0 Z", "#ecc093", 12),   # (top, path, colour, drift px)
+         (1140, "M0 380 C180 300 360 330 520 380 S820 450 980 360 S1150 320 1200 340 V760 H0 Z", "#dfa36d", 26),
+         (1260, "M0 520 C200 440 420 470 600 530 S900 600 1200 500 V760 H0 Z", "#cb8852", 44)]
+DESERT_CSS = (
+    "#root { background:linear-gradient(#f7e9d4 0%, #f5d4ac 36%, #f0bb86 60%, #e9a96f 100%); } #glow { display:none; }"
+    "#desert { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; } #desert svg.dn { position:absolute; left:-60px; width:1200px; height:760px; }"
+    "#sun { position:absolute; left:600px; top:470px; width:300px; height:300px; border-radius:50%; "
+    "background:radial-gradient(circle, #fff7e2 0 50%, rgba(255,242,214,.6) 58%, rgba(255,232,196,0) 71%); }"
+    ".sand { position:absolute; left:0; border-radius:50%; } .gust { position:absolute; left:0; height:3px; width:240px; border-radius:2px; "
+    "background:linear-gradient(90deg, rgba(255,246,228,0), rgba(255,246,228,.85), rgba(255,246,228,0)); }"
+    "#worm { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:visible; }"
+    ".sec { z-index:2; } #brand, #kicker, #end, #pflash { z-index:3; }"
+    ".title { position:absolute; left:0; right:0; text-align:center; font-family:\"Anton\", var(--la); font-size:128px; line-height:1; letter-spacing:.12em; color:#6b3a17; "
+    "text-shadow:0 6px 0 rgba(255,236,206,.7); } .title small { display:block; font-family:var(--la); font-size:30px; letter-spacing:.3em; color:#7a4d2a; margin-top:14px; text-shadow:none; }")
+
+def desert(c, body):
+    """The desert page: a dusk sky, a low sun, two moons, three layers of dunes that drift at different speeds, sand blowing through on the
+    wind, and a worm (#worm) behind the nearest dune for worm_rise(). Returns finish(total), which adds the movement once the length is known."""
+    c.css += STORY_CSS + DESERT_CSS                     # the story look; the desert's own sky replaces the pastel page
+    os.makedirs(os.path.join(c.a, "fonts"), exist_ok=True)
+    shutil.copy(os.path.join(T.ROOT, "brag-quiz/fonts/anton-latin-400-normal.woff2"), os.path.join(c.a, "fonts"))
+    c.css += '@font-face { font-family:"Anton"; src:url("assets/fonts/anton-latin-400-normal.woff2") format("woff2"); }'
+    rnd = __import__("random").Random(9)
+    dn = lambda k: (f'<svg class="dn" id="dn{k}" viewBox="0 0 1200 760" style="top:{DUNES[k][0]}px"><path d="{DUNES[k][1]}" fill="{DUNES[k][2]}"/>'
+                    f'<path d="{DUNES[k][1].split(" V")[0]}" fill="none" stroke="#f9dfba" stroke-width="5" opacity=".55"/></svg>')
+    worm = ('<svg id="worm" viewBox="0 0 1080 1920"><g id="wormg">'
+            '<path d="M905 2000 C912 1640 856 1290 930 1000" fill="none" stroke="#8d5b36" stroke-width="150" stroke-linecap="round"/>'
+            '<path d="M905 2000 C912 1640 856 1290 930 1000" fill="none" stroke="#6f4427" stroke-width="152" stroke-dasharray="7 44"/>'
+            '<ellipse cx="932" cy="1000" rx="78" ry="30" fill="#3a2314" transform="rotate(-12 932 1000)"/></g></svg>')
+    sand = []
+    for k in range(40):
+        y, s = rnd.randint(860, 1900), rnd.choice([3, 4, 5, 6])
+        sand.append((k, rnd.randint(-60, 1140), y, s, rnd.uniform(160, 420), rnd.choice(["#fff4e0", "#fbe2bd", "#b8743f"])))
+    gusts = [(k, rnd.randint(0, 1080), rnd.randint(980, 1800), rnd.uniform(700, 1100)) for k in range(6)]
+    body.insert(0, '<div id="desert" data-layout-ignore><div id="sun"></div>' + doodle("moon", 70, 470, 84, "sky", "moon1", rot=-14) + doodle("moon", 175, 420, 44, "sky", "moon2", rot=8)
+                + dn(0) + dn(1) + worm + dn(2)
+                + "".join(f'<i class="sand" id="sd{k}" style="top:{y}px;width:{s}px;height:{s}px;background:{col};opacity:.75"></i>' for k, x, y, s, v, col in sand)
+                + "".join(f'<i class="gust" id="gs{k}" style="top:{y}px"></i>' for k, x, y, v in gusts) + '</div>')
+    c.t('tl.set("#wormg", {y:1000}, 0);')
+    def finish(total):
+        for k, (top, p, col, dr) in enumerate(DUNES):
+            c.t(f'tl.fromTo("#dn{k}", {{x:0}}, {{x:{-dr}, duration:{total:.2f}, ease:"none"}}, 0);')
+        c.t(f'tl.fromTo("#sun", {{y:0}}, {{y:60, duration:{total:.2f}, ease:"none"}}, 0);')
+        for k, x, y, s, v, col in sand:
+            c.t(f'tl.fromTo("#sd{k}", {{x:{x}}}, {{x:{x + v * total:.0f}, duration:{total:.2f}, ease:"none", modifiers:{{x:gsap.utils.unitize(gsap.utils.wrap(-60, 1140))}}}}, 0);')
+        for k, x, y, v in gusts:
+            c.t(f'tl.fromTo("#gs{k}", {{x:{x}}}, {{x:{x + v * total:.0f}, duration:{total:.2f}, ease:"none", modifiers:{{x:gsap.utils.unitize(gsap.utils.wrap(-300, 1300))}}}}, 0);')
+        for k in range(1, int(total / 7.5) + 1): clip(c, "brag-quiz/sfx/soft/wind.wav", (k - 1) * 7.5, 0.22)
+    return finish
+
+def worm_rise(c, at, hold=1.8):
+    """The worm bursts up out of the sand behind the page, a rumble under it, and sinks again."""
+    c.t(f'tl.to("#wormg", {{y:0, duration:0.9, ease:"power3.out"}}, {at:.2f});')
+    c.t(f'tl.to("#wormg", {{y:1000, duration:1.1, ease:"power2.in"}}, {at + 0.9 + hold:.2f});')
+    c.t(f'tl.fromTo("#dn2", {{y:0}}, {{y:0, keyframes:[{{y:-10, duration:0.06}}, {{y:8, duration:0.06}}, {{y:-5, duration:0.06}}, {{y:0, duration:0.08}}], immediateRender:false}}, {at:.2f});')
+    clip(c, "brag-quiz/sfx/soft/rumble.wav", at - 0.3, 0.6)
+
+GHAYB = [("الْ", ""), ("غَ", "r"), ("يْ", "r"), ("ب", "r")]
+LISAN = [("لِ", "r"), ("سا", "r"), ("ن", "r")]
+
+def h3():
+    """The story of a word #3, the Dune edition (owner 28 Oct 2026, #303: "a Dune themed Arabic video which explains the history and context of one
+    of the Arabic words"): LISAN AL-GAIB, on a desert page. Hook "Everyone in Dune chants Lisan al-Gaib… but what does it actually mean in Arabic?"
+    (said calmly: the owner took the shouting out on #296); لِسان tongue, language, and the Qur'an "in a clear Arabic tongue" (ash-Shuʿarāʾ 26:195,
+    text only, no recitation); your turn الْغَيْب from the first page of al-Baqarah (2:3): the desert, the unseen or the future? 3-2-1, the UNSEEN
+    (the worm rises out of the sand), and it's ghayb with a gh; together "the tongue of the unseen"; Herbert didn't invent it: the Persian poet
+    Hafez (d. 1390) was called Lisān al-Ghayb (Dune's glossary: "the Voice from the Outer World"). No clip from the film (copyright, and reused
+    clips are what TikTok flags as unoriginal, #289); no Dune logo or the film's font. Voices: brag-quiz/voice/lisan-lines.json."""
+    V = "brag-quiz/voice/lisan/"
+    c = SO.vcomp("h3-lisan", "THE ARABIC IN DUNE"); c.bed = True; body = []; serif(c); c.css += GROW_CSS
+    finish = desert(c, body)
+    def anim(c, at, d):                                  # "Lisan al-Gaib": the title glows as it's said, and the wind gusts
+        c.t(f'tl.fromTo("#htitle", {{scale:1}}, {{scale:1.06, duration:0.25, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {at(4):.2f});')
+        c.t(f'tl.to("#htitle", {{color:"#a8531f", duration:0.3}}, {at(4):.2f});'); clip(c, "brag-quiz/sfx/soft/whoosh.wav", at(4) - 0.1, 0.5)
+    words = "Everyone in Dune chants Lisan al-Gaib… but what does it actually mean in Arabic?".split()
+    t = hook_in(c, body, (words, {2: "red", 11: "circle"}, V + "h1.mp3"), bg=('<div class="title" id="htitle" style="top:300px">LISAN AL-GAIB<small>لِسانُ الْغَيْب</small></div>', anim))
+    c.css += "#hook .hookline { top:600px; font-size:96px; } #hw4, #hw5 { color:#a8531f; } #htitle small { font-family:var(--ar); font-size:44px; letter-spacing:0; }"
+    # 1. لِسان: tongue, and language; the Qur'an "in a clear Arabic tongue"
+    A, B = V + "b1.mp3", V + "b1b.mp3"
+    whip_in(c, "s1", t); dl = say_up(c, "", t + 0.15, src=V + "lisan.mp3"); zoom_in(c, "#s1w", t + 0.15); pop(c, "#s1t", t + 0.15 + dl, False)
+    t2 = t + 0.15 + dl + 0.2; da = clip(c, A, t2); h = cap(c, "s1a", A, t2, (("tongue", "r"), ("language", "g")))
+    pop(c, "#s1m0", t2 + key_at(A, "tongue", 0.6)); pop(c, "#s1m1", t2 + key_at(A, "language", 1.5))
+    t3 = t2 + da + 0.15; cap_out(c, "s1a", t3 - 0.1); db = clip(c, B, t3); h2 = cap(c, "s1b", B, t3, (("qur'an", "g"), ("lisan", "r"), ("tongue", "r")))
+    c.t(f'tl.fromTo("#s1q", {{opacity:0, y:40, scale:0.96}}, {{opacity:1, y:0, scale:1, duration:0.45, ease:"power3.out"}}, {t3 + key_at(B, "qur", 0.3):.2f});')
+    body.append(f'<div class="sec" id="s1"><div class="bigw" id="s1w" style="top:330px;font-size:200px">{word(LISAN)}</div>'
+                f'<div class="sp mid" id="s1t" style="top:640px">lisān</div>'
+                '<div class="sp" id="s1m0" style="left:250px;top:770px;color:var(--rubric)">tongue</div><div class="sp" id="s1m1" style="left:560px;top:770px;color:var(--verdigris)">language</div>'
+                '<div class="quote" id="s1q" style="top:900px"><q style="font-size:50px;quotes:none"><span style="font-family:var(--ar);font-style:normal;font-size:64px">بِلِسانٍ عَرَبِيٍّ مُبِينٍ</span>'
+                '<br>in a clear Arabic tongue</q><small>the Qur’an · ash-Shuʿarāʾ 26:195</small></div>' + f'{h}{h2}</div>')
+    t = whip_out(c, "s1", t3 + db + 0.35)
+    # 2. your turn: الْغَيْب (al-Baqarah 2:3): the desert, the unseen or the future? 3-2-1, the UNSEEN, and the worm rises out of the sand
+    B, Q, S = V + "t1.mp3", V + "t1b.mp3", V + "b2.mp3"
+    whip_in(c, "s2", t); d = clip(c, B, t + 0.1); h = cap(c, "s2a", B, t + 0.1, (("turn", "r"), ("baqarah", "g")), "ccs")
+    t2 = t + 0.1 + d + 0.05; dw = say_up(c, "", t2, src=V + "ghayb.mp3"); zoom_in(c, "#s2w", t2)
+    t3 = t2 + dw + 0.15; dq = clip(c, Q, t3); h2 = cap(c, "s2b", Q, t3, (("it?", "r"),))
+    for i in range(3): c.inn(f"#qo{i}", t3 + 0.1 + i * 0.12, 30)
+    done = count_down(c, "qc", t3 + dq + 0.3)
+    reveal(c, "#qo1", ["#qo0", "#qo2"], done)
+    d2 = clip(c, S, done); hit = done + key_at(S, "unseen", 0.15) + 0.05
+    c.t(f'tl.to(["#qo0", "#qo2", "#s2b"], {{opacity:0, duration:0.25}}, {hit - 0.3:.2f});')
+    slam(c, "#s2s", "s2", hit, "brag-quiz/sfx/soft/impact.wav"); worm_rise(c, hit - 0.1)
+    c.t(f'tl.to("#qo", {{opacity:0, y:30, duration:0.3}}, {hit + 1.0:.2f});')
+    c.t(f'tl.fromTo("#s2q", {{opacity:0, y:40, scale:0.96}}, {{opacity:1, y:0, scale:1, duration:0.45, ease:"power3.out"}}, {done + key_at(S, "hidden", 1.4):.2f});')
+    pop(c, "#s2g", done + key_at(S, "'gh'.", d2 - 0.6))
+    opts = '<div class="opts col" id="qo" style="top:800px">' + "".join(f'<div class="op2" id="qo{i}"><b>{o}</b></div>' for i, o in enumerate(["the desert", "the unseen", "the future"])) + '</div>'
+    body.append(f'<div class="sec" id="s2">{h}<div class="bigw" id="s2w" style="top:430px;font-size:170px">{word(GHAYB)}</div>{h2}'
+                f'{opts}{cnt("qc", 1230)}<div class="slamw" id="s2s" style="top:1240px;font-size:110px">the <em>UNSEEN</em></div>'
+                '<div class="quote" id="s2q" style="top:810px"><q style="font-size:50px;quotes:none"><span style="font-family:var(--ar);font-style:normal;font-size:60px">الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ</span>'
+                '<br>those who believe in the unseen</q><small>the Qur’an · al-Baqarah 2:3</small></div>'
+                f'<div class="sp mid" id="s2g" style="top:1110px"><span class="ar" style="color:var(--rubric)">غ</span> = gh, not g</div></div>')
+    c.css += "#s2a { top:270px; } #s2b { top:720px; }"
+    t = whip_out(c, "s2", done + d2 + 0.6)
+    # 3. together: لِسانُ الْغَيْب, "the tongue of the unseen"
+    B = V + "b3.mp3"
+    whip_in(c, "s3", t); dp = say_up(c, "", t + 0.15, src=V + "lisanghayb.mp3"); zoom_in(c, "#s3w", t + 0.15)
+    pop(c, "#s3l0", t + 0.25, False); pop(c, "#s3l1", t + 0.15 + dp * 0.55, False)
+    t2 = t + 0.15 + dp + 0.2; d = clip(c, B, t2); h = cap(c, "s3a", B, t2, (("tongue", "r"), ("unseen", "g")))
+    tg = t2 + key_at(B, "tongue", 1.8); zoom_in(c, "#s3m", tg); c.sfx("correct", tg)
+    body.append(f'<div class="sec" id="s3"><div class="bigw" id="s3w" style="top:360px;font-size:150px">{word(LISAN + [("ُ", "")])} {word(GHAYB)}</div>'
+                '<div class="sp" id="s3l0" style="left:600px;top:640px;color:var(--rubric)">tongue</div><div class="sp" id="s3l1" style="left:170px;top:640px;color:var(--verdigris)">the unseen</div>'
+                f'<div class="slamw" id="s3m" style="top:820px;font-size:92px;color:#8a4316">the tongue<br>of the unseen</div>{h}</div>')
+    t = whip_out(c, "s3", t2 + d + 0.4)
+    # 4. the history: Herbert didn't invent it; the years roll back from Dune (1965) to Hafez of Shiraz (d. 1390)
+    B = V + "b4.mp3"; whip_in(c, "s4", t); d = clip(c, B, t + 0.1); s = t + 0.1
+    h = cap(c, "s4a", B, s, (("herbert", "g"), ("five", "y"), ("hundred", "y"), ("hafez", "r")))
+    pop(c, "#s4d", s + key_at(B, "herbert", 0.6))
+    rb = s + key_at(B, "five", 2.0); year(c, "s4y", 1965, 1390, rb - 0.1, 1.3, 10)
+    c.t(f'tl.to("#s4d", {{opacity:0.25, duration:0.3}}, {rb:.2f});')
+    hz = s + key_at(B, "hafez", 4.6); pop(c, "#s4h", hz); draw_on(c, "s4b", hz - 0.3, 0.7); pop(c, "#s4n", hz + 0.5, False)
+    body.append('<div class="sec" id="s4"><div class="yr" style="top:250px"><small>THE YEAR</small><b id="s4y">1965</b></div>'
+                '<div class="sp mid" id="s4d" style="top:520px">Dune · 1965</div>' + doodle("book", 380, 590, 320, "peach", "s4b", True, 6)
+                + '<div class="sp mid" id="s4h" style="top:930px;font-size:56px">Hafez of Shiraz · d. 1390</div>'
+                '<div class="sp mid" id="s4n" style="top:1060px;font-size:38px"><span class="ar">حافِظ</span> = one who knows the Qur’an by heart</div>' + f'{h}</div>')
+    c.css += "#s4y { color:#8a4316; }"
+    t = s + d + 0.6
+    c.out_("#s4", t - 0.4); end = clip(c, V + "end.mp3", t)
+    body.append('<div id="pflash"></div>' + c.end(t, "Which Dune word next: Muad’Dib or Usul? Comment below 👇"))
+    total = round(t + end + 0.9, 2); finish(total)
+    c.write("\n".join("      " + b for b in body), total)
+
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "w8-subhana-azim": w8,
        "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1,
-       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2, "n5-salah": n5, "h1-algebra": h1, "h2-coffee": h2}
+       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2, "n5-salah": n5, "h1-algebra": h1, "h2-coffee": h2, "h3-lisan": h3}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})

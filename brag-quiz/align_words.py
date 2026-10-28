@@ -15,7 +15,9 @@ EXTRA = {"fatiha": "F AA T IH HH AH", "raheem": "R AH HH IY M", "rakah": "R AA K
          "alkhwarizmi's": "AE L K W AA R IH Z M IY Z", "bonesetter": "B OW N S EH T ER", "algebrista": "AE L JH AH B R IY S T AH",
          "sujood": "S UW JH UW D", "qahwa": "K AA HH W AH", "kahve": "K AA V EY", "koffie": "K AO F IY", "sufis": "S UW F IY Z",
          "makkah": "M AE K AH", "masjid": "M AA S JH IH D", "820": "EY T T W EH N T IY", "1582": "F IH F T IY N EY T IY T UW",
-         "1400s": "F AO R T IY N HH AH N D R AH D Z", "fourteenhundreds": "F AO R T IY N HH AH N D R AH D Z"}
+         "1400s": "F AO R T IY N HH AH N D R AH D Z", "fourteenhundreds": "F AO R T IY N HH AH N D R AH D Z",
+         "lisan": "L IH S AA N", "algaib": "AE L G AY B", "ghayb": "G AY B", "alghayb": "AE L G AY B", "albaqarah": "AE L B AE K AH R AH",
+         "hafez": "HH AA F EH Z", "muad'dib": "M UW AA D IH B", "usul": "UW S UW L"}
 
 def pcm(path):
     return subprocess.run(["ffmpeg", "-v", "error", "-i", path, "-ac", "1", "-ar", "16000", "-f", "s16le", "-"], capture_output=True, check=True).stdout
