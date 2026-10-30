@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The Arabic alphabet reel (owner, 26 Oct 2026): his own recording of the 28 letters (brag-quiz/voice/alphabet: his phone video's
 audio, as recorded; the letters found by their level and checked by an Arabic transcription; ḍād and ṭā split at 21.33 s, a false
-start at 23.9 s dropped), over a grid of the letters (rows of five, right to left, as the reference reel): each box lights up as he
+start at 23.9 s dropped; qāf re-recorded by the owner, 30 Oct 2026, and spliced in at 29.08 s at the same level), over a grid of the letters (rows of five, right to left, as the reference reel): each box lights up as he
 says its letter and stays ticked, a progress bar with "n / 28" fills underneath, the Rafiq logo at the top and "Start your Arabic
 journey · Try RafiqArabic.com" at the bottom (clear of Instagram's caption). Five colour schemes for trial reels.
 
