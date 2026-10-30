@@ -109,6 +109,23 @@ SETS = {
    ("grandma", "جَدَّة", "jadda", [("جَدَّتِي تَسْكُنُ قَرِيبًا مِنَّا.", "جَدَّتِي", "jaddatī taskunu qarīban minnā.", "My grandma lives near us.")],
     "جَدّ → جَدَّة: add ة and grandpa becomes grandma. Who do you call most? Comment in Arabic 👇"),
  ]),
+ # the little words (IDEAS "next in the series: and/but/with/in", owner 30 Oct 2026, #308): the course's own words (vocab-data.js 39, 85, 244, 84;
+ # toolkit-data.js لَكِنْ, مِنْ) and sentences (toolkit-data.js, drills-data.js); notes: al-Fātiḥah 1:5, the لَكِنْ / لَكِنَّ rule (toolkit-data.js),
+ # al-Baqarah 2:153, 2:201, the taʿawwudh, 2:156
+ "little": ("Can you say all 6<br>in Arabic? 👀", [
+   ("and", "وَ", "wa", [("أَدْرُسُ الْعَرَبِيَّةَ وَالتَّارِيخَ.", "وَ", "adrusu l-ʿarabiyyata wa t-tārīkh.", "I study Arabic and history.")],
+    "It joins onto the next word. You say it in every prayer: إِيّاكَ نَعْبُدُ وَإِيّاكَ نَسْتَعِينُ (1:5)."),
+   ("but", "لَكِنْ", "lākin", [("أُحِبُّ الْقَهْوَةَ لَكِنْ لا أَشْرَبُها.", "لَكِنْ", "uḥibbu l-qahwata lākin lā ashrabuhā.", "I like coffee but I don't drink it.")],
+    "لَكِنْ before a verb; لَكِنَّ before a noun."),
+   ("with", "مَعَ", "maʿa", [("أَلْعَبُ كُرَةَ الْقَدَمِ مَعَ أَصْدِقائِي.", "مَعَ", "alʿabu kurata l-qadami maʿa aṣdiqā'ī.", "I play football with my friends.")],
+    "إِنَّ اللَّهَ مَعَ الصّابِرِينَ: “Allah is with the patient” <b style=\"white-space:nowrap;font:inherit\">(al-Baqarah 2:153)</b>."),
+   ("in", "فِي", "fī", [("نَجْلِسُ فِي الْبَيْتِ وَنَشْرَبُ الشَّايَ!", "فِي", "najlisu fi l-bayti wa nashrabu sh-shāy!", "We'll stay at home and drink tea!")],
+    "رَبَّنا آتِنا فِي الدُّنْيا حَسَنَةً: “give us good in this world” <b style=\"white-space:nowrap;font:inherit\">(al-Baqarah 2:201)</b>."),
+   ("from", "مِنْ", "min", [("اسْمِي حَمْزَةُ. مِنْ أَيْنَ أَنْتَ يا يُوسُفُ؟", "مِنْ", "ismī Ḥamza. min ayna anta yā Yūsuf?", "My name is Hamza. Where are you from, Yusuf?")],
+    "Before الـ it becomes مِنَ: أَعُوذُ بِاللَّهِ مِنَ الشَّيْطانِ الرَّجِيمِ."),
+   ("to", "إِلى", "ilā", [("الْيَوْمَ الْجُمُعَةُ. هَلْ تَذْهَبُ إِلى الْمَسْجِدِ؟", "إِلى", "al-yawma l-jumuʿah. hal tadh-habu ila l-masjid?", "Today is Friday. Are you going to the mosque?")],
+    "إِلى + him = إِلَيْهِ: إِنّا لِلَّهِ وَإِنّا إِلَيْهِ راجِعُونَ (2:156). Which one did you know? 👇"),
+ ]),
 }
 
 CSS = QC.CSS + (".sw { display:inline-block; width:34px; height:34px; border-radius:50%; border:3px solid rgba(23,38,43,.25); vertical-align:-6px; margin-right:6px; }"
@@ -118,7 +135,8 @@ CSS = QC.CSS + (".sw { display:inline-block; width:34px; height:34px; border-rad
 # the cover: the short words only
 COVER = {"pronouns": "I · You · He · She · We", "time": "Today · Tomorrow · Yesterday · Now · After that", "here-this": "Here · There · This",
          "feelings": "Happy · Hungry · Ill · Busy", "yes-no": "Yes · No · Of course · OK", "numbers": "1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 9 · 10",
-         "colours": "Red · Blue · Green · Yellow · White · Black", "family": "Mum · Dad · Brother · Sister · Grandpa · Grandma"}
+         "colours": "Red · Blue · Green · Yellow · White · Black", "family": "Mum · Dad · Brother · Sister · Grandpa · Grandma",
+         "little": "And · But · With · In · From · To"}
 
 def ar_spans(note):     # Arabic inside an English note gets the Arabic font
     import re
