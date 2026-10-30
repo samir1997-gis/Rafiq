@@ -1,0 +1,14 @@
+[
+ {"file": "h1", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "The imam giving your Friday khutbah... and your fiancé... have the same name in Arabic.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "khatib", "text": "خَطِيب"},
+ {"file": "b1", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Khateeb. The one who gives the khutbah... and also, your fiancé.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "b2", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Both come from khataba: to address. The imam addresses the people... a suitor addresses a family.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "b3", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "And the two words look almost the same:", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "khutba", "text": "خُطْبَة"},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "khitba", "text": "خِطْبَة"},
+ {"file": "b3b", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "One small mark changes it. With a damma, it's a sermon. With a kasra, it's a proposal.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "t1", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "Your turn. This is from al-Baqarah. Sermon, or proposal? Look at the mark under the first letter.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "ayah", "text": "مِنْ خِطْبَةِ النِّساءِ"},
+ {"file": "b4", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "A PROPOSAL! The kasra gives it away.", "stability": 0.35, "style": 0.45, "speed": 1.08},
+ {"file": "end", "voice": "N2lVS1w4EtoT3dr4eOWO", "text": "So listen closely at Jumuah today! Send this to someone who's getting married... and comment: did you spot it?", "stability": 0.35, "style": 0.45, "speed": 1.08}
+]
