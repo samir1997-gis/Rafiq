@@ -55,7 +55,7 @@ for gid, (t0, t1) in T.items():
         if a is None: continue
         s0, frm = vt(a), a - t0
     s1 = vt(t1)
-    if s1 is None: s1 = next(off + (b - a) for a, b, off in OFF if a <= t0 + frm < b)   # the end of the piece it starts in
+    if s1 is None: s1 = next((off + (b - a) for a, b, off in OFF if a <= t0 + frm < b), s0)   # the end of the piece it starts in
     if s1 - s0 < 0.5: continue                                # only a sliver of it is left in this version
     src = os.path.join(G, gid + ".mp4") if gid != "sisters" else os.path.join(HERE, "..", "..", "out", "hijab", "hijab-pileon-anim.mp4")
     if gid == "sisters": frm += 8.6                           # the crowd and its bubbles, mid-build
