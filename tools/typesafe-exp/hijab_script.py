@@ -9,7 +9,26 @@ S = {"A": "Hijab. Everybody seems to have an opinion on it… but what does the 
           "Prophet's wives from behind a ḥijāb (33:53), revealed at Zaynab's wedding (Bukhari 4791). The headscarf words are khimar (24:31; Aisha: the women "
           "tore their cloaks and covered themselves straight away, Bukhari 4758) and jilbab (33:59), and the verse before is for men: lower your gaze (24:30). "
           "So hijab is a screen that protects something precious, like your eyebrow protects your eye; it goes with haya, and haya is part of faith (Bukhari 24). "
-          "Next time everyone has an opinion on the hijab, now you know what it means. Which word next? Comment below."}
+          "Next time everyone has an opinion on the hijab, now you know what it means. Which word next? Comment below.",
+     "B": "Hijab. Everyone's got an opinion on it. But here's something almost nobody knows: the word hijab is in the Qur'an, and not once does it mean a "
+          "headscarf. So what does it mean? Stay with me, because the answer is beautiful. Ḥ-j-b: to screen, to block from view. A hijab is a barrier, and the "
+          "Qur'an uses it for the biggest moments there are: the wall between Paradise and the Fire is a hijab (7:46). When the sun sets, it goes behind the "
+          "hijab (38:32). When Allah spoke to Musa, it was from behind a hijab (42:51). And Allah Himself? The Prophet said His hijab is light, and if He lifted "
+          "it, the glory of His Face would burn everything His sight reached (Muslim 179). And before Allah says a word to women about covering, He speaks to "
+          "the men: lower your gaze (24:30). The first hijab is on the eyes. The headscarf? The Qur'an calls it a khimar, and when that verse came down, Aisha "
+          "said the women didn't wait and didn't debate: they tore their own cloaks and covered themselves straight away (Bukhari 4758). Quick test: there's "
+          "one part of your face Arabic calls a little hijab, a ḥājib. Which one? 3, 2, 1: your eyebrow, because it guards your eye. So when everyone's shouting "
+          "about a piece of cloth, remember: in the Qur'an, a hijab is what stands between something precious and the world. Which word should I break down "
+          "next? Comment below.",
+     "C": "Hijab. Everyone's got an opinion on it. But here's something most people don't know: when the Qur'an tells women to cover, it uses a different "
+          "word. And the word hijab? It's in the Qur'an too, and it means something even bigger. Ḥ-j-b: to screen, to block from view. The wall between "
+          "Paradise and the Fire is a hijab (7:46). When the sun sets, it goes behind the hijab (38:32). When Allah spoke to Musa, it was from behind a hijab "
+          "(42:51). And the Prophet said Allah's own hijab is light, and if He lifted it, the glory of His Face would burn everything His sight reached (Muslim 179). "
+          "And before Allah says a word to women about covering, He speaks to the men: lower your gaze (24:30). The first hijab is on the eyes. Then for women "
+          "He says khimar (24:31), and Aisha said the women didn't wait and didn't debate: they tore their own cloaks and covered themselves straight away "
+          "(Bukhari 4758). Quick test: there's one part of your face Arabic calls a ḥājib, a little hijab. Which one? 3, 2, 1: your eyebrow, because it guards "
+          "your eye. So a hijab is never just a piece of cloth: in the Qur'an, it's what stands between something precious and the world. Which word should I "
+          "break down next? Comment below."}
 WHO = {"hijabi": "a 23-year-old UK hijabi", "brother": "a 28-year-old Muslim man", "curious": "a 30-year-old non-Muslim who's curious"}
 Q = {"finish": {"type": "score", "instructions": "`ctx` `s` Viewer: `who`. How likely are they to watch to the end?", "criteria": ["Very unlikely", "Unlikely", "Likely", "Very likely"]},
      "share": {"type": "score", "instructions": "`ctx` `s` Viewer: `who`. How likely are they to share or save it?", "criteria": ["Very unlikely", "Unlikely", "Likely", "Very likely"]},
