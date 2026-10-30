@@ -2,7 +2,7 @@
 # Every version: its pieces of the take → template base/plan → edit.py → zoom, masks, layers, mix (voice as recorded) → finish.sh (the pile-on
 # in front, the end card) → check.py (the sound effects are there). One at a time.   run_all.sh WORK [vN ...]   (WORK/src.mov is the owner's video)
 W=$1; shift; H=$(cd "$(dirname "$0")" && pwd); T=$H/../template; O=$H/../../out/hijab
-declare -A PILE=([v1]=9.5 [v2]=7.5 [v3]=5.5) NAME=([v1]=full [v2]=short [v3]=shorter)
+declare -A PILE=([v1]=14.741 [v2]=14.741 [v3]=14.741)   # the whole pile-on in every version (owner, 30 Oct: "it adds suspense") NAME=([v1]=full [v2]=short [v3]=shorter)
 for v in ${@:-v1 v2 v3}; do
   rm -rf $W/$v; python3 $H/edit.py $W $v chunks || exit 1
   for st in "base nologo" plan; do (cd $T && python3 reel.py $W/$v $st > $W/$v/$(echo $st | cut -d' ' -f1).log 2>&1) || { echo "$v $st failed"; exit 1; }; done
