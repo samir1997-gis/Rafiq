@@ -71,21 +71,21 @@ def build(gid):
         body += ['<div class="ar" id="w1" style="top:300px;font-size:210px">حِجاب</div>', f'<svg class="full" viewBox="0 0 1080 1920"><path id="x1" d="M300 470 L 780 470" stroke="{RED}" stroke-width="18" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>',
                  f'<div class="ar g" id="w2" style="top:640px;font-size:200px">خُمُر</div>',
                  card("c", "وَلْيَضْرِبْنَ <b>بِخُمُرِهِنَّ</b> عَلَىٰ جُيُوبِهِنَّ", "“and let them draw their <i>khumur</i> (head-coverings) over their chests”", "AN-NŪR 24:31", 1010)]
-        js += [IN("#w1", L(6.42), 30), IN("#c", L(8.44), 40), DRAW("#x1", L(9.82), 0.35), POP("#w2", L(10.2), 0.5)]
+        js += [IN("#w1", 0.05, 30), IN("#c", L(8.44), 40), DRAW("#x1", L(9.82), 0.35), POP("#w2", L(10.2), 0.5)]
     elif gid == "bigger":       # "that word does come up in the Qur'an, but in a much bigger context": the word, then the cosmos opening round it
         body += [f'<svg class="full" viewBox="0 0 1080 1920"><g id="cos" opacity="0">{stars(3, 160)}<circle cx="540" cy="760" r="260" fill="none" stroke="{GOLD}" stroke-width="3" opacity=".5"/>'
                  f'<circle cx="540" cy="760" r="420" fill="none" stroke="{GOLD}" stroke-width="2" opacity=".3"/><circle cx="960" cy="380" r="44" fill="#f3ead8"/><circle cx="150" cy="1150" r="70" fill="{GOLD}" opacity=".8"/></g></svg>',
                  '<div class="ar" id="w" style="top:560px;font-size:240px">حِجاب</div>', '<div class="big" id="t" style="top:1120px;font-size:150px">A MUCH <span class="g">BIGGER</span><br>CONTEXT</div>']
-        js += [POP("#w", L(14.1), 0.6), f'tl.fromTo("#w", {{scale:1}}, {{scale:0.55, duration:1.2, ease:"power2.inOut"}}, {L(16.6):.2f});',
+        js += [POP("#w", 0.05, 0.6), f'tl.fromTo("#w", {{scale:1}}, {{scale:0.55, duration:1.2, ease:"power2.inOut"}}, {L(16.6):.2f});',
                f'tl.fromTo("#cos", {{opacity:0, scale:0.5}}, {{opacity:1, scale:1, duration:1.4, ease:"power3.out", transformOrigin:"540px 760px"}}, {L(16.6):.2f});', SLAM("#t", L(17.2))]
     elif gid == "root":         # the root ح ج ب: the letters land, then a curtain closes over a light, a shield
         letters = "".join(f'<div class="ar g" id="l{i}" style="top:330px;left:{x}px;right:auto;width:260px;font-size:230px">{c}</div>' for i, (c, x) in enumerate((("ح", 680), ("ج", 410), ("ب", 140))))
-        body += [letters, '<div class="big" id="rt" style="top:250px;font-size:56px;color:#9fb6b0;letter-spacing:.2em">THE ROOT</div>',
+        body += [letters, '<div class="ar" id="hw" style="top:380px;font-size:220px">حِجاب</div>', '<div class="big" id="rt" style="top:250px;font-size:56px;color:#9fb6b0;letter-spacing:.2em">THE ROOT</div>',
                  f'<svg class="full" viewBox="0 0 1080 1920"><g id="lamp" opacity="0"><circle cx="540" cy="1080" r="150" fill="#ffd98a" opacity=".35"/><circle cx="540" cy="1080" r="70" fill="#ffe7b0"/></g>'
                  f'<rect id="cur" x="300" y="860" width="480" height="440" rx="20" fill="#7a2c3a" opacity="0"/>'
                  f'<g id="shd" opacity="0"><path d="M540 860 L 760 940 L 740 1150 C 720 1240 620 1300 540 1330 C 460 1300 360 1240 340 1150 L 320 940 Z" fill="{TEAL}" stroke="{GOLD}" stroke-width="10"/></g></svg>',
                  '<div class="big" id="m1" style="top:1420px;font-size:110px">TO <span class="g">COVER</span></div>', '<div class="big" id="m2" style="top:1540px;font-size:84px">TO SHIELD FROM VIEW</div>']
-        js += [IN("#rt", L(20.9), 20)] + [f'tl.fromTo("#l{i}", {{opacity:0, y:-260}}, {{opacity:1, y:0, duration:0.45, ease:"power3.out"}}, {L(t):.2f});' for i, t in enumerate((22.4, 22.9, 23.4))]
+        js += [IN("#hw", 0.05, 30), OUT("#hw", L(22.2)), IN("#rt", L(20.9), 20)] + [f'tl.fromTo("#l{i}", {{opacity:0, y:-260}}, {{opacity:1, y:0, duration:0.45, ease:"power3.out"}}, {L(t):.2f});' for i, t in enumerate((22.4, 22.9, 23.4))]
         js += [f'tl.to("#l0, #l1, #l2", {{scale:1.08, duration:0.2, yoyo:true, repeat:1, ease:"power2.out"}}, {L(24.4):.2f});', IN("#lamp", L(25.4), 20),
                f'tl.fromTo("#cur", {{opacity:1, scaleX:0}}, {{scaleX:1, duration:0.6, ease:"power3.out", transformOrigin:"0% 50%"}}, {L(26.9):.2f});', IN("#m1", L(26.9), 30),
                POP("#shd", L(28.12), 0.5), IN("#m2", L(28.2), 30)]
@@ -98,7 +98,7 @@ def build(gid):
 </svg>''', '<div class="ar g" id="sn" style="top:280px;font-size:110px">سُورَةُ الْأَعْراف</div>',
                  '<div class="big" id="pl" style="top:470px;left:60px;right:auto;width:420px;font-size:62px">PARADISE</div>', '<div class="big r" id="jl" style="top:470px;left:600px;right:auto;width:420px;font-size:62px">JAHANNAM</div>',
                  card("c", "وَبَيْنَهُمَا <b>حِجَابٌ</b>", "“And between them is a <i>ḥijāb</i> (a barrier)”", "AL-AʿRĀF 7:46", 1330)]
-        js += [IN("#sn", L(30.1), 30), f'tl.fromTo("#wall", {{attr:{{y:1280, height:0}}}}, {{attr:{{y:520, height:760}}, duration:0.6, ease:"power3.out"}}, {L(35.6):.2f});', IN("#c", L(35.8), 40),
+        js += [IN("#sn", 0.05, 30), f'tl.fromTo("#wall", {{attr:{{y:1280, height:0}}}}, {{attr:{{y:520, height:760}}, duration:0.6, ease:"power3.out"}}, {L(35.6):.2f});', IN("#c", L(35.8), 40),
                IN("#gar", L(38.0), 20), IN("#pl", L(38.28), 20), IN("#fir", L(40.3), 20), IN("#jl", L(40.58), 20),
                f'tl.fromTo(".fl", {{scaleY:0.7}}, {{scaleY:1.15, duration:0.3, yoyo:true, repeat:5, stagger:0.06, ease:"sine.inOut", transformOrigin:"50% 100%", immediateRender:false}}, {L(40.6):.2f});']
     elif gid == "sad":          # 38:32: the sun goes down behind the horizon, a veil of dusk over it
@@ -107,7 +107,7 @@ def build(gid):
  <path d="M0 1050 C 260 990 520 1060 760 1020 C 900 1000 1000 1020 1080 1010 L 1080 1200 L 0 1200 Z" fill="#3a2418"/>
  <rect id="veil" x="0" y="300" width="1080" height="760" fill="#14111f" opacity="0"/></svg>''', '<div class="ar g" id="sn" style="top:180px;font-size:100px">سُورَةُ ص</div>',
                  card("c", "حَتَّىٰ تَوَارَتْ <b>بِالْحِجَابِ</b>", "“until it was hidden behind the <i>ḥijāb</i>”", "ṢĀD 38:32", 1250, "the sun, in most of the tafsīr")]
-        js += [IN("#sn", L(41.94), 30), f'tl.fromTo("#sun", {{y:0}}, {{y:420, duration:2.2, ease:"power2.in"}}, {L(45.0):.2f});',
+        js += [IN("#sn", 0.05, 30), f'tl.fromTo("#sun", {{y:0}}, {{y:420, duration:2.2, ease:"power2.in"}}, {L(45.0):.2f});',
                f'tl.fromTo("#veil", {{opacity:0}}, {{opacity:0.75, duration:1.0, ease:"power2.inOut"}}, {L(46.5):.2f});', IN("#c", L(46.46), 40)]
     elif gid == "maryam":       # 19:17: a curtain drawn across a niche with a lamp
         body += [f'''<svg class="full" viewBox="0 0 1080 1920"><path d="M300 1250 L 300 640 C 300 430 780 430 780 640 L 780 1250 Z" fill="#1d3a3f" stroke="{GOLD}" stroke-width="10"/>
@@ -115,7 +115,7 @@ def build(gid):
  <g id="curL"><path d="M300 470 C 360 700 330 1000 300 1250 L 300 470 Z" fill="#8a3048"/><path d="M300 470 L 540 470 C 520 700 560 1000 540 1250 L 300 1250 Z" fill="#a33a56"/></g>
  <g id="curR"><path d="M780 470 L 540 470 C 560 700 520 1000 540 1250 L 780 1250 Z" fill="#a33a56"/></g></svg>''', '<div class="ar g" id="sn" style="top:240px;font-size:110px">سُورَةُ مَرْيَم</div>',
                  card("c", "فَاتَّخَذَتْ مِن دُونِهِمْ <b>حِجَابًا</b>", "“and she placed a <i>ḥijāb</i> (a screen) between herself and them”", "MARYAM 19:17", 1320)]
-        js += [IN("#sn", L(49.28), 30), f'tl.set("#curL", {{scaleX:0, transformOrigin:"300px 0px"}}, 0); tl.set("#curR", {{scaleX:0, transformOrigin:"780px 0px"}}, 0);',
+        js += [IN("#sn", 0.05, 30), f'tl.set("#curL", {{scaleX:0, transformOrigin:"300px 0px"}}, 0); tl.set("#curR", {{scaleX:0, transformOrigin:"780px 0px"}}, 0);',
                f'tl.to("#curL", {{scaleX:1, duration:0.8, ease:"power3.out"}}, {L(52.86):.2f}); tl.to("#curR", {{scaleX:1, duration:0.8, ease:"power3.out"}}, {L(52.86):.2f});', IN("#c", L(53.3), 40)]
     elif gid == "musa":         # 42:51: a mountain at night, light behind a veil
         body += [f'''<svg class="full" viewBox="0 0 1080 1920">{stars(7)}<circle id="glow" cx="540" cy="620" r="360" fill="#fff1c4" opacity="0"/>
@@ -123,7 +123,7 @@ def build(gid):
  <path d="M60 1250 L 400 760 L 520 880 L 640 700 L 1020 1250 Z" fill="#2a2a38"/><path d="M640 700 L 700 790 L 600 800 Z" fill="#cfcfe0" opacity=".5"/></svg>''',
                  '<div class="ar g" id="sn" style="top:180px;font-size:100px">سُورَةُ الشُّورَى</div>', '<div class="big" id="mu" style="top:1080px;font-size:80px">ALLAH SPOKE TO <span class="g">MŪSĀ</span></div>',
                  card("c", "إِلَّا وَحْيًا أَوْ مِن وَرَاءِ <b>حِجَابٍ</b>", "“…except by revelation, or from behind a <i>ḥijāb</i> (a veil)”", "ASH-SHŪRĀ 42:51", 1260)]
-        js += [IN("#sn", L(56.62), 30), f'tl.fromTo("#glow", {{opacity:0, scale:0.4}}, {{opacity:0.55, scale:1, duration:1.2, ease:"power3.out", transformOrigin:"540px 620px"}}, {L(59.24):.2f});', IN("#mu", L(59.3), 30),
+        js += [IN("#sn", 0.05, 30), f'tl.fromTo("#glow", {{opacity:0, scale:0.4}}, {{opacity:0.55, scale:1, duration:1.2, ease:"power3.out", transformOrigin:"540px 620px"}}, {L(59.24):.2f});', IN("#mu", L(59.3), 30),
                f'tl.fromTo("#veil", {{opacity:0, y:-80}}, {{opacity:1, y:0, duration:0.7, ease:"power3.out"}}, {L(61.58):.2f});', OUT("#mu", L(61.4)), IN("#c", L(61.6), 40)]
     elif gid == "gaze":         # 24:30: men first, lower your gaze; "that is the first hijab"
         body += ['<div class="big" id="w1" style="top:300px;font-size:90px;color:#9fb6b0">BEFORE THE WOMEN…</div>', '<div class="big" id="w2" style="top:420px;font-size:190px">THE <span class="g">MEN</span></div>',
@@ -132,7 +132,7 @@ def build(gid):
                  + "".join(f'<path d="M{x} 845 L {x - 8} 880" stroke="{PAPER}" stroke-width="8" stroke-linecap="round"/>' for x in (420, 480, 540, 600, 660)) + '</g></svg>',
                  card("c", "قُل لِّلْمُؤْمِنِينَ <b>يَغُضُّوا مِنْ أَبْصَارِهِمْ</b>", "“Tell the believing men to <i>lower their gaze</i>”", "AN-NŪR 24:30", 980),
                  '<div class="big" id="fh" style="top:1440px;font-size:150px">THE <span class="g">FIRST</span> HIJAB</div>']
-        js += [IN("#w1", L(64.2), 30), SLAM("#w2", L(69.4)), IN("#eye", L(70.4), 20), IN("#c", L(70.6), 40), OUT("#w1", L(70.4)), SLAM("#fh", L(72.86))]
+        js += [IN("#w1", 0.05, 30), SLAM("#w2", L(69.4)), IN("#eye", L(70.4), 20), IN("#c", L(70.6), 40), OUT("#w1", L(70.4)), SLAM("#fh", L(72.86))]
     elif gid == "three":        # "a covering, a protection, a barrier from evil": a shield and three words; arrows bounce off it
         body += [f'<svg class="full" viewBox="0 0 1080 1920"><g id="shd"><path d="M540 420 L 830 520 L 805 800 C 780 920 650 1000 540 1040 C 430 1000 300 920 275 800 L 250 520 Z" fill="{TEAL}" stroke="{GOLD}" stroke-width="12"/>'
                  f'<path d="M540 520 L 540 940 M 380 640 L 700 640" stroke="{GOLD}" stroke-width="8" opacity=".6"/></g>'
