@@ -19,6 +19,12 @@ Q = [("Which one means <b>“he said”</b>?", None, [("قالَ", "qāla"), ("�
      ("What does this mean?", ("آمَنُوا", "āmanū"), [("they said", ""), ("they prayed", ""), ("they believed", ""), ("they knew", "")], 2, (26.2, 27.3, 28.5, 28.9, 4, 32.9, 34.0)),
      ("Tricky one ⚠️", ("أَثاث", "athāth"), [("clothes", ""), ("furnishings", ""), ("food", ""), ("gold", "")], 1, (34.3, 35.7, 36.4, 37.0, 4, 41.0, 41.9)),
      ("Which one means <b>“he made”</b>?", None, [("خَرَجَ", "kharaja"), ("كانَ", "kāna"), ("جَعَلَ", "jaʿala"), ("قالَ", "qāla")], 2, (42.0, None, 43.4, 43.9, 3, 46.9, None))]
+NEXT = [15.1, 23.9, 33.5, 42.0, END - 2.5]                     # when he speaks again after each question (the score ask, for the last)
+VO = os.path.join(ROOT, "brag-quiz/voice/quiz-1030")            # the answers read out (owner, 30 Oct): Rafiq for the Arabic, Callum for the English
+def spoken(f):
+    x = np.frombuffer(subprocess.run(["ffmpeg", "-v", "error", "-i", f, "-ac", "1", "-ar", "16000", "-f", "s16le", "-"], capture_output=True).stdout, np.int16) / 32768
+    e = 20 * np.log10(np.sqrt(np.convolve(x ** 2, np.ones(160) / 160, "same")) + 1e-9); v = np.where(e > -40)[0]
+    return v[0] / 16000, v[-1] / 16000                           # where the speech starts and ends in the file
 NOTE = {3: "<i>athāth</i>: household goods, furnishings · an-Naḥl 16:80"}
 
 def build():
@@ -38,7 +44,11 @@ def build():
     OUT("#stop", 1.0); POP("#title", 0.9); snd("whoosh", 0.9, -10)
     IN("#sub", 3.6, 20); snd("tap", 3.7, -8)
     for qi, (qtext, word, opts, ok, (t0, tw, to, tt, n, tr, tx)) in enumerate(Q):
-        k = f"q{qi}"
+        k = f"q{qi}"; af = os.path.join(VO, f"a{qi + 1}.mp3"); s0, s1 = spoken(af)
+        tr = round(NEXT[qi] - (s1 - s0) - 0.45, 2)                 # the answer lands, is read out, and he goes on
+        sp = (tr - tt) / n                                         # the ticks spread over the time there is
+        wav = os.path.join(W, f"a{qi + 1}.wav"); subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", af, "-ar", "48000", "-ac", "2", wav], check=True)
+        S.append((wav, tr + 0.12 - s0, 0))                          # the answer's voice just after it turns green, level with his peaks
         opt = "".join(f'<div class="op" id="{k}o{i}"><b class="{"ar" if tr_ else ""}">{o}</b>' + (f'<small>{tr_}</small>' if tr_ else "") + '</div>' for i, (o, tr_) in enumerate(opts))
         body.append(f'<div class="q" id="{k}"><div class="cnt">{qi + 1} / {len(Q)}</div><div class="qt">{qtext}</div>'
                     + (f'<div class="w ar" id="{k}w">{word[0]}<small>{word[1]}</small></div>' if word else "")
@@ -49,10 +59,10 @@ def build():
         if word: POP(f"#{k}w", tw - 0.05, 0.5); snd("tick-lo", tw, -6)
         for i in range(4): POP(f"#{k}o{i}", to + i * 0.12, 0.8); snd("tap", to + i * 0.12, -5)
         IN(f"#{k}t", tt - 0.25, 10)
-        T(f'tl.fromTo("#{k}a", {{strokeDashoffset:0}}, {{strokeDashoffset:1, duration:{n}, ease:"none"}}, {tt:.2f});'.replace('ease:"none"', 'ease:"power1.in"'))
+        T(f'tl.fromTo("#{k}a", {{strokeDashoffset:0}}, {{strokeDashoffset:1, duration:{tr - tt:.2f}, ease:"power1.in"}}, {tt:.2f});')
         for j in range(n):
-            T(f'tl.set("#{k}n", {{textContent:"{n - j}"}}, {tt + j:.2f});'); T(f'tl.fromTo("#{k}n", {{scale:1.35}}, {{scale:1, duration:0.3, ease:"power3.out"}}, {tt + j:.2f});')
-            snd("click", tt + j, -4)
+            T(f'tl.set("#{k}n", {{textContent:"{n - j}"}}, {tt + j * sp:.2f});'); T(f'tl.fromTo("#{k}n", {{scale:1.35}}, {{scale:1, duration:0.3, ease:"power3.out"}}, {tt + j * sp:.2f});')
+            snd("click", tt + j * sp, 2)                           # louder ticks (owner, 30 Oct)
         T(f'tl.to("#{k}t", {{opacity:0, scale:0.6, duration:0.25, ease:"power2.in"}}, {tr - 0.05:.2f});')
         T(f'tl.to("#{k}o{ok}", {{backgroundColor:"{GREEN}", color:"#fff", scale:1.06, duration:0.3, ease:"back.out(1.4)"}}, {tr:.2f});')
         T(f'tl.to([{", ".join(f"{chr(34)}#{k}o{i}{chr(34)}" for i in range(4) if i != ok)}], {{opacity:0.3, duration:0.3, ease:"power2.in"}}, {tr:.2f});')
@@ -118,9 +128,9 @@ def mix():
     VP = float(np.percentile(20 * np.log10(np.sqrt(np.convolve(m ** 2, np.ones(2400) / 2400, "valid"))[::1200] + 1e-9), 90))
     out = np.zeros((int(END * 48000), 2), np.float32); out[:len(v)] += v[:len(out)]
     for name, t, db in json.load(open(os.path.join(W, "sfx.json"))):
-        f = next(os.path.join(SFX, d, name + ".wav") for d in ("soft", "ref", ".") if os.path.exists(os.path.join(SFX, d, name + ".wav")))
+        f = name if os.path.isabs(name) else next(os.path.join(SFX, d, name + ".wav") for d in ("soft", "ref", ".") if os.path.exists(os.path.join(SFX, d, name + ".wav")))
         pk_db, pk = info(f); x = rd(f) * 10 ** ((VP + db - pk_db) / 20)
-        i = max(0, int((t - pk) * 48000)); j = min(len(out), i + len(x)); out[i:j] += x[:j - i]
+        i = max(0, int((t - (0 if os.path.isabs(name) else pk)) * 48000)); j = min(len(out), i + len(x)); out[i:j] += x[:j - i]   # a voice starts at t; an effect peaks there
     out.tofile(os.path.join(W, "mix.f32"))
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", "48000", "-ac", "2", "-i", os.path.join(W, "mix.f32"), "-af",
                     "lowpass=f=16000:poles=2,aresample=192000,alimiter=limit=0.8:attack=1:release=60:level=false,aresample=48000", os.path.join(W, "mix.wav")], check=True)
