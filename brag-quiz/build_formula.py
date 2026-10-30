@@ -1845,11 +1845,107 @@ def h3():
     total = round(t + end + 0.9, 2); finish(total)
     c.write("\n".join("      " + b for b in body), total)
 
+# ---------------------------------------------------------------- the story of a word #4, for Jumuʿah (owner 30 Oct 2026, #306)
+DOODLE.update({
+    "ring": [("M30 62 A20 20 0 1 0 70 62 A20 20 0 1 0 30 62", 0), ("M50 42 L38 30 L44 18 L56 18 L62 30 Z", 1)],
+    "heart": [("M50 84 C 20 64 12 44 24 31 C 34 21 46 25 50 35 C 54 25 66 21 76 31 C 88 44 80 64 50 84 Z", 1)],
+    "bubble": [("M18 22 H82 A8 8 0 0 1 90 30 V62 A8 8 0 0 1 82 70 H44 L28 86 L30 70 H18 A8 8 0 0 1 10 62 V30 A8 8 0 0 1 18 22 Z", 1)],
+    "minbar": [("M18 90 V72 H32 V58 H46 V44 H60 V30 H76 V90 Z", 1), ("M60 30 V16 C 60 6 76 6 76 16 V30", 0)]})
+KHU_DOODLES = [("ring", 60, 1430, 110, -12, "butter"), ("heart", 900, 1300, 90, 10, "blush"), ("dome", 880, 600, 130, 4, "sage"), ("star", 120, 560, 60, 0, "butter"),
+               ("minbar", 40, 980, 120, -6, "sky"), ("heart", 140, 1700, 70, -14, "peach"), ("star", 930, 1050, 54, 0, "sage"), ("moon", 760, 1720, 90, 8, "sky")]
+KHATIB = [("خَ", "r"), ("طِ", "r"), ("ي", ""), ("ب", "r")]
+KHUTBA = [("خُ", "r"), ("طْبَة", "")]
+KHITBA = [("خِ", "r"), ("طْبَة", "")]
+
+def h4():
+    """The story of a word #4, for Jumuʿah (owner 30 Oct 2026, #306: "a tiktok video to post today", a Friday): خَطِيب is the preacher who
+    gives the khutbah and also a fiancé (arabic.fi, Larousse); both from خَطَبَ "to address" (the imam addresses the people, a suitor
+    addresses a family); خُطْبَة sermon vs خِطْبَة proposal, one vowel mark apart; your turn: مِنْ خِطْبَةِ النِّساءِ (al-Baqarah 2:235),
+    sermon or proposal? 3-2-1, a PROPOSAL. Calm hook (the owner took the shouting out, #296); background sounds at 50% (as on #303).
+    Voices: brag-quiz/voice/khutbah-lines.json."""
+    V = "brag-quiz/voice/khutbah/"
+    c = SO.vcomp("h4-khutbah", "THE STORY OF A WORD"); c.bed = True; body = []; serif(c); c.css += GROW_CSS
+    c.fx = 0.5
+    finish = pastel(c, body, KHU_DOODLES)
+    def anim(c, at, d):                                  # "khutbah": the minbar pops; "fiancé": the ring pops, with a sparkle
+        pop(c, "#hmb", at(5)); pop(c, "#hrg", at(8))
+        c.t(f'tl.fromTo("#hrg", {{rotation:0}}, {{rotation:14, duration:0.12, yoyo:true, repeat:3, ease:"sine.inOut", immediateRender:false}}, {at(8) + 0.4:.2f});')
+        clip(c, "brag-quiz/sfx/soft/shimmer.wav", at(8), 0.3)
+    words = "The imam giving your Friday khutbah… and your fiancé… have the same name in Arabic.".split()
+    title = (f'<div class="bigw" id="htitle" style="top:250px;font-size:190px">{word(KHATIB)}</div>'
+             + doodle("minbar", 110, 330, 200, "sky", "hmb", sw=7) + doodle("ring", 780, 320, 200, "butter", "hrg", sw=7))
+    t = hook_in(c, body, (words, {8: "red", 11: "circle"}, V + "h1.mp3"), bg=(title, anim))
+    c.css += "#hook .hookline { top:640px; font-size:92px; } #hw1 { color:var(--verdigris); }"
+    # 1. خَطِيب: the preacher, and your fiancé
+    B = V + "b1.mp3"
+    whip_in(c, "s1", t); dk = say_up(c, "", t + 0.15, src=V + "khatib.mp3"); zoom_in(c, "#s1w", t + 0.15); pop(c, "#s1t", t + 0.15 + dk, False)
+    t2 = t + 0.15 + dk + 0.2; d = clip(c, B, t2); h = cap(c, "s1a", B, t2, (("khutbah", "g"), ("fiancé", "r")))
+    kb = t2 + key_at(B, "khutbah", 1.4); draw_on(c, "s1d", kb - 0.2, 0.6); pop(c, "#s1p0", kb)
+    fi = t2 + key_at(B, "fiancé", 3.2); draw_on(c, "s1r", fi - 0.2, 0.6); pop(c, "#s1p1", fi); clip(c, "brag-quiz/sfx/soft/shimmer.wav", fi, 0.3)
+    body.append(f'<div class="sec" id="s1"><div class="bigw" id="s1w" style="top:300px;font-size:200px">{word(KHATIB)}</div>'
+                '<div class="sp mid" id="s1t" style="top:610px">khateeb</div>'
+                + doodle("minbar", 150, 720, 260, "sky", "s1d", True, 6) + doodle("ring", 670, 720, 260, "butter", "s1r", True, 6)
+                + '<div class="sp" id="s1p0" style="left:120px;top:1010px;color:var(--verdigris)">the preacher</div>'
+                  '<div class="sp" id="s1p1" style="left:640px;top:1010px;color:var(--rubric)">your fiancé</div>' + f'{h}</div>')
+    t = whip_out(c, "s1", t2 + d + 0.35)
+    # 2. خ ط ب, to address: the imam addresses the people, a suitor addresses a family
+    B = V + "b2.mp3"; whip_in(c, "s2", t); d = clip(c, B, t + 0.1); s = t + 0.1
+    h = cap(c, "s2a", B, s, (("khataba", "r"), ("address", "g"), ("people", "g"), ("family", "r")))
+    pop(c, "#s2r", s + key_at(B, "khataba", 0.6))
+    pe = s + key_at(B, "people", 3.2); draw_on(c, "s2b0", pe - 0.3, 0.5); pop(c, "#s2l0", pe); draw_on(c, "s2m", pe, 0.5)
+    fa = s + key_at(B, "family", 4.8); draw_on(c, "s2b1", fa - 0.3, 0.5); pop(c, "#s2l1", fa); draw_on(c, "s2g", fa, 0.5)
+    body.append('<div class="sec" id="s2"><div class="sp mid" id="s2r" style="top:290px;font-size:54px"><span class="ar" style="color:var(--rubric)">خ ط ب</span> = to address</div>'
+                + doodle("bubble", 70, 430, 440, "sage", "s2b0", True, 6) + doodle("bubble", 570, 430, 440, "peach", "s2b1", True, 6)
+                + '<div class="sp" id="s2l0" style="left:130px;top:560px;font-size:42px">to the people</div><div class="sp" id="s2l1" style="left:640px;top:560px;font-size:42px">to a family</div>'
+                + doodle("minbar", 180, 860, 220, "sky", "s2m", True, 6) + doodle("ring", 680, 860, 220, "butter", "s2g", True, 6) + f'{h}</div>')
+    t = whip_out(c, "s2", s + d + 0.4)
+    # 3. خُطْبَة and خِطْبَة: one mark apart (the vowel on the first letter gets a gold circle as it's named)
+    A, B = V + "b3.mp3", V + "b3b.mp3"
+    whip_in(c, "s3", t); d = clip(c, A, t + 0.1); h = cap(c, "s3a", A, t + 0.1, cls="ccs")
+    u = t + 0.1 + d + 0.05; d1 = say_up(c, "", u, src=V + "khutba.mp3"); zoom_in(c, "#s3w0", u)
+    u2 = u + d1 + 0.25; d2 = say_up(c, "", u2, src=V + "khitba.mp3"); zoom_in(c, "#s3w1", u2)
+    u3 = u2 + d2 + 0.3; cap_out(c, "s3a", u3 - 0.1); db = clip(c, B, u3)
+    h2 = cap(c, "s3b", B, u3, (("damma", "r"), ("sermon", "g"), ("kasra", "r"), ("proposal", "g")))
+    dm = u3 + key_at(B, "damma", 1.8); c.t(f'tl.to("#s3c0 path", {{strokeDashoffset:0, duration:0.4, ease:"power2.inOut"}}, {dm:.2f});'); c.sfx("tap", dm)
+    pop(c, "#s3l0", u3 + key_at(B, "sermon", 2.6))
+    ks = u3 + key_at(B, "kasra", 3.6); c.t(f'tl.to("#s3c1 path", {{strokeDashoffset:0, duration:0.4, ease:"power2.inOut"}}, {ks:.2f});'); c.sfx("tap", ks)
+    pop(c, "#s3l1", u3 + key_at(B, "proposal", 4.6)); clip(c, "brag-quiz/sfx/soft/shimmer.wav", u3 + key_at(B, "proposal", 4.6), 0.3)
+    circ = lambda cid, x, y: (f'<svg class="hcirc" id="{cid}" viewBox="0 0 520 200" preserveAspectRatio="none" style="position:absolute;left:{x}px;top:{y}px;width:210px;height:200px">'
+                              '<path d="M70 110 C 40 30, 470 15, 500 95 C 520 175, 110 200, 40 130 C 20 110, 70 50, 160 40" pathLength="1"/></svg>')
+    body.append(f'<div class="sec" id="s3">{h}<div class="bigw" id="s3w0" style="top:330px;font-size:190px">{word(KHUTBA)}</div>{circ("s3c0", 560, 330)}'
+                f'<div class="sp mid" id="s3l0" style="top:590px;color:var(--verdigris)">a sermon 🕌</div>'
+                f'<div class="bigw" id="s3w1" style="top:690px;font-size:190px">{word(KHITBA)}</div>{circ("s3c1", 560, 740)}'
+                f'<div class="sp mid" id="s3l1" style="top:990px;color:var(--rubric)">a proposal 💍</div>{h2}</div>')
+    c.css += "#s3a { top:250px; }"
+    t = whip_out(c, "s3", u3 + db + 0.35)
+    # 4. your turn: مِنْ خِطْبَةِ النِّساءِ (al-Baqarah 2:235), sermon or proposal? 3-2-1, a PROPOSAL, and the line is said
+    B, S = V + "t1.mp3", V + "b4.mp3"
+    whip_in(c, "s4", t); d = clip(c, B, t + 0.1); h = cap(c, "s4a", B, t + 0.1, (("turn", "r"), ("baqarah", "g"), ("mark", "r")), "ccs")
+    zoom_in(c, "#s4w", t + 0.1 + key_at(B, "baqarah", 1.4))
+    for i in range(2): c.inn(f"#qo{i}", t + 0.1 + key_at(B, "sermon", 2.6) + i * 0.3, 30)
+    done = count_down(c, "qc", t + 0.1 + d + 0.3)
+    reveal(c, "#qo1", ["#qo0"], done)
+    da = say_up(c, "", done + 0.1, src=V + "ayah.mp3")
+    d4 = clip(c, S, done + 0.1 + da + 0.15); hit = done + 0.1 + da + 0.15 + key_at(S, "proposal", 0.2) + 0.05
+    c.t(f'tl.to(["#qo0"], {{opacity:0, duration:0.25}}, {hit - 0.3:.2f});')
+    slam(c, "#s4s", "s4", hit, "brag-quiz/sfx/soft/impact.wav"); bu = burst(c, "s4x", 540, 1290, hit + 0.05)
+    pop(c, "#s4h", hit + 0.2, False); pop(c, "#s4ref", hit + 0.8, False)
+    opts = '<div class="opts col" id="qo" style="top:820px">' + "".join(f'<div class="op2" id="qo{i}"><b>{o}</b></div>' for i, o in enumerate(["a sermon", "a proposal"])) + '</div>'
+    body.append(f'<div class="sec" id="s4">{h}<div class="bigw" id="s4w" style="top:450px;font-size:120px">مِنْ {word(KHITBA[:1] + [("طْبَةِ", "")])} النِّساءِ</div>'
+                f'{opts}{cnt("qc", 1100)}<div class="slamw" id="s4s" style="top:1230px;font-size:110px">a <em>PROPOSAL</em>!</div>{bu}'
+                + doodle("heart", 860, 1180, 120, "blush", "s4h") + '<div class="sp mid" id="s4ref" style="top:690px;font-size:36px">al-Baqarah 2:235</div></div>')
+    c.css += "#s4a { top:270px; } #s4w { direction:rtl; }"
+    t = done + 0.1 + da + 0.15 + d4 + 0.9
+    c.out_("#s4", t - 0.4); end = clip(c, V + "end.mp3", t)
+    body.append('<div id="pflash"></div>' + c.end(t, "Send this to someone getting married 💍 Did you spot it? Comment below 👇"))
+    total = round(t + end + 0.9, 2); finish(total)
+    c.write("\n".join("      " + b for b in body), total)
+
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "w8-subhana-azim": w8,
        "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1,
-       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2, "n5-salah": n5, "h1-algebra": h1, "h2-coffee": h2, "h3-lisan": h3}
+       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2, "n5-salah": n5, "h1-algebra": h1, "h2-coffee": h2, "h3-lisan": h3, "h4-khutbah": h4}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
