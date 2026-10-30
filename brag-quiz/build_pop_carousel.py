@@ -155,6 +155,41 @@ ART = {"pronouns": {
        + f'<path d="M300 362 L 780 362" stroke="{INK}" stroke-width="6" stroke-dasharray="4 18" stroke-linecap="round"/>'
        + person(540, 360, 1.05, SKIN[4], "hijab:#fff", "#9B6BFF", None, "wave")),
  "end": ("#2E7263", None, ["#FFC93C", "#fff", "#FF7A59"], None),
+},
+ # the little words (#308): a student with two books; coffee loved but not drunk; football with friends; tea at home; "where are you from?";
+ # off to the mosque on a Friday
+ "little": {
+ "cover": ("#4D96FF", None, ["#fff", "#FFC93C", "#FF7A59"], None),
+ "and": ("#FF7A59", "#FFE66D", ["#FFE66D", "#fff"],
+       person(540, 370, 1.15, SKIN[3], "hijab:#2E7263", "#FFC93C", None, "fold")
+       + "".join(f'<g transform="translate({x},{y}) rotate({r})"><rect x="-70" y="-90" width="140" height="180" rx="10" fill="{c}" {O}/><rect x="-50" y="-60" width="100" height="16" rx="6" fill="#fff"/>'
+                 f'<text x="0" y="40" text-anchor="middle" font-family="{fa}" font-size="{fs}" fill="#fff">{w}</text></g>' for x, y, r, c, w, fa, fs in
+                 ((270, 220, -8, "#2E7263", "ع", "AR", 76), (810, 220, 8, "#9B6BFF", "📜", "FR", 64)))
+       + f'<text x="540" y="70" text-anchor="middle" font-family="FR" font-size="90" fill="{INK}">+</text>'),
+ "but": ("#9B6BFF", "#FFE66D", ["#fff", "#F49AC1"],
+       person(380, 370, 1.15, SKIN[1], "hair:#3a2a1c", "#FF7A59", "#2a1d14", "fold")
+       + f'<g transform="translate(700,250)"><path d="M-70 -60 H70 V10 C70 60 40 90 0 90 C-40 90 -70 60 -70 10 Z" fill="#fff" {O}/><path d="M70 -40 C110 -40 110 30 70 30" fill="none" stroke="{INK}" stroke-width="10"/>'
+         f'<path d="M-20 -80 C-30 -100 -10 -110 -20 -130 M20 -80 C10 -100 30 -110 20 -130" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/></g>'
+       + f'<path d="M560 120 C 540 90 500 100 512 130 L 560 176 L 608 130 C 620 100 580 90 560 120 Z" fill="{RED}" {O}/>'
+       + f'<path d="M820 120 L 900 200 M 900 120 L 820 200" stroke="{RED}" stroke-width="18" stroke-linecap="round"/>'),
+ "with": ("#2EB67D", "#FFE66D", ["#fff", "#FFE66D"],
+       "".join(person(x, 370, 1.0, sk, top, bd, None, arm) for x, sk, top, bd, arm in
+               ((230, SKIN[0], "kufi", "#4D96FF", "wave"), (430, SKIN[2], "hair:#2a1d14", "#FF7A59", None), (850, SKIN[4], "kufi", "#FFC93C", "wave")))
+       + f'<g transform="translate(640,320)"><circle r="44" fill="#fff" {O}/><path d="M0 -18 L 17 -6 L 11 14 L -11 14 L -17 -6 Z" fill="{INK}"/></g>'),
+ "in": ("#FFB23F", "#fff", ["#fff", "#2EB67D"],
+       f'<g transform="translate(540,385)"><rect x="-300" y="-250" width="600" height="250" fill="#fff" {O}/><path d="M-340 -250 L 0 -330 L 340 -250 Z" fill="{RED}" {O}/>'
+       f'<rect x="-250" y="-200" width="220" height="150" fill="#cfe5ff" {O}/><rect x="30" y="-200" width="220" height="150" fill="#cfe5ff" {O}/></g>'
+       + person(400, 325, 0.5, SKIN[2], "hijab:#9B6BFF", "#2E7263", None, "fold", legs=False) + person(680, 325, 0.5, SKIN[0], "kufi", "#FF7A59", None, "fold", legs=False)
+       + "".join(f'<g transform="translate({x},285)"><rect x="-22" y="-26" width="44" height="40" rx="8" fill="{GOLD}" {O}/><path d="M22 -16 C 40 -16 40 6 22 6" fill="none" stroke="{INK}" stroke-width="6"/></g>' for x in (470, 610))),
+ "from": ("#F49AC1", "#FFE66D", ["#fff", "#9B6BFF"],
+       person(330, 370, 1.1, SKIN[1], "kufi", "#2E7263", "#2a1d14", "wave") + person(750, 370, 1.1, SKIN[3], "hair:#3a2a1c", "#4D96FF", "#2a1d14")
+       + f'<g transform="translate(540,110)"><circle r="70" fill="#4D96FF" {O}/><path d="M-30 -50 C -10 -30 -40 -10 -20 10 C 0 30 30 10 40 30 M10 -60 C 30 -40 50 -40 60 -20" fill="none" stroke="#2EB67D" stroke-width="16" stroke-linecap="round"/></g>'
+       + f'<text x="540" y="290" text-anchor="middle" font-family="FR" font-size="110" fill="{INK}">?</text>'),
+ "to": ("#2E7263", "#FFE66D", ["#FFC93C", "#fff"],
+       person(260, 370, 1.1, SKIN[0], "kufi", "#fff", "#2a1d14") + mosque(760, 380, 0.85)
+       + f'<path d="M370 300 C 450 250 520 250 590 290" fill="none" stroke="{GOLD}" stroke-width="12" stroke-linecap="round" stroke-dasharray="2 24"/>'
+       + f'<path d="M575 262 L 610 296 L 565 310" fill="none" stroke="{GOLD}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>'),
+ "end": ("#FF7A59", None, ["#FFC93C", "#fff", "#4D96FF"], None),
 }}
 CAST = (person(130, 300, 0.85, SKIN[1], "hair:#3a2a1c", "#2E7263", "#2a1d14", "wave") + person(330, 300, 0.85, SKIN[3], "kufi", "#FF7A59", "#2a1d14")
         + person(530, 300, 0.85, SKIN[2], "hijab:#9B6BFF", "#2E7263") + person(730, 300, 0.85, SKIN[0], "kufi", "#fff", "#e6e6e6", "fold")
