@@ -6,19 +6,26 @@
 // Cancelling (#182), in Settings or in Stripe's Manage billing: within 14 days of the first payment (or
 // a yearly one) it's refunded automatically and the plan ends now; then a "you've cancelled" email.
 // A refund made by hand in Stripe (#193): a fully refunded payment ends the plan now, too.
+// The owner's alert (#312): the Rafiq inbox hears about every subscription and every cancellation.
 import Stripe from 'npm:stripe@17';
 import { stripe, sync } from '../_shared/stripe.ts';
 import { admin, sendEmail } from '../_shared/common.ts';
-import { subscribed, cancelled, text } from '../_shared/emails.ts';
+import { subscribed, cancelled, ownerAlert, text } from '../_shared/emails.ts';
 import { subInfo, onCancel } from '../_shared/sub-info.ts';
 
 const SECRET = Deno.env.get('STRIPE_WEBHOOK_SECRET');
+const OWNER = 'support@rafiq-arabic.com';   // the Rafiq inbox
 const crypto = Stripe.createSubtleCryptoProvider();
 
 async function account(id: string) {
   const { data } = await admin.auth.admin.getUserById(id);
   const u = data?.user;
-  return u && u.email ? { email: u.email, name: (u.user_metadata?.name as string) || null } : null;
+  return u && u.email ? { email: u.email, name: (u.user_metadata?.name as string) || null, joined: u.created_at ? new Date(u.created_at) : null } : null;
+}
+// For the owner's alert: the account, and on how many days it has studied (one 's:<day>' progress row a day).
+async function who(uid: string, a: { email: string; joined: Date | null }) {
+  const { count } = await admin.from('item_progress').select('item_id', { count: 'exact', head: true }).eq('user_id', uid).like('item_id', 's:%');
+  return { email: a.email, joined: a.joined, studyDays: count || 0 };
 }
 // Mark the email as sent for this subscription; false if it already was.
 async function firstTime(uid: string, subId: string) {
@@ -55,9 +62,11 @@ async function onCancelled(sub: Stripe.Subscription) {
     } catch (e) { console.error('refund failed', e); kind = 'keep'; askRefund = true; }
   }
   const a = await account(uid);
-  if (a) await send(a.email, cancelled(a.name, i.plan, kind, {
-    until: kind === 'free' ? (sub.trial_end ? new Date(sub.trial_end * 1000) : null) : end ? new Date(end * 1000) : null,
-    pence: d.pence, askRefund }));
+  const until = kind === 'free' ? (sub.trial_end ? new Date(sub.trial_end * 1000) : null) : end ? new Date(end * 1000) : null;
+  if (a) {
+    await send(a.email, cancelled(a.name, i.plan, kind, { until, pence: d.pence, askRefund }));
+    await send(OWNER, ownerAlert('cancelled', await who(uid, a), i.plan, i.interval, kind === 'refund' ? d.pence : i.pence, { kind, until }));
+  }
 }
 // A payment refunded in full by hand in Stripe: end the customer's plan now, not at the end of the period.
 // Counts as their refund (refunded_at), like the automatic one. No email: a hand refund follows a conversation.
@@ -103,7 +112,10 @@ Deno.serve(async (req) => {
       const i = subInfo(sub);
       if (uid && i.plan && await firstTime(uid, sub.id)) {
         const a = await account(uid);
-        if (a) await send(a.email, subscribed(a.name, i.plan, i.interval, i.pence, i.firstCharge));
+        if (a) {
+          await send(a.email, subscribed(a.name, i.plan, i.interval, i.pence, i.firstCharge));
+          await send(OWNER, ownerAlert('bought', await who(uid, a), i.plan, i.interval, i.pence, { firstCharge: i.firstCharge }));
+        }
       }
     }
   }

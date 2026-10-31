@@ -23,7 +23,7 @@ def render():
     shutil.copy(os.path.join(ROOT, "supabase/functions/_shared/sub-info.ts"), d)
     open(os.path.join(d, "common.ts"), "w").write("export const SITE = 'https://rafiq-arabic.com';\n")
     open(os.path.join(d, "run.ts"), "w").write(
-        "import { welcome, trialSoon, trialLast, trialEnded, subscribed, cancelled, text } from './emails.ts';\n"
+        "import { welcome, trialSoon, trialLast, trialEnded, subscribed, cancelled, ownerAlert, text } from './emails.ts';\n"
         "import { subInfo, onCancel } from './sub-info.ts';\n"
         "const end = new Date('2026-10-08T09:00:00Z');\n"
         # a subscription in the free week, older API shape; and one charged at once, newer shape (period on the item)
@@ -50,6 +50,11 @@ def render():
         "Object.assign(all, { cFree: cancelled('Sam', 'essentials', 'free', { until: new Date('2026-10-17T23:00:00Z') }),\n"
         "  cRefund: cancelled('Sam', 'complete', 'refund', { pence: 1199 }),\n"
         "  cKeep: cancelled('Sam', 'essentials', 'keep', { until: new Date('2026-12-03T10:00:00Z'), askRefund: true }) });\n"
+        "const who = { email: 'sam<x>@example.com', joined: new Date('2026-10-09T10:00:00Z'), studyDays: 7 };\n"
+        "Object.assign(all, { oBuyNow: ownerAlert('bought', who, b.plan, b.interval, b.pence, { firstCharge: b.firstCharge }),\n"
+        "  oBuyTrial: ownerAlert('bought', { ...who, studyDays: 1 }, a.plan, a.interval, a.pence, { firstCharge: a.firstCharge }),\n"
+        "  oRefund: ownerAlert('cancelled', who, 'complete', 'month', 1199, { kind: 'refund' }),\n"
+        "  oKeep: ownerAlert('cancelled', who, 'essentials', 'month', 699, { kind: 'keep', until: new Date('2026-12-03T10:00:00Z') }) });\n"
         "console.error(JSON.stringify({ a, b, cancel }));\n"
         "console.log(JSON.stringify(Object.fromEntries(Object.entries(all).map(([k, m]) => [k, { ...m, text: text(m.html) }]))));\n")
     r = subprocess.run(["node", "--experimental-strip-types", "--no-warnings", os.path.join(d, "run.ts")],
@@ -109,6 +114,15 @@ def main():
                "refunded £11.99" in cr["html"] and "plan has ended" in cr["html"] and "plans.html" in cr["html"]))
     ok.append(("cancelled email, kept: until 3 December, resume in Settings, reply for a refund if it failed",
                "Thursday 3 December" in ck["html"] and "settings.html" in ck["html"] and "reply to this email" in ck["html"]))
+    ob, ot, orf, ok2 = m["oBuyNow"], m["oBuyTrial"], m["oRefund"], m["oKeep"]
+    ok.append(("owner alert, bought yearly now: subject, email escaped, taken today, joined and studied days",
+               ob["subject"] == "[Rafiq] New subscriber: Rafiq Complete, £79.99 a year" and "sam&lt;x&gt;@example.com" in ob["html"]
+               and "taken today" in ob["html"] and "Friday 9 October" in ob["html"] and "studied on 7 days" in ob["html"]))
+    ok.append(("owner alert, bought in the free week: first payment when it ends, 1 day",
+               "First payment on <b>Sunday 18 October</b>" in ot["html"] and "studied on 1 day." in ot["html"]))
+    ok.append(("owner alert, cancelled: refunded £11.99 / keeps it until 3 December",
+               orf["subject"].startswith("[Rafiq] Cancelled: Rafiq Complete") and "refunded £11.99" in orf["html"]
+               and "until <b>Thursday 3 December</b>" in ok2["html"]))
     ok.append(("every email has a plain-text copy, no template leftovers",
                all(x["text"] and "${" not in x["html"] + x["text"] for x in m.values())))
 
