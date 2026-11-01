@@ -175,7 +175,9 @@ cotton ← قُطْن, mattress ← مَطْرَح; tie each to a word from the 
 ## More ideas (not made yet)
 - **Scripts ready to film** (owner on camera, my graphics on top; approved 1 Nov 2026, waiting for the owner to film):
   `brag-quiz/reels/insha/SCRIPT.md` (#314, in shāʾ Allāh: not a polite no, it's tawakkul) · `brag-quiz/reels/ahad/SCRIPT.md`
-  (#315, Bilāl's "Aḥad, aḥad!", aḥad vs wāḥid). Film Version A of each; the graphics are cued with 🎬.
+  (#315, Bilāl's "Aḥad, aḥad!", aḥad vs wāḥid) · `brag-quiz/reels/dajjal/SCRIPT.md` (#316, a word, not a name: thirty dajjāls, د ج ل
+  to coat/gild, kāfir on his brow). Film Version A of each; the graphics are cued with 🎬 and already made, one clip per cue
+  (`brag-quiz/reels/scripts-gfx/graphics.py` → `out/<id>.mp4`; re-time them to the take when the footage comes).
 - Root series part 8: another word tree (`word_tree()` in `build_formula.py`), or the departure board again (`reels/board/build.py`), e.g.
   ح م د (al-ḥamd, Muḥammad, Aḥmad, Maḥmūd), done twice already in older formats (p4-hamd, r2-muhammad), so only with a new angle.
 
