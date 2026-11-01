@@ -173,6 +173,9 @@ cotton ← قُطْن, mattress ← مَطْرَح; tie each to a word from the 
 **Made 1 Nov 2026 (`reels/urdu-doctor/build.py`, #313; owner: "make me a video like this but in our own style", after a reel set in a courtroom):** `urdu-doctor`, "If you speak Urdu, you already know these Arabic words", at the doctor's: a drawn clinic wider than the screen, the camera easing to each thing as it's named, مَرِيض طَبِيب دَواء عِلاج صِحَّة شِفاء each with its Urdu spelling, a counter of the words you already know clicking up, ash-Shuʿarāʾ 26:80, the six together and "comment your score". Hook: "HUNDREDS of Arabic words… if you speak Urdu, you already know them" (HUNDREDS slammed with a crash, Arabic-in-Urdu word chips popping up). A series: the next rooms could be the kitchen, the classroom, the market, the mosque (ask the comments where to go next).
 
 ## More ideas (not made yet)
+- **Scripts ready to film** (owner on camera, my graphics on top; approved 1 Nov 2026, waiting for the owner to film):
+  `brag-quiz/reels/insha/SCRIPT.md` (#314, in shāʾ Allāh: not a polite no, it's tawakkul) · `brag-quiz/reels/ahad/SCRIPT.md`
+  (#315, Bilāl's "Aḥad, aḥad!", aḥad vs wāḥid). Film Version A of each; the graphics are cued with 🎬.
 - Root series part 8: another word tree (`word_tree()` in `build_formula.py`), or the departure board again (`reels/board/build.py`), e.g.
   ح م د (al-ḥamd, Muḥammad, Aḥmad, Maḥmūd), done twice already in older formats (p4-hamd, r2-muhammad), so only with a new angle.
 
