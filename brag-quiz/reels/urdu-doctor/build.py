@@ -3,7 +3,7 @@
 own style", after a reel set in a courtroom). Our own scene, colours and voices: a drawn clinic wider than the screen, the camera easing
 from one thing to the next as each word is said, the word in Arabic with its Urdu spelling underneath, and a counter of the Arabic
 words you already know that clicks up with every one:
-  hook  "HUNDREDS of Arabic words… if you speak Urdu, you already know them" (Callum, HUNDREDS shouted and slammed on with a crash)
+  hook  "If you speak Urdu, you already know HUNDREDS of Arabic words!" (Callum; HUNDREDS shouted and slammed on: crash, boom, its echo, the shake)
   1 مَرِيض the patient · 2 طَبِيب the doctor · 3 دَواء the medicine · 4 عِلاج the treatment · 5 صِحَّة health · 6 شِفاء the cure
   then ash-Shuʿarāʾ 26:80 وَإِذا مَرِضْتُ فَهُوَ يَشْفِينِ, the six words together and the ask (comment your score). Then the cream end card.
 Voices: brag-quiz/voice/urdu-doctor-lines.json (Callum; Rafiq says the Arabic, levelled with Callum). Figures are faceless (owner, 27 Oct).
@@ -32,7 +32,32 @@ WORDS = [   # file, Arabic, transliteration, meaning, Urdu spelling, Urdu said
     ("marid", "مَرِيض", "marīḍ", "patient", "مریض", "mareez"), ("tabib", "طَبِيب", "ṭabīb", "doctor", "طبیب", "tabeeb"),
     ("dawa", "دَواء", "dawā’", "medicine", "دوا", "dawa"), ("ilaj", "عِلاج", "‘ilāj", "treatment", "علاج", "ilaaj"),
     ("sihha", "صِحَّة", "ṣiḥḥa", "health", "صحت", "sehat"), ("shifa", "شِفاء", "shifā’", "cure", "شفا", "shifa")]
-ORDER = [("h1", 0.25), ("s1", 0.5), ("marid", 0.25), ("s1b", 0.3), ("s2", 0.45), ("tabib", 0.25), ("s2b", 0.3), ("s3", 0.45), ("dawa", 0.25),
+def hook_voice():
+    """The hook with HUNDREDS really shouted (owner, 1 Nov 2026: "a lot of emphasis, shouting"): eleven_v3 read it flat mid-line, so the
+    loudest of three shouted takes (shout1-3) replaces it in h1b; it sits at least 4 dB above the rest. Writes h1x.mp3 and its word times."""
+    out = os.path.join(VO, "h1x.mp3")
+    if os.path.exists(out): return
+    rd = lambda f: np.frombuffer(subprocess.run(["ffmpeg", "-v", "error", "-i", f, "-ac", "1", "-ar", "44100", "-f", "s16le", "-"], capture_output=True).stdout, np.int16).astype(float) / 32768
+    db = lambda x: 20 * np.log10(np.sqrt(np.mean(x ** 2)) + 1e-9)
+    loud = lambda x: max(db(x[i:i + 2205]) for i in range(0, len(x) - 2205, 1100))
+    takes = {n: rd(mp3(n)) for n in ("shout1", "shout2", "shout3")}
+    best = max(takes, key=lambda n: loud(takes[n])); sh = takes[best]
+    e = np.convolve(sh ** 2, np.ones(441) / 441, "same"); on = np.where(e > 10 ** (-45 / 10))[0]; sh = sh[max(0, on[0] - 441):on[-1] + 2205]
+    line = rd(mp3("h1b")); ws = words("h1b"); k = next(i for i, w in enumerate(ws) if "hundred" in w[0].lower())
+    a_, b_ = int(ws[k][1] * 44100), int(ws[k + 1][1] * 44100)
+    rest = np.concatenate([line[:a_], line[b_:]])
+    sh = sh * 10 ** (max(0, loud(rest) + 4 - loud(sh)) / 20)
+    gap = np.zeros(int(0.08 * 44100))
+    x = np.concatenate([line[:a_], gap, sh, gap, line[b_:] * 10 ** (3 / 20)])   # "of Arabic words!" came out quieter: up 3 dB
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "s16le", "-ar", "44100", "-ac", "1", "-i", "-", "-af", "alimiter=limit=0.97", "-c:a", "libmp3lame", "-q:a", "2", out],
+                   input=(np.clip(x, -1, 1) * 32767).astype(np.int16).tobytes(), check=True)
+    d = 0.08 * 2 + len(sh) / 44100 - (ws[k + 1][1] - ws[k][1])
+    nw = ws[:k] + [("HUNDREDS!", round(ws[k][1] + 0.08, 2), round(ws[k][1] + 0.08 + len(sh) / 44100, 2))] + [(w, round(s + d, 2), round(e_ + d, 2)) for w, s, e_ in ws[k + 1:]]
+    json.dump([list(w) for w in nw], open(os.path.join(VO, "h1x.words.json"), "w"))
+    print("hook: shout from", best, f"{loud(sh) - loud(rest):+.1f} dB over the line")
+if os.path.exists(mp3("shout1")): hook_voice()
+HOOK = "h1x" if os.path.exists(mp3("h1x")) else "h1b"
+ORDER = [(HOOK, 0.25), ("s1", 0.5), ("marid", 0.25), ("s1b", 0.3), ("s2", 0.45), ("tabib", 0.25), ("s2b", 0.3), ("s3", 0.45), ("dawa", 0.25),
          ("s3b", 0.3), ("s4", 0.45), ("ilaj", 0.25), ("s4b", 0.3), ("s5", 0.45), ("sihha", 0.25), ("s5b", 0.3), ("s6", 0.45), ("shifa", 0.25),
          ("s6b", 0.3), ("ayah", 0.35), ("s7", 0.4)]
 ARABIC = [w[0] for w in WORDS] + ["ayah"]
@@ -97,7 +122,7 @@ def build():
     shutil.copy(os.path.join(V6, "lib/gsap.min.js"), a)
     for f in ("shimmer.wav", "tick-lo.wav", "thump.wav", "whoosh.wav", "flip.wav", "drone.wav"): shutil.copy(os.path.join(ROOT, "brag-quiz/sfx/soft", f), a)
     for f in ("click.wav", "swoosh.wav", "tap.wav"): shutil.copy(os.path.join(ROOT, "brag-quiz/sfx/ref", f), a)
-    shutil.copy(os.path.join(ROOT, "brag-quiz/sfx/crash.wav"), a)
+    for f in ("crash.wav", "boom.wav"): shutil.copy(os.path.join(ROOT, "brag-quiz/sfx", f), a)
     lv = lambda f: float(re.findall(r"I:\s+(-?[\d.]+) LUFS", subprocess.run(["ffmpeg", "-i", f, "-af", "ebur128", "-f", "null", "-"], capture_output=True, text=True).stderr)[-1])
     target = lv(mp3("s7"))                                                   # Rafiq's Arabic level with Callum (the standard)
     for n in L:
@@ -116,21 +141,35 @@ def build():
     POP = lambda sel, t, s=0.6: T(f'tl.fromTo("{sel}", {{opacity:0, scale:{s}}}, {{opacity:1, scale:1, duration:0.45, ease:"back.out(1.4)", transformOrigin:"50% 50%"}}, {t:.2f});')
     OUT = lambda sel, t, y=-30: T(f'tl.to("{sel}", {{opacity:0, y:{y}, duration:0.3, ease:"power2.in"}}, {t:.2f});')
 
-    # ---- the hook: HUNDREDS slams on with a crash, the rest comes on word by word; Arabic-in-Urdu words drift up behind it ----------
-    hw = words("h1"); hd = L["h1"] + hw[0][1]
-    T(f'tl.fromTo("#big", {{scale:1.08, opacity:1}}, {{scale:1, duration:0.32, ease:"back.out(1.7)"}}, {hd:.2f});')   # the one slam
-    T(f'tl.fromTo("#cam", {{x:-16, y:8}}, {{x:16, y:-8, duration:0.05, yoyo:true, repeat:7, ease:"sine.inOut", immediateRender:false}}, {hd + 0.3:.2f});')
-    T(f'tl.set("#cam", {{x:0, y:0}}, {hd + 0.72:.2f});')
-    T(f'tl.fromTo("#ring", {{scale:0.2, opacity:0.9}}, {{scale:3, opacity:0, duration:0.7, ease:"power2.out"}}, {hd + 0.3:.2f});')
-    T(f'tl.fromTo("#flash", {{opacity:0.7}}, {{opacity:0, duration:0.35, ease:"power2.out", immediateRender:false}}, {hd + 0.3:.2f});')
-    snd("crash.wav", hd + 0.28, 0.8)
-    rest = hw[1:]; hl = ""
-    for j, (w, s, e) in enumerate(rest):
-        hl += f'<span id="hw{j}"{" class=em" if re.sub(r"[^a-z]", "", w.lower()) in ("urdu", "already", "nobody") else ""}>{w}</span> '
-        T(f'tl.fromTo("#hw{j}", {{opacity:0, x:{-60 if j % 2 else 60}, filter:"blur(8px)"}}, {{opacity:1, x:0, filter:"blur(0px)", duration:0.3, ease:"power3.out"}}, {L["h1"] + s - 0.05:.2f});')
-    snd("swoosh.wav", L["h1"] + rest[0][1] - 0.05, 0.25)
+    # ---- the hook (owner, 1 Nov 2026): "If you speak Urdu, you already know HUNDREDS of Arabic words!" HUNDREDS is huge from frame 0 and
+    # slams down on the shout as in g4's hook_in "loud": squash, shockwave rings, sparks, flash, the screen shake, a crash and a boom, and an
+    # echo tail of the shout itself (its own reverb). The other words swoosh in one at a time; Arabic-in-Urdu word chips pop up behind.
+    hw = words(HOOK); k = next(i for i, w in enumerate(hw) if "hundred" in w[0].lower())
+    hd = round(L[HOOK] + hw[k][1] + 0.08, 2)
+    T(f'tl.fromTo("#big", {{scale:1.22, rotation:-7, opacity:0.9}}, {{scale:1, rotation:0, opacity:1, duration:{hd:.2f}, ease:"power4.in"}}, 0);')   # the one slam
+    T(f'tl.to("#big", {{keyframes:[{{scaleX:1.18, scaleY:0.78, duration:0.06}}, {{scaleX:0.94, scaleY:1.08, duration:0.08}}, {{scaleX:1, scaleY:1, duration:0.12}}]}}, {hd:.2f});')
+    T(f'tl.fromTo("#big .ring", {{scale:0.3, opacity:0.9}}, {{scale:3.2, opacity:0, duration:0.55, ease:"expo.out", stagger:0.07, immediateRender:false}}, {hd:.2f});')
+    T(f'tl.fromTo("#big .spark", {{opacity:1, scaleX:0.2, x:60}}, {{opacity:0, scaleX:1.4, x:300, duration:0.4, ease:"expo.out", immediateRender:false}}, {hd:.2f});')
+    T(f'tl.fromTo("#flash", {{opacity:0.85}}, {{opacity:0, duration:0.3, ease:"power2.out", immediateRender:false}}, {hd:.2f});')
+    T(f'tl.to("#hook", {{keyframes:[{{x:-34, y:22, rotation:-1.4, duration:0.035}}, {{x:30, y:-18, rotation:1.2, duration:0.035}}, {{x:-22, y:14, rotation:-0.8, duration:0.04}}, '
+      f'{{x:16, y:-10, rotation:0.6, duration:0.04}}, {{x:-8, y:6, rotation:-0.3, duration:0.05}}, {{x:0, y:0, rotation:0, duration:0.06}}]}}, {hd:.2f});')
+    snd("crash.wav", hd - 0.02, 0.9); snd("boom.wav", hd - 0.02, 0.6)
+    w0, w1 = hw[k][1], (hw[k + 1][1] if k + 1 < len(hw) else hw[k][2] + 0.3)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{w0:.2f}", "-t", f"{w1 - w0 + 0.05:.2f}", "-i", mp3(HOOK), "-af",
+                    "apad=pad_dur=2.2,aecho=in_gain=0:out_gain=1:delays=180|360|560|800|1080|1400:decays=0.8|0.65|0.5|0.38|0.27|0.18,afade=t=out:st=1.8:d=0.7",
+                    os.path.join(a, "echo.wav")], check=True)
+    snd("echo.wav", L[HOOK] + w0, 1.0)                    # the shout's own echo
+    hl = {1: "", 2: ""}
+    for j, (w, s0, e) in enumerate(hw):
+        if j == k: continue
+        line = 1 if j < k else 2
+        cls = " class=em" if re.sub(r"[^a-z]", "", w.lower()) in ("urdu", "arabic") else ""
+        hl[line] += f'<span id="hw{j}"{cls}>{w}</span> '
+        T(f'tl.fromTo("#hw{j}", {{opacity:0, x:{-60 if j % 2 else 60}, filter:"blur(8px)"}}, {{opacity:1, x:0, filter:"blur(0px)", duration:0.3, ease:"power3.out"}}, {L[HOOK] + s0 - 0.05:.2f});')
+        if j in (0, k + 1): snd("swoosh.wav", L[HOOK] + s0 - 0.05, 0.25)
     CHIPS = [("كِتاب", "kitab"), ("وَقْت", "waqt"), ("دُنْيا", "duniya"), ("عِلْم", "ilm"), ("صَبْر", "sabr"), ("قَلَم", "qalam"), ("خَبَر", "khabar"),
              ("شُكْر", "shukr"), ("إِنْسان", "insaan"), ("حَال", "haal"), ("عَقْل", "aql"), ("فِكْر", "fikr")]
+    fx = '<i class="ring"></i><i class="ring r2"></i>' + "".join(f'<i class="spark" style="transform:rotate({a_}deg)"></i>' for a_ in range(0, 360, 36))
     rng = np.random.default_rng(5); chips = ""
     for i, (ar, ur) in enumerate(CHIPS):
         x, y = (70 + (i % 3) * 330 + rng.uniform(-15, 15), 1000 + (i // 3) * 190 + rng.uniform(-10, 10))
@@ -199,7 +238,7 @@ def build():
     # captions: Callum's lines, word by word, low in the frame
     caps = ""; k = 0
     for n in L:
-        if n in ARABIC or n == "h1": continue
+        if n in ARABIC or n == HOOK: continue
         ws = words(n); chunk = []
         for i, (w, s, e) in enumerate(ws):
             chunk.append((w, s))
@@ -244,11 +283,13 @@ def build():
 .cap {{ position:absolute; left:60px; right:60px; top:1660px; text-align:center; font-size:46px; line-height:1.2; color:{INK}; opacity:0; z-index:5; }}
 .cap span {{ display:inline-block; opacity:0; }}
 #hook {{ position:absolute; inset:0; background:radial-gradient(ellipse at 50% 30%, #fffaf0 0%, {PAPER} 60%, #efe3c6 100%); z-index:3; }}
-#big {{ position:absolute; left:0; right:0; top:330px; text-align:center; font-size:165px; font-weight:700; color:{RED}; letter-spacing:.01em;
+#big {{ position:absolute; left:0; right:0; top:380px; text-align:center; font-size:165px; font-weight:700; color:{RED}; letter-spacing:.01em;
   text-shadow:0 10px 0 {INK}; }}
-#hl {{ position:absolute; left:70px; right:70px; top:590px; text-align:center; font-size:70px; line-height:1.18; }}
-#hl span {{ display:inline-block; opacity:0; }} #hl .em {{ color:{TEAL}; }}
-#ring {{ position:absolute; left:340px; top:240px; width:400px; height:400px; border-radius:50%; border:14px solid {GOLD}; opacity:0; }}
+.hl {{ position:absolute; left:60px; right:60px; text-align:center; font-size:72px; line-height:1.15; }} #hl1 {{ top:190px; }} #hl2 {{ top:610px; }}
+.hl span {{ display:inline-block; opacity:0; }} .hl .em {{ color:{TEAL}; }}
+#big .ring {{ position:absolute; left:50%; top:50%; width:300px; height:300px; margin:-150px; border-radius:50%; border:14px solid {GOLD}; opacity:0; }}
+#big .ring.r2 {{ border-color:{RED}; border-width:8px; }}
+#big .spark {{ position:absolute; left:50%; top:50%; width:110px; height:12px; margin-top:-6px; border-radius:6px; background:{GOLD}; transform-origin:0 50%; opacity:0; }}
 #flash {{ position:absolute; inset:0; background:#fff; opacity:0; }}
 .chip {{ position:absolute; width:290px; padding:10px 0 12px; border-radius:26px; background:#fff; border:4px solid {INK}; box-shadow:0 6px 0 {INK}; text-align:center; opacity:0; }}
 .chip b {{ display:block; font-family:AM; font-size:64px; line-height:1.25; color:{INK}; }} .chip span {{ font-size:32px; color:{TEAL}; }}
@@ -274,7 +315,7 @@ def build():
 </div>
 <div id="count"><div id="cn">0</div><span>Arabic words<br>you already know</span></div>
 <div id="logo"><span class="tl"><span>ر</span><em></em></span><b>رَفِيق</b></div>
-<div id="hook"><div id="ring"></div><div id="big">HUNDREDS</div><div id="hl">{hl}</div>{chips}<div id="flash"></div></div>
+<div id="hook"><div class="hl" id="hl1">{hl[1]}</div><div id="big">HUNDREDS{fx}</div><div class="hl" id="hl2">{hl[2]}</div>{chips}<div id="flash"></div></div>
 <div id="fin"><div class="ttl">You already knew<br><em>6 Arabic words!</em></div><div class="grid">{grid}</div></div>
 <div id="ask">How many did you get? 👇</div><div id="url"><span>rafiq-arabic.com</span></div><div id="arr">👇</div>
 {caps}</div>"""
