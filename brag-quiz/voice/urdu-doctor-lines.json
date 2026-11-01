@@ -7,6 +7,13 @@
   "text": "[shouting] HUNDREDS [excited] of Arabic words... if you speak Urdu, you already know them. And nobody tells you!"
  },
  {
+  "file": "h1b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[excited] If you speak Urdu... you already know [shouting] HUNDREDS! [excited] of Arabic words!"
+ },
+ {
   "file": "s1",
   "text": "Imagine you're at the doctor's. This man is the patient:",
   "voice": "N2lVS1w4EtoT3dr4eOWO",
