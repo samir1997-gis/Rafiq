@@ -173,14 +173,28 @@ def gfx(gid):
               '<div class="ar" id="w2" style="top:400px;left:600px;right:auto;width:440px;font-size:130px;color:#7f9590">دَجّال</div>',
               '<div class="big" id="t" style="top:1180px;font-size:130px">MORE THAN<br><span class="g">ONE?</span></div>']
         j += [POP("#w", 0.05, 0.7), POP("#w1", 1.1, 0.4), POP("#w2", 1.3, 0.4), SLAM("#t", 1.6)]; d = 3.2
-    elif gid == "d_thirty":      # "there could be dozens, even hundreds of them, living among us": the word multiplies, the count runs past 100
+    elif gid == "d_thirty":      # "there could be hundreds, even thousands living amongst us" (as filmed, 2 Nov): the word multiplies, the count runs past 1,000
         for i in range(30):
             x, y = 70 + (i % 5) * 190, 300 + (i // 5) * 190
             b.append(f'<div class="ar" id="m{i}" style="left:{x}px;right:auto;top:{y}px;width:180px;font-size:66px;color:#9fb6b0">دَجّال</div>')
         b.append('<div class="big" id="n" style="top:1520px;font-size:200px"><span id="nn">0</span><span class="g" id="pl" style="opacity:0">+</span></div>')
         j += [f'tl.fromTo(".ar", {{opacity:0, scale:0.5}}, {{opacity:1, scale:1, duration:0.25, stagger:0.06, ease:"back.out(1.4)"}}, 0.05);',
-              IN("#n", 0.05, 0), '(() => { const o = {v:0}, el = document.getElementById("nn"); tl.to(o, {v:100, duration:2.0, ease:"power2.out", onUpdate:() => el.textContent = Math.round(o.v)}, 0.05); })();',
+              IN("#n", 0.05, 0), '(() => { const o = {v:0}, el = document.getElementById("nn"); tl.to(o, {v:1000, duration:2.0, ease:"power2.out", onUpdate:() => el.textContent = Math.round(o.v).toLocaleString("en-GB")}, 0.05); })();',
               POP("#pl", 2.1, 0.4)]; d = 3.2
+    elif gid == "d_root":        # "the word dajjāl comes from the root dāl, jīm, lām. Dajala, which means to cover or coat something" (as filmed)
+        for i, (l, x) in enumerate((("د", 700), ("ج", 440), ("ل", 180))):
+            b.append(f'<div class="ar g" id="l{i}" style="top:520px;left:{x}px;right:auto;width:200px;font-size:220px">{l}</div>')
+            b.append(f'<div class="tag" id="n{i}" style="top:850px;left:{x}px;right:auto;width:200px">{("dāl", "jīm", "lām")[i]}</div>')
+            j += [POP(f"#l{i}", 0.05 + i * 1.1, 0.5), IN(f"#n{i}", 0.3 + i * 1.1, 10)]
+        b += ['<div class="ar" id="v" style="top:1060px;font-size:150px">دَجَلَ</div>', '<div class="big" id="t" style="top:1330px;font-size:100px">TO <span class="g">COVER</span>, TO <span class="g">COAT</span></div>']
+        j += [IN("#v", 3.6, 30), SLAM("#t", 4.4)]; d = 6.0
+    elif gid == "d_camel":       # "the Arabs used it for coating a sick camel with tar to hide what was underneath" (as filmed)
+        b += [f'<svg class="full" viewBox="0 0 1080 1920"><g id="cam1"><path d="M300 1100 C 300 960 360 880 470 890 C 520 800 600 800 640 890 C 700 880 740 820 760 740 C 770 700 820 700 830 740 L 840 800 C 860 860 820 960 760 1000 L 760 1100 L 720 1100 L 720 1020 L 400 1020 L 400 1100 L 360 1100 Z" fill="#c98a4a"/>'
+              + "".join(f'<circle cx="{x}" cy="{y}" r="{r_}" fill="#8a5a3a"/>' for x, y, r_ in ((430, 930, 26), (560, 960, 34), (650, 920, 22), (500, 990, 18)))
+              + f'</g><defs><clipPath id="cc"><path d="M300 1100 C 300 960 360 880 470 890 C 520 800 600 800 640 890 C 700 880 740 820 760 740 C 770 700 820 700 830 740 L 840 800 C 860 860 820 960 760 1000 L 760 1100 L 720 1100 L 720 1020 L 400 1020 L 400 1100 L 360 1100 Z"/></clipPath></defs>'
+              f'<g clip-path="url(#cc)"><rect id="tar" x="280" y="680" width="580" height="440" fill="#141414" opacity=".92"/></g></svg>',   # the camel's shape on a wrapper: the sweep's own clip would replace it
+              '<div class="big" id="t" style="top:430px;font-size:110px">COATED WITH <span class="g">TAR</span></div>', '<div class="tag" id="e" style="top:1220px">to hide what was underneath</div>']
+        j += [IN("#cam1", 0.05, 30), IN("#t", 0.3, 30), f'tl.fromTo("#tar", {{clipPath:"inset(0 100% 0 0)"}}, {{clipPath:"inset(0 0% 0 0)", duration:1.1, ease:"power2.inOut"}}, 1.4);', IN("#e", 2.4, 20)]; d = 4.4
     elif gid == "d_hadith":      # al-Bukhārī 3609
         b += [card("c", "دَجّالُونَ كَذّابُونَ <b>قَرِيبٌ مِنْ ثَلاثِينَ</b>، كُلُّهُمْ يَزْعُمُ أَنَّهُ رَسُولُ اللّٰهِ",
                    "“…until about <i>thirty</i> dajjāls, liars, appear, each claiming to be a messenger of Allah.”", "AL-BUKHĀRĪ 3609", 640)]
@@ -248,11 +262,29 @@ def gfx(gid):
 
 SETS = {"insha": "i_no i_chat i_split i_past i_pens i_root i_kahf i_camel i_tawakkul i_worries i_hadid i_allah".split(),
         "ahad": "a_word a_scene a_slam a_root a_count a_ikhlas a_free a_rock a_kaba a_jannah".split(),
-        "dajjal": "d_word d_thirty d_hadith d_gild d_form d_one d_doors d_masih d_kafir d_dua d_kahf".split()}
+        "dajjal": "d_word d_root d_camel d_thirty d_hadith d_gild d_form d_one d_doors d_masih d_kafir d_dua d_kahf".split()}
+
+# Re-timing to a take (WARP, JSON in the environment: {gid: {"at": [[planned s, s in the take's graphic], ...], "d": length}}): every
+# tween's start moves through the anchors (straight lines between them, the same pace beyond the ends), so each beat lands on its word.
+WARP = __import__("json").loads(os.environ.get("WARP", "{}"))
+OUT = os.environ.get("OUT", os.path.join(HERE, "out"))
+def warp(gid, js, d):
+    w = WARP.get(gid)
+    if not w: return js, d
+    at = sorted(w["at"])
+    def f(t):
+        if t <= at[0][0]: return max(0.05, at[0][1] + t - at[0][0])
+        for (p0, q0), (p1, q1) in zip(at, at[1:]):
+            if t <= p1: return q0 + (t - p0) * (q1 - q0) / (p1 - p0)
+        return at[-1][1] + t - at[-1][0]
+    import re
+    js = [re.sub(r", (\d+(?:\.\d+)?)\);", lambda m: f", {f(float(m.group(1))):.2f});", x) for x in js]
+    return js, w.get("d", round(f(d), 2))
 
 def build(gid):
     d, body, js = gfx(gid)
-    out = os.path.join(HERE, "out", gid); a = os.path.join(out, "assets")
+    js, d = warp(gid, js, d)
+    out = os.path.join(OUT, gid); a = os.path.join(out, "assets")
     if os.path.exists(out): shutil.rmtree(out)
     os.makedirs(a)
     for f in ("anton-latin-400-normal.woff2", "instrument-serif-latin-400-normal.woff2", "amiri-arabic-700-normal.woff2"): shutil.copy(os.path.join(H.FONTS, f), a)
