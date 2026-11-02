@@ -76,6 +76,19 @@ and then the big one. Talking to camera; my graphics go on top (🎬).
 4. "Dajjāl" isn't a name. It's a word. That's why there isn't just one.
 5. You mention the Dajjāl in every salah. But there isn't just one: there are thirty.
 
+## Stronger hooks (owner, 2 Nov 2026; TypeSafe, 3 viewers × 2 runs, `tools/typesafe-exp/dajjal_hooks.py`)
+| Hook | stop | sincere |
+|---|---|---|
+| **One Arabic word is written on the Dajjāl's face. The Prophet ﷺ said every believer will be able to read it.** ← best balance | **2.39** | **2.37** |
+| The Prophet ﷺ said every believer will read one word on the Dajjāl's forehead, even those who can't read. | 2.35 | 2.44 |
+| The Dajjāl will show you Paradise. Don't walk in. | 2.36 | 1.94 |
+| The Prophet ﷺ told us how the Dajjāl will fool people, and it's hidden in his name. | 2.31 | 2.28 |
+| *(the current opener)* "Dajjāl" isn't a name. It's a word, and it tells you exactly what he does. | 2.22 | 2.28 |
+| There's one Arabic word you'll be able to read on the Dajjāl's face, even if you can't read. | 2.52 | 1.64 (reads as clickbait) |
+
+**To use the new opener:** start with it, then go straight into the current first line ("But first: *Dajjāl* isn't a name…").
+The kāfir part near the end now pays off the opening, so people stay to the end to find out the word.
+
 ## References (for the graphics)
 - al-Bukhārī 3609 (also in Muslim): لا تَقُومُ السّاعَةُ حَتّى يُبْعَثَ دَجّالُونَ كَذّابُونَ قَرِيبٌ مِنْ ثَلاثِينَ، كُلُّهُمْ يَزْعُمُ أَنَّهُ رَسُولُ اللّٰهِ
 - Root د ج ل: دَجَّلَ البَعِيرَ, coated the camel with tar; دَجَّلَ الشَّيْءَ, gilded it (Lisān al-ʿArab); دَجّال on the
