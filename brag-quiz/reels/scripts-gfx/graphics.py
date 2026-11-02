@@ -167,16 +167,20 @@ def gfx(gid):
         j += [f'tl.fromTo("#lt", {{opacity:0}}, {{opacity:0.3, duration:1.2, ease:"power3.out"}}, 0.05);',
               f'tl.to(".fs", {{opacity:1, duration:0.2, stagger:0.25, ease:"power2.out"}}, 0.3);', IN("#c", 1.6, 40)]; d = 4.6
     # ---------------- Dajjāl (#316) ----------------
-    elif gid == "d_word":        # "'Dajjāl' isn't a name. It's a word"
-        b += ['<div class="ar" id="w" style="top:620px;font-size:300px">دَجّال</div>', '<div class="big" id="t" style="top:1180px;font-size:110px">NOT A NAME.<br><span class="g">A WORD.</span></div>']
-        j += [POP("#w", 0.05, 0.7), SLAM("#t", 1.4)]; d = 3.2
-    elif gid == "d_thirty":      # there isn't just one: there are thirty
+    elif gid == "d_word":        # "Did you know there's more than one Dajjāl? Let me explain." (owner's hook, 2 Nov): the word, then two more ghost in
+        b += ['<div class="ar" id="w" style="top:600px;font-size:280px">دَجّال</div>',
+              '<div class="ar" id="w1" style="top:400px;left:40px;right:auto;width:440px;font-size:130px;color:#7f9590">دَجّال</div>',
+              '<div class="ar" id="w2" style="top:400px;left:600px;right:auto;width:440px;font-size:130px;color:#7f9590">دَجّال</div>',
+              '<div class="big" id="t" style="top:1180px;font-size:130px">MORE THAN<br><span class="g">ONE?</span></div>']
+        j += [POP("#w", 0.05, 0.7), POP("#w1", 1.1, 0.4), POP("#w2", 1.3, 0.4), SLAM("#t", 1.6)]; d = 3.2
+    elif gid == "d_thirty":      # "there could be dozens, even hundreds of them, living among us": the word multiplies, the count runs past 100
         for i in range(30):
             x, y = 70 + (i % 5) * 190, 300 + (i // 5) * 190
             b.append(f'<div class="ar" id="m{i}" style="left:{x}px;right:auto;top:{y}px;width:180px;font-size:66px;color:#9fb6b0">دَجّال</div>')
-        b.append('<div class="big" id="n" style="top:1520px;font-size:200px">0</div>')
+        b.append('<div class="big" id="n" style="top:1520px;font-size:200px"><span id="nn">0</span><span class="g" id="pl" style="opacity:0">+</span></div>')
         j += [f'tl.fromTo(".ar", {{opacity:0, scale:0.5}}, {{opacity:1, scale:1, duration:0.25, stagger:0.06, ease:"back.out(1.4)"}}, 0.05);',
-              IN("#n", 0.05, 0), '(() => { const o = {v:0}, el = document.getElementById("n"); tl.to(o, {v:30, duration:1.8, ease:"power2.out", onUpdate:() => el.textContent = Math.round(o.v)}, 0.05); })();']; d = 3.2
+              IN("#n", 0.05, 0), '(() => { const o = {v:0}, el = document.getElementById("nn"); tl.to(o, {v:100, duration:2.0, ease:"power2.out", onUpdate:() => el.textContent = Math.round(o.v)}, 0.05); })();',
+              POP("#pl", 2.1, 0.4)]; d = 3.2
     elif gid == "d_hadith":      # al-Bukhārī 3609
         b += [card("c", "دَجّالُونَ كَذّابُونَ <b>قَرِيبٌ مِنْ ثَلاثِينَ</b>، كُلُّهُمْ يَزْعُمُ أَنَّهُ رَسُولُ اللّٰهِ",
                    "“…until about <i>thirty</i> dajjāls, liars, appear, each claiming to be a messenger of Allah.”", "AL-BUKHĀRĪ 3609", 640)]

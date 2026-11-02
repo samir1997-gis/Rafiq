@@ -4,6 +4,8 @@ Owner, 1 Nov 2026: the word دَجّال. Hook (the owner's idea): there's more 
 and then the big one. Talking to camera; my graphics go on top (🎬).
 
 **What to say carefully.**
+- "There could be hundreds": that's about the **word** (anyone who covers lies like this is, by meaning, a dajjāl). The
+  **hadith** is specifically about about thirty who claim to be prophets. Say both, the way the script does.
 - The big one's title is **al-Masīḥ ad-Dajjāl** (some scholars: *ad-dajjāl al-akbar*, "the greatest dajjāl"). Not
   "the Dajjāl ibn the Dajjāla".
 - "About **thirty** dajjāls, liars, each claiming to be a messenger of Allah" is al-Bukhārī 3609 (also in Muslim). We
@@ -12,20 +14,20 @@ and then the big one. Talking to camera; my graphics go on top (🎬).
   **gilding**, painting gold over something so you can't see what's underneath (Lisān al-ʿArab). دَجّال is the
   intensive form (like كَذّاب, a habitual liar): someone who does it over and over, and does it big.
 
-## Version A: the full one (about 85 s) ← recommended (TypeSafe: finish 2.59, share 2.64, fair 2.38 · B: 2.46 / 2.43 / 1.98)
+## Version A: the full one (about 85 s), in the owner's order (2 Nov 2026)
 
-> **"Dajjāl" isn't a name. It's a word, and it tells you exactly what he does.** 🎬 *دَجّال, huge, on frame 0*
+> **Did you know there's more than one Dajjāl? Let me explain.** 🎬 *دَجّال, then "MORE THAN ONE?"*
 >
-> That's why there isn't just one Dajjāl. **There are thirty.** 🎬 *دَجّال multiplies across the screen: 30* The Prophet ﷺ
-> said: **the Hour won't come until about thirty dajjāls appear, liars, each claiming to be a messenger of Allah.**
-> 🎬 *hadith card, al-Bukhārī 3609*
+> The word **dajjāl** comes from three letters: **د ج ل**. *Dajala*: **to coat, to cover**. 🎬 *the root, gold*
+> The Arabs used it for coating a sick camel in tar so you couldn't see the mange, and for **gilding**: painting gold over
+> something cheap so it looks precious. 🎬 *a rusty object, a brush of gold paint sweeps over it*
 >
-> It comes from **د ج ل**: *to coat, to cover*. The Arabs used it for coating a sick camel in tar so you couldn't see the
-> mange, and for **gilding**: painting gold over something cheap so it looks precious. 🎬 *a rusty object, a brush of
-> gold paint sweeps over it*
+> And **dajjāl** is the strong form, like *kadhdhāb*. 🎬 *دَجَلَ → دَجّال, the doubled ج glowing* So a dajjāl isn't just a
+> liar. He's a **master liar**: someone who covers the truth with something shiny, again and again.
 >
-> And **dajjāl** is the strong form, like *kadhdhāb*, a liar who never stops. 🎬 *دَجَلَ → دَجّال, the doubled ج glowing*
-> A dajjāl is someone who **paints gold over a lie**, again and again. So yes, there can be many.
+> So by its meaning, anyone who does that is a dajjāl. There could be **dozens, even hundreds** of them, living among us.
+> 🎬 *دَجّال multiplies across the screen* The Prophet ﷺ even said: **the Hour won't come until about thirty dajjāls
+> appear, liars, each claiming to be a messenger of Allah.** 🎬 *hadith card, al-Bukhārī 3609*
 >
 > But there's one who's the greatest of them all: **al-Masīḥ ad-Dajjāl**. 🎬 *the 30 shrink away; one large silhouette*
 >
@@ -69,25 +71,15 @@ and then the big one. Talking to camera; my graphics go on top (🎬).
 >
 > Do you know them yet? Comment **"in progress"** or **"done"**. 🤍
 
-## Hook options (first line, on camera; TypeSafe "stop", two runs: 1 = 2.02/1.99, 2 = 2.23/2.29, 3 = 2.19/2.18, 4 = 2.11, 5 = 2.04 → A opens on 2, with the owner's "thirty" as the next line)
+## Hook options (first line, on camera). The owner chose 0 (2 Nov 2026); 1–5 were the earlier tests (TypeSafe "stop": 1 = 2.02, 2 = 2.26, 3 = 2.19, 4 = 2.11, 5 = 2.04)
+0. Did you know there's more than one Dajjāl? Let me explain.
 1. There isn't just one Dajjāl. There are thirty.
 2. "Dajjāl" isn't a name. It's a word, and it tells you exactly what he does.
 3. You mention the Dajjāl in every single salah. Do you know what his name means?
 4. "Dajjāl" isn't a name. It's a word. That's why there isn't just one.
 5. You mention the Dajjāl in every salah. But there isn't just one: there are thirty.
 
-## Stronger hooks (owner, 2 Nov 2026; TypeSafe, 3 viewers × 2 runs, `tools/typesafe-exp/dajjal_hooks.py`)
-| Hook | stop | sincere |
-|---|---|---|
-| **One Arabic word is written on the Dajjāl's face. The Prophet ﷺ said every believer will be able to read it.** ← best balance | **2.39** | **2.37** |
-| The Prophet ﷺ said every believer will read one word on the Dajjāl's forehead, even those who can't read. | 2.35 | 2.44 |
-| The Dajjāl will show you Paradise. Don't walk in. | 2.36 | 1.94 |
-| The Prophet ﷺ told us how the Dajjāl will fool people, and it's hidden in his name. | 2.31 | 2.28 |
-| *(the current opener)* "Dajjāl" isn't a name. It's a word, and it tells you exactly what he does. | 2.22 | 2.28 |
-| There's one Arabic word you'll be able to read on the Dajjāl's face, even if you can't read. | 2.52 | 1.64 (reads as clickbait) |
-
-**To use the new opener:** start with it, then go straight into the current first line ("But first: *Dajjāl* isn't a name…").
-The kāfir part near the end now pays off the opening, so people stay to the end to find out the word.
+(The "stronger hooks" tested on 2 Nov, `tools/typesafe-exp/dajjal_hooks.py`, weren't used: the owner wants the video to be about what the word means.)
 
 ## References (for the graphics)
 - al-Bukhārī 3609 (also in Muslim): لا تَقُومُ السّاعَةُ حَتّى يُبْعَثَ دَجّالُونَ كَذّابُونَ قَرِيبٌ مِنْ ثَلاثِينَ، كُلُّهُمْ يَزْعُمُ أَنَّهُ رَسُولُ اللّٰهِ
