@@ -5,8 +5,8 @@ times… from a wide angle… zooms into me quite rapidly… use while I'm holdi
   itself, the hook as a title in the band above; clones of him (from 1044, the same locked-off framing) pop in on his words; then a cut
   into the real camera move (1052, half a second, speeding up), and the cut onto his raised finger in the talking take (1059),
   where the main edit starts ("Let me explain").
-  A  "Did you know there is more than one Dajjāl?"  the clones land on "more", "than", "one", "Dajjāl"
-  B  "The Prophet ﷺ spoke about 30 dajjāls, but most people only know the one."  all on "30 dajjāls", gone again on "only know the one"
+  A  "Did you know there is more than one Dajjāl?"  the poses flash one at a time, five land together on "Dajjāl", gone after it
+  B  "The Prophet ﷺ spoke about 30 dajjāls, but most people only know the one."  flashes, the five on "30", gone on "the one"
 Each clone is cut out against the empty room (1044 at 39.5 s, same take, same light), only inside a box round where he stands (the sun
 moved during the take), and brought to the hook shot's light by matching the background. Sounds as sfx_rules: against his voice.
 
@@ -19,8 +19,9 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 RAW, V = sys.argv[1], sys.argv[2]
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(os.path.dirname(os.path.dirname(HERE))); SFX = os.path.join(ROOT, "brag-quiz/sfx")
 W, H, FPS = 1080, 1920, 30
-WX0, WW = 480, 2880                                   # the room: 4K x 480..3360, all of it high (2160) → 4:3
-CW, CH = 2160, 1620                                   # worked at twice the size it shows, so the push-in stays sharp
+WX0, WW = 320, 3300                                   # the room: 4K x 320..3620, all of it high (2160): wide enough for the two
+CW, CH = 2160, 1414                                   # poses close to the lens (8 on the left, 9 on the right)
+                                  # worked at twice the size it shows, so the push-in stays sharp
 SHOW = (W, round(W * CH / CW))                        # 1080 x 810 on screen
 TOP = (H - SHOW[1]) // 2 - 60                         # a little above the middle: the title band above, captions below
 FACE = (1925 - WX0) / WW * CW, 940 / 2160 * CH        # his face in the worked frame (measured: head from y 819 in 4K; 760 aimed at the wall)
@@ -36,15 +37,25 @@ ROOM = f"crop={WW}:2160:{WX0}:0,fps={FPS},scale={CW}:{CH}"
 room_frames = lambda f, t0: reader(src(f), t0, ROOM, CW, CH)
 take = lambda f, t0, n: [fr.copy() for _, fr in zip(range(n), room_frames(f, t0))]
 
-HOOK = {"A": (18.35, 22.05, [20.04, 20.28, 20.56], None, ("MORE THAN", "ONE?")),
-        "B": (7.05, 14.5, [10.32, 10.62, 10.94], 13.32, ("30", "DAJJĀLS"))}[V]
-t0, t1, ins, outs, title = HOOK
-n = round((t1 - t0) * FPS)
+# (hook start, end, the flashes' first and last start, the group lands, the group goes, the room held after the hook, the title)
+HOOK = {"A": (18.35, 22.05, 18.7, 20.6, 21.06, 22.12, 0.4, ("MORE THAN", "ONE?")),          # flashes over "did you know there is more than
+                                                                                           # one", the group on "Dajjāl", gone after it
+        "B": (7.05, 14.5, 7.3, 10.0, 10.30, 14.02, 0.3, ("30", "DAJJĀLS"))}[V]             # flashes over "the Prophet ﷺ spoke about", the
+t0, t1, f0, f1, g_on, g_off, hold, title = HOOK                                             # group on "30", gone on "the one"
+n = round((t1 + hold - t0) * FPS)
 plate = take("1044", 39.5, 1)[0].astype(np.float32)
-# the clones: (time in 1044, ping-pong span, where he is in 4K x): standing on the left, sitting on the right end, standing on the right
-# (the ones close to the lens covered him or were cut off by the frame's edge)
-CLONES = [(5.9, 1.0, 1500), (18.0, 0.8, 2640), (21.8, 0.8, 2470)]   # the left one sat down and still (owner, 2 Nov 2026: the first pick
-                                                                 # caught him half-way up, and looping it made him bob)
+# the poses (owner, 2 Nov 2026, from the numbered sheet poses.png: "flash them all up at different points… not all of them on screen at the
+# same time… at the end only keep 9, 8, 5, 6, 3 and 1, then disappear into just the 1"; 1 is where he sits for the hook, so 1 is him):
+# number: (time in 1044 where he holds still, ping-pong span, where he is in 4K x)
+POSES = {2: (3.05, 0.35, 2010), 3: (5.9, 0.8, 1530), 4: (9.6, 0.5, 1230), 5: (14.0, 0.8, 2880), 6: (18.0, 0.8, 2640),
+         7: (21.8, 0.8, 2470), 8: (26.0, 0.8, 720), 9: (31.0, 0.8, 3060), 10: (35.6, 0.35, 2280)}
+SITTING, FRONT = (3, 5, 6), (2, 4, 7, 10, 8, 9)           # drawn back to front: those on the sofa, him, those standing and near the lens
+FLASH = [4, 7, 3, 9, 2, 6, 8, 5, 10]                     # one at a time, hopping round the room
+GROUP = [9, 8, 5, 6, 3]
+step = (f1 - f0) / (len(FLASH) - 1)
+SHOWN = {k: [] for k in POSES}                            # number: [(on, off)]
+for j, k in enumerate(FLASH): SHOWN[k].append((f0 + j * step, f0 + j * step + step * 0.9))
+for j, k in enumerate(GROUP): SHOWN[k].append((g_on + j * 0.04, g_off + j * 0.03))
 def clone(tc, span, x4k):
     fr = take("1044", tc, max(2, round(span * FPS)))
     cx = (x4k - WX0) / WW * CW; box = np.zeros((CH, CW), bool); box[:, max(0, int(cx - 420)):int(cx + 420)] = True
@@ -57,7 +68,7 @@ def clone(tc, span, x4k):
     return fr + fr[::-1], ms + ms[::-1]                # ping-pong, so a short still moment can loop
 from rembg import remove, new_session
 SEG = new_session("u2net_human_seg")
-cl = [clone(*c) for c in CLONES]
+cl = {k: clone(*c) for k, c in POSES.items()}
 # the light: the hook shot against the empty room, per channel, on what no one covers
 first = take("1048", t0, 1)[0].astype(np.float32)
 bg = ~ndimage.binary_dilation(ndimage.gaussian_filter(np.abs(first - plate).mean(2), 2) > 40, iterations=40)
@@ -102,20 +113,23 @@ def frame_out(room, i, zoom=1.0, fill=None):
 frames_out = []
 for i, room in zip(range(n), room_frames("1048", t0)):
     t = t0 + i / FPS; o = room.astype(np.float32)
-    for k, (fr, ms) in enumerate(cl):
-        a = ins[k]
-        if t < a: continue
-        p = 1 - (1 - min(1.0, (t - a) / 0.14)) ** 3                     # pops on, easing out
-        if outs and t >= outs + k * 0.12: p *= max(0.0, 1 - (t - outs - k * 0.12) / 0.14) ** 2   # and off, easing in
-        if p <= 0: continue
-        j = int((t - a) * FPS) % len(fr)
-        al = (ms[j].astype(np.float32) / 255 * p)[..., None]
-        o = o * (1 - al) + np.clip(fr[j].astype(np.float32) * gain, 0, 255) * al
-    if any(t >= a for a in ins):                                       # he stays in front of the clone sat beside him
+    def put(o, k):
+        for a, b in SHOWN[k]:
+            if not a <= t < b + 0.08: continue
+            p = (1 - (1 - min(1.0, (t - a) / 0.06)) ** 3) * (1 - min(1.0, max(0.0, t - b) / 0.08)) ** 2   # on easing out, off easing in
+            fr, ms = cl[k]; j = int((t - a) * FPS) % len(fr)
+            al = (ms[j].astype(np.float32) / 255 * p)[..., None]
+            return o * (1 - al) + np.clip(fr[j].astype(np.float32) * gain, 0, 255) * al
+        return o
+    for k in SITTING: o = put(o, k)
+    if any(a <= t < b + 0.08 for k in SITTING for a, b in SHOWN[k]):  # he stays in front of the ones sat beside him on the sofa
         me = np.asarray(remove(Image.fromarray(room), session=SEG, only_mask=True)).astype(np.float32)[..., None] / 255
         o = o * (1 - me) + room.astype(np.float32) * me
-    for a in ins:                                                      # a flash as each one lands
-        if 0 <= t - a < 0.12: o = o + (255 - o) * 0.22 * (1 - (t - a) / 0.12)
+    for k in FRONT: o = put(o, k)
+    for k in POSES:                                                    # a flash as each one lands (a big one for the group)
+        for a, _ in SHOWN[k]:
+            big = a >= g_on
+            if 0 <= t - a < 0.1 and (not big or k == GROUP[0]): o = o + (255 - o) * (0.3 if big else 0.12) * (1 - (t - a) / 0.1)
     # no zoom on the room (owner, 2 Nov 2026: a push into his face, then the camera move starting further out, read as zoom in, out, in)
     frames_out.append(np.clip(frame_out(np.clip(o, 0, 255).astype(np.uint8), i), 0, 255).astype(np.uint8))
 # a straight cut into the real camera move (1052, a vertical window on the 4K move, him centred), squeezed into half a second and
@@ -139,8 +153,9 @@ subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{t0}", "-t", f"{t1 - t0:
                 "-af", f"afade=t=out:st={t1 - t0 - 0.12:.3f}:d=0.12,apad=whole_dur={D:.3f}", voice], check=True)
 x = np.frombuffer(subprocess.run(["ffmpeg", "-v", "error", "-i", voice, "-ac", "1", "-f", "s16le", "-"], capture_output=True).stdout, np.int16) / 32768
 VP = float(np.percentile(20 * np.log10(np.sqrt(np.convolve(x ** 2, np.ones(2400) / 2400, "valid"))[::1200] + 1e-9), 90))
-fx = [("tap", a - t0, -2) for a in ins] + [("whoosh", (t1 - t0) - 0.1, 0), ("impact", D - 0.05, -4)]
-if outs: fx += [("swoosh", outs - t0 + 0.05, -6)]
+HD = n / FPS                                           # the room's part, before the camera move
+fx = [("tap", f0 + j * step - t0, -6) for j in range(len(FLASH))] + [("impact", g_on - t0, -2), ("swoosh", g_off - t0 + 0.03, -6),
+      ("whoosh", HD - 0.1, 0), ("impact", D - 0.05, -4)]
 ins_, flt = ["-i", voice], []
 for k, (name, at, db) in enumerate(fx):
     f = next(os.path.join(SFX, d, name + ".wav") for d in ("soft", "ref", ".") if os.path.exists(os.path.join(SFX, d, name + ".wav")))
