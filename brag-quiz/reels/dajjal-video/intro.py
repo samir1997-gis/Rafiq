@@ -2,8 +2,8 @@
 """The Dajjāl video's two intros (owner, 2 Nov 2026, #316: "I filmed myself in several different positions… have me appear several
 times… from a wide angle… zooms into me quite rapidly… use while I'm holding my finger up as a reference point. Do that for both hooks"):
   the whole room, wide (1048, him on the sofa saying the hook), framed in the middle of the vertical video over a blurred, darkened copy of
-  itself, the hook as a title in the band above; clones of him (from 1044, the same locked-off framing) pop in on his words; then a push
-  into him that fills the screen, the real camera move (1052, sped up), and the cut onto his raised finger in the talking take (1059),
+  itself, the hook as a title in the band above; clones of him (from 1044, the same locked-off framing) pop in on his words; then a cut
+  into the real camera move (1052, half a second, speeding up), and the cut onto his raised finger in the talking take (1059),
   where the main edit starts ("Let me explain").
   A  "Did you know there is more than one Dajjāl?"  the clones land on "more", "than", "one", "Dajjāl"
   B  "The Prophet ﷺ spoke about 30 dajjāls, but most people only know the one."  all on "30 dajjāls", gone again on "only know the one"
@@ -100,7 +100,6 @@ def frame_out(room, i, zoom=1.0, fill=None):
     return out
 
 frames_out = []
-push = 0.42                                            # the last 0.42 s of the hook: the push into his face (eases in)
 for i, room in zip(range(n), room_frames("1048", t0)):
     t = t0 + i / FPS; o = room.astype(np.float32)
     for k, (fr, ms) in enumerate(cl):
@@ -117,30 +116,30 @@ for i, room in zip(range(n), room_frames("1048", t0)):
         o = o * (1 - me) + room.astype(np.float32) * me
     for a in ins:                                                      # a flash as each one lands
         if 0 <= t - a < 0.12: o = o + (255 - o) * 0.22 * (1 - (t - a) / 0.12)
-    u = max(0.0, (t - (t1 - push)) / push)
-    # the push only grows the room to fill the screen (eases in): full height, it is exactly the camera move's first frame (a 1215-wide
-    # window of the 4K room round him), so the real move (1052) carries on into him with no jump back out
-    frames_out.append(np.clip(frame_out(np.clip(o, 0, 255).astype(np.uint8), i, 1.0, u ** 2), 0, 255).astype(np.uint8))
-# the real camera move, 2.5x, him centred (a vertical window on the 4K move), a light blend for motion
-RUSH = f"crop=1215:2160:1312:0,setpts=PTS/2.5,fps={FPS},scale={W}:{H}"
-rush = [f.copy() for _, f in zip(range(20), reader(src("1052"), 2.5, RUSH, W, H))]
-for k in range(len(rush)):
-    a = rush[k].astype(np.float32); b = rush[min(len(rush) - 1, k + 1)].astype(np.float32)
-    frames_out.append(np.clip(a * 0.75 + b * 0.25, 0, 255).astype(np.uint8))
+    # no zoom on the room (owner, 2 Nov 2026: a push into his face, then the camera move starting further out, read as zoom in, out, in)
+    frames_out.append(np.clip(frame_out(np.clip(o, 0, 255).astype(np.uint8), i), 0, 255).astype(np.uint8))
+# a straight cut into the real camera move (1052, a vertical window on the 4K move, him centred), squeezed into half a second and
+# speeding up as it goes (eases in), stopping where he is the size he is in the talking take, so the cut onto his finger doesn't jump
+RUSH = f"crop=1215:2160:1312:0,fps={FPS},scale={W}:{H}"
+M0, M1, N = 2.2, 3.75, 14                               # the move in the take (s), and its frames here
+src_fr = [f.copy() for _, f in zip(range(round((M1 - M0) * FPS) + 1), reader(src("1052"), M0, RUSH, W, H))]
+for k in range(N):
+    j = (k / (N - 1)) ** 1.3 * (len(src_fr) - 1); j0 = int(j); j1 = min(len(src_fr) - 1, j0 + 2)
+    frames_out.append(np.clip(src_fr[j0].astype(np.float32) * 0.7 + src_fr[j1].astype(np.float32) * 0.3, 0, 255).astype(np.uint8))   # a little motion blur
 tmp = os.path.join(RAW, f"intro-{V}-v.mov")
 p = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
                       "-vf", f"{GRADE},format=yuv420p", "-c:v", "libx264", "-crf", "14", "-preset", "medium", tmp], stdin=subprocess.PIPE)
 for f in frames_out: p.stdin.write(f.tobytes())
 p.stdin.close(); p.wait()
 D = len(frames_out) / FPS
-# sound: his hook as recorded, a pop on each clone, a whoosh into the push, a hit as the move lands
+# sound: his hook as recorded, a pop on each clone, a whoosh into the cut, a hit as the move lands
 sys.path.insert(0, os.path.join(HERE, "..", "template")); from sfx_rules import info
 voice = os.path.join(RAW, f"intro-{V}-voice.wav")
 subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{t0}", "-t", f"{t1 - t0:.3f}", "-i", src("1048"), "-vn", "-ac", "2", "-ar", "48000",
                 "-af", f"afade=t=out:st={t1 - t0 - 0.12:.3f}:d=0.12,apad=whole_dur={D:.3f}", voice], check=True)
 x = np.frombuffer(subprocess.run(["ffmpeg", "-v", "error", "-i", voice, "-ac", "1", "-f", "s16le", "-"], capture_output=True).stdout, np.int16) / 32768
 VP = float(np.percentile(20 * np.log10(np.sqrt(np.convolve(x ** 2, np.ones(2400) / 2400, "valid"))[::1200] + 1e-9), 90))
-fx = [("tap", a - t0, -2) for a in ins] + [("whoosh", (t1 - t0) - push, 0), ("impact", D - 0.05, -4)]
+fx = [("tap", a - t0, -2) for a in ins] + [("whoosh", (t1 - t0) - 0.1, 0), ("impact", D - 0.05, -4)]
 if outs: fx += [("swoosh", outs - t0 + 0.05, -6)]
 ins_, flt = ["-i", voice], []
 for k, (name, at, db) in enumerate(fx):
