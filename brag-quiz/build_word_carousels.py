@@ -126,6 +126,36 @@ SETS = {
    ("to", "إِلى", "ilā", [("الْيَوْمَ الْجُمُعَةُ. هَلْ تَذْهَبُ إِلى الْمَسْجِدِ؟", "إِلى", "al-yawma l-jumuʿah. hal tadh-habu ila l-masjid?", "Today is Friday. Are you going to the mosque?")],
     "إِلى + him = إِلَيْهِ: إِنّا لِلَّهِ وَإِنّا إِلَيْهِ راجِعُونَ (2:156). Which one did you know? 👇"),
  ]),
+ "food": ("Can you order all 6<br>in Arabic? ☕", [
+   ("water", "ماء", "māʾ", [("أُفَضِّلُ الْماءَ، مِنْ فَضْلِكَ.", "الْماءَ", "ufaḍḍilu l-māʾa, min faḍlik.", "I prefer water, please.")],
+    "وَجَعَلْنا مِنَ الْماءِ كُلَّ شَيْءٍ حَيٍّ: “We made every living thing from water” <b style=\"white-space:nowrap;font:inherit\">(al-Anbiyāʾ 21:30)</b>."),
+   ("bread", "خُبْز", "khubz", [("ماذا تُفَضِّلِينَ؟ خُبْزاً وَحَلِيباً؟", "خُبْزاً", "mādhā tufaḍḍilīn? khubzan wa ḥalīban?", "What would you like? Bread and milk?")],
+    "In Egypt, bread is called عَيْش: “life”."),
+   ("dates", "تَمْر", "tamr", [("نَعَمْ، عِنْدَنا تَمْرٌ وَكَعْكٌ.", "تَمْرٌ", "naʿam, ʿindanā tamrun wa kaʿk.", "Yes, we have dates and cake.")],
+    "The Prophet ﷺ broke his fast with fresh dates, then dry dates, then sips of water <b style=\"white-space:nowrap;font:inherit\">(Abū Dāwūd 2356)</b>."),
+   ("tea", "شاي", "shāy", [("أَشْرَبُ الشَّايَ وَأَقْرَأُ قَلِيلًا.", "الشَّايَ", "ashrabu sh-shāya wa aqraʾu qalīlan.", "I drink tea and read a little.")],
+    "شاي and chai came from Chinese “chá” over land; English “tea” came from “tê” by sea."),
+   ("milk", "حَلِيب", "ḥalīb", [("لا، أَشْرَبُ حَلِيباً. أَنا لا أُحِبُّ الشَّايَ.", "حَلِيباً", "lā, ashrabu ḥalīban. anā lā uḥibbu sh-shāy.", "No, I drink milk. I don't like tea.")],
+    "The Qur'an says لَبَن: لَبَناً خالِصاً سائِغاً لِلشّارِبِينَ <b style=\"white-space:nowrap;font:inherit\">(an-Naḥl 16:66)</b>."),
+   ("coffee", "قَهْوَة", "qahwa", [("وَماذا تَشْرَبُ؟ شاياً أَوْ قَهْوَةً؟", "قَهْوَةً", "wa mādhā tashrab? shāyan aw qahwa?", "And what will you drink? Tea or coffee?")],
+    "قَهْوَة → Turkish kahve → Dutch koffie → coffee. So: tea or coffee? 👇"),
+ ]),
+ "days": ("The Arabic week is…<br>just numbers? 🤯", [
+   ("Sunday", "الْأَحَد", "al-aḥad", [("أَحَد", "أَحَد", "aḥad", "one")],
+    "Day one of the week. The same أَحَد as قُلْ هُوَ اللَّهُ أَحَدٌ <b style=\"white-space:nowrap;font:inherit\">(112:1)</b>."),
+   ("Monday", "الِاثْنَيْن", "al-ithnayn", [("اِثْنانِ", "اِثْنانِ", "ithnān", "two")],
+    "The Prophet ﷺ fasted Mondays: “the day I was born, and the day revelation came to me” <b style=\"white-space:nowrap;font:inherit\">(Muslim 1162)</b>."),
+   ("Tuesday", "الثُّلاثاء", "ath-thulāthāʾ", [("ثَلاثَة", "ثَلاثَة", "thalātha", "three")],
+    "Same letters ث ل ث as ثُلُث: a third."),
+   ("Wednesday", "الْأَرْبِعاء", "al-arbiʿāʾ", [("أَرْبَعَة", "أَرْبَعَة", "arbaʿa", "four")],
+    "Dhuhr, ʿAsr and ʿIshāʾ: أَرْبَعُ رَكَعاتٍ, four rakʿahs."),
+   ("Thursday", "الْخَمِيس", "al-khamīs", [("خَمْسَة", "خَمْسَة", "khamsa", "five")],
+    "Deeds are shown to Allah on Monday and Thursday, so the Prophet ﷺ fasted them <b style=\"white-space:nowrap;font:inherit\">(at-Tirmidhī 747)</b>."),
+   ("Friday", "الْجُمُعَة", "al-jumuʿa", [("جَمَعَ", "جَمَعَ", "jamaʿa", "to gather: not six!")],
+    "The pattern breaks: Friday is the day of gathering, مِنْ يَوْمِ الْجُمُعَةِ <b style=\"white-space:nowrap;font:inherit\">(al-Jumuʿa 62:9)</b>."),
+   ("Saturday", "السَّبْت", "as-sabt", [("سُبات", "سُبات", "subāt", "rest")],
+    "وَجَعَلْنا نَوْمَكُمْ سُباتاً: “We made your sleep for rest” <b style=\"white-space:nowrap;font:inherit\">(an-Nabaʾ 78:9)</b>. Which did you know? 👇"),
+ ]),
 }
 
 CSS = QC.CSS + (".sw { display:inline-block; width:34px; height:34px; border-radius:50%; border:3px solid rgba(23,38,43,.25); vertical-align:-6px; margin-right:6px; }"
@@ -136,7 +166,8 @@ CSS = QC.CSS + (".sw { display:inline-block; width:34px; height:34px; border-rad
 COVER = {"pronouns": "I · You · He · She · We", "time": "Today · Tomorrow · Yesterday · Now · After that", "here-this": "Here · There · This",
          "feelings": "Happy · Hungry · Ill · Busy", "yes-no": "Yes · No · Of course · OK", "numbers": "1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 9 · 10",
          "colours": "Red · Blue · Green · Yellow · White · Black", "family": "Mum · Dad · Brother · Sister · Grandpa · Grandma",
-         "little": "And · But · With · In · From · To"}
+         "little": "And · But · With · In · From · To",
+         "food": "Water · Bread · Dates · Tea · Milk · Coffee", "days": "Sun · Mon · Tue · Wed · Thu · Fri · Sat"}
 
 def ar_spans(note):     # Arabic inside an English note gets the Arabic font
     import re

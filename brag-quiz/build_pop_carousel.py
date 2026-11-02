@@ -103,6 +103,45 @@ def mosque(x, y, s=1.0, c="#fff"):
             f'<rect x="160" y="-300" width="44" height="300" fill="{c}" {O}/><path d="M160 -300 L 182 -350 L 204 -300 Z" fill="{GOLD}" {O}/>'
             f'<path d="M-36 0 L -36 -70 C -36 -110 36 -110 36 -70 L 36 0 Z" fill="{TEAL}" {O}/></g>')
 
+def glass(x, y, s=1.0, fill="#9fd8ff"):                                # a tall glass, feet at (x, y)
+    return (f'<g transform="translate({x},{y}) scale({s})"><path d="M-36 -84 L 36 -84 L 32 0 L -32 0 Z" fill="{fill}"/>'
+            f'<path d="M-42 -124 L 42 -124 L 34 0 L -34 0 Z" fill="none" {O}/><path d="M-26 -110 L -22 -20" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".7"/></g>')
+def steam(x, y, s=1.0):
+    return "".join(f'<path d="M{x + dx} {y} c -14 -20 14 -34 0 -56 c -10 -16 6 -26 0 -40" fill="none" stroke="#fff" stroke-width="{8 * s:.0f}" stroke-linecap="round"/>' for dx in (-22 * s, 0, 22 * s))
+def teaglass(x, y, s=1.0):                                              # a little tea glass on a saucer, with steam
+    return (f'<g transform="translate({x},{y}) scale({s})"><ellipse cx="0" cy="0" rx="70" ry="16" fill="#fff" {O}/>'
+            f'<path d="M-34 -100 C -46 -60 -24 -40 -28 -8 L 28 -8 C 24 -40 46 -60 34 -100 Z" fill="#c8551f" {O}/></g>' + steam(x, y - 112 * s, s))
+def plate(x, y, s=1.0, food="dates"):
+    g = f'<g transform="translate({x},{y}) scale({s})"><ellipse cx="0" cy="0" rx="130" ry="34" fill="#fff" {O}/>'
+    if food == "dates": g += "".join(f'<ellipse cx="{dx}" cy="{dy}" rx="26" ry="15" fill="#7a3b1c" {O}/>' for dx, dy in ((-60, -14), (-20, -20), (24, -14), (64, -18), (-36, -38), (14, -42), (52, -40)))
+    elif food == "bread": g += f'<path d="M-100 -10 C -100 -90 100 -90 100 -10 Z" fill="#d9944a" {O}/>' + "".join(f'<path d="M{dx} -62 L {dx + 24} -30" stroke="{INK}" stroke-width="6" stroke-linecap="round"/>' for dx in (-50, -10, 30))
+    return g + "</g>"
+def jug(x, y, s=1.0, c="#cfe9ff"):
+    return (f'<g transform="translate({x},{y}) scale({s})"><path d="M-50 0 L -56 -110 C -56 -130 -40 -150 -30 -160 L 40 -160 L 50 -110 L 56 0 Z" fill="{c}" {O}/>'
+            f'<path d="M50 -130 C 100 -120 96 -40 54 -40" fill="none" stroke="{INK}" stroke-width="12"/><path d="M-50 -60 L 52 -60" stroke="#4D96FF" stroke-width="8"/></g>')
+def dallah(x, y, s=1.0):                                                # an Arabic coffee pot
+    return (f'<g transform="translate({x},{y}) scale({s})"><path d="M-60 0 C -80 -40 -50 -80 -36 -100 L -30 -150 L 30 -150 L 36 -100 C 50 -80 80 -40 60 0 Z" fill="{GOLD}" {O}/>'
+            f'<path d="M-30 -150 C -24 -190 24 -190 30 -150 Z" fill="{GOLD}" {O}/><circle cx="0" cy="-196" r="10" fill="{GOLD}" {O}/>'
+            f'<path d="M-40 -110 C -90 -120 -110 -170 -130 -190" fill="none" stroke="{INK}" stroke-width="22" stroke-linecap="round"/><path d="M-40 -110 C -90 -120 -110 -170 -130 -190" fill="none" stroke="{GOLD}" stroke-width="10" stroke-linecap="round"/>'
+            f'<path d="M50 -120 C 100 -110 100 -40 56 -30" fill="none" stroke="{INK}" stroke-width="12"/></g>')
+def finjan(x, y, s=1.0):
+    return f'<g transform="translate({x},{y}) scale({s})"><path d="M-34 -50 L 34 -50 L 24 0 L -24 0 Z" fill="#fff" {O}/><path d="M-26 -34 L 26 -34" stroke="#8a5a2b" stroke-width="10"/></g>'
+def moon(x, y, s=1.0, c="#FFE66D"):
+    return f'<path transform="translate({x},{y}) scale({s})" d="M20 -60 A 62 62 0 1 0 20 60 A 48 48 0 1 1 20 -60 Z" fill="{c}" {O}/>'
+def cal(x, y, num, col, s=1.0, cross=False):                            # a calendar page with a big number
+    g = (f'<g transform="translate({x},{y}) scale({s})"><rect x="-110" y="-130" width="220" height="236" rx="24" fill="#fff" {O}/>'
+         f'<path d="M-110 -70 L -110 -106 Q -110 -130 -86 -130 L 86 -130 Q 110 -130 110 -106 L 110 -70 Z" fill="{col}" {O}/>'
+         f'<rect x="-60" y="-150" width="18" height="44" rx="9" fill="{INK}"/><rect x="42" y="-150" width="18" height="44" rx="9" fill="{INK}"/>'
+         f'<text x="0" y="72" text-anchor="middle" font-family="FR" font-size="150" fill="{INK}">{num}</text>')
+    if cross: g += f'<path d="M-80 -50 L 80 90 M 80 -50 L -80 90" stroke="{RED}" stroke-width="18" stroke-linecap="round"/>'
+    return g + "</g>"
+def bed(x, y, s=1.0):                                                   # someone fast asleep
+    return (f'<g transform="translate({x},{y}) scale({s})"><rect x="-210" y="-70" width="420" height="70" rx="16" fill="#fff" {O}/>'
+            f'<rect x="-230" y="-160" width="34" height="200" rx="12" fill="#8a5a2b" {O}/><rect x="196" y="-110" width="34" height="150" rx="12" fill="#8a5a2b" {O}/>'
+            f'<ellipse cx="-140" cy="-86" rx="56" ry="26" fill="#fff" {O}/><circle cx="-130" cy="-118" r="38" fill="{SKIN[2]}" {O}/>'
+            f'<path d="M-100 -60 C -100 -120 190 -120 196 -60 Z" fill="#4D96FF" {O}/></g>'
+            f'<text x="{x + 30}" y="{y - 200 * s:.0f}" font-family="FR" font-size="{70 * s:.0f}" fill="#fff" stroke="{INK}" stroke-width="5" paint-order="stroke">z z Z</text>')
+
 # per set, per slide: (background, marker colour, doodle colours, the scene's SVG)
 ART = {"pronouns": {
  "cover": ("#FFC93C", None, ["#fff", "#FF7A59", "#4D96FF"], None),
@@ -189,6 +228,47 @@ ART = {"pronouns": {
        person(260, 370, 1.1, SKIN[0], "kufi", "#fff", "#2a1d14") + mosque(760, 380, 0.85)
        + f'<path d="M370 300 C 450 250 520 250 590 290" fill="none" stroke="{GOLD}" stroke-width="12" stroke-linecap="round" stroke-dasharray="2 24"/>'
        + f'<path d="M575 262 L 610 296 L 565 310" fill="none" stroke="{GOLD}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>'),
+ "end": ("#FF7A59", None, ["#FFC93C", "#fff", "#4D96FF"], None),
+},
+ "food": {
+ "cover": ("#FFC93C", None, ["#fff", "#FF7A59", "#4D96FF"], None),
+ "water": ("#4D96FF", "#FFE66D", ["#fff", "#FFE66D"],
+       person(330, 370, 1.1, SKIN[1], "kufi", "#2EB67D", "#2a1d14", "fold") + jug(640, 365, 1.1) + glass(820, 365, 1.25)
+       + "".join(f'<path transform="translate({x},{y})" d="M0 -26 C 14 -6 18 4 18 10 A 18 18 0 0 1 -18 10 C -18 4 -14 -6 0 -26 Z" fill="#cfe9ff" {O}/>' for x, y in ((760, 90), (900, 150), (560, 110)))),
+ "bread": ("#FFB23F", "#fff", ["#fff", "#FF7A59"],
+       person(260, 370, 1.1, SKIN[3], "hijab:#9B6BFF", "#2E7263", None, "wave")
+       + f'<rect x="440" y="300" width="560" height="26" rx="10" fill="#8a5a2b" {O}/><rect x="470" y="326" width="22" height="50" fill="#8a5a2b" {O}/><rect x="948" y="326" width="22" height="50" fill="#8a5a2b" {O}/>'
+       + plate(640, 290, 1.1, "bread") + glass(880, 296, 1.1, "#ffffff")),
+ "dates": ("#9B6BFF", "#FFE66D", ["#FFE66D", "#fff"],
+       person(250, 370, 1.1, SKIN[0], "kufi", "#fff", "#e6e6e6", "fold") + plate(620, 330, 1.35, "dates") + moon(900, 110, 1.0)
+       + f'<g transform="translate(470,40)"><path d="M0 0 L 0 50" stroke="{INK}" stroke-width="5"/><path d="M-30 50 L 30 50 L 40 110 L 0 140 L -40 110 Z" fill="{GOLD}" {O}/><path d="M-16 64 L 16 64 L 22 104 L 0 120 L -22 104 Z" fill="#fff6c9"/></g>'),
+ "tea": ("#2EB67D", "#FFE66D", ["#fff", "#FFE66D"],
+       person(330, 370, 1.15, SKIN[2], "hair:#2a1d14", "#FF7A59", None, "book:#4D96FF") + teaglass(720, 350, 1.4)),
+ "milk": ("#F49AC1", "#FFE66D", ["#fff", "#4D96FF"],
+       person(280, 370, 1.1, SKIN[4], "hijab:#2E7263", "#FFC93C", None, "self") + glass(560, 365, 1.35, "#ffffff")
+       + teaglass(850, 330, 1.0) + f'<path d="M770 140 L 930 300 M 930 140 L 770 300" stroke="{RED}" stroke-width="20" stroke-linecap="round"/>'),
+ "coffee": ("#FF7A59", "#FFE66D", ["#FFE66D", "#fff"],
+       person(220, 370, 1.05, SKIN[1], "kufi", "#2E7263", "#2a1d14", "fold") + dallah(560, 360, 1.15) + finjan(700, 360, 1.0) + finjan(790, 360, 1.0)
+       + person(930, 370, 1.05, SKIN[3], "hair:#3a2a1c", "#4D96FF", "#2a1d14", "wave")),
+ "end": ("#2E7263", None, ["#FFC93C", "#fff", "#FF7A59"], None),
+},
+ "days": {
+ "cover": ("#4D96FF", None, ["#fff", "#FFC93C", "#FF7A59"], None),
+ "Sunday": ("#FF7A59", "#FFE66D", ["#FFE66D", "#fff"], cal(540, 230, "1", "#FFC93C", 1.25) + person(230, 370, 1.0, SKIN[0], "kufi", "#4D96FF", "#2a1d14", "wave")
+            + person(860, 370, 1.0, SKIN[3], "hijab:#2E7263", "#FFC93C", None, "fold")),
+ "Monday": ("#4D96FF", "#FFE66D", ["#FFE66D", "#fff"], cal(540, 230, "2", "#FF7A59", 1.25) + person(240, 370, 1.0, SKIN[1], "kufi", "#2EB67D", "#2a1d14", "fold") + moon(860, 120, 0.9)),
+ "Tuesday": ("#2EB67D", "#FFE66D", ["#fff", "#FFE66D"], cal(420, 230, "3", "#9B6BFF", 1.25)
+            + f'<g transform="translate(780,220)"><circle r="120" fill="#fff" {O}/><path d="M0 0 L 0 -120 A 120 120 0 0 1 103.9 60 Z" fill="#FFC93C" {O}/></g>'
+            + f'<text x="780" y="385" text-anchor="middle" font-family="FR" font-size="44" fill="{INK}">⅓</text>'),
+ "Wednesday": ("#9B6BFF", "#FFE66D", ["#FFE66D", "#fff"], cal(540, 210, "4", "#2EB67D", 1.15)
+            + "".join(f'<g transform="translate({x},370)"><rect x="-50" y="-170" width="100" height="170" rx="10" fill="{c}" {O}/><path d="M-30 -22 L -30 -110 C -30 -140 0 -150 0 -150 C 0 -150 30 -140 30 -110 L 30 -22 Z" fill="none" stroke="#fff" stroke-width="7"/>'
+                      f'<path d="M-40 -8 L 40 -8" stroke="#fff" stroke-width="5" stroke-dasharray="6 8"/></g>'
+                      for x, c in ((150, "#FF7A59"), (290, "#FFC93C"), (790, "#2E7263"), (930, "#4D96FF")))),
+ "Thursday": ("#FFB23F", "#FFE66D", ["#fff", "#FF7A59"], cal(540, 230, "5", "#4D96FF", 1.25) + person(230, 370, 1.0, SKIN[2], "hijab:#9B6BFF", "#2E7263", None, "book:#FFC93C") + moon(860, 120, 0.9, "#fff")),
+ "Friday": ("#2E7263", "#FFE66D", ["#FFC93C", "#fff"], mosque(540, 300, 0.85) + cal(930, 100, "6", "#FF7A59", 0.5, cross=True)
+            + "".join(person(x, 385, 0.62, sk, top, bd) for x, sk, top, bd in ((110, SKIN[0], "kufi", "#4D96FF"), (220, SKIN[3], "hijab:#FFC93C", "#FF7A59"), (330, SKIN[1], "kufi", "#fff"),
+                                                                         (760, SKIN[2], "kufi", "#9B6BFF"), (870, SKIN[4], "hijab:#fff", "#2EB67D"), (980, SKIN[1], "kufi", "#FFC93C")))),
+ "Saturday": ("#F49AC1", "#FFE66D", ["#fff", "#4D96FF"], bed(560, 370, 1.0) + cal(140, 190, "7", "#9B6BFF", 0.6)),
  "end": ("#FF7A59", None, ["#FFC93C", "#fff", "#4D96FF"], None),
 }}
 CAST = (person(130, 300, 0.85, SKIN[1], "hair:#3a2a1c", "#2E7263", "#2a1d14", "wave") + person(330, 300, 0.85, SKIN[3], "kufi", "#FF7A59", "#2a1d14")
