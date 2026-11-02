@@ -17,10 +17,10 @@ SPANS = [
     (116.72, 117.92), # to hide what was underneath (his second go: the first "to hide what was" trailed off)
     (140.1, 144.3),   # and for painting gold over something cheap to make it look more precious
     (169.68, 172.15), # The dajjāl is the strongest form of the word (after a false start: "and the dajjāl is this… and the…")
-    (173.45, 186.95), # so the dajjāl isn't just a liar, the dajjāl is a master liar … like a manipulator or a fraudster.
+    (176.0, 186.95),  # so the dajjāl isn't just a liar (his second go: the first "so the dajjāl…" at 173.3 trails off), the dajjāl is a master liar … like a manipulator or a fraudster.
     (203.7, 210.85),  # Someone who covers the truth with something shiny to make it look appealing again and again and again.
     (226.2, 233.4),  # So, by that meaning, anyone could be a dajjāl, there could be hundreds, even thousands living amongst us.
-    (241.5, 248.7),  # The Prophet ﷺ even said that the Hour will not pass until…
+    (242.25, 248.7), # The Prophet (from his first word: before it, 0.8 s of breath and rustle) ﷺ even said that the Hour will not pass until…
     (256.6, 261.9),  # 30 dajjāls appear, liars, each claiming to have prophethood,
     (282.5, 285.45),  # But there is one who is the greatest of them all,
     (288.45, 290.95), # al-Masīḥ ad-Dajjāl.
@@ -49,7 +49,8 @@ for k, v in enumerate(np.append(e > -46, False)):
         else: runs.append((cur / 100, k / 100))
         cur = None
 runs = [r for r in runs if r[1] - r[0] >= 0.04]
-keep = [i for i, (s0, s1) in enumerate(runs) if any(a <= (s0 + s1) / 2 <= b for a, b in SPANS)]
+keep = [i for i, (s0, s1) in enumerate(runs) if any(a <= (s0 + s1) / 2 <= b or a <= s0 <= b for a, b in SPANS)]   # a word begun in a span
+                                                       # is kept whole (owner: the third "again" was dropped, its middle past the edge)
 groups = []
 for i in keep:
     gap = (runs[i - 1][1], runs[i][0]) if i else (0, 0)

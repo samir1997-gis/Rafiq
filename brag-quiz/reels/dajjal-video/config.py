@@ -32,7 +32,7 @@ G = [
   [("whoosh", 169.7, -10), ("tick-lo", 170.55, -6), ("tap", 176.6, -6)]),
  ("d_thirty", 228.35, 233.4, [(0.05, 228.44), (2.05, 231.3), (2.1, 231.5)],
   [("whoosh", 228.35, -10), ("impact", 231.5, -2)]),
- ("d_hadith", 241.5, 261.9, [(0.05, 241.6)], [("flip", 241.6, -6)]),
+ ("d_hadith", 242.25, 261.9, [(0.05, 242.3)], [("flip", 242.3, -6)]),
  ("d_one", 282.55, 290.95, [(0.3, 283.6), (0.9, 284.34), (1.6, 288.9)],
   [("whoosh", 282.55, -10), ("thump", 284.34, -2), ("impact", 288.9, -2)]),
  ("d_doors", 314.0, 327.85, [(0.05, 314.1), (0.3, 318.1), (0.5, 321.4), (1.2, 323.1), (1.8, 324.2), (2.4, 325.8)],
@@ -68,7 +68,7 @@ for *_, sounds in G:
         pk_db, pk = info(f); AUDIO.append([f, round(max(0, vt(t) - pk), 3), round(10 ** ((VP + db - pk_db) / 20), 3)])
 
 # ---- titles behind his head, for the lines between the graphics: (take start, take end, small, big, size)
-TT = [(179.6, 186.95, "A", "MASTER LIAR", 165), (203.7, 210.85, "COVERS THE TRUTH WITH", "SOMETHING SHINY", 125),
+TT = [(179.6, 186.95, "A", "MASTER LIAR", 165), (203.7, 211.2, "COVERS THE TRUTH WITH", "SOMETHING SHINY", 125),
       (308.5, 313.6, "THE", "BIGGEST LIE", 200), (359.7, 368.3, "HE PAINTS", "HELL GOLD", 230),
       (409.65, 413.85, "ALLAH LEFT US", "CLUES", 330), (425.9, 432.2, "NOT READING.", "ĪMĀN.", 330), (470.1, 476.6, "SEND THIS TO", "SOMEONE", 260)]
 titles = [[vt(a), vt(b), s, bg, z] for a, b, s, bg, z in TT]
