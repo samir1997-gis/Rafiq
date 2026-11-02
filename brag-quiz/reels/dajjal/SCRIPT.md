@@ -79,6 +79,15 @@ and then the big one. Talking to camera; my graphics go on top (🎬).
 4. "Dajjāl" isn't a name. It's a word. That's why there isn't just one.
 5. You mention the Dajjāl in every salah. But there isn't just one: there are thirty.
 
+**The owner's hooks (2 Nov 2026; TypeSafe, 3 viewers × 2 runs, round 2 of `tools/typesafe-exp/dajjal_hooks.py`):**
+| Hook | stop | sincere |
+|---|---|---|
+| Did you know there's more than one Dajjāl? The Prophet ﷺ spoke about thirty. Let me explain. | 2.25 | 2.05 |
+| Did you know there's more than one Dajjāl? Let me explain. *(in Version A)* | 2.23 | 1.92 |
+| The Prophet ﷺ spoke about thirty dajjāls, but most people only know about one. *(say "about thirty": the hadith's قَرِيبٌ مِنْ ثَلاثِينَ, not "over 30")* | 2.21 | **2.33** |
+| Have you met the dajjāl in your life? | 1.73 | 1.57 |
+| *(variants of that one: "There's probably a dajjāl in your life…", "You've already met a dajjāl…" read as accusing: sincere 0.75–1.0)* | | |
+
 (The "stronger hooks" tested on 2 Nov, `tools/typesafe-exp/dajjal_hooks.py`, weren't used: the owner wants the video to be about what the word means.)
 
 ## References (for the graphics)
