@@ -23,7 +23,7 @@ WX0, WW = 480, 2880                                   # the room: 4K x 480..3360
 CW, CH = 2160, 1620                                   # worked at twice the size it shows, so the push-in stays sharp
 SHOW = (W, round(W * CH / CW))                        # 1080 x 810 on screen
 TOP = (H - SHOW[1]) // 2 - 60                         # a little above the middle: the title band above, captions below
-FACE = (1920 - WX0) / WW * CW, 760 / 2160 * CH        # his face in the worked frame (sitting in the middle of the sofa)
+FACE = (1925 - WX0) / WW * CW, 940 / 2160 * CH        # his face in the worked frame (measured: head from y 819 in 4K; 760 aimed at the wall)
 GRADE = "eq=contrast=1.06:saturation=1.08:gamma=1.02" # as the template's base
 src = lambda n: os.path.join(RAW, n + ".mp4")
 def reader(f, t0, vf, w, h):                           # frames one at a time (a 4K take doesn't fit in memory)
@@ -43,7 +43,8 @@ n = round((t1 - t0) * FPS)
 plate = take("1044", 39.5, 1)[0].astype(np.float32)
 # the clones: (time in 1044, ping-pong span, where he is in 4K x): standing on the left, sitting on the right end, standing on the right
 # (the ones close to the lens covered him or were cut off by the frame's edge)
-CLONES = [(8.05, 0.2, 1430), (18.0, 0.8, 2640), (21.8, 0.8, 2470)]
+CLONES = [(5.9, 1.0, 1500), (18.0, 0.8, 2640), (21.8, 0.8, 2470)]   # the left one sat down and still (owner, 2 Nov 2026: the first pick
+                                                                 # caught him half-way up, and looping it made him bob)
 def clone(tc, span, x4k):
     fr = take("1044", tc, max(2, round(span * FPS)))
     cx = (x4k - WX0) / WW * CW; box = np.zeros((CH, CW), bool); box[:, max(0, int(cx - 420)):int(cx + 420)] = True
@@ -78,14 +79,14 @@ def title_img(small, big):
     return np.asarray(im).astype(np.float32)
 TITLE = title_img(*title)
 
-def frame_out(room, i, zoom=1.0):
+def frame_out(room, i, zoom=1.0, fill=None):
     """the vertical frame: the room in the middle over its own blurred, darkened copy, the title above; zoom > 1 pushes into his face"""
     t = i / FPS
     if zoom > 1.0:                                    # the push: the window shrinks round his face
         sw, sh = CW / zoom, CH / zoom
         x = min(max(0, FACE[0] - sw / 2), CW - sw); y = min(max(0, FACE[1] - sh / 2), CH - sh)
         room = np.asarray(Image.fromarray(room).crop((int(x), int(y), int(x + sw), int(y + sh))).resize((CW, CH), Image.BILINEAR))
-    fill = min(1.0, (zoom - 1) / 1.6)                 # and the room grows to fill the height as it does
+    if fill is None: fill = min(1.0, (zoom - 1) / 1.6)   # the room grows to fill the height
     hh = round(SHOW[1] + (H - SHOW[1]) * fill); ww = round(W * hh / SHOW[1])
     big = np.asarray(Image.fromarray(room).resize((ww, hh), Image.LANCZOS)).astype(np.float32)
     small = Image.fromarray(room).resize((W // 4, SHOW[1] // 4))
@@ -111,11 +112,15 @@ for i, room in zip(range(n), room_frames("1048", t0)):
         j = int((t - a) * FPS) % len(fr)
         al = (ms[j].astype(np.float32) / 255 * p)[..., None]
         o = o * (1 - al) + np.clip(fr[j].astype(np.float32) * gain, 0, 255) * al
+    if any(t >= a for a in ins):                                       # he stays in front of the clone sat beside him
+        me = np.asarray(remove(Image.fromarray(room), session=SEG, only_mask=True)).astype(np.float32)[..., None] / 255
+        o = o * (1 - me) + room.astype(np.float32) * me
     for a in ins:                                                      # a flash as each one lands
         if 0 <= t - a < 0.12: o = o + (255 - o) * 0.22 * (1 - (t - a) / 0.12)
-    u = (t - (t1 - push)) / push
-    z = 1.0 + 1.6 * u ** 2 if u > 0 else 1.0                          # eases in (power2.in)
-    frames_out.append(np.clip(frame_out(np.clip(o, 0, 255).astype(np.uint8), i, z), 0, 255).astype(np.uint8))
+    u = max(0.0, (t - (t1 - push)) / push)
+    # the push only grows the room to fill the screen (eases in): full height, it is exactly the camera move's first frame (a 1215-wide
+    # window of the 4K room round him), so the real move (1052) carries on into him with no jump back out
+    frames_out.append(np.clip(frame_out(np.clip(o, 0, 255).astype(np.uint8), i, 1.0, u ** 2), 0, 255).astype(np.uint8))
 # the real camera move, 2.5x, him centred (a vertical window on the 4K move), a light blend for motion
 RUSH = f"crop=1215:2160:1312:0,setpts=PTS/2.5,fps={FPS},scale={W}:{H}"
 rush = [f.copy() for _, f in zip(range(20), reader(src("1052"), 2.5, RUSH, W, H))]

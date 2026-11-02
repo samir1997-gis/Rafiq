@@ -31,6 +31,12 @@ Times are in the cut (`cutwords.json`).
 - `sections`: `[[start, end], ...]` where each slow push restarts. This is usually each title.
 - `broll`: which of the app's recordings (`brag-output-v9-12/clips/`) go in the split and the flicker.
 
+**Picking takes by hand** (a take with retakes and pauses to read the script, so `cut` alone isn't enough): never set the
+cut points from the transcript's word times (they end early and clip the last word: owner, 2 Nov 2026, the Dajjāl video). Choose the
+spans by words, then let the audio decide where to cut, as `reels/dajjal-video/edit.py` does: speech measured against the room, a word
+kept if its middle is in a span, cuts only in real gaps (a 0.20 s tail after a word, 0.08 s before one), soft words in short gaps kept.
+Then listen for doubles at every join (transcribe the cut with the `medium` model and list the gaps and repeats) before `base`.
+
 After editing the titles or captions, rerun `masks`, `layers` and `mix`. Changing only the sound needs just `mix`.
 Sound rules and levels live in `sfx_rules.py`.
 
