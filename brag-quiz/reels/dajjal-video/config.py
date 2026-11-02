@@ -22,8 +22,8 @@ C = J("config.json"); END = C["end"]
 
 # ---- the graphics: (gid, take start, take end, [(planned s in the clip, take time of the word it lands on)], its sounds [(name, take t, dB)])
 G = [
- ("d_root", 41.5, 62.95, [(0.05, 44.26), (1.15, 45.4), (2.25, 46.56), (3.6, 58.74), (4.4, 61.2)],
-  [("whoosh", 41.5, -10), ("tap", 44.26, -4), ("tap", 45.4, -4), ("tap", 46.56, -4), ("impact", 61.2, -2)]),
+ ("d_root", 43.9, 62.95, [(0.05, 44.26), (1.15, 45.4), (2.25, 46.56), (3.6, 58.74), (4.4, 61.2)],
+  [("whoosh", 43.9, -10), ("tap", 44.26, 4), ("tap", 45.4, -4), ("tap", 46.56, 2), ("impact", 61.2, -2)]),
  ("d_camel", 111.3, 117.92, [(0.05, 111.35), (1.4, 114.8), (2.4, 117.0)],
   [("whoosh", 111.3, -10), ("swoosh", 114.8, -6), ("tick-lo", 117.0, -6)]),
  ("d_gild", 140.15, 144.3, [(0.3, 140.3), (1.6, 140.78), (2.6, 142.2)],
@@ -38,13 +38,13 @@ G = [
  ("d_doors", 314.0, 327.85, [(0.05, 314.1), (0.3, 318.1), (0.5, 321.4), (1.2, 323.1), (1.8, 324.2), (2.4, 325.8)],
   [("whoosh", 314.0, -10), ("tap", 318.1, -6), ("tap", 321.4, -6), ("crack", 323.1, -2), ("crackle", 324.2, -8), ("thump", 325.8, -4)]),
  ("d_kafir", 413.9, 424.05, [(0.05, 414.0), (0.5, 417.46), (1.7, 419.58)],
-  [("whoosh", 413.9, -10), ("shimmer", 417.46, -6), ("tap", 419.58, -6)]),
+  [("whoosh", 413.9, -10), ("shimmer", 417.46, -6), ("tap", 419.58, 6)]),
  ("d_kahf", 463.4, 469.3, [(0.05, 463.45), (0.5, 465.0), (1.9, 465.9), (2.2, 468.44)],
   [("whoosh", 463.4, -10), ("shimmer", 468.44, -6)]),
 ]
 # the d_thirty count clicks, and the al-Kahf numbers' taps, every one heard (FORMATS: a sound on every count)
 G[4][4].extend(("click", 228.44 + (231.3 - 228.44) * (1 - (1 - (k + 1) / 12) ** 2), -10) for k in range(12))
-G[9][4].extend(("tap", 465.0 + k * 0.12 * (0.9 / 1.4), -10) for k in range(10))
+G[9][4].extend(("tap", 465.0 + k * 0.12 * (0.9 / 1.4), -4) for k in range(10))   # -4: at -10 they only just passed the check
 
 # re-time and render the graphics into WORK/gfx (each clip's own beats moved onto the cut)
 warp = {}
@@ -68,8 +68,8 @@ for *_, sounds in G:
         pk_db, pk = info(f); AUDIO.append([f, round(max(0, vt(t) - pk), 3), round(10 ** ((VP + db - pk_db) / 20), 3)])
 
 # ---- titles behind his head, for the lines between the graphics: (take start, take end, small, big, size)
-TT = [(179.6, 186.95, "A", "MASTER LIAR", 230), (203.7, 210.85, "COVERS THE TRUTH WITH", "SOMETHING SHINY", 170),
-      (308.5, 313.6, "THE", "BIGGEST LIE", 250), (359.7, 368.3, "HE PAINTS", "HELL GOLD", 280),
+TT = [(179.6, 186.95, "A", "MASTER LIAR", 165), (203.7, 210.85, "COVERS THE TRUTH WITH", "SOMETHING SHINY", 125),
+      (308.5, 313.6, "THE", "BIGGEST LIE", 200), (359.7, 368.3, "HE PAINTS", "HELL GOLD", 230),
       (409.65, 413.85, "ALLAH LEFT US", "CLUES", 330), (425.9, 432.2, "NOT READING.", "ĪMĀN.", 330), (470.1, 476.6, "SEND THIS TO", "SOMEONE", 260)]
 titles = [[vt(a), vt(b), s, bg, z] for a, b, s, bg, z in TT]
 
