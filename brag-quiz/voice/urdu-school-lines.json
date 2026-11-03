@@ -1,0 +1,23 @@
+[
+ {"file": "s1", "voice": "N2lVS1w4EtoT3dr4eOWO", "stability": 0.35, "style": 0.45, "speed": 1.08, "text": "Now imagine you're at school. This is the student:"},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "talib", "text": "طالِب"},
+ {"file": "s1b", "voice": "N2lVS1w4EtoT3dr4eOWO", "stability": 0.35, "style": 0.45, "speed": 1.08, "text": "Taalib. In Urdu: taalib-e-ilm."},
+ {"file": "s2", "voice": "N2lVS1w4EtoT3dr4eOWO", "stability": 0.35, "style": 0.45, "speed": 1.08, "text": "And what is he after? Knowledge:"},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "ilm", "text": "عِلْم"},
+ {"file": "s2b", "voice": "N2lVS1w4EtoT3dr4eOWO", "stability": 0.35, "style": 0.45, "speed": 1.08, "text": "Ilm. Same in Urdu."},
+ {"file": "s3", "voice": "N2lVS1w4EtoT3dr4eOWO", "stability": 0.35, "style": 0.45, "speed": 1.08, "text": "He opens his book:"},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "kitab", "text": "كِتاب"},
+ {"file": "s3b", "voice": "N2lVS1w4EtoT3dr4eOWO", "stability": 0.35, "style": 0.45, "speed": 1.08, "text": "Kitaab. Kitaab in Urdu too."},
+ {"file": "s4", "voice": "N2lVS1w4EtoT3dr4eOWO", "stability": 0.35, "style": 0.45, "speed": 1.08, "text": "And picks up his pen:"},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "qalam", "text": "قَلَم"},
+ {"file": "s4b", "voice": "N2lVS1w4EtoT3dr4eOWO", "stability": 0.35, "style": 0.45, "speed": 1.08, "text": "Qalam. Exactly the same."},
+ {"file": "s5", "voice": "N2lVS1w4EtoT3dr4eOWO", "stability": 0.35, "style": 0.45, "speed": 1.08, "text": "Today, it's maths:"},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "hisab", "text": "حِساب"},
+ {"file": "s5b", "voice": "N2lVS1w4EtoT3dr4eOWO", "stability": 0.35, "style": 0.45, "speed": 1.08, "text": "Hisaab. In Urdu: hisaab."},
+ {"file": "s6", "voice": "N2lVS1w4EtoT3dr4eOWO", "stability": 0.35, "style": 0.45, "speed": 1.08, "text": "Because tomorrow, there's an exam:"},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "imtihan", "text": "اِمْتِحان"},
+ {"file": "s6b", "voice": "N2lVS1w4EtoT3dr4eOWO", "stability": 0.35, "style": 0.45, "speed": 1.08, "text": "Imtihaan. Same word... same nerves."},
+ {"file": "s7", "voice": "N2lVS1w4EtoT3dr4eOWO", "stability": 0.35, "style": 0.45, "speed": 1.08, "text": "And the very first verses of the Qur'an mention the pen:"},
+ {"voice": "Ywuz3KyW2N5pqKNpwcCL", "stability": 0.6, "style": 0.1, "speed": 0.9, "file": "ayah", "text": "الَّذِي عَلَّمَ بِالْقَلَمِ"},
+ {"file": "s8", "voice": "N2lVS1w4EtoT3dr4eOWO", "stability": 0.35, "style": 0.45, "speed": 1.08, "text": "He who taught by the pen. That's six Arabic words you already knew! How many did you get? Comment your score, and tell me where we should go next!"}
+]

@@ -20,7 +20,12 @@ EXTRA = {"fatiha": "F AA T IH HH AH", "raheem": "R AH HH IY M", "rakah": "R AA K
          "hafez": "HH AA F EH Z", "muad'dib": "M UW AA D IH B", "usul": "UW S UW L",
          "khutbah": "K UH T B AH", "khateeb": "K AH T IY B", "khataba": "K AE T AE B AE", "fianc": "F IY AA N S EY", "jumuah": "JH UH M UW AH",
          "damma": "D AE M AH", "kasra": "K AE S R AH",
-         "safar": "S AE F AA R", "1800s": "EY T IY N HH AH N D R AH D Z", "abasa": "AE B AH S AH"}
+         "safar": "S AE F AA R", "1800s": "EY T IY N HH AH N D R AH D Z", "abasa": "AE B AH S AH",
+         "sifr": "S IH F ER", "zephirum": "Z EH F IY R AH M", "zefiro": "Z EH F IY R OW", "1202": "T W EH L V OW T UW",
+         "taalib": "T AA L IH B", "taalibeilm": "T AA L IH B EH IH L M", "ilm": "IH L M", "kitaab": "K IH T AA B", "qalam": "K AH L AH M",
+         "hisaab": "HH IH S AA B", "imtihaan": "IH M T IH HH AA N", "maths": "M AE TH S", "qur'an": "K ER AA N",
+         "ameer": "AH M IY R", "amirs": "AH M IH R Z", "1100s": "EH L AH V AH N HH AH N D R AH D Z", "ammiratus": "AE M IH R AA T AH S",
+         "amiral": "AE M IH R AE L", "yaseen": "Y AA S IY N", "amruhu": "AE M R UH HH UW"}
 
 def pcm(path):
     return subprocess.run(["ffmpeg", "-v", "error", "-i", path, "-ac", "1", "-ar", "16000", "-f", "s16le", "-"], capture_output=True, check=True).stdout
