@@ -261,7 +261,7 @@ function paintHome(){
   function stepList(p, i, nextKey){
     const st=RafiqPath.steps(p), dn=st.map(x=>RafiqPath.stepDone(p.n,x.key)), first=dn.indexOf(false);
     return `<ol class="usteps">${st.map((s,k)=>{
-      const done=dn[k], open=i<cur || done || k===first;
+      const done=dn[k], open=RafiqPath.allOpen || i<cur || done || k===first;
       const words=s.kind==='words' ? RafiqPath.wordsOf(p,s.batch).map(w=>shortEn(w.en)).join(' · ') : '';
       const cls=done?'done':s.key===nextKey?'next':open?'open':'locked';
       // numbered within the unit (#337): 1.01, 1.02 … (the reading starter and the basics have no unit number)
@@ -331,14 +331,15 @@ function paintHome(){
       ? `🏆 <span><b>${wr.today} new words today</b> — your best day yet</span>`
       : `🌟 <span><b>${wr.today} new words today</b> — more than your usual ${wr.usual}</span>`}</a>` : '';
   const units=U.map((p,i)=>{
-    const done=RafiqPath.unitDone(p), now=i===cur&&!done, later=i>cur;
+    // the team (#338): units ahead of you are open too, marked ○
+    const done=RafiqPath.unitDone(p), now=i===cur&&!done, later=i>cur&&!RafiqPath.allOpen;
     const st=RafiqPath.steps(p), k=st.filter(x=>RafiqPath.stepDone(p.n,x.key)).length;
-    const sub = done ? (RafiqPath.placed(p.n)?'Skipped — you already know this':RafiqPath.lateLeft(p)?'Done · new words added':'Done') : now ? `${k} of ${st.length} steps` : 'Locked';
-    const inner=`<span class="st">${done?'✓':now?'▶':'🔒'}</span><span class="nm"><b>${p.pre?'':(+p.n)+'. '}${esc(p.en)}</b><span>${sub}</span></span>
+    const sub = done ? (RafiqPath.placed(p.n)?'Skipped — you already know this':RafiqPath.lateLeft(p)?'Done · new words added':'Done') : now ? `${k} of ${st.length} steps` : later ? 'Locked' : `Open to the team · ${k} of ${st.length} steps`;
+    const inner=`<span class="st">${done?'✓':now?'▶':later?'🔒':'○'}</span><span class="nm"><b>${p.pre?'':(+p.n)+'. '}${esc(p.en)}</b><span>${sub}</span></span>
       <span class="ua">${esc(p.ar)}</span>`;
     return later
       ? `<button type="button" class="unit later" data-lock="${esc(U[cur].alpha?'the reading starter':U[cur].basics?'the basics':'unit '+(+U[cur].n))}">${inner}</button>`
-      : `<details class="ud" data-u="${p.n}"${OPEN_UNITS.has(p.n)?' open':''}><summary class="unit ${done?'done':'now'}">${inner}<span class="chev" aria-hidden="true">▾</span></summary>${stepList(p, i, now&&n.step?n.step.key:null)}</details>`;
+      : `<details class="ud" data-u="${p.n}"${OPEN_UNITS.has(p.n)?' open':''}><summary class="unit ${done?'done':now?'now':'open'}">${inner}<span class="chev" aria-hidden="true">▾</span></summary>${stepList(p, i, now&&n.step?n.step.key:null)}</details>`;
   }).join('');
   const coming=`<div class="ph" style="margin-top:4px">More units coming</div>
     <p class="csub">New units are added regularly — Complete members get them first.</p>
@@ -398,7 +399,7 @@ function paintHome(){
 <script src="fsrs.js?v=20260929"></script>
 <script src="progress.js?v=20261022a"></script>
 <script src="basics-data.js?v=5"></script>
-<script src="path.js?v=20261103a"></script>
+<script src="path.js?v=20261103b"></script>
 <script src="salah-data.js?v=1"></script>
 <script src="salah.js?v=6"></script>
 <script src="mistakes.js?v=20260922"></script>

@@ -193,9 +193,15 @@
      placement); inside the current unit, steps open in order. Anything
      finished can always be revisited. The Practise area is never locked. */
   const unitIndex = n => UNITS.findIndex(p => p.n === n);
-  const unitOpen = n => { const i = unitIndex(n); return i >= 0 && i <= currentIndex(); };
+  /* The Rafiq team (#338): an account made admin by the users workflow (app_metadata.admin, which
+     learners can't set) has every unit and step open, to check any of them; its progress is still its
+     own. Read from the signed-in session saved on this device (supabase-js keeps it in localStorage). */
+  const TEAM = (() => { try{ const k = Object.keys(localStorage).find(k => /^sb-.+-auth-token$/.test(k)), s = k && JSON.parse(localStorage.getItem(k));
+    return !!(s && s.user && (s.user.app_metadata || {}).admin === true); }catch(_){ return false; } })();
+  const unitOpen = n => { const i = unitIndex(n); return i >= 0 && (TEAM || i <= currentIndex()); };
   function stepOpen(n, key){
     const i = unitIndex(n); if(i < 0) return false;
+    if(TEAM) return true;
     const cur = currentIndex();
     if(i < cur) return true;
     if(i > cur) return false;
@@ -421,6 +427,6 @@
 
   window.RafiqPath = { recapDue, recapDone, testFailed, testReview, testReviewed, teaches: n => TEACH.has(n), lateLeft, reviewScope, metWords, masteredWords, sentenceDone, period, wordsByDay, wordsReport, bestStreak, reviewDue, hasLearned, COMING, STREAK_GOALS, streakGoal, BATCH, GOAL, units, skipReading, unitOpen, stepOpen, steps, stepDone, unitDone, placed, currentIndex, next, reached,
                        complete, place, markDay, wordMet, week, doneToday, streak, streakState, FREEZE_EARN, wordsOf, unitData, wordById,
-                       answerStyle, answered, answerPref, stepKey,
+                       answerStyle, answered, answerPref, stepKey, allOpen: TEAM,
                        LETTERS, letterState, lettersKnown, letterAnswer, readWord, checkInLetters, newGroupsToday, stars, saveStars };
 })();

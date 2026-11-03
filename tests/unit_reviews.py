@@ -8,6 +8,7 @@
     words met each day still count
   - Home (#336): each finished or current unit opens to its steps: done ones to redo, the next one,
     and the rest locked, numbered 1.01, 1.02 … (#337); a lesson names its words; it stays open when Home repaints
+  - a team account (app_metadata.admin, #338) has every unit and step open; its own progress is unchanged
 
   python3 .claude/skills/webapp-testing/scripts/with_server.py \
     --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/unit_reviews.py
@@ -19,6 +20,7 @@ BASE = "http://localhost:8765/"
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 TODAY = datetime.date.today().isoformat()
 TOMORROW = (datetime.date.today() + datetime.timedelta(days=1)).isoformat()
+IN3 = (datetime.date.today() + datetime.timedelta(days=3)).isoformat()   # not due yet: box 3 comes back after 4 days, so last reviewed yesterday
 seen = lambda *ks: {k: {"box": 0, "seen": 1} for k in ks}
 START = ["p:00|placed", "p:0b|placed"]
 OLD_U1 = ["words1", "words2", "grammar", "words3", "words4", "practise", "listen", "chat", "speak", "test"]
@@ -62,7 +64,7 @@ def main():
         p.close()
         due4 = ids["u1"][:4]
         rows = {**seen(*START, *[f"p:01|{k}" for k in OLD_U1], "p:02|meet1"),
-                **{f"v:{i}": {"box": 3, "seen": 2, "due": "2099-01-01", "at": "2026-10-01T10:00:00.000Z"} for i in ids["u1"]},
+                **{f"v:{i}": {"box": 3, "seen": 2, "due": IN3, "at": "2026-10-01T10:00:00.000Z"} for i in ids["u1"]},
                 **{f"v:{i}": {"box": 2, "seen": 2, "due": "2026-10-20", "at": "2026-10-10T10:00:00.000Z"} for i in due4},
                 **{f"v:{i}": {"box": 1, "seen": 1, "due": TOMORROW, "at": TODAY + "T09:00:00.000Z"} for i in ids["u2"]}}
         p = page_with(b, rows, errors); p.goto(BASE + "learn.html?u=02&s=review1"); p.wait_for_timeout(1200)
@@ -116,6 +118,24 @@ def main():
         ok.append(("no sideways scroll", p.evaluate("document.documentElement.scrollWidth") <= 390))
         p.locator("details.ud[data-u='01'] a.ustep").nth(2).click(); p.wait_for_timeout(1500)
         ok.append(("Redo opens that lesson (" + kicker(p) + ")", "s=meet2" in p.url and kicker(p).startswith("New word"))); p.close()
+
+        # a team account: every unit and step open (#338); a learner's stays locked
+        def team_page(admin):
+            c = b.new_context(viewport={"width": 390, "height": 844})
+            c.route("**/@supabase/**", lambda r: r.abort()); c.route("https://fonts.googleapis.com/**", lambda r: r.abort())
+            sess = json.dumps({"access_token": "x", "user": {"id": "t", "app_metadata": {"admin": admin}}})
+            c.add_init_script("if(!localStorage.getItem('__seeded')){localStorage.setItem('rafiq_progress_mirror',%s);localStorage.setItem('sb-test-auth-token',%s);localStorage.setItem('__seeded','1')}"
+                              % (json.dumps(json.dumps(seen(*START, "p:01|meet1"))), json.dumps(sess)))
+            q = c.new_page(); q.on("pageerror", lambda e: errors.append(str(e))); q.goto(BASE + "dashboard.html"); q.wait_for_timeout(1500); return q
+        p = team_page(True)
+        ok.append(("team: every unit open", p.evaluate("RafiqPath.units().every(u => RafiqPath.unitOpen(u.n)) && RafiqPath.stepOpen('12', 'test')")))
+        ok.append(("team: no locked rows on Home, units ahead marked open", p.evaluate("document.querySelectorAll('.unit.later').length") == 0
+                   and p.evaluate("document.querySelectorAll('details.ud').length") == 14 and "Open to the team" in p.inner_text("details.ud[data-u='12']")))
+        ok.append(("team: progress unchanged, the review is still next (" + nxt(p) + ")", nxt(p) == "01|review1"))
+        p.goto(BASE + "learn.html?u=12&s=meet3"); p.wait_for_timeout(1500)
+        ok.append(("team: a later unit's lesson opens (" + kicker(p) + ")", kicker(p).startswith("New word"))); p.close()
+        p = team_page(False)
+        ok.append(("a learner's later units stay locked", not p.evaluate("RafiqPath.unitOpen('12')") and p.evaluate("document.querySelectorAll('.unit.later').length") == 11)); p.close()
         b.close()
     ok.append(("no page errors " + "; ".join(e[:120] for e in errors[:3]), not errors))
     for name, good in ok: print(("ok   " if good else "FAIL ") + name)
