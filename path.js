@@ -2,17 +2,20 @@
    Needs path-data.js (PATH, PIC), drills-data.js (DATA), vocab-data.js (VOCAB)
    and progress.js (Progress, already init()ed).
 
-   A unit is a short run of steps, each about 5–10 minutes:
-     meet 10 words → hear the conversation → how it works (grammar) →
-     meet the next 10 → practise → … → have the conversation → say it yourself →
-     the unit test (pass it to open the next unit)
+   A unit is a short run of steps, each about 3–10 minutes:
+     meet 5 words → review them with earlier ones → meet the next 5 → review →
+     hear the conversation → how it works (grammar) → … → practise → … →
+     have the conversation → say it yourself → the unit test (pass it to open the next unit)
+   New words come 5 at a time, each lesson followed by a review (#335, from the
+   teaching-science report, #324: a word needs many meetings, review comes first).
    Before unit 1 come the reading starter and the basics (both 'pre' units, unnumbered).
    Steps are stored in the shared progress store as 'p:<unit>|<step>', so the
    path follows the learner across devices. A unit skipped by the placement
    check is stored as 'p:<unit>|placed'. Each day with any finished step or
    session is 's:<yyyy-mm-dd>', which gives the streak and the daily goal. */
 (function(){
-  const BATCH = 10;          // words met per step
+  const BATCH = 5;           // words met per step (#335; it was 10)
+  const OLD_BATCH = 10;      // the lessons of 10 saved before #335: 'words<k>' covers 'meet<2k-1>' and 'meet<2k>'
   // units that teach before they ask (#156): words first, practice only from what's been taught
   const TEACH = new Set(['01', '02', '03']);
   // steps (or sessions) a day to meet the daily goal; set at sign-up from minutes a day
@@ -59,15 +62,19 @@
                {key:'line', kind:'line', title:'Read your first line', mins:6}]);
     if(p.basics) return BASICS.map((l,i) => ({key:'b-'+l.key, kind:'basics', lesson:i, title:l.title, mins:5, words:l.words}))
       .concat([{key:'test', kind:'test', title:'Check the basics', mins:6}]);
-    const nb = Math.ceil(p.words.length / BATCH), out = [];
-    // "Meet 10 new words & phrases": chosen with TypeSafe (tools/typesafe-exp/step_label.py, #116);
+    const nb = Math.ceil(p.words.length / BATCH), np = Math.ceil(p.words.length / OLD_BATCH), out = [];
+    // "Meet 5 new words & phrases": chosen with TypeSafe (tools/typesafe-exp/step_label.py, #116);
     // "New words 4 of 4" read like four words. The count and "& phrases" follow the set itself.
-    const words = i => {
-      const set = p.words.slice(i*BATCH, (i+1)*BATCH).map(wordById).filter(Boolean);
+    const meet = j => {
+      const set = p.words.slice(j*BATCH, (j+1)*BATCH).map(wordById).filter(Boolean);
       const n = set.length, phrases = set.some(w => /\s/.test(w.ar.trim()));
-      return {key:'words'+(i+1), kind:'words', batch:i, mins: 5,
+      return {key:'meet'+(j+1), kind:'words', batch:j, mins: 4,
         title: `Meet ${n} new ${n === 1 ? (phrases ? 'phrase' : 'word') : (phrases ? 'words & phrases' : 'words')}`};
     };
+    const review = j => ({key:'review'+(j+1), kind:'review', batch:j, mins: 3, title:'Review: new and earlier words'});
+    /* The order below was planned in lessons of 10. Each is now two lessons of 5,
+       each followed by a review (#335): words(i) is what lesson i of 10 became. */
+    const words = i => [2*i, 2*i+1].filter(j => j < nb).flatMap(j => [meet(j), review(j)]);
     const listen   = {key:'listen',   kind:'listen',   title:'Hear the conversation', mins:4};
     const grammar  = {key:'grammar',  kind:'grammar',  title:'How it works',          mins:5};
     const practise = {key:'practise', kind:'practise', title:'Practise',              mins:8};
@@ -76,20 +83,20 @@
          works, the rest of the words, practice made from what's been taught, and the
          conversation last, when most of its words are known. The step keys are the
          same as before, so progress already saved still counts. */
-      out.push(words(0));
-      if(nb>1) out.push(words(1));
+      out.push(...words(0));
+      if(np>1) out.push(...words(1));
       out.push(grammar);
-      for(let i=2;i<nb;i++) out.push(words(i));
+      for(let i=2;i<np;i++) out.push(...words(i));
       // #163: cards marked part 2 come after the rest of the words, so no one step teaches too much
       if(grammarCards(p.n).some(g => g.part === 2)) out.push({key:'grammar2', kind:'grammar', part:2, title:'How it works, part 2', mins:5});
       out.push(practise, listen);
     } else {
-      out.push(words(0), listen, grammar);
-      for(let i=1;i<nb;i++){
-        out.push(words(i));
+      out.push(...words(0), listen, grammar);
+      for(let i=1;i<np;i++){
+        out.push(...words(i));
         if(i===1) out.push(practise);
       }
-      if(nb<2) out.push(practise);
+      if(np<2) out.push(practise);
     }
     out.push({key:'chat',     kind:'chat',     title:'Have the conversation', mins:6});
     out.push({key:'speak',    kind:'speak',    title:'Say it yourself',       mins:6});
@@ -98,7 +105,20 @@
     return out;
   }
   const sid = (n, key) => 'p:' + n + '|' + key;
-  const stepDone = (n, key) => Progress.hasSeen(sid(n, key));
+  // a lesson of 5 is done if it is, or if the lesson of 10 it came from was finished before #335
+  const oldKey = key => { const m = /^meet(\d+)$/.exec(key); return m ? 'words' + Math.ceil(m[1] / 2) : null; };
+  const seenStep = (n, key) => Progress.hasSeen(sid(n, key)) || (!!oldKey(key) && Progress.hasSeen(sid(n, oldKey(key))));
+  // an old address (learn.html?s=words2) opens the first lesson of 5 it became
+  const stepKey = key => /^words\d+$/.test(key || '') ? 'meet' + (2 * key.slice(5) - 1) : key;
+  const stepsMemo = new Map(), stepsOf = p => stepsMemo.get(p) || stepsMemo.set(p, steps(p)).get(p);
+  /* A review counts as done once a later step is (#335): learners part-way through a unit
+     when the reviews arrived aren't sent back for them. */
+  function stepDone(n, key){
+    if(seenStep(n, key)) return true;
+    if(!/^review\d+$/.test(key)) return false;
+    const p = UNITS.find(u => u.n === n), list = p ? stepsOf(p) : [], i = list.findIndex(s => s.key === key);
+    return i >= 0 && list.slice(i + 1).some(s => s.kind !== 'review' && seenStep(n, s.key));
+  }
   const placed = n => Progress.hasSeen(sid(n, 'placed'));
   /* The listening test (and the reading rules, #163) were added after some learners had finished the reading
      starter and moved on to unit 1; they stay open to them but don't pull them back. */
@@ -106,7 +126,7 @@
   /* The same goes for words added to a unit after it was written (lateFrom in
      path-data.js, e.g. the missing days of the week): their step stays open to
      learners who are already past the unit, but doesn't pull them back. */
-  const late = (p, s) => p.lateFrom != null && s.kind === 'words' && s.batch * BATCH >= p.lateFrom;
+  const late = (p, s) => p.lateFrom != null && (s.kind === 'words' || s.kind === 'review') && s.batch * BATCH >= p.lateFrom;
   const movedPast = p => { const i = UNITS.indexOf(p);
     return UNITS.slice(i + 1).some(u => placed(u.n) || steps(u).some(s => stepDone(u.n, s.key))); };
   // the unit test came later too (#158): learners already past a unit aren't sent back for it
@@ -286,7 +306,10 @@
     UNITS.forEach(p => { if(p.pre) return;
       steps(p).forEach(s => { if(s.kind!=='words') return;
         const r=Progress.get(sid(p.n, s.key)), d=r && r.seen && dayOf(r.at);
-        if(d) words[d]=(words[d]||0)+wordsOf(p, s.batch).length; }); });
+        if(d) words[d]=(words[d]||0)+wordsOf(p, s.batch).length; });
+      // lessons of 10 finished before #335 are saved under their old keys
+      for(let i=0; i*OLD_BATCH<p.words.length; i++){ const r=Progress.get(sid(p.n, 'words'+(i+1))), d=r && r.seen && dayOf(r.at);
+        if(d) words[d]=(words[d]||0)+p.words.slice(i*OLD_BATCH, (i+1)*OLD_BATCH).filter(wordById).length; } });
     Progress.ids('d:').forEach(id => { const d=dayOf(Progress.get(id).at); if(d) sentences[d]=(sentences[d]||0)+1; });
     return {words, sentences};
   }
@@ -398,6 +421,6 @@
 
   window.RafiqPath = { recapDue, recapDone, testFailed, testReview, testReviewed, teaches: n => TEACH.has(n), lateLeft, reviewScope, metWords, masteredWords, sentenceDone, period, wordsByDay, wordsReport, bestStreak, reviewDue, hasLearned, COMING, STREAK_GOALS, streakGoal, BATCH, GOAL, units, skipReading, unitOpen, stepOpen, steps, stepDone, unitDone, placed, currentIndex, next, reached,
                        complete, place, markDay, wordMet, week, doneToday, streak, streakState, FREEZE_EARN, wordsOf, unitData, wordById,
-                       answerStyle, answered, answerPref,
+                       answerStyle, answered, answerPref, stepKey,
                        LETTERS, letterState, lettersKnown, letterAnswer, readWord, checkInLetters, newGroupsToday, stars, saveStars };
 })();

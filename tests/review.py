@@ -58,7 +58,7 @@ def main():
 
         # the recap: two lessons done, so the next one starts with five earlier words
         at = lambda m: {"box": 0, "seen": 1, "at": "2026-09-30T%02d:00:00.000Z" % m}
-        met = {**unit1, **seen("p:01|test"), "r:recap": at(8), "p:02|words1": at(9),
+        met = {**unit1, **seen("p:01|test"), "r:recap": at(8), "p:02|words1": at(9), "p:02|review2": at(8),   # a review counts as the recap (#335)
                **{f"v:{i}": {"box": 3, "seen": 1, "due": "2099-01-01"} for i in range(1, 400)}}
         p = page_with(b, {**met, "p:01|speak": at(10)}, errors); p.goto(BASE + "learn.html?u=02&s=words2"); p.wait_for_timeout(1500)
         heads = []

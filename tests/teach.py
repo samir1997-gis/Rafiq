@@ -35,11 +35,13 @@ def main():
         # the steps, and progress saved under the old order
         p = page_with(b, seen("p:00|placed"), errors); p.goto(BASE + "dashboard.html"); p.wait_for_timeout(1500)
         keys = lambda n: p.evaluate(f"RafiqPath.steps(RafiqPath.units().find(u => u.n === '{n}')).map(s => s.key)")
-        ok.append(("unit 1 order " + str(keys("01")), keys("01") == ["words1", "words2", "grammar", "words3", "words4", "practise", "listen", "chat", "speak", "test"]))
-        ok.append(("unit 3 keeps its late words before Practise", keys("03")[:3] == ["words1", "words2", "grammar"] and keys("03")[-5:] == ["practise", "listen", "chat", "speak", "test"]))
-        ok.append(("unit 4 unchanged (plus its test)", keys("04") == ["words1", "listen", "grammar", "words2", "practise", "words3", "words4", "chat", "speak", "test"]))
+        # lessons of 5, each followed by a review (#335)
+        ok.append(("unit 1 order " + str(keys("01")), keys("01") == ["meet1", "review1", "meet2", "review2", "meet3", "review3", "meet4", "review4", "grammar", "meet5", "review5", "meet6", "review6", "meet7", "review7", "meet8", "review8", "practise", "listen", "chat", "speak", "test"]))
+        ok.append(("unit 3 keeps its late words before Practise", keys("03")[:9] == ["meet1", "review1", "meet2", "review2", "meet3", "review3", "meet4", "review4", "grammar"] and keys("03")[-5:] == ["practise", "listen", "chat", "speak", "test"]))
+        ok.append(("unit 4: listen and grammar after the first ten words, Practise after twenty", keys("04") == ["meet1", "review1", "meet2", "review2", "listen", "grammar",
+                  "meet3", "review3", "meet4", "review4", "practise", "meet5", "review5", "meet6", "review6", "meet7", "review7", "meet8", "review8", "chat", "speak", "test"]))
         first = p.evaluate("RafiqPath.wordsOf(RafiqPath.units().find(u => u.n === '01'), 0).map(w => w.ar)")
-        ok.append(("unit 1 starts with ten single words " + " ".join(first), len(first) == 10 and all(" " not in w.strip() for w in first)))
+        ok.append(("unit 1 starts with five single words " + " ".join(first), len(first) == 5 and all(" " not in w.strip() for w in first)))
         bad_keys = p.evaluate("""(() => { const all = new Set(VOCAB.map(w => w.ar.trim()));
           return ['السَّلامُ عَلَيْكُم','وَعَلَيْكُمُ السَّلام','كَيْفَ حالُكَ','كَيْفَ حالُكِ','الحَمْدُ لِلَّهِ','أَهْلاً وَسَهْلاً','مَعَ السَّلامَةِ',
             'ما اسْمُكَ؟','ما اسْمُكِ؟','ما جِنْسِيَّتُكَ؟','ما جِنْسِيَّتُكِ؟','مِنْ أَيْنَ؟','ما شاءَ اللهُ','إِلى أَيْنَ'].filter(k => !all.has(k)); })()""")
@@ -50,13 +52,13 @@ def main():
         old = seen("p:00|placed", "p:01|words1", "p:01|listen", "p:01|grammar")
         p = page_with(b, old, errors); p.goto(BASE + "dashboard.html"); p.wait_for_timeout(1500)
         nxt = p.evaluate("(() => { const n = RafiqPath.next(); return n.unit.n + '|' + (n.step && n.step.key); })()")
-        ok.append(("mid-unit under the old order: next is words2 (" + nxt + ")", nxt == "01|words2")); p.close()
+        ok.append(("mid-unit under the old order: next is the second lesson of ten, now meet3 (" + nxt + ")", nxt == "01|meet3")); p.close()
         done = seen("p:00|placed", *[f"p:01|{k}" for k in ["words1", "listen", "grammar", "words2", "practise", "words3", "words4", "chat", "speak", "test"]])
         p = page_with(b, done, errors); p.goto(BASE + "dashboard.html"); p.wait_for_timeout(1500)
         ok.append(("unit 1 finished under the old order stays finished", p.evaluate("RafiqPath.unitDone(RafiqPath.units().find(u => u.n === '01'))"))); p.close()
 
         # word lessons: phrases word by word, and the hearing round
-        p = page_with(b, seen("p:00|placed", "p:01|words1"), errors); p.goto(BASE + "learn.html?u=01&s=words2"); p.wait_for_timeout(1500)
+        p = page_with(b, seen("p:00|placed", "p:01|words1", "p:01|review2"), errors); p.goto(BASE + "learn.html?u=01&s=words2"); p.wait_for_timeout(1500)   # the old address opens meet3
         parts = p.eval_on_selector_all(".wparts span", "ss => ss.map(s => s.innerText.replace(/\\n/g, ' = '))")
         ok.append(("السَّلامُ عَلَيْكُم taken apart " + str(parts), len(parts) == 2 and "peace" in parts[0]))
         kinds, last = [], None
@@ -75,12 +77,12 @@ def main():
                 except Exception: pass
             p.wait_for_timeout(250)
             if not k and not btn.count(): break
-        ok.append(("words step: meet 10, pick the meaning 10, then hear it 5 (%d/%d/%d)" % (kinds.count("New"), kinds.count("What"), kinds.count("Hear")),
-                   kinds.count("New") == 10 and kinds.count("What") == 10 and kinds.count("Hear") == 5)); p.close()
+        ok.append(("words step: meet 5, pick the meaning 5, then hear it 5 (%d/%d/%d)" % (kinds.count("New"), kinds.count("What"), kinds.count("Hear")),
+                   kinds.count("New") == 5 and kinds.count("What") == 5 and kinds.count("Hear") == 5)); p.close()
 
         # How it works in unit 2: the new cards and the crossed-out mistakes
         p = page_with(b, seen("p:00|placed", "p:01|words1", "p:01|words2", "p:01|grammar", "p:01|words3", "p:01|words4", "p:01|practise",
-                              "p:01|listen", "p:01|chat", "p:01|speak", "p:02|words1", "p:02|words2"), errors)
+                              "p:01|listen", "p:01|chat", "p:01|speak", "p:02|words1", "p:02|words2", "p:02|review4"), errors)
         p.goto(BASE + "learn.html?u=02&s=grammar"); p.wait_for_timeout(1500)
         titles, bads = [], 0
         for _ in range(8):

@@ -44,7 +44,7 @@ def main():
         for n in ("02",):
             k = keys(p, n)
             ok.append((f"unit {n}: part 2 after the last words, before Practise", "grammar2" in k and k.index("grammar2") == k.index("practise") - 1
-                       and all(k.index(w) < k.index("grammar2") for w in k if w.startswith("words"))))
+                       and all(k.index(w) < k.index("grammar2") for w in k if w.startswith(("meet", "review")))))
         p.close()
 
         # learners already past aren't sent back
@@ -79,7 +79,7 @@ def main():
             before.append(key)
 
         # unit 2 part 2: "How do you say ‘we study’?"
-        p = page_with(b, seen("p:00|placed", *[f"p:01|{k}" for k in U1], *u2[:5]), errors)
+        p = page_with(b, seen("p:00|placed", *[f"p:01|{k}" for k in U1], *u2[:5], "p:02|review8"), errors)   # the review after the last lesson (#335)
         p.goto(BASE + "learn.html?u=02&s=grammar2"); p.wait_for_timeout(1500)
         cards, found = [], None
         for _ in range(10):
