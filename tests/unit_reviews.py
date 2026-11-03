@@ -7,7 +7,7 @@
     counts as done once a later step is, old addresses (s=words2) open the lesson they became, and the
     words met each day still count
   - Home (#336): each finished or current unit opens to its steps: done ones to redo, the next one,
-    and the rest locked; a lesson names its words; it stays open when Home repaints
+    and the rest locked, numbered 1.01, 1.02 … (#337); a lesson names its words; it stays open when Home repaints
 
   python3 .claude/skills/webapp-testing/scripts/with_server.py \
     --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/unit_reviews.py
@@ -41,7 +41,7 @@ def answer(p, right):
     i = p.evaluate("""right => { const x = asking, o = [...document.querySelectorAll('.opt')];
       window.__q = x; (right ? o.find(b => b.textContent === x.right) : o.find(b => b.textContent !== x.right)).click(); return x.id; }""", right)
     p.evaluate("""() => { if(asking === window.__q){ const n = document.querySelector('button.go:not([disabled])'); if(n) n.click(); } }""")
-    p.wait_for_function("asking !== window.__q || !!document.querySelector('.done')", timeout=10000); p.wait_for_timeout(100)
+    p.wait_for_function("asking !== window.__q || !!document.querySelector('.done')", polling=100, timeout=10000); p.wait_for_timeout(100)
     return i
 
 def main():
@@ -106,6 +106,9 @@ def main():
         u2 = p.evaluate("""[...document.querySelectorAll('details.ud[data-u="02"] .ustep')].map(e => [e.className.split(' ')[1], e.tagName, e.getAttribute('href') || ''])""")
         ok.append(("unit 2: done, then the next one, then locked (%s)" % " ".join(c for c, _, _ in u2[:5]),
                    [c for c, _, _ in u2[:5]] == ["done", "done", "done", "next", "locked"] and u2[3][2] == "learn.html?u=02&s=review2" and u2[4][1] == "SPAN"))
+        nos = p.evaluate("""[...document.querySelectorAll('details.ud[data-u="01"] .sno')].map(e => e.textContent)""")
+        ok.append(("steps numbered 1.01 to 1.22 (%s … %s)" % (nos[0] if nos else "", nos[-1] if nos else ""), nos == ["1.%02d" % k for k in range(1, 23)]))
+        ok.append(("unit 2 numbered from 2.01", p.evaluate("""document.querySelector('details.ud[data-u="02"] .sno').textContent""") == "2.01"))
         first = p.evaluate("""document.querySelector('details.ud[data-u="01"] .ustep small').textContent""")
         ok.append(("a lesson names its five words (" + first + ")", first.count(" · ") == 4))
         p.evaluate("paintHome()"); p.wait_for_timeout(200)

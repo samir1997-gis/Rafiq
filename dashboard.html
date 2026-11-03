@@ -130,6 +130,7 @@ a.ustep:hover{background:var(--paper-deep)}
 .ustep.locked{opacity:.55}
 .ustep .sn{flex:1;min-width:0}.ustep .sn small{display:block;font-size:12px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ustep .redo{font-size:12px;color:var(--rubric);white-space:nowrap}
+.ustep .sno{flex:0 0 auto;min-width:34px;font-family:var(--ut);font-size:12px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
 .hero{padding:26px 0 0}
 .focus{background:var(--card);border:1px solid var(--gold);border-radius:12px;padding:14px 16px;margin-bottom:14px}
 .focus .k{font-family:var(--ut);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
@@ -263,7 +264,9 @@ function paintHome(){
       const done=dn[k], open=i<cur || done || k===first;
       const words=s.kind==='words' ? RafiqPath.wordsOf(p,s.batch).map(w=>shortEn(w.en)).join(' · ') : '';
       const cls=done?'done':s.key===nextKey?'next':open?'open':'locked';
-      const body=`<span class="si">${done?'✓':s.key===nextKey?'▶':open?'○':'🔒'}</span>
+      // numbered within the unit (#337): 1.01, 1.02 … (the reading starter and the basics have no unit number)
+      const no=p.pre?'':`<span class="sno">${+p.n}.${String(k+1).padStart(2,'0')}</span>`;
+      const body=`<span class="si">${done?'✓':s.key===nextKey?'▶':open?'○':'🔒'}</span>${no}
         <span class="sn">${esc(s.title)}${words?`<small>${esc(words)}</small>`:''}</span>${done?'<span class="redo">Redo</span>':''}`;
       return `<li>${open?`<a class="ustep ${cls}" href="learn.html?u=${p.n}&s=${s.key}">${body}</a>`:`<span class="ustep ${cls}">${body}</span>`}</li>`;
     }).join('')}</ol>`;
