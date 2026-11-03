@@ -130,12 +130,14 @@ def main():
         p = team_page(True)
         ok.append(("team: every unit open", p.evaluate("RafiqPath.units().every(u => RafiqPath.unitOpen(u.n)) && RafiqPath.stepOpen('12', 'test')")))
         ok.append(("team: no locked rows on Home, units ahead marked open", p.evaluate("document.querySelectorAll('.unit.later').length") == 0
-                   and p.evaluate("document.querySelectorAll('details.ud').length") == 14 and "Open to the team" in p.inner_text("details.ud[data-u='12']")))
+                   and p.evaluate("document.querySelectorAll('details.ud').length") == 14 and "Open to the team" in p.inner_text("details.ud[data-u='12']")
+                   and "team account: every unit open" in p.inner_text("#home")))
         ok.append(("team: progress unchanged, the review is still next (" + nxt(p) + ")", nxt(p) == "01|review1"))
         p.goto(BASE + "learn.html?u=12&s=meet3"); p.wait_for_timeout(1500)
         ok.append(("team: a later unit's lesson opens (" + kicker(p) + ")", kicker(p).startswith("New word"))); p.close()
         p = team_page(False)
-        ok.append(("a learner's later units stay locked", not p.evaluate("RafiqPath.unitOpen('12')") and p.evaluate("document.querySelectorAll('.unit.later').length") == 11)); p.close()
+        ok.append(("a learner's later units stay locked", not p.evaluate("RafiqPath.unitOpen('12')") and p.evaluate("document.querySelectorAll('.unit.later').length") == 11
+                   and "team account" not in p.inner_text("#home"))); p.close()
         b.close()
     ok.append(("no page errors " + "; ".join(e[:120] for e in errors[:3]), not errors))
     for name, good in ok: print(("ok   " if good else "FAIL ") + name)

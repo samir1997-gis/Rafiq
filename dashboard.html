@@ -114,6 +114,7 @@
 .unit .nm{flex:1;min-width:0}.unit .nm b{display:block;font-size:15px}.unit .nm span{font-size:12px;color:var(--ink-soft)}
 .unit .ua{font-family:var(--ar);font-size:16px;color:var(--rubric);white-space:nowrap}
 /* #336: each unit opens to its steps, to redo any of them */
+.ph .team{font-size:12px;font-weight:400;color:var(--ink-soft)}      /* #338 */
 .ud{min-width:0}                        /* a grid item: don't let the one-line word lists widen the column */
 .ud > summary{list-style:none;cursor:pointer}.ud > summary::-webkit-details-marker{display:none}
 .ud .chev{flex:0 0 auto;font-size:14px;color:var(--ink-soft);transition:transform .32s cubic-bezier(.34,1.5,.64,1)}
@@ -347,7 +348,7 @@ function paintHome(){
       <span class="nm"><b>${esc(c.en)}</b><span>${esc(c.d)}</span></span><span class="ua">${esc(c.ar)}</span></div>`).join('')}</div>`;
   // "Your salah": its own track, right under the daily path (salah.js; off until the teacher signs off)
   const salah = window.RafiqSalah && RafiqSalah.enabled() ? (RafiqSalah.styles(), RafiqSalah.cardHTML()) : '';
-  el.innerHTML=card+board+salah+wtoday+stats+'<div id="pwaInstall"></div>'+week+focus+review+`<div class="ph">Your path</div><div class="units">${units}</div>`+coming;
+  el.innerHTML=card+board+salah+wtoday+stats+'<div id="pwaInstall"></div>'+week+focus+review+`<div class="ph">Your path${RafiqPath.allOpen?'<span class="team"> · team account: every unit open</span>':''}</div><div class="units">${units}</div>`+coming;
   // "Get a daily reminder / put Rafiq on your home screen" (pwa.js), once a first lesson step is done
   if(window.RafiqPWA) RafiqPWA.card(document.getElementById('pwaInstall'), { ready: U.some(p => RafiqPath.steps(p).some(x => RafiqPath.stepDone(p.n, x.key))) });
   el.querySelectorAll('details.ud').forEach(d=>d.ontoggle=()=>{ d.open?OPEN_UNITS.add(d.dataset.u):OPEN_UNITS.delete(d.dataset.u); });
@@ -399,7 +400,7 @@ function paintHome(){
 <script src="fsrs.js?v=20260929"></script>
 <script src="progress.js?v=20261022a"></script>
 <script src="basics-data.js?v=5"></script>
-<script src="path.js?v=20261103b"></script>
+<script src="path.js?v=20261103c"></script>
 <script src="salah-data.js?v=1"></script>
 <script src="salah.js?v=6"></script>
 <script src="mistakes.js?v=20260922"></script>
