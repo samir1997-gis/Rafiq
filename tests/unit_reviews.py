@@ -6,6 +6,8 @@
   - progress saved in lessons of 10 carries over: a lesson of 10 counts as both of its halves, a review
     counts as done once a later step is, old addresses (s=words2) open the lesson they became, and the
     words met each day still count
+  - Home (#336): each finished or current unit opens to its steps: done ones to redo, the next one,
+    and the rest locked; a lesson names its words; it stays open when Home repaints
 
   python3 .claude/skills/webapp-testing/scripts/with_server.py \
     --server "python3 -m http.server 8765 >/dev/null 2>&1" --port 8765 -- python3 tests/unit_reviews.py
@@ -92,6 +94,25 @@ def main():
         today = {**seen(*START), "p:01|words1": {"box": 0, "seen": 1, "at": TODAY + "T10:00:00.000Z"}}
         p = page_with(b, today, errors); p.goto(BASE + "dashboard.html"); p.wait_for_timeout(1200)
         ok.append(("a lesson of 10 finished today still counts 10 words today", p.evaluate("RafiqPath.period(1).words") >= 10)); p.close()
+
+        # Home: each unit opens to its steps (#336)
+        p = page_with(b, seen(*START, *[f"p:01|{k}" for k in OLD_U1], "p:02|meet1", "p:02|review1", "p:02|meet2"), errors)
+        p.set_viewport_size({"width": 390, "height": 844}); p.goto(BASE + "dashboard.html"); p.wait_for_timeout(1500)
+        ok.append(("finished and current units open, later ones stay locked", p.evaluate("document.querySelectorAll('details.ud').length") == 4
+                   and p.evaluate("document.querySelectorAll('.unit.later').length") == 10))
+        p.locator("details.ud[data-u='01'] > summary").click(); p.locator("details.ud[data-u='02'] > summary").click(); p.wait_for_timeout(400)
+        u1 = p.evaluate("""[...document.querySelectorAll('details.ud[data-u="01"] .ustep')].map(e => [e.className, e.getAttribute('href') || ''])""")
+        ok.append(("unit 1: all 22 steps done, each one to redo", len(u1) == 22 and all("done" in c and h.startswith("learn.html?u=01&s=") for c, h in u1)))
+        u2 = p.evaluate("""[...document.querySelectorAll('details.ud[data-u="02"] .ustep')].map(e => [e.className.split(' ')[1], e.tagName, e.getAttribute('href') || ''])""")
+        ok.append(("unit 2: done, then the next one, then locked (%s)" % " ".join(c for c, _, _ in u2[:5]),
+                   [c for c, _, _ in u2[:5]] == ["done", "done", "done", "next", "locked"] and u2[3][2] == "learn.html?u=02&s=review2" and u2[4][1] == "SPAN"))
+        first = p.evaluate("""document.querySelector('details.ud[data-u="01"] .ustep small').textContent""")
+        ok.append(("a lesson names its five words (" + first + ")", first.count(" · ") == 4))
+        p.evaluate("paintHome()"); p.wait_for_timeout(200)
+        ok.append(("still open after Home repaints", p.evaluate("[...document.querySelectorAll('details.ud[open]')].map(d => d.dataset.u).join()") == "01,02"))
+        ok.append(("no sideways scroll", p.evaluate("document.documentElement.scrollWidth") <= 390))
+        p.locator("details.ud[data-u='01'] a.ustep").nth(2).click(); p.wait_for_timeout(1500)
+        ok.append(("Redo opens that lesson (" + kicker(p) + ")", "s=meet2" in p.url and kicker(p).startswith("New word"))); p.close()
         b.close()
     ok.append(("no page errors " + "; ".join(e[:120] for e in errors[:3]), not errors))
     for name, good in ok: print(("ok   " if good else "FAIL ") + name)
