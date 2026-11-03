@@ -105,6 +105,9 @@ td.tr{font-family:var(--ut);font-size:11px;color:var(--ink-soft);width:20%}
 .reveal{margin-top:26px;padding-top:22px;border-top:1px solid var(--rule);display:none}
 .reveal.show{display:block}
 .reveal .en{font-size:22px}
+.rv-row{display:flex;align-items:center;justify-content:center;gap:14px}
+#cardPic:empty{display:none}
+.reveal .wpic{display:block;width:84px;height:84px}
 .reveal .trl{font-family:var(--ut);font-size:12px;color:var(--ink-soft);margin-top:6px}
 .actions{margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .hint{margin-top:16px;font-size:12px;color:var(--ink-soft)}
@@ -203,10 +206,11 @@ td.tr{font-family:var(--ut);font-size:11px;color:var(--ink-soft);width:20%}
           <div class="label">Say it aloud, then reveal</div>
           <div class="ar" id="cardAr">—</div>
           <button class="speak" onclick="speakCurrent()">🔊 Hear it</button>
-          <div class="reveal" id="reveal">
-            <div class="en" id="cardEn">—</div>
-            <div class="trl" id="cardTr">—</div>
-          </div>
+          <div class="reveal" id="reveal"><div class="rv-row">
+            <div id="cardPic" aria-hidden="true"></div>
+            <div><div class="en" id="cardEn">—</div>
+            <div class="trl" id="cardTr">—</div></div>
+          </div></div>
           <div class="actions" id="actions">
             <button class="btn ghost" onclick="revealCard()" id="revealBtn">Reveal answer</button>
           </div>
@@ -270,6 +274,7 @@ td.tr{font-family:var(--ut);font-size:11px;color:var(--ink-soft);width:20%}
 <script src="vocab-data.js?v=20261022a"></script>
 <script src="drills-data.js?v=20260930h"></script>
 <script src="path-data.js?v=20260930b"></script>
+<script src="pics.js?v=1"></script>
 <script src="alphabet-data.js?v=20261022a"></script>
 <script src="basics-data.js?v=5"></script>
 <script src="path.js?v=20261022a"></script>
@@ -602,6 +607,7 @@ function nextCard(fresh){
   current = queue[0];
   document.getElementById('cardAr').textContent = current.ar;
   document.getElementById('cardEn').textContent = current.en;
+  document.getElementById('cardPic').innerHTML = wordPic(current.id);   // its drawing (#332)
   document.getElementById('cardTr').textContent = current.tr;
   document.getElementById('reveal').classList.remove('show');
   document.getElementById('actions').innerHTML =

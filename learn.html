@@ -38,6 +38,7 @@ body{padding-bottom:0!important}
 .stage>:first-child:has(.chat){margin:0;padding-bottom:0}
 .card{background:var(--card);border:1px solid var(--rule);border-radius:18px;padding:30px 22px;text-align:center}
 .pic{font-size:64px;line-height:1.1;margin-bottom:6px}
+.pic .wpic{display:block;width:132px;height:132px;margin:0 auto}
 .big{font-family:var(--ar);direction:rtl;font-size:clamp(2.5rem,11vw,3.5rem);line-height:1.6;font-weight:600;cursor:pointer;touch-action:manipulation}
 .mid{font-family:var(--ar);direction:rtl;font-size:clamp(1.75rem,7.5vw,2.25rem);line-height:1.8;cursor:pointer;touch-action:manipulation}
 .tr{font-family:var(--ut);font-size:.875rem;color:var(--ink-soft);margin-top:4px}
@@ -276,6 +277,7 @@ bdi[lang=ar]{white-space:nowrap;font-family:var(--ar)}
 <script src="vocab-data.js?v=20261022a"></script>
 <script src="drills-data.js?v=20260930h"></script>
 <script src="path-data.js?v=20260930b"></script>
+<script src="pics.js?v=1"></script>
 <script src="alphabet-data.js?v=20261022a"></script>
 <script src="scenes-data.js?v=20260922"></script>
 <script src="audio.js?v=904"></script>
@@ -374,7 +376,7 @@ function runWords(p, step){
   const meet=()=>{
     if(i>=words.length) return check(0);
     const w=words[i]; setBar(i,total);
-    const pic=PIC[w.id]?`<div class="pic" aria-hidden="true">${PIC[w.id]}</div>`:'';
+    const pic=PICS.has(w.id)?`<div class="pic" aria-hidden="true">${wordPic(w.id)}</div>`:PIC[w.id]?`<div class="pic" aria-hidden="true">${PIC[w.id]}</div>`:'';   // the drawing (#332), else the emoji
     const body=el(`<div><p class="kicker">New word ${i+1} of ${words.length}</p>
       <div class="card">${pic}<div class="big" id="w">${esc(w.ar)}</div>
       <div class="tr">${esc(w.tr||'')}</div><div class="en">${esc(w.en)}</div>${partsHTML(w.ar)}

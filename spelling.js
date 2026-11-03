@@ -84,7 +84,7 @@
       const item = queue[pos], w = item.w;
       item.near = false;
       const mode = (turn++ % 2 === 0 && canHear()) ? 'hear' : 'see';
-      const pic = (typeof PIC !== 'undefined' && PIC[w.id]) || '';
+      const pic = (typeof wordPic === 'function' && wordPic(w.id)) || (typeof PIC !== 'undefined' && PIC[w.id]) || '';   // the drawing (#332), else the emoji
       const prompt = mode === 'hear'
         ? `<div class="pa-cue listen" aria-live="polite"><span class="ic">🔊</span><b>Listen</b></div>
            <button class="sb-listen" type="button" aria-label="Play the word again">🔊</button>

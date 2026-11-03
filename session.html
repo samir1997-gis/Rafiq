@@ -58,6 +58,7 @@ main.wrap{display:flex;flex-direction:column;min-height:calc(100dvh - 95px)}
 .big-ar:active{opacity:.55}
 .reveal{border-top:1px dashed var(--rule);margin-top:14px;padding-top:14px;text-align:center}
 .reveal .en{font-size:18.5px}
+.reveal .wpic{display:block;width:112px;height:112px;margin:0 auto 6px}
 .reveal .tr{font-family:var(--ut);font-size:13.5px;color:var(--ink-soft);margin-top:4px}
 .gap{color:var(--rubric);border-bottom:2px solid var(--rubric);padding:0 14px}
 .gap.filled{border-bottom-color:var(--verdigris);color:var(--verdigris)}
@@ -199,6 +200,7 @@ input.ar-in{flex:1;min-width:200px;font-family:var(--ar);font-size:21px;line-hei
 <script src="drills-data.js?v=20260930h"></script>
 <script src="audio.js?v=904"></script>
 <script src="path-data.js?v=20260930b"></script>
+<script src="pics.js?v=1"></script>
 <script src="alphabet-data.js?v=20261022a"></script>
 <script src="basics-data.js?v=5"></script>
 <script src="path.js?v=20261022a"></script>
@@ -461,7 +463,7 @@ function vWord(it){
   c.appendChild(tappable(ar,it.w.ar));
   const btn=document.createElement('button');btn.className='btn';btn.textContent='Reveal';btn.style.width='100%';
   const rev=document.createElement('div');rev.className='reveal';rev.style.display='none';
-  rev.innerHTML=`<div class="en">${it.w.en}</div><div class="tr">${it.w.tr}</div>`;
+  rev.innerHTML=`${wordPic(it.w.id)}<div class="en">${it.w.en}</div><div class="tr">${it.w.tr}</div>`;   // its drawing too (#332)
   btn.onclick=()=>{rev.style.display='block';btn.style.display='none';say(it.w.ar,ar);
     c.appendChild(rateRow(q=>Progress.grade(ID.word(it.w),q),it.kind))};
   c.appendChild(btn);c.appendChild(rev);panel.appendChild(c);
