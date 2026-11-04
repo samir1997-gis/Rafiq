@@ -211,14 +211,16 @@ def count_down(c, cid, at, n=3):
     c.t(f'tl.to("#{cid}", {{opacity:0, scale:0.7, duration:0.25}}, {at + n - 0.1:.2f});')
     return at + n + 0.05
 
-def change(vid, kicker, R, ask, hook=None, vo=None, count=3):
+def change(vid, kicker, R, ask, hook=None, vo=None, count=3, teach=None, bg=None):
     """The Ashrabu format: "if this is X, what's the <she / we / past / plural> form?", a 3-2-1, the answer said, the rule.
     hook: optional spoken opening line (hook_in); then the first question comes in after it instead of being the cover.
     vo: optional hook-voice lines {"q": [(before the word, after it) per round], "rule": mp3, "end": mp3}: the question is spoken
-    around the Arabic word (said in the Rafiq voice), its words appear as they're said, the trick and the closing ask are spoken."""
+    around the Arabic word (said in the Rafiq voice), its words appear as they're said, the trick and the closing ask are spoken.
+    teach: optional teach(c, body, t) -> t, a section that teaches the change before the quiz (g6). bg: hook_in's background."""
     c = SO.vcomp(vid, kicker); body, t = [], 0.1
     if vid != "f3-she-eats": c.bed = True              # the fountain under it, as in our other videos (f3 stays as posted)
-    if hook: t = hook_in(c, body, hook)
+    if hook: t = hook_in(c, body, hook, bg)
+    if teach: t = teach(c, body, t)
     for k, (ar, en, ask_, opts, right, rule) in enumerate(R):
         s = f"r{k}"
         body.append(f'<div class="sec" id="{s}"><div class="q2">{k + 1}/{len(R)} · If this is “{en}” …</div>'
@@ -1941,9 +1943,52 @@ def h4():
     total = round(t + end + 0.9, 2); finish(total)
     c.write("\n".join("      " + b for b in body), total)
 
+def g6():                                                       # owner, 4 Nov 2026 (#347): teach I eat / she eats, then quiz on a new word
+    V = "brag-quiz/voice/g6-vo/"
+    TAGS = [("أَ", "I"), ("تَ", "she"), ("يَ", "he"), ("نَ", "we")]          # the hook's background: the four front letters and who they are
+    POS = [(70, 190, -6), (790, 170, 5), (860, 470, 8), (50, 480, -4), (90, 1240, -3), (740, 1250, 4), (420, 1420, -7), (60, 1560, 3), (700, 1540, -5), (430, 1740, 6)]
+    def bg_anim(c, at, d):
+        for k in range(len(POS)):
+            c.t(f'tl.fromTo("#hp{k}", {{opacity:0, scale:0.6}}, {{opacity:0.3, scale:1, duration:0.4, ease:"back.out(1.6)"}}, {0.05 + k * d / len(POS):.2f});')
+            c.t(f'tl.fromTo("#hp{k}", {{y:0}}, {{y:{-30 if k % 2 else 26}, duration:{d + 0.2:.2f}, ease:"none"}}, 0);')
+    bg = ("".join(f'<div class="hn {("verdigris", "rubric", "gold")[k % 3]}" id="hp{k}" style="left:{x}px;top:{y}px;font-size:{60 if k % 3 else 76}px;transform:rotate({r}deg)">'
+                  f'<b class="hpa" lang="ar">{TAGS[k % 4][0]}</b> = {TAGS[k % 4][1]}</div>' for k, (x, y, r) in enumerate(POS)), bg_anim)
+
+    def teach(c, body, t):
+        F = [("يَأْكُلُ", '<em>يَ</em>أْكُلُ', "he eats", "t1"), ("آكُلُ", '<em>آ</em>كُلُ', "I eat", "t2"), ("تَأْكُلُ", '<em>تَ</em>أْكُلُ', "she eats", "t3")]
+        rows = "".join(f'<div class="vrow" id="tr{i}"><div class="p"><span class="en" style="font-size:52px;color:var(--ink)">{en}</span></div>'
+                       f'<span class="f" lang="ar">{h}</span></div>' for i, (_, h, en, _) in enumerate(F))
+        body.append('<div class="sec" id="tch"><div class="q2" id="tq">LEARN · watch the first letter</div>'
+                    f'<div class="vrows" style="top:480px">{rows}</div>'
+                    '<div class="tsub" id="tj" style="top:1030px;font-size:40px">two alifs join into one: <bdi lang="ar" dir="rtl">أَ + أْكُلُ = آكُلُ</bdi></div>'
+                    '<div class="rule" id="tru" style="top:1250px;font-size:84px">I = <span class="ar" lang="ar"><em>أَ</em></span> &nbsp;·&nbsp; she = <span class="ar" lang="ar"><em>تَـ</em></span></div>'
+                    '<div class="tsub" id="tyo" style="top:1460px;font-size:40px">(<bdi lang="ar">تَـ</bdi> is also “you”, to a man)</div></div>')
+        c.css += (".tsub { position:absolute; left:90px; right:90px; text-align:center; font-weight:700; line-height:1.3; color:var(--ink-soft); }"
+                  ".tsub bdi, .hpa { font-family:var(--ar); } #tru .ar { font-size:110px; }")
+        c.t(f'tl.fromTo("#tch", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
+        c.inn("#tq", t)
+        for i, (ar, _, _, f) in enumerate(F):
+            a = clip(c, V + f + ".mp3", t + 0.2)
+            c.inn(f"#tr{i}", t + 0.2, 30)
+            hit = t + 0.2 + a + 0.05; d = say_up(c, ar, hit)
+            c.t(f'tl.fromTo("#tr{i} em", {{scale:1}}, {{scale:1.25, duration:0.18, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {hit:.2f});')
+            c.sfx("tap", hit)
+            if i == 1: c.inn("#tj", hit + d)
+            t = hit + d + 0.5
+        r = clip(c, V + "rule.mp3", t); c.inn("#tru", t + 0.3); c.inn("#tyo", t + 1.6)
+        t += r + 0.6; c.out_("#tch", t); return t + 0.4
+
+    change("g6-i-she", "QUIZ · ARABIC VERBS",
+           [("يَقْرَأُ", "he reads", "I read", ["تَقْرَأُ", "أَقْرَأُ", "نَقْرَأُ"], 1, '<bdi lang="ar"><em>أَ</em></bdi> at the front = I'),
+            ("يَقْرَأُ", "he reads", "she reads", ["أَقْرَأُ", "يَقْرَأُ", "تَقْرَأُ"], 2, '<bdi lang="ar"><em>تَ</em></bdi> at the front = she')],
+           "How many did you get? 0, 1 or 2? Comment below 👇 and send this to your Arabic study buddy",
+           hook=("ONE letter tells you WHO is eating in Arabic!".split(), {0: "loud", 4: "red", 6: "circle"}, "brag-quiz/voice/g6-hook/g6-ha.mp3"),
+           vo={"q": [(V + "q1a.mp3", V + "q1b.mp3"), (V + "q2a.mp3", V + "q2b.mp3")], "end": "brag-quiz/voice/g4-vo/end2.mp3"},
+           teach=teach, bg=bg)
+
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
-       "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "w8-subhana-azim": w8,
+       "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "g6-i-she": g6, "w8-subhana-azim": w8,
        "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1,
        "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2, "n5-salah": n5, "h1-algebra": h1, "h2-coffee": h2, "h3-lisan": h3, "h4-khutbah": h4}
 if __name__ == "__main__":
