@@ -65,11 +65,11 @@
 .today-card{margin:4px 0 16px}
 .chips{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:0 0 16px}
 .chip{background:var(--card);border:1px solid var(--rule);border-radius:999px;padding:7px 13px;font-size:14.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap}.chip b{color:var(--ink);font-weight:800}
-.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 22px}
-.tile{background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:14px 16px;text-decoration:none;color:var(--ink-soft);font-size:14px;font-weight:600}
-.tile b{display:block;font-size:24px;font-weight:800;color:var(--ink)}.tile b.due{color:var(--rubric)}.tile b small{font-size:15px;font-weight:600;color:var(--ink-soft)}
-.tile .bar{display:block;height:6px;border-radius:6px;background:var(--paper-deep);margin-top:10px;overflow:hidden}.tile .bar i{display:block;height:100%;background:var(--verdigris);border-radius:6px}
-a.tile:active{transform:scale(.98)}
+.htiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 22px}
+.htile{background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:14px 16px;text-decoration:none;color:var(--ink-soft);font-size:14px;font-weight:600}
+.htile b{display:block;font-size:24px;font-weight:800;color:var(--ink)}.htile b.due{color:var(--rubric)}.htile b small{font-size:15px;font-weight:600;color:var(--ink-soft)}
+.htile .bar{display:block;height:6px;border-radius:6px;background:var(--paper-deep);margin-top:10px;overflow:hidden}.htile .bar i{display:block;height:100%;background:var(--verdigris);border-radius:6px}
+a.htile:active{transform:scale(.98)}
 .tc-box{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:16px 18px}
 .today-card .u{font-family:var(--ar);direction:rtl;font-size:28px;line-height:1.5;font-weight:600;color:var(--rubric);flex:none;max-width:40%}
 .today-card .t{font-size:18px;font-weight:700}
@@ -286,8 +286,8 @@ function paintHome(){
   const met=today>=G, nU=U.filter(u=>!u.pre).length;
   const chips=`<div class="chips"><span class="chip">🔥 <b>${s}</b> streak</span><span class="chip">📚 <b>${RafiqPath.metWords().size}</b> words</span>
      <span class="chip">🧭 <b>${U.filter(u=>!u.pre&&RafiqPath.unitDone(u)).length}/${nU}</b> units</span></div>`;
-  const tiles=`<div class="tiles"><a class="tile" href="session.html"><b class="${due?'due':''}">${due||'✓'}</b><span>${due?'to review →':'review anyway →'}</span></a>
-     <div class="tile"><b>${met?'✓':today}${met?'':`<small>/${G}</small>`}</b><span>${met?"today's goal met":'steps today'} 🎯</span>
+  const tiles=`<div class="htiles"><a class="htile" href="session.html"><b class="${due?'due':''}">${due||'✓'}</b><span>${due?'to review →':'review anyway →'}</span></a>
+     <div class="htile"><b>${met?'✓':today}${met?'':`<small>/${G}</small>`}</b><span>${met?"today's goal met":'steps today'} 🎯</span>
      <i class="bar"><i style="width:${Math.round(100*Math.min(1,today/G))}%"></i></i></div></div>`;
   /* Your week: shown once there's anything to show. */
   const wk=RafiqPath.week();
