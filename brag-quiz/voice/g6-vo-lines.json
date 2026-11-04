@@ -1,0 +1,66 @@
+[
+ {
+  "file": "t1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "This means 'he eats'...",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "t2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Put an alif at the front, and it's 'I eat'...",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "t3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "Put a ta at the front, and it's 'she eats'...",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "rule",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "That's the trick. Alif at the front is 'I'. Ta at the front is 'she'. Now it's your turn.",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "q1a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "If this means 'he reads'...",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "q1b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "what's 'I read'?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "q2a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "And if it's 'he reads'...",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "q2b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "text": "what's 'she reads'?",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ }
+]

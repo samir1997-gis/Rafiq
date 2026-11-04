@@ -1,0 +1,23 @@
+[
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "g6-ha",
+  "text": "[shouting] ONE! [normal] letter tells you WHO is eating in Arabic!"
+ },
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "g6-hb",
+  "text": "[shouting] ONE! [normal] letter tells you... [shouting] WHO [normal] is eating in Arabic!"
+ },
+ {
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "file": "g6-hc",
+  "text": "[shouting] ONE! [excited] letter tells you WHO is eating in Arabic!"
+ }
+]
