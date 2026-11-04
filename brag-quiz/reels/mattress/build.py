@@ -89,7 +89,7 @@ def build():
     def snd(name, t0, vol, d=None, track=None):
         d = d or dur(os.path.join(a, name))
         au.append(f'<audio id="s{len(au)}" src="assets/{name}" data-start="{max(0, t0):.3f}" data-duration="{d:.3f}" data-volume="{vol:.3f}" data-track-index="{track or 3 + len(au)}"></audio>')
-    for n, t0 in L.items(): snd(f"{n}.mp3", t0, 1.0, track=1)
+    for n, t0 in L.items(): snd(f"{n}.mp3", t0, 1.0, track=None if n in ARABIC else 1)   # Rafiq's lines on their own tracks: the ayah's quiet tail runs under b4
     snd("bed.mp3", 0, 0.07, END, track=2)                                   # a low hum under it all
     js = []; T = js.append
     IN = lambda sel, t, y=40, d=0.5: T(f'tl.fromTo("{sel}", {{opacity:0, y:{y}}}, {{opacity:1, y:0, duration:{d}, ease:"power3.out"}}, {t:.2f});')
@@ -107,7 +107,7 @@ def build():
 
     # the night lives the whole time: the stars twinkle, the moon drifts, the lanterns glow
     T(f'tl.fromTo("#stars", {{opacity:0.35}}, {{opacity:0.95, duration:{END / 2:.2f}, yoyo:true, repeat:1, ease:"sine.inOut"}}, 0);')
-    T(f'tl.fromTo("#moon", {{x:0, y:0}}, {{x:-120, y:40, duration:{END:.2f}, ease:"sine.inOut"}}, 0);')
+    T(f'tl.fromTo("#moon", {{x:0, y:0}}, {{x:30, y:16, duration:{END:.2f}, ease:"sine.inOut"}}, 0);')
     T(f'tl.fromTo("#town", {{x:0}}, {{x:-60, duration:{END:.2f}, ease:"sine.inOut"}}, 0);')
     T(f'tl.fromTo(".lamp", {{opacity:0.5}}, {{opacity:1, duration:1.6, yoyo:true, repeat:{int(END / 1.6)}, ease:"sine.inOut"}}, 0);')
 
@@ -140,7 +140,7 @@ def build():
     mj = at("b2", "masjid")
     POP("#pmas", mj - 0.1, 0.7); IN("#msq", mj - 0.2, 40); snd("flip.wav", mj, 0.35)
     pl = at("b2", "place")
-    T(f'tl.to(".mpre", {{color:"{RED}", scale:1.15, duration:0.3, ease:"back.out(1.6)"}}, {pl - 0.05:.2f});'); POP("#plc", pl - 0.05, 0.7); snd("shimmer.wav", pl, 0.3, 1.0)
+    T(f'tl.to(".mpre", {{color:"{RED}", duration:0.3, ease:"power2.out"}}, {pl - 0.05:.2f});'); POP("#plc", pl - 0.05, 0.7); snd("shimmer.wav", pl, 0.3, 1.0)   # colour only: the letters stay joined
     yd = at("b2", "yourself")
     POP("#pmat", yd - 0.6, 0.7); snd("flip.wav", yd - 0.6, 0.35)
     flop("#p3", yd); snd("thump.wav", yd + 0.45, 0.45)
@@ -251,9 +251,9 @@ svg.full {{ position:absolute; left:0; top:0; width:1080px; height:1920px; overf
 .wd span {{ display:inline-block; padding:10px 40px 6px; border-radius:24px; background:rgba(246,235,211,.96); color:{INK}; font-family:CZ; box-shadow:0 14px 30px rgba(0,0,0,.4); }}
 .wd b {{ display:block; font-family:KA; font-size:28px; letter-spacing:.1em; color:{TEAL}; }}
 .pair {{ position:absolute; width:420px; text-align:center; opacity:0; }}
-.pair .w {{ display:inline-block; font-family:AM; font-size:140px; line-height:1.3; direction:rtl; color:{CREAM}; text-shadow:0 6px 0 {TEAL}, 0 14px 40px rgba(0,0,0,.45); }}
-.pair .w .mpre {{ display:inline-block; color:{CREAM}; }}
-.pair .g {{ font-family:KA; font-size:36px; color:{GOLD}; margin-top:-6px; }}
+.pair .w {{ display:inline-block; font-family:AM; font-size:124px; line-height:1.25; direction:rtl; color:{CREAM}; text-shadow:0 6px 0 {TEAL}, 0 14px 40px rgba(0,0,0,.45); }}
+.pair .w .mpre {{ color:{CREAM}; }}
+.pair .g {{ font-family:KA; font-size:36px; line-height:1.2; color:{GOLD}; margin-top:26px; }}
 #logo {{ position:absolute; top:62px; left:50%; transform:translateX(-50%); display:flex; justify-content:center; gap:12px; align-items:center; z-index:5; padding:6px 22px 6px 8px; border-radius:22px; background:rgba(14,20,44,.55); }}
 #logo .tl {{ position:relative; width:58px; height:58px; border-radius:16px; background:{CREAM}; display:grid; place-items:center; }}
 #logo .tl span {{ font-family:AM; font-size:38px; color:{INK}; margin-top:-6px; }} #logo .tl em {{ position:absolute; right:9px; top:8px; width:9px; height:9px; border-radius:50%; background:{RED}; }}
@@ -261,7 +261,7 @@ svg.full {{ position:absolute; left:0; top:0; width:1080px; height:1920px; overf
 """
     body = f"""<div id="cam">
 <svg class="full" viewBox="0 0 1080 1920"><g id="stars">{stars}</g>
- <g id="moon"><circle cx="820" cy="300" r="150" fill="#f6e7b8" opacity=".12"/><circle cx="820" cy="300" r="92" fill="#f6e7b8"/><circle cx="858" cy="276" r="82" fill="#1a1f4a"/></g>
+ <g id="moon"><circle cx="112" cy="152" r="88" fill="#f6e7b8" opacity=".12"/><circle cx="112" cy="152" r="54" fill="#f6e7b8"/><circle cx="134" cy="138" r="48" fill="#141a40"/></g>
  {town}
 </svg>
 <div id="logo"><span class="tl"><span>ر</span><em></em></span><b>رَفِيق</b></div>
@@ -282,9 +282,9 @@ svg.full {{ position:absolute; left:0; top:0; width:1080px; height:1920px; overf
  <div id="rtiles">{tile("rl0", "ط", 745, 230)}{tile("rl1", "ر", 445, 230)}{tile("rl2", "ح", 145, 230)}</div>
  <div class="t" id="rc" style="top:470px"><span class="pill" style="font-size:52px">the root = <b style="color:{GOLD}">to throw</b></span></div>
  <div class="t" id="pm" style="top:180px"><span class="pill" style="font-size:52px"><b style="font-family:AM;font-size:70px;color:{GOLD}">مَـ</b> at the front</span></div>
- <div class="pair" id="pmas" style="left:560px;top:300px"><div class="w"><span class="mpre">مَ</span>سْجِد</div><div class="g">the place of sujood</div></div>
- <div class="pair" id="pmat" style="left:100px;top:300px"><div class="w"><span class="mpre">مَ</span>طْرَح</div><div class="g">the place you throw yourself down</div></div>
- <div class="t" id="plc" style="top:640px"><span class="pill" style="font-size:52px">مَـ = <b style="color:{GOLD}">the place of</b></span></div>
+ <div class="pair" id="pmas" style="left:560px;top:350px"><div class="w"><span class="mpre">مَ&zwj;</span>&zwj;سْجِد</div><div class="g">the place of sujood</div></div>
+ <div class="pair" id="pmat" style="left:100px;top:350px"><div class="w"><span class="mpre">مَ&zwj;</span>&zwj;طْرَح</div><div class="g">the place you throw yourself down</div></div>
+ <div class="t" id="plc" style="top:720px"><span class="pill" style="font-size:52px">مَـ = <b style="color:{GOLD}">the place of</b></span></div>
  {sv('<g id="msq" opacity="0" style="opacity:0">' + mosque(770, 1060, 0.9) + '</g>' + roof + mattress(540, 1478, 1.25) + figure(640, 1400, 1.3, "#7a2d3a", "p3"))}
 </div>
 <div class="sc" id="s4">
@@ -310,8 +310,8 @@ svg.full {{ position:absolute; left:0; top:0; width:1080px; height:1920px; overf
 <div class="sc" id="s6">
  <div class="t" id="q" style="top:190px"><div class="cz" style="display:inline-block;padding:18px 40px 12px;border-radius:28px;background:rgba(14,20,44,.82);font-size:62px;line-height:1.25">WHAT DO YOU SAY<br/>BEFORE YOU SLEEP?</div></div>
  {sv('<g id="bed6" opacity="0" style="opacity:0">' + roof + mattress(540, 1478, 1.25) + sleeper(560, 1404, 1.0) + '</g>' + zz("z6", 470, 1250))}
- <div class="t" id="url" style="top:1110px"><span class="pill" style="font-size:50px;background:{TEAL}">rafiq-arabic.com</span></div>
- <div class="t" id="arr" style="top:1000px;font-size:80px">👇</div>
+ <div class="t" id="url" style="top:700px"><span class="pill" style="font-size:50px;background:{TEAL}">rafiq-arabic.com</span></div>
+ <div class="t" id="arr" style="top:560px;font-size:80px">👇</div>
 </div>
 </div>"""
     body = body[:-6] + caps + "</div>"
