@@ -17,7 +17,7 @@
 <meta name="color-scheme" content="light dark">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=10"></script>
-<script src="plan.js?v=20261001live"></script>
+<script src="plan.js?v=20261104team"></script>
 <style>
 main.wrap{max-width:620px;padding-bottom:48px}
 .top{display:flex;justify-content:space-between;align-items:center;padding:18px 0 4px}
@@ -121,7 +121,8 @@ function paint(){
   });
   const s = P.state(), st = $('#status');
   st.className = 'status';
-  if(s.kind === 'trial') st.innerHTML = `Your free week ends on <b>${P.dateText(s.trialEndsAt)}</b> (${s.daysLeft} day${s.daysLeft === 1 ? '' : 's'} left).${s.trialEndsAt - Date.now() > 49 * 3600e3 ? ' If you choose now, your first payment waits until then.' : ''}`;
+  if(s.kind === 'trial' && s.team) st.innerHTML = 'Your team account has <b>Complete</b> for free.';
+  else if(s.kind === 'trial') st.innerHTML = `Your free week ends on <b>${P.dateText(s.trialEndsAt)}</b> (${s.daysLeft} day${s.daysLeft === 1 ? '' : 's'} left).${s.trialEndsAt - Date.now() > 49 * 3600e3 ? ' If you choose now, your first payment waits until then.' : ''}`;
   else if(s.kind === 'ended'){ st.className = 'status ended'; st.innerHTML = '<b>Your free week has ended.</b> Choose a plan to carry on learning. Your progress, streak and words are all saved.'; }
   else if(s.kind === 'paid') st.innerHTML = `You're on <b>${s.plan === 'complete' ? 'Complete' : 'Essentials'}</b>. To switch plans or update your card, go to <a href="settings.html">Settings</a>.`;
   else st.textContent = 'Start with a free week, then pick the plan that suits you. Cancel any time.';

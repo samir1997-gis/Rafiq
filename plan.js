@@ -37,7 +37,7 @@
 
   /* Where the account stands:
        kind 'paid'  — a subscription (plan, interval, periodEnd, cancelAtPeriodEnd)
-            'trial' — in the free week (daysLeft, trialEndsAt)
+            'trial' — in the free week (daysLeft, trialEndsAt; team: a team account made free for years, #339)
             'ended' — free week over, no plan
             'unknown' — not loaded yet (treated as allowed) */
   function state(){
@@ -47,7 +47,7 @@
                 hasCustomer:!!row.stripe_customer_id };
     if(row.plan && PAYING.includes(row.status)) return {...s, kind:'paid'};
     const left = s.trialEndsAt ? s.trialEndsAt - Date.now() : -1;
-    if(left > 0) return {...s, kind:'trial', daysLeft:Math.ceil(left / DAY)};
+    if(left > 0) return {...s, kind:'trial', daysLeft:Math.ceil(left / DAY), team:left > 366 * DAY};
     return {...s, kind:'ended'};
   }
 

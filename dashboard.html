@@ -324,7 +324,7 @@ function paintHome(){
     <div class="units">${RafiqPath.COMING.map(c=>`<div class="unit soon"><span class="st">✨</span>
       <span class="nm"><b>${esc(c.en)}</b><span>${esc(c.d)}</span></span><span class="ua">${esc(c.ar)}</span></div>`).join('')}</div>`;
   // "Your salah": the ring at the top of Home (salah.js; off until the teacher signs off)
-  const salah = window.RafiqSalah && RafiqSalah.enabled() ? (RafiqSalah.styles(), RafiqSalah.ringHTML()) : '';
+  const salah = window.RafiqSalah && RafiqSalah.enabled() && RafiqSalah.ringHTML ? (RafiqSalah.styles(), RafiqSalah.ringHTML()) : ''   // ringHTML missing: an old cached salah.js;
   el.innerHTML=salah+chips+card+board+tiles+wtoday+'<div id="pwaInstall"></div>'+week+focus+`<div class="ph">Your path${RafiqPath.allOpen?'<span class="team"> · team account: every unit open</span>':''}</div><div class="units">${units}</div>`+coming;
   // "Get a daily reminder / put Rafiq on your home screen" (pwa.js), once a first lesson step is done
   if(window.RafiqPWA) RafiqPWA.card(document.getElementById('pwaInstall'), { ready: U.some(p => RafiqPath.steps(p).some(x => RafiqPath.stepDone(p.n, x.key))) });
@@ -355,7 +355,7 @@ function paintHome(){
 </nav>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js?v=10"></script>
-<script src="plan.js?v=20261001live"></script>
+<script src="plan.js?v=20261104team"></script>
 <script src="reminders.js?v=2"></script>
 <script>addEventListener("load", () => { if(window.RafiqReminders) RafiqReminders.prompt(document.getElementById("remPrompt")); });</script>
 <script>
@@ -366,7 +366,8 @@ function paintHome(){
   function paint(){
     const s = P.state();
     if(P.BETA || !el){ if(el) el.innerHTML = ''; return; }
-    if(s.kind === 'trial') el.innerHTML = `<div class="pstrip${s.daysLeft<=2?' soon':''}"><span>Free week · <b>${s.daysLeft} day${s.daysLeft===1?'':'s'}</b> left</span><a href="plans.html">See plans</a></div>`;
+    if(s.kind === 'trial' && s.team) el.innerHTML = '';
+    else if(s.kind === 'trial') el.innerHTML = `<div class="pstrip${s.daysLeft<=2?' soon':''}"><span>Free week · <b>${s.daysLeft} day${s.daysLeft===1?'':'s'}</b> left</span><a href="plans.html">See plans</a></div>`;
     else if(s.kind === 'ended') el.innerHTML = `<div class="pstrip ended"><div class="t">Your free week has ended</div>
       <p>Choose a plan to carry on from where you are. Your progress, streak and words are all saved.</p><a class="cont" href="plans.html">Choose a plan</a></div>`;
     else el.innerHTML = '';
@@ -379,7 +380,7 @@ function paintHome(){
 <script src="basics-data.js?v=5"></script>
 <script src="path.js?v=20261103c"></script>
 <script src="salah-data.js?v=1"></script>
-<script src="salah.js?v=7"></script>
+<script src="salah.js?v=8"></script>
 <script src="mistakes.js?v=20260922"></script>
 <script src="nav.js?v=20261001"></script>
 <script>
