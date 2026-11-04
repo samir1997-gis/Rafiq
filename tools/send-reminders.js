@@ -202,7 +202,7 @@ async function remind(row, today, localDate, log) {
   if (row.by_email && row.email) {
     try { await email(row, m); done.push('email'); } catch (e) { log(`email FAILED (${e.message})`); }
   }
-  if (row.push) {
+  if (row.push && !row.push.app) {          // {app:'local'}: the phone app schedules its own (#35)
     try {
       const r = await push(row, m);
       if (r === 'gone') { await sql(`update public.reminders set push = null, enabled = by_email where user_id = ${q(row.user_id)}`); log('push subscription expired, removed'); }

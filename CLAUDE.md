@@ -40,6 +40,7 @@ what you make into its "Already made" list.
 - Lesson layout (heading at the top, exercise centred, Listen cue): `... -- python3 tests/lesson_layout.py` (same server command as the smoke test).
 - Reading starter and basics (alphabet board, letter check-in, Play rounds and stars, reading ladder, al-Fātiḥah's first line, Put it together): `... -- python3 tests/starter_game.py` (same server command as the smoke test).
 - Lessons of 5 and their reviews (what a review asks and grades, progress saved in lessons of 10 carrying over, Home's step list per unit to redo any step): `... -- python3 tests/unit_reviews.py` (same server command as the smoke test).
+- The app's daily reminders (the phone schedules the week ahead at the reminder time, today's dropped once the goal is met; nothing on the website): `... -- python3 tests/app_reminders.py` (same server command as the smoke test).
 - Start-up speed (pages show within 600 ms online and offline; background sync keeps local changes): `... -- python3 tests/startup_speed.py` (same server command as the smoke test).
 - Login page (opening, Sign in / Create account switch, field messages, spinner and tick): `... -- python3 tests/login_page.py` (same server command as the smoke test).
 - Landing page (compact tiles, hover and tap, scroll-in, reduced motion): `... -- python3 tests/landing.py` (same server command as the smoke test).

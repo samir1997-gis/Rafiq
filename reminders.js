@@ -8,7 +8,12 @@
      await RafiqReminders.subscribe()   ask for permission, return the push subscription (or throw)
      await RafiqReminders.unsubscribe() drop this device's subscription
 
-   One device gets the notifications: turning them on elsewhere moves them there. */
+   One device gets the notifications: turning them on elsewhere moves them there.
+
+   In the iPhone and Android app (#35) the notifications are the phone's own, scheduled on the phone
+   (Capacitor's LocalNotifications): the next 7 days at the reminder time, today's dropped once the daily
+   goal is done (every time Home or Settings opens). The saved `push` is then {app:'local'}, which the
+   hourly job leaves alone; email reminders work as on the website. */
 (function(){
   const tz = () => { try{ return Intl.DateTimeFormat().resolvedOptions().timeZone || 'Europe/London'; }catch(_){ return 'Europe/London'; } };
 
@@ -25,11 +30,39 @@
     const { error } = await sb.from('reminders')
       .upsert({ user_id: uid, ...patch, tz: tz(), updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
     if(error) throw new Error(error.message);
+    if(native && localHour() != null){              // the phone's own reminders follow a new time, or stop
+      if(patch.enabled === false || patch.push === null) await unschedule().catch(() => {});
+      else if(patch.hour != null) await schedule(patch.hour).catch(() => {});
+    }
   }
 
-  const standalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  const native = !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform());
+  const LN = native ? (Capacitor.Plugins && Capacitor.Plugins.LocalNotifications) || Capacitor.registerPlugin('LocalNotifications') : null;
+  const APP = { app: 'local' }, HOUR = 'rafiq_local_reminder';      // the hour this phone schedules for, or nothing
+  async function schedule(hour){
+    try{ localStorage.setItem(HOUR, String(hour)); }catch(_){}
+    await unschedule(true);
+    const P = window.RafiqPath, s = P ? P.streak() : 0, done = P ? P.doneToday() >= P.GOAL : false, list = [];
+    for(let d = 0; d < 7; d++){
+      const at = new Date(); at.setDate(at.getDate() + d); at.setHours(hour, 0, 0, 0);
+      if(at <= new Date() || (d === 0 && done)) continue;
+      list.push({ id: 1000 + d, title: d === 0 && s > 1 ? `Keep your ${s}-day streak going` : 'A few minutes of Arabic today',
+                  body: d === 0 && s > 1 ? `You're on a ${s}-day streak. A few minutes today keeps it going.` : 'Your next step is ready. A few minutes is enough.',
+                  schedule: { at } });
+    }
+    if(list.length) await LN.schedule({ notifications: list });
+  }
+  async function unschedule(keep){
+    if(!keep) try{ localStorage.removeItem(HOUR); }catch(_){}
+    const p = await LN.getPending(); if(p.notifications.length) await LN.cancel({ notifications: p.notifications.map(n => ({ id: n.id })) });
+  }
+  function localHour(){ try{ const h = localStorage.getItem(HOUR); return h == null ? null : +h; }catch(_){ return null; } }
+  if(native) addEventListener('load', () => { const h = localHour(); if(h != null) schedule(h).catch(() => {}); });       // keep the week ahead filled, and today's gone once the goal is met
+
+  const standalone = () => native || matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
   const ios = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   function pushState(){
+    if(native) return 'ok';
     const can = 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
     if(ios() && !standalone()) return 'install';     // Safari only offers push to a Home Screen app
     return can ? 'ok' : 'no';
@@ -37,7 +70,13 @@
   const bytes = b64 => { const s = atob((b64 + '='.repeat((4 - b64.length % 4) % 4)).replace(/-/g, '+').replace(/_/g, '/'));
     return Uint8Array.from(s, c => c.charCodeAt(0)); };
 
-  async function subscribe(){
+  async function subscribe(hour){
+    if(native){
+      if((await LN.requestPermissions()).display !== 'granted') throw new Error('blocked');
+      const row = hour == null ? await load() : null;
+      await schedule(hour != null ? hour : row && row.hour != null ? row.hour : 19);
+      return APP;
+    }
     if(Notification.permission !== 'granted'){
       const p = await Notification.requestPermission();
       if(p !== 'granted') throw new Error('blocked');
@@ -51,6 +90,7 @@
     return sub.toJSON();
   }
   async function unsubscribe(){
+    if(native) return unschedule().catch(() => {});
     try{ const reg = await navigator.serviceWorker.ready; const s = await reg.pushManager.getSubscription(); if(s) await s.unsubscribe(); }catch(_){}
   }
 
@@ -63,7 +103,7 @@
     await save({ hour, goal: goal(), by_email: true, enabled: true });
     let push = false;
     if(pushState() === 'ok'){
-      try{ const sub = await subscribe(); await save({ push: sub }); push = true; }catch(_){}
+      try{ const sub = await subscribe(hour); await save({ push: sub }); push = true; }catch(_){}
     }
     return { push };
   }
@@ -84,8 +124,7 @@
   document.head.appendChild(css);
   const ASKED = 'rafiq_reminder_asked';
   async function prompt(el){
-    const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
-    if(!el || !standalone || !sb) return;
+    if(!el || !standalone() || !sb) return;
     const uid = await currentUserId(); if(!uid) return;
     let asked = []; try{ asked = (localStorage.getItem(ASKED) || '').split(','); }catch(_){}
     if(asked.includes(uid)) return;
@@ -100,7 +139,7 @@
       el.innerHTML = `<div class="rem-card"><div class="t">Get your reminder as a notification?</div>
         <p>You chose ${row.hour}:00. We can send it to this phone as well as by email.</p>
         <button type="button" class="go">Turn on notifications</button> <button type="button" class="no">Not now</button></div>`;
-      el.querySelector('.go').onclick = async () => { done(); try{ const sub = await subscribe(); await save({ push: sub }); thanks(row.hour, true); }
+      el.querySelector('.go').onclick = async () => { done(); try{ const sub = await subscribe(row.hour); await save({ push: sub }); thanks(row.hour, true); }
         catch(_){ el.innerHTML = '<div class="rem-card"><p>Notifications are off for Rafiq. You can allow them in your phone’s Settings, then turn them on in Rafiq’s Settings.</p></div>'; } };
     } else {
       el.innerHTML = `<div class="rem-card"><div class="t">Want a daily reminder?</div>

@@ -438,7 +438,7 @@ function wireProfileField(inputId, savedId, key, evt){
         await put({ push: null, enabled: enabled(time.value, email.value === 'on', null) }, 'remPushSaved');
       } else {
         let sub;
-        try{ sub = await R.subscribe(); }
+        try{ sub = await R.subscribe(time.value === 'off' ? null : +time.value); }
         catch(e){ fail(e.message === 'blocked' ? "Notifications are blocked for this site. Allow them in your browser's settings, then try again."
                                                 : "Couldn't turn on notifications here. Please try again later."); return; }
         await put({ push: sub, hour: +time.value, goal: goal(), enabled: true }, 'remPushSaved');
