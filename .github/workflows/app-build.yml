@@ -29,7 +29,7 @@ jobs:
           path: app/android/app/build/outputs/apk/debug/app-debug.apk
 
   ios:
-    runs-on: macos-15
+    runs-on: macos-latest   # macos-15 sat queued for 15 minutes and was cancelled (4 Nov)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
