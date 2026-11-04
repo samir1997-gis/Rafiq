@@ -8,6 +8,10 @@ on:
     branches: [wip]
     paths: ['app/**', '.github/workflows/app-build.yml']   # or run it by hand after website changes
 
+concurrency:            # a newer push replaces a build still waiting or running
+  group: app-build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   android:
     runs-on: ubuntu-latest
