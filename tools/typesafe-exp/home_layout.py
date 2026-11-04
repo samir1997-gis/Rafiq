@@ -21,7 +21,11 @@ L = {"current": "a 'Your salah' card (42 of 238 words, Continue button); a strea
                  "'100 words learned · 1 mastered · 2 of 12 units'; a small 'Get a daily reminder · Set up' row.",
      "D3_reviewbar": "a slim 'Your salah · 42 of 238 words' row with a progress bar; a green bar '116 words to review, recall them now so they stick →'; "
                      "then a 'TODAY' grouped list like iPhone Settings: 🎯 Daily goal 0 of 2 steps, 🔥 Streak 0 days; then one line "
-                     "'100 words learned · 1 mastered · 2 of 12 units'; a small 'Get a daily reminder · Set up' row."}
+                     "'100 words learned · 1 mastered · 2 of 12 units'; a small 'Get a daily reminder · Set up' row.",
+     "E_salahring": "(moved above the lesson card) a big gold ring '18% of your salah understood' with '42 of 238 words · next: Seeking refuge ›' "
+                    "under it; then the lesson card and Continue; a green bar '116 words to review, recall them now so they stick →'; a 'TODAY' "
+                    "grouped list: 🎯 Daily goal 0 of 2 steps, 🔥 Streak 0 days; one line '100 words learned · 1 mastered · 2 of 12 units'; a "
+                    "small 'Get a daily reminder · Set up' row."}
 WHO = {"new": "a 24-year-old UK Muslim in their first week on Rafiq", "busy": "a 37-year-old parent who opens it for 5 minutes at night",
        "keen": "a 29-year-old learner who studies every day and likes seeing progress"}
 Q = {"clear": {"type": "score", "instructions": "`ctx``l` User: `who`. How clear is it what to do next?", "criteria": ["Not clear", "Somewhat", "Clear", "Very clear"]},
