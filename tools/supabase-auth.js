@@ -15,7 +15,8 @@ const REF = 'gaajfahtrbdybjuunfhe';                 // the Rafiq project (see au
 const API = `https://api.supabase.com/v1/projects/${REF}/config/auth`;
 const TOKEN = process.env.SUPABASE_ACCESS_TOKEN;
 const SITE = 'https://rafiq-arabic.com';
-const REDIRECTS = [`${SITE}/login.html`, `${SITE}/reset-password.html`, `${SITE}/**`];
+const REDIRECTS = [`${SITE}/login.html`, `${SITE}/reset-password.html`, `${SITE}/**`,
+                   'com.rafiqarabic.app://login'];   // the iPhone and Android app's way back from Google / Apple (#35)
 const TEMPLATES = { confirmation: 'confirm-signup.html', recovery: 'reset-password.html', magic_link: 'sign-in-code.html' };
 
 async function call(method, body) {

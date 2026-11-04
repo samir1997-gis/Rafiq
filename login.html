@@ -330,7 +330,10 @@ const msgEl  = document.getElementById('msg');
 const pwEl   = document.getElementById('pw');
 const seg    = document.getElementById('seg');
 
-const pageUrl = (name) => new URL(name, location.href).href;
+// In the iPhone and Android app (#35) the page lives on the phone, so links that leave it (emails) point at the website
+const NATIVE = !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform());
+const plugin = n => (Capacitor.Plugins && Capacitor.Plugins[n]) || Capacitor.registerPlugin(n);
+const pageUrl = (name) => new URL(name, NATIVE ? 'https://rafiq-arabic.com/' : location.href).href;
 const BTN_TEXT = { signin: 'Sign in', signup: 'Create account', reset: 'Send reset link' };
 
 // Supabase sends auth-link errors back in the hash (implicit flow) or the query (PKCE)
@@ -397,10 +400,30 @@ async function goIn(wait){
     const b = e.target.closest('[data-provider]'); if (!b || !sb) return;
     b.disabled = true; showMsg('');
     if (b.dataset.provider === 'google') await tap('google');   // before Google takes over the page
+    if (NATIVE) {    // in the app: Google / Apple open in the phone's own browser sheet and come back by the app's link
+      const { data, error } = await sb.auth.signInWithOAuth({ provider: b.dataset.provider, options: { redirectTo: APP_BACK, skipBrowserRedirect: true } });
+      if (!error && data && data.url) { await plugin('Browser').open({ url: data.url }); b.disabled = false; return; }
+      b.disabled = false; showMsg('That didn’t work. Please try again, or sign in with your email.'); return;
+    }
     const { error } = await sb.auth.signInWithOAuth({ provider: b.dataset.provider, options: { redirectTo: pageUrl('login.html') } });
     if (error) { b.disabled = false; showMsg('That didn’t work. Please try again, or sign in with your email.'); }
   });
 })();
+
+/* The app's way back from Google / Apple: com.rafiqarabic.app://login, with the session in the link
+   (#access_token…, or ?code=… for the PKCE flow). Close the browser sheet, keep the session, go in. */
+const APP_BACK = 'com.rafiqarabic.app://login';
+if (NATIVE) plugin('App').addListener('appUrlOpen', async ({ url }) => {
+  if (!url || !url.startsWith(APP_BACK)) return;
+  plugin('Browser').close().catch(() => {});
+  const q = new URLSearchParams((url.split('?')[1] || '').split('#')[0]), h = new URLSearchParams(url.split('#')[1] || '');
+  let error = q.get('error_description') || h.get('error_description');
+  if (!error && q.get('code')) error = (await sb.auth.exchangeCodeForSession(q.get('code'))).error;
+  else if (!error && h.get('access_token')) error = (await sb.auth.setSession({ access_token: h.get('access_token'), refresh_token: h.get('refresh_token') })).error;
+  else if (!error) error = 'no session';
+  if (error) showMsg('That didn’t work. Please try again, or sign in with your email.');
+  else goIn(0);
+});
 
 function setMode(m, keepMsg){
   mode = m;
