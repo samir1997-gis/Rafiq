@@ -1945,14 +1945,6 @@ def h4():
 
 def g6():                                                       # owner, 4 Nov 2026 (#347): teach I eat / she eats, then quiz on a new word
     V = "brag-quiz/voice/g6-vo/"
-    TAGS = [("أَ", "I"), ("تَ", "she"), ("يَ", "he"), ("نَ", "we")]          # the hook's background: the four front letters and who they are
-    POS = [(70, 190, -6), (790, 170, 5), (860, 470, 8), (50, 480, -4), (90, 1240, -3), (740, 1250, 4), (420, 1420, -7), (60, 1560, 3), (700, 1540, -5), (430, 1740, 6)]
-    def bg_anim(c, at, d):
-        for k in range(len(POS)):
-            c.t(f'tl.fromTo("#hp{k}", {{opacity:0, scale:0.6}}, {{opacity:0.3, scale:1, duration:0.4, ease:"back.out(1.6)"}}, {0.05 + k * d / len(POS):.2f});')
-            c.t(f'tl.fromTo("#hp{k}", {{y:0}}, {{y:{-30 if k % 2 else 26}, duration:{d + 0.2:.2f}, ease:"none"}}, 0);')
-    bg = ("".join(f'<div class="hn {("verdigris", "rubric", "gold")[k % 3]}" id="hp{k}" style="left:{x}px;top:{y}px;font-size:{60 if k % 3 else 76}px;transform:rotate({r}deg)">'
-                  f'<b class="hpa" lang="ar">{TAGS[k % 4][0]}</b> = {TAGS[k % 4][1]}</div>' for k, (x, y, r) in enumerate(POS)), bg_anim)
 
     def teach(c, body, t):
         F = [("يَأْكُلُ", '<em>يَ</em>أْكُلُ', "he eats", "t1"), ("آكُلُ", '<em>آ</em>كُلُ', "I eat", "t2"), ("تَأْكُلُ", '<em>تَ</em>أْكُلُ', "she eats", "t3")]
@@ -1964,7 +1956,7 @@ def g6():                                                       # owner, 4 Nov 2
                     '<div class="rule" id="tru" style="top:1250px;font-size:84px">I = <span class="ar" lang="ar"><em>أَ</em></span> &nbsp;·&nbsp; she = <span class="ar" lang="ar"><em>تَـ</em></span></div>'
                     '<div class="tsub" id="tyo" style="top:1460px;font-size:40px">(<bdi lang="ar">تَـ</bdi> is also “you”, to a man)</div></div>')
         c.css += (".tsub { position:absolute; left:90px; right:90px; text-align:center; font-weight:700; line-height:1.3; color:var(--ink-soft); }"
-                  ".tsub bdi, .hpa { font-family:var(--ar); } #tru .ar { font-size:110px; }")
+                  ".tsub bdi { font-family:var(--ar); } #tru .ar { font-size:110px; }")
         c.t(f'tl.fromTo("#tch", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
         c.inn("#tq", t)
         for i, (ar, _, _, f) in enumerate(F):
@@ -1982,9 +1974,10 @@ def g6():                                                       # owner, 4 Nov 2
            [("يَقْرَأُ", "he reads", "I read", ["تَقْرَأُ", "أَقْرَأُ", "نَقْرَأُ"], 1, '<bdi lang="ar"><em>أَ</em></bdi> at the front = I'),
             ("يَقْرَأُ", "he reads", "she reads", ["أَقْرَأُ", "يَقْرَأُ", "تَقْرَأُ"], 2, '<bdi lang="ar"><em>تَ</em></bdi> at the front = she')],
            "How many did you get? 0, 1 or 2? Comment below 👇 and send this to your Arabic study buddy",
-           hook=("ONE letter tells you WHO is eating in Arabic!".split(), {0: "loud", 4: "red", 6: "circle"}, "brag-quiz/voice/g6-hook/g6-ha.mp3"),
+           hook=("MOST people learn Arabic for years before they notice this trick!".split(), {0: "loud", 5: "red", 10: "circle"},   # owner: g4's hook
+                 "brag-quiz/voice/g4-hook3/g4-v3a.mp3"),
            vo={"q": [(V + "q1a.mp3", V + "q1b.mp3"), (V + "q2a.mp3", V + "q2b.mp3")], "end": "brag-quiz/voice/g4-vo/end2.mp3"},
-           teach=teach, bg=bg)
+           teach=teach)
 
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
