@@ -5,7 +5,7 @@
    1. applies supabase/sql/backend.sql (billing table, free week, triggers, daily job)
    2. stores the function secrets: RESEND_API_KEY and a fresh HOOK_SECRET, the
       Quran Foundation client (QF_CLIENT_ID, QF_CLIENT_SECRET) and the Claude API key
-      for the AI tutor (ANTHROPIC_API_KEY) when they're given
+      for the AI tutor (ANTHROPIC_API_KEY) and RevenueCat's webhook key (REVENUECAT_WEBHOOK_AUTH) when they're given
    3. tells the database where the emails function is, and the same HOOK_SECRET
    Secrets are never printed. */
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
@@ -53,6 +53,10 @@ const lit = s => `'${String(s).replace(/'/g, "''")}'`;
     await call('POST', '/secrets', [{ name: 'ANTHROPIC_API_KEY', value: process.env.ANTHROPIC_API_KEY }]);
     console.log('secrets: Claude API key set (AI tutor)');
   } else console.log('secrets: no Claude API key yet (the AI tutor says it isn\'t ready)');
+  if (process.env.REVENUECAT_WEBHOOK_AUTH) {            // the app stores (#345): RevenueCat sends this as its Authorization header
+    await call('POST', '/secrets', [{ name: 'REVENUECAT_WEBHOOK_AUTH', value: process.env.REVENUECAT_WEBHOOK_AUTH }]);
+    console.log('secrets: RevenueCat webhook key set (app store purchases)');
+  } else console.log('secrets: no RevenueCat webhook key yet (store-webhook answers 503)');
 
   const n = await sql(`select count(*)::int as n, count(*) filter (where trial_ends_at > now())::int as trial from public.billing`);
   console.log(`billing rows: ${n[0].n} (${n[0].trial} in their free week)`);

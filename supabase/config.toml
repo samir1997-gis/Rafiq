@@ -2,7 +2,7 @@
 project_id = "gaajfahtrbdybjuunfhe"
 
 # Every function checks its caller itself (a signed-in learner, the database's
-# hook secret, or Stripe's signature), so the gateway's JWT check is off.
+# hook secret, Stripe's signature, or RevenueCat's header), so the gateway's JWT check is off.
 [functions.account]
 verify_jwt = false
 [functions.billing]
@@ -18,4 +18,6 @@ verify_jwt = false
 [functions.tutor]
 verify_jwt = false
 [functions.admin-stats]
+verify_jwt = false
+[functions.store-webhook]
 verify_jwt = false

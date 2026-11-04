@@ -18,6 +18,9 @@ export async function sync(sub: Stripe.Subscription) {
     uid = data?.user_id;
   }
   if (!uid) return console.warn('subscription with no account', sub.id);
+  // a live plan bought in an app store (#345) is never overwritten by a Stripe event
+  const { data: row } = await admin.from('billing').select('source, status').eq('user_id', uid).maybeSingle();
+  if (row && row.source !== 'stripe' && ['active', 'trialing', 'past_due'].includes(row.status)) return console.warn('store plan kept over Stripe event', sub.id);
   const item = sub.items.data[0];
   // newer API versions keep the period on the item
   const end = (item as unknown as { current_period_end?: number }).current_period_end
@@ -31,6 +34,7 @@ export async function sync(sub: Stripe.Subscription) {
     cancel_at_period_end: !!sub.cancel_at_period_end,
     stripe_customer_id: customer,
     stripe_subscription_id: ended ? null : sub.id,
+    source: 'stripe',
     updated_at: new Date().toISOString(),
   }).eq('user_id', uid);
 }

@@ -27,7 +27,7 @@
 <script src="reminders.js?v=2"></script>
 <script src="nav.js?v=20261001"></script>
 <script src="sounds.js?v=1"></script>
-<script src="plan.js?v=20261104team"></script>
+<script src="plan.js?v=20261104store"></script>
 <style>
 main.wrap{max-width:680px}
 .head{padding:30px 0 6px}
@@ -543,6 +543,11 @@ async function resetProgress(){
         : s.status === 'trialing' ? `Your first payment is on ${P.dateText(s.periodEnd)}.`
         : s.status === 'past_due' ? 'Your last payment didn’t go through. Please update your card.'
         : `Renews on ${P.dateText(s.periodEnd)}.`;
+      if(s.source !== 'stripe'){       // bought in an app (#345): Apple or Google manage it, not us
+        const st = s.source === 'apple' ? ['the App Store', 'https://apps.apple.com/account/subscriptions'] : ['Google Play', 'https://play.google.com/store/account/subscriptions'];
+        $('planInfo').textContent += ` Bought through ${st[0]}: change, cancel or update your payment there.`;
+        acts.append(btn(`Manage in ${st[0]}`, st[1], 'a'));
+      } else {
       if(s.cancelAtPeriodEnd) acts.append(btn('Resume my plan', async e => { const r = await act('resume', e.target); if(r && r.ok){ await P.load(); loading(); } }));
       else acts.append(btn('Cancel subscription', () => { $('cancelText').innerHTML =
         s.status === 'trialing'
@@ -550,6 +555,7 @@ async function resetProgress(){
           : `If this is within 14 days of your first payment (or of a yearly renewal), it’s refunded in full and your plan ends now. Otherwise your plan stops on <b>${P.dateText(s.periodEnd)}</b>, the end of the period you’ve paid for, and you won’t be charged again. We’ll email you to confirm.`;
         $('cancelBox').hidden = false; $('cancelErr').textContent = ''; }, 'danger'));
       acts.append(btn('Manage billing', e => act('portal', e.target), 'ghost'));
+      }
     } else if(s.kind === 'trial' && s.team){
       $('planName').textContent = 'Team account';
       $('planInfo').textContent = 'Complete, free. Nothing to pay.';

@@ -21,6 +21,8 @@ Deno.serve(async (req) => {
         return json(req, { error: 'bad_plan' }, 400);
       if (b.stripe_subscription_id && ['active', 'trialing', 'past_due'].includes(b.status))
         return json(req, { error: 'already_subscribed' }, 409);
+      if (b.source !== 'stripe' && ['active', 'trialing', 'past_due'].includes(b.status))     // bought in an app (#345)
+        return json(req, { error: 'store_subscribed', source: b.source }, 409);
       const prices = await stripe.prices.list({ lookup_keys: [lookupKey(body.plan, body.interval)], active: true });
       if (!prices.data.length) return json(req, { error: 'not_ready' }, 503);
       let customer = b.stripe_customer_id as string | null;
@@ -48,6 +50,7 @@ Deno.serve(async (req) => {
       return json(req, { url: s.url });
     }
     if (body.action === 'cancel' || body.action === 'resume') {
+      if (b.source !== 'stripe') return json(req, { error: 'store', source: b.source }, 409);   // managed in the App Store / Google Play
       if (!b.stripe_subscription_id) return json(req, { error: 'no_subscription' }, 404);
       const sub = await stripe.subscriptions.update(b.stripe_subscription_id, { cancel_at_period_end: body.action === 'cancel' });
       await sync(sub);

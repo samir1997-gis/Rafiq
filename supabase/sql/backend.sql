@@ -65,6 +65,12 @@ alter table public.billing add column if not exists subscribed_email_sub text;
 alter table public.billing add column if not exists cancel_email_for text;
 -- when this account was last refunded automatically: the automatic refund is once per account
 alter table public.billing add column if not exists refunded_at timestamptz;
+-- The app stores (#345): where the plan was bought. Stripe on the website; Apple and Google in the apps, reported by
+-- RevenueCat (store-webhook). One row per account either way, so every page reads the plan the same.
+alter table public.billing add column if not exists source text not null default 'stripe';
+alter table public.billing add column if not exists store_product text;            -- the store's product id
+alter table public.billing add column if not exists store_transaction_id text;     -- the store's original transaction id
+alter table public.billing add column if not exists store_event_at timestamptz;    -- the newest store event applied (they can arrive out of order)
 
 -- Welcome email: when an address is confirmed, call the emails function. Google (and Apple)
 -- accounts are created already confirmed, so a new account that arrives confirmed counts too (#177).

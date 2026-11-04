@@ -116,7 +116,7 @@ export function subscribed(name: string | null | undefined, plan: 'essentials' |
 // The owner's alert (#312), to the Rafiq inbox when someone subscribes or cancels: who, which plan, and how much they've studied.
 export function ownerAlert(event: 'bought' | 'cancelled', who: { email: string; joined: Date | null; studyDays: number },
                            plan: 'essentials' | 'complete', interval: string, pence: number,
-                           o: { firstCharge?: Date | null; kind?: 'free' | 'refund' | 'keep'; until?: Date | null } = {}) {
+                           o: { firstCharge?: Date | null; kind?: 'free' | 'refund' | 'keep'; until?: Date | null; via?: string } = {}) {
   const what = event === 'bought'
     ? (o.firstCharge ? `First payment on <b>${endDay(o.firstCharge)}</b>, when the free week ends.` : `First payment taken today.`)
     : o.kind === 'free' ? `Cancelled in the free week: never charged.`
@@ -124,7 +124,7 @@ export function ownerAlert(event: 'bought' | 'cancelled', who: { email: string; 
     : `Cancelled: keeps the plan${o.until ? ` until <b>${endDay(o.until)}</b>` : ''}, nothing more will be charged.`;
   return { subject: `[Rafiq] ${event === 'bought' ? 'New subscriber' : 'Cancelled'}: ${NAMES[plan]}, ${money(pence)} a ${every(interval)}`, html: frame(
     p(`<b>${esc(who.email)}</b> has ${event === 'bought' ? 'subscribed to' : 'cancelled'} <b>${NAMES[plan]}</b>, ${money(pence)} a ${every(interval)}.`) +
-    p(what) +
+    p(what) + (o.via ? p(esc(o.via)) : '') +
     p(`Joined ${who.joined ? endDay(who.joined) : 'unknown'} · studied on ${who.studyDays} day${who.studyDays === 1 ? '' : 's'}.`)) };
 }
 

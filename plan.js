@@ -44,7 +44,7 @@
     if(!row) return {kind:'unknown'};
     const s = { plan:row.plan, status:row.status, interval:row.interval, trialEndsAt:row.trial_ends_at ? new Date(row.trial_ends_at) : null,
                 periodEnd:row.current_period_end ? new Date(row.current_period_end) : null, cancelAtPeriodEnd:!!row.cancel_at_period_end,
-                hasCustomer:!!row.stripe_customer_id };
+                hasCustomer:!!row.stripe_customer_id, source:row.source || 'stripe' };   // source: stripe | apple | google (#345)
     if(row.plan && PAYING.includes(row.status)) return {...s, kind:'paid'};
     const left = s.trialEndsAt ? s.trialEndsAt - Date.now() : -1;
     if(left > 0) return {...s, kind:'trial', daysLeft:Math.ceil(left / DAY), team:left > 366 * DAY};

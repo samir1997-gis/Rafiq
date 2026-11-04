@@ -45,6 +45,7 @@ what you make into its "Already made" list.
 - Landing page (compact tiles, hover and tap, scroll-in, reduced motion): `... -- python3 tests/landing.py` (same server command as the smoke test).
 - Owner dashboard (admin.html: tiles, visits per day, referrers, countries, sign-ups by source; non-admins kept out): `... -- python3 tests/admin_page.py` (same server command as the smoke test).
 - `python3 tests/funnel.py`: after changing the funnel in `supabase/sql/backend.sql` (runs it on a throwaway Postgres).
+- `python3 tests/store_webhook.py`: after changing app store purchases (`supabase/functions/_shared/store.ts`, RevenueCat events → the billing row).
 - `python3 tests/emails.py`: after changing the emails or their triggers (renders each email; runs the welcome trigger on a throwaway Postgres).
 - `python3 tools/camel-check.py`: after changing Arabic in the word list, see `tools/camel-report.md`.
 
