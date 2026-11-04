@@ -1,0 +1,11 @@
+.h2x{padding:26px 20px 18px;text-align:center}
+.h2x .ar{font-family:var(--ar);font-size:22px;color:var(--ink-soft);direction:rtl;margin-bottom:6px}.h2x .ar span{color:var(--rubric)}
+.h2x h1{font-size:34px;line-height:1.12;letter-spacing:-.02em;font-weight:800;margin:0 auto 14px;max-width:14ch}
+.h2x .sub{font-size:16px;color:var(--ink-soft);margin:0 auto 18px;max-width:30ch;line-height:1.45}
+.h2x .go{display:block;background:var(--verdigris);color:#fff;text-decoration:none;font-weight:700;font-size:18px;border-radius:14px;padding:17px;margin:18px 0 8px;box-shadow:0 8px 20px rgba(46,114,99,.25)}
+.h2x .nc{font-size:14px;color:var(--verdigris);font-weight:600;margin:0}
+.h2x .vid{position:relative;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(23,38,43,.15)}
+.h2x .vid img{display:block;width:100%}
+.h2x .vid .pl{position:absolute;left:12px;bottom:12px;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.92);border-radius:999px;padding:6px 14px 6px 6px;font-weight:700;font-size:14px}
+.h2x .vid .pl i{width:30px;height:30px;border-radius:50%;background:var(--verdigris);display:grid;place-items:center;color:#fff;font-style:normal;font-size:12px}
+.h2x .trust{font-size:13px;color:var(--ink-soft);margin-top:12px}
