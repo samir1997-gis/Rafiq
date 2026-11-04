@@ -218,23 +218,29 @@
   }
 
   /* The Home card: its Continue goes straight into the next part; the card opens the overview. */
-  function cardHTML(){
-    const n = next(), c = counts();
-    if(n && !open(n)) return `<div class="salah-card"><a class="sc-open" href="salah.html" aria-label="Your salah: open the overview">
-        <span class="sc-ic" aria-hidden="true">🕌</span><span class="sc-tx"><b>Your salah</b><span>Your 20 most-said words ✓ · the whole prayer is in Complete</span></span></a>
-      <a class="sc-go" href="plans.html">See Complete</a></div>`;
-    const sub = n ? `${esc(n.title)} · ${c.known} of ${c.total} words understood` : `Every part done · ${c.known} of ${c.total} words understood`;
-    return `<div class="salah-card"><a class="sc-open" href="salah.html" aria-label="Your salah: open the overview">
-        <span class="sc-ic" aria-hidden="true">🕌</span><span class="sc-tx"><b>Your salah</b><span>${sub}</span></span></a>
-      <a class="sc-go" href="${n ? 'learn.html?salah=' + n.id : 'learn.html?salah=review'}">${n ? 'Continue' : 'Review'}</a></div>`;
+  /* Home's ring (#339, chosen with TypeSafe: home_ring.py): how much of the prayer you understand, with
+     the next part as a small button beside the word count. */
+  function ringHTML(){
+    const n = next(), c = counts(), pct = c.total ? Math.round(100 * c.known / c.total) : 0, C = 270.2;
+    const go = !n ? `<a class="sr-go" href="learn.html?salah=review">Review ›</a>`
+      : !open(n) ? `<a class="sr-go" href="plans.html">The whole prayer ›</a>`
+      : `<a class="sr-go" href="learn.html?salah=${n.id}">Next: <b>${esc(n.title)}</b> ›</a>`;
+    return `<div class="sring"><a class="sr-ring" href="salah.html" aria-label="Your salah: ${pct}% understood. Open the overview">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="43"/>${pct ? `<circle class="arc" cx="50" cy="50" r="43" stroke-dasharray="${(C * pct / 100).toFixed(1)} ${C}"/>` : ''}</svg>
+        <span class="sr-mid"><b>${pct}%</b><span>of your salah<br>understood</span></span></a>
+      <p class="sr-row"><span>🕌 ${c.known} of ${c.total} words</span>${go}</p></div>`;
   }
-  const CARD_CSS = `.salah-card{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:14px 14px 14px 16px;margin:0 0 14px}
-.salah-card .sc-open{flex:1;display:flex;align-items:center;gap:12px;color:var(--ink);text-decoration:none;min-width:0}
-.salah-card .sc-ic{font-size:26px;flex:0 0 auto}
-.salah-card .sc-tx{display:flex;flex-direction:column;min-width:0}
-.salah-card .sc-tx b{font-size:16px}
-.salah-card .sc-tx span{font-size:13px;color:var(--ink-soft);line-height:1.4}
-.salah-card .sc-go{flex:0 0 auto;background:var(--verdigris);color:var(--paper);text-decoration:none;font-weight:700;font-size:14px;border-radius:999px;padding:10px 16px;min-height:40px;display:flex;align-items:center}
+  const CARD_CSS = `.sring{text-align:center;margin:6px 0 14px}
+.sring .sr-ring{display:inline-grid;place-items:center;position:relative;text-decoration:none;color:var(--ink)}
+.sring svg{width:184px;height:184px;transform:rotate(-90deg)}
+.sring circle{fill:none;stroke:var(--paper-deep);stroke-width:9}.sring .arc{stroke:var(--gold);stroke-linecap:round}
+.sring .sr-mid{position:absolute;display:flex;flex-direction:column;align-items:center}
+.sring .sr-mid b{font-size:42px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.sring .sr-mid span{font-size:14px;color:var(--ink-soft);font-weight:600;line-height:1.3;margin-top:6px}
+.sring .sr-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 10px;margin:8px 0 0;font-size:14.5px;color:var(--ink-soft);font-weight:600}
+.sring .sr-go{background:var(--verdigris);color:#fff;text-decoration:none;border-radius:999px;padding:6px 13px;font-size:13.5px;font-weight:600;
+  box-shadow:0 4px 12px color-mix(in srgb,var(--verdigris) 25%,transparent);transition:transform var(--press) var(--ease-out)}
+.sring .sr-go b{font-weight:800}.sring .sr-go:active{transform:scale(.96)}
 .smap{display:grid;gap:12px}
 .smap .sp{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:12px 14px}
 .smap .sp h4{margin:0 0 6px;font-size:14px;display:flex;justify-content:space-between;gap:8px}
@@ -285,5 +291,5 @@
   const wordById = id => { for(const p of parts()) for(const w of allWords(p)) if(wid(w) === id) return w; return null; };
 
   window.RafiqSalah = { enabled, LIVE, complete, open, parts, part, isQuran, done, next, stateOf, words, counts, wid, known, freq, voiced, sayAr,
-    courseWords, courseKnown, bridgeFor, recitation, needsRecitation, loadRecitation, ready, officialMeanings:()=>official, timings, credit:()=>credit, recitationError:()=>lastError, cardHTML, styles, mapHTML, mountMap, finishPart, due, wordById, esc };
+    courseWords, courseKnown, bridgeFor, recitation, needsRecitation, loadRecitation, ready, officialMeanings:()=>official, timings, credit:()=>credit, recitationError:()=>lastError, ringHTML, styles, mapHTML, mountMap, finishPart, due, wordById, esc };
 })();

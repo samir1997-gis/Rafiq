@@ -17,7 +17,7 @@
 <title>Home — Rafiq</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Karla:wght@400;500;700&family=Nunito:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css?v=902">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317262B'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23F1ECE0' font-family='serif'%3E%D8%B1%3C/text%3E%3Ccircle cx='46' cy='19' r='4' fill='%23B4322A'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.json">
@@ -61,11 +61,20 @@
 .pstrip.ended .t{font-size:17px;font-weight:700;margin-bottom:4px}
 .pstrip.ended p{color:var(--ink-soft);margin:0 0 12px;line-height:1.5}
 .pstrip.ended .cont{display:inline-block;color:#fff;padding:0 24px}   /* white on green: .pstrip a's green text made it a blank box */
-.today-card{background:var(--card);border:1px solid var(--verdigris);border-radius:14px;padding:20px;margin:18px 0 10px}
-.today-card .k{font-family:var(--ut);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
-.today-card .u{font-family:var(--ar);direction:rtl;text-align:left;font-size:22px;line-height:1.8;color:var(--rubric)}
-.today-card .t{font-size:20px;font-weight:700;margin-top:2px}
-.today-card .m{font-size:13.5px;color:var(--ink-soft);margin-top:4px}
+#home{--la:"Nunito",system-ui,sans-serif;font-family:var(--la)}   /* Home's font (owner, #339) */
+.today-card{margin:4px 0 16px}
+.chips{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.chip{background:var(--card);border:1px solid var(--rule);border-radius:999px;padding:7px 13px;font-size:14.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap}.chip b{color:var(--ink);font-weight:800}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 22px}
+.tile{background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:14px 16px;text-decoration:none;color:var(--ink-soft);font-size:14px;font-weight:600}
+.tile b{display:block;font-size:24px;font-weight:800;color:var(--ink)}.tile b.due{color:var(--rubric)}.tile b small{font-size:15px;font-weight:600;color:var(--ink-soft)}
+.tile .bar{display:block;height:6px;border-radius:6px;background:var(--paper-deep);margin-top:10px;overflow:hidden}.tile .bar i{display:block;height:100%;background:var(--verdigris);border-radius:6px}
+a.tile:active{transform:scale(.98)}
+.tc-box{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:16px 18px}
+.today-card .u{font-family:var(--ar);direction:rtl;font-size:28px;line-height:1.5;font-weight:600;color:var(--rubric);flex:none;max-width:40%}
+.today-card .t{font-size:18px;font-weight:700}
+.today-card .m{font-size:14px;color:var(--ink-soft);margin-top:3px;font-weight:600}
+.today-card .cont{border-radius:999px;font-weight:800;margin-top:12px}
 /* the alphabet board (#276): during the reading starter, how well each letter is known */
 .board{margin:0 0 18px;padding:14px;border-radius:12px;background:var(--card);border:1px solid var(--rule)}
 .board .k{font-family:var(--ut);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
@@ -82,22 +91,6 @@
 .bkey i.gold{background:color-mix(in srgb,var(--gold) 45%,var(--card));border-color:var(--gold)}
 .cont{display:block;text-align:center;text-decoration:none;margin-top:16px;min-height:52px;line-height:52px;border-radius:12px;background:var(--verdigris);color:#fff;font-size:16.5px;font-weight:600}
 .cont:active{transform:scale(.98)}
-.stats{display:flex;gap:10px;margin:6px 0 22px}
-.stats>div{flex:1;background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;font-size:12.5px;color:var(--ink-soft)}
-.stats b{display:block;font-size:19px;color:var(--ink)}
-.stats b small{font-size:13px;font-weight:500;color:var(--ink-soft)}
-.stats .frz{display:block;margin-top:4px;font-size:11.5px}
-.stats .gl{display:flex;align-items:center;gap:10px}
-.ring{width:44px;height:44px;flex:none}.ring circle{fill:none;stroke:var(--paper-deep);stroke-width:5}
-.ring .arc{stroke:var(--gold);stroke-linecap:round;transform:rotate(-90deg);transform-origin:center;transition:stroke-dasharray .4s}
-.ring.done .arc{stroke:var(--verdigris)}.ring path{fill:none;stroke:var(--verdigris);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.sum{display:flex;gap:10px;margin:-12px 0 22px}
-.sum>div{flex:1;background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:8px 12px;font-size:12px;color:var(--ink-soft)}
-.sum b{display:block;font-size:17px;color:var(--ink)}.sum b small{font-size:12px;font-weight:500;color:var(--ink-soft)}
-@media (prefers-reduced-motion:reduce){.ring .arc{transition:none}}
-.goal{height:6px;background:var(--paper-deep);border-radius:3px;margin-top:6px;overflow:hidden}.goal i{display:block;height:100%;background:var(--gold)}
-.review{display:flex;align-items:center;justify-content:space-between;gap:10px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:14px 16px;margin-bottom:22px}
-.review b{color:var(--rubric)}
 .wbest{display:flex;gap:10px;align-items:center;text-decoration:none;margin:0 0 14px;padding:12px 16px;border-radius:12px;background:color-mix(in srgb,var(--gold) 16%,var(--card));border:1px solid color-mix(in srgb,var(--gold) 60%,transparent);color:var(--ink);font-size:15px}
 .wmore{display:inline-block;margin-top:8px;font-size:14px;color:var(--rubric);text-decoration:none}
 .ph{font-size:16px;font-weight:700;margin:6px 0 10px}
@@ -143,9 +136,6 @@ a.ustep:hover{background:var(--paper-deep)}
 .wrow{display:flex;gap:8px;margin:8px 0 4px}.wrow div{flex:1;font-size:12px;color:var(--ink-soft)}
 .wrow b{display:block;font-size:20px;color:var(--ink)}.wrow small{font-size:12px;color:var(--ink-soft);font-weight:400}
 .week p{font-size:13.5px;color:var(--ink-soft);margin:6px 0 0}.week p b{color:var(--ink)}
-.sgoal{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:12px 14px;margin:-12px 0 14px}
-.sgoal .sgt{display:flex;justify-content:space-between;font-size:13.5px;color:var(--ink-soft)}.sgoal .sgt b{color:var(--ink)}
-.sgoal .goal{margin:8px 0 6px}.sgoal p{font-size:13px;color:var(--ink-soft);margin:0;line-height:1.5}
 .frow{display:flex;gap:8px;margin-top:8px}
 .gopr{flex:1;text-align:center;text-decoration:none;background:var(--verdigris);color:#fff;border-radius:8px;padding:8px 14px;font-size:14px}
 .got{border:1px solid var(--rule);background:transparent;border-radius:8px;padding:7px 14px;color:var(--ink);cursor:pointer}
@@ -253,7 +243,6 @@ function paintHome(){
   const el=document.getElementById('home'); if(!el||!window.RafiqPath) return;
   const U=RafiqPath.units();
   const n=RafiqPath.next(), cur=n.index, s=RafiqPath.streak(), today=RafiqPath.doneToday(), G=RafiqPath.GOAL;
-  const steps=RafiqPath.steps(n.unit), doneN=steps.filter(x=>RafiqPath.stepDone(n.unit.n,x.key)).length;
   const due=RafiqPath.reviewDue();
   const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const shortEn=en=>en.split(/[;(]/)[0].trim();
@@ -276,17 +265,16 @@ function paintHome(){
      once its steps are done the check-in is all that's left, until every letter is green. */
   const ci=n.unit.alpha ? RafiqPath.checkInLetters().length : 0;
   const card = n.finishedAll
-    ? `<div class="today-card"><div class="k">All units done</div><div class="t">Mabrook — you've finished the path 🎉</div>
-       <div class="m">Keep what you've learned fresh with a daily review.</div><a class="cont" href="session.html">Daily review</a></div>`
+    ? `<div class="today-card"><div class="tc-box"><div><div class="t">Mabrook — you've finished the path 🎉</div>
+       <div class="m">Keep what you've learned fresh with a daily review.</div></div></div><a class="cont" href="session.html">Daily review</a></div>`
     : n.step.kind==='checkin'
-    ? `<div class="today-card"><div class="k">Reading Arabic · the last letters</div><div class="u">${esc(n.unit.ar)}</div>
-       ${ci ? `<div class="t">Letter check-in</div><div class="m">${ci} ${ci===1?'letter':'letters'} to turn green · about 2 minutes</div>
+    ? `<div class="today-card"><div class="tc-box"><div class="u">${esc(n.unit.ar)}</div>
+       ${ci ? `<div><div class="t">Letter check-in</div><div class="m">Reading Arabic · ${ci} ${ci===1?'letter':'letters'} to turn green · 2 min</div></div></div>
          <a class="cont" href="learn.html?u=${n.unit.n}&s=checkin">Continue</a>`
-       : `<div class="t">Your last letters need a night’s sleep</div>
-         <div class="m">A letter turns green when you get it right on two different days. Come back tomorrow for a quick check-in, and the basics open.</div>`}</div>`
-    : `<div class="today-card"><div class="k">${n.unit.alpha?'Start here':n.unit.basics?'Before unit 1':'Unit '+(+n.unit.n)+' of '+U.filter(u=>!u.pre).length} · step ${doneN+1} of ${steps.length}</div>
-       <div class="u">${esc(n.unit.ar)}</div><div class="t">${esc(n.step.title)}</div>
-       <div class="m">${esc(n.unit.en)} · about ${n.step.mins} minutes${ci&&n.unit.alpha?` · starts with a quick check-in on ${Math.min(ci,5)} ${Math.min(ci,5)===1?'letter':'letters'} from before`:''}</div>
+       : `<div><div class="t">Your last letters need a night’s sleep</div>
+         <div class="m">A letter turns green when you get it right on two different days. Come back tomorrow for a quick check-in, and the basics open.</div></div></div>`}</div>`
+    : `<div class="today-card"><div class="tc-box"><div class="u">${esc(n.unit.ar)}</div><div><div class="t">${esc(n.step.title)}</div>
+       <div class="m">${n.unit.alpha?'Start here':n.unit.basics?'Before unit 1':'Unit '+(+n.unit.n)} · ${esc(n.unit.en)} · ${n.step.mins} min${ci&&n.unit.alpha?` · starts with a quick check-in on ${Math.min(ci,5)} ${Math.min(ci,5)===1?'letter':'letters'} from before`:''}</div></div></div>
        <a class="cont" href="learn.html?u=${n.unit.n}&s=${n.step.key}">Continue</a>
        ${n.unit.alpha?'<button type="button" class="skipbtn" id="skipRead">I can read Arabic — skip this</button>':''}</div>`;
   /* The alphabet board (#276): while the reading starter is the unit you're on */
@@ -294,22 +282,13 @@ function paintHome(){
     return `<div class="board"><div class="k">Your alphabet · ${st.filter(([,x])=>/known|gold/.test(x)).length} of ${L.length} known</div>
       <div class="bgrid">${st.map(([ch,x])=>`<span class="bl ${x}" aria-label="${x==='new'?'not met yet':x}">${ch}</span>`).join('')}</div>
       <p class="bkey"><span><i></i>met</span><span><i class="known"></i>right on 2 different days</span><span><i class="gold"></i>read in words</span></p></div>`; })() : '';
-  const sg=RafiqPath.streakGoal(s);
-  /* The streak counts days the goal is met, with one freeze for a missed day (#256);
-     today's goal is a ring that closes, and turns green with a tick, when it's met. */
-  const st=RafiqPath.streakState(), met=today>=G, y=new Date(); y.setDate(y.getDate()-1);
-  const frz = st.frozen===y.toISOString().slice(0,10) ? `🧊 Freeze used yesterday${st.today?'':' — today\'s goal keeps it'}`
-    : st.freezes ? '🧊 1 streak freeze ready' : `🧊 Freeze back after ${st.earn} more goal ${st.earn===1?'day':'days'}`;
-  const C=113.1, ring=`<svg class="ring${met?' done':''}" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="18"/>
-     <circle class="arc" cx="22" cy="22" r="18" stroke-dasharray="${(C*Math.min(1,today/G)).toFixed(1)} ${C}"/>${met?'<path d="M15 22.5l4.5 4.5 9-9.5"/>':''}</svg>`;
-  const stats=`<div class="stats"><div><b>🔥 ${s}</b>day streak${!st.today&&s?` · today makes ${s+1}`:''}<span class="frz">${frz}</span></div>
-     <div class="gl">${ring}<div><b>${today} <small>/ ${G} steps</small></b>${today>G?`today's goal ✓ · ${today-G} extra`:met?"today's goal ✓":"today's goal"}</div></div></div>`+
-    `<div class="sum"><div><b>${RafiqPath.metWords().size}</b>words learned</div><div><b>${RafiqPath.masteredWords()}</b>words mastered</div>
-     <div><b>${U.filter(u=>!u.pre&&RafiqPath.unitDone(u)).length}<small> / ${U.filter(u=>!u.pre).length}</small></b>units done</div></div>`+
-    (sg.next ? `<div class="sgoal"><div class="sgt"><span>Next goal: <b>${sg.next.days} days</b></span><span>${sg.left} to go</span></div>
-       <div class="goal"><i style="width:${Math.round(100*(s-sg.from)/(sg.next.days-sg.from))}%"></i></div>
-       <p>${esc(sg.next.why)}</p></div>` :
-     `<div class="sgoal"><div class="sgt"><span><b>${s} days</b> — every goal reached</span></div><p>Keep going: a few minutes a day is what keeps Arabic in long-term memory.</p></div>`);
+  /* Under the salah ring (#339): streak, words and units as chips; review and today's steps as two tiles */
+  const met=today>=G, nU=U.filter(u=>!u.pre).length;
+  const chips=`<div class="chips"><span class="chip">🔥 <b>${s}</b> streak</span><span class="chip">📚 <b>${RafiqPath.metWords().size}</b> words</span>
+     <span class="chip">🧭 <b>${U.filter(u=>!u.pre&&RafiqPath.unitDone(u)).length}/${nU}</b> units</span></div>`;
+  const tiles=`<div class="tiles"><a class="tile" href="session.html"><b class="${due?'due':''}">${due||'✓'}</b><span>${due?'to review →':'review anyway →'}</span></a>
+     <div class="tile"><b>${met?'✓':today}${met?'':`<small>/${G}</small>`}</b><span>${met?"today's goal met":'steps today'} 🎯</span>
+     <i class="bar"><i style="width:${Math.round(100*Math.min(1,today/G))}%"></i></i></div></div>`;
   /* Your week: shown once there's anything to show. */
   const wk=RafiqPath.week();
   const cnt=window.RafiqMistakes?RafiqMistakes.counts():{};
@@ -324,8 +303,6 @@ function paintHome(){
      ${f.ex.map(x=>`<div class="fx"><span class="fa">${esc(x[0])}</span><span>${esc(x[1])}</span></div>`).join('')}
      <div class="frow"><a class="gopr" href="session.html?focus=weak">Practise it</a>
      <button class="got" type="button" data-k="${f.key}">Got it</button></div></div>` : '';
-  const review = due ? `<a class="review" href="session.html"><span><b>${due}</b> to review from your lessons</span><span>Review →</span></a>`
-    : RafiqPath.hasLearned() ? `<a class="review" href="session.html"><span>Nothing due — a quick review keeps it fresh</span><span>Review →</span></a>` : '';
   /* Today's new words, highlighted when it beats your usual day or your best. */
   const wr=RafiqPath.wordsReport();
   const wtoday = wr.today && (wr.record||wr.aboveUsual) ? `<a class="wbest" href="progress.html">${wr.record
@@ -346,9 +323,9 @@ function paintHome(){
     <p class="csub">New units are added regularly — Complete members get them first.</p>
     <div class="units">${RafiqPath.COMING.map(c=>`<div class="unit soon"><span class="st">✨</span>
       <span class="nm"><b>${esc(c.en)}</b><span>${esc(c.d)}</span></span><span class="ua">${esc(c.ar)}</span></div>`).join('')}</div>`;
-  // "Your salah": its own track, right under the daily path (salah.js; off until the teacher signs off)
-  const salah = window.RafiqSalah && RafiqSalah.enabled() ? (RafiqSalah.styles(), RafiqSalah.cardHTML()) : '';
-  el.innerHTML=card+board+salah+wtoday+stats+'<div id="pwaInstall"></div>'+week+focus+review+`<div class="ph">Your path${RafiqPath.allOpen?'<span class="team"> · team account: every unit open</span>':''}</div><div class="units">${units}</div>`+coming;
+  // "Your salah": the ring at the top of Home (salah.js; off until the teacher signs off)
+  const salah = window.RafiqSalah && RafiqSalah.enabled() ? (RafiqSalah.styles(), RafiqSalah.ringHTML()) : '';
+  el.innerHTML=salah+chips+card+board+tiles+wtoday+'<div id="pwaInstall"></div>'+week+focus+`<div class="ph">Your path${RafiqPath.allOpen?'<span class="team"> · team account: every unit open</span>':''}</div><div class="units">${units}</div>`+coming;
   // "Get a daily reminder / put Rafiq on your home screen" (pwa.js), once a first lesson step is done
   if(window.RafiqPWA) RafiqPWA.card(document.getElementById('pwaInstall'), { ready: U.some(p => RafiqPath.steps(p).some(x => RafiqPath.stepDone(p.n, x.key))) });
   el.querySelectorAll('details.ud').forEach(d=>d.ontoggle=()=>{ d.open?OPEN_UNITS.add(d.dataset.u):OPEN_UNITS.delete(d.dataset.u); });
@@ -402,7 +379,7 @@ function paintHome(){
 <script src="basics-data.js?v=5"></script>
 <script src="path.js?v=20261103c"></script>
 <script src="salah-data.js?v=1"></script>
-<script src="salah.js?v=6"></script>
+<script src="salah.js?v=7"></script>
 <script src="mistakes.js?v=20260922"></script>
 <script src="nav.js?v=20261001"></script>
 <script>
