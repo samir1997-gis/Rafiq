@@ -18,6 +18,8 @@ const ORIGINS = [
   'https://rafiq-arabic.com',
   'https://www.rafiq-arabic.com',
   'https://sal716eh-spec.github.io',
+  'capacitor://localhost',   // the iPhone app (#35)
+  'https://localhost',       // the Android app
 ];
 const MAX = 600;   // characters per field; the longest model answer is ~250
 

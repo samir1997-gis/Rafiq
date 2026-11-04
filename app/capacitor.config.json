@@ -1,0 +1,8 @@
+{
+  "appId": "com.rafiqarabic.app",
+  "appName": "Rafiq",
+  "webDir": "www",
+  "backgroundColor": "#F1ECE0",
+  "android": { "allowMixedContent": false },
+  "ios": { "contentInset": "never", "scheme": "Rafiq" }
+}

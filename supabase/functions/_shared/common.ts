@@ -3,7 +3,8 @@
 import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2';
 
 export const SITE = 'https://rafiq-arabic.com';
-const ORIGINS = [SITE, 'https://www.rafiq-arabic.com', 'http://localhost:8765'];
+const ORIGINS = [SITE, 'https://www.rafiq-arabic.com', 'http://localhost:8765',
+  'capacitor://localhost', 'https://localhost'];   // the iPhone and Android app (#35)
 
 export function cors(req: Request): Record<string, string> {
   const o = req.headers.get('origin') || '';

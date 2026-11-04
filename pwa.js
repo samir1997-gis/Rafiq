@@ -33,12 +33,14 @@
     media: `(device-width: ${w}px) and (device-height: ${h}px) and (-webkit-device-pixel-ratio: ${r}) and (orientation: portrait) and (prefers-color-scheme: ${mode})` })));
 
   /* ---------- service worker ---------- */
-  if('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost'))
+  // Inside the iPhone and Android app (#35) the pages are already on the phone: no service worker, no install card
+  const native = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+  if(!native && 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost'))
     addEventListener('load', () => navigator.serviceWorker && navigator.serviceWorker.register('sw.js').catch(() => {}));
 
   /* ---------- installing ---------- */
   let prompt = null;
-  const standalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  const standalone = () => native || matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
   const ios = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   const DISMISS = 'rafiq_install_later';
   const later = () => { try{ return Date.now() - (+localStorage.getItem(DISMISS) || 0) < 30 * 864e5; }catch(_){ return false; } };
