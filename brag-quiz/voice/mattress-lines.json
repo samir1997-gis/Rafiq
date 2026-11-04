@@ -1,0 +1,74 @@
+[
+ {
+  "file": "h1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08,
+  "text": "Every night, you fall asleep on an Arabic word... and you don't even know it."
+ },
+ {
+  "file": "matrah",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "مَطْرَح"
+ },
+ {
+  "file": "b1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08,
+  "text": "Matrah. Something thrown down: a cushion you throw on the floor, to sit or sleep on."
+ },
+ {
+  "file": "b2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08,
+  "text": "Its root means to throw. And the ma at the front? The same ma as masjid: the place of. The place you throw yourself down."
+ },
+ {
+  "file": "b3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08,
+  "text": "Sicily passed it to Italian as materasso... French made it materas... and by the 1300s, English was sleeping on a mattress."
+ },
+ {
+  "file": "t1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08,
+  "text": "Your turn. The same root is in surah Yusuf, when his brothers plotted against him: itrahoohu. Hide him, sell him, or throw him?"
+ },
+ {
+  "file": "ayah",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "اقْتُلُوا يُوسُفَ أَوِ اطْرَحُوهُ أَرْضًا"
+ },
+ {
+  "file": "b4",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08,
+  "text": "THROW! Kill Yusuf, or throw him out to some land."
+ },
+ {
+  "file": "end",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.08,
+  "text": "So what do you say before you sleep? Comment it!"
+ }
+]
