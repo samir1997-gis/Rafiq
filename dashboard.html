@@ -354,8 +354,18 @@ function paintHome(){
       <p>Stuck on something? Ask anything about Arabic or your lessons.</p>
       <div class="ak-in"><input name="q" type="text" placeholder="Ask a question…" aria-label="Ask Rafiq a question" autocomplete="off" required><button type="submit" aria-label="Ask">↑</button></div>
       <div class="ak-try">${['What does اسْمِي mean?','Why do some words start with ال?'].map(t=>`<a href="tutor.html?q=${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</div></form>` : '';
-  // the card sits under the ring on a computer (in view at once), above Your path on a phone (Continue stays near the top)
-  el.innerHTML=`<div class="htop${salah?'':' solo'}"><div class="hl">${salah}${chips}${ask.replace('class="askcard"','class="askcard ak-wide"')}</div><div class="hr">${card}${board}${tiles}</div></div>`
+  /* The ring (owner, #349): how far through the unit you're on, its steps done of all of them; the salah line
+     (words understood, the next part) stays under it while salah is on. Drawn in salah.js's ring style. */
+  if(window.RafiqSalah && RafiqSalah.styles) RafiqSalah.styles();
+  const ust=RafiqPath.steps(n.unit), uk=ust.filter(x=>RafiqPath.stepDone(n.unit.n,x.key)).length;
+  const upct=n.finishedAll ? 100 : ust.length ? Math.round(100*uk/ust.length) : 0, C=270.2;
+  const uname=n.finishedAll ? 'your path' : n.unit.alpha ? 'Reading Arabic' : n.unit.basics ? 'the basics' : n.unit.en;
+  const srow=salah ? ((salah.match(/<p class="sr-row">[\s\S]*?<\/p>/)||[''])[0]).replace(/ words<\/span>/, ' salah words</span>') : '';   // the ring no longer says salah
+  const ring=`<div class="sring"><a class="sr-ring" href="${n.finishedAll?'progress.html':`learn.html?u=${n.unit.n}&s=${n.step?n.step.key:''}`}" aria-label="${upct}% of ${esc(uname)} done">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="43"/>${upct?`<circle class="arc" cx="50" cy="50" r="43" stroke-dasharray="${(C*upct/100).toFixed(1)} ${C}"/>`:''}</svg>
+      <span class="sr-mid"><b>${upct}%</b><span>of ${esc(uname)}<br>done</span></span></a>${srow}</div>`;
+  // Ask Rafiq: in the right-hand column under the tiles on a computer, above Your path on a phone (owner, #349)
+  el.innerHTML=`<div class="htop"><div class="hl">${ring}${chips}</div><div class="hr">${card}${board}${tiles}${ask.replace('class="askcard"','class="askcard ak-wide"')}</div></div>`
     +ask.replace('class="askcard"','class="askcard ak-narrow"')+wtoday+'<div id="pwaInstall"></div>'+week+focus+`<div class="ph">Your path${RafiqPath.allOpen?'<span class="team"> · team account: every unit open</span>':''}</div><div class="units">${units}</div>`+coming;
   // "Get a daily reminder / put Rafiq on your home screen" (pwa.js), once a first lesson step is done
   if(window.RafiqPWA) RafiqPWA.card(document.getElementById('pwaInstall'), { ready: U.some(p => RafiqPath.steps(p).some(x => RafiqPath.stepDone(p.n, x.key))) });
@@ -414,7 +424,7 @@ function paintHome(){
 <script src="salah.js?v=8"></script>
 <script src="mistakes.js?v=20260922"></script>
 <script src="nav.js?v=20261105c"></script>
-<script src="tour.js?v=1" defer></script>
+<script src="tour.js?v=2" defer></script>
 <script>
 requireLogin();
 /* Never leave Home blank: show that it's loading, and if anything fails say
