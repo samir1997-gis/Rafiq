@@ -9,7 +9,7 @@
   const on = TAB[page] || 'home';
   const ITEMS = [['home','dashboard.html','الرَّئِيسَة','Home'],
                  ['practise','practise.html','تَدْرِيب','Practise'],
-                 ['tutor','tutor.html','رَفِيق','Rafiq'],
+                 ['tutor','tutor.html','','Rafiq'],               // the Rafiq mark as its icon (owner)
                  ['progress','progress.html','التَّقَدُّم','Progress'],
                  ['settings','settings.html','إِعْدادات','Settings']]
                 .filter(([k]) => k !== 'tutor' || (typeof TUTOR_ON !== 'undefined' && TUTOR_ON));   // auth.js
@@ -18,7 +18,7 @@
     if(links) links.innerHTML = ITEMS.map(([k,h,,en]) => `<a href="${h}"${k===on?' class="active"':''}>${en}</a>`).join('') +
       '<a href="login.html" class="logout-link" onclick="logout();return false;">Log out</a>';
     const bar = document.querySelector('.tabbar');
-    if(bar) bar.innerHTML = ITEMS.map(([k,h,ar,en]) => `<a href="${h}"${k===on?' class="on"':''}><span class="ti">${ar}</span>${en}</a>`).join('');
+    if(bar) bar.innerHTML = ITEMS.map(([k,h,ar,en]) => `<a href="${h}"${k===on?' class="on"':''}>${ar ? `<span class="ti">${ar}</span>` : '<span class="ti tmark" aria-hidden="true"></span>'}${en}</a>`).join('');
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', draw); else draw();
 })();
