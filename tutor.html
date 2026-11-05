@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=903">
+<link rel="stylesheet" href="site.css?v=904">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317262B'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23F1ECE0' font-family='serif'%3E%D8%B1%3C/text%3E%3Ccircle cx='46' cy='19' r='4' fill='%23B4322A'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -30,6 +30,10 @@
 <style>
 main.wrap{max-width:720px;padding-bottom:150px}
 .hero{padding:34px 0 8px;text-align:center}
+.tlogo{position:relative;width:64px;height:64px;margin:4px auto 12px;border-radius:16px;background:var(--ink);box-shadow:0 10px 24px -12px rgba(var(--ink-rgb),.6)}
+.tlogo::before{content:'ر';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 40px/1 var(--ar);color:var(--paper);padding-bottom:8px}
+.tlogo::after{content:'';position:absolute;top:11px;right:11px;width:10px;height:10px;border-radius:50%;background:var(--rubric)}
+@media (min-width:1100px){main.wrap{max-width:900px}}
 .hero .greet{font-family:var(--ar);direction:rtl;font-size:clamp(26px,6vw,36px);font-weight:600;line-height:1.7;margin:0 0 6px;padding:4px 0}
 .hero h1{font-size:clamp(21px,4.4vw,26px);font-weight:700}
 .hero p{color:var(--ink-soft);font-size:15px;margin:8px auto 0;max-width:46ch;line-height:1.5}
@@ -65,7 +69,7 @@ main.wrap{max-width:720px;padding-bottom:150px}
 </nav>
 <main class="wrap">
   <section class="hero">
-    <div class="greet">رَفِيقُكَ</div>
+    <div class="tlogo" aria-hidden="true"></div>
     <h1>Ask Rafiq</h1>
     <p>Anything about Arabic or your lessons: what a word means, why a sentence works the way it does, how to say something.</p>
   </section>
@@ -96,7 +100,7 @@ main.wrap{max-width:720px;padding-bottom:150px}
 <script src="salah.js?v=8"></script>
 <script src="report.js?v=1"></script>
 <script src="tutor.js?v=4"></script>
-<script src="nav.js?v=20261105b"></script>
+<script src="nav.js?v=20261105c"></script>
 <script>
 if(!TUTOR_ON) location.replace('dashboard.html');
 requireLogin();
