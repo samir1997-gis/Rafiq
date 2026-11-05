@@ -18,6 +18,9 @@
      node tools/supabase-users.js make-admin id    let this account open the owner dashboard (admin.html)
      node tools/supabase-users.js team             the team's own accounts (admin) and their access (read only)
      node tools/supabase-users.js make-free id     free use for a team account: Complete until 2099
+     node tools/supabase-users.js review-account   the App Store / Google Play reviewer's account (#352): review@rafiq-arabic.com,
+                                                   confirmed, set up, Complete free; its password is the secret REVIEW_PASSWORD
+                                                   (never printed: these logs are public). Run again to change the password.
      node tools/supabase-users.js delete id1,id2   delete these accounts (max 5) and their rows
      node tools/supabase-users.js reset-progress id   start this one account again from the beginning: its progress
                                                    rows go; the account, billing, onboarding answers and settings stay
@@ -270,6 +273,29 @@ async function userTables() {
     const r = await sql(`update public.billing set trial_ends_at = '2099-12-31', updated_at = now() where user_id = '${arg}'
                          returning (select email from auth.users where id = '${arg}') as email`);
     console.log(r.length ? `${mask(r[0].email)} now has Complete free until 2099 (reload the app)` : 'no billing row for that account');
+    return;
+  }
+  if (cmd === 'review-account') {
+    // The account Apple's and Google's reviewers sign in with (they can't confirm an email or pay). Same rules as a team
+    // account (make-free): Complete until 2099, and onboarding already done so it opens on Home.
+    const EMAIL = 'review@rafiq-arabic.com', PW = process.env.REVIEW_PASSWORD || '';
+    if (PW.length < 8) { console.error('set the repository secret REVIEW_PASSWORD (8 characters or more) first'); process.exit(1); }
+    const keys = await (await fetch(`https://api.supabase.com/v1/projects/${REF}/api-keys?reveal=true`, { headers: { Authorization: `Bearer ${TOKEN}` } })).json();
+    const service = (Array.isArray(keys) ? keys : []).find(k => k.name === 'service_role');
+    if (!service || !service.api_key) { console.error('could not read the project keys'); process.exit(1); }
+    const auth = (path, method, body) => fetch(`https://${REF}.supabase.co/auth/v1/admin/${path}`, { method,
+      headers: { Authorization: `Bearer ${service.api_key}`, apikey: service.api_key, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const found = await sql(`select id from auth.users where lower(email) = '${EMAIL}'`);
+    let id = found.length ? found[0].id : null;
+    const r = id ? await auth(`users/${id}`, 'PUT', { password: PW, email_confirm: true })
+                 : await auth('users', 'POST', { email: EMAIL, password: PW, email_confirm: true, user_metadata: { name: 'Reviewer' } });
+    if (!r.ok) { console.error(`account ${id ? 'update' : 'create'} failed: ${r.status} ${(await r.text()).slice(0, 200)}`); process.exit(1); }
+    if (!id) id = (await r.json()).id;
+    await sql(`insert into public.billing (user_id, trial_ends_at) values ('${id}', '2099-12-31')
+               on conflict (user_id) do update set trial_ends_at = '2099-12-31', updated_at = now()`);
+    await sql(`insert into public.profiles (user_id, onboarded, level) values ('${id}', true, 'beginner')
+               on conflict (user_id) do update set onboarded = true`);
+    console.log(`${found.length ? 'updated' : 'created'} ${mask(EMAIL)} (${id}): confirmed, onboarded, Complete free until 2099; password from REVIEW_PASSWORD`);
     return;
   }
   if (cmd === 'trials') {

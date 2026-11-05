@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       command:
-        description: "list (read only) | trials (read only) | thank-preview (read only) | thank | extend-trial | mail-test | attempts (read only) | taps (read only) | rls (read only) | active (read only) | sources (read only) | visits (read only) | make-admin | team (read only) | make-free | billing-test (read only) | billing-check (read only) | billing-clear-test | delete | reset-progress | reset-preview (read only) | reset | signout"
+        description: "list (read only) | trials (read only) | thank-preview (read only) | thank | extend-trial | mail-test | attempts (read only) | taps (read only) | rls (read only) | active (read only) | sources (read only) | visits (read only) | make-admin | team (read only) | make-free | review-account | billing-test (read only) | billing-check (read only) | billing-clear-test | delete | reset-progress | reset-preview (read only) | reset | signout"
         required: true
         default: "list"
       arg:
@@ -32,4 +32,5 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CMD: ${{ inputs.command }}
           ARG: ${{ inputs.arg }}
+          REVIEW_PASSWORD: ${{ secrets.REVIEW_PASSWORD }}   # review-account only; never printed
         run: node tools/supabase-users.js "$CMD" "$ARG"
