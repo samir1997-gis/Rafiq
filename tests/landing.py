@@ -1,5 +1,5 @@
 """The landing page (index.html, #176):
-  - "What's inside" is eight compact tiles: 2 across on a phone, 4 on a computer; a tap opens one (and closes it)
+  - "What's inside" is three compact tiles (#210): one under another on a phone, 3 across on a computer; a tap opens one (and closes it)
   - on a computer, hovering a box lifts it, and a tile's detail drops down over the row below (nothing moves)
   - sections fade in as they're scrolled to, and every one ends up visible; the numbers count up to the real values
   - with reduced motion, everything is there at once, nothing moves
@@ -62,12 +62,12 @@ def main():
         hidden = p.evaluate("[...document.querySelectorAll('.reveal')].filter(e => getComputedStyle(e).opacity === '0').length")
         ok.append(("phone: sections further down wait to fade in (%d)" % hidden, hidden > 5))
         cols = p.evaluate("getComputedStyle(document.querySelector('.tiles')).gridTemplateColumns.split(' ').length")
-        ok.append(("phone: 8 tiles, 2 across", p.locator(".tile").count() == 8 and cols == 2))
+        ok.append(("phone: 3 tiles, one under another", p.locator(".tile").count() == 3 and cols == 1))
         scroll_through(p)
         left = p.evaluate("[...document.querySelectorAll('.reveal')].filter(e => getComputedStyle(e).opacity !== '1').length")
         ok.append(("phone: after scrolling, everything is visible (%d left)" % left, left == 0))
         ok.append(("phone: the numbers count up to 12 and 785", p.evaluate("[...document.querySelectorAll('[data-count]')].map(b => b.textContent).join(',')") == "12,785"))
-        t = p.locator(".tile").nth(2); t.scroll_into_view_if_needed()
+        t = p.locator(".tile").nth(0); t.scroll_into_view_if_needed()
         closed = t.evaluate("e => e.querySelector('.more > span').getBoundingClientRect().height")
         t.tap(); p.wait_for_timeout(450)
         opened = t.evaluate("e => e.querySelector('.more > span').getBoundingClientRect().height")
@@ -83,16 +83,16 @@ def main():
         c, p = page_for(b, errors, viewport={"width": 1280, "height": 800})
         p.goto(BASE + "index.html"); p.wait_for_timeout(600); scroll_through(p)
         cols = p.evaluate("getComputedStyle(document.querySelector('.tiles')).gridTemplateColumns.split(' ').length")
-        ok.append(("computer: 4 tiles across", cols == 4))
+        ok.append(("computer: 3 tiles across", cols == 3))
         ok.append(("computer: no bar at the bottom (the button is easy to reach)", p.evaluate("getComputedStyle(document.getElementById('stick')).display") == "none"))
         t = p.locator(".tile").nth(1); t.scroll_into_view_if_needed(); p.wait_for_timeout(300)
         box = t.bounding_box(); p.mouse.move(box["x"] + 30, box["y"] + 30); p.wait_for_timeout(500)
         lift = p.evaluate("(() => { const m = getComputedStyle(document.querySelectorAll('.tile')[1]).transform; return m === 'none' ? 0 : new DOMMatrix(m).m42; })()")
         more = t.evaluate("e => e.querySelector('.more').getBoundingClientRect().height")
-        below = p.locator(".tile").nth(5).bounding_box()["y"]
+        below = p.locator("#how-section").bounding_box()["y"]
         p.mouse.move(5, 5); p.wait_for_timeout(450)
-        moved = abs(p.locator(".tile").nth(5).bounding_box()["y"] - below)
-        ok.append(("computer: hovering a tile lifts it (%.1fpx) and shows its detail (%dpx) without moving the row below (%dpx)" % (lift, more, moved),
+        moved = abs(p.locator("#how-section").bounding_box()["y"] - below)
+        ok.append(("computer: hovering a tile lifts it (%.1fpx) and shows its detail (%dpx) without moving what's below (%dpx)" % (lift, more, moved),
                    lift < -2 and more > 30 and moved < 1))
         pl = p.locator(".plan.best"); pl.scroll_into_view_if_needed(); bb = pl.bounding_box(); p.mouse.move(bb["x"] + 60, bb["y"] + 60); p.wait_for_timeout(450)
         glow = p.evaluate("getComputedStyle(document.querySelector('.plan.best')).boxShadow")
