@@ -3,7 +3,7 @@
    pictures and all the audio, so lessons open and play with no connection. Two things the website loads from other
    sites are saved into the app instead: the Supabase library and the fonts. The landing page (index.html) and the
    owner's dashboard stay on the website; the app opens on Home (dashboard.html), which sends a signed-out learner
-   to the sign-in page.
+   to the sign-in page. Plans and Settings also get app-store.js: the stores' subscriptions instead of Stripe.
      node build-web.js          (then: npx cap sync) */
 const fs = require('fs'), path = require('path');
 const ROOT = path.join(__dirname, '..'), WWW = path.join(__dirname, 'www');
@@ -56,6 +56,13 @@ async function get(url, bin) {
     h = h.replace(/href="(https:\/\/fonts\.googleapis\.com\/css2\?[^"]+)"/g, (m, u) => `href="${sheets.get(u.replace(/&amp;/g, '&'))}"`);
     h = h.replace(/<link rel="preconnect" href="https:\/\/fonts\.(googleapis|gstatic)\.com"[^>]*>\n?/g, '');
     fs.writeFileSync(path.join(WWW, f), h);
+  }
+  // App Store / Google Play instead of Stripe (#352): app-store.js, only in the app's copies of Plans and Settings
+  copy(path.join(__dirname, 'app-store.js'), path.join(WWW, 'app-store.js'));
+  for (const f of ['plans.html', 'settings.html']) {
+    const h = fs.readFileSync(path.join(WWW, f), 'utf8');
+    if (!h.includes('</body>')) throw new Error(`${f}: no </body> to add app-store.js before`);
+    fs.writeFileSync(path.join(WWW, f), h.replace('</body>', '<script src="app-store.js"></script>\n</body>'));
   }
   // the app opens on Home
   fs.writeFileSync(path.join(WWW, 'index.html'), '<!doctype html><meta charset="utf-8"><title>Rafiq</title><script>location.replace("dashboard.html")</script>\n');
