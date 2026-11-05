@@ -28,8 +28,11 @@ workflows:
     scripts:
       - name: Build the web part and sync
         script: |
+          set -e
           cd app
-          npm ci
+          # --ignore-scripts: sharp (only for @capacitor/assets, the icon maker; the icons are already made) downloads
+          # libvips on install, and that download timed out on Codemagic (5 Nov); Capacitor needs no install scripts
+          npm ci --ignore-scripts --no-audit --no-fund
           node build-web.js
           npx cap sync ios
       - name: Simulator build (no signing)
