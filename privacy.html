@@ -40,7 +40,7 @@ a{color:var(--verdigris)}
 <main class="wrap">
   <div class="top"><a href="index.html">‹ Rafiq</a><span><a href="terms.html">Terms</a> · <a href="help.html">Help</a></span></div>
   <h1>Privacy policy</h1>
-  <p class="upd">Last updated 1 October 2026</p>
+  <p class="upd">Last updated 5 November 2026</p>
 
   <div class="sum">
     <h2>The short version</h2>
@@ -73,6 +73,7 @@ a{color:var(--verdigris)}
       <tr><td>Your answers at sign-up</td><td>Whether you can read Arabic, your level, how much time you have a day and, if you choose to tell us, why you’re learning.</td></tr>
       <tr><td>Your learning</td><td>Which lessons and words you’ve done, how well you knew them, when they’re due for review, your streak and your settings.</td></tr>
       <tr><td>Your plan</td><td>Your free week, which plan you’re on and its dates, and the reference numbers Stripe gives us. Not your card details.</td></tr>
+      <tr><td>Questions to the tutor</td><td>What you ask the AI tutor and its answers, what was on your screen when you tap “Why?” after a mistake, and how much each answer cost us to make.</td></tr>
       <tr><td>Messages to us</td><td>What you send through “Report a problem”, the help page or by email. If you choose to include it, a copy of what was on your screen at the time (the question and your answer).</td></tr>
       <tr><td>Technical information</td><td>When you use a report form: your browser and device type. Our hosting providers also keep short-lived logs (such as IP addresses) to keep their services secure.</td></tr>
     </tbody>
@@ -88,8 +89,10 @@ a{color:var(--verdigris)}
   </ul>
   <p>We don’t send marketing emails. If we ever want to, we’ll ask first, and you’ll be able to say no or change your mind at any time.</p>
 
-  <h2 id="checks">4. Smart answer checks</h2>
+  <h2 id="checks">4. Smart answer checks and the AI tutor</h2>
   <p>When you type an answer in your own words (a sentence, a reply in a conversation), Rafiq may check it on its meaning rather than letter by letter. To do this, the text you typed and the question are sent through our checking service (run on Cloudflare) to TypeSafe, which judges whether the answer is right. <b>Your name and email are not sent</b>, only the words of the question and your answer. We use the result to mark your answer and nothing else.</p>
+
+  <p id="tutor"><b>The AI tutor.</b> When you ask the tutor a question, or tap “Why?” after a mistake, your question is sent through our server to Anthropic, whose Claude AI writes the answer. With it go the recent messages in your chat, what was on your screen (for “Why?”), and what the tutor needs to fit the answer to you: your current unit and its words, and the kinds of mistakes you often make. <b>Your name and email are not sent.</b> We keep your questions and the answers so we can check that the tutor is right and what it costs; they’re deleted when you delete your account. The tutor can make mistakes: if an answer looks wrong, please tell us with ⚑.</p>
 
   <h2 id="share">5. Who we share it with</h2>
   <p>We use trusted services to run Rafiq. They handle your data only on our instructions, under contracts that require them to protect it:</p>
@@ -101,6 +104,7 @@ a{color:var(--verdigris)}
       <tr><td>Stripe</td><td>Takes payments and manages subscriptions. Stripe is also responsible for your card details under its own <a href="https://stripe.com/gb/privacy" rel="noopener">privacy policy</a>.</td></tr>
       <tr><td>Resend</td><td>Sends our emails (confirmation, password reset, welcome, reminders).</td></tr>
       <tr><td>Cloudflare and TypeSafe</td><td>Smart answer checks (see section 4).</td></tr>
+      <tr><td>Anthropic</td><td>Writes the AI tutor’s answers (see section 4). Under its terms for businesses, Anthropic doesn’t use what’s sent to it to train its AI.</td></tr>
       <tr><td>GitHub Pages</td><td>Hosts the website itself.</td></tr>
       <tr><td>Quran Foundation (Quran.com) and QuranicAudio</td><td>Provide the Quran recitation, translation and word timings in Your salah. We ask for them without sending anything about you; your browser then plays the recitation from their servers, so, like any website you visit, they see your IP address.</td></tr>
       <tr><td>Google Fonts and jsDelivr</td><td>Deliver the fonts and a code library the pages use. Like any website you visit, they see your IP address when your browser fetches them.</td></tr>
@@ -124,6 +128,7 @@ a{color:var(--verdigris)}
   <ul>
     <li><b>Your account and learning:</b> until you delete your account. Deleting it (Settings → Delete my account) removes your account, progress and settings straight away.</li>
     <li><b>Payment records:</b> Stripe keeps records of payments, and we keep invoices, for 6 years, as UK tax law requires, even after an account is deleted.</li>
+    <li><b>Questions to the tutor:</b> until you delete your account. Anthropic keeps what it’s sent for a short time only, under its own policy.</li>
     <li><b>Messages and reports:</b> for as long as we need them to help you, and no longer than 2 years.</li>
     <li><b>Backups:</b> our database provider keeps short-term backups, which are overwritten within days.</li>
   </ul>
