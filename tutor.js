@@ -74,12 +74,12 @@
   }
 
   const WHY_NOT = {
-    signin:'Please sign in again to ask the tutor.',
-    plan:'The tutor is part of Rafiq Complete.',
-    limit:'You’ve asked the tutor 20 questions today, the most for one day. It’ll be back tomorrow.',
-    not_configured:'The tutor isn’t switched on yet. Please try again soon.',
+    signin:'Please sign in again to ask Rafiq.',
+    plan:'Ask Rafiq is part of Rafiq Complete.',
+    limit:'You’ve asked Rafiq 20 questions today, the most for one day. It’ll be back tomorrow.',
+    not_configured:'Ask Rafiq isn’t switched on yet. Please try again soon.',
     offline:'You seem to be offline. Check your connection and try again.',
-    server:'The tutor couldn’t answer just now. Please try again in a moment.',
+    server:'Rafiq couldn’t answer just now. Please try again in a moment.',
   };
   const problem = e => WHY_NOT[e] || WHY_NOT.server;
 
@@ -139,7 +139,7 @@
     if(!head || !window.RafiqPlan || !RafiqPlan.isComplete()) return;
     why = document.createElement('button');
     why.type = 'button'; why.className = 'tu-why'; why.textContent = 'Why?';
-    why.setAttribute('aria-label', 'Why was that wrong? Ask the tutor');
+    why.setAttribute('aria-label', 'Why was that wrong? Ask Rafiq');
     why.onclick = openWhy;
     const flag = head.querySelector('.rp-flag');
     flag ? head.insertBefore(why, flag) : head.appendChild(why);

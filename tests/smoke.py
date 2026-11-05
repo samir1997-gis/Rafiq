@@ -42,9 +42,16 @@ def main():
                 failures.append((name, e))
             page.close()
 
-        # the review scheduler is loaded wherever progress is
-        page = ctx.new_page()
-        page.goto(BASE + "vocab.html", wait_until="domcontentloaded")
+        # the review scheduler is loaded wherever progress is: vocab.html, signed in (signed out it rightly sends you to
+        # login.html, which doesn't load them), with startup_speed's stand-in Supabase and progress
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from startup_speed import FAKE, MIRROR
+        import json
+        signed = browser.new_context()
+        signed.route("**/@supabase/**", lambda r: r.fulfill(status=200, content_type="application/javascript", body=FAKE))
+        signed.add_init_script("localStorage.setItem('rafiq_progress_mirror',%s);localStorage.setItem('rafiq_onboarded','u1');" % json.dumps(json.dumps(MIRROR)))
+        page = signed.new_page()
+        page.goto(BASE + "vocab.html"); page.wait_for_timeout(1500)
         ok = page.evaluate("typeof FSRS==='object' && typeof Progress==='object' && typeof Progress.grade==='function'")
         print("FSRS + Progress on vocab.html:", "ok" if ok else "FAIL")
         if not ok:

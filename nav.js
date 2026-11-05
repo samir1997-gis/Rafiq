@@ -9,7 +9,7 @@
   const on = TAB[page] || 'home';
   const ITEMS = [['home','dashboard.html','الرَّئِيسَة','Home'],
                  ['practise','practise.html','تَدْرِيب','Practise'],
-                 ['tutor','tutor.html','مُعَلِّم','Tutor'],
+                 ['tutor','tutor.html','رَفِيق','Rafiq'],
                  ['progress','progress.html','التَّقَدُّم','Progress'],
                  ['settings','settings.html','إِعْدادات','Settings']]
                 .filter(([k]) => k !== 'tutor' || (typeof TUTOR_ON !== 'undefined' && TUTOR_ON));   // auth.js
