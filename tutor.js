@@ -2,7 +2,7 @@
 
    RafiqTutor.ask(mode, messages, context, onText)
        asks the `tutor` Edge Function; onText(sofar) is called as the answer
-       streams in. Resolves to {text} or {error: 'signin'|'plan'|'limit'|
+       streams in; the first time on a device it asks permission to send to Anthropic. Resolves to {text} or {error: 'consent'|'signin'|'plan'|'limit'|
        'not_configured'|'offline'|'server'}.
    RafiqTutor.learner(question)
        what the tutor should know for the Tutor tab: the learner's unit, its
@@ -46,7 +46,40 @@
     }).join('');
   }
 
+  /* Permission before anything goes to Anthropic (Apple 5.1.2(i), #351): asked once on this device, before the first
+     question from the chat, Home's card or Why?. Resolves true once allowed. */
+  const OK_KEY = 'rafiq_ai_ok';
+  function allowed(){
+    try{ if(localStorage.getItem(OK_KEY) === '1') return Promise.resolve(true); }catch(_){}
+    return new Promise(done => {
+      if(!document.getElementById('aiok-css')){ const st = document.createElement('style'); st.id = 'aiok-css'; st.textContent = `
+#aiok{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(10,16,18,.55);
+  animation:aiok-fade .25s ease-out both}
+#aiok .box{width:min(420px,100%);background:var(--card);color:var(--ink);border:1px solid var(--rule);border-radius:18px;padding:20px 20px 16px;
+  box-shadow:0 24px 50px -16px rgba(0,0,0,.5);font-family:var(--la);animation:aiok-in .38s cubic-bezier(.34,1.3,.64,1) both}
+#aiok h2{font-size:19px;font-weight:800;margin:0 0 8px}#aiok p{font-size:14.5px;line-height:1.55;color:var(--ink-soft);margin:0 0 10px}#aiok b{color:var(--ink)}
+#aiok a{color:var(--verdigris)}#aiok .row{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
+#aiok button{border-radius:999px;font:800 14px var(--la);padding:10px 18px;cursor:pointer;border:1px solid var(--rule);background:var(--paper);color:var(--ink)}
+#aiok button.yes{background:var(--verdigris);border-color:var(--verdigris);color:#fff}
+@keyframes aiok-fade{from{opacity:0}}@keyframes aiok-in{from{opacity:0;transform:translateY(10px) scale(.97)}}
+@media (prefers-reduced-motion:reduce){#aiok,#aiok .box{animation:none}}`; document.head.appendChild(st); }
+      const m = document.createElement('div'); m.id = 'aiok'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); m.setAttribute('aria-labelledby', 'aiokT');
+      m.innerHTML = `<div class="box"><h2 id="aiokT">Before you ask</h2>
+        <p>Ask Rafiq’s answers are written by <b>Claude, an AI made by Anthropic</b>. To answer, your question is sent to Anthropic,
+          with what Rafiq needs to fit the answer to you: your current unit’s words, the kinds of mistakes you often make and,
+          for <b>Why?</b>, what’s on your screen.</p>
+        <p><b>Your name and email are never sent</b>, and Anthropic doesn’t use any of it to train its AI.
+          More in our <a href="privacy.html#tutor" target="_blank" rel="noopener">Privacy policy</a>.</p>
+        <div class="row"><button type="button" class="no">Not now</button><button type="button" class="yes">OK, ask Rafiq</button></div></div>`;
+      document.body.appendChild(m);
+      const end = ok => { if(ok) try{ localStorage.setItem(OK_KEY, '1'); }catch(_){} m.remove(); done(ok); };
+      m.querySelector('.yes').onclick = () => end(true); m.querySelector('.no').onclick = () => end(false);
+      m.querySelector('.yes').focus();
+    });
+  }
+
   async function ask(mode, messages, context, onText){
+    if(!(await allowed())) return { error:'consent' };
     let token = null;
     try{ const { data } = await sb.auth.getSession(); token = data && data.session && data.session.access_token; }catch(_){}
     if(!token) return { error:'signin' };
@@ -74,6 +107,7 @@
   }
 
   const WHY_NOT = {
+    consent:'Ask Rafiq needs your OK before it sends a question. Ask again whenever you’re ready.',
     signin:'Please sign in again to ask Rafiq.',
     plan:'Ask Rafiq is part of Rafiq Complete.',
     limit:'You’ve asked Rafiq 20 questions today, the most for one day. It’ll be back tomorrow.',
