@@ -1,4 +1,4 @@
-# Codemagic (#35): the iPhone app's builds, on Codemagic's Macs. GitHub never gave this private repo a Mac
+# Codemagic (#35): the iPhone app's builds, on Codemagic's Macs. GitHub never gave this repo a Mac
 # (the iPhone job sat queued, then was cancelled, 4 Nov 2026), so the owner chose Codemagic (5 Nov 2026).
 # Android stays on GitHub (.github/workflows/app-build.yml).
 #
