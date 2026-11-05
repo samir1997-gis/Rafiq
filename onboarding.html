@@ -77,41 +77,93 @@
 .how-play .hp-icon::before{content:"";margin-left:3px;border-style:solid;border-width:7px 0 7px 11px;border-color:transparent transparent transparent #fff}
 .how-frame.playing .how-play{opacity:0;pointer-events:none}
 .skip:active{opacity:.6}
+/* The first lesson and well done (#348). Moves ease (MOTION-STYLE): in with ease-out, the tiles spring a little. */
+.fl{text-align:center}
+.fl h1{font-size:24px}
+.fl-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;text-align:left}
+.fl-top .label{margin:0}
+.fl-dots{display:flex;gap:5px}.fl-dots i{width:18px;height:5px;border-radius:3px;background:var(--rule);transition:background .3s var(--ease-out,ease-out),width .3s var(--ease-out,ease-out)}
+.fl-dots i.done{background:var(--verdigris)}.fl-dots i.on{background:var(--gold,#c9a227);width:26px}
+#flBody.in{animation:fl-in .42s var(--ease-out,cubic-bezier(.22,1,.36,1)) both}
+@keyframes fl-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.fl-say{display:inline-flex;align-items:center;gap:12px;margin:8px auto 4px;padding:10px 18px;border:1px solid var(--rule);border-radius:16px;background:var(--paper);
+  color:var(--ink);cursor:pointer;touch-action:manipulation;transition:transform var(--press,120ms) var(--ease-out,ease-out)}
+.fl-say:active{transform:scale(.97)}.fl-say.static{cursor:default}
+.fl-say .spk{font-size:18px;opacity:.75}
+.fl-ar{font-family:var(--ar);font-size:30px;line-height:1.6;font-weight:600;white-space:nowrap}
+.fl-say.big .fl-ar{font-size:36px;white-space:nowrap}
+.fl-say.speaking,.fl-say .speaking{border-color:var(--verdigris)}
+.fl-tr{font-family:var(--ut);font-size:13px;letter-spacing:.04em;color:var(--ink-soft);margin-top:6px}
+.fl-en{font-size:18px;font-weight:700;margin-top:4px}
+.fl-note{font-size:14px;color:var(--ink-soft);margin-top:14px}
+.fl .intro span[lang=ar],.fl-note span[lang=ar]{font-family:var(--ar);font-size:1.25em;color:var(--ink)}
+.fl-opts{margin:16px 0 4px}.fl-opts .opt{text-align:center}
+.fl-opts .opt.ok{border-color:var(--verdigris);background:rgba(46,114,99,.12);font-weight:700}
+.fl-opts .opt.no{opacity:.45;text-decoration:line-through}
+.fl-fb{min-height:20px;font-size:14px;font-weight:600;color:var(--verdigris);margin-top:8px}
+.fl-line{min-height:64px;margin:16px 0 14px;padding:10px 12px;border:1.5px dashed var(--rule);border-radius:14px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;
+  font-family:var(--ar);font-size:28px;line-height:1.5}
+.fl-piece{animation:fl-pop .38s cubic-bezier(.34,1.4,.64,1) both}
+@keyframes fl-pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+.fl-line bdi{font-family:var(--la);font-size:22px;font-weight:700}
+.fl-tiles{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.fl-tile{display:flex;flex-direction:column;align-items:center;padding:8px 16px;border:1px solid var(--rule);border-radius:12px;background:var(--card);
+  box-shadow:0 3px 0 var(--rule);cursor:pointer;color:var(--ink);font:600 18px var(--la);touch-action:manipulation;
+  transition:transform var(--press,120ms) var(--ease-out,ease-out),opacity .25s var(--ease-out,ease-out)}
+.fl-tile .fl-ar{font-size:26px}.fl-tile small{font-family:var(--ut);font-size:11px;color:var(--ink-soft)}
+.fl-tile:active{transform:translateY(2px);box-shadow:0 1px 0 var(--rule)}
+.fl-tile.used{opacity:.25;box-shadow:none;cursor:default}
+.fl-tile.shake{animation:fl-shake .4s cubic-bezier(.36,.07,.19,.97)}
+@keyframes fl-shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.fl-act{margin-top:20px}
+#well{position:relative;overflow:hidden}
+#well h1{font-size:28px;animation:fl-pop .5s cubic-bezier(.34,1.4,.64,1) both}
+.fl #wellAr{white-space:normal}
+#well .fl-note b{color:var(--ink)}
+.burst{position:absolute;inset:0;pointer-events:none;background:
+  radial-gradient(circle at 20% 18%,var(--gold,#c9a227) 0 4px,transparent 5px),radial-gradient(circle at 80% 22%,var(--verdigris) 0 5px,transparent 6px),
+  radial-gradient(circle at 12% 70%,var(--rubric) 0 4px,transparent 5px),radial-gradient(circle at 88% 64%,var(--gold,#c9a227) 0 4px,transparent 5px),
+  radial-gradient(circle at 50% 8%,var(--rubric) 0 3px,transparent 4px),radial-gradient(circle at 34% 88%,var(--verdigris) 0 4px,transparent 5px);
+  animation:fl-burst 1.2s var(--ease-out,cubic-bezier(.22,1,.36,1)) both}
+@keyframes fl-burst{from{opacity:0;transform:scale(.4)}40%{opacity:1}to{opacity:0;transform:scale(1.15)}}
+@media (prefers-reduced-motion:reduce){#flBody.in,.fl-piece,#well h1,.burst,.fl-tile.shake{animation:none}}
 </style>
 </head>
 <body>
 <main class="screen">
-  <div class="card" id="qs">
-    <div class="label">Welcome to Rafiq</div>
-    <h1>Let's find your starting point</h1>
-    <p class="intro">A few quick questions. You can change your answers later in Settings.</p>
+  <!-- 1 · straight after confirming the email: a two-minute first lesson with their own name (#348) -->
+  <div class="card fl" id="first">
+    <div class="fl-top"><div class="label" id="flLabel">First lesson · 2 min</div><div class="fl-dots" id="flDots"></div></div>
+    <div id="flBody"></div>
+    <div class="actions fl-act"><span></span><button class="btn" id="flNext" type="button">Next</button></div>
+  </div>
+  <!-- 2 · well done -->
+  <div class="card fl hide" id="well">
+    <div class="burst" aria-hidden="true"></div>
+    <div class="label">First lesson done</div>
+    <h1 id="wellH">Well done!</h1>
+    <p class="intro" id="wellP">You just introduced yourself in Arabic.</p>
+    <button class="fl-say" id="wellSay" type="button" aria-label="Hear it again"><span class="fl-ar" lang="ar" dir="rtl" id="wellAr"></span><span class="spk" aria-hidden="true">🔊</span></button>
+    <p class="fl-note">You’ve learnt <b>2 words</b>: we’ll bring them back so they stick.<br>That’s your first lesson done today ✅</p>
+    <div class="actions" style="justify-content:flex-end"><button class="btn" id="wellGo" type="button">Next: 2 quick questions</button></div>
+  </div>
+  <!-- 3 · two questions, then Home and its tour -->
+  <div class="card hide" id="qs">
+    <div class="label">Two quick questions</div>
+    <h1>Let's set up your path</h1>
+    <p class="intro">You can change both later in Settings.</p>
 
     <div class="q" data-key="reads">
-      <h2>Can you read Arabic script?</h2>
+      <h2>Can you read Arabic letters?</h2>
       <div class="opts">
-        <button class="opt" data-val="no">Not yet</button>
+        <button class="opt" data-val="no">Not yet: start me with the letters</button>
         <button class="opt" data-val="little">A little, slowly</button>
         <button class="opt" data-val="yes">Yes, comfortably</button>
-      </div>
-    </div>
-    <div class="q" data-key="level">
-      <h2>How much Arabic do you know?</h2>
-      <div class="opts">
-        <button class="opt" data-val="beginner">None yet</button>
-        <button class="opt" data-val="basics">Some basics — greetings, simple sentences</button>
-        <button class="opt" data-val="intermediate">Quite a lot</button>
-      </div>
-    </div>
-    <div class="q" data-key="duration">
-      <h2>How much time a day?</h2>
-      <div class="opts">
-        <button class="opt" data-val="5">About 5 minutes</button>
-        <button class="opt" data-val="10">About 10 minutes</button>
-        <button class="opt" data-val="20">20 minutes or more</button>
+        <button class="opt" data-val="knows">Yes, and I already know some Arabic</button>
       </div>
     </div>
     <div class="q" data-key="remind">
-      <h2>A daily reminder? <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></h2>
+      <h2>When should we remind you? <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></h2>
       <div class="opts">
         <button class="opt" data-val="8">Morning, 8:00</button>
         <button class="opt" data-val="13">Lunchtime, 13:00</button>
@@ -119,17 +171,7 @@
         <button class="opt" data-val="21">Night, 21:00</button>
         <button class="opt" data-val="none">No reminders</button>
       </div>
-      <p class="qnote">By email, only on days you haven’t done your goal. Change it any time in Settings.</p>
-    </div>
-    <div class="q" data-key="reason">
-      <h2>What brings you to Arabic? <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></h2>
-      <div class="opts">
-        <button class="opt" data-val="religion">Religion &amp; the Qur'an</button>
-        <button class="opt" data-val="heritage">Family &amp; heritage</button>
-        <button class="opt" data-val="travel">Travel</button>
-        <button class="opt" data-val="work">Work or study</button>
-        <button class="opt" data-val="interest">Just interested</button>
-      </div>
+      <p class="qnote">By email, only on days you haven’t done your lesson.</p>
     </div>
     <div class="actions">
       <button class="skip" id="skipBtn">Skip for now</button>
@@ -153,24 +195,6 @@
     </div>
     <div class="msg" id="plMsg"></div>
   </div>
-  <!-- after the questions, once: the 79-second tour, never in the way of starting -->
-  <div class="card hide" id="howto">
-    <div class="label">You're all set</div>
-    <h1>How Rafiq works</h1>
-    <p class="intro">A 79-second tour: your path, reviews, practice and feedback. Watch it now, or jump straight in.</p>
-    <div class="how-frame">
-      <video id="howVid" preload="none" playsinline poster="media/rafiq-how-it-works.jpg?v=1">
-        <source src="media/rafiq-how-it-works.mp4?v=1" type="video/mp4">
-        <track kind="captions" src="media/rafiq-how-it-works.en.vtt?v=1" srclang="en" label="English">
-      </video>
-      <button class="how-play" id="howPlay" type="button" aria-label="Play how Rafiq works, with sound">
-        <span class="hp-icon" aria-hidden="true"></span><span>Watch · 79 sec</span>
-      </button>
-    </div>
-    <div class="actions" style="justify-content:flex-end">
-      <button class="btn" id="howStart">Start my first lesson</button>
-    </div>
-  </div>
 </main>
 
 <script src="vocab-data.js?v=20261022a"></script>
@@ -184,10 +208,11 @@
 <script src="plan.js?v=20261104store"></script>
 <script src="reminders.js?v=2"></script>
 <script src="judge.js?v=20260922"></script>
+<script src="audio.js?v=904"></script>
 <script src="arkb.js?v=3" defer></script>
 <script>
 requireLogin();
-const answers = { reads:null, level:null, duration:null, remind:null, reason:null };
+const answers = { reads:null, remind:null };
 document.querySelectorAll('.q').forEach(q=>{
   const key=q.dataset.key;
   q.querySelectorAll('.opt').forEach(btn=>btn.addEventListener('click',()=>{
@@ -196,48 +221,114 @@ document.querySelectorAll('.q').forEach(q=>{
   }));
 });
 
-/* 'finished the questions' and 'offered the tour' are kept per account, not per
-   browser: a confirm link often opens in a different browser from sign-up, and
-   one browser can hold more than one account. */
+/* 'finished' and 'did the first lesson' are kept per account, not per browser: a confirm link
+   often opens in a different browser from sign-up, and one browser can hold more than one account. */
 let UID=null;
 const uidReady=(typeof currentUserId==='function' ? currentUserId() : Promise.resolve(null)).then(u=>UID=u).catch(()=>null);
 const markOnboarded=()=>{ try{ localStorage.setItem('rafiq_onboarded', UID||'1'); }catch(_){} };
+const show=id=>{ ['first','well','qs','pl'].forEach(x=>document.getElementById(x).classList.toggle('hide', x!==id)); window.scrollTo(0,0); };
 
-const GOAL_FOR={ '5':1, '10':2, '20':4 };       // lesson steps a day
-const LEVEL_PACE={ beginner:2, basics:4, intermediate:5 };   // extra new words a day in Words
+/* ---- 1 · the first lesson (#348): a greeting, "my name", their own name in Arabic, then they build the sentence ---- */
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const GREET='السَّلامُ عَلَيْكُمْ', MY='اسْمِي';
+const ding=ok=>{ try{ const a=new Audio('sounds/'+(ok?'correct':'wrong')+'.mp3'); a.volume=.6; a.play().catch(()=>{}); }catch(_){} };
+const say=(t,el,after)=>{ try{ if(window.RQ) return RQ.speak(t, el||null, after||null); }catch(_){} if(after) setTimeout(after, 600); };
+const sayAll=(parts,el)=>{ const next=k=>{ if(k<parts.length) say(parts[k], el, ()=>setTimeout(()=>next(k+1),150)); }; next(0); };
+/* The learner's first name: from sign-up (bay_name) or their account (Google gives full_name); in Arabic when
+   it's a common name (BASICS_NAMES, each with a recording), otherwise as typed. */
+async function learnerName(){
+  let raw=''; try{ raw=localStorage.getItem('bay_name')||''; }catch(_){}
+  if(!raw && typeof sb!=='undefined' && sb){ try{ const {data}=await sb.auth.getUser(); const m=(data&&data.user&&data.user.user_metadata)||{};
+    raw=m.name||m.full_name||''; if(raw) try{ localStorage.setItem('bay_name', raw); }catch(_){} }catch(_){} }
+  raw=String(raw).trim().split(/\s+/)[0]||'';
+  if(!raw) return null;
+  const k=raw.toLowerCase().replace(/[^a-z]/g,'');
+  return {ar: typeof BASICS_NAMES!=='undefined' && BASICS_NAMES[k] || null, latin: raw.charAt(0).toUpperCase()+raw.slice(1)};
+}
+async function firstLesson(){
+  const nm=await learnerName();
+  const nameAr=nm && nm.ar, nameShown=nameAr || (nm ? nm.latin : null);
+  const body=document.getElementById('flBody'), next=document.getElementById('flNext'), dots=document.getElementById('flDots');
+  const N=5; let i=0;
+  const word=(ar,tr,en,note)=>`<button class="fl-say big" type="button" aria-label="Hear it"><span class="fl-ar" lang="ar" dir="rtl">${esc(ar)}</span><span class="spk" aria-hidden="true">🔊</span></button>
+    <p class="fl-tr">${esc(tr)}</p><p class="fl-en">${en}</p>${note?`<p class="fl-note">${note}</p>`:''}`;
+  const hook=(t)=>{ const b=body.querySelector('.fl-say'); if(b){ b.onclick=()=>say(t,b); setTimeout(()=>say(t,b),350); } };
+  const steps=[
+    ()=>{ body.innerHTML=`<h1>Say hello</h1><p class="intro">Muslims greet each other with these words all over the world. Tap to hear it again.</p>`
+            + word(GREET,'as-salāmu ʿalaykum','Peace be upon you'); hook(GREET); return true; },
+    ()=>{ const opts=['Peace be upon you','Good morning','Thank you'].sort(()=>Math.random()-.5);
+          body.innerHTML=`<h1>What does it mean?</h1><button class="fl-say" type="button"><span class="fl-ar" lang="ar" dir="rtl">${esc(GREET)}</span><span class="spk" aria-hidden="true">🔊</span></button>
+            <div class="opts fl-opts">${opts.map(o=>`<button class="opt" type="button">${o}</button>`).join('')}</div><p class="fl-fb" id="flFb"></p>`;
+          hook(GREET);
+          body.querySelectorAll('.fl-opts .opt').forEach(b=>b.onclick=()=>{
+            const ok=b.textContent==='Peace be upon you'; ding(ok);
+            if(ok){ b.classList.add('ok'); body.querySelectorAll('.fl-opts .opt').forEach(x=>x.disabled=true);
+                    document.getElementById('flFb').textContent='That’s it! You’ll hear it every day.'; next.disabled=false; }
+            else { b.classList.add('no'); b.disabled=true; document.getElementById('flFb').textContent='Not quite. Try another.'; } });
+          return false; },
+    ()=>{ body.innerHTML=`<h1>“My name”</h1><p class="intro">The word for <i>name</i> is <span lang="ar">اسْم</span>, and the <span lang="ar">ـِي</span> on the end makes it <i>my</i>.</p>`
+            + word(MY,'ismī','my name'); hook(MY); return true; },
+    ()=>{ if(nameAr){ body.innerHTML=`<h1>And your name, ${esc(nm.latin)}</h1><p class="intro">Here it is in Arabic.</p>` + word(nameAr, nm.latin, 'your name in Arabic',
+              `So <span lang="ar">${esc(MY+' '+nameAr)}</span> means “my name is ${esc(nm.latin)}”.`); hook(nameAr); }
+          else if(nm){ body.innerHTML=`<h1>And your name, ${esc(nm.latin)}</h1><p class="intro">Arabic has no word for “is” here: you just say <span lang="ar">${MY}</span> and then your name.</p>
+              <div class="fl-say big static"><span class="fl-ar" dir="rtl"><span lang="ar">${MY}</span> <bdi dir="ltr" lang="en">${esc(nm.latin)}</bdi></span></div><p class="fl-en">my name is ${esc(nm.latin)}</p>`; }
+          else { body.innerHTML=`<h1>Now a name</h1><p class="intro">Arabic has no word for “is” here: you just say <span lang="ar">${MY}</span> and then the name. We’ll use Samir.</p>` + word('سَمِير','Samir','a name: Samir'); hook('سَمِير'); }
+          return true; },
+    ()=>{ const own=nameShown||'سَمِير', ownAr=nameAr || (!nm ? 'سَمِير' : null);
+          const tiles=[{t:GREET,tr:'as-salāmu ʿalaykum'},{t:MY,tr:'ismī'},{t:own,tr:ownAr?(nm?nm.latin:'Samir'):'',latin:!ownAr}];
+          body.innerHTML=`<h1>Introduce yourself</h1><p class="intro">Tap the pieces in order: <i>Peace be upon you, my name is ${esc(nm?nm.latin:'Samir')}.</i></p>
+            <div class="fl-line" id="flLine" dir="rtl"></div><div class="fl-tiles" id="flTiles"></div><p class="fl-fb" id="flFb"></p>`;
+          const line=body.querySelector('#flLine'), box=body.querySelector('#flTiles'); let k=0;
+          [2,0,1].map(j=>tiles[j]).forEach((x,j)=>{ const b=document.createElement('button'); b.type='button'; b.className='fl-tile';
+            b.innerHTML=`<span ${x.latin?'dir="ltr" lang="en"':'lang="ar" dir="rtl"'} class="${x.latin?'':'fl-ar'}">${esc(x.t)}</span>${x.tr?`<small>${esc(x.tr)}</small>`:''}`;
+            b.onclick=()=>{ if(x!==tiles[k]){ b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); ding(false);
+                              document.getElementById('flFb').textContent=k?'Not that one yet.':'Start with the greeting.'; return; }
+              if(!x.latin) say(x.t, b); b.classList.add('used'); b.disabled=true; k++;
+              const piece=document.createElement('span'); piece.className='fl-piece'; piece.innerHTML=x.latin?`<bdi dir="ltr" lang="en">${esc(x.t)}</bdi>`:esc(x.t)+(k===1?'،':''); line.appendChild(piece);
+              document.getElementById('flFb').textContent='';
+              if(k===tiles.length){ ding(true); next.disabled=false; next.textContent='Finish'; } };
+            box.appendChild(b); });
+          return false; }
+  ];
+  const paint=()=>{ dots.innerHTML=Array.from({length:N},(_,j)=>`<i class="${j<i?'done':j===i?'on':''}"></i>`).join('');
+    next.textContent='Next'; next.disabled=!steps[i](); body.classList.remove('in'); void body.offsetWidth; body.classList.add('in'); };
+  next.onclick=()=>{ if(i<N-1){ i++; paint(); } else finishLesson(nm, nameAr); };
+  paint();
+}
+function finishLesson(nm, nameAr){
+  // the two words go into their reviews, and the lesson counts as today's first step
+  try{ ['v:1','v:784'].forEach(id=>{ if(Progress.isNew(id)){ Progress.grade(id,'good',1); RafiqPath.wordMet(); } }); RafiqPath.markDay(); Progress.flush&&Progress.flush(); }catch(_){}
+  try{ const ids=(localStorage.getItem('rafiq_first_lesson')||'').split(','); localStorage.setItem('rafiq_first_lesson', ids.concat(UID||'1').slice(-5).join(',')); }catch(_){}
+  const ar=GREET+'، '+MY+' '+(nameAr || (nm ? '' : 'سَمِير'));
+  document.getElementById('wellH').textContent = nm ? `Well done, ${nm.latin}!` : 'Well done!';
+  const wa=document.getElementById('wellAr');
+  wa.innerHTML = esc(GREET+'، '+MY)+' '+(nameAr ? esc(nameAr) : nm ? `<bdi dir="ltr" lang="en">${esc(nm.latin)}</bdi>` : esc('سَمِير'));
+  const parts=[GREET, MY].concat(nameAr ? [nameAr] : nm ? [] : ['سَمِير']);
+  const sayIt=()=>{ const whole=ar.trim(); if(nameAr && window.RQ && RQ.clipId && RQ.clipId(whole)) say(whole, wa); else sayAll(parts, wa); };
+  document.getElementById('wellSay').onclick=sayIt;
+  show('well'); setTimeout(sayIt, 500);
+  document.getElementById('wellGo').onclick=()=>show('qs');
+}
 
+const LEVEL_PACE={ beginner:2, basics:4 };   // extra new words a day in Words
 async function save(){
   await uidReady; markOnboarded();
-  try{ if(answers.duration) localStorage.setItem('rafiq_goal', String(GOAL_FOR[answers.duration])); }catch(_){}
   // the reminder goes by email for now; notifications are offered once Rafiq is on the home screen
   try{ if(answers.remind && answers.remind !== 'none' && window.RafiqReminders)
-         await RafiqReminders.save({ hour:+answers.remind, goal:GOAL_FOR[answers.duration] || 2, by_email:true, enabled:true }); }catch(_){}
+         await RafiqReminders.save({ hour:+answers.remind, goal:2, by_email:true, enabled:true }); }catch(_){}
+  const level = answers.reads==='knows' ? 'basics' : answers.reads ? 'beginner' : null;
   try{
-    if(typeof cloudSaveProfile==='function')
-      await cloudSaveProfile({ level:answers.level, duration:answers.duration, reason:answers.reason });
-    const pace=LEVEL_PACE[answers.level];
+    if(typeof cloudSaveProfile==='function') await cloudSaveProfile({ level });
+    const pace=LEVEL_PACE[level];
     if(pace){ try{ localStorage.setItem('bay_vocab_newperday', String(pace)); }catch(_){}
               if(typeof cloudSaveNewPerDay==='function') await cloudSaveNewPerDay(pace); }
   }catch(_){}
 }
-function goHome(){ setTimeout(()=>{ window.location.href='dashboard.html'; }, 400); }
-/* Before Home, once per account: offer the 79-second tour. Starting the first
-   lesson stays the main button; the tour never plays by itself.
-   rafiq_seen_tour holds the ids of accounts that have been offered it here. */
-async function home(){
+/* Home, with its tour waiting (tour.js, #348): shown once, skippable at every step. */
+function home(){
   Progress.flush && Progress.flush();
-  await uidReady;
-  let seen=false;
-  try{ const ids=(localStorage.getItem('rafiq_seen_tour')||'').split(','), me=UID||'1';
-       seen=ids.includes(me); if(!seen) localStorage.setItem('rafiq_seen_tour', ids.filter(x=>x&&x!=='1').concat(me).slice(-5).join(',')); }catch(_){ seen=true; }
-  if(seen) return goHome();
-  ['qs','pl'].forEach(id=>{ const e=document.getElementById(id); if(e) e.classList.add('hide'); });
-  document.getElementById('howto').classList.remove('hide');
-  const v=document.getElementById('howVid'), f=v.parentElement;
-  document.getElementById('howPlay').onclick=()=>{ v.controls=true; f.classList.add('playing'); const p=v.play(); if(p&&p.catch) p.catch(()=>{}); };
-  v.addEventListener('play',()=>f.classList.add('playing'));
-  document.getElementById('howStart').onclick=()=>{ v.pause(); goHome(); };
-  window.scrollTo(0,0);
+  try{ localStorage.setItem('rafiq_tour', 'home'); }catch(_){}
+  setTimeout(()=>{ window.location.href='dashboard.html'; }, 300);
 }
 
 document.getElementById('skipBtn').onclick=async()=>{
@@ -249,11 +340,18 @@ document.getElementById('doneBtn').onclick=async()=>{
   document.getElementById('doneBtn').disabled=true;
   await Progress.init();
   await save();
-  if(answers.reads==='yes') RafiqPath.skipReading();
-  const knows = answers.level==='basics' || answers.level==='intermediate';
-  if(knows && answers.reads!=='no' && window.RafiqJudge && RafiqJudge.on) return placement();
+  if(answers.reads==='yes' || answers.reads==='knows') RafiqPath.skipReading();
+  if(answers.reads==='knows' && window.RafiqJudge && RafiqJudge.on) return placement();
   home();
 };
+
+/* Start: the lesson, unless this account has done it already (then the questions). */
+(async()=>{
+  await uidReady;
+  try{ await Progress.init(); }catch(_){}
+  let done=false; try{ done=(localStorage.getItem('rafiq_first_lesson')||'').split(',').includes(UID||'1'); }catch(_){}
+  if(done) show('qs'); else firstLesson();
+})();
 
 /* One sentence from every other unit; the first miss sets the start. */
 const PROBE=['01','03','05','07','09','11'].map(n=>{
@@ -261,8 +359,7 @@ const PROBE=['01','03','05','07','09','11'].map(n=>{
   return {n, ar:l[1], en:l[2]};
 });
 function placement(){
-  document.getElementById('qs').classList.add('hide');
-  document.getElementById('pl').classList.remove('hide');
+  show('pl');
   let i=0;
   const en=document.getElementById('plEn'), inp=document.getElementById('plIn'), msg=document.getElementById('plMsg');
   const go=document.getElementById('plGo'), skip=document.getElementById('plSkip');

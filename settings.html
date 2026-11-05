@@ -26,6 +26,7 @@
 <script src="auth.js?v=11"></script>
 <script src="reminders.js?v=2"></script>
 <script src="nav.js?v=20261105b"></script>
+<script src="tour.js?v=1" defer></script>
 <script src="sounds.js?v=1"></script>
 <script src="plan.js?v=20261104store"></script>
 <style>
@@ -279,6 +280,10 @@ a.rowlink{color:var(--verdigris);font-size:14px;text-decoration:none;white-space
   <!-- MORE -->
   <div class="group">
     <div class="glabel">More</div>
+    <div class="row">
+      <div class="rl"><div class="rt">Tour of Rafiq</div><div class="rs">A quick look around: what each part is for.</div></div>
+      <button class="btn" type="button" id="tourAgain" onclick="RafiqTour.again()" style="height:36px;padding:0 16px;font-size:14px">Show me around</button>
+    </div>
     <div class="row">
       <div class="rl"><div class="rt">Appearance</div><div class="rs">Follows your device by default — or pick one to always use.</div></div>
       <span class="seg" id="themeSeg" role="group" aria-label="Theme">

@@ -15,13 +15,13 @@
    - Nothing else is touched: sign-in, progress and answer checking always go
      to the network.
    Bump VERSION when the list below changes. */
-const VERSION = 'rafiq-2026-11-03-pics';
+const VERSION = 'rafiq-2026-11-05-tour';
 const SHELL = VERSION + '-shell', RUNTIME = 'rafiq-runtime', AUDIO = 'rafiq-audio', VERSIONED = 'rafiq-versioned';
 const RERECORDED = ['audio/y6ctyx.mp3'];   // جَدّ said "jadda" (owner, 13 Oct 2026)
 const PAGES = ['dashboard.html', 'login.html', 'onboarding.html', 'learn.html', 'session.html', 'practise.html', 'tutor.html', 'progress.html',
   'settings.html', 'vocab.html', 'drills.html', 'verbs.html', 'connectors.html', 'index.html', 'reset-password.html',
   'plans.html', 'help.html', 'privacy.html', 'salah.html'];
-const FILES = ['site.css', 'theme.js', 'pwa.js', 'auth.js', 'nav.js', 'plan.js', 'fsrs.js', 'progress.js', 'path.js', 'basics-data.js', 'path-data.js', 'audio.js',
+const FILES = ['site.css', 'theme.js', 'pwa.js', 'auth.js', 'nav.js', 'tour.js', 'plan.js', 'fsrs.js', 'progress.js', 'path.js', 'basics-data.js', 'path-data.js', 'audio.js',
   'sounds.js', 'judge.js', 'mistakes.js', 'arkb.js', 'tiles.js', 'spelling.js', 'translations.js', 'reminders.js',
   'alphabet-data.js', 'pics.js', 'vocab-data.js', 'drills-data.js', 'toolkit-data.js', 'scenes-data.js', 'essentials.js', 'essentials-data.js', 'body.js', 'body-data.js', 'taster.js',
   'item-tags.js', 'report.js', 'tutor.js', 'teach.js', 'salah.js', 'salah-data.js', 'salah-timings.js', 'manifest.json', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'badge-96.png',
