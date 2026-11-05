@@ -158,6 +158,46 @@
 .hint{font-size:13px!important;margin-top:2px}
 .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px;align-items:start}
 .tiles.three{grid-template-columns:repeat(3,1fr)}
+/* Ask Rafiq (the AI tutor) */
+.ask-grid{display:grid;grid-template-columns:1fr;gap:22px;align-items:center}
+.ask-badge{display:inline-flex;align-items:center;gap:8px;font:700 13px var(--la);color:var(--verdigris);background:color-mix(in srgb,var(--verdigris) 10%,transparent);
+  border:1px solid color-mix(in srgb,var(--verdigris) 30%,transparent);border-radius:999px;padding:4px 12px 4px 5px;margin-bottom:12px}
+.amark{position:relative;display:inline-block;width:22px;height:22px;border-radius:6px;background:var(--ink);flex:0 0 auto}
+.amark::before{content:'ر';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 14px/1 var(--ar);color:var(--paper);padding-bottom:3px;font-style:normal}
+.amark::after{content:'';position:absolute;top:4px;right:4px;width:4px;height:4px;border-radius:50%;background:var(--rubric)}
+.ask h2{font-size:clamp(24px,3.4vw,32px)!important;letter-spacing:-.02em}
+.ask-text p{color:var(--ink-soft);font-size:15.5px;line-height:1.65;max-width:52ch}
+.ask-pts{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:8px}
+.ask-pts li{font-size:15px;font-weight:600;display:flex;gap:10px;align-items:flex-start}
+.ask-pts li::before{content:'✓';color:var(--verdigris);font-weight:800}
+.ask-note{font-size:12.5px!important;margin-top:14px}
+.ask-demo{background:var(--card);border:1px solid var(--rule);border-radius:22px;padding:16px;box-shadow:0 18px 40px -22px rgba(var(--ink-rgb),.4);display:flex;flex-direction:column;gap:10px}
+.ask-head{display:flex;align-items:center;gap:8px;font-size:14px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
+.ab{max-width:88%;padding:10px 14px;border-radius:16px;font-size:14.5px;line-height:1.55}
+.ab [lang=ar]{font-family:var(--ar);font-size:1.2em}
+.ab.me{align-self:flex-end;background:var(--verdigris);color:#fff;border-bottom-right-radius:5px}
+.ab.ai{align-self:flex-start;background:var(--paper);border:1px solid var(--rule);border-bottom-left-radius:5px}
+.ab.wrong{align-self:flex-end;background:color-mix(in srgb,var(--rubric) 9%,var(--card));border:1px solid color-mix(in srgb,var(--rubric) 30%,transparent);
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-bottom-right-radius:5px}
+.ab.wrong .x{color:var(--rubric);font-weight:800}
+.ab .why{font:800 12.5px var(--la);color:#fff;background:var(--verdigris);border-radius:999px;padding:3px 10px}
+/* Computers: the top screen in two columns (the pitch on the left, the taster to try on the right), wider sections */
+@media (min-width:1000px){
+  .top2{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:56px;align-items:center;max-width:1200px;margin:0 auto;padding:30px 48px 10px}
+  .top2 .hero{max-width:none;margin:0;padding:24px 0;text-align:left}
+  .top2 .hero h1{font-size:clamp(40px,4vw,54px)}
+  .top2 .hero p.lede{margin-inline:0;font-size:18px}
+  .top2 .hline{margin:24px 0 0;max-width:470px}
+  .top2 .hero .cta{justify-content:flex-start}
+  .top2 .hero .nocard{text-align:left}
+  .top2 .hero .ar{text-align:left}
+  .top2 .taster{max-width:none;margin:0;padding:24px 0}
+  .top2 .tst-card{max-width:470px}
+  .section{max-width:1140px;padding:56px 48px}
+  .film{max-width:1140px;padding:0 48px}
+  .stats{max-width:1044px}
+  .ask-grid{grid-template-columns:1fr 1fr;gap:56px}
+}
 .tile{font:inherit;color:inherit;text-align:left;cursor:pointer;background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:16px 14px;
   display:flex;flex-direction:column;gap:4px;touch-action:manipulation}
 .tile b{font-size:15.5px;margin-top:6px}
@@ -294,6 +334,7 @@ footer.land{border-top:1px solid var(--rule);padding:26px;text-align:center;colo
   <a class="btn" href="login.html" style="height:38px;padding:0 18px;font-size:14px;display:inline-flex;align-items:center">Sign in</a>
 </div>
 
+<div class="top2">
 <header class="hero">
   <div class="ar">رَفِيقُكَ فِي تَعَلُّمِ <span>الْعَرَبِيَّةِ</span></div>
   <h1>Understand every word of your salah</h1>
@@ -313,6 +354,7 @@ footer.land{border-top:1px solid var(--rule);padding:26px;text-align:center;colo
   <p>Four words, under a minute: two you’ll use every day, and two you say in every prayer.</p>
   <div class="tst-card"><p class="tst-wait">Getting your first words ready…</p></div>
 </section>
+</div>
 <section class="film" id="film-section" aria-label="Rafiq in one minute">
   <div class="film-frame">
     <video id="film" preload="none" playsinline poster="media/rafiq-intro.jpg?v=6">
@@ -385,6 +427,31 @@ document.addEventListener('DOMContentLoaded',function(){
     </div>
   </div>
 </section>
+<section class="section ask tutor-only" id="ask-rafiq" aria-label="Ask Rafiq, your AI tutor">
+  <div class="ask-grid">
+    <div class="ask-text reveal">
+      <span class="ask-badge"><i class="amark" aria-hidden="true"></i>Ask Rafiq · your AI tutor</span>
+      <h2>Stuck? Just ask.</h2>
+      <p>Ask anything about Arabic or your lessons, any time, and get a clear answer built on Rafiq’s teacher-checked course.
+        Got a question wrong? Tap <b>Why?</b> and Rafiq explains exactly what happened.</p>
+      <ul class="ask-pts">
+        <li>Plain English, with the Arabic fully vowelled</li>
+        <li>Uses the words you’ve already learnt</li>
+        <li>Part of Complete: up to 20 questions a day</li>
+      </ul>
+      <p class="ask-note">AI answers can make mistakes. For religious rulings, ask your imam.</p>
+    </div>
+    <div class="ask-demo reveal" aria-label="An example conversation with Ask Rafiq">
+      <div class="ask-head"><i class="amark" aria-hidden="true"></i><b>Ask Rafiq</b></div>
+      <div class="ab me">What’s the difference between <span lang="ar">هَذا</span> and <span lang="ar">هَذِهِ</span>?</div>
+      <div class="ab ai"><b lang="ar">هَذا</b> (hādhā) means <i>this</i> for a masculine word, and <b lang="ar">هَذِهِ</b> (hādhihi) for a feminine one:
+        <span lang="ar">هَذا كِتابٌ</span>, this is a book.</div>
+      <div class="ab wrong"><span class="x" aria-hidden="true">✗</span> You wrote <span lang="ar">هَذا سَيّارَةٌ</span> <span class="why">Why?</span></div>
+      <div class="ab ai"><b lang="ar">سَيّارَةٌ</b> (a car) is feminine: it ends in <span lang="ar">ة</span>. So it takes <b lang="ar">هَذِهِ</b>:
+        <span lang="ar">هَذِهِ سَيّارَةٌ</span>. Tip: spot the <span lang="ar">ة</span>, use <span lang="ar">هَذِهِ</span>.</div>
+    </div>
+  </div>
+</section>
 <section class="section" id="pricing">
   <h2 class="reveal">Pricing</h2>
   <p class="freeweek"><b>Free for 7 days, no card needed.</b> Try everything, then pick a plan if you want to carry on. Cancel any time.
@@ -425,6 +492,7 @@ document.addEventListener('DOMContentLoaded',function(){
   Rafiq — رَفِيق · learn Arabic, a little every day.<br>
   <a href="#pricing">Pricing</a> · <a href="help.html">Help</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a>
 </footer>
+<script>if(typeof TUTOR_ON!=='undefined' && !TUTOR_ON) document.querySelectorAll('.tutor-only').forEach(e=>e.remove());   // Ask Rafiq only while it's on (auth.js)</script>
 <div class="stick" id="stick"><a class="btn" href="login.html?mode=signup">Start your free week</a><small>7 days free<br>no card</small></div>
 <script>
 /* #210: the bar shows once the top button has scrolled up out of view, and steps aside while
