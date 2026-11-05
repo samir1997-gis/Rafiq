@@ -35,7 +35,13 @@
   /* ---------- service worker ---------- */
   // Inside the iPhone and Android app (#35) the pages are already on the phone: no service worker, no install card
   const native = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
-  if(!native && 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost'))
+  // a preview copy (raw.githack.com…) never keeps pages: the owner reviews changes there, so drop any saved copies
+  const preview = !/(^|\.)rafiq-arabic\.com$/.test(location.hostname) && location.hostname !== 'localhost';
+  if(preview && 'serviceWorker' in navigator && location.protocol === 'https:'){
+    navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())).catch(() => {});
+    if(window.caches) caches.keys().then(ks => ks.forEach(k => caches.delete(k))).catch(() => {});
+  }
+  if(!native && !preview && 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost'))
     addEventListener('load', () => navigator.serviceWorker && navigator.serviceWorker.register('sw.js').catch(() => {}));
 
   /* ---------- installing ---------- */

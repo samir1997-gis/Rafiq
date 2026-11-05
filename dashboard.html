@@ -12,7 +12,7 @@
 })();
 </script>
 <script src="theme.js?v=2"></script>
-<script src="pwa.js?v=2"></script>
+<script src="pwa.js?v=3"></script>
 <script>(function(){var t;try{t=localStorage.getItem('rafiq_team')}catch(_){}if(t||!/(^|\.)rafiq-arabic\.com$/.test(location.hostname))return;var b=document.createElement('script');b.defer=true;b.src='https://static.cloudflareinsights.com/beacon.min.js';b.setAttribute('data-cf-beacon','{"token": "f18a63c922fa4e15952e791d19df7b06"}');document.head.appendChild(b)})()</script><!-- Cloudflare Web Analytics: visits, no cookies (#186); not on the Rafiq team's own devices (#191), nor test copies like raw.githack.com previews -->
 <title>Home — Rafiq</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -74,6 +74,25 @@ a.htile:active{transform:scale(.98)}
   .htop{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:32px;align-items:center;margin:8px 0 26px}
   .htop.solo{grid-template-columns:minmax(0,1fr)}.htop .hl .chips{margin-bottom:0}.htop .hr .htiles{margin-bottom:0}
   .htop .sring svg{width:230px;height:230px}.htop .sring .sr-mid b{font-size:52px}}
+/* Ask Rafiq's card */
+.askcard{display:block;background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:16px 16px 14px;margin:0 0 22px}
+.ak-h{display:flex;align-items:center;gap:8px}.ak-h b{font-size:16px;font-weight:800;color:var(--ink)}.ak-h span{font-size:13px;color:var(--ink-soft);font-weight:600}
+.amark{position:relative;display:inline-block;width:26px;height:26px;border-radius:7px;background:var(--ink);flex:0 0 auto}
+.amark::before{content:'ر';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 16px/1 var(--ar);color:var(--paper);padding-bottom:3px}
+.amark::after{content:'';position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:var(--rubric)}
+.askcard p{font-size:14px;color:var(--ink-soft);margin:8px 0 10px;line-height:1.45}
+.ak-in{display:flex;gap:8px}.ak-in input{flex:1;min-width:0;height:44px;border:1px solid var(--rule);border-radius:999px;background:var(--paper);padding:0 16px;font:600 15px var(--la);color:var(--ink)}
+.ak-in input:focus{outline:none;border-color:var(--verdigris)}
+.ak-in button{width:44px;height:44px;border:0;border-radius:50%;background:var(--verdigris);color:#fff;font:800 18px var(--la);cursor:pointer;transition:transform var(--press,120ms) var(--ease-out,ease-out)}
+.ak-in button:active{transform:scale(.94)}
+.ak-try{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.ak-try a{font-size:13px;font-weight:700;color:var(--verdigris);background:color-mix(in srgb,var(--verdigris) 9%,transparent);border-radius:999px;padding:5px 11px;text-decoration:none}
+/* Big screens: wider, Your path with Ask Rafiq beside it (owner: Home looked like a phone page on a computer) */
+@media (min-width:1100px){
+  main.wrap{max-width:1320px;padding:0 48px}
+  .htop{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:48px}
+}
+.askcard.ak-wide{display:none}
+@media (min-width:861px){ .askcard.ak-wide{display:block;margin:18px 0 0;text-align:left} .askcard.ak-narrow{display:none} }
 .tc-box{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:16px 18px}
 .today-card .u{font-family:var(--ar);direction:rtl;font-size:28px;line-height:1.5;font-weight:600;color:var(--rubric);flex:none;max-width:40%}
 .today-card .t{font-size:18px;font-weight:700}
@@ -329,7 +348,15 @@ function paintHome(){
       <span class="nm"><b>${esc(c.en)}</b><span>${esc(c.d)}</span></span><span class="ua">${esc(c.ar)}</span></div>`).join('')}</div>`;
   // "Your salah": the ring at the top of Home (salah.js; off until the teacher signs off)
   const salah = window.RafiqSalah && RafiqSalah.enabled() && RafiqSalah.ringHTML ? (RafiqSalah.styles(), RafiqSalah.ringHTML()) : ''   // ringHTML missing: an old cached salah.js;
-  el.innerHTML=`<div class="htop${salah?'':' solo'}"><div class="hl">${salah}${chips}</div><div class="hr">${card}${board}${tiles}</div></div>`+wtoday+'<div id="pwaInstall"></div>'+week+focus+`<div class="ph">Your path${RafiqPath.allOpen?'<span class="team"> · team account: every unit open</span>':''}</div><div class="units">${units}</div>`+coming;
+  // Ask Rafiq on Home (owner, #154): ask straight from here; it opens the tutor with the question asked
+  const ask=(typeof TUTOR_ON!=='undefined' && TUTOR_ON) ? `<form class="askcard" action="tutor.html" method="get">
+      <div class="ak-h"><i class="amark" aria-hidden="true"></i><b>Ask Rafiq</b><span>your AI tutor</span></div>
+      <p>Stuck on something? Ask anything about Arabic or your lessons.</p>
+      <div class="ak-in"><input name="q" type="text" placeholder="Ask a question…" aria-label="Ask Rafiq a question" autocomplete="off" required><button type="submit" aria-label="Ask">↑</button></div>
+      <div class="ak-try">${['What does اسْمِي mean?','Why do some words start with ال?'].map(t=>`<a href="tutor.html?q=${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</div></form>` : '';
+  // the card sits under the ring on a computer (in view at once), above Your path on a phone (Continue stays near the top)
+  el.innerHTML=`<div class="htop${salah?'':' solo'}"><div class="hl">${salah}${chips}${ask.replace('class="askcard"','class="askcard ak-wide"')}</div><div class="hr">${card}${board}${tiles}</div></div>`
+    +ask.replace('class="askcard"','class="askcard ak-narrow"')+wtoday+'<div id="pwaInstall"></div>'+week+focus+`<div class="ph">Your path${RafiqPath.allOpen?'<span class="team"> · team account: every unit open</span>':''}</div><div class="units">${units}</div>`+coming;
   // "Get a daily reminder / put Rafiq on your home screen" (pwa.js), once a first lesson step is done
   if(window.RafiqPWA) RafiqPWA.card(document.getElementById('pwaInstall'), { ready: U.some(p => RafiqPath.steps(p).some(x => RafiqPath.stepDone(p.n, x.key))) });
   el.querySelectorAll('details.ud').forEach(d=>d.ontoggle=()=>{ d.open?OPEN_UNITS.add(d.dataset.u):OPEN_UNITS.delete(d.dataset.u); });
