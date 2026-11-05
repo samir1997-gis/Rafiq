@@ -1,7 +1,6 @@
 name: App build
-# The iPhone and Android app (#35): builds both from app/ so every change is checked to compile.
-# Android: a debug APK to install on a phone (Actions → this run → Artifacts). iPhone: a simulator build, no signing yet
-# (TestFlight needs the Apple Developer account, then signing keys as secrets).
+# The Android app (#35): builds it from app/ so every change is checked to compile; a debug APK to install on a phone
+# (Actions → this run → Artifacts). The iPhone app builds on Codemagic (codemagic.yaml): GitHub never gave this repo a Mac.
 on:
   workflow_dispatch:
   push:
@@ -32,15 +31,3 @@ jobs:
           name: rafiq-android-debug
           path: app/android/app/build/outputs/apk/debug/app-debug.apk
 
-  ios:
-    runs-on: macos-latest   # macos-15 sat queued for 15 minutes and was cancelled (4 Nov)
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 22 }
-      - name: Build the web part and sync
-        working-directory: app
-        run: npm ci && node build-web.js && npx cap sync ios
-      - name: Simulator build (no signing)
-        working-directory: app/ios/App
-        run: set -o pipefail; xcodebuild -project App.xcodeproj -scheme App -sdk iphonesimulator -configuration Debug -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build | tail -40

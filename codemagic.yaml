@@ -1,0 +1,40 @@
+# Codemagic (#35): the iPhone app's builds, on Codemagic's Macs. GitHub never gave this private repo a Mac
+# (the iPhone job sat queued, then was cancelled, 4 Nov 2026), so the owner chose Codemagic (5 Nov 2026).
+# Android stays on GitHub (.github/workflows/app-build.yml).
+#
+# ios-check: a simulator build with no signing, on every push to wip that changes the app, so we know it compiles.
+# When the Apple Developer account exists, a second workflow will sign the app and send it to TestFlight
+# (App Store Connect API key → Codemagic's Integrations; signing via Codemagic's code signing).
+workflows:
+  ios-check:
+    name: iPhone build check
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      node: 22
+      xcode: latest
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: wip
+          include: true
+      cancel_previous_builds: true     # a newer push replaces a build still running
+    when:
+      changeset:                       # only when the app itself changes (start it by hand after website changes)
+        includes:
+          - 'app/'
+          - 'codemagic.yaml'
+    scripts:
+      - name: Build the web part and sync
+        script: |
+          cd app
+          npm ci
+          node build-web.js
+          npx cap sync ios
+      - name: Simulator build (no signing)
+        script: |
+          cd app/ios/App
+          set -o pipefail
+          xcodebuild -project App.xcodeproj -scheme App -sdk iphonesimulator -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build | tail -40
