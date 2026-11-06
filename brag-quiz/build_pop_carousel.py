@@ -142,6 +142,57 @@ def bed(x, y, s=1.0):                                                   # someon
             f'<path d="M-100 -60 C -100 -120 190 -120 196 -60 Z" fill="#4D96FF" {O}/></g>'
             f'<text x="{x + 30}" y="{y - 200 * s:.0f}" font-family="FR" font-size="{70 * s:.0f}" fill="#fff" stroke="{INK}" stroke-width="5" paint-order="stroke">z z Z</text>')
 
+def kaaba(x, y, s=1.0):                                                 # the Kaaba, three-quarter view, base at (x, y)
+    return (f'<g transform="translate({x},{y}) scale({s})"><path d="M-120 -230 L -50 -262 L 140 -262 L 70 -230 Z" fill="#3a3a3a" {O}/>'
+            f'<path d="M70 -230 L 140 -262 L 140 -32 L 70 0 Z" fill="#2b2b2b" {O}/><rect x="-120" y="-230" width="190" height="230" fill="#1d1d1d" {O}/>'
+            f'<rect x="-117" y="-188" width="184" height="26" fill="{GOLD}"/><path d="M73 -188 L 137 -218 L 137 -192 L 73 -162 Z" fill="{GOLD}"/>'
+            f'<rect x="12" y="-128" width="38" height="96" rx="4" fill="{GOLD}" {O}/></g>')
+def sun(x, y, s=1.0, c="#FFE66D"):
+    rays = "".join(f'<path d="M0 -96 L 0 -136" transform="rotate({a})" stroke="{INK}" stroke-width="14" stroke-linecap="round"/><path d="M0 -96 L 0 -136" transform="rotate({a})" stroke="{c}" stroke-width="6" stroke-linecap="round"/>' for a in range(0, 360, 30))
+    return f'<g transform="translate({x},{y}) scale({s})">{rays}<circle r="78" fill="{c}" {O}/></g>'
+def flower(x, y, c, s=1.0):
+    pet = "".join(f'<ellipse cx="0" cy="-26" rx="15" ry="24" transform="rotate({a})" fill="{c}" {O}/>' for a in range(0, 360, 72))
+    return (f'<g transform="translate({x},{y}) scale({s})"><path d="M0 0 L 0 -90" stroke="{INK}" stroke-width="12"/><path d="M0 0 L 0 -90" stroke="#2E7263" stroke-width="5"/>'
+            f'<path d="M0 -40 C 20 -60 40 -50 44 -40 C 30 -30 12 -32 0 -40 Z" fill="#7bd389" {O}/><g transform="translate(0,-110)">{pet}<circle r="14" fill="{GOLD}" {O}/></g></g>')
+def flake(x, y, s=1.0):
+    arms = "".join(f'<g transform="rotate({a})"><path d="M0 0 L 0 -40 M 0 -24 L -12 -36 M 0 -24 L 12 -36" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none"/></g>' for a in range(0, 360, 60))
+    return f'<g transform="translate({x},{y}) scale({s})">{arms}</g>'
+def house(x, y, s=1.0, c="#FFF8EC"):                                    # a little house with its door wide open and nobody home
+    return (f'<g transform="translate({x},{y}) scale({s})"><rect x="-130" y="-170" width="260" height="170" fill="{c}" {O}/>'
+            f'<path d="M-160 -166 L 0 -280 L 160 -166 Z" fill="{RED}" {O}/><rect x="-40" y="-120" width="80" height="120" fill="#3a2a1c" {O}/>'
+            f'<path d="M40 -120 L 86 -100 L 86 14 L 40 0 Z" fill="#c48f66" {O}/><rect x="-108" y="-130" width="50" height="50" fill="#9fd8ff" {O}/></g>')
+def star(x, y, r, c=GOLD):
+    import math
+    pts = " ".join(f"{x + (r if k % 2 == 0 else r * .45) * math.sin(k * math.pi / 5):.1f},{y - (r if k % 2 == 0 else r * .45) * math.cos(k * math.pi / 5):.1f}" for k in range(10))
+    return f'<polygon points="{pts}" fill="{c}" {O}/>'
+def lantern(x, y, s=1.0):                                               # a Ramadan lantern hanging from a chain at (x, y)
+    return (f'<g transform="translate({x},{y}) scale({s})"><path d="M0 0 L 0 40" stroke="{INK}" stroke-width="5"/><path d="M-24 40 L 24 40 L 0 20 Z" fill="{GOLD}" {O}/>'
+            f'<path d="M-34 44 L 34 44 L 28 120 L 0 140 L -28 120 Z" fill="{GOLD}" {O}/><path d="M-18 58 L 18 58 L 14 112 L 0 124 L -14 112 Z" fill="#fff6c9"/></g>')
+def seated(x, y, s=1.0, skin=SKIN[0], top=None, body="#4D96FF", beard=None, arm="fold"):    # sitting cross-legged on the floor at (x, y)
+    return (f'<ellipse cx="{x}" cy="{y - 14 * s:.0f}" rx="{76 * s:.0f}" ry="{26 * s:.0f}" fill="{INK}"/>'
+            + person(x, y + 36 * s, s, skin, top, body, beard, arm, legs=False))
+def balloon(x, y, c):
+    return f'<path d="M{x} {y + 70} q -16 40 6 80" fill="none" stroke="{INK}" stroke-width="4"/><ellipse cx="{x}" cy="{y}" rx="44" ry="56" fill="{c}" {O}/><path d="M{x - 8} {y + 54} L {x + 8} {y + 54} L {x} {y + 70} Z" fill="{c}" {O}/>'
+def drops(pts, s=1.0):
+    return "".join(f'<path transform="translate({x},{y}) scale({s})" d="M0 -26 C 14 -6 18 4 18 10 A 18 18 0 0 1 -18 10 C -18 4 -14 -6 0 -26 Z" fill="#cfe9ff" {O}/>' for x, y in pts)
+def tap(x, y, to):                                                       # a tap on the wall at (x, y), water falling to y = to
+    return (f'<rect x="{x - 150}" y="{y - 20}" width="130" height="40" rx="8" fill="#cfd8dc" {O}/><path d="M{x - 30} {y - 20} L {x + 20} {y - 20} Q {x + 40} {y - 20} {x + 40} {y} L {x + 40} {y + 30} L {x} {y + 30} L {x} {y + 20} L {x - 30} {y + 20} Z" fill="#cfd8dc" {O}/>'
+            f'<rect x="{x - 14}" y="{y - 50}" width="28" height="30" rx="6" fill="{RED}" {O}/>'
+            f'<path d="M{x + 8} {y + 34} L {x + 8} {to}" stroke="{INK}" stroke-width="30" stroke-linecap="round"/><path d="M{x + 8} {y + 34} L {x + 8} {to}" stroke="#9fd8ff" stroke-width="18" stroke-linecap="round"/>')
+def ring(x, y, r):                                                       # the bit to wash, ringed
+    return f'<circle cx="{x}" cy="{y}" r="{r}" fill="none" stroke="{INK}" stroke-width="16"/><circle cx="{x}" cy="{y}" r="{r}" fill="none" stroke="#FFE66D" stroke-width="9" stroke-dasharray="20 12"/>'
+def bighead(x, y, r=150, skin=SKIN[1], top="hair:#2a1d14", ears=True, beard=None):   # a big faceless head and shoulders, centre (x, y)
+    g = f'<path d="M{x - 1.9 * r:.0f} 400 C {x - 1.8 * r:.0f} {y + 1.1 * r:.0f} {x + 1.8 * r:.0f} {y + 1.1 * r:.0f} {x + 1.9 * r:.0f} 400 Z" fill="#2E7263" {O}/>'
+    if ears: g += "".join(f'<ellipse cx="{x + d * r * .98:.0f}" cy="{y + 6}" rx="{r * .17:.0f}" ry="{r * .26:.0f}" fill="{skin}" {O}/>' for d in (-1, 1))
+    g += f'<ellipse cx="{x}" cy="{y}" rx="{r * .95:.0f}" ry="{r:.0f}" fill="{skin}" {O}/>'
+    if beard: g += f'<path d="M{x - .8 * r:.0f} {y + .2 * r:.0f} C {x - .7 * r:.0f} {y + 1.2 * r:.0f} {x + .7 * r:.0f} {y + 1.2 * r:.0f} {x + .8 * r:.0f} {y + .2 * r:.0f} C {x + .4 * r:.0f} {y + .55 * r:.0f} {x - .4 * r:.0f} {y + .55 * r:.0f} {x - .8 * r:.0f} {y + .2 * r:.0f} Z" fill="{beard}" {O}/>'
+    if top and top.startswith("hair"): g += f'<path d="M{x - .93 * r:.0f} {y - .1 * r:.0f} C {x - 1.0 * r:.0f} {y - 1.25 * r:.0f} {x + 1.0 * r:.0f} {y - 1.25 * r:.0f} {x + .93 * r:.0f} {y - .1 * r:.0f} C {x + .6 * r:.0f} {y - .55 * r:.0f} {x - .6 * r:.0f} {y - .55 * r:.0f} {x - .93 * r:.0f} {y - .1 * r:.0f} Z" fill="{top.split(":")[1]}" {O}/>'
+    return g
+def palm(x, y, rot, skin=SKIN[1], sleeve="#2E7263", fx=None, fy=None):   # a hand at (x, y) on an arm coming in from (fx, fy)
+    g = ""
+    if fx is not None: g += f'<path d="M{fx} {fy} L {x} {y}" stroke="{INK}" stroke-width="58" stroke-linecap="round"/><path d="M{fx} {fy} L {x} {y}" stroke="{sleeve}" stroke-width="46" stroke-linecap="round"/>'
+    return g + f'<ellipse cx="{x}" cy="{y}" rx="62" ry="36" transform="rotate({rot} {x} {y})" fill="{skin}" {O}/>'
+
 # per set, per slide: (background, marker colour, doodle colours, the scene's SVG)
 ART = {"pronouns": {
  "cover": ("#FFC93C", None, ["#fff", "#FF7A59", "#4D96FF"], None),
@@ -270,6 +321,50 @@ ART = {"pronouns": {
                                                                          (760, SKIN[2], "kufi", "#9B6BFF"), (870, SKIN[4], "hijab:#fff", "#2EB67D"), (980, SKIN[1], "kufi", "#FFC93C")))),
  "Saturday": ("#F49AC1", "#FFE66D", ["#fff", "#4D96FF"], bed(560, 370, 1.0) + cal(140, 190, "7", "#9B6BFF", 0.6)),
  "end": ("#FF7A59", None, ["#FFC93C", "#fff", "#4D96FF"], None),
+},
+ "months": {
+ "cover": ("#FFC93C", None, ["#fff", "#FF7A59", "#9B6BFF"], None),
+ "Muḥarram": ("#9B6BFF", "#FFE66D", ["#FFE66D", "#fff"], kaaba(540, 372, 1.25) + moon(880, 110, 0.9) + star(200, 90, 34) + star(300, 170, 20, "#fff") + star(790, 250, 22, "#fff")),
+ "Ṣafar": ("#FFB23F", "#fff", ["#fff", "#FF7A59"], house(300, 372, 1.1)
+          + "".join(f'<ellipse cx="{x}" cy="{368 - (i % 2) * 14}" rx="13" ry="7" fill="{INK}" opacity=".55"/>' for i, x in enumerate(range(460, 820, 46)))
+          + person(900, 372, 0.72, SKIN[1], "kufi", "#4D96FF", "#2a1d14") + f'<text x="640" y="190" text-anchor="middle" font-family="FR" font-size="210" fill="#fff" stroke="{INK}" stroke-width="10" paint-order="stroke">0</text>'),
+ "Rabīʿ": ("#2EB67D", "#FFE66D", ["#FFE66D", "#fff"], sun(900, 110, 0.75) + f'<ellipse cx="540" cy="430" rx="640" ry="110" fill="#7bd389" {O}/>'
+          + "".join(flower(x, y, c, k) for x, y, c, k in ((150, 360, "#FF7A59", 1.0), (290, 340, "#F49AC1", 1.2), (440, 365, "#FFE66D", 0.9), (590, 345, "#9B6BFF", 1.15), (740, 365, "#fff", 1.0), (880, 350, "#FF7A59", 1.1)))),
+ "Jumādā": ("#4D96FF", "#FFE66D", ["#fff", "#cfe9ff"], f'<ellipse cx="640" cy="340" rx="330" ry="50" fill="#cfe9ff" {O}/><path d="M440 330 L 520 350 L 600 325 M 700 345 L 780 330 L 840 352" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"/>'
+          + person(250, 372, 1.1, SKIN[3], "hijab:#FF7A59", "#9B6BFF", None, "fold", scarf="#FFE66D") + flake(560, 90, 1.1) + flake(780, 160, 0.8) + flake(920, 80, 1.0) + flake(440, 200, 0.7)),
+ "Rajab": ("#F49AC1", "#FFE66D", ["#FFE66D", "#fff"], person(330, 372, 1.15, SKIN[2], "kufi", "#fff", "#2a1d14", "self") + moon(720, 150, 1.3) + star(860, 90, 46) + star(940, 230, 26, "#fff") + star(600, 280, 22, "#fff")),
+ "Shaʿbān": ("#FF7A59", "#FFE66D", ["#FFE66D", "#fff"],
+          "".join(f'<path d="M540 400 C 540 300 {x} 300 {x} {y}" fill="none" stroke="{INK}" stroke-width="58" stroke-linecap="round"/><path d="M540 400 C 540 300 {x} 300 {x} {y}" fill="none" stroke="#FFF8EC" stroke-width="44" stroke-linecap="round"/>' for x, y in ((180, 150), (540, 120), (900, 150)))
+          + person(180, 160, 0.42, SKIN[0], "kufi", "#4D96FF", "#2a1d14") + person(540, 130, 0.42, SKIN[3], "hijab:#2E7263", "#FFC93C") + person(900, 160, 0.42, SKIN[2], "kufi", "#9B6BFF", "#2a1d14")
+          + person(300, 380, 0.5, SKIN[4], "hijab:#9B6BFF", "#2EB67D") + person(780, 380, 0.5, SKIN[1], "kufi", "#FFC93C", "#2a1d14")),
+ "Ramaḍān": ("#FFC93C", "#fff", ["#fff", "#FF7A59"], sun(720, 150, 1.25, "#FF7A59")
+          + "".join(f'<path d="M{x} 330 q 14 -20 0 -40 t 0 -40" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>' for x in (520, 640, 760, 880))
+          + f'<path d="M0 400 C 200 330 360 330 560 380 C 760 330 920 340 1080 380 L 1080 400 Z" fill="#e8a75a" {O}/>'
+          + person(230, 372, 1.05, SKIN[1], "kufi", "#2E7263", "#2a1d14", "fold") + lantern(420, 0, 0.9)),
+ "Shawwāl": ("#2E7263", "#FFE66D", ["#FFC93C", "#fff"], person(260, 372, 1.05, SKIN[0], "kufi", "#FFC93C", "#2a1d14", "wave") + person(820, 372, 1.05, SKIN[3], "hijab:#F49AC1", "#4D96FF", None, "wave")
+          + cal(540, 230, "1", "#FF7A59", 0.95) + balloon(420, 90, "#FF7A59") + balloon(680, 70, "#9B6BFF") + moon(960, 70, 0.6)),
+ "Dhū al-Qaʿdah": ("#9B6BFF", "#FFE66D", ["#FFE66D", "#fff"], f'<rect x="150" y="345" width="780" height="40" rx="12" fill="{RED}" {O}/><path d="M190 365 L 890 365" stroke="{GOLD}" stroke-width="6" stroke-dasharray="18 12"/>'
+          + seated(330, 350, 1.0, SKIN[1], "kufi", "#FFC93C", "#2a1d14") + seated(750, 350, 1.0, SKIN[4], "hair:#2a1d14", "#2EB67D", "#2a1d14") + teaglass(540, 340, 0.8)),
+ "Dhū al-Ḥijjah": ("#4D96FF", "#FFE66D", ["#FFE66D", "#fff"], kaaba(540, 330, 1.05)
+          + "".join(person(x, 385, 0.55, sk, top, "#fff") for x, sk, top in ((110, SKIN[0], None), (220, SKIN[3], "hijab:#fff"), (330, SKIN[1], None), (760, SKIN[2], None), (870, SKIN[4], "hijab:#fff"), (980, SKIN[1], None)))),
+ "end": ("#2E7263", None, ["#FFC93C", "#fff", "#FF7A59"], None),
+},
+ "wudu": {
+ "cover": ("#4D96FF", None, ["#fff", "#cfe9ff", "#FFE66D"], None),
+ "hands": ("#2EB67D", "#FFE66D", ["#fff", "#cfe9ff"], tap(540, 40, 230) + palm(470, 270, 20, fx=250, fy=420) + palm(615, 270, -20, fx=830, fy=420) + drops(((380, 200), (700, 190), (330, 280), (760, 290)), 0.9)),
+ "mouth": ("#4D96FF", "#FFE66D", ["#fff", "#cfe9ff"], bighead(540, 190, 150, SKIN[1], "hair:#2a1d14", True, "#2a1d14") + ring(540, 270, 52) + drops(((700, 300), (740, 240), (360, 300)), 0.8)),
+ "nose": ("#9B6BFF", "#FFE66D", ["#fff", "#cfe9ff"], bighead(540, 190, 150, SKIN[3], "hair:#3a2a1c") + ring(540, 205, 44) + drops(((690, 150), (380, 140), (720, 230)), 0.8)),
+ "face": ("#2E7263", "#FFE66D", ["#fff", "#cfe9ff"], bighead(540, 190, 150, SKIN[2], "hair:#2a1d14", True, "#2a1d14") + ring(540, 200, 128) + drops(((330, 120), (760, 110), (310, 240), (780, 250), (540, 30)), 0.9)),
+ "elbow": ("#FF7A59", "#FFE66D", ["#fff", "#FFE66D"], f'<rect x="40" y="200" width="360" height="104" rx="30" fill="#4D96FF" {O}/><rect x="360" y="216" width="520" height="72" rx="36" fill="{SKIN[1]}" {O}/>'
+          + f'<ellipse cx="930" cy="252" rx="66" ry="40" fill="{SKIN[1]}" {O}/>' + tap(760, 30, 205) + ring(470, 252, 62) + drops(((640, 330), (560, 345), (840, 330)), 0.8)),
+ "head": ("#F49AC1", "#FFE66D", ["#fff", "#4D96FF"], bighead(540, 210, 145, SKIN[0], "hair:#3a2a1c", True, "#3a2a1c") + ring(540, 100, 70)
+          + palm(560, 70, -8, SKIN[0], "#2E7263", 860, 170) + f'<path d="M380 40 C 450 -10 630 -10 700 40" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-dasharray="4 18"/>'),
+ "ears": ("#FFB23F", "#fff", ["#fff", "#FF7A59"], bighead(540, 190, 150, SKIN[4], "hair:#2a1d14") + ring(393, 196, 54) + ring(687, 196, 54) + drops(((300, 90), (790, 90)), 0.8)),
+ "feet": ("#2EB67D", "#FFE66D", ["#fff", "#cfe9ff"], f'<rect x="430" y="-10" width="120" height="170" fill="#2E7263" {O}/><rect x="442" y="150" width="96" height="190" fill="{SKIN[2]}" {O}/>'
+          + f'<path d="M442 290 C 425 330 420 372 462 372 L 735 372 C 770 372 775 338 745 326 C 690 306 610 300 538 286 Z" fill="{SKIN[2]}" {O}/><ellipse cx="748" cy="340" rx="12" ry="9" fill="#e8c4a6" {O}/>'
+          + f'<g transform="rotate(-35 800 100)">{jug(800, 180, 0.9)}</g>' + f'<path d="M712 52 C 670 90 645 180 645 300" fill="none" stroke="{INK}" stroke-width="26" stroke-linecap="round"/><path d="M712 52 C 670 90 645 180 645 300" fill="none" stroke="#9fd8ff" stroke-width="14" stroke-linecap="round"/>'
+          + ring(500, 320, 56) + drops(((380, 330), (800, 350), (720, 280)), 0.8)),
+ "end": ("#2E7263", None, ["#cfe9ff", "#fff", "#FFE66D"], None),
 }}
 CAST = (person(130, 300, 0.85, SKIN[1], "hair:#3a2a1c", "#2E7263", "#2a1d14", "wave") + person(330, 300, 0.85, SKIN[3], "kufi", "#FF7A59", "#2a1d14")
         + person(530, 300, 0.85, SKIN[2], "hijab:#9B6BFF", "#2E7263") + person(730, 300, 0.85, SKIN[0], "kufi", "#fff", "#e6e6e6", "fold")

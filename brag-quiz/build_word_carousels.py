@@ -156,6 +156,46 @@ SETS = {
    ("Saturday", "السَّبْت", "as-sabt", [("سُبات", "سُبات", "subāt", "rest")],
     "وَجَعَلْنا نَوْمَكُمْ سُباتاً: “We made your sleep for rest” <b style=\"white-space:nowrap;font:inherit\">(an-Nabaʾ 78:9)</b>. Which did you know? 👇"),
  ]),
+ "months": ("What the Islamic months<br>actually mean 🤯", [
+   ("Muḥarram", "مُحَرَّم", "month 1", [("حَرام", "حَرام", "ḥarām", "sacred, off-limits")],
+    "One of the four sacred months: مِنْها أَرْبَعَةٌ حُرُمٌ <b style=\"white-space:nowrap;font:inherit\">(at-Tawbah 9:36)</b>."),
+   ("Ṣafar", "صَفَر", "month 2", [("صِفْر", "صِفْر", "ṣifr", "empty")],
+    "It's said the homes stood empty: everyone had gone off to travel or fight. Same letters as zero, صِفْر!"),
+   ("Rabīʿ", "رَبِيع", "months 3 and 4", [("رَبِيع", "رَبِيع", "rabīʿ", "spring")],
+    "There are two: رَبِيعُ الْأَوَّلِ, the first, and رَبِيعُ الْآخِرِ, the second."),
+   ("Jumādā", "جُمادَى", "months 5 and 6", [("جَمَدَ", "جَمَدَ", "jamada", "to freeze")],
+    "It's said the water froze. Two of these as well: الْأُولى, the first, and الْآخِرَة, the last."),
+   ("Rajab", "رَجَب", "month 7", [("رَجَّبَ", "رَجَّبَ", "rajjaba", "to honour")],
+    "A sacred month: “Rajab, which comes between Jumādā and Shaʿbān” <b style=\"white-space:nowrap;font:inherit\">(al-Bukhārī 4662)</b>."),
+   ("Shaʿbān", "شَعْبان", "month 8", [("تَشَعَّبَ", "تَشَعَّبَ", "tashaʿʿaba", "to branch out")],
+    "It's said the tribes split up and spread out. Same root: شُعُوباً, “nations” <b style=\"white-space:nowrap;font:inherit\">(al-Ḥujurāt 49:13)</b>."),
+   ("Ramaḍān", "رَمَضان", "month 9", [("رَمْضاء", "رَمْضاء", "ramḍāʾ", "scorching heat")],
+    "The only month named in the Qur'an: شَهْرُ رَمَضانَ الَّذِي أُنْزِلَ فِيهِ الْقُرْآنُ <b style=\"white-space:nowrap;font:inherit\">(2:185)</b>."),
+   ("Shawwāl", "شَوّال", "month 10", [("عِيد", "عِيد", "ʿīd", "the 1st of Shawwāl is Eid!")],
+    "Fast six days of Shawwāl after Ramadan: like fasting the whole year <b style=\"white-space:nowrap;font:inherit\">(Muslim 1164)</b>."),
+   ("Dhū al-Qaʿdah", "ذُو الْقَعْدَة", "month 11", [("قَعَدَ", "قَعَدَ", "qaʿada", "to sit")],
+    "It's said they sat at home: no fighting, no travel. ذُو means “the one of”."),
+   ("Dhū al-Ḥijjah", "ذُو الْحِجَّة", "month 12", [("حَجّ", "حَجّ", "ḥajj", "pilgrimage")],
+    "The month of Hajj: وَأَذِّنْ فِي النّاسِ بِالْحَجِّ <b style=\"white-space:nowrap;font:inherit\">(al-Ḥajj 22:27)</b>. Which did you know? 👇"),
+ ]),
+ "wudu": ("Can you do wudu<br>in Arabic? 💧", [
+   ("hands", "يَد", "yad", [("أَغْسِلُ يَدَيَّ.", "يَدَيَّ", "aghsilu yadayya.", "I wash my hands.")],
+    "Two hands: يَدانِ. My two hands: يَدَيَّ."),
+   ("mouth", "فَم", "fam", [("أَغْسِلُ فَمِي.", "فَمِي", "aghsilu famī.", "I rinse my mouth.")],
+    "Rinsing the mouth in wudu has its own word: الْمَضْمَضَة."),
+   ("nose", "أَنْف", "anf", [("أَغْسِلُ أَنْفِي.", "أَنْفِي", "aghsilu anfī.", "I rinse my nose.")],
+    "An ENT doctor in Arabic: طَبِيب أَنْف وَأُذُن وَحَنْجَرَة, a nose, ear and throat doctor."),
+   ("face", "وَجْه", "wajh", [("أَغْسِلُ وَجْهِي.", "وَجْهِي", "aghsilu wajhī.", "I wash my face.")],
+    "فَاغْسِلُوا وُجُوهَكُمْ: “wash your faces” <b style=\"white-space:nowrap;font:inherit\">(al-Māʾidah 5:6)</b>."),
+   ("elbow", "مِرْفَق", "mirfaq", [("أَغْسِلُ يَدَيَّ إِلَى الْمِرْفَقَيْنِ.", "الْمِرْفَقَيْنِ", "aghsilu yadayya ila l-mirfaqayn.", "I wash my arms up to the elbows.")],
+    "وَأَيْدِيَكُمْ إِلَى الْمَرافِقِ: “and your arms up to the elbows” <b style=\"white-space:nowrap;font:inherit\">(5:6)</b>."),
+   ("head", "رَأْس", "raʾs", [("أَمْسَحُ رَأْسِي.", "رَأْسِي", "amsaḥu raʾsī.", "I wipe my head.")],
+    "وَامْسَحُوا بِرُؤُوسِكُمْ: wipe, don't wash <b style=\"white-space:nowrap;font:inherit\">(5:6)</b>. One head رَأْس, many رُؤُوس."),
+   ("ears", "أُذُن", "udhun", [("أَمْسَحُ أُذُنَيَّ.", "أُذُنَيَّ", "amsaḥu udhunayya.", "I wipe my ears.")],
+    "Same letters ء ذ ن as أَذان, the call to prayer. It's for your ears!"),
+   ("feet", "رِجْل", "rijl", [("أَغْسِلُ رِجْلَيَّ.", "رِجْلَيَّ", "aghsilu rijlayya.", "I wash my feet.")],
+    "وَأَرْجُلَكُمْ إِلَى الْكَعْبَيْنِ: “and your feet up to the ankles” <b style=\"white-space:nowrap;font:inherit\">(5:6)</b>. Which did you know? 👇"),
+ ]),
 }
 
 CSS = QC.CSS + (".sw { display:inline-block; width:34px; height:34px; border-radius:50%; border:3px solid rgba(23,38,43,.25); vertical-align:-6px; margin-right:6px; }"
@@ -167,7 +207,8 @@ COVER = {"pronouns": "I · You · He · She · We", "time": "Today · Tomorrow �
          "feelings": "Happy · Hungry · Ill · Busy", "yes-no": "Yes · No · Of course · OK", "numbers": "1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 9 · 10",
          "colours": "Red · Blue · Green · Yellow · White · Black", "family": "Mum · Dad · Brother · Sister · Grandpa · Grandma",
          "little": "And · But · With · In · From · To",
-         "food": "Water · Bread · Dates · Tea · Milk · Coffee", "days": "Sun · Mon · Tue · Wed · Thu · Fri · Sat"}
+         "food": "Water · Bread · Dates · Tea · Milk · Coffee", "days": "Sun · Mon · Tue · Wed · Thu · Fri · Sat",
+         "months": "Muḥarram · Ṣafar · Rajab · Ramaḍān · Shawwāl", "wudu": "Hands · Mouth · Face · Head · Feet"}
 
 def ar_spans(note):     # Arabic inside an English note gets the Arabic font
     import re
