@@ -166,8 +166,56 @@ def gfx(gid):
               card("c", "سَمِعْتُ <b>دَفَّ نَعْلَيْكَ</b> بَيْنَ يَدَيَّ فِي الْجَنَّةِ", "“I heard <i>your footsteps</i> ahead of me in Jannah.”", "AL-BUKHĀRĪ 1149", 1260)]
         j += [f'tl.fromTo("#lt", {{opacity:0}}, {{opacity:0.3, duration:1.2, ease:"power3.out"}}, 0.05);',
               f'tl.to(".fs", {{opacity:1, duration:0.2, stagger:0.25, ease:"power2.out"}}, 0.3);', IN("#c", 1.6, 40)]; d = 4.6
+    # the edit's new ones (6 Nov 2026), for the lines he recorded facing the window: that footage is never shown, these cover all of it
+    elif gid == "a_why":         # "And why did Bilāl choose that word? Why aḥad?"
+        b += ['<div class="big" id="t" style="top:520px;font-size:200px">WHY</div>', '<div class="ar g" id="w" style="top:760px;font-size:300px">أَحَد</div>',
+              '<div class="big g" id="q" style="top:1260px;font-size:260px">?</div>']
+        j += [IN("#t", 0.05, 30), POP("#w", 1.0, 0.6), SLAM("#q", 1.8)]; d = 3.0
+    elif gid == "a_deny":        # "Umayyah wanted him to deny Muḥammad ﷺ, and worship al-Lāt and al-ʿUzzā, to put partners besides Allah"
+        b += ['<div class="tag" id="h" style="top:250px;font-size:60px">what Umayyah demanded</div>',
+              f'<div class="stamp" id="s" style="left:110px;top:400px;font-size:120px;transform:rotate(-4deg)">DENY MUḤAMMAD</div>',
+              f'<svg class="full" viewBox="0 0 1080 1920"><g id="idols"><rect x="190" y="760" width="200" height="420" rx="20" fill="#5a4a3a"/>'
+              f'<rect x="690" y="760" width="200" height="420" rx="20" fill="#5a4a3a"/></g></svg>',
+              '<div class="mini" id="l0" style="left:190px;top:1200px;width:200px;text-align:center;font-size:62px">اللّات</div>',
+              '<div class="mini" id="l1" style="left:690px;top:1200px;width:200px;text-align:center;font-size:62px">العُزّى</div>',
+              '<div class="big" id="t" style="top:1450px;font-size:100px">PARTNERS<br><span class="r">BESIDES ALLAH</span></div>']
+        j += [IN("#h", 0.05, 20), SLAM("#s", 0.8), IN("#idols", 1.8, 40), IN("#l0", 2.0, 10), IN("#l1", 2.3, 10), SLAM("#t", 3.2)]; d = 4.6
+    elif gid == "a_noroom":      # "the one word that leaves no room for any partnership: aḥad"
+        b += ['<div class="ar" id="al" style="top:520px;font-size:200px">اللّٰه</div>',
+              '<div class="big" id="p0" style="top:880px;left:120px;right:auto;width:300px;font-size:150px;color:#7f9590">+ ?</div>',
+              '<div class="big" id="p1" style="top:880px;left:660px;right:auto;width:300px;font-size:150px;color:#7f9590">+ ?</div>',
+              f'<svg class="full" viewBox="0 0 1080 1920"><path id="x0" d="M150 870 L 400 1060 M400 870 L 150 1060" stroke="{RED}" stroke-width="20" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" fill="none"/>'
+              f'<path id="x1" d="M690 870 L 940 1060 M940 870 L 690 1060" stroke="{RED}" stroke-width="20" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" fill="none"/></svg>',
+              '<div class="big" id="t" style="top:1150px;font-size:100px">NO ROOM FOR<br>ANY <span class="g">PARTNER</span></div>',
+              '<div class="ar g" id="w" style="top:1420px;font-size:220px">أَحَد</div>']
+        j += [IN("#al", 0.05, 30), POP("#p0", 0.5, 0.6), POP("#p1", 0.7, 0.6), DRAW("#x0", 1.4, 0.3), DRAW("#x1", 1.6, 0.3), IN("#t", 1.7, 30), SLAM("#w", 3.0)]; d = 4.4
+    elif gid == "a_tawhid":      # "That's the whole of tawḥīd in a single word."
+        b += ['<div class="ar g" id="w" style="top:380px;font-size:280px">أَحَد</div>', '<div class="big" id="eq" style="top:860px;font-size:160px">=</div>',
+              '<div class="big g" id="t" style="top:1060px;font-size:220px">TAWḤĪD</div>', '<div class="tag" id="e" style="top:1330px;font-size:64px">Allah is One, with no partner</div>',
+              '<div class="big" id="o" style="top:1520px;font-size:96px">IN ONE WORD</div>']
+        j += [POP("#w", 0.05, 0.7), IN("#eq", 0.6, 20), SLAM("#t", 1.0), IN("#e", 1.6, 20), IN("#o", 2.4, 30)]; d = 3.6
+    elif gid == "a_fear":        # "…was able to say this word with so much conviction and without fear."
+        b += [f'<svg class="full" viewBox="0 0 1080 1920">{SUNSAND}<circle id="lt" cx="540" cy="900" r="420" fill="#fff4cf" opacity="0"/></svg>',
+              '<div class="ar" id="w" style="top:700px;font-size:280px">أَحَد</div>',
+              '<div class="big" id="c" style="top:1300px;font-size:110px">WITH <span class="g">CONVICTION</span></div>',
+              '<div class="big" id="f" style="top:1460px;font-size:110px">WITHOUT <span class="r">FEAR</span></div>']
+        j += [POP("#w", 0.05, 0.8), f'tl.fromTo("#lt", {{opacity:0}}, {{opacity:0.45, duration:1.2, ease:"power3.out"}}, 0.3);', IN("#c", 1.0, 30), SLAM("#f", 2.0)]; d = 3.6
+    elif gid == "a_very":        # "Bilāl wasn't just refusing their idols, he was saying the very thing they were trying to make him deny."
+        b += [f'<svg class="full" viewBox="0 0 1080 1920"><g id="idols"><rect x="190" y="360" width="200" height="420" rx="20" fill="#5a4a3a"/>'
+              f'<rect x="690" y="360" width="200" height="420" rx="20" fill="#5a4a3a"/>'
+              + "".join(f'<path class="cr" d="{d}" fill="none" stroke="{GOLD}" stroke-width="7" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>' for d in (
+                  "M290 360 L 270 500 L 310 580 L 280 780", "M790 360 L 810 490 L 770 600 L 800 780")) + '</g></svg>',
+              '<div class="big" id="r" style="top:860px;font-size:96px">NOT JUST <span class="r">REFUSING</span></div>',
+              '<div class="ar g" id="w" style="top:560px;font-size:280px">أَحَد</div>',
+              '<div class="big" id="t" style="top:1150px;font-size:96px">THE VERY THING<br>THEY WANTED HIM<br>TO <span class="g">DENY</span></div>']
+        j += [IN("#idols", 0.05, 30), IN("#r", 0.4, 30), f'tl.fromTo(".cr", {{strokeDashoffset:1}}, {{strokeDashoffset:0, duration:0.35, stagger:0.2, ease:"power2.inOut"}}, 1.0);',
+              f'tl.to("#idols, #r", {{opacity:0, y:120, duration:0.5, ease:"power2.in"}}, 1.8);', SLAM("#w", 2.4), IN("#t", 3.0, 30)]; d = 4.6
+    elif gid == "a_say":         # "Next time you're reading Sūrat al-Ikhlāṣ, say aḥad with as much conviction as Bilāl did."
+        b += [card("c1", "قُلْ هُوَ اللّٰهُ <b>أَحَدٌ</b>", "“Say: He is Allah, <i>the One</i>.”", "AL-IKHLĀṢ 112:1", 460),
+              '<div class="big" id="t" style="top:1080px;font-size:130px">SAY IT<br>LIKE <span class="g">BILĀL</span></div>']
+        j += [IN("#c1", 0.05, 40), SLAM("#t", 2.0)]; d = 3.6
     # ---------------- Dajjāl (#316) ----------------
-    elif gid == "d_word":        # "Did you know there's more than one Dajjāl? Let me explain." (owner's hook, 2 Nov): the word, then two more ghost in
+    elif gid == "d_word":       # "Did you know there's more than one Dajjāl? Let me explain." (owner's hook, 2 Nov): the word, then two more ghost in
         b += ['<div class="ar" id="w" style="top:600px;font-size:280px">دَجّال</div>',
               '<div class="ar" id="w1" style="top:400px;left:40px;right:auto;width:440px;font-size:130px;color:#7f9590">دَجّال</div>',
               '<div class="ar" id="w2" style="top:400px;left:600px;right:auto;width:440px;font-size:130px;color:#7f9590">دَجّال</div>',
@@ -261,7 +309,7 @@ def gfx(gid):
     return d, b, j
 
 SETS = {"insha": "i_no i_chat i_split i_past i_pens i_root i_kahf i_camel i_tawakkul i_worries i_hadid i_allah".split(),
-        "ahad": "a_word a_scene a_slam a_root a_count a_ikhlas a_free a_rock a_kaba a_jannah".split(),
+        "ahad": "a_word a_scene a_slam a_root a_count a_ikhlas a_free a_rock a_kaba a_jannah a_why a_deny a_noroom a_tawhid a_fear a_very a_say".split(),
         "dajjal": "d_word d_root d_camel d_thirty d_hadith d_gild d_form d_one d_doors d_masih d_kafir d_dua d_kahf".split()}
 
 # Re-timing to a take (WARP, JSON in the environment: {gid: {"at": [[planned s, s in the take's graphic], ...], "d": length}}): every

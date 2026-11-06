@@ -105,7 +105,7 @@ function update(t, layer) {
       count: () => `<div class="lab" style="top:150px">${o.title}</div><div class="days">${o.prayers.map(([p, n]) => `<div class="d"><div class="dots">${'<i></i>'.repeat(n)}</div><div class="dn">${p}</div></div>`).join('')}</div><div class="stat" id="pc17" style="top:960px;font-size:330px;color:#C8372D">${o.big}</div><div class="sub" id="pcs" style="top:1400px">${o.sub}</div><div class="stat" id="pcy" style="top:1560px;font-size:150px">${o.year}</div>`
     })[kind](); }
     pn.style.display = 'block';
-    const k = eo((t - p0) / .3), out = cl((t - (p1 - .25)) / .25);
+    const k = o.cutin ? 1 : eo((t - p0) / .3), out = o.cutout ? 0 : cl((t - (p1 - .25)) / .25);   // cutin/cutout: a hard cut, no slide (the Aḥad edit: graphics back to back)
     pn.style.transform = `translateX(${(1 - k) * 1080 - eo(out) * 1080}px)`;
     if (kind === 'words') pn.querySelectorAll('.w').forEach((el, i) => { const s = o.words[i][2]; el.classList.toggle('on', t >= s); el.style.transform = `scale(${pop(s)})`; });
     if (kind === 'chat') pn.querySelectorAll('.bub').forEach((el, i) => { const s = o.lines[i][3], e = eo((t - s) / .35); el.style.opacity = e; el.style.transform = `translateY(${(1 - e) * 60}px) scale(${pop(s)})`; });
