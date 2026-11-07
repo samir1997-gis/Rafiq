@@ -2016,13 +2016,13 @@ def g7():                                                       # owner, 7 Nov 2
         c.css += "#fxa em { color:var(--rubric); font-style:normal; } #fxe b { color:var(--rubric); }"
         c.t(f'tl.fromTo("#fx", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
         c.inn("#fxq", t); c.inn("#fxa", t + 0.2, 30)
-        r = clip(c, V + "fatiha-1-5.mp3", t + 0.3)
+        r = clip(c, V + "fatiha-1-5b.mp3", t + 0.3)
         for k, f in enumerate((0.22, 0.68)):                     # the نَ of each verb pulses as it's recited (about where it falls in the āyah)
             c.t(f'tl.fromTo("#fxa em:nth-of-type({k + 1})", {{scale:1}}, {{scale:1.35, duration:0.2, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t + 0.3 + r * f:.2f});')
             c.sfx("tap", t + 0.3 + r * f)
         c.inn("#fxe", t + 0.3 + r * 0.5)
-        u = t + 0.3 + r + 0.3; p = clip(c, V + "pay.mp3", u)
-        we = u + key_at(V + "pay.mp3", "We", p * 0.6)
+        u = t + 0.3 + r + 0.3; p = clip(c, V + "pay2.mp3", u)
+        we = u + key_at(V + "pay2.mp3", "we", p * 0.45)
         slam(c, "#fxw", "fx", we, "brag-quiz/sfx/soft/impact.wav")
         t = u + p + 0.6; c.out_("#fx", t); return t + 0.4
 
