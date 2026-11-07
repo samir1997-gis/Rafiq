@@ -219,7 +219,7 @@ for w0, w1 in win:                             # stretch the graphics over each 
     assert inside, f"no graphic over the window at {w0}-{w1}"
     first, last = inside[0], inside[-1]
     if not first[3].get("cutin"): first[0] = min(first[0], round(w0 - 0.32, 3))
-    if not last[3].get("cutout"): last[1] = max(last[1], round(w1 + 0.27, 3))
+    if not last[3].get("cutout"): last[1] = max(last[1], round(w1 + 0.32, 3))
 for p, q in zip(panels, panels[1:]):
     if q[0] < p[1]: p[1] = q[0]
     if q[0] - p[1] < 0.7: p[1] = q[0]; p[3]["cutout"] = True; q[3]["cutin"] = True
@@ -228,7 +228,7 @@ def covered(t):                                # fully covered at t: inside a pa
         if p0 <= t < p1 and (o.get("cutin") or t >= p0 + 0.3) and (o.get("cutout") or t < p1 - 0.25): return True
     return False
 bad = [round(f / 30, 2) for w0, w1 in win for f in range(int(w0 * 30), int(np.ceil(w1 * 30)) + 1) if not covered(f / 30)]
-assert not bad, f"window frames not covered: {bad[:10]}"
+assert not bad, f"window frames not covered: {bad[:10]} {[(p[0], p[1], p[3].get('cutin'), p[3].get('cutout')) for p in panels]} {win}"
 print("window in the cut:", win, "→ covered by", [(p[0], p[1]) for p in panels if any(p[1] > a and p[0] < b for a, b in win)])
 
 # sounds, each set against his own voice (as dajjal-video/config.py)
