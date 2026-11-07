@@ -99,8 +99,9 @@ if STEP == "config":
     CLEAN = "highpass=f=80,lowpass=f=13000,afftdn=nr=18:nf=-66:tn=1,agate=threshold=0.003:ratio=2.5:range=0.15:attack=6:release=220,acompressor=threshold=-28dB:ratio=2:attack=12:release=220"
     m = subprocess.run(["ffmpeg", "-i", os.path.join(W, "fx", "voice48.wav"), "-af", CLEAN + ",ebur128", "-f", "null", "-"], capture_output=True, text=True).stderr
     GAIN = -14.5 - float(re.findall(r"I:\s+(-?[\d.]+) LUFS", m)[-1])             # what reel.py mix gives his voice
-    FX = {"deep": ("asetrate=48000*0.78,aresample=48000,bass=g=9:f=110,lowpass=f=5000,"
-                   "aecho=0.8:0.88:70|140|260|420|650:0.55|0.45|0.35|0.25|0.18,afade=t=out:st=1.6:d=1.4", 4, 3.2, 0.0),
+    FX = {"deep": ("asetrate=48000*0.93,aresample=48000,bass=g=3:f=110,lowpass=f=6500,"    # owner, 7 Nov: "tone it down… suspenseful, an
+                   "asplit=3[a][b][c];[a]adelay=330,volume=0.5[a2];[b]adelay=660,volume=0.28[b2];[c]adelay=990,volume=0.14[c2];"   # impactful echo, slowed a little":
+                   "[a2][b2][c2]amix=inputs=3:normalize=0,aecho=0.8:0.5:45:0.22,afade=t=out:st=1.8:d=0.8", 0, 2.6, 0.0),          # echoes after the word, not a copy on it
           "echo": ("asplit=3[a][b][c];[a]adelay=230,volume=0.42[a2];[b]adelay=460,volume=0.24[b2];[c]adelay=690,volume=0.12[c2];"
                    "[a2][b2][c2]amix=inputs=3:normalize=0,highpass=f=220,lowpass=f=6500,aecho=0.8:0.6:60|110:0.3|0.2", 7, 1.8, 0.0),
           "reverb": ("asetrate=48000*0.9,aresample=48000,bass=g=5:f=120,aecho=0.8:0.9:40|73|110|170|260|400|560:0.5|0.45|0.4|0.35|0.3|0.25|0.18,"
