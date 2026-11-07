@@ -191,9 +191,47 @@ elif STEP == "zoom":    # the camera: smooth, centred on his face, deeper on eac
     K = [k for i, k in enumerate(K) if i == 0 or k[0] > K[i - 1][0]]
     sm = lambda u: f"({u})*({u})*(3-2*({u}))"
     Z = f"{K[0][1]}" + "".join(f"+{b[1] - a[1]:.4f}*{sm(f'clip((t-{a[0]:.3f})/{max(b[0] - a[0], 1 / 60):.3f},0,1)')}" for a, b in zip(K, K[1:]) if b[1] != a[1])
-    FX, FY = 0.54, 0.33                         # his face, as fractions of the frame (measured on a base frame)
+    # centred on his face, frame by frame (owner, 7 Nov: "keep me centred as you zoom"; anchoring one fixed point let him drift to the
+    # edge): his face found every 3rd frame (OpenCV), wrong finds dropped, the track smoothed over 1.5 s so the camera follows gently
+    import cv2
+    fp = os.path.join(W, "faces.json")
+    SW, SH = map(int, subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v", "-show_entries", "stream=width,height", "-of", "csv=p=0",
+                                      os.path.join(W, "cut.mov")], capture_output=True, text=True).stdout.strip().split(","))
+    if not os.path.exists(fp):
+        w, h = SW // 4, SH // 4; out = []
+        p = subprocess.Popen(["ffmpeg", "-v", "error", "-i", os.path.join(W, "cut.mov"), "-vf", f"select='not(mod(n\\,3))',scale={w}:{h}", "-vsync", "0",
+                              "-f", "rawvideo", "-pix_fmt", "gray", "-"], stdout=subprocess.PIPE)
+        cas = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml"); i = 0
+        while len(b := p.stdout.read(w * h)) == w * h:
+            fs = cas.detectMultiScale(np.frombuffer(b, np.uint8).reshape(h, w), 1.1, 5, minSize=(30, 30))
+            if len(fs): x, y, fw, fh = max(fs, key=lambda r: r[2] * r[3]); out.append([i * 3, (x + fw / 2) / w, (y + fh / 2) / h])
+            i += 1
+        json.dump(out, open(fp, "w"))
+    F = np.array(json.load(open(fp))); my = np.median(F[:, 2])
+    F = F[(abs(F[:, 2] - my) < 0.06) & (abs(F[:, 1] - np.median(F[:, 1])) < 0.12)]          # his face, not his hands or the wall
+    N = round(END * 30); fr = np.arange(N)
+    fx, fy = np.interp(fr, F[:, 0], F[:, 1]), np.interp(fr, F[:, 0], F[:, 2])
+    ker = np.ones(45) / 45; pad = lambda a: np.pad(a, 22, mode="edge")
+    fx, fy = np.convolve(pad(fx), ker, "valid")[:N], np.convolve(pad(fy), ker, "valid")[:N]
+    TY = 0.36                                   # where his face sits on screen, from the top
+    def zat(t):
+        z = K[0][1]
+        for a, b in zip(K, K[1:]):
+            u = min(1, max(0, (t - a[0]) / max(b[0] - a[0], 1 / 60))); z += (b[1] - a[1]) * u * u * (3 - 2 * u)
+        return z
     open(os.path.join(W, "zoom.txt"), "w").write(json.dumps(K))
-    sh("ffmpeg", "-v", "error", "-y", "-i", os.path.join(W, "cut.mov"), "-vf",
-       f"scale=w='trunc(1080*({Z})/2)*2':h='trunc(1920*({Z})/2)*2':eval=frame:flags=lanczos,crop=1080:1920:'(iw-1080)*{FX}':'(ih-1920)*{FY}',setsar=1,format=yuv420p",
-       "-c:v", "libx264", "-crf", "15", "-preset", "medium", "-c:a", "pcm_s16le", os.path.join(W, "base.mov"))
-    print(len(K), "zoom keys, max", max(k[1] for k in K))
+    dec = subprocess.Popen(["ffmpeg", "-v", "error", "-i", os.path.join(W, "cut.mov"), "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
+    enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", "1080x1920", "-r", "30", "-i", "-",
+                            "-i", os.path.join(W, "cut.mov"), "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-crf", "15", "-preset", "medium",
+                            "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", "-shortest", os.path.join(W, "base.mov")], stdin=subprocess.PIPE)
+    off = []
+    for n in range(N):
+        b = dec.stdout.read(SW * SH * 3)
+        if len(b) < SW * SH * 3: break
+        z = zat(n / 30); cw, ch = SW / z, SH / z
+        x0 = min(max(fx[n] * SW - cw / 2, 0), SW - cw); y0 = min(max(fy[n] * SH - TY * ch, 0), SH - ch)
+        M = np.float32([[1080 / cw, 0, -x0 * 1080 / cw], [0, 1920 / ch, -y0 * 1920 / ch]])
+        img = cv2.warpAffine(np.frombuffer(b, np.uint8).reshape(SH, SW, 3), M, (1080, 1920), flags=cv2.INTER_LANCZOS4 if z > 1.001 else cv2.INTER_AREA)
+        enc.stdin.write(img.tobytes()); off.append(round((fx[n] * SW - x0) / cw, 3))
+    enc.stdin.close(); enc.wait(); dec.stdout.close()
+    print(len(K), "zoom keys, max", max(k[1] for k in K), "| his face across the screen: from", min(off), "to", max(off), "(0.5 = centre)")

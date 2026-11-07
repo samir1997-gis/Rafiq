@@ -95,7 +95,7 @@ elif STEP == "plan":    # captions, stressed words (loud against their neighbour
 elif STEP == "zoom":    # a slow push in each section (restarts at each section start)
     C = J("config.json"); S = C["sections"] or [[0, C["end"]]]
     z = "1+0.055*(" + "+".join(f"between(t,{a},{b})*(t-{a})/{b-a:.3f}" for a, b in S) + ")"
-    sh("ffmpeg", "-v", "error", "-y", "-i", "cut.mov", "-vf", f"scale=w='trunc(1080*({z})/2)*2':h='trunc(1920*({z})/2)*2':eval=frame:flags=lanczos,crop=1080:1920:'(iw-1080)*0.5':'(ih-1920)*0.35',setsar=1,format=yuv420p",
+    sh("ffmpeg", "-v", "error", "-y", "-i", "cut.mov", "-vf", f"scale=w='trunc(1080*({z})/2)*2':h='trunc(1920*({z})/2)*2':eval=frame:flags=lanczos,crop=1080:1920:'(1080*({z})-1080)*0.5':'(1920*({z})-1920)*0.35',setsar=1,format=yuv420p",
        "-c:v", "libx264", "-crf", "15", "-preset", "medium", "-c:a", "pcm_s16le", "base.mov")
 
 elif STEP == "masks":
