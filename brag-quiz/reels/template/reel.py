@@ -203,7 +203,7 @@ elif STEP == "mix":
     sf.append("".join(f"[s{i}]" for i in range(len(S))) + f"amix=inputs={len(S)}:normalize=0:duration=longest,apad,atrim=0:{C['end'] + 1}[o]")
     sh(*sa, "-filter_complex", ";".join(sf), "-map", "[o]", "-c:a", "pcm_s24le", "sfx.wav")
     args += ["-i", "sfx.wav"]
-    fc.append("[voice][5:a]amix=inputs=2:normalize=0:duration=first" + ("[a]" if keep else ",lowpass=f=16000:poles=2,aresample=192000,alimiter=limit=0.7:attack=1:release=60:level=false,aresample=48000[a]"))
+    fc.append("[voice][5:a]amix=inputs=2:normalize=0:duration=first" + ("[a]" if keep else ",lowpass=f=16000:poles=2,aresample=192000,alimiter=limit=0.7:attack=1:release=60:level=false,alimiter=limit=0.7:attack=0.5:release=60:level=false,aresample=48000[a]"))   # twice: one pass let +5 dB through on the Aḥad 60 s (7 Nov 2026)
     sh(*args, "-filter_complex", ";".join(fc), "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "21", "-preset", "slow", "-maxrate", "4.2M", "-bufsize", "8M",
        "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "reel.mp4")
     print("reel.mp4 ready")

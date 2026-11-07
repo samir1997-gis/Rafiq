@@ -272,7 +272,7 @@ for c in C["caps"]:
     c[2] = fix(c[2])
     for w in c[2]: w[2] = re.sub(r"[^\wāīūḥ]", "", w[0].lower()) in EM
 C["caps"] = [c for c in C["caps"] if c[2]]
-C.update(title_top=470, titles=titles, flicks=[[0, 2.4, HOOK, 150 if len(HOOK) > 9 else 220]], split=None, steps=[], panels=panels,
+C.update(title_top=470, titles=titles, flicks=[[0, 2.4, HOOK, 118 if len(HOOK) > 9 else 220]], split=None, steps=[], panels=panels,
          audio=[a for a in AUDIO if 0 <= a[1] < END])
 busy = [(p[0], p[1]) for p in panels] + [(t[0], t[1]) for t in titles] + [(0, 2.4)]
 em = [w for c in C["caps"] for w in c[2] if w[2] and not any(a - .4 <= w[1] < b + .4 for a, b in busy)]
