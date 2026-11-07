@@ -55,8 +55,8 @@
   "speed": 1.05
  },
  {
-  "file": "pay",
-  "text": "You say both in every rakah, in al-Fatihah. Not 'I worship'. 'We worship'. The whole ummah, together.",
+  "file": "pay2",
+  "text": "Not 'I worship'. 'WE worship'. The whole ummah, together.",
   "voice": "N2lVS1w4EtoT3dr4eOWO",
   "stability": 0.35,
   "style": 0.45,
@@ -95,12 +95,10 @@
   "speed": 0.9
  },
  {
-  "file": "fatiha-1-5",
+  "file": "fatiha-1-5b",
   "url": [
-   "https://verses.quran.foundation/Husary/Muallim/mp3/001005.mp3",
-   "https://verses.quran.com/Husary/Muallim/mp3/001005.mp3",
-   "https://everyayah.com/data/Husary_Muallim_128kbps/001005.mp3",
-   "https://everyayah.com/data/Husary_128kbps/001005.mp3"
+   "https://everyayah.com/data/Husary_128kbps/001005.mp3",
+   "https://verses.quran.foundation/Husary/Mujawwad/mp3/001005.mp3"
   ]
  }
 ]

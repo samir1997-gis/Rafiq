@@ -211,12 +211,13 @@ def count_down(c, cid, at, n=3):
     c.t(f'tl.to("#{cid}", {{opacity:0, scale:0.7, duration:0.25}}, {at + n - 0.1:.2f});')
     return at + n + 0.05
 
-def change(vid, kicker, R, ask, hook=None, vo=None, count=3, teach=None, bg=None):
+def change(vid, kicker, R, ask, hook=None, vo=None, count=3, teach=None, bg=None, words=None, outro=None):
     """The Ashrabu format: "if this is X, what's the <she / we / past / plural> form?", a 3-2-1, the answer said, the rule.
     hook: optional spoken opening line (hook_in); then the first question comes in after it instead of being the cover.
     vo: optional hook-voice lines {"q": [(before the word, after it) per round], "rule": mp3, "end": mp3}: the question is spoken
     around the Arabic word (said in the Rafiq voice), its words appear as they're said, the trick and the closing ask are spoken.
-    teach: optional teach(c, body, t) -> t, a section that teaches the change before the quiz (g6). bg: hook_in's background."""
+    teach: optional teach(c, body, t) -> t, a section that teaches the change before the quiz (g6). bg: hook_in's background.
+    words: {arabic: voice mp3} for words the app has no recording of (g7). outro: optional outro(c, body, t) -> t after the last round (g7)."""
     c = SO.vcomp(vid, kicker); body, t = [], 0.1
     if vid != "f3-she-eats": c.bed = True              # the fountain under it, as in our other videos (f3 stays as posted)
     if hook: t = hook_in(c, body, hook, bg)
@@ -231,7 +232,7 @@ def change(vid, kicker, R, ask, hook=None, vo=None, count=3, teach=None, bg=None
         if hook and not k: c.t(f'tl.fromTo("#{s}", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
         if k or hook: c.inn(f"#{s} .q2", t); SO.bigin(c, f"#{s}b", t + 0.3)   # without a hook, the first question is the cover (frame 0)
         if vo:                                            # "If this means 'he wrote'..." [the word] "...what's 'I wrote'?"
-            a = clip(c, vo["q"][k][0], t); d = say_up(c, ar, t + a + 0.05); tb = t + a + 0.05 + d + 0.15
+            a = clip(c, vo["q"][k][0], t); d = say_up(c, ar, t + a + 0.05, src=(words or {}).get(ar)); tb = t + a + 0.05 + d + 0.15
             b = clip(c, vo["q"][k][1], tb)
             c.t(f'tl.fromTo("#{s}q", {{opacity:0, scale:1.5, filter:"blur(10px)"}}, {{opacity:1, scale:1, filter:"blur(0px)", duration:0.3, ease:"expo.out"}}, {tb:.2f});')
             for i in range(3): c.inn(f"#{s}o{i}", tb + 0.35 + i * 0.12)          # the options come in while the question is said
@@ -242,10 +243,11 @@ def change(vid, kicker, R, ask, hook=None, vo=None, count=3, teach=None, bg=None
             for i in range(3): c.inn(f"#{s}o{i}", t + 1.0 + d + i * 0.12)
             done = count_down(c, f"{s}c", t + 1.6 + d + 0.5, count)
         reveal(c, f"#{s}o{right}", [f"#{s}o{i}" for i in range(3) if i != right], done)
-        d2 = say_up(c, opts[right], done + 0.3); c.inn(f"#{s}r", done + 0.3 + d2)
+        d2 = say_up(c, opts[right], done + 0.3, src=(words or {}).get(opts[right])); c.inn(f"#{s}r", done + 0.3 + d2)
         hold = 2.4
         if vo and k == 0 and vo.get("rule"): hold = max(hold, clip(c, vo["rule"], done + 0.4 + d2) + 0.6)
         t = done + 0.3 + d2 + hold; c.out_(f"#{s}", t); t += 0.4
+    if outro: t = outro(c, body, t)
     end = clip(c, vo["end"], t + 0.4) if vo and vo.get("end") else 0
     body.append(c.end(t, ask))                          # SO.finish, but the end card stays until the closing line has been said
     c.write("\n".join("      " + b for b in body), round(max(t + 2.9, t + 0.4 + end + 0.8), 2))
@@ -1979,9 +1981,68 @@ def g6():                                                       # owner, 4 Nov 2
            vo={"q": [(V + "q1a.mp3", V + "q1b.mp3"), (V + "q2a.mp3", V + "q2b.mp3")], "end": "brag-quiz/voice/g4-vo/end2.mp3"},
            teach=teach)
 
+def g7():                                                       # owner, 7 Nov 2026: "another concept… like turning something from I to we"
+    V, V6 = "brag-quiz/voice/g7-vo/", "brag-quiz/voice/g6-vo/"   # teach I eat / we eat, then quiz on the two verbs of al-Fātiḥah 1:5
+    W = {"يَعْبُدُ": V + "yabudu.mp3", "نَعْبُدُ": V + "nabudu.mp3", "يَسْتَعِينُ": V + "yastainu.mp3", "نَسْتَعِينُ": V + "nastainu.mp3"}
+
+    def teach(c, body, t):                                       # g6's teach section, with نَـ (we) in place of تَـ (she)
+        F = [("يَأْكُلُ", '<em>يَ</em>أْكُلُ', "he eats", V6 + "t1"), ("آكُلُ", '<em>آ</em>كُلُ', "I eat", V6 + "t2"), ("نَأْكُلُ", '<em>نَ</em>أْكُلُ', "we eat", V + "t3")]
+        rows = "".join(f'<div class="vrow" id="tr{i}"><div class="p"><span class="en" style="font-size:52px;color:var(--ink)">{en}</span></div>'
+                       f'<span class="f" lang="ar">{h}</span></div>' for i, (_, h, en, _) in enumerate(F))
+        body.append('<div class="sec" id="tch"><div class="q2" id="tq">LEARN · watch the first letter</div>'
+                    f'<div class="vrows" style="top:480px">{rows}</div>'
+                    '<div class="tsub" id="tj" style="top:1030px;font-size:40px">two alifs join into one: <bdi lang="ar" dir="rtl">أَ + أْكُلُ = آكُلُ</bdi></div>'
+                    '<div class="rule" id="tru" style="top:1250px;font-size:84px">I = <span class="ar" lang="ar"><em>أَ</em></span> &nbsp;·&nbsp; we = <span class="ar" lang="ar"><em>نَـ</em></span></div></div>')
+        c.css += (".tsub { position:absolute; left:90px; right:90px; text-align:center; font-weight:700; line-height:1.3; color:var(--ink-soft); }"
+                  ".tsub bdi { font-family:var(--ar); } #tru .ar { font-size:110px; }")
+        c.t(f'tl.fromTo("#tch", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
+        c.inn("#tq", t)
+        for i, (ar, _, _, f) in enumerate(F):
+            a = clip(c, f + ".mp3", t + 0.2)
+            c.inn(f"#tr{i}", t + 0.2, 30)
+            hit = t + 0.2 + a + 0.05; d = say_up(c, ar, hit)
+            c.t(f'tl.fromTo("#tr{i} em", {{scale:1}}, {{scale:1.25, duration:0.18, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {hit:.2f});')
+            c.sfx("tap", hit)
+            if i == 1: c.inn("#tj", hit + d)
+            t = hit + d + 0.5
+        r = clip(c, V + "rule.mp3", t); c.inn("#tru", t + 0.3)
+        t += r + 0.6; c.out_("#tch", t); return t + 0.4
+
+    def outro(c, body, t):                                       # the payoff of the hook: al-Fātiḥah 1:5, recited, the نَ lit, "we"
+        body.append('<div class="sec" id="fx"><div class="q2" id="fxq">AL-FĀTIḤAH 1:5 · every rakʿah</div>'
+                    '<div class="big" id="fxa" style="top:420px;font-size:96px;line-height:1.5" lang="ar" dir="rtl">إِيَّاكَ <em>نَ</em>عْبُدُ<br>وَإِيَّاكَ <em>نَ</em>سْتَعِينُ</div>'
+                    '<div class="tsub" id="fxe" style="top:820px;font-size:44px;color:var(--ink)">“You alone <b>we</b> worship, and You alone <b>we</b> ask for help.”</div>'
+                    '<div class="rule" id="fxw" style="top:1180px;font-size:150px">not “I”. <span style="color:var(--rubric)">WE.</span></div></div>')
+        c.css += "#fxa em { color:var(--rubric); font-style:normal; } #fxe b { color:var(--rubric); }"
+        c.t(f'tl.fromTo("#fx", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
+        c.inn("#fxq", t); c.inn("#fxa", t + 0.2, 30)
+        r = clip(c, V + "fatiha-1-5.mp3", t + 0.3)
+        for k, f in enumerate((0.22, 0.68)):                     # the نَ of each verb pulses as it's recited (about where it falls in the āyah)
+            c.t(f'tl.fromTo("#fxa em:nth-of-type({k + 1})", {{scale:1}}, {{scale:1.35, duration:0.2, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {t + 0.3 + r * f:.2f});')
+            c.sfx("tap", t + 0.3 + r * f)
+        c.inn("#fxe", t + 0.3 + r * 0.5)
+        u = t + 0.3 + r + 0.3; p = clip(c, V + "pay.mp3", u)
+        we = u + key_at(V + "pay.mp3", "We", p * 0.6)
+        slam(c, "#fxw", "fx", we, "brag-quiz/sfx/soft/impact.wav")
+        t = u + p + 0.6; c.out_("#fx", t); return t + 0.4
+
+    bub = "".join(f'<div class="hn {col}" id="hb{k}" style="left:{x}px;top:{y}px;font-size:{sz}px;transform:rotate({r}deg)"><b>{a}</b> {u}</div>'
+                  for k, (x, y, sz, a, u, col, r) in enumerate([(60, 170, 54, 5, "prayers", "verdigris", -6), (720, 150, 46, 17, "rakʿahs", "gold", 5),
+                      (800, 470, 40, 34, "times “we”", "rubric", 8), (40, 470, 44, 1, "letter", "gold", -4), (90, 1220, 64, 2, "verbs", "verdigris", -3),
+                      (690, 1240, 50, 7, "āyāt", "rubric", 4), (380, 1420, 42, 1, "ummah", "gold", -7), (640, 1540, 48, 17, "times a day", "verdigris", -5)]))
+    def anim(c, at, d):
+        for k in range(8): c.t(f'tl.fromTo("#hb{k}", {{y:0, scale:0.92}}, {{y:{-30 if k % 2 else 26}, scale:1.08, duration:{d + 0.2:.2f}, ease:"none"}}, 0);')
+    change("g7-we", "QUIZ · ARABIC VERBS",
+           [("يَعْبُدُ", "he worships", "we worship", ["أَعْبُدُ", "نَعْبُدُ", "تَعْبُدُ"], 1, '<bdi lang="ar"><em>نَ</em></bdi> at the front = we'),
+            ("يَسْتَعِينُ", "he seeks help", "we seek help", ["أَسْتَعِينُ", "يَسْتَعِينُ", "نَسْتَعِينُ"], 2, '<bdi lang="ar"><em>نَ</em></bdi> at the front = we')],
+           "How many did you get? 0, 1 or 2? Comment below 👇 and send this to someone you pray with",
+           hook=("EVERY rakʿah, you say “we” twice without knowing it!".split(), {0: "loud", 4: "red", 5: "circle"}, V + "h1.mp3"),
+           vo={"q": [(V + "q1a.mp3", V + "q1b.mp3"), (V + "q2a.mp3", V + "q2b.mp3")], "end": "brag-quiz/voice/g4-vo/end2.mp3"},
+           teach=teach, bg=(bub, anim), words=W, outro=outro)
+
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
-       "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "g6-i-she": g6, "w8-subhana-azim": w8,
+       "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "g6-i-she": g6, "g7-we": g7, "w8-subhana-azim": w8,
        "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1,
        "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2, "n5-salah": n5, "h1-algebra": h1, "h2-coffee": h2, "h3-lisan": h3, "h4-khutbah": h4}
 if __name__ == "__main__":
