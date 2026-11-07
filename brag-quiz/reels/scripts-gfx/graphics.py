@@ -214,6 +214,18 @@ def gfx(gid):
         b += [card("c1", "قُلْ هُوَ اللّٰهُ <b>أَحَدٌ</b>", "“Say: He is Allah, <i>the One</i>.”", "AL-IKHLĀṢ 112:1", 460),
               '<div class="big" id="t" style="top:1080px;font-size:130px">SAY IT<br>LIKE <span class="g">BILĀL</span></div>']
         j += [IN("#c1", 0.05, 40), SLAM("#t", 2.0)]; d = 3.6
+    elif gid == "a_none":        # "Aḥad is one with no second, no equal, no parts" (the owner's edit, 7 Nov 2026)
+        b += ['<div class="ar g" id="w" style="top:360px;font-size:260px">أَحَد</div>']
+        b += [f'<div class="big" id="n{i}" style="top:{860 + i * 210}px;font-size:140px">NO <span class="g">{x}</span></div>' for i, x in enumerate(("SECOND", "EQUAL", "PARTS"))]
+        j += [POP("#w", 0.05, 0.7)] + [SLAM(f"#n{i}", 0.9 + i * 0.7) for i in range(3)]; d = 3.6
+    elif gid == "a_alone":       # "used like that, it's used exclusively for Allah alone"
+        b += ['<div class="ar" id="al" style="top:520px;font-size:300px">اللّٰه</div>', '<div class="tag" id="e" style="top:1000px;font-size:64px">aḥad, used like that, is only ever said of</div>',
+              '<div class="big g" id="t" style="top:1150px;font-size:170px">ALLAH ALONE</div>']
+        j += [POP("#al", 0.05, 0.7), f'tl.fromTo("#al", {{scale:1}}, {{scale:1.06, duration:3, ease:"sine.inOut"}}, 0.5);', IN("#e", 0.8, 20), SLAM("#t", 2.0)]; d = 3.4
+    elif gid == "a_qul":         # "the word Allah uses for Himself in the Qur'an: qul huwa Allāhu aḥad"
+        b += ['<div class="tag" id="h" style="top:420px;font-size:60px">the word Allah uses for Himself</div>',
+              card("c1", "قُلْ هُوَ اللّٰهُ <b>أَحَدٌ</b>", "“Say: He is Allah, <i>the One</i>.”", "AL-IKHLĀṢ 112:1", 640)]
+        j += [IN("#h", 0.05, 20), IN("#c1", 0.8, 40), f'tl.fromTo("#c1", {{scale:1}}, {{scale:1.05, duration:3, ease:"sine.inOut"}}, 1.4);']; d = 3.6
     # ---------------- Dajjāl (#316) ----------------
     elif gid == "d_word":       # "Did you know there's more than one Dajjāl? Let me explain." (owner's hook, 2 Nov): the word, then two more ghost in
         b += ['<div class="ar" id="w" style="top:600px;font-size:280px">دَجّال</div>',
@@ -309,7 +321,7 @@ def gfx(gid):
     return d, b, j
 
 SETS = {"insha": "i_no i_chat i_split i_past i_pens i_root i_kahf i_camel i_tawakkul i_worries i_hadid i_allah".split(),
-        "ahad": "a_word a_scene a_slam a_root a_count a_ikhlas a_free a_rock a_kaba a_jannah a_why a_deny a_noroom a_tawhid a_fear a_very a_say".split(),
+        "ahad": "a_word a_scene a_slam a_root a_count a_ikhlas a_free a_rock a_kaba a_jannah a_why a_deny a_noroom a_tawhid a_fear a_very a_say a_none a_alone a_qul".split(),
         "dajjal": "d_word d_root d_camel d_thirty d_hadith d_gild d_form d_one d_doors d_masih d_kafir d_dua d_kahf".split()}
 
 # Re-timing to a take (WARP, JSON in the environment: {gid: {"at": [[planned s, s in the take's graphic], ...], "d": length}}): every
