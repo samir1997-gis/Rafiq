@@ -2036,9 +2036,10 @@ def g7():                                                       # owner, 7 Nov 2
            [("يَعْبُدُ", "he worships", "we worship", ["أَعْبُدُ", "نَعْبُدُ", "تَعْبُدُ"], 1, '<bdi lang="ar"><em>نَ</em></bdi> at the front = we'),
             ("يَسْتَعِينُ", "he seeks help", "we seek help", ["أَسْتَعِينُ", "يَسْتَعِينُ", "نَسْتَعِينُ"], 2, '<bdi lang="ar"><em>نَ</em></bdi> at the front = we')],
            "How many did you get? 0, 1 or 2? Comment below 👇 and send this to someone you pray with",
-           hook=("EVERY rakʿah, you say “we” twice without knowing it!".split(), {0: "loud", 4: "red", 5: "circle"}, V + "h1.mp3"),
+           hook=("MOST people learn Arabic for years before they notice this trick!".split(), {0: "loud", 5: "red", 10: "circle"},   # owner, 7 Nov: g6's hook,
+                 "brag-quiz/voice/g4-hook3/g4-v3a.mp3"),                                                                  # copied exactly
            vo={"q": [(V + "q1a.mp3", V + "q1b.mp3"), (V + "q2a.mp3", V + "q2b.mp3")], "end": "brag-quiz/voice/g4-vo/end2.mp3"},
-           teach=teach, bg=(bub, anim), words=W, outro=outro)
+           teach=teach, words=W, outro=outro)
 
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
