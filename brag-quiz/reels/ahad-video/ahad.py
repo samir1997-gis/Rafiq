@@ -35,7 +35,7 @@ P = {
          ("c3", 65.85, 89.6),    # [window] why aḥad … no room for any partnership: aḥad.
          ("c3", 137.1, 140.9),   # [window] That's the whole of tawḥīd in a single word.
          ("c3", 157.4, 166.6),   # [window] Bilāl wasn't just refusing their idols … make him deny.
-         ("c3", 168.8, 181.9),   # [window] Next time you're reading al-Ikhlāṣ, say aḥad with as much conviction … as Bilāl did.
+         ("c3", 168.8, 183.4),   # [window] (his "did" comes after a 1.4 s pause, at 183.2) Next time you're reading al-Ikhlāṣ, say aḥad with as much conviction … as Bilāl did.
          ("c1", 223.3, 230.6)],  # … comment "Salah" down below and I'll send you a starter pack.
  "v60a": [("c1", 173.3, 180.7),  # The Prophet ﷺ told him: Yā Bilāl, I heard your footsteps in front of mine in Jannah.
           ("c3", 14.6, 27.7),    # Now, let me take you back …
@@ -101,7 +101,9 @@ if STEP == "join":
         s0, s1 = runs[g[0]][0], runs[g[-1]][1]; k = piece(s0); lo, hi = table[k]["off"], table[k]["off"] + table[k]["d"]
         pre = runs[g[0] - 1][1] if g[0] and piece(runs[g[0] - 1][0]) == k else lo
         nxt = runs[g[-1] + 1][0] if g[-1] + 1 < len(runs) and piece(runs[g[-1] + 1][0]) == k else hi
-        chunks.append((round(max(lo, s0 - min(0.08, (s0 - pre) / 2)), 3), round(min(hi, s1 + min(0.20, (nxt - s1) / 2)), 3)))
+        last = g is [h for h in groups if piece(runs[h[0]][0]) == k][-1]   # a piece's last words: a soft final word ("did", "pack") can sit
+        tail = max(0.20, min(0.60, nxt - s1 - 0.08)) if last else min(0.20, (nxt - s1) / 2)   # under -46 dB, so up to 0.6 s, short of the next word
+        chunks.append((round(max(lo, s0 - min(0.08, (s0 - pre) / 2)), 3), round(min(hi, s1 + tail), 3)))
     json.dump(chunks, open("chunks.json", "w"))
     print(len(chunks), "pieces of speech,", round(sum(round((b - a) * 30) / 30 for a, b in chunks), 1), "s")
     sys.exit()
@@ -158,7 +160,7 @@ G = {   # (gid, piece, from, to, [(planned s, take time)])
          ("a_noroom", 4, 83.0, 90.5, [(0.05, 83.1), (1.4, 85.6), (3.0, 89.4)]),
          ("a_tawhid", 5, 137.0, 141.4, [(0.05, 136.95), (1.0, 139.1)]),
          ("a_very", 6, 157.4, 167.6, [(0.05, 157.6), (1.0, 159.6), (2.4, 162.2)]),
-         ("a_say", 7, 168.6, 182.6, [(0.05, 168.8), (2.0, 175.7)])],
+         ("a_say", 7, 168.6, 183.8, [(0.05, 168.8), (2.0, 175.7)])],
  "v60a": [("a_jannah", 0, 177.1, 181.2, [(0.05, 177.2), (0.3, 177.9)]),
           ("a_word", 3, 62.0, 64.3, [(0.05, 62.0)]),
           ("a_tawhid", 4, 137.0, 141.4, [(0.05, 136.95), (1.0, 139.1)]),
