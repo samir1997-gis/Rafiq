@@ -26,15 +26,15 @@ C = Jf("config.json"); END = C["end"]
 # his words: where each really starts (speech over -40 dB, from a little before the transcript's time)
 x16 = np.frombuffer(subprocess.run(["ffmpeg", "-v", "error", "-i", os.path.join(W, "cut.wav"), "-f", "s16le", "-"], capture_output=True).stdout, np.int16) / 32768
 ENV = 20 * np.log10(np.sqrt(np.convolve(x16 ** 2, np.ones(160) / 160, "same"))[::160] + 1e-9)
-def on(t):
-    k = int(max(0, t - 0.25) * 100)
-    while k < len(ENV) - 1 and ENV[k] < -40: k += 1
+def on(t):                                     # the quietest moment just before the transcript's time, then the first sound after it
+    a0 = int(max(0, t - 0.35) * 100); k = a0 + int(np.argmin(ENV[a0:int((t + 0.15) * 100)]))
+    while k < min(len(ENV) - 1, int((t + 0.25) * 100)) and ENV[k] < -40: k += 1
     return round(k / 100, 2)
 
 # ---- graphics: (gid, from, to, [(planned s, word time)]); the ones over the window run back to back
 G = [("a_scene", 30.7, 37.9, [(0.05, 30.8), (1.6, 34.5)]),
      ("a_deny", 65.6, 77.6, [(0.05, 66.2), (0.8, 70.24), (1.8, 73.06), (3.2, 75.34)]),
-     ("a_noroom", 77.6, 87.0, [(0.05, 78.44), (1.4, 80.86), (3.0, 83.62)]),
+     ("a_noroom", 77.6, 87.0, [(0.05, 78.44), (1.4, 80.86), (3.0, 84.55)]),
      ("a_none", 87.0, 91.5, [(0.05, 87.12), (0.9, 89.3), (1.6, 90.2), (2.3, 91.1)]),
      ("a_alone", 91.5, 97.5, [(0.05, 91.6), (0.8, 93.94), (2.0, 96.26)]),
      ("a_qul", 99.9, 106.6, [(0.05, 100.0), (0.8, 100.42)]),
@@ -47,18 +47,18 @@ SND = {"a_scene": [("whoosh", 0, -8), ("thump", 1, 0)], "a_deny": [("whoosh", 0,
        "a_alone": [("shimmer", 0, -6), ("impact", 2, 0)], "a_qul": [("flip", 1, -4)], "a_tawhid": [("shimmer", 0, -6), ("boom", 1, 0)],
        "a_very": [("crack", 1, -2), ("impact", 2, 0)], "a_kaba": [("whoosh", 0, -8), ("shimmer", 1, -4)], "a_jannah": [("shimmer", 0, -4), ("whoosh", 1, -8)]}
 # titles behind his head
-TT = [(3.5, 5.6, "ONLY", "ONE WORD", 230), (5.6, 8.85, "", "AḤAD", 380), (11.0, 15.6, "1400 YEARS AGO", "MAKKAH", 280), (16.1, 22.4, "A SLAVE FROM", "ABYSSINIA", 220),
+TT = [(3.5, 6.6, "ONLY", "ONE WORD", 230), (6.6, 8.85, "", "AḤAD", 380), (11.0, 15.6, "1400 YEARS AGO", "MAKKAH", 280), (16.1, 22.4, "A SLAVE FROM", "ABYSSINIA", 220),
       (38.0, 44.6, "THEY SAID", "DENY MUḤAMMAD", 150), (45.8, 56.6, "HIS NAME", "BILĀL", 330), (56.7, 60.4, "ONE WORD", "AḤAD", 380),
       (60.5, 65.5, "WHY NOT", "WĀḤID?", 280), (127.0, 130.5, "", "YĀ BILĀL", 300), (135.2, 146.4, "THE POWER OF", "AḤAD", 380), (150.4, END, "COMMENT", "SALAH", 300)]
 # the big words: (word time, impact sounds [(name, dB)], voice layer: deep / echo / reverb / None, zoom step)
-BIG = [(1.12, [("thump", -2)], None, 0.06), (3.66, [("thump", -4)], None, 0.06),
-       (5.78, [("boom", 0), ("impact", 0)], "deep", 0.12), (7.76, [("boom", 2), ("impact", 2)], "deep", 0.12),
+BIG = [(1.12, [("thump", -2)], None, 0.03), (3.66, [("thump", -4)], None, 0.035),
+       (6.70, [("boom", 0), ("impact", 0)], "deep", 0.12), (8.13, [("boom", 2), ("impact", 2)], "deep", 0.12),   # (measured: the transcript has them ~1 s early)
        (11.14, [("impact", -2)], None, 0.06), (16.82, [("thump", -2)], None, 0.06), (29.58, [("thump", -4)], None, 0.05),
        (39.90, [("impact", 0)], "echo", 0.1), (50.82, [("impact", -1)], "echo", 0.1), (54.70, [("thump", -4)], None, 0.05),
-       (58.18, [("boom", 0), ("impact", 0)], "echo", 0.1), (59.58, [("impact", 1)], "echo", 0.08), (61.00, [("thump", -3)], None, 0.06),
-       (62.78, [("thump", -3)], None, 0.06), (83.62, [], "echo", 0), (108.5, [], "echo", 0), (118.58, [("impact", -1)], "echo", 0),
+       (58.48, [("boom", 0), ("impact", 0)], "echo", 0.1), (59.58, [("impact", 1)], "echo", 0.08), (61.00, [("thump", -3)], None, 0.06),
+       (62.78, [("thump", -3)], None, 0.06), (84.55, [], "echo", 0), (108.5, [], "echo", 0), (118.58, [("impact", -1)], "echo", 0),
        (129.86, [("impact", 0)], "echo", 0.1), (134.16, [], "reverb", 0), (135.9, [("boom", -1), ("impact", -2)], "echo", 0.1),
-       (137.22, [("thump", -3)], None, 0.05), (143.74, [("thump", -4)], None, 0.05), (145.66, [("boom", 0), ("impact", 0)], "reverb", 0.12),
+       (137.22, [("thump", -3)], None, 0.05), (143.74, [("thump", -4)], None, 0), (145.66, [("boom", 0), ("impact", 0)], "reverb", 0.12),
        (150.64, [("impact", -2)], None, 0.08)]
 
 if STEP == "config":
@@ -100,11 +100,11 @@ if STEP == "config":
     m = subprocess.run(["ffmpeg", "-i", os.path.join(W, "fx", "voice48.wav"), "-af", CLEAN + ",ebur128", "-f", "null", "-"], capture_output=True, text=True).stderr
     GAIN = -14.5 - float(re.findall(r"I:\s+(-?[\d.]+) LUFS", m)[-1])             # what reel.py mix gives his voice
     FX = {"deep": ("asetrate=48000*0.78,aresample=48000,bass=g=9:f=110,lowpass=f=5000,"
-                   "aecho=0.8:0.88:70|140|260|420|650:0.55|0.45|0.35|0.25|0.18,afade=t=out:st=1.6:d=1.4", -3, 3.2, 0.0),
+                   "aecho=0.8:0.88:70|140|260|420|650:0.55|0.45|0.35|0.25|0.18,afade=t=out:st=1.6:d=1.4", 4, 3.2, 0.0),
           "echo": ("asplit=3[a][b][c];[a]adelay=230,volume=0.42[a2];[b]adelay=460,volume=0.24[b2];[c]adelay=690,volume=0.12[c2];"
-                   "[a2][b2][c2]amix=inputs=3:normalize=0,highpass=f=220,lowpass=f=6500,aecho=0.8:0.6:60|110:0.3|0.2", -2, 1.8, 0.0),
+                   "[a2][b2][c2]amix=inputs=3:normalize=0,highpass=f=220,lowpass=f=6500,aecho=0.8:0.6:60|110:0.3|0.2", 7, 1.8, 0.0),
           "reverb": ("asetrate=48000*0.9,aresample=48000,bass=g=5:f=120,aecho=0.8:0.9:40|73|110|170|260|400|560:0.5|0.45|0.4|0.35|0.3|0.25|0.18,"
-                     "lowpass=f=5000,afade=t=out:st=1.4:d=1.6", -5, 3.0, 0.0)}
+                     "lowpass=f=5000,afade=t=out:st=1.4:d=1.6", 2, 3.0, 0.0)}
     AUDIO = []
     for t, _, kind, _ in BIG:
         if not kind: continue
@@ -119,6 +119,7 @@ if STEP == "config":
     VP = float(np.percentile(20 * np.log10(np.sqrt(np.convolve(x16 ** 2, np.ones(800) / 800, "valid"))[::400] + 1e-9), 90))
     def snd(name, t, db):
         f = next(p for p in (os.path.join(SFX, d, name + ".wav") for d in ("soft", "ref", ".")) if os.path.exists(p))
+        db -= 3 if name == "boom" else 0                                      # the booms a touch under the impacts
         pk_db, pk = info(f); AUDIO.append([f, round(max(0, t - pk), 3), round(10 ** ((VP + db - pk_db) / 20) * 10 ** (GAIN / 20), 3)])
     for t, hits, _, _ in BIG:
         for name, db in hits: snd(name, on(t), db)
@@ -154,6 +155,12 @@ if STEP == "config":
         c[2] = fix(c[2])
         for w in c[2]: w[2] = any(abs(w[1] - t) < 0.25 for t in BIGT)      # the gold pop only on the big words
     C["caps"] = [c for c in C["caps"] if c[2]]
+    for c in C["caps"]:                          # the opening "aḥad, aḥad": the transcript has them ~1 s early
+        for w in c[2]:
+            if 5.5 < w[1] < 6.0: w[1] = 6.70
+            elif 7.6 < w[1] < 7.9: w[1] = 8.13
+        if 5.5 < c[0] < 6.0: c[0] = 6.68
+        elif 7.6 < c[0] < 7.9: c[0] = 8.11
     C.update(title_top=470, titles=titles, flicks=[], split=None, steps=[], punch=[], panels=panels, audio=[a for a in AUDIO if 0 <= a[1] < END])
     cuts = sorted({0, END} | {v for p in panels for v in p[:2]} | {v for t in titles for v in t[:2]})
     C["sections"] = [[a, b] for a, b in zip(cuts, cuts[1:]) if b - a > .3]
@@ -165,8 +172,9 @@ elif STEP == "zoom":    # the camera: smooth, centred on his face, deeper on eac
     def hidden(t): return any(p0 + 0.32 <= t < p1 - 0.27 for p0, p1, *_ in P)
     K = [(0.0, 1.0)]; z = 1.0; last = 0.0
     events = sorted([(on(t), step) for t, _, _, step in BIG if step > 0])
-    for p0, p1, *_ in P:                       # a reset to 1.0 halfway through each graphic (when it fully covers him)
-        events.append((round((p0 + p1) / 2, 2), "reset"))
+    for p0, p1, *_ in P:                       # a reset to 1.0 halfway through each graphic (when it fully covers him),
+        events.append((round((p0 + p1) / 2, 2), "reset"))      # and a gentle push in as the camera comes back to him
+        if p1 < END - 1 and not any(q[0] <= p1 + 0.1 < q[1] for q in P): events.append((round(p1 + 0.1, 2), 0.035))
     for t, step in sorted(events, key=lambda e: e[0]):
         if step == "reset":
             if not hidden(t) or z == 1.0: continue
@@ -174,10 +182,11 @@ elif STEP == "zoom":    # the camera: smooth, centred on his face, deeper on eac
         if hidden(t): continue
         t0 = max(t - 0.2, K[-1][0] + 0.05)
         z0 = min(z + 0.012 * (t0 - K[-1][0]), z + 0.04)                     # a slow drift in between
-        z1 = z0 + step * 1.4                                                 # more dramatic: each big word a clear step in
-        if z1 > 1.5: z1 = 1.12; dur = 1.8                                     # too close: a long, slow pull back instead
-        else: dur = 0.9
-        K += [(t0, round(z0, 3)), (t0 + dur, round(z1, 3))]; z = z1
+        if z0 + step * 1.4 > 1.56:                                            # too close: a long, slow pull back in the quiet before the word
+            if t0 - K[-1][0] < 1.9: continue                                 # (no room: hold, never pull back on the word itself)
+            K += [(t0 - 1.7, round(z0, 3)), (t0 - 0.1, 1.08)]; z0 = 1.08
+        z1 = z0 + step * 1.4                                                 # more dramatic: each big word a clear step in, eased over 0.9 s
+        K += [(t0, round(z0, 3)), (t0 + 0.9, round(z1, 3))]; z = z1
     K.append((END, min(z + 0.012 * (END - K[-1][0]), z + 0.06)))
     K = [k for i, k in enumerate(K) if i == 0 or k[0] > K[i - 1][0]]
     sm = lambda u: f"({u})*({u})*(3-2*({u}))"
