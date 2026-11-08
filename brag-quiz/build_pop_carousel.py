@@ -6,6 +6,7 @@ Arabic big with an ink outline, a drawn scene for the sentence (faceless figures
 hard ink shadow, the note on a sticky note.
 
   python3 brag-quiz/build_pop_carousel.py [set ...]   ->  brag-quiz/stills/<set>-pop/<set>-<n>.png   (sets with ART below)
+  python3 brag-quiz/build_pop_carousel.py --tiktok [set ...]   ->  brag-quiz/stills/<set>-tiktok/<set>-<nn>.jpg, 1080×1920 for TikTok photo mode
 """
 import os, random, re, sys
 from playwright.sync_api import sync_playwright
@@ -456,16 +457,34 @@ def slides(sid):
                        '<div class="ends"><div>Save this 📌 for later</div><div>Send it to someone learning Arabic with you</div></div></body>')
     return out
 
+def tall(body, seed):
+    """The 4:5 slide inside a 9:16 TikTok photo (owner, 8 Nov 2026: uploads from the phone): the same slide in the middle, the slide's colour
+    above and below with a few more doodles, so TikTok's own buttons and caption sit over the plain bands, not the words."""
+    bg = re.search(r'<body style="background:([^"]+)">', body).group(1)
+    dc = re.findall(r'(?:fill|stroke)="(#[0-9A-Fa-f]{6})" (?:opacity|stroke-width)', body)[:3] or ["#fff"]
+    r = random.Random(seed); bands = ""
+    for y0, y1 in ((20, 265), (1655, 1900)):
+        for _ in range(7):
+            x, y, c = r.uniform(40, 1040), r.uniform(y0, y1), r.choice(dc)
+            bands += (f'<path d="M{x} {y - 22} Q {x + 4} {y - 4} {x + 22} {y} Q {x + 4} {y + 4} {x} {y + 22} Q {x - 4} {y + 4} {x - 22} {y} Q {x - 4} {y - 4} {x} {y - 22} Z" fill="{c}" opacity=".85"/>'
+                      if r.random() < 0.5 else f'<circle cx="{x}" cy="{y}" r="{r.uniform(8, 16):.0f}" fill="none" stroke="{c}" stroke-width="6" opacity=".7"/>')
+    inner = body[body.index(">") + 1:body.rindex("</body>")]
+    return (f'<body style="background:{bg};height:1920px"><svg style="position:absolute;inset:0" viewBox="0 0 1080 1920">{bands}</svg>'
+            f'<div style="position:absolute;left:0;top:285px;width:1080px;height:1350px;overflow:hidden">{inner}</div></body>')
+
 if __name__ == "__main__":
+    TALL = "--tiktok" in sys.argv; ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     with sync_playwright() as pw:
         b = pw.chromium.launch(executable_path=S.CHROME if os.path.exists(S.CHROME) else None)
-        pg = b.new_page(viewport={"width": 1080, "height": 1350})
+        pg = b.new_page(viewport={"width": 1080, "height": 1920 if TALL else 1350})
         for sid in ART:
-            if sys.argv[1:] and sid not in sys.argv[1:]: continue
-            out = os.path.join(S.HERE, "stills", sid + "-pop"); os.makedirs(out, exist_ok=True)
+            if ids and sid not in ids: continue
+            out = os.path.join(S.HERE, "stills", sid + ("-tiktok" if TALL else "-pop")); os.makedirs(out, exist_ok=True)
             for k, body in slides(sid).items():
+                if TALL: body = tall(body, int(k) * 7)
                 tmp = os.path.join(out, "_s.html"); open(tmp, "w").write(f'<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head>{body}</html>')
                 pg.goto("file://" + tmp); pg.evaluate("document.fonts.ready"); pg.wait_for_timeout(300)
-                pg.screenshot(path=os.path.join(out, f"{sid}-{k}.png"))
+                if TALL: pg.screenshot(path=os.path.join(out, f"{sid}-{int(k):02d}.jpg"), type="jpeg", quality=92)
+                else: pg.screenshot(path=os.path.join(out, f"{sid}-{k}.png"))
             os.remove(os.path.join(out, "_s.html")); print(sid, "->", out)
         b.close()
