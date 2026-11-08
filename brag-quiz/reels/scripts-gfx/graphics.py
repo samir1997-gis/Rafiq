@@ -42,6 +42,50 @@ SUNSAND = (f'<rect x="0" y="0" width="1080" height="1920" fill="#f2c46b" opacity
            + "".join(f'<path class="heat" d="M{x} 1080 c 20 -30 -20 -60 0 -90 c 20 -30 -20 -60 0 -90" fill="none" stroke="#fff4cf" stroke-width="6" opacity=".5"/>'
                      for x in (200, 420, 660, 880)))
 
+# ---- the detailed scenes (owner, 8 Nov 2026): textured sand, heat haze, light, faceless figures with clothes and shadow
+DEFS = ('<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3d6"/><stop offset=".45" stop-color="#f7cf8e"/><stop offset="1" stop-color="#e9a45e"/></linearGradient>'
+        '<radialGradient id="glow"><stop offset="0" stop-color="#fffbe8" stop-opacity="1"/><stop offset=".4" stop-color="#ffe2a0" stop-opacity=".6"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>'
+        '<linearGradient id="sand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2b578"/><stop offset=".5" stop-color="#cf9858"/><stop offset="1" stop-color="#a86f3a"/></linearGradient>'
+        '<radialGradient id="hotsand" cx=".5" cy=".75" r=".8"><stop offset="0" stop-color="#ff9a3c"/><stop offset=".5" stop-color="#c8561e"/><stop offset="1" stop-color="#5a230d"/></radialGradient>'
+        '<linearGradient id="skin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6b4330"/><stop offset=".6" stop-color="#4a2d1f"/><stop offset="1" stop-color="#2e1a11"/></linearGradient>'
+        '<linearGradient id="shadeR" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".35"/></linearGradient>'
+        '<linearGradient id="rockg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9a9184"/><stop offset=".5" stop-color="#6f675c"/><stop offset="1" stop-color="#3f3a33"/></linearGradient>'
+        '<filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="4"/>'
+        '<feColorMatrix values="0 0 0 0 0.25  0 0 0 0 0.16  0 0 0 0 0.08  0 0 0 0.9 -0.25"/></filter>'
+        '<pattern id="grainp" width="1080" height="1920" patternUnits="userSpaceOnUse"><rect width="1080" height="1920" filter="url(#grain)"/></pattern>'
+        '<filter id="haze" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence id="hz" type="turbulence" baseFrequency="0.004 0.03" numOctaves="2" seed="2" result="n"/>'
+        '<feDisplacementMap in="SourceGraphic" in2="n" scale="10"/></filter>'
+        '<filter id="soft"><feGaussianBlur stdDeviation="6"/></filter><filter id="sh"><feGaussianBlur stdDeviation="10"/></filter></defs>')
+HAZE = 'tl.fromTo("#hz", {attr:{baseFrequency:"0.004 0.03"}}, {attr:{baseFrequency:"0.006 0.045"}, duration:3, yoyo:true, repeat:2, ease:"sine.inOut"}, 0.05);'
+HOUSES = "".join(f'<g><rect x="{x}" y="{y}" width="{w}" height="{h}" fill="#d9b88c"/><rect x="{x + w}" y="{y + 10}" width="{w // 4}" height="{h - 10}" fill="#b08b62"/>'
+                 f'<rect x="{x + w // 3}" y="{y + h - 50}" width="22" height="50" fill="#5a3f28"/><rect x="{x + 12}" y="{y + 20}" width="16" height="16" fill="#6b4c32"/></g>'
+                 for x, y, w, h in ((40, 1180, 120, 120), (180, 1150, 150, 150), (350, 1190, 100, 110), (640, 1180, 130, 120), (790, 1140, 160, 160), (960, 1190, 110, 110)))
+DUST = "".join(f'<circle class="dst" cx="{x}" cy="{y}" r="{r}" fill="#fff1d0" opacity=".5"/>' for x, y, r in ((120, 900, 4), (300, 700, 3), (520, 980, 5), (760, 760, 3), (930, 1000, 4), (640, 600, 3), (220, 1100, 3)))
+DRIFT = 'tl.fromTo(".dst", {x:0, y:0}, {x:60, y:-40, duration:6, ease:"none", stagger:0.2}, 0.05);'
+def ROBED(robe, wrap, s=1.0, trim=None):     # a faceless man in a long robe and head-wrap, standing, his shadow under him
+    return (f'<g transform="scale({s})"><ellipse cx="0" cy="8" rx="90" ry="16" fill="#3b2614" opacity=".35"/>'
+            f'<path d="M-62 0 L-48 -300 C -44 -350 44 -350 48 -300 L62 0 Z" fill="{robe}"/><path d="M-62 0 L-48 -300 C -44 -350 44 -350 48 -300 L62 0 Z" fill="url(#shadeR)"/>'
+            + (f'<path d="M-6 -340 L-10 0 M6 -340 L10 0" stroke="{trim}" stroke-width="5"/>' if trim else "")
+            + f'<path d="M-48 -300 C -80 -250 -90 -190 -70 -150" stroke="{robe}" stroke-width="30" fill="none" stroke-linecap="round"/>'
+            f'<path d="M48 -300 C 80 -250 90 -190 70 -150" stroke="{robe}" stroke-width="30" fill="none" stroke-linecap="round"/>'
+            f'<circle cx="0" cy="-385" r="44" fill="#6b4a32"/><path d="M-50 -390 C -50 -450 50 -450 50 -390 C 30 -405 -30 -405 -50 -390 Z" fill="{wrap}"/>'
+            f'<path d="M-46 -395 C -60 -330 -40 -320 -36 -300" stroke="{wrap}" stroke-width="16" fill="none"/></g>')
+DRAGGED = ('<ellipse cx="0" cy="20" rx="210" ry="18" fill="#3b2614" opacity=".35"/>'      # pulled along by his wrists, half lying
+           '<path d="M-200 0 C -150 -40 -40 -60 60 -50 L70 10 C -40 20 -150 20 -200 10Z" fill="#efe6d4"/>'
+           '<path d="M60 -50 C 120 -60 170 -80 200 -150 L210 -140 C 190 -60 140 -20 70 0Z" fill="url(#skin)"/>'
+           '<circle cx="-230" cy="-40" r="40" fill="url(#skin)"/><path d="M-170 -20 C -120 -90 -60 -130 0 -150" stroke="#4a2d1f" stroke-width="26" fill="none" stroke-linecap="round"/>')
+LYING = ('<path d="M-300 0 C -280 -55 260 -65 300 0 Z" fill="#efe6d4"/><path d="M-300 0 C -280 -55 260 -65 300 0 Z" fill="url(#shadeR)"/>'
+         '<path d="M-150 -40 C -60 -70 80 -70 160 -40 L160 0 L-150 0Z" fill="url(#skin)"/>'
+         '<circle cx="-345" cy="-30" r="46" fill="url(#skin)"/><path d="M280 -10 L400 -20 L400 10 L280 10Z" fill="url(#skin)"/>'
+         '<path d="M-150 -20 C -190 20 -230 30 -270 30" stroke="#4a2d1f" stroke-width="24" fill="none" stroke-linecap="round"/>')
+BOULDER = ('<g transform="translate(540 1190)"><ellipse cx="0" cy="150" rx="200" ry="22" fill="#3b2614" opacity=".25"/>'
+           '<path d="M-210 60 L-170 -80 L-60 -140 L80 -130 L190 -60 L215 70 L120 130 L-120 135Z" fill="url(#rockg)"/>'
+           '<path d="M-170 -80 L-60 -140 L80 -130 L20 -60 L-90 -50Z" fill="#b1a898" opacity=".55"/>'
+           '<path d="M-60 -20 L-10 30 L-30 90 M60 -40 L90 20 L70 80 M-130 40 L-90 70" stroke="#2e2a25" stroke-width="6" fill="none"/>'
+           '<path d="M-210 60 L-170 -80 L-60 -140 L80 -130 L190 -60 L215 70 L120 130 L-120 135Z" fill="url(#grainp)" opacity=".5"/></g>')
+IMPACT = "".join(f'<circle class="imp" cx="540" cy="1360" r="{r}" fill="none" stroke="#f6e3c0" stroke-width="{w}" opacity="0"/>' for r, w in ((120, 18), (200, 10)))
+PUFFS = "".join(f'<circle class="pf" cx="{x}" cy="1470" r="{r}" fill="#e9cfa2" opacity="0" filter="url(#soft)"/>' for x, r in ((120, 40), (60, 30), (180, 34)))
+
 def gfx(gid):
     """→ (duration, body html, js). Times in seconds from the clip's start; first elements on screen by 0.05 s."""
     b, j = [], []
@@ -226,6 +270,76 @@ def gfx(gid):
         b += ['<div class="tag" id="h" style="top:420px;font-size:60px">the word Allah uses for Himself</div>',
               card("c1", "قُلْ هُوَ اللّٰهُ <b>أَحَدٌ</b>", "“Say: He is Allah, <i>the One</i>.”", "AL-IKHLĀṢ 112:1", 640)]
         j += [IN("#h", 0.05, 20), IN("#c1", 0.8, 40), f'tl.fromTo("#c1", {{scale:1}}, {{scale:1.05, duration:3, ease:"sine.inOut"}}, 1.4);']; d = 3.6
+    # the owner's re-cut (8 Nov 2026: "more detailed, more realistic… show what I'm describing"): Makkah, the dragging, the sand, the boulder
+    elif gid == "a_makkah":      # "1400 years ago, Makkah, scorching sun"
+        b += [f'<svg class="full" viewBox="0 0 1080 1920">{DEFS}<g id="sc" filter="url(#haze)">'
+              '<rect width="1080" height="1920" fill="url(#sky)"/><circle id="sun" cx="540" cy="360" r="150" fill="#fffbe8"/>'
+              '<circle id="sung" cx="540" cy="360" r="330" fill="url(#glow)"/>'
+              '<path d="M-20 1010 L120 820 L230 900 L360 760 L520 880 L640 790 L790 900 L930 800 L1100 950 L1100 1100 L-20 1100Z" fill="#b98a5c"/>'
+              '<path d="M-20 1090 L90 960 L260 1040 L420 930 L600 1050 L760 960 L940 1060 L1100 990 L1100 1200 L-20 1200Z" fill="#8f6440"/>'
+              '<path d="M-20 1090 L90 960 L260 1040 L420 930 L600 1050 L760 960 L940 1060 L1100 990 L1100 1200 L-20 1200Z" fill="url(#grainp)" opacity=".35"/>'
+              + HOUSES + '<g id="kaba"><rect x="470" y="1150" width="140" height="150" fill="#16130f"/><rect x="470" y="1150" width="140" height="150" fill="url(#shadeR)"/>'
+              '<rect x="470" y="1182" width="140" height="14" fill="#c9a24a"/></g>'
+              '<path d="M-20 1330 C 260 1270 640 1360 1100 1300 L1100 1920 L-20 1920Z" fill="url(#sand)"/>'
+              '<path d="M-20 1330 C 260 1270 640 1360 1100 1300 L1100 1920 L-20 1920Z" fill="url(#grainp)" opacity=".5"/>'
+              + DUST + '</g></svg>',
+              '<div class="big" id="t" style="top:1520px;font-size:120px">MAKKAH</div>',
+              '<div class="tag" id="e" style="top:1660px;font-size:56px;color:#3b2a1c">about 1,400 years ago · midday</div>']
+        j += [f'tl.fromTo("#sc", {{scale:1.0, transformOrigin:"50% 60%"}}, {{scale:1.08, duration:6, ease:"sine.inOut"}}, 0.05);', HAZE,
+              IN("#e", 0.05, 20), SLAM("#t", 1.2), f'tl.fromTo("#sung", {{scale:0.8, opacity:0.6, transformOrigin:"50% 50%"}}, {{scale:1.25, opacity:1, duration:1.2, ease:"power2.out"}}, 2.0);',
+              f'tl.fromTo("#sun", {{scale:1, transformOrigin:"50% 50%"}}, {{scale:1.12, duration:1.0, ease:"power2.out"}}, 2.0);', DRIFT]; d = 6.0
+    elif gid == "a_drag":        # "a black slave from Abyssinia is dragged out by his tyrant master, Umayyah"
+        b += [f'<svg class="full" viewBox="0 0 1080 1920">{DEFS}<g id="sc" filter="url(#haze)">'
+              '<rect width="1080" height="1920" fill="url(#sky)"/><circle cx="880" cy="260" r="260" fill="url(#glow)"/>'
+              '<rect x="-20" y="560" width="470" height="720" fill="#a9825c"/><rect x="-20" y="560" width="470" height="720" fill="url(#grainp)" opacity=".4"/>'
+              + "".join(f'<rect x="{x}" y="{y}" width="110" height="52" fill="none" stroke="#8a6646" stroke-width="3"/>' for x in range(-20, 450, 112) for y in range(560, 1280, 104))
+              + '<rect x="130" y="900" width="170" height="380" rx="80" fill="#2a1d14"/><rect x="-20" y="540" width="490" height="30" fill="#7d5b3d"/>'
+              '<path d="M-20 1270 C 300 1240 700 1300 1100 1250 L1100 1920 L-20 1920Z" fill="url(#sand)"/>'
+              '<path d="M-20 1270 C 300 1240 700 1300 1100 1250 L1100 1920 L-20 1920Z" fill="url(#grainp)" opacity=".5"/>'
+              '<ellipse cx="560" cy="1500" rx="420" ry="40" fill="#5e3d22" opacity=".35"/>'
+              '<g id="grp"><g id="um" transform="translate(760 1470)">' + ROBED("#6e1f1f", "#f3ead8", 1.15, "#c9a24a") + '</g>'
+              '<path id="rope" d="M690 1250 C 600 1300 520 1330 430 1360" stroke="#6b4a2a" stroke-width="9" fill="none" stroke-linecap="round"/>'
+              '<g id="bl" transform="translate(300 1440)">' + DRAGGED + '</g></g>' + PUFFS + '</g></svg>',
+              '<div class="big" id="t" style="top:300px;font-size:104px;color:#17262B">DRAGGED OUT</div>',
+              '<div class="tag" id="e" style="top:420px;font-size:52px;color:#3b2a1c;text-shadow:none">by his master, Umayyah ibn Khalaf</div>']
+        j += [f'tl.fromTo("#grp", {{x:-380}}, {{x:120, duration:5.5, ease:"power1.inOut"}}, 0.05);', HAZE,
+              f'tl.fromTo("#bl", {{rotation:-4, svgOrigin:"300 1440"}}, {{rotation:3, duration:0.5, yoyo:true, repeat:9, ease:"sine.inOut"}}, 0.05);',
+              f'tl.fromTo(".pf", {{opacity:0, scale:0.4, x:0}}, {{opacity:0.7, scale:1.6, x:-120, duration:0.9, stagger:{{each:0.35, repeat:-1}}, ease:"power2.out"}}, 0.3);',
+              SLAM("#t", 1.0), IN("#e", 2.5, 20)]; d = 6.0
+    elif gid == "a_burn":        # "placed on the ground, where the sand is so hot it starts to burn away at your skin"
+        b += [f'<svg class="full" viewBox="0 0 1080 1920">{DEFS}<g id="sc">'
+              '<rect width="1080" height="1920" fill="url(#sky)"/><rect id="hot" y="1120" width="1080" height="800" fill="url(#hotsand)"/>'
+              '<rect y="1120" width="1080" height="800" fill="url(#grainp)" opacity=".6"/>'
+              + "".join(f'<path class="rip" d="M-40 {y} C 200 {y - 30} 420 {y + 30} 640 {y} S 1000 {y - 25} 1120 {y}" stroke="#ffcf8a" stroke-width="3" fill="none" opacity=".25"/>' for y in range(1100, 1920, 90))
+              + '<rect y="0" width="1080" height="1000" fill="url(#sky)" opacity=".55"/>'
+              '<g transform="translate(560 1130) scale(1.35)">' + LYING + '</g>'
+              '<path id="burn" d="M-40 1150 C 300 1125 760 1125 1140 1150 L1140 1205 C 760 1175 300 1175 -40 1205Z" fill="#ff5a1f" opacity="0" filter="url(#soft)"/>'
+              + "".join(f'<path class="smk" d="M{x} 1120 c -30 -60 30 -120 0 -180 c -30 -60 30 -120 0 -180" stroke="#e9e0d6" stroke-width="16" fill="none" stroke-linecap="round" opacity="0" filter="url(#soft)"/>' for x in (200, 420, 640, 860))
+              + '</g></svg>',
+              '<div class="big" id="t" style="top:280px;font-size:110px;color:#17262B">THE SAND <span class="r">BURNS</span></div>',
+              '<div class="tag" id="e" style="top:420px;font-size:56px;color:#3b2a1c;text-shadow:none">it starts to burn away at his skin</div>']
+        j += [f'tl.fromTo("#sc", {{scale:1.12, transformOrigin:"50% 60%"}}, {{scale:1.0, duration:7, ease:"sine.out"}}, 0.05);',
+              f'tl.fromTo("#hot", {{opacity:0.35}}, {{opacity:1, duration:2.5, ease:"power2.in"}}, 1.5);',
+              f'tl.fromTo(".rip", {{y:0}}, {{y:-60, duration:1.2, repeat:5, ease:"none"}}, 0.05);',
+              IN("#t", 1.5, 30), f'tl.to("#burn", {{opacity:0.75, duration:1.4, ease:"power2.in"}}, 2.6);',
+              f'tl.fromTo(".smk", {{opacity:0, y:40}}, {{opacity:0.45, y:-160, duration:1.6, stagger:{{each:0.3, repeat:-1}}, ease:"sine.out"}}, 3.0);', IN("#e", 3.8, 20)]; d = 7.0
+    elif gid == "a_boulder":     # "placed on his back, and the men grab a big boulder and place it on his chest"
+        b += [f'<svg class="full" viewBox="0 0 1080 1920">{DEFS}<g id="sc" filter="url(#haze)">'
+              '<rect width="1080" height="1920" fill="url(#sky)"/><circle cx="540" cy="300" r="300" fill="url(#glow)"/><circle cx="540" cy="300" r="120" fill="#fffbe8"/>'
+              '<path d="M-20 1080 C 300 1030 700 1100 1100 1050 L1100 1920 L-20 1920Z" fill="url(#sand)"/>'
+              '<path d="M-20 1080 C 300 1030 700 1100 1100 1050 L1100 1920 L-20 1920Z" fill="url(#grainp)" opacity=".5"/>'
+              '<ellipse cx="540" cy="1420" rx="380" ry="46" fill="#5e3d22" opacity=".35"/>'
+              '<g transform="translate(540 1380)">' + LYING + '</g>'
+              '<g id="carry"><g transform="translate(250 1380)">' + ROBED("#5b4632", "#e9dfcb", 1.0) + '</g><g transform="translate(830 1380)">' + ROBED("#4b3a2a", "#e9dfcb", 1.0) + '</g>'
+              '<g id="rock">' + BOULDER + '</g></g>' + IMPACT + '</g></svg>',
+              '<div class="big" id="t" style="top:1560px;font-size:104px">A <span class="r">BOULDER</span></div>',
+              '<div class="big" id="t2" style="top:1690px;font-size:80px">ON HIS CHEST</div>']
+        j += [f'tl.fromTo("#carry", {{x:620, y:0}}, {{x:0, y:0, duration:1.6, ease:"power2.out"}}, 1.0);', HAZE,
+              f'tl.fromTo("#rock", {{y:0}}, {{y:-160, duration:0.6, ease:"power2.out"}}, 3.0);', SLAM("#t", 3.0),
+              f'tl.to("#rock", {{y:150, duration:0.32, ease:"power3.in"}}, 4.1);', f'tl.to("#carry > g:not(#rock)", {{x:"+=0", opacity:0.0, duration:0.6, ease:"power2.in"}}, 4.6);',
+              f'tl.fromTo(".imp", {{opacity:0.9, scale:0.3}}, {{opacity:0, scale:2.2, duration:0.8, stagger:0.05, ease:"expo.out", immediateRender:false}}, 4.42);',
+              f'tl.fromTo("#cam", {{x:-16, y:10}}, {{x:16, y:-10, duration:0.05, yoyo:true, repeat:7, ease:"sine.inOut", immediateRender:false}}, 4.42);', 'tl.set("#cam", {x:0, y:0}, 4.85);',
+              IN("#t2", 4.5, 20)]; d = 7.0
     # ---------------- Dajjāl (#316) ----------------
     elif gid == "d_word":       # "Did you know there's more than one Dajjāl? Let me explain." (owner's hook, 2 Nov): the word, then two more ghost in
         b += ['<div class="ar" id="w" style="top:600px;font-size:280px">دَجّال</div>',
@@ -321,7 +435,7 @@ def gfx(gid):
     return d, b, j
 
 SETS = {"insha": "i_no i_chat i_split i_past i_pens i_root i_kahf i_camel i_tawakkul i_worries i_hadid i_allah".split(),
-        "ahad": "a_word a_scene a_slam a_root a_count a_ikhlas a_free a_rock a_kaba a_jannah a_why a_deny a_noroom a_tawhid a_fear a_very a_say a_none a_alone a_qul".split(),
+        "ahad": "a_word a_scene a_slam a_root a_count a_ikhlas a_free a_rock a_kaba a_jannah a_why a_deny a_noroom a_tawhid a_fear a_very a_say a_none a_alone a_qul a_makkah a_drag a_burn a_boulder".split(),
         "dajjal": "d_word d_root d_camel d_thirty d_hadith d_gild d_form d_one d_doors d_masih d_kafir d_dua d_kahf".split()}
 
 # Re-timing to a take (WARP, JSON in the environment: {gid: {"at": [[planned s, s in the take's graphic], ...], "d": length}}): every
