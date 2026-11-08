@@ -42,7 +42,10 @@ GRAVE = """<svg class="bg" viewBox="0 0 1080 1350" preserveAspectRatio="xMidYMid
 <rect width="1080" height="1350" fill="url(#vig)"/><rect width="1080" height="1350" fill="#000" opacity=".18"/></svg>"""
 CSS = G.CSS + f"""
 .bg {{ position:absolute; inset:0; width:100%; height:100%; }}
-.grave .lab, .grave .foot {{ color:{G.GOLD}; }} .grave .brand, .grave .brand * {{ color:#F1ECE0 !important; }}
+.grave .lab, .grave .foot {{ color:{G.GOLD}; }}
+.rem {{ font-family:"Anton"; font-size:150px; line-height:1; letter-spacing:.06em; color:{G.GOLD}; margin-bottom:-12px;
+  text-shadow:0 0 40px rgba(233,185,73,.45), 0 6px 30px rgba(0,0,0,.8); }}
+.bg {{ object-fit:cover; }}
 .line {{ font-family:"Instrument Serif"; font-size:84px; line-height:1.12; letter-spacing:-.01em; color:#F1ECE0; text-shadow:0 4px 30px rgba(0,0,0,.6); }}
 .goldrule {{ width:220px; height:4px; border-radius:2px; background:{G.GOLD}; }}
 .big {{ font-family:"Instrument Serif"; line-height:1.04; letter-spacing:-.02em; }}
@@ -106,9 +109,9 @@ STEPS = ('<div class="stps">' + step(I_BOOK, "Learn <b>Arabic</b>.", 1) + step(I
 def slides():
     page = G.page
     G.N = N
-    one = page(1, "Remember", '<div class="goldrule"></div><div class="line">Your death will come on an ordinary day, in the middle of unfinished plans, '
+    one = page(1, "", '<div class="rem">REMEMBER</div><div class="goldrule"></div><div class="line">Your death will come on an ordinary day, in the middle of unfinished plans, '
                               'and the world will carry on <span style="color:' + G.GOLD + '">without you.</span></div>', dark=True, foot="Swipe →")
-    one = one.replace('<body class="dark">', '<body class="dark grave">' + GRAVE, 1)
+    one = one.replace('<body class="dark">', '<body class="dark grave"><img class="bg" src="file://' + os.path.join(S.HERE, "stills", "remember", "grave.png") + '">', 1)   # remember_grave.py
     return {
      "1": one,
      "2": page(2, "What goes with you", '<div class="big" style="font-size:88px">The only thing you’ll take with you is your <span class="acc">deeds.</span></div>'
