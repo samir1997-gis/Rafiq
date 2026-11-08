@@ -103,20 +103,21 @@ elif STEP == "zoom":    # 5% in, his face centred every frame; where there's no 
         enc.stdin.write(cv2.warpAffine(np.frombuffer(b, np.uint8).reshape(SH, SW, 3), M, (1080, 1920), flags=cv2.INTER_LANCZOS4).tobytes())
         if near[n]: off.append(round((fx[n] * SW - x0) / cw, 3))
     enc.stdin.close(); enc.wait(); dec.stdout.close()
-    LOOK = ["crop=iw*.5:ih*.5:iw*.25:ih*.22", "hue=s=0,eq=contrast=1.35:brightness=-.03", "crop=iw*.7:ih*.7:iw*.15:ih*.12",
-            "hue=s=0,crop=iw*.42:ih*.42:iw*.29:ih*.24", "crop=iw*.85:ih*.85:iw*.075:ih*.05", "hue=s=0,crop=iw*.6:ih*.6:iw*.2:ih*.15"]
+    print("his face across the screen:", min(off), "to", max(off), "(0.5 = centre)")
+if STEP in ("zoom", "selfs"):   # the flicker's clips: tight on his face only (his edit's captions and titles sit lower and behind him)
+    LOOK = ["crop=iw*.42:ih*.3:iw*.29:ih*.2", "hue=s=0,eq=contrast=1.35:brightness=-.03,crop=iw*.46:ih*.32:iw*.27:ih*.19", "crop=iw*.38:ih*.27:iw*.31:ih*.21",
+            "hue=s=0,crop=iw*.34:ih*.24:iw*.33:ih*.22", "crop=iw*.44:ih*.31:iw*.28:ih*.2", "hue=s=0,crop=iw*.4:ih*.28:iw*.3:ih*.2"]
     for k, t in enumerate(SELF):
         os.makedirs(P(f"broll/self{k}"), exist_ok=True)
         sh("ffmpeg", "-v", "error", "-y", "-ss", str(t), "-i", P("base.mov"), "-t", "1", "-vf", f"{LOOK[k]},scale=960:1640:force_original_aspect_ratio=increase,crop=960:1640",
            "-q:v", "3", P(f"broll/self{k}/%04d.jpg"))
-    print("his face across the screen:", min(off), "to", max(off), "(0.5 = centre)")
 
-elif STEP == "finish":  # 1.1x, then levelled to -14.5 LUFS with the peaks under -1 dB
+if STEP == "finish":  # 1.1x, then levelled to -14.5 LUFS with the peaks under -1 dB
     tmp = P("fast.mp4")
     sh("ffmpeg", "-v", "error", "-y", "-i", P("reel.mp4"), "-filter_complex", "[0:v]setpts=PTS/1.1[v];[0:a]atempo=1.1[a]", "-map", "[v]", "-map", "[a]",
        "-c:v", "libx264", "-crf", "19", "-preset", "slow", "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", tmp)
     m = subprocess.run(["ffmpeg", "-i", tmp, "-af", "ebur128", "-f", "null", "-"], capture_output=True, text=True).stderr
     g = -14.5 - float(re.findall(r"I:\s+(-?[\d.]+) LUFS", m)[-1])
-    sh("ffmpeg", "-v", "error", "-y", "-i", tmp, "-c:v", "copy", "-af", f"volume={g:.2f}dB,aresample=192000,alimiter=limit=0.89:attack=1:release=60:level=false,"
-       "alimiter=limit=0.89:attack=0.5:release=60:level=false,aresample=48000", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", P("ahad-recut.mp4"))
+    sh("ffmpeg", "-v", "error", "-y", "-i", tmp, "-c:v", "copy", "-af", f"volume={g:.2f}dB,aresample=192000,alimiter=limit=0.8:attack=1:release=60:level=false,"
+       "alimiter=limit=0.8:attack=0.5:release=60:level=false,aresample=48000", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", P("ahad-recut.mp4"))
     os.remove(tmp); print("ahad-recut.mp4", round(dur(P("ahad-recut.mp4")), 1), "s")
