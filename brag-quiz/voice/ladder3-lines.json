@@ -1,0 +1,97 @@
+[
+ {
+  "file": "h1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] FIVE! [normal] words from the Quran, each one harder. How far can you get?"
+ },
+ {
+  "file": "q1",
+  "text": "Level one. How do you say 'Lord' in Arabic?",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "q2",
+  "text": "Level two. What does this word mean?",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "q3",
+  "text": "Level three. It's a plural. What does it mean?",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "q4",
+  "text": "Level four. Getting harder. What does this mean?",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "q5",
+  "text": "And the final boss. What does this mean?",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "end",
+  "text": "How far did you get? Comment your level down below!",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "rabb",
+  "text": "رَبّ",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9
+ },
+ {
+  "file": "yawm",
+  "text": "يَوْم",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9
+ },
+ {
+  "file": "qulub",
+  "text": "قُلُوب",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9
+ },
+ {
+  "file": "yatafakkarun",
+  "text": "يَتَفَكَّرُونَ",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9
+ },
+ {
+  "file": "sundus",
+  "text": "سُنْدُس",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9
+ }
+]
