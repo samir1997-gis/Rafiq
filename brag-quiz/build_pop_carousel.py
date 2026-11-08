@@ -6,6 +6,7 @@ Arabic big with an ink outline, a drawn scene for the sentence (faceless figures
 hard ink shadow, the note on a sticky note.
 
   python3 brag-quiz/build_pop_carousel.py [set ...]   ->  brag-quiz/stills/<set>-pop/<set>-<n>.png   (sets with ART below)
+  python3 brag-quiz/build_pop_carousel.py --tiktok [set ...]   ->  brag-quiz/stills/<set>-tiktok/<set>-<nn>.jpg, 1080×1920 for TikTok photo mode
 """
 import os, random, re, sys
 from playwright.sync_api import sync_playwright
@@ -33,6 +34,7 @@ body {{ width:1080px; height:1350px; overflow:hidden; position:relative; font-fa
 .en span {{ display:inline-block; background:{PAPER}; border:5px solid {INK}; border-radius:22px; padding:4px 34px; font-size:70px; box-shadow:7px 7px 0 {INK}; transform:rotate(-3deg); }}
 .ar {{ position:absolute; top:285px; left:0; right:0; text-align:center; font-family:AR; font-size:190px; line-height:1.35; direction:rtl; color:#fff;
   -webkit-text-stroke:10px {INK}; paint-order:stroke fill; text-shadow:10px 10px 0 {INK}; }}
+.ar i {{ font-style:normal; color:#FFE66D; }}
 .tr {{ position:absolute; top:560px; left:0; right:0; text-align:center; }}
 .tr span {{ display:inline-block; background:{INK}; color:{PAPER}; border-radius:30px; padding:4px 26px; font-size:38px; font-weight:600; }}
 .art {{ position:absolute; left:0; right:0; top:608px; height:390px; }}
@@ -192,6 +194,38 @@ def palm(x, y, rot, skin=SKIN[1], sleeve="#2E7263", fx=None, fy=None):   # a han
     g = ""
     if fx is not None: g += f'<path d="M{fx} {fy} L {x} {y}" stroke="{INK}" stroke-width="58" stroke-linecap="round"/><path d="M{fx} {fy} L {x} {y}" stroke="{sleeve}" stroke-width="46" stroke-linecap="round"/>'
     return g + f'<ellipse cx="{x}" cy="{y}" rx="62" ry="36" transform="rotate({rot} {x} {y})" fill="{skin}" {O}/>'
+
+def lbadge(x, y, sun):                                                  # the ل of al-: crossed out (a sun letter, silent) or ticked (a moon letter, said)
+    g = (f'<g transform="translate({x},{y})"><rect x="-150" y="-70" width="300" height="140" rx="28" fill="{PAPER}" {O}/>'
+         + (sun_(-80, 0, 0.42) if sun else moon(-80, 0, 0.7))
+         + f'<text x="40" y="38" text-anchor="middle" font-family="AR" font-size="110" fill="{INK}">ل</text>')
+    if sun: g += f'<path d="M-6 -46 L 86 50" stroke="{RED}" stroke-width="16" stroke-linecap="round"/><text x="0" y="112" text-anchor="middle" font-family="FR" font-size="34" fill="#fff" stroke="{INK}" stroke-width="6" paint-order="stroke">silent</text>'
+    else: g += f'<path d="M84 -10 L 104 14 L 140 -34" fill="none" stroke="#2E7263" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/><text x="0" y="112" text-anchor="middle" font-family="FR" font-size="34" fill="#fff" stroke="{INK}" stroke-width="6" paint-order="stroke">say it</text>'
+    return g + '</g>'
+def sun_(x, y, s=1.0): return sun(x, y, s, "#FFC93C")
+def hills(c="#7bd389"): return f'<path d="M0 400 C 180 300 360 320 540 370 C 720 310 900 300 1080 360 L 1080 400 Z" fill="{c}" {O}/>'
+def rehal(x, y, s=1.0):                                                 # an open mushaf on its folding stand
+    return (f'<g transform="translate({x},{y}) scale({s})"><path d="M-150 0 L 0 -90 L 150 0 M -150 -10 L 0 60 L 150 -10" fill="none" stroke="#8a5a2b" stroke-width="16" stroke-linecap="round"/>'
+            f'<path d="M0 -60 C -50 -96 -120 -100 -170 -80 L -150 20 C -100 0 -40 4 0 34 Z" fill="#fff" {O}/><path d="M0 -60 C 50 -96 120 -100 170 -80 L 150 20 C 100 0 40 4 0 34 Z" fill="#fff" {O}/>'
+            + "".join(f'<path d="M{a} {b} L {a + 90 * d} {b - 12}" stroke="{INK}" stroke-width="4" opacity=".5"/>' for d in (-1, 1) for a, b in ((d * 26, -40), (d * 26, -20), (d * 26, 0))) + '</g>')
+def car(x, y, s=1.0, c="#FF7A59"):
+    return (f'<g transform="translate({x},{y}) scale({s})"><path d="M-170 -30 L -150 -90 Q -140 -110 -110 -110 L 70 -110 Q 100 -110 120 -80 L 150 -40 L 170 -36 Q 190 -30 190 -10 L 190 0 L -170 0 Z" fill="{c}" {O}/>'
+            f'<path d="M-120 -96 L 0 -96 L 0 -48 L -140 -48 Z M 20 -96 L 90 -96 L 120 -48 L 20 -48 Z" fill="#cfe9ff" {O}/>'
+            f'<circle cx="-100" cy="4" r="34" fill="{INK}"/><circle cx="-100" cy="4" r="14" fill="#cfd8dc"/><circle cx="120" cy="4" r="34" fill="{INK}"/><circle cx="120" cy="4" r="14" fill="#cfd8dc"/></g>')
+def board(x, y, w=420, h=230):
+    return (f'<rect x="{x - w / 2}" y="{y - h}" width="{w}" height="{h}" rx="14" fill="#2E5E4E" stroke="#8a5a2b" stroke-width="14"/>'
+            f'<text x="{x}" y="{y - h / 2 + 30}" text-anchor="middle" font-family="AR" font-size="84" fill="#fff">أ ب ت</text>')
+def bag(x, y, s=1.0, c="#9B6BFF"):
+    return (f'<g transform="translate({x},{y}) scale({s})"><path d="M-46 -150 C -46 -200 46 -200 46 -150" fill="none" stroke="{INK}" stroke-width="14"/>'
+            f'<rect x="-90" y="-160" width="180" height="160" rx="26" fill="{c}" {O}/><rect x="-50" y="-100" width="100" height="44" rx="10" fill="#FFE66D" {O}/></g>')
+def bookc(x, y, s=1.0, c="#4D96FF"):
+    return f'<g transform="translate({x},{y}) scale({s})"><rect x="-70" y="-180" width="140" height="180" rx="10" fill="{c}" {O}/><rect x="-50" y="-150" width="100" height="40" rx="6" fill="#fff" {O}/></g>'
+def crane(x, y):
+    return (f'<rect x="{x}" y="{y - 330}" width="22" height="330" fill="#FFC93C" {O}/><path d="M{x - 60} {y - 330} L {x + 220} {y - 330}" stroke="{INK}" stroke-width="16"/>'
+            f'<path d="M{x - 60} {y - 330} L {x + 220} {y - 330}" stroke="#FFC93C" stroke-width="8"/><path d="M{x + 180} {y - 330} L {x + 180} {y - 220}" stroke="{INK}" stroke-width="4"/>'
+            f'<rect x="{x + 150}" y="{y - 220}" width="60" height="40" fill="#FF7A59" {O}/>')
+def heart(x, y, s=1.0, c=RED):
+    return f'<path transform="translate({x},{y}) scale({s})" d="M0 30 C -60 -10 -50 -60 -20 -60 C -6 -60 0 -48 0 -40 C 0 -48 6 -60 20 -60 C 50 -60 60 -10 0 30 Z" fill="{c}" {O}/>'
 
 # per set, per slide: (background, marker colour, doodle colours, the scene's SVG)
 ART = {"pronouns": {
@@ -365,6 +399,35 @@ ART = {"pronouns": {
           + f'<g transform="rotate(-35 800 100)">{jug(800, 180, 0.9)}</g>' + f'<path d="M712 52 C 670 90 645 180 645 300" fill="none" stroke="{INK}" stroke-width="26" stroke-linecap="round"/><path d="M712 52 C 670 90 645 180 645 300" fill="none" stroke="#9fd8ff" stroke-width="14" stroke-linecap="round"/>'
           + ring(500, 320, 56) + drops(((380, 330), (800, 350), (720, 280)), 0.8)),
  "end": ("#2E7263", None, ["#cfe9ff", "#fff", "#FFE66D"], None),
+},
+ "sun-moon": {
+ "cover": ("#FFC93C", None, ["#fff", "#FF7A59", "#4D96FF"], None),
+ "the sun": ("#FF7A59", "#FFE66D", ["#FFE66D", "#fff"], hills() + sun(720, 160, 1.2, "#FFE66D") + lbadge(240, 150, True)),
+ "the moon": ("#1D3557", "#FFE66D", ["#FFE66D", "#fff"], hills("#2E7263") + moon(720, 150, 1.4) + star(560, 80, 26, "#fff") + star(900, 260, 20, "#fff") + star(960, 70, 30) + lbadge(240, 150, False)),
+ "peace": ("#2EB67D", "#FFE66D", ["#FFE66D", "#fff"], person(560, 372, 1.05, SKIN[1], "kufi", "#4D96FF", "#2a1d14", "wave") + person(860, 372, 1.05, SKIN[3], "kufi", "#FFC93C", "#3a2a1c", "wave")
+          + lbadge(220, 150, True)),
+ "the book": ("#4D96FF", "#FFE66D", ["#FFE66D", "#fff"], person(700, 372, 1.15, SKIN[2], "hijab:#9B6BFF", "#FF7A59", None, "book:#FFE66D") + bookc(920, 372, 0.9, "#2EB67D") + lbadge(240, 150, False)),
+ "the Most Merciful": ("#9B6BFF", "#FFE66D", ["#FFE66D", "#fff"], f'<rect x="440" y="340" width="560" height="40" rx="12" fill="{RED}" {O}/>' + rehal(720, 300, 1.1) + lbadge(240, 150, True)),
+ "praise": ("#2E7263", "#FFE66D", ["#FFC93C", "#fff"], f'<rect x="520" y="355" width="400" height="30" rx="8" fill="#FF7A59" {O}/>' + person(720, 372, 1.15, SKIN[0], "kufi", "#fff", "#e6e6e6", "self")
+          + moon(960, 90, 0.6) + lbadge(240, 150, False)),
+ "the light": ("#1D3557", "#FFE66D", ["#FFE66D", "#9B6BFF"], f'<circle cx="720" cy="190" r="170" fill="#FFE66D" opacity=".25"/><circle cx="720" cy="190" r="110" fill="#FFE66D" opacity=".3"/>' + lantern(720, 30, 1.5) + lbadge(240, 150, True)),
+ "the House": ("#FFB23F", "#fff", ["#fff", "#FF7A59"], kaaba(720, 372, 1.1) + lbadge(240, 150, False)),
+ "end": ("#2E7263", None, ["#FFC93C", "#fff", "#FF7A59"], None),
+},
+ "she": {
+ "cover": ("#F49AC1", None, ["#fff", "#FFE66D", "#9B6BFF"], None),
+ "teacher": ("#2EB67D", "#FFE66D", ["#FFE66D", "#fff"], board(540, 300) + person(200, 372, 1.0, SKIN[1], "kufi", "#4D96FF", "#2a1d14", "wave") + person(880, 372, 1.0, SKIN[3], "hijab:#FF7A59", "#9B6BFF", None, "wave")),
+ "student": ("#4D96FF", "#FFE66D", ["#FFE66D", "#fff"], person(380, 372, 1.05, SKIN[2], "kufi", "#2EB67D", None, "book:#FFE66D") + person(700, 372, 1.05, SKIN[2], "hijab:#F49AC1", "#FFC93C", None, "book:#FF7A59")),
+ "doctor": ("#9B6BFF", "#FFE66D", ["#FFE66D", "#fff"], person(420, 372, 1.15, SKIN[4], "hijab:#2E7263", "#fff", None, "fold")
+          + f'<path d="M370 250 C 360 300 400 330 420 300" fill="none" stroke="{INK}" stroke-width="7"/>'
+          + f'<g transform="translate(780,190)"><rect x="-110" y="-110" width="220" height="220" rx="30" fill="#fff" {O}/><path d="M-26 -70 H 26 V -26 H 70 V 26 H 26 V 70 H -26 V 26 H -70 V -26 H -26 Z" fill="{RED}" {O}/></g>'),
+ "engineer": ("#FF7A59", "#FFE66D", ["#FFE66D", "#fff"], crane(660, 372) + person(380, 372, 1.15, SKIN[0], "hijab:#4D96FF", "#2E7263", None, "book:#9fd8ff")
+          + f'<path d="M318 108 C 318 60 442 60 442 108 Z" fill="#FFC93C" {O}/><rect x="306" y="100" width="148" height="18" rx="8" fill="#FFC93C" {O}/>'),
+ "big": ("#FFB23F", "#fff", ["#fff", "#FF7A59"], house(300, 372, 1.25) + car(760, 360, 1.25)),
+ "new": ("#2E7263", "#FFE66D", ["#FFC93C", "#fff"], bookc(380, 372, 1.2, "#4D96FF") + bag(700, 372, 1.3) + star(530, 120, 34) + star(850, 90, 26, "#fff") + star(250, 90, 22, "#fff")),
+ "watch out: mum": ("#F49AC1", "#FFE66D", ["#fff", "#FFE66D"], person(470, 372, 1.15, SKIN[1], "hijab:#2E7263", "#9B6BFF", None, "fold") + person(660, 372, 0.7, SKIN[1], "hair:#2a1d14", "#FFC93C", None, "wave")
+          + heart(570, 80, 1.1)),
+ "end": ("#9B6BFF", None, ["#FFE66D", "#fff", "#F49AC1"], None),
 }}
 CAST = (person(130, 300, 0.85, SKIN[1], "hair:#3a2a1c", "#2E7263", "#2a1d14", "wave") + person(330, 300, 0.85, SKIN[3], "kufi", "#FF7A59", "#2a1d14")
         + person(530, 300, 0.85, SKIN[2], "hijab:#9B6BFF", "#2E7263") + person(730, 300, 0.85, SKIN[0], "kufi", "#fff", "#e6e6e6", "fold")
@@ -394,16 +457,34 @@ def slides(sid):
                        '<div class="ends"><div>Save this 📌 for later</div><div>Send it to someone learning Arabic with you</div></div></body>')
     return out
 
+def tall(body, seed):
+    """The 4:5 slide inside a 9:16 TikTok photo (owner, 8 Nov 2026: uploads from the phone): the same slide in the middle, the slide's colour
+    above and below with a few more doodles, so TikTok's own buttons and caption sit over the plain bands, not the words."""
+    bg = re.search(r'<body style="background:([^"]+)">', body).group(1)
+    dc = re.findall(r'(?:fill|stroke)="(#[0-9A-Fa-f]{6})" (?:opacity|stroke-width)', body)[:3] or ["#fff"]
+    r = random.Random(seed); bands = ""
+    for y0, y1 in ((20, 265), (1655, 1900)):
+        for _ in range(7):
+            x, y, c = r.uniform(40, 1040), r.uniform(y0, y1), r.choice(dc)
+            bands += (f'<path d="M{x} {y - 22} Q {x + 4} {y - 4} {x + 22} {y} Q {x + 4} {y + 4} {x} {y + 22} Q {x - 4} {y + 4} {x - 22} {y} Q {x - 4} {y - 4} {x} {y - 22} Z" fill="{c}" opacity=".85"/>'
+                      if r.random() < 0.5 else f'<circle cx="{x}" cy="{y}" r="{r.uniform(8, 16):.0f}" fill="none" stroke="{c}" stroke-width="6" opacity=".7"/>')
+    inner = body[body.index(">") + 1:body.rindex("</body>")]
+    return (f'<body style="background:{bg};height:1920px"><svg style="position:absolute;inset:0" viewBox="0 0 1080 1920">{bands}</svg>'
+            f'<div style="position:absolute;left:0;top:285px;width:1080px;height:1350px;overflow:hidden">{inner}</div></body>')
+
 if __name__ == "__main__":
+    TALL = "--tiktok" in sys.argv; ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     with sync_playwright() as pw:
         b = pw.chromium.launch(executable_path=S.CHROME if os.path.exists(S.CHROME) else None)
-        pg = b.new_page(viewport={"width": 1080, "height": 1350})
+        pg = b.new_page(viewport={"width": 1080, "height": 1920 if TALL else 1350})
         for sid in ART:
-            if sys.argv[1:] and sid not in sys.argv[1:]: continue
-            out = os.path.join(S.HERE, "stills", sid + "-pop"); os.makedirs(out, exist_ok=True)
+            if ids and sid not in ids: continue
+            out = os.path.join(S.HERE, "stills", sid + ("-tiktok" if TALL else "-pop")); os.makedirs(out, exist_ok=True)
             for k, body in slides(sid).items():
+                if TALL: body = tall(body, int(k) * 7)
                 tmp = os.path.join(out, "_s.html"); open(tmp, "w").write(f'<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head>{body}</html>')
                 pg.goto("file://" + tmp); pg.evaluate("document.fonts.ready"); pg.wait_for_timeout(300)
-                pg.screenshot(path=os.path.join(out, f"{sid}-{k}.png"))
+                if TALL: pg.screenshot(path=os.path.join(out, f"{sid}-{int(k):02d}.jpg"), type="jpeg", quality=92)
+                else: pg.screenshot(path=os.path.join(out, f"{sid}-{k}.png"))
             os.remove(os.path.join(out, "_s.html")); print(sid, "->", out)
         b.close()

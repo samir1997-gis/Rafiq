@@ -196,6 +196,40 @@ SETS = {
    ("feet", "رِجْل", "rijl", [("أَغْسِلُ رِجْلَيَّ.", "رِجْلَيَّ", "aghsilu rijlayya.", "I wash my feet.")],
     "وَأَرْجُلَكُمْ إِلَى الْكَعْبَيْنِ: “and your feet up to the ankles” <b style=\"white-space:nowrap;font:inherit\">(5:6)</b>. Which did you know? 👇"),
  ]),
+ "sun-moon": ("When do you NOT say<br>the L in “al-”? ☀️🌙", [
+   ("the sun", "الشَّمْس", "ash-shams ☀️", [("وَالشَّمْسِ وَضُحاها", "وَالشَّمْسِ", "wash-shamsi wa ḍuḥāhā", "By the sun and its morning brightness (91:1)")],
+    "ش is a sun letter: the ل goes silent and the ش doubles (that's the shadda ّ). Never “al-shams”."),
+   ("the moon", "الْقَمَر", "al-qamar 🌙", [("وَالْقَمَرِ إِذا تَلاها", "وَالْقَمَرِ", "wal-qamari idhā talāhā", "And the moon when it follows it (91:2)")],
+    "ق is a moon letter: you say the ل. Spot the sukūn on it: لْ."),
+   ("peace", "السَّلام", "as-salām ☀️", [("السَّلامُ عَلَيْكُمْ", "السَّلامُ", "as-salāmu ʿalaykum", "Peace be upon you")],
+    "You've said it right all along: as-salām, not al-salām. س is a sun letter."),
+   ("the book", "الْكِتاب", "al-kitāb 🌙", [("ذٰلِكَ الْكِتابُ لا رَيْبَ فِيهِ", "الْكِتابُ", "dhālika l-kitābu lā rayba fīh", "This is the Book, without any doubt (2:2)")],
+    "ك is a moon letter: you say the ل."),
+   ("the Most Merciful", "الرَّحْمٰن", "ar-Raḥmān ☀️", [("الرَّحْمٰنِ الرَّحِيمِ", "الرَّحْمٰنِ", "ar-raḥmāni r-raḥīm", "The Most Merciful, the Most Kind (1:3)")],
+    "ر is a sun letter, twice in one verse: ar-Raḥmān, ar-Raḥīm."),
+   ("praise", "الْحَمْد", "al-ḥamd 🌙", [("الْحَمْدُ لِلَّهِ رَبِّ الْعالَمِينَ", "الْحَمْدُ", "al-ḥamdu lillāhi rabbi l-ʿālamīn", "All praise is for Allah, Lord of the worlds (1:2)")],
+    "ح is a moon letter. The sukūn on لْ is your clue: say the L."),
+   ("the light", "النُّور", "an-nūr ☀️", [("مِنَ الظُّلُماتِ إِلَى النُّورِ", "النُّورِ", "mina ẓ-ẓulumāti ila n-nūr", "Out of the darkness into the light (2:257)")],
+    "ن and ظ are both sun letters: aẓ-ẓulumāt, an-nūr."),
+   ("the House", "الْبَيْت", "al-bayt 🌙", [("فَلْيَعْبُدُوا رَبَّ هٰذَا الْبَيْتِ", "الْبَيْتِ", "fal-yaʿbudū rabba hādha l-bayt", "So let them worship the Lord of this House (106:3)")],
+    "The 14 sun letters: ت ث د ذ ر ز س ش ص ض ط ظ ل ن. The other 14 are moon letters. Which did you know? 👇"),
+ ]),
+ "she": ("He → she in Arabic:<br>just one letter 👀", [
+   ("teacher", "مُعَلِّمَ<i>ة</i>", "muʿallim → muʿallima", [("هُوَ مُعَلِّمٌ، وَهِيَ مُعَلِّمَةٌ.", "مُعَلِّمَةٌ", "huwa muʿallim, wa hiya muʿallima.", "He's a teacher, and she's a teacher.")],
+    "Add ة (tāʾ marbūṭa) and he becomes she. At the end of a sentence it's just a soft “-a”."),
+   ("student", "طالِبَ<i>ة</i>", "ṭālib → ṭāliba", [("أَنا طالِبٌ، وَأُخْتِي طالِبَةٌ.", "طالِبَةٌ", "anā ṭālib, wa ukhtī ṭāliba.", "I'm a student, and my sister's a student.")],
+    "More than one female student: طالِبات (ṭālibāt). The ة becomes ات."),
+   ("doctor", "طَبِيبَ<i>ة</i>", "ṭabīb → ṭabība", [("هِيَ طَبِيبَةٌ فِي الْمُسْتَشْفى.", "طَبِيبَةٌ", "hiya ṭabība fi l-mustashfā.", "She's a doctor at the hospital.")],
+    "Before another word, the ة is said “t”: طَبِيبَةُ أَسْنانٍ, ṭabībatu asnān, a dentist (she)."),
+   ("engineer", "مُهَنْدِسَ<i>ة</i>", "muhandis → muhandisa", [("أُمِّي مُهَنْدِسَةٌ.", "مُهَنْدِسَةٌ", "ummī muhandisa.", "My mum is an engineer.")],
+    "Most jobs work the same way: add ة for a woman."),
+   ("big", "كَبِيرَ<i>ة</i>", "kabīr → kabīra", [("الْبَيْتُ كَبِيرٌ، وَالسَّيّارَةُ كَبِيرَةٌ.", "كَبِيرَةٌ", "al-baytu kabīr, was-sayyāratu kabīra.", "The house is big, and the car is big.")],
+    "Things have a gender too. سَيّارَة (car) ends in ة, so it's a she, and its adjective takes ة too."),
+   ("new", "جَدِيدَ<i>ة</i>", "jadīd → jadīda", [("الْكِتابُ جَدِيدٌ، وَالْحَقِيبَةُ جَدِيدَةٌ.", "جَدِيدَةٌ", "al-kitābu jadīd, wal-ḥaqībatu jadīda.", "The book is new, and the bag is new.")],
+    "حَقِيبَة (bag) ends in ة: a she. So the bag is جَدِيدَة."),
+   ("watch out: mum", "أُمّ", "umm: a she, with no ة", [("أُمِّي فِي الْبَيْتِ.", "أُمِّي", "ummī fi l-bayt.", "My mum is at home.")],
+    "Some words are feminine without ة: أُمّ mum, بِنْت girl, even شَمْس sun. Which did you know? 👇"),
+ ]),
 }
 
 CSS = QC.CSS + (".sw { display:inline-block; width:34px; height:34px; border-radius:50%; border:3px solid rgba(23,38,43,.25); vertical-align:-6px; margin-right:6px; }"
@@ -208,7 +242,8 @@ COVER = {"pronouns": "I · You · He · She · We", "time": "Today · Tomorrow �
          "colours": "Red · Blue · Green · Yellow · White · Black", "family": "Mum · Dad · Brother · Sister · Grandpa · Grandma",
          "little": "And · But · With · In · From · To",
          "food": "Water · Bread · Dates · Tea · Milk · Coffee", "days": "Sun · Mon · Tue · Wed · Thu · Fri · Sat",
-         "months": "Muḥarram · Ṣafar · Rajab · Ramaḍān · Shawwāl", "wudu": "Hands · Mouth · Face · Head · Feet"}
+         "months": "Muḥarram · Ṣafar · Rajab · Ramaḍān · Shawwāl", "wudu": "Hands · Mouth · Face · Head · Feet",
+         "sun-moon": "al- · ash- · as- · ar- · an-", "she": "Teacher · Student · Doctor · Big · New"}
 
 def ar_spans(note):     # Arabic inside an English note gets the Arabic font
     import re
