@@ -112,12 +112,10 @@ if STEP in ("zoom", "selfs"):   # the flicker's clips: tight on his face only (h
         sh("ffmpeg", "-v", "error", "-y", "-ss", str(t), "-i", P("base.mov"), "-t", "1", "-vf", f"{LOOK[k]},scale=960:1640:force_original_aspect_ratio=increase,crop=960:1640",
            "-q:v", "3", P(f"broll/self{k}/%04d.jpg"))
 
-if STEP == "finish":  # 1.1x, then levelled to -14.5 LUFS with the peaks under -1 dB
+if STEP == "finish":  # 1.1x, then levelled to -14.5 LUFS with true peaks under -1.5 dB (the mix can go over full scale: kept in float, never clipped)
     tmp = P("fast.mp4")
     sh("ffmpeg", "-v", "error", "-y", "-i", P("reel.mp4"), "-filter_complex", "[0:v]setpts=PTS/1.1[v];[0:a]atempo=1.1[a]", "-map", "[v]", "-map", "[a]",
-       "-c:v", "libx264", "-crf", "19", "-preset", "slow", "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", tmp)
-    m = subprocess.run(["ffmpeg", "-i", tmp, "-af", "ebur128", "-f", "null", "-"], capture_output=True, text=True).stderr
-    g = -14.5 - float(re.findall(r"I:\s+(-?[\d.]+) LUFS", m)[-1])
-    sh("ffmpeg", "-v", "error", "-y", "-i", tmp, "-c:v", "copy", "-af", f"volume={g:.2f}dB,aresample=192000,alimiter=limit=0.8:attack=1:release=60:level=false,"
-       "alimiter=limit=0.8:attack=0.5:release=60:level=false,aresample=48000", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", P("ahad-recut.mp4"))
-    os.remove(tmp); print("ahad-recut.mp4", round(dur(P("ahad-recut.mp4")), 1), "s")
+       "-c:v", "libx264", "-crf", "19", "-preset", "slow", "-pix_fmt", "yuv420p", "-c:a", "pcm_f32le", tmp.replace(".mp4", ".mov"))
+    sh("ffmpeg", "-v", "error", "-y", "-i", tmp.replace(".mp4", ".mov"), "-c:v", "copy", "-af", "acompressor=threshold=0.35:ratio=20:attack=0.1:release=60:makeup=1,aresample=192000,loudnorm=I=-14.5:TP=-1.5:LRA=11,aresample=48000",
+       "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", P("ahad-recut.mp4"))
+    os.remove(tmp.replace(".mp4", ".mov")); print("ahad-recut.mp4", round(dur(P("ahad-recut.mp4")), 1), "s")
