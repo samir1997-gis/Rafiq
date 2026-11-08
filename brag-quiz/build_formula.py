@@ -2077,6 +2077,45 @@ def g7():                                                       # owner, 7 Nov 2
            vo={"q": [(V + "q1a.mp3", V + "q1b.mp3"), (V + "q2a.mp3", V + "q2b.mp3")], "end": "brag-quiz/voice/g4-vo/end2.mp3"},
            teach=teach, words=W, outro=outro)
 
+def g8():                                                       # 8 Nov 2026 (#354): "more informative of Arabic rules": you, to a man (تَـ) and to a woman (تَـ…ينَ)
+    V, V6 = "brag-quiz/voice/g8-vo/", "brag-quiz/voice/g6-vo/"   # IDEAS: "Next in this shape: you (تَـ to a man, تَـ…ينَ to a woman)"
+
+    def teach(c, body, t):                                       # g6's teach section: he eats → you eat (to a man) → you eat (to a woman)
+        F = [("يَأْكُلُ", '<em>يَ</em>أْكُلُ', "he eats", "", V6 + "t1"), ("تَأْكُلُ", '<em>تَ</em>أْكُلُ', "you eat", "to a man", V + "t2"),
+             ("تَأْكُلِينَ", '<em>تَ</em>أْكُلِ<em>ينَ</em>', "you eat", "to a woman", V + "t3")]
+        rows = "".join(f'<div class="vrow" id="tr{i}"><div class="p"><span class="en" style="font-size:52px;color:var(--ink)">{en}</span>'
+                       + (f'<span class="en" style="font-size:36px;margin-top:0">{sub}</span>' if sub else "") +
+                       f'</div><span class="f" lang="ar">{h}</span></div>' for i, (_, h, en, sub, _) in enumerate(F))
+        body.append('<div class="sec" id="tch"><div class="q2" id="tq">LEARN · watch the red letters</div>'
+                    f'<div class="vrows" style="top:480px">{rows}</div>'
+                    '<div class="tsub" id="tj" style="top:1030px;font-size:40px">(<bdi lang="ar" dir="rtl">تَأْكُلُ</bdi> is also “she eats”: the sentence tells you which)</div>'
+                    '<div class="rule" id="tru" style="top:1200px;font-size:84px">you = <span class="ar" lang="ar"><em>تَـ</em></span></div>'
+                    '<div class="rule" id="trw" style="top:1380px;font-size:60px">to a woman: <span class="ar" lang="ar"><em>تَـ</em> … <em>ـينَ</em></span></div></div>')
+        c.css += (".tsub { position:absolute; left:90px; right:90px; text-align:center; font-weight:700; line-height:1.3; color:var(--ink-soft); }"
+                  ".tsub bdi { font-family:var(--ar); } #tru .ar { font-size:110px; } #trw .ar { font-size:84px; }"
+                  "#r0q, #r1q { font-size:52px; white-space:nowrap; }")                  # "you drink, to a man" on one line, clear of the 3-2-1
+        c.t(f'tl.fromTo("#tch", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
+        c.inn("#tq", t)
+        for i, (ar, _, _, _, f) in enumerate(F):
+            a = clip(c, f + ".mp3", t + 0.2)
+            c.inn(f"#tr{i}", t + 0.2, 30)
+            hit = t + 0.2 + a + 0.05; d = say_up(c, ar, hit)
+            c.t(f'tl.fromTo("#tr{i} em", {{scale:1}}, {{scale:1.25, duration:0.18, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {hit:.2f});')
+            c.sfx("tap", hit)
+            if i == 1: c.inn("#tj", hit + d)
+            t = hit + d + 0.5
+        r = clip(c, V + "rule.mp3", t); c.inn("#tru", t + 0.3); c.inn("#trw", t + r * 0.55)
+        t += r + 0.6; c.out_("#tch", t); return t + 0.4
+
+    change("g8-you", "QUIZ · ARABIC VERBS",
+           [("يَشْرَبُ", "he drinks", "you drink, to a man", ["تَشْرَبِينَ", "تَشْرَبُ", "أَشْرَبُ"], 1, '<bdi lang="ar"><em>تَ</em></bdi> at the front = you'),
+            ("يَذْهَبُ", "he goes", "you go, to a woman", ["تَذْهَبُ", "أَذْهَبُ", "تَذْهَبِينَ"], 2, '<bdi lang="ar"><em>تَـ</em> … <em>ـينَ</em></bdi> = you, to a woman')],
+           "How many did you get? 0, 1 or 2? Comment below 👇 and send this to your Arabic study buddy",
+           hook=("MOST people learn Arabic for years before they notice this trick!".split(), {0: "loud", 5: "red", 10: "circle"},   # g6's hook, copied exactly
+                 "brag-quiz/voice/g4-hook3/g4-v3a.mp3"),                                                                  # (owner, 7 Nov)
+           vo={"q": [(V + "q1a.mp3", V + "q1b.mp3"), (V + "q2a.mp3", V + "q2b.mp3")], "end": "brag-quiz/voice/g4-vo/end2.mp3"},
+           teach=teach)
+
 # ---------------------------------------------------------------- 5 Arabic sentences for Umrah (owner 8 Nov 2026)
 DOODLE.update({
     "kaaba": [("M22 30 L50 18 L80 30 V82 L50 92 L22 82 Z", 1), ("M22 30 L50 42 L80 30 M50 42 V92", 0), ("M22 46 L50 58 L80 46", 0)],
@@ -2137,7 +2176,7 @@ def u1():
 
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
-       "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "g6-i-she": g6, "g7-we": g7, "w8-subhana-azim": w8,
+       "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "g6-i-she": g6, "g7-we": g7, "g8-you": g8, "w8-subhana-azim": w8,
        "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1, "l3-quran": l3,
        "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2, "n5-salah": n5, "h1-algebra": h1, "h2-coffee": h2, "h3-lisan": h3, "h4-khutbah": h4, "u1-umrah": u1}
 if __name__ == "__main__":
