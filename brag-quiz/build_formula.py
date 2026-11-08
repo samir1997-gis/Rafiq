@@ -1307,11 +1307,13 @@ LADDER_CSS = (
     "#mark b { display:inline-block; padding:8px 14px; border-radius:30px; background:var(--rubric); color:#fff; font-size:38px; font-weight:800; box-shadow:0 8px 24px rgba(180,50,42,.35); }"
     "#mark small { display:block; font-size:19px; letter-spacing:.12em; font-weight:800; color:var(--rubric); margin-top:6px; }")
 
-def ladder(vid, R, ask, voice={}, kicker="QUIZ · HOW FAR CAN YOU GET?"):
+def ladder(vid, R, ask, voice={}, kicker="QUIZ · HOW FAR CAN YOU GET?", hook=None, vo=None, end=None):
     """The difficulty ladder (owner, 14 Oct 2026). The owner says each line, stitched under the video, so it all sits in the top
     ~1,150 px. One page: each round sits under the last and the page slides up to it; the rail on the left drops its marker a rung
     (the share counts down, a click per 10%); the question, a 3-2-1 with clicks, the answer pops green and Rafiq says it.
-    R: (percent, question html, big html or "", answer html, Arabic said, "big" | "ans" (when Rafiq says it), extra line or "")."""
+    R: (percent, question html, big html or "", answer html, Arabic said, "big" | "ans" (when Rafiq says it), extra line or "").
+    Without his video under it (l3, owner 8 Nov 2026: "the normal cream background"), the g4 standard fills it: hook (hook_in), vo (Callum asks
+    each round, his words as a caption in the lower half) and end (the closing ask, heard in full)."""
     c = SO.vcomp(vid, kicker); c.bed = True; c.css += LADDER_CSS
     n, H, GAP = len(R), 860, 760
     ry = lambda k: 20 + k * (H - 40) / (n - 1)                    # rung k's height on the rail
@@ -1325,6 +1327,12 @@ def ladder(vid, R, ask, voice={}, kicker="QUIZ · HOW FAR CAN YOU GET?"):
             f'<div id="rail"><div class="trk"></div><div class="fill" id="fill"></div>{rungs}'
             f'<div id="mark" style="top:{ry(0):.0f}px"><b id="markn">{R[0][0]}%</b><small>STILL IN</small></div></div>']
     t, prev = 0.1, R[0][0]
+    if hook:
+        t = hook_in(c, body, hook)
+        c.t('tl.set(["#view", "#rail"], {autoAlpha:0}, 0);')
+        c.t(f'tl.fromTo(["#view", "#rail"], {{autoAlpha:0, x:700, filter:"blur(18px)"}}, {{autoAlpha:1, x:0, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
+        c.css += (".cc { position:absolute; left:80px; right:80px; top:1330px; text-align:center; font-weight:700; font-size:66px; line-height:1.15; color:var(--ink); }"
+                  ".cw { display:inline-block; opacity:0; } .cw.r { color:var(--rubric); } .cw.g { color:var(--verdigris); }")
     for k, (pct, q, big, ans, ar, when, extra) in enumerate(R):
         s = f"l{k}"
         if k:                                                     # the page slides up to the next round, the marker drops a rung
@@ -1340,16 +1348,24 @@ def ladder(vid, R, ask, voice={}, kicker="QUIZ · HOW FAR CAN YOU GET?"):
             c.t(f'tl.to("#g{k - 1}", {{opacity:0.45, duration:0.3}}, {t + 0.1:.2f});')
             c.t(f'tl.fromTo("#{s}q", {{opacity:0, y:40, filter:"blur(10px)"}}, {{opacity:1, y:0, filter:"blur(0px)", duration:0.4, ease:"expo.out"}}, {t + 0.2:.2f});')
             if big: SO.bigin(c, f"#{s}b", t + 0.5)
-        if when == "big": say_up(c, ar, t + 1.2, src=voice.get(ar))
+        go = t + 3.2
+        if vo:                                                    # Callum asks it, his words coming in under the page
+            dv = clip(c, vo[k], t + 0.2); body.append(cap(c, f"{s}v", vo[k], t + 0.2, (("level", "r"), ("boss", "r"), ("lord", "g"), ("plural", "g"))))
+            ws = max(t + 1.2, t + 0.2 + dv + 0.15)
+            dw = say_up(c, ar, ws, src=voice.get(ar)) if when == "big" else 0
+            go = max(t + 1.6, ws + dw + 0.35)
+        elif when == "big": say_up(c, ar, t + 1.2, src=voice.get(ar))
         if extra: c.inn(f"#{s}x", t + 1.0)
-        done = count_down(c, f"{s}c", t + 3.2)
+        done = count_down(c, f"{s}c", go)
         c.t(f'tl.fromTo("#{s}a", {{opacity:0, scale:0.6}}, {{opacity:1, scale:1, duration:0.35, ease:"back.out(1.8)"}}, {done:.2f});')
         reveal(c, f"#{s}a", [], done + 0.05); c.sfx("correct", done)
         d = say_up(c, ar, done + 0.3, src=voice.get(ar)) if when == "ans" else 0
+        if vo: cap_out(c, f"{s}v", done + 0.3 + d + 1.2)
         t = done + 0.3 + d + 1.5; prev = pct
     c.out_("#view", t); c.out_("#rail", t); t += 0.4
+    e2 = clip(c, end, t + 0.4) if end else 0
     body.append(c.end(t, ask))
-    c.write("\n".join("      " + b for b in body), round(t + 2.9, 2))
+    c.write("\n".join("      " + b for b in body), round(max(t + 2.9, t + 0.4 + e2 + 0.8), 2))
 
 def l1():
     """The difficulty ladder #1 (owner, 14 Oct 2026), ordered by the Kelly list's CEFR levels for Arabic (Kilgarriff et al. 2014;
@@ -1383,6 +1399,26 @@ def l2():
     ], "How far did you get? Comment your score 👇 Send this to who you’re going to Jumuʿah with 🤍",
            voice={"غُسْل": V + "ghusl.mp3", "جَماعَة": V + "jamaa.mp3", "عِطْر": V + "itr.mp3", "لِباس": V + "libas.mp3", "أَنْصِتْ": V + "ansit.mp3"},
            kicker="QUIZ · JUMUʿAH EDITION")
+
+def l3():
+    """The difficulty ladder #3, the weekly Qur'an quiz on the cream page (owner, 8 Nov 2026: "another rendition of the weekly Arabic quiz,
+    with words getting progressively harder… the normal cream background"): رَبّ Lord 90% → يَوْم day 70% → قُلُوب hearts (a plural) 45% →
+    يَتَفَكَّرُونَ they reflect 20% → the final boss سُنْدُس fine silk 3% (al-Kahf 18:31, the green garments of Jannah). The percentages are a game
+    device, not data. Hook (TypeSafe, tools/typesafe-exp/ladder3_hook.py): "FIVE words from the Qur'an, each one harder. How far can you get?"
+    Voices: brag-quiz/voice/ladder3-lines.json."""
+    A = lambda w: f'<span class="ar" lang="ar">{w}</span>'
+    V = "brag-quiz/voice/ladder3/"
+    ladder("l3-quran", [
+        (90, "How do you say <b>“Lord”</b> in Arabic?", "", f"<b>{A('رَبّ')}</b> &nbsp;<b>rabb</b>", "رَبّ", "ans", ""),
+        (70, "What does this mean?", A("يَوْم"), "<b>day</b>", "يَوْم", "big", ""),
+        (45, "What does this mean?", A("قُلُوب"), "<b>hearts</b>", "قُلُوب", "big", ""),
+        (20, "What does this mean?", A("يَتَفَكَّرُونَ"), "<b>they reflect</b>", "يَتَفَكَّرُونَ", "big", "Got this far? Comment below 👇"),
+        (3, "The final boss 😈 What does this mean?", A("سُنْدُس"), "<b>fine green silk</b>", "سُنْدُس", "big", "the garments of Jannah · al-Kahf 18:31"),
+    ], "How far did you get? Comment your level 👇 and send this to your Qur’an study buddy",
+           voice={"رَبّ": V + "rabb.mp3", "يَوْم": V + "yawm.mp3", "قُلُوب": V + "qulub.mp3", "يَتَفَكَّرُونَ": V + "yatafakkarun.mp3", "سُنْدُس": V + "sundus.mp3"},
+           kicker="QUIZ · WORDS FROM THE QURʾĀN",
+           hook=("FIVE words from the Qurʾān, each one harder. How far can you get?".split(), {0: "loud", 5: "red", 8: "circle"}, V + "h1.mp3", ("WORDS", 5)),
+           vo=[V + f"q{k}.mp3" for k in range(1, 6)], end=V + "end.mp3")
 
 # ---------------------------------------------------------------- the story of a word (owner 26 Oct 2026, #296): a light pastel page,
 # hand-drawn doodles behind it, in the Callum standard (spoken hook, every move on its word, captions word by word, a 3-2-1, Rafiq for the Arabic)
@@ -2102,7 +2138,7 @@ def u1():
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "g6-i-she": g6, "g7-we": g7, "w8-subhana-azim": w8,
-       "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1,
+       "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1, "l3-quran": l3,
        "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2, "n5-salah": n5, "h1-algebra": h1, "h2-coffee": h2, "h3-lisan": h3, "h4-khutbah": h4, "u1-umrah": u1}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
