@@ -10,7 +10,7 @@ footage on "aḥad" (ahad1.mp4 at 150.1 s), a white rim to lift him off the back
 import os, sys
 from playwright.sync_api import sync_playwright
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-CUT, BG, OUT = sys.argv[1:4]
+CUT, BG, OUT = sys.argv[1:4]; HEAD = sys.argv[4] if len(sys.argv) > 4 else "HIS <em>ONLY</em> WORD"   # owner: make it emotional, give context
 F = os.path.join(ROOT, "brag-quiz", "fonts")
 HTML = f"""<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face {{ font-family:Anton; src:url("file://{F}/anton-latin-400-normal.woff2"); }}
@@ -21,17 +21,17 @@ body {{ margin:0; width:1280px; height:720px; overflow:hidden; background:#120a0
         linear-gradient(90deg, rgba(10,6,3,.85) 0%, rgba(10,6,3,.2) 45%, rgba(10,6,3,.35) 100%); }}
 .me {{ position:absolute; left:-170px; bottom:-120px; height:900px; filter:drop-shadow(0 0 0 #fff) drop-shadow(6px 0 0 #fff) drop-shadow(-6px 0 0 #fff)
       drop-shadow(0 6px 0 #fff) drop-shadow(0 -6px 0 #fff) drop-shadow(0 24px 40px rgba(0,0,0,.7)) saturate(1.15) contrast(1.08); }}
-.top {{ position:absolute; right:30px; top:28px; width:640px; text-align:center; font-family:Anton; font-size:96px; line-height:1; color:#fff;
+.top {{ position:absolute; right:24px; top:26px; width:690px; text-align:center; font-family:Anton; font-size:84px; line-height:1.02; color:#fff;
        letter-spacing:.01em; -webkit-text-stroke:5px #120a05; paint-order:stroke fill; text-shadow:0 8px 24px rgba(0,0,0,.6); }}
 .top em {{ font-style:normal; color:#ff4a3d; }}
-.ar {{ position:absolute; right:30px; top:225px; width:640px; text-align:center; font-family:Am; font-size:265px; line-height:1.25; direction:rtl;
+.ar {{ position:absolute; right:30px; top:375px; width:640px; text-align:center; font-family:Am; font-size:215px; line-height:1.25; direction:rtl;
       color:#F2C14E; -webkit-text-stroke:10px #120a05; paint-order:stroke fill;
       text-shadow:0 0 50px rgba(255,190,80,.75), 0 14px 30px rgba(0,0,0,.7); }}
 .tl {{ position:absolute; right:40px; bottom:46px; width:640px; text-align:center; font-family:Anton; font-size:46px; letter-spacing:.24em; color:#F1ECE0;
       -webkit-text-stroke:3px #120a05; paint-order:stroke fill; }}
 </style></head><body><div class="bg"></div><div class="heat"></div>
 <img class="me" src="file://{CUT}">
-<div class="top">HIS <em>ONLY</em> WORD</div><div class="ar">أَحَد</div></body></html>"""
+<div class="top">{HEAD}</div><div class="ar">أَحَد</div></body></html>"""
 with sync_playwright() as pw:
     b = pw.chromium.launch(executable_path="/opt/pw-browsers/chromium" if os.path.exists("/opt/pw-browsers/chromium") else None); p = b.new_page(viewport={"width": 1280, "height": 720})
     tmp = OUT + ".html"; open(tmp, "w").write(HTML); p.goto("file://" + tmp); p.evaluate("document.fonts.ready"); p.wait_for_timeout(500)
