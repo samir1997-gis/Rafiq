@@ -3,7 +3,8 @@
 IDEAS.md). The pop carousels' look (bright colour, doodles, ink outlines) around the app's real screens, cropped from the store
 screenshots (app/store/screenshots/appstore-N.png, #352), each under its store headline. Written straight at TikTok's 9:16.
 
-  python3 brag-quiz/build_app_carousel.py   ->  brag-quiz/stills/app-tiktok/app-<nn>.jpg (1080×1920)
+  python3 brag-quiz/build_app_carousel.py [--feed]   ->  brag-quiz/stills/app-tiktok/app-<nn>.jpg (1080×1920), or with --feed
+                                                     brag-quiz/stills/app-pop/app-<nn>.jpg (1080×1350, 4:5, for Instagram too)
 """
 import os
 from PIL import Image
@@ -53,12 +54,15 @@ def slides():
     return out
 
 if __name__ == "__main__":
+    import sys
+    FEED = "--feed" in sys.argv                                  # 4:5 (1080×1350) for a post that also goes to Instagram (Metricool, owner 10 Nov)
+    if FEED: OUT = os.path.join(P.S.HERE, "stills", "app-pop")
     os.makedirs(OUT, exist_ok=True)
     with sync_playwright() as pw:
         b = pw.chromium.launch(executable_path=P.S.CHROME if os.path.exists(P.S.CHROME) else None)
-        pg = b.new_page(viewport={"width": 1080, "height": 1920})
+        pg = b.new_page(viewport={"width": 1080, "height": 1350 if FEED else 1920})
         for k, body in slides().items():
-            tmp = os.path.join(OUT, "_s.html"); open(tmp, "w").write(f'<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head>{P.tall(body, int(k) * 7)}</html>')
+            tmp = os.path.join(OUT, "_s.html"); open(tmp, "w").write(f'<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head>{body if FEED else P.tall(body, int(k) * 7)}</html>')
             pg.goto("file://" + tmp); pg.evaluate("document.fonts.ready"); pg.wait_for_timeout(400)
             pg.screenshot(path=os.path.join(OUT, f"app-{int(k):02d}.jpg"), type="jpeg", quality=92)
         b.close()
