@@ -1,0 +1,456 @@
+[
+ {
+  "file": "g9-t1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "This means 'I wrote'... with 'too' on the end."
+ },
+ {
+  "file": "g9-t2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Change it to 'tah', and it's 'you wrote', to a man..."
+ },
+ {
+  "file": "g9-t3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "And 'tee' is 'you wrote', to a woman..."
+ },
+ {
+  "file": "g9-rule",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "That's the trick. 'Too' is me. 'Tah' is you, to a man. 'Tee' is you, to a woman. Now it's your turn."
+ },
+ {
+  "file": "g9-q1a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "If this means 'he went'..."
+ },
+ {
+  "file": "g9-q1b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "what's 'you went', to a woman?"
+ },
+ {
+  "file": "g9-q2a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "And if this means 'he drank'..."
+ },
+ {
+  "file": "g9-q2b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "what's 'you drank', to a man?"
+ },
+ {
+  "file": "g10-t3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Keep the yaa at the front, and add 'oona' to the end: 'they eat'..."
+ },
+ {
+  "file": "g10-rule",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "That's the trick. Noon at the front is 'we'. Yaa at the front and 'oona' at the end is 'they'. Now it's your turn."
+ },
+ {
+  "file": "g10-q1a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "If this means 'he writes'..."
+ },
+ {
+  "file": "g10-q1b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "what's 'they write'?"
+ },
+ {
+  "file": "g10-q2a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "And if this means 'he drinks'..."
+ },
+ {
+  "file": "g10-q2b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "what's 'they drink'?"
+ },
+ {
+  "file": "g10-yakuluna",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "يَأْكُلُونَ"
+ },
+ {
+  "file": "g10-yaktubuna",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "يَكْتُبُونَ"
+ },
+ {
+  "file": "g10-yashrabuna",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "يَشْرَبُونَ"
+ },
+ {
+  "file": "g11-t1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "This means 'a book'..."
+ },
+ {
+  "file": "g11-t2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Add 'aani' to the end, and it's 'two books'..."
+ },
+ {
+  "file": "g11-t3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Ends in a taa marbuta? It opens up into a taa: 'two cars'..."
+ },
+ {
+  "file": "g11-rule",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "That's the trick. 'Aani' on the end means two of them. Now it's your turn."
+ },
+ {
+  "file": "g11-q1a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "If this means 'a pen'..."
+ },
+ {
+  "file": "g11-q1b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "what's 'two pens'?"
+ },
+ {
+  "file": "g11-q2a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "And if this means 'a school'..."
+ },
+ {
+  "file": "g11-q2b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "what's 'two schools'?"
+ },
+ {
+  "file": "g11-kitabani",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "كِتابانِ"
+ },
+ {
+  "file": "g11-sayyaratani",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "سَيّارَتانِ"
+ },
+ {
+  "file": "g11-qalamani",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "قَلَمانِ"
+ },
+ {
+  "file": "g11-madrasatani",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "مَدْرَسَتانِ"
+ },
+ {
+  "file": "l4-h1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] FIVE! [normal] words from your salah, each one harder. How far can you get?"
+ },
+ {
+  "file": "l4-q1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Level one. How do you say 'prayer' in Arabic?"
+ },
+ {
+  "file": "l4-q2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Level two. You say it in every ruku. What does it mean?"
+ },
+ {
+  "file": "l4-q3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Level three. It comes straight after. What does it mean?"
+ },
+ {
+  "file": "l4-q4",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Level four. From al-Fatiha. Getting harder."
+ },
+ {
+  "file": "l4-q5",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "And the final boss, also from al-Fatiha. What does this mean?"
+ },
+ {
+  "file": "l4-salah",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "صَلاة"
+ },
+ {
+  "file": "l4-subhana",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "سُبْحانَ"
+ },
+ {
+  "file": "l4-azim",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "الْعَظِيم"
+ },
+ {
+  "file": "l4-nastain",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "نَسْتَعِينُ"
+ },
+ {
+  "file": "l4-maghdub",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "الْمَغْضُوبِ"
+ },
+ {
+  "file": "u2-h1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] SAVE! [normal] this for your next trip to the masjid. Five Arabic sentences you'll actually use!"
+ },
+ {
+  "file": "u2-a1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Number one. Walking in? Greet everyone."
+ },
+ {
+  "file": "u2-m1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Peace be upon you, and the mercy of Allah."
+ },
+ {
+  "file": "u2-a2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Number two. Need to make wudu? Ask..."
+ },
+ {
+  "file": "u2-m2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Where's the place for wudu?"
+ },
+ {
+  "file": "u2-a3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Number three. Don't miss the start of the prayer."
+ },
+ {
+  "file": "u2-m3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "When is the iqamah?"
+ },
+ {
+  "file": "u2-a4",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Number four. Looking for a space in the row?"
+ },
+ {
+  "file": "u2-m4",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Is this place free?"
+ },
+ {
+  "file": "u2-a5",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "And number five, when someone helps you."
+ },
+ {
+  "file": "u2-m5",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "May Allah reward you with good."
+ },
+ {
+  "file": "u2-end",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Which one will you use first? Comment below, and send this to someone you go to the masjid with!"
+ },
+ {
+  "file": "u2-ar1",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "السَّلامُ عَلَيْكُمْ وَرَحْمَةُ اللّٰهِ"
+ },
+ {
+  "file": "u2-ar2",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "أَيْنَ مَكانُ الْوُضُوءِ؟"
+ },
+ {
+  "file": "u2-ar3",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "مَتى الْإِقامَةُ؟"
+ },
+ {
+  "file": "u2-ar4",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "هَلْ هٰذا الْمَكانُ فارِغٌ؟"
+ },
+ {
+  "file": "u2-ar5",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "جَزاكَ اللّٰهُ خَيْرًا"
+ }
+]
