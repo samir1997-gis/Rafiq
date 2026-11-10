@@ -12,6 +12,9 @@ Every generated video uses one of these, built by the named function. Don't rede
 What didn't work, so don't make more without a new idea: timed challenges on everyday words on TikTok (speed reading x2,
 "3 seconds to answer", the POV chat: all stalled at 260-300 views). The speed reel did fine on Instagram (1,990 views).
 
+## NEVER the pastel page (owner, 10 Nov 2026)
+"I hate this colourful background… Scrap it. Don't ever use this again." The pastel page (`pastel()` in `build_formula.py`: soft colour blobs and bobbing doodles, used by the story-of-a-word videos h1-h4, u1, h11) is banned for every new video and carousel. **The rule now: motion graphics, in our colour scheme, light (cream `#F1ECE0`, ink `#17262B`) or dark (the graphics' deep teal `#14232a`, gold `#E9B949`), realistic and modern** (textured, lit, with depth and real movement, as `reels/scripts-gfx` a_makkah / a_drag / a_burn / a_boulder), never flat doodles on pastel.
+
 ## The standard for EVERY video (owner, 12 Oct 2026; confirmed 15 Oct: it works, make ONLY this from now on)
 Reference: **`g4-past-i`** (#254) (`g4()` → `change()` + `hook_in()` in `build_formula.py`). Proof: g4 had the best hold of any quiz
 (42.7% still watching at 3 s vs 36-37%), 9.9 s average watch vs 6-7 s, 2.2k views on day 1. Every video we make from now on, of any
