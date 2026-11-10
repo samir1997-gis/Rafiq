@@ -2174,11 +2174,153 @@ def u1():
     total = round(t + end + 0.9, 2); finish(total)
     c.write("\n".join("      " + b for b in body), total)
 
+def rule_quiz(vid, V, F, sub, rules, R, ask, words={}):
+    """g6–g8's shape for the week of 10 Nov (#355): the owner's hook (g4-v3a, copied exactly), a teach table of three rows
+    (F: arabic, html with the change in <em>, english, small line, voice clip; a None clip is the app's word alone), a line under
+    the table (sub), the rule in two lines (rules), then two quiz rounds (R, change()'s rounds). words: {arabic: Rafiq mp3}."""
+    def teach(c, body, t):
+        rows = "".join(f'<div class="vrow" id="tr{i}"><div class="p"><span class="en" style="font-size:52px;color:var(--ink)">{en}</span>'
+                       + (f'<span class="en" style="font-size:36px;margin-top:0">{sm}</span>' if sm else "") +
+                       f'</div><span class="f" lang="ar">{h}</span></div>' for i, (_, h, en, sm, _) in enumerate(F))
+        body.append('<div class="sec" id="tch"><div class="q2" id="tq">LEARN · watch the red letters</div>'
+                    f'<div class="vrows" style="top:480px">{rows}</div>'
+                    f'<div class="tsub" id="tj" style="top:1030px;font-size:40px">{sub}</div>'
+                    f'<div class="rule" id="tru" style="top:1200px;font-size:72px">{rules[0]}</div>'
+                    f'<div class="rule" id="trw" style="top:1380px;font-size:60px">{rules[1]}</div></div>')
+        c.css += (".tsub { position:absolute; left:90px; right:90px; text-align:center; font-weight:700; line-height:1.3; color:var(--ink-soft); }"
+                  ".tsub bdi { font-family:var(--ar); } #tru .ar { font-size:96px; } #trw .ar { font-size:84px; }"
+                  "#r0q, #r1q { font-size:52px; white-space:nowrap; }")
+        c.t(f'tl.fromTo("#tch", {{x:700, opacity:0, filter:"blur(18px)"}}, {{x:0, opacity:1, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
+        c.inn("#tq", t)
+        for i, (ar, _, _, _, f) in enumerate(F):
+            a = clip(c, f + ".mp3", t + 0.2)
+            c.inn(f"#tr{i}", t + 0.2, 30)
+            hit = t + 0.2 + a + 0.05; d = say_up(c, ar, hit, src=words.get(ar))
+            c.t(f'tl.fromTo("#tr{i} em", {{scale:1}}, {{scale:1.25, duration:0.18, yoyo:true, repeat:1, ease:"power2.out", immediateRender:false}}, {hit:.2f});')
+            c.sfx("tap", hit)
+            if i == len(F) - 1: c.inn("#tj", hit + d)
+            t = hit + d + 0.5
+        r = clip(c, V + "rule.mp3", t); c.inn("#tru", t + 0.3); c.inn("#trw", t + r * 0.55)
+        t += r + 0.6; c.out_("#tch", t); return t + 0.4
+    change(vid, "QUIZ · ARABIC VERBS" if vid != "g11-two" else "QUIZ · ARABIC NOUNS", R, ask,
+           hook=("MOST people learn Arabic for years before they notice this trick!".split(), {0: "loud", 5: "red", 10: "circle"},   # g6's hook, copied exactly
+                 "brag-quiz/voice/g4-hook3/g4-v3a.mp3"),                                                                  # (owner, 7 Nov)
+           vo={"q": [(V + "q1a.mp3", V + "q1b.mp3"), (V + "q2a.mp3", V + "q2b.mp3")], "end": "brag-quiz/voice/g4-vo/end2.mp3"},
+           teach=teach, words=words)
+
+W10 = "brag-quiz/voice/nov10/"
+def g9():                                                       # 10 Nov 2026 (#355): the past, I / you (m) / you (f): one vowel on the end
+    V = W10 + "g9-"
+    rule_quiz("g9-past-you", V,
+        [("كَتَبْتُ", 'كَتَبْ<em>تُ</em>', "I wrote", "", V + "t1"), ("كَتَبْتَ", 'كَتَبْ<em>تَ</em>', "you wrote", "to a man", V + "t2"),
+         ("كَتَبْتِ", 'كَتَبْ<em>تِ</em>', "you wrote", "to a woman", V + "t3")],
+        "same letters, one vowel: <bdi lang=\"ar\" dir=\"rtl\">ـتُ · ـتَ · ـتِ</bdi>",
+        ('I = <span class="ar" lang="ar"><em>ـتُ</em></span> &nbsp;·&nbsp; you = <span class="ar" lang="ar"><em>ـتَ</em></span>',
+         'you, to a woman = <span class="ar" lang="ar"><em>ـتِ</em></span>'),
+        [("ذَهَبَ", "he went", "you went, to a woman", ["ذَهَبْتُ", "ذَهَبْتَ", "ذَهَبْتِ"], 2, '<bdi lang="ar"><em>ـتِ</em></bdi> = you, to a woman'),
+         ("شَرِبَ", "he drank", "you drank, to a man", ["شَرِبْتَ", "شَرِبْتِ", "شَرِبْتُ"], 0, '<bdi lang="ar"><em>ـتَ</em></bdi> = you, to a man')],
+        "How many did you get? 0, 1 or 2? Comment below 👇 and send this to your Arabic study buddy")
+
+def g10():                                                      # 10 Nov 2026 (#355): they, يَـ…ونَ (after g7's we)
+    V = W10 + "g10-"
+    rule_quiz("g10-they", V,
+        [("يَأْكُلُ", '<em>يَ</em>أْكُلُ', "he eats", "", "brag-quiz/voice/g6-vo/t1"), ("نَأْكُلُ", '<em>نَ</em>أْكُلُ', "we eat", "", "brag-quiz/voice/g7-vo/t3"),
+         ("يَأْكُلُونَ", '<em>يَ</em>أْكُلُ<em>ونَ</em>', "they eat", "", V + "t3")],
+        "the same يَـ as “he”, with <bdi lang=\"ar\" dir=\"rtl\">ـونَ</bdi> on the end",
+        ('we = <span class="ar" lang="ar"><em>نَـ</em></span>', 'they = <span class="ar" lang="ar"><em>يَـ</em> … <em>ـونَ</em></span>'),
+        [("يَكْتُبُ", "he writes", "they write", ["نَكْتُبُ", "يَكْتُبُونَ", "تَكْتُبُ"], 1, '<bdi lang="ar"><em>يَـ</em> … <em>ـونَ</em></bdi> = they'),
+         ("يَشْرَبُ", "he drinks", "they drink", ["تَشْرَبِينَ", "يَشْرَبُ", "يَشْرَبُونَ"], 2, '<bdi lang="ar"><em>يَـ</em> … <em>ـونَ</em></bdi> = they')],
+        "How many did you get? 0, 1 or 2? Comment below 👇 and send this to your Arabic study buddy",
+        words={"يَأْكُلُونَ": V + "yakuluna.mp3", "يَكْتُبُونَ": V + "yaktubuna.mp3", "يَشْرَبُونَ": V + "yashrabuna.mp3"})
+
+def g11():                                                      # 10 Nov 2026 (#355): the dual, ـانِ; ة opens into ت
+    V = W10 + "g11-"
+    rule_quiz("g11-two", V,
+        [("كِتاب", 'كِتاب', "a book", "", V + "t1"), ("كِتابانِ", 'كِتاب<em>انِ</em>', "two books", "", V + "t2"),
+         ("سَيّارَتانِ", 'سَيّارَ<em>تانِ</em>', "two cars", "from سَيّارَة", V + "t3")],
+        "a ة on the end opens up into ت: <bdi lang=\"ar\" dir=\"rtl\">سَيّارَة ← سَيّارَتانِ</bdi>",
+        ('two = <span class="ar" lang="ar"><em>ـانِ</em></span>', 'ة → <span class="ar" lang="ar"><em>ـتانِ</em></span>'),
+        [("قَلَم", "a pen", "two pens", ["أَقْلام", "قَلَمانِ", "قَلَمِي"], 1, 'add <bdi lang="ar"><em>ـانِ</em></bdi> = two'),
+         ("مَدْرَسَة", "a school", "two schools", ["مَدارِس", "مَدْرَسَةانِ", "مَدْرَسَتانِ"], 2, '<bdi lang="ar">ة → <em>ـتانِ</em></bdi>')],
+        "How many did you get? 0, 1 or 2? Comment below 👇 and send this to your Arabic study buddy",
+        words={"كِتابانِ": V + "kitabani.mp3", "سَيّارَتانِ": V + "sayyaratani.mp3", "قَلَمانِ": V + "qalamani.mp3", "مَدْرَسَتانِ": V + "madrasatani.mp3"})
+
+def l4():
+    """The difficulty ladder #4, the weekly quiz (#355): five words from the salah, each harder: صَلاة prayer 90% → سُبْحانَ glory be to 70%
+    (ruku) → الْعَظِيم the Magnificent 45% → نَسْتَعِينُ we ask for help 20% (1:5) → the final boss الْمَغْضُوبِ those who earned anger 3% (1:7).
+    The percentages are a game device, not data. Voices: brag-quiz/voice/nov10-lines.json (l4-*)."""
+    A = lambda w: f'<span class="ar" lang="ar">{w}</span>'
+    V = W10 + "l4-"
+    ladder("l4-salah", [
+        (90, "How do you say <b>“prayer”</b> in Arabic?", "", f"<b>{A('صَلاة')}</b> &nbsp;<b>ṣalāh</b>", "صَلاة", "ans", ""),
+        (70, "You say it in every rukūʿ. What does it mean?", A("سُبْحانَ"), "<b>glory be to</b>", "سُبْحانَ", "big", ""),
+        (45, "It comes straight after. What does it mean?", A("الْعَظِيم"), "<b>the Magnificent</b>", "الْعَظِيم", "big", ""),
+        (20, "From al-Fātiḥah. What does this mean?", A("نَسْتَعِينُ"), "<b>we ask for help</b>", "نَسْتَعِينُ", "big", "Got this far? Comment below 👇"),
+        (3, "The final boss 😈 What does this mean?", A("الْمَغْضُوبِ"), "<b>those who earned anger</b>", "الْمَغْضُوبِ", "big", "al-Fātiḥah 1:7, every rakʿah"),
+    ], "How far did you get? Comment your level 👇 and send this to someone you pray with",
+           voice={"صَلاة": V + "salah.mp3", "سُبْحانَ": V + "subhana.mp3", "الْعَظِيم": V + "azim.mp3", "نَسْتَعِينُ": V + "nastain.mp3", "الْمَغْضُوبِ": V + "maghdub.mp3"},
+           kicker="QUIZ · WORDS FROM YOUR SALAH",
+           hook=("FIVE words from your salah, each one harder. How far can you get?".split(), {0: "loud", 4: "red", 7: "circle"}, V + "h1.mp3", ("WORDS", 5)),
+           vo=[V + f"q{k}.mp3" for k in range(1, 6)], end="brag-quiz/voice/ladder3/end.mp3")
+
+MASJID = [  # (the Arabic, said by Rafiq; its transliteration; what it means; the doodle and colour; the label)
+    ("السَّلامُ عَلَيْكُمْ وَرَحْمَةُ اللّٰهِ", "as-salāmu ʿalaykum wa raḥmatu llāh", "Peace be upon you, and the mercy of Allah.", "dome", "sage", "walking in"),
+    ("أَيْنَ مَكانُ الْوُضُوءِ؟", "ayna makānu l-wuḍūʾ?", "Where's the place for wudu?", "pin", "sky", "wudu"),
+    ("مَتى الْإِقامَةُ؟", "matā l-iqāmah?", "When is the iqamah?", "moon", "butter", "the start of the prayer"),
+    ("هَلْ هٰذا الْمَكانُ فارِغٌ؟", "hal hādha l-makānu fārigh?", "Is this place free?", "ring", "peach", "a space in the row"),
+    ("جَزاكَ اللّٰهُ خَيْرًا", "jazāka llāhu khayran", "May Allah reward you with good.", "heart", "blush", "saying thank you")]
+MAS_DOODLES = [("dome", 50, 1440, 120, -8, "sage"), ("moon", 900, 1320, 90, 10, "sky"), ("star", 120, 560, 60, 0, "butter"), ("lantern", 900, 600, 110, 6, "peach"),
+               ("heart", 60, 1000, 100, -10, "blush"), ("pin", 930, 1000, 90, 8, "sage"), ("star", 940, 1700, 54, 0, "butter"), ("minbar", 140, 1700, 100, -6, "sky")]
+
+def u2():
+    """5 Arabic sentences for the masjid (#355), u1-umrah's list format: hook "SAVE this for your next trip to the masjid: five Arabic
+    sentences you'll actually use!"; each sentence: Callum sets the scene, Rafiq says it (its words come in as he says them), the
+    transliteration, then Callum says what it means. Voices: brag-quiz/voice/nov10-lines.json (u2-*)."""
+    V = W10 + "u2-"
+    c = SO.vcomp("u2-masjid", "ARABIC FOR THE MASJID"); c.bed = True; body = []; serif(c); c.css += GROW_CSS
+    finish = pastel(c, body, MAS_DOODLES)
+    def anim(c, at, d):                                  # the dome drawn as "masjid" is said; the 1-5 count clicks up on "Five"
+        draw_on(c, "hkb", at(8) - 0.2, 0.6)
+        c.t(f'(() => {{ const o = {{v:0}}, el = document.getElementById("hcnt"); tl.fromTo(o, {{v:0}}, {{v:5, duration:0.8, ease:"power1.out", immediateRender:false, '
+            f'onUpdate:() => {{ el.textContent = Math.round(o.v); }}}}, {at(9):.2f}); }})();')
+        for k in range(5): clip(c, "brag-quiz/sfx/ref/click.wav", at(9) + 0.8 * (1 - (1 - (k + 1) / 5) ** 2), 0.6)
+        pop(c, "#hcnb", at(9) - 0.1, False)
+    words = "SAVE this for your next trip to the masjid. Five Arabic sentences you’ll actually use!".split()
+    title = (doodle("dome", 400, 230, 280, "sage", "hkb", True, 7)
+             + '<div class="yr" id="hcnb" style="top:1330px"><small>SENTENCES</small><b id="hcnt">0</b></div>')
+    t = hook_in(c, body, (words, {0: "loud", 8: "red", 9: "circle"}, V + "h1.mp3"), bg=(title, anim))
+    c.css += "#hook .hookline { top:600px; font-size:96px; } .ua { position:absolute; left:40px; right:40px; text-align:center; font-family:var(--ar); font-weight:700; line-height:1.5; color:var(--ink); direction:rtl; } .ua span { display:inline-block; opacity:0; } .ua span.k { color:var(--rubric); }"
+    for k, (ar, tr, en, dd, col, lab) in enumerate(MASJID, 1):
+        s = f"s{k}"; A, M = V + f"a{k}.mp3", V + f"m{k}.mp3"
+        whip_in(c, s, t); pop(c, f"#{s}n", t + 0.05, False); draw_on(c, f"{s}d", t + 0.1, 0.7)
+        da = clip(c, A, t + 0.15); h = cap(c, f"{s}a", A, t + 0.15, ((("walking", "g"), ("wudu", "r"), ("start", "g"), ("row", "r"), ("helps", "g"))))
+        u = t + 0.15 + da + 0.2; cap_out(c, f"{s}a", u - 0.1)
+        dr = say_up(c, "", u, src=V + f"ar{k}.mp3")
+        ws = ar.split()
+        for i in range(len(ws)): c.t(f'tl.fromTo("#{s}w{i}", {{opacity:0, scale:1.5, filter:"blur(10px)"}}, {{opacity:1, scale:1, filter:"blur(0px)", duration:0.3, ease:"expo.out"}}, {u + dr * i / len(ws) - 0.05:.2f});')
+        c.sfx("tap", u)
+        pop(c, f"#{s}t", u + dr * 0.6, False)
+        v = u + dr + 0.25; dm = clip(c, M, v)
+        c.t(f'tl.fromTo("#{s}m", {{opacity:0, scale:1.6}}, {{opacity:1, scale:1, duration:0.25, ease:"power4.in"}}, {v - 0.05:.2f});')
+        clip(c, "brag-quiz/sfx/soft/thump.wav", v + 0.18, 0.5)
+        fs = 108 if len(ar) < 24 else 88
+        body.append(f'<div class="sec" id="{s}"><div class="sp mid" id="{s}n" style="top:250px;font-size:44px"><b style="color:var(--rubric)">{k}/5</b> · {lab}</div>'
+                    + doodle(dd, 410, 360, 260, col, f"{s}d", True, 7)
+                    + f'<div class="ua" id="{s}ar" style="top:700px;font-size:{fs}px">' + " ".join(f'<span id="{s}w{i}">{e(w)}</span>' for i, w in enumerate(ws)) + '</div>'
+                    f'<div class="sp mid" id="{s}t" style="top:1010px;font-size:46px;font-style:italic">{tr}</div>'
+                    f'<div class="slamw" id="{s}m" style="top:1180px;font-size:{80 if len(en) < 34 else 64}px">{en}</div>{h}</div>')
+        c.css += f"#{s}a {{ top:1180px; }}"
+        t = whip_out(c, s, v + dm + 0.6)
+    end = clip(c, V + "end.mp3", t)
+    body.append('<div id="pflash"></div>' + c.end(t, "Which one will you use first? Comment below 👇 and send this to someone you go to the masjid with"))
+    total = round(t + end + 0.9, 2); finish(total)
+    c.write("\n".join("      " + b for b in body), total)
+
 ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-adhan": a1, "a2-adhan": a2,
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "g6-i-she": g6, "g7-we": g7, "g8-you": g8, "w8-subhana-azim": w8,
        "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1, "l3-quran": l3,
-       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2, "n5-salah": n5, "h1-algebra": h1, "h2-coffee": h2, "h3-lisan": h3, "h4-khutbah": h4, "u1-umrah": u1}
+       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2, "n5-salah": n5, "h1-algebra": h1, "h2-coffee": h2, "h3-lisan": h3, "h4-khutbah": h4, "u1-umrah": u1, "g9-past-you": g9, "g10-they": g10, "g11-two": g11, "l4-salah": l4, "u2-masjid": u2}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
