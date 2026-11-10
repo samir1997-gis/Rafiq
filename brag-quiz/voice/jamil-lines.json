@@ -1,0 +1,113 @@
+[
+ {
+  "file": "h1",
+  "text": "In Arabic, 'beautiful' and 'camel' are built from the same three letters.",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "b1",
+  "text": "This is jameel: beautiful. Its three root letters: jeem, meem, laam.",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "b2",
+  "text": "Keep those three letters, change the vowels, and you get jamal: a camel.",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "b3",
+  "text": "To the Arabs, a herd of camels was beauty and wealth in one. Allah even says it about livestock:",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "b3b",
+  "text": "And for you there is beauty in them.",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "b4",
+  "text": "The same letters give you jumla: a sentence. Many words, gathered into one.",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "t1",
+  "text": "Your turn. The Prophet, peace be upon him, said: Allah is jameel, and He loves al-jamaal. Is al-jamaal camels, or beauty?",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "b5",
+  "text": "Beauty. Allah is beautiful, and He loves beauty.",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "end",
+  "text": "Tag someone beautiful. Just maybe don't call them a camel.",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05
+ },
+ {
+  "file": "jamil",
+  "text": "جَمِيل",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9
+ },
+ {
+  "file": "jamal",
+  "text": "جَمَل",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9
+ },
+ {
+  "file": "jumla",
+  "text": "جُمْلَة",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9
+ },
+ {
+  "file": "hadith",
+  "text": "إِنَّ اللَّهَ جَمِيلٌ يُحِبُّ الْجَمالَ",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9
+ },
+ {
+  "file": "nahl-16-6",
+  "url": [
+   "https://everyayah.com/data/Husary_128kbps/016006.mp3",
+   "https://verses.quran.foundation/Husary/Muallim/mp3/016006.mp3"
+  ]
+ }
+]
