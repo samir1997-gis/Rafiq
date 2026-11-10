@@ -227,6 +227,33 @@ def crane(x, y):
 def heart(x, y, s=1.0, c=RED):
     return f'<path transform="translate({x},{y}) scale({s})" d="M0 30 C -60 -10 -50 -60 -20 -60 C -6 -60 0 -48 0 -40 C 0 -48 6 -60 20 -60 C 50 -60 60 -10 0 30 Z" fill="{c}" {O}/>'
 
+PICS = "file://" + os.path.join(os.path.dirname(S.HERE), "pics")
+def pic(i, x, y, d=300):                                                 # one of the app's word pictures (pics/<id>.svg), a round badge centred at (x, y)
+    r = d / 2
+    return (f'<circle cx="{x + 8}" cy="{y + 8}" r="{r + 4}" fill="{INK}"/><circle cx="{x}" cy="{y}" r="{r + 4}" fill="{INK}"/>'
+            f'<image href="{PICS}/{i}.svg" x="{x - r}" y="{y - r}" width="{d}" height="{d}"/>')
+def arrow(x1, x2, y):
+    return f'<path d="M{x1} {y} L {x2} {y}" stroke="{INK}" stroke-width="14" stroke-linecap="round"/><path d="M{x2 - 26} {y - 26} L {x2} {y} L {x2 - 26} {y + 26}" fill="none" stroke="{INK}" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>'
+def tag(x, y, t, c="#FFF8EC", fs=46):
+    w = 30 + len(t) * fs * 0.55
+    return f'<rect x="{x - w / 2}" y="{y - fs * 0.85}" width="{w}" height="{fs * 1.3}" rx="{fs * 0.4}" fill="{c}" {O}/><text x="{x}" y="{y + fs * 0.2}" text-anchor="middle" font-family="FR" font-size="{fs}" fill="{INK}">{t}</text>'
+def bee(x, y, s=1.0):
+    return (f'<g transform="translate({x},{y}) scale({s})"><ellipse cx="-14" cy="-40" rx="26" ry="34" fill="#fff" opacity=".85" {O}/><ellipse cx="18" cy="-40" rx="26" ry="34" fill="#fff" opacity=".85" {O}/>'
+            f'<ellipse cx="0" cy="0" rx="58" ry="40" fill="#FFC93C" {O}/><path d="M-18 -38 C -26 -10 -26 10 -18 38 M 10 -40 C 2 -12 2 12 10 40" stroke="{INK}" stroke-width="14" fill="none"/>'
+            f'<circle cx="58" cy="-4" r="22" fill="{INK}"/><path d="M-58 0 L -80 0" stroke="{INK}" stroke-width="8" stroke-linecap="round"/></g>')
+def ant(x, y, s=1.0):
+    return (f'<g transform="translate({x},{y}) scale({s})">' + "".join(f'<path d="M{dx} 0 L {dx - 14} 30 M {dx} 0 L {dx + 14} 30" stroke="{INK}" stroke-width="6" stroke-linecap="round"/>' for dx in (-20, 0, 20))
+            + f'<ellipse cx="-44" cy="-4" rx="30" ry="22" fill="#7a3b1c" {O}/><ellipse cx="0" cy="-6" rx="20" ry="16" fill="#7a3b1c" {O}/><circle cx="34" cy="-14" r="18" fill="#7a3b1c" {O}/>'
+            f'<path d="M40 -30 C 46 -50 60 -54 66 -50 M 30 -30 C 30 -54 42 -60 50 -60" fill="none" stroke="{INK}" stroke-width="5" stroke-linecap="round"/></g>')
+def cotton(x, y, s=1.0):
+    return (f'<g transform="translate({x},{y}) scale({s})"><path d="M0 0 L 0 -150 M 0 -90 L -60 -150 M 0 -110 L 60 -170" stroke="#2E7263" stroke-width="12" stroke-linecap="round"/>'
+            + "".join(f'<g transform="translate({a},{b})"><circle r="34" fill="#fff" {O}/><circle cx="-22" cy="10" r="24" fill="#fff" {O}/><circle cx="22" cy="10" r="24" fill="#fff" {O}/><circle r="30" fill="#fff"/></g>' for a, b in ((0, -170), (-64, -168), (64, -188)))
+            + '</g>')
+def cloud(x, y, s=1.0, c="#fff"):
+    return f'<g transform="translate({x},{y}) scale({s})"><path d="M-110 30 C -150 30 -150 -30 -104 -26 C -100 -80 -20 -90 0 -46 C 20 -96 110 -80 100 -20 C 150 -20 150 30 110 30 Z" fill="{c}" {O}/></g>'
+def book2(x, y, s=1.0, c="#8a5a2b", tilt=0):
+    return f'<g transform="translate({x},{y}) rotate({tilt}) scale({s})"><rect x="-70" y="-180" width="140" height="180" rx="10" fill="{c}" {O}/><path d="M-50 -150 L 50 -150 M -50 -125 L 30 -125" stroke="#fff" stroke-width="6" opacity=".6"/></g>'
+
 # per set, per slide: (background, marker colour, doodle colours, the scene's SVG)
 ART = {"pronouns": {
  "cover": ("#FFC93C", None, ["#fff", "#FF7A59", "#4D96FF"], None),
@@ -428,6 +455,93 @@ ART = {"pronouns": {
  "watch out: mum": ("#F49AC1", "#FFE66D", ["#fff", "#FFE66D"], person(470, 372, 1.15, SKIN[1], "hijab:#2E7263", "#9B6BFF", None, "fold") + person(660, 372, 0.7, SKIN[1], "hair:#2a1d14", "#FFC93C", None, "wave")
           + heart(570, 80, 1.1)),
  "end": ("#9B6BFF", None, ["#FFE66D", "#fff", "#F49AC1"], None),
+},
+ "plurals": {
+ "cover": ("#9B6BFF", None, ["#fff", "#FFE66D", "#FF7A59"], None),
+ "books": ("#4D96FF", "#FFE66D", ["#FFE66D", "#fff"], bookc(190, 360, 1.3, "#FF7A59") + tag(190, 60, "1") + arrow(330, 470, 250) + bookc(640, 360, 1.15, "#2EB67D") + bookc(790, 360, 1.25, "#FFC93C") + bookc(940, 360, 1.1, "#9B6BFF") + tag(790, 60, "3+")),
+ "houses": ("#2EB67D", "#FFE66D", ["#FFE66D", "#fff"], house(190, 372, 0.8) + tag(190, 60, "1") + arrow(330, 470, 250) + house(620, 372, 0.6) + house(800, 372, 0.7) + house(970, 372, 0.55) + tag(800, 60, "3+")),
+ "pens": ("#FF7A59", "#FFE66D", ["#FFE66D", "#fff"], pic(692, 190, 210, 260) + arrow(360, 480, 210) + pic(692, 620, 230, 190) + pic(692, 790, 190, 190) + pic(692, 950, 230, 190)),
+ "men": ("#9B6BFF", "#FFE66D", ["#FFE66D", "#fff"], person(190, 372, 1.0, SKIN[1], "kufi", "#4D96FF", "#2a1d14") + arrow(330, 450, 230)
+          + "".join(person(x, 372, 0.9, sk, "kufi", bd, "#2a1d14") for x, sk, bd in ((600, SKIN[0], "#FFC93C"), (780, SKIN[2], "#2EB67D"), (960, SKIN[3], "#fff")))),
+ "children": ("#F49AC1", "#FFE66D", ["#fff", "#FFE66D"], person(190, 372, 0.75, SKIN[1], "hair:#2a1d14", "#4D96FF", None, "wave") + arrow(320, 440, 240)
+          + person(590, 372, 0.7, SKIN[0], "hair:#3a2a1c", "#FFC93C", None, "wave") + person(760, 372, 0.72, SKIN[2], "hijab:#9B6BFF", "#2EB67D") + person(930, 372, 0.68, SKIN[3], "hair:#2a1d14", "#FF7A59", None, "wave")),
+ "masjids": ("#2E7263", "#FFE66D", ["#FFC93C", "#fff"], mosque(190, 372, 0.7) + arrow(370, 480, 250) + mosque(650, 372, 0.6) + mosque(880, 372, 0.6, "#FFE66D")),
+ "teachers": ("#FFB23F", "#fff", ["#fff", "#FF7A59"], board(540, 300, 360, 200) + person(170, 372, 0.95, SKIN[1], "kufi", "#4D96FF", "#2a1d14", "wave") + person(330, 372, 0.9, SKIN[2], "kufi", "#2EB67D", "#2a1d14")
+          + person(770, 372, 0.95, SKIN[3], "hijab:#FF7A59", "#9B6BFF", None, "wave") + person(930, 372, 0.9, SKIN[0], "hijab:#2E7263", "#FFC93C")),
+ "end": ("#9B6BFF", None, ["#FFE66D", "#fff", "#FF7A59"], None),
+},
+ "opposites": {
+ "cover": ("#FF7A59", None, ["#fff", "#FFE66D", "#4D96FF"], None),
+ "big ↔ small": ("#4D96FF", "#FFE66D", ["#FFE66D", "#fff"], house(300, 372, 1.35) + house(800, 372, 0.6)),
+ "new ↔ old": ("#2EB67D", "#FFE66D", ["#FFE66D", "#fff"], bookc(320, 372, 1.5, "#FF7A59") + star(160, 120, 34) + star(470, 90, 26, "#fff") + book2(770, 372, 1.4, "#8a5a2b", 8)
+          + f'<path d="M640 120 l 30 20 M 700 90 l 10 30 M 880 110 l -26 26" stroke="#d9cbae" stroke-width="8" stroke-linecap="round"/>'),
+ "near ↔ far": ("#9B6BFF", "#FFE66D", ["#FFE66D", "#fff"], f'<path d="M0 390 C 300 380 600 300 1080 260 L 1080 390 Z" fill="#7bd389" {O}/>' + mosque(300, 380, 0.95) + mosque(900, 270, 0.32) + person(560, 380, 0.8, SKIN[1], "kufi", "#FFC93C", "#2a1d14", "wave")),
+ "tall ↔ short": ("#FFB23F", "#fff", ["#fff", "#FF7A59"], person(400, 380, 1.3, SKIN[2], "kufi", "#4D96FF", "#2a1d14", "wave") + person(680, 380, 0.85, SKIN[2], "hair:#2a1d14", "#2EB67D")),
+ "easy ↔ hard": ("#F49AC1", "#FFE66D", ["#fff", "#FFE66D"], board(300, 300, 340, 200).replace("أ ب ت", "1 + 1") + board(780, 300, 340, 200).replace("أ ب ت", "∑ ∫ √")),
+ "open ↔ closed": ("#2E7263", "#FFE66D", ["#FFC93C", "#fff"], house(300, 372, 1.1) + f'<g transform="translate(780,372)"><rect x="-120" y="-300" width="240" height="300" rx="12" fill="#8a5a2b" {O}/><circle cx="80" cy="-150" r="14" fill="{GOLD}" {O}/><rect x="-90" y="-270" width="180" height="100" rx="8" fill="none" stroke="{INK}" stroke-width="6" opacity=".4"/></g>'),
+ "end": ("#FF7A59", None, ["#FFC93C", "#fff", "#4D96FF"], None),
+},
+ "house": {
+ "cover": ("#2EB67D", None, ["#fff", "#FFE66D", "#FF7A59"], None),
+ "house": ("#FF7A59", "#FFE66D", ["#FFE66D", "#fff"], house(540, 372, 1.3) + person(840, 372, 0.9, SKIN[1], "hijab:#2E7263", "#9B6BFF", None, "wave") + person(240, 372, 0.9, SKIN[1], "kufi", "#4D96FF", "#2a1d14", "wave")),
+ "door": ("#4D96FF", "#FFE66D", ["#FFE66D", "#fff"], pic(7, 540, 200, 360)),
+ "room": ("#9B6BFF", "#FFE66D", ["#FFE66D", "#fff"], pic(669, 360, 200, 330) + pic(741, 740, 200, 330)),
+ "kitchen": ("#FFB23F", "#fff", ["#fff", "#FF7A59"], pic(672, 540, 200, 360)),
+ "window": ("#2E7263", "#FFE66D", ["#FFC93C", "#fff"], pic(741, 540, 200, 360)),
+ "bed": ("#F49AC1", "#FFE66D", ["#fff", "#FFE66D"], pic(95, 540, 200, 360) + moon(880, 90, 0.8)),
+ "end": ("#2EB67D", None, ["#FFE66D", "#fff", "#FF7A59"], None),
+},
+ "weather": {
+ "cover": ("#4D96FF", None, ["#fff", "#FFE66D", "#cfe9ff"], None),
+ "sun": ("#FFB23F", "#fff", ["#fff", "#FF7A59"], sun(540, 200, 1.6, "#FFE66D")),
+ "rain": ("#4D96FF", "#FFE66D", ["#fff", "#cfe9ff"], pic(349, 540, 200, 360)),
+ "clouds": ("#9fd8ff", "#FFE66D", ["#fff", "#4D96FF"], cloud(330, 150, 1.4) + cloud(760, 230, 1.1) + cloud(560, 330, 0.7, "#eaf2f7") + sun(900, 80, 0.5, "#FFE66D")),
+ "wind": ("#2EB67D", "#FFE66D", ["#fff", "#FFE66D"], pic(425, 540, 200, 360)),
+ "snow": ("#1D3557", "#FFE66D", ["#fff", "#cfe9ff"], pic(353, 380, 200, 300) + pic(371, 760, 200, 300)),
+ "cold ↔ hot": ("#9B6BFF", "#FFE66D", ["#FFE66D", "#fff"], pic(350, 340, 200, 320) + pic(360, 740, 200, 320)),
+ "end": ("#4D96FF", None, ["#FFE66D", "#fff", "#cfe9ff"], None),
+},
+ "english": {
+ "cover": ("#FFC93C", None, ["#fff", "#FF7A59", "#9B6BFF"], None),
+ "coffee": ("#FF7A59", "#FFE66D", ["#FFE66D", "#fff"], dallah(400, 360, 1.3) + finjan(620, 360, 1.3) + finjan(760, 360, 1.3)),
+ "sugar": ("#F49AC1", "#FFE66D", ["#fff", "#FFE66D"], pic(331, 540, 200, 360)),
+ "cotton": ("#2EB67D", "#FFE66D", ["#FFE66D", "#fff"], cotton(380, 380, 1.3) + cotton(720, 380, 1.1)),
+ "giraffe": ("#FFB23F", "#fff", ["#fff", "#FF7A59"], pic(686, 540, 200, 360)),
+ "lemon": ("#4D96FF", "#FFE66D", ["#FFE66D", "#fff"], pic(733, 540, 200, 360)),
+ "syrup": ("#9B6BFF", "#FFE66D", ["#FFE66D", "#fff"], pic(685, 540, 200, 360)),
+ "jar": ("#2E7263", "#FFE66D", ["#FFC93C", "#fff"], pic(189, 540, 200, 360)),
+ "end": ("#FFC93C", None, ["#fff", "#FF7A59", "#9B6BFF"], None),
+},
+ "replies": {
+ "cover": ("#2E7263", None, ["#FFC93C", "#fff", "#FF7A59"], None),
+ "peace": ("#4D96FF", "#FFE66D", ["#FFE66D", "#fff"], person(380, 372, 1.15, SKIN[1], "kufi", "#2EB67D", "#2a1d14", "wave") + person(700, 372, 1.15, SKIN[3], "kufi", "#FFC93C", "#3a2a1c", "wave")),
+ "good morning": ("#FFB23F", "#fff", ["#fff", "#FF7A59"], sun(540, 120, 0.9, "#FFE66D") + person(300, 372, 1.0, SKIN[0], "hijab:#9B6BFF", "#2EB67D", None, "wave") + person(780, 372, 1.0, SKIN[2], "hijab:#2E7263", "#FF7A59", None, "wave")),
+ "how are you?": ("#9B6BFF", "#FFE66D", ["#FFE66D", "#fff"], person(360, 372, 1.1, SKIN[1], "kufi", "#4D96FF", "#2a1d14", "wave") + person(720, 372, 1.1, SKIN[4], "kufi", "#fff", "#e6e6e6", "self")),
+ "thank you": ("#2EB67D", "#FFE66D", ["#FFE66D", "#fff"], person(330, 372, 1.05, SKIN[3], "hijab:#FF7A59", "#4D96FF", None, "self") + teaglass(560, 330, 1.0) + person(780, 372, 1.05, SKIN[0], "hair:#3a2a1c", "#FFC93C", None, "wave")),
+ "may Allah reward you": ("#FF7A59", "#FFE66D", ["#FFE66D", "#fff"], person(330, 372, 1.05, SKIN[2], "kufi", "#2E7263", "#2a1d14", "self") + bag(560, 360, 0.9, "#FFC93C") + person(790, 372, 1.05, SKIN[1], "kufi", "#9B6BFF", "#2a1d14", "fold")),
+ "after a sneeze": ("#F49AC1", "#FFE66D", ["#fff", "#FFE66D"], person(360, 372, 1.1, SKIN[0], "kufi", "#4D96FF", "#2a1d14", "self") + tag(360, 60, "Achoo!", "#fff", 50) + person(740, 372, 1.1, SKIN[3], "hair:#2a1d14", "#2EB67D", None, "wave")),
+ "goodbye": ("#4D96FF", "#FFE66D", ["#FFE66D", "#fff"], person(300, 372, 1.05, SKIN[1], "hijab:#2E7263", "#FFC93C", None, "wave") + car(760, 360, 1.2)),
+ "end": ("#2E7263", None, ["#FFC93C", "#fff", "#FF7A59"], None),
+},
+ "animals": {
+ "cover": ("#2EB67D", None, ["#fff", "#FFE66D", "#FF7A59"], None),
+ "the cow": ("#FFB23F", "#fff", ["#fff", "#FF7A59"], pic(719, 540, 200, 360)),
+ "livestock": ("#2EB67D", "#FFE66D", ["#FFE66D", "#fff"], pic(742, 250, 200, 280) + pic(540, 540, 210, 280) + pic(650, 830, 200, 280)),
+ "the bee": ("#4D96FF", "#FFE66D", ["#FFE66D", "#fff"], flower(300, 380, "#FF7A59", 1.3) + flower(820, 380, "#F49AC1", 1.1) + bee(560, 170, 1.4) + bee(860, 90, 0.7)),
+ "the ant": ("#FFC93C", "#fff", ["#fff", "#FF7A59"], hills("#7bd389") + "".join(ant(x, 330 - (i % 2) * 10, 0.9) for i, x in enumerate((200, 420, 640, 860)))),
+ "the spider": ("#1D3557", "#FFE66D", ["#FFE66D", "#fff"], pic(705, 540, 200, 360) + moon(900, 90, 0.7)),
+ "the elephant": ("#9B6BFF", "#FFE66D", ["#FFE66D", "#fff"], pic(633, 540, 200, 360)),
+ "end": ("#2EB67D", None, ["#FFE66D", "#fff", "#FF7A59"], None),
+},
+ "phrases": {
+ "cover": ("#FF7A59", None, ["#fff", "#FFE66D", "#9B6BFF"], None),
+ "bismillāh": ("#2EB67D", "#FFE66D", ["#FFE66D", "#fff"], person(300, 372, 1.05, SKIN[1], "kufi", "#4D96FF", "#2a1d14", "fold") + plate(680, 330, 1.4, "dates") + teaglass(900, 330, 0.9)),
+ "in shāʾ Allāh": ("#4D96FF", "#FFE66D", ["#FFE66D", "#fff"], cal(540, 230, "?", "#FF7A59", 1.25) + tag(540, 360, "tomorrow", "#FFE66D", 44)),
+ "mā shāʾ Allāh": ("#9B6BFF", "#FFE66D", ["#FFE66D", "#fff"], hills() + "".join(flower(x, 360, c, k) for x, c, k in ((200, "#FF7A59", 1.2), (380, "#FFE66D", 1.0), (560, "#F49AC1", 1.3), (740, "#fff", 1.0), (900, "#FF7A59", 1.15))) + sun(540, 90, 0.5, "#FFE66D")),
+ "subḥān Allāh": ("#1D3557", "#FFE66D", ["#FFE66D", "#fff"], hills("#2E7263") + moon(760, 140, 1.4) + star(300, 90, 36) + star(480, 200, 22, "#fff") + star(160, 230, 18, "#fff") + star(940, 280, 24, "#fff") + star(600, 60, 18, "#fff")),
+ "al-ḥamdu lillāh": ("#FFB23F", "#fff", ["#fff", "#FF7A59"], person(420, 372, 1.15, SKIN[3], "hijab:#2E7263", "#9B6BFF", None, "self") + heart(700, 170, 1.6)),
+ "Allāhu akbar": ("#2E7263", "#FFE66D", ["#FFC93C", "#fff"], mosque(540, 380, 1.0)),
+ "end": ("#FF7A59", None, ["#FFC93C", "#fff", "#9B6BFF"], None),
 }}
 CAST = (person(130, 300, 0.85, SKIN[1], "hair:#3a2a1c", "#2E7263", "#2a1d14", "wave") + person(330, 300, 0.85, SKIN[3], "kufi", "#FF7A59", "#2a1d14")
         + person(530, 300, 0.85, SKIN[2], "hijab:#9B6BFF", "#2E7263") + person(730, 300, 0.85, SKIN[0], "kufi", "#fff", "#e6e6e6", "fold")
