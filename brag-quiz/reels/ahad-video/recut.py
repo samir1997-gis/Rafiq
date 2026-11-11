@@ -65,7 +65,9 @@ elif STEP == "config":
        "[a2][b2][c2]amix=inputs=3:normalize=0,highpass=f=180,lowpass=f=6000[echo];[l]lowpass=f=160,volume=1.6,apad=pad_dur=1.2[bass];[echo][bass]amix=inputs=2:normalize=0[o]",
        "-map", "[o]", "-ar", "48000", P("fx/hook.wav"))
     AUDIO.append([P("fx/hook.wav"), a, 1.0])
-    C.update(panels=panels, flicks=[[0, 2.2, "THEY SAID:", 200]], audio=AUDIO, sections=[[0, END]])
+    NOFLICK = os.environ.get("NOFLICK")              # owner, 11 Nov 2026: no flicker at all (and none of its face close-ups); a salah hook goes on the front instead
+    if NOFLICK: C["broll"]["flick"] = []
+    C.update(panels=panels, flicks=[] if NOFLICK else [[0, 2.2, "THEY SAID:", 200]], audio=AUDIO, sections=[[0, END]])
     json.dump(C, open(P("config.json"), "w"), indent=1, ensure_ascii=False)
     print("panels", [(p[0], p[1], os.path.basename(p[3]["src"])) for p in panels], "| sounds", len(AUDIO))
 
@@ -104,7 +106,7 @@ elif STEP == "zoom":    # 5% in, his face centred every frame; where there's no 
         if near[n]: off.append(round((fx[n] * SW - x0) / cw, 3))
     enc.stdin.close(); enc.wait(); dec.stdout.close()
     print("his face across the screen:", min(off), "to", max(off), "(0.5 = centre)")
-if STEP in ("zoom", "selfs"):   # the flicker's clips: tight on his face only (his edit's captions and titles sit lower and behind him)
+if STEP in ("zoom", "selfs") and not os.environ.get("NOFLICK"):   # the flicker's clips: tight on his face only (his edit's captions and titles sit lower and behind him)
     LOOK = ["crop=iw*.42:ih*.3:iw*.29:ih*.2", "hue=s=0,eq=contrast=1.35:brightness=-.03,crop=iw*.46:ih*.32:iw*.27:ih*.19", "crop=iw*.38:ih*.27:iw*.31:ih*.21",
             "hue=s=0,crop=iw*.34:ih*.24:iw*.33:ih*.22", "crop=iw*.44:ih*.31:iw*.28:ih*.2", "hue=s=0,crop=iw*.4:ih*.28:iw*.3:ih*.2"]
     for k, t in enumerate(SELF):
