@@ -2,7 +2,7 @@
   - the steps: two word lessons, then How it works, the rest of the words, Practise, and the
     conversation last (unit 4 unchanged); progress saved under the old order still counts
   - unit 1 starts with ten single words; greeting phrases are shown word by word
-  - word lessons end with "Hear it, pick the word"
+  - word lessons end with "Hear it, pick the word" (unit 3; units 1 and 2 have their own lesson, #358)
   - How it works has the new cards (three endings, the past, describing words, 'this house'),
     each with a common mistake crossed out
   - Practise only uses exercises made from taught words
@@ -60,7 +60,9 @@ def main():
         # word lessons: phrases word by word, and the hearing round
         p = page_with(b, seen("p:00|placed", "p:01|words1", "p:01|review2"), errors); p.goto(BASE + "learn.html?u=01&s=words2"); p.wait_for_timeout(1500)   # the old address opens meet3
         parts = p.eval_on_selector_all(".wparts span", "ss => ss.map(s => s.innerText.replace(/\\n/g, ' = '))")
-        ok.append(("السَّلامُ عَلَيْكُم taken apart " + str(parts), len(parts) == 2 and "peace" in parts[0]))
+        ok.append(("السَّلامُ عَلَيْكُم taken apart " + str(parts), len(parts) == 2 and "peace" in parts[0])); p.close()
+        # units 1 and 2 have their own lesson now (#358, tests/unit_games.py); unit 3 keeps this one
+        p = page_with(b, seen("p:00|placed", "p:01|placed", "p:02|placed"), errors); p.goto(BASE + "learn.html?u=03&s=meet1"); p.wait_for_timeout(1500)
         kinds, last = [], None
         for _ in range(120):
             if "learn.html" not in p.url: break

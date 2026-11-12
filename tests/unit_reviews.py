@@ -40,8 +40,15 @@ nxt = lambda p: p.evaluate("(() => { const n = RafiqPath.next(); return n.unit.n
 def answer(p, right):
     """Answer the question on screen, right or wrong; returns its item id. Then Next (a right answer
     can move on by itself, so whichever comes first)."""
-    i = p.evaluate("""right => { const x = asking, o = [...document.querySelectorAll('.opt')];
-      window.__q = x; (right ? o.find(b => b.textContent === x.right) : o.find(b => b.textContent !== x.right)).click(); return x.id; }""", right)
+    if p.evaluate("!!asking.build"):               # units 1 and 2 (#358): a phrase built from tiles; "Show the answer" is a miss
+        i = p.evaluate("(() => { window.__q = asking; return asking.id; })()")
+        if right:
+            for t in p.evaluate("asking.parts"): p.locator(".tl-pool .tl-tile", has_text=t).first.click()
+            p.locator(".tl-check").click()
+        else: p.get_by_text("Show the answer").click()
+    else:                                          # the choice itself is kept on the button (_o): a picture has no text
+        i = p.evaluate("""right => { const x = asking, o = [...document.querySelectorAll('.opt')];
+          window.__q = x; (right ? o.find(b => b._o === x.right) : o.find(b => b._o !== x.right)).click(); return x.id; }""", right)
     p.evaluate("""() => { if(asking === window.__q){ const n = document.querySelector('button.go:not([disabled])'); if(n) n.click(); } }""")
     p.wait_for_function("asking !== window.__q || !!document.querySelector('.done')", polling=100, timeout=10000); p.wait_for_timeout(100)
     return i
