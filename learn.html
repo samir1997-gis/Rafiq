@@ -1410,7 +1410,10 @@ function askOne(x, head, onAnswer, onNext){
 function buildOne(w, pool, head, graded, onAnswer, onNext){
   const parts=w.ar.trim().split(/\s+/);
   asking={id:'v:'+w.id, build:true, right:w.ar, parts};
-  const decoys=shuffle([...new Set(pool.filter(x=>x!==w && !x.ar.includes('/')).flatMap(x=>x.ar.trim().split(/\s+/)))].filter(t=>!parts.includes(t))).slice(0,2);
+  // tiles that don't belong: other words' pieces, but never a piece's twin with or without its last vowel mark (السَّلام / السَّلامُ)
+  const bare=t=>t.replace(/[\u064B-\u0652]+$/,'');
+  const decoys=shuffle([...new Set(pool.filter(x=>x!==w && !x.ar.includes('/')).flatMap(x=>x.ar.trim().split(/\s+/)))]
+    .filter(t=>!parts.some(q=>q===t || bare(q)===t || bare(t)===q))).slice(0,2);
   const body=el(`<div><p class="kicker">${esc(head)}</p><div class="card">${PICS.has(w.id)?`<div class="pic sm" aria-hidden="true">${wordPic(w.id)}</div>`:''}
     <div class="en" style="margin:0">${esc(gloss(w.en))}</div><p class="howto">Build it in Arabic.${decoys.length?' Not every tile belongs.':''}</p></div><div id="t"></div></div>`);
   const next=button('Next',onNext); next.disabled=true;

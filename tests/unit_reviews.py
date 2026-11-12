@@ -43,7 +43,7 @@ def answer(p, right):
     if p.evaluate("!!asking.build"):               # units 1 and 2 (#358): a phrase built from tiles; "Show the answer" is a miss
         i = p.evaluate("(() => { window.__q = asking; return asking.id; })()")
         if right:
-            for t in p.evaluate("asking.parts"): p.locator(".tl-pool .tl-tile", has_text=t).first.click()
+            p.evaluate("""() => { for(const t of asking.parts) [...document.querySelectorAll('.tl-pool .tl-tile')].find(b => b.textContent === t).click(); }""")      # the exact tile: another may hold it inside
             p.locator(".tl-check").click()
         else: p.get_by_text("Show the answer").click()
     else:                                          # the choice itself is kept on the button (_o): a picture has no text
