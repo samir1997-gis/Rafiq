@@ -81,7 +81,7 @@ def main():
         ok.append(("after a letter's card, write it (" + kicker(p) + ")", kicker(p).endswith("write it") and p.locator(".trace canvas").count() == 1))
         ok.append(("Next waits for the letter to be written", next_off(p)))
         scribble(p)
-        ok.append(("scribbling over the pad doesn't count (" + p.inner_text("#msg") + ")", next_off(p) and "Keep to the letter" in p.inner_text("#msg")))
+        ok.append(("scribbling over the pad doesn't count (" + p.inner_text("#msg") + ")", next_off(p) and "Off the lines" in p.inner_text("#msg")))
         p.locator("#clr").click(); p.wait_for_timeout(100)
         ok.append(("Clear starts it again", p.inner_text("#msg") == "" and next_off(p)))
         trace(p)

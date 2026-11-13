@@ -138,9 +138,9 @@ def main():
             kinds.append(answer(p)[1]); go_on(p)
         turn = all(k == "mean" for k in kinds[0::3]) and all(k in ("pic", "hear") for k in kinds[1::3]) and all(k in ("say", "build") for k in kinds[2::3])
         ok.append(("review: three kinds of question in turn " + str(kinds[:6]), turn))
-        ok.append(("its done screen offers the bonus game", p.locator(".done").count() == 1 and p.get_by_text("Bonus: beat the clock").count() == 1))
+        ok.append(("its done screen offers the bonus game", p.locator(".done").count() == 1 and p.get_by_text("Bonus game").count() == 1))
         before = p.evaluate("JSON.stringify(Progress.ids().map(i => Progress.get(i)))")
-        p.get_by_text("Bonus: beat the clock").click(); p.wait_for_timeout(300)
+        p.get_by_text("Bonus game").click(); p.wait_for_timeout(300)
         pick = lambda right: p.evaluate("""right => { const w = document.querySelector('#w').textContent, o = [...document.querySelectorAll('.sp-opts .opt')];
           (right ? o.find(b => b._w.ar === w) : o.find(b => b._w.ar !== w)).click(); }""", right)
         for _ in range(3): pick(True); p.wait_for_timeout(350)
@@ -160,7 +160,7 @@ def main():
         kinds = []
         for q in range(p.evaluate("+document.querySelector('.kicker').textContent.split(' of ')[1]")):
             kinds.append(answer(p)[1]); go_on(p)
-        ok.append(("unit 3's review: by meaning and by ear only, no bonus " + str(sorted(set(kinds))), set(kinds) == {"mean", "hear"} and p.get_by_text("Bonus: beat the clock").count() == 0)); p.close()
+        ok.append(("unit 3's review: by meaning and by ear only, no bonus " + str(sorted(set(kinds))), set(kinds) == {"mean", "hear"} and p.get_by_text("Bonus game").count() == 0)); p.close()
 
         ok.append(("no page errors " + str(errors[:2]), not errors))
         b.close()

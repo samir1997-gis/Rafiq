@@ -218,10 +218,18 @@ mark{background:color-mix(in srgb,var(--gold) 35%,transparent);color:inherit;bor
 .match{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .mt{min-height:60px;border:1px solid var(--rule);border-radius:14px;background:var(--card);color:var(--ink);font-size:1rem;line-height:1.25;padding:8px 10px;cursor:pointer;touch-action:manipulation;transition:transform .15s ease-out,opacity .2s ease-out}
 .mt[lang=ar]{font-family:var(--ar);font-size:1.3rem;line-height:1.5}
-.mt.on{border-color:var(--verdigris);box-shadow:inset 0 0 0 2px var(--verdigris);transform:scale(1.03)}
-.mt.right{background:var(--verdigris);border-color:var(--verdigris);color:#fff;opacity:.5;cursor:default}
-.mt.wrong{background:var(--rubric);border-color:var(--rubric);color:#fff;animation:mt-no .4s ease-out}
-@keyframes mt-no{25%{transform:translateX(-5px)}60%{transform:translateX(4px)}}
+.mt.on{border-color:var(--verdigris);background:color-mix(in srgb,var(--verdigris) 12%,var(--card));box-shadow:inset 0 0 0 2px var(--verdigris),0 6px 16px rgba(23,38,43,.12);transform:scale(1.04);transition:transform .32s cubic-bezier(.34,1.56,.64,1),box-shadow .2s ease-out}
+.mt.right{background:color-mix(in srgb,var(--verdigris) 14%,var(--card));border-color:color-mix(in srgb,var(--verdigris) 45%,transparent);color:var(--verdigris);cursor:default;animation:mt-yes .42s cubic-bezier(.34,1.56,.64,1)}
+.mt.wrong{background:var(--rubric);border-color:var(--rubric);color:#fff;animation:mt-no .42s cubic-bezier(.36,.07,.19,.97)}
+@keyframes mt-no{20%{transform:translateX(-7px)}45%{transform:translateX(6px)}70%{transform:translateX(-3px)}}
+@keyframes mt-yes{0%{transform:scale(1.06)}100%{transform:scale(1)}}
+/* press feedback the moment a finger lands (#366, apple-design: respond on press, not on release) */
+.opt,.mt,.guess{transition:transform .1s ease-out,background-color .2s ease-out,border-color .2s ease-out}
+.opt:active:not(:disabled),.mt:active:not(:disabled),.guess:active{transform:scale(.97)}
+/* tiles inside a lesson: the app's rounded buttons, and a clear verdict */
+body .tl-bar .btn{border-radius:14px;min-height:48px}
+body .tl-verdict{font-size:1rem;font-weight:600;margin-top:12px}
+body .tl-verdict.ok{display:inline-block;padding:6px 14px;border-radius:999px;background:color-mix(in srgb,var(--verdigris) 14%,var(--card));animation:mt-yes .42s cubic-bezier(.34,1.56,.64,1)}
 .sp-hud{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .sp-hud .pen{color:var(--rubric)}
 .sp-bar{flex:1;height:10px;border-radius:5px;background:var(--rule);overflow:hidden}
@@ -231,8 +239,8 @@ mark{background:color-mix(in srgb,var(--gold) 35%,transparent);color:inherit;bor
 /* the reading starter and the basics (#361): the pad a letter is traced on */
 .trace{display:flex;flex-direction:column;align-items:center;gap:4px}
 .trace canvas{width:min(280px,72vw);aspect-ratio:1;border:1px dashed var(--verdigris);border-radius:18px;background:var(--paper);touch-action:none;cursor:crosshair}
-.trace .tr{min-height:1.4em;margin:0}
-@media (prefers-reduced-motion:reduce){.mt{transition:none}.mt.on{transform:none}.mt.wrong{animation:none}.sp-bar i{transition:none}}
+.trace .tr{min-height:1.4em;margin:6px 0 0;font-family:var(--la);font-size:15px;line-height:1.4;letter-spacing:0;text-align:center;color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.mt,.opt,.guess{transition:none}.mt.on,.opt:active,.mt:active,.guess:active{transform:none}.mt.wrong,.mt.right,body .tl-verdict.ok{animation:none}.sp-bar i{transition:none}}
 textarea.ar-in{width:100%;min-height:110px;font-family:var(--ar);font-size:21px;line-height:1.7;direction:rtl;text-align:right;background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:10px 12px;color:var(--ink);resize:vertical;margin-top:14px}
 .verdict{font-size:1rem;margin-top:10px;text-align:left}
 .verdict.ok{color:var(--verdigris)} .verdict.no{color:var(--rubric)}
@@ -624,7 +632,7 @@ function quickCheck(g, kicker, then, guess, onAnswer){
   const [q, opts, a, why, word, sayAs]=g.check, right=opts[a];   // word: Arabic to hear with the question (said from sayAs if given)
   const ar=/[\u0600-\u06FF]/.test(opts.join(''));
   const body=el(`<div><p class="kicker">${esc(kicker)}</p><div class="card">${word?`<div class="big" id="qw"${guess?' style="cursor:default"':''}>${esc(word)}</div>`:''}<div class="en" style="margin-top:${word?14:0}px">${withAr(q)}</div></div>
-    <div class="opts${ar?' ar-opts':''}" id="o"></div><p class="why hide" id="w">${withAr(why||'')}</p>${guess?'<p class="taphint" id="gh">Not sure? Guess: the rule comes next.</p>':''}</div>`);
+    <div class="opts${ar?' ar-opts':''}" id="o"></div><p class="why hide" id="w">${withAr(why||'')}</p>${guess?'<p class="taphint" id="gh">Not sure? Just guess. Getting it wrong is fine: the rule comes next.</p>':''}</div>`);
   const next=button('Next',then); next.disabled=true;
   const qw=body.querySelector('#qw'), hear=()=>say(sayAs||word,qw);
   shuffle(opts).forEach(o=>{
@@ -897,7 +905,7 @@ function tracePad(ch, onDone){
     g.beginPath(); g.arc(b[0],b[1],10,0,7); g.fill();                          // a tap (a dot) leaves its mark too
     const n=Math.max(1, Math.ceil(Math.hypot(b[0]-a[0], b[1]-a[1])/6));
     for(let i=0;i<=n;i++) mark(a[0]+(b[0]-a[0])*i/n, a[1]+(b[1]-a[1])*i/n);
-    if(stray.size>need.size) return void(msg.textContent='Keep to the letter: clear it and try again');
+    if(stray.size>need.size) return void(msg.textContent='Off the lines a little. Tap Clear and have another go.');
     if(hit.size>=.9*need.size && got.size===pieces.length){ done=true; last=null; g.clearRect(0,0,S,S); glyph(g, col('--verdigris')); msg.textContent='✓ Written. Try it on paper too.'; onDone(); }
   };
   const at=e=>{ const r=cv.getBoundingClientRect(); return [(e.clientX-r.left)*S/r.width, (e.clientY-r.top)*S/r.height]; };
@@ -990,7 +998,7 @@ function runVowels(p, step){
     // wrong choices: the marks whose sound is nearest in length (ta / ti / tu; taa / tii / tuu)
     const others=shuffle(V.filter(x=>x!==t)).sort((x,y)=>Math.abs(x[1].length-t[1].length)-Math.abs(y[1].length-t[1].length));
     if(it.read){ const c=shuffle(Object.keys(MARK_ON))[0], [w, sound]=onLetter(t,c);
-      return pick(it.redo?'One more try':'Now on another letter', w, [sound].concat(others.slice(0,2).map(x=>onLetter(x,c)[1])), sound, miss, next); }
+      return pick(it.redo?'One more try':'Same mark, new letter: how does it sound?', w, [sound].concat(others.slice(0,2).map(x=>onLetter(x,c)[1])), sound, miss, next); }
     pick(it.redo?`One more try: which one says "${t[1]}"?`:`Which one says "${t[1]}"?`, '', [t[0]].concat(others.slice(0,3).map(x=>x[0])), t[0], miss, next);
   };
   const meet=(v, i, next)=>{
@@ -1098,7 +1106,7 @@ function runPlay(p, step){
     RafiqPath.saveStars(p.n, step.key, n);
     const more=n<3 ? [button('Play again for more stars',()=>{location.href='learn.html?u='+p.n+'&s='+step.key},true)] : [];
     // #361: reading needs letters known at a glance, so a timed bonus on every letter met so far (nothing scored)
-    more.push(button('⚡ Bonus: beat the clock',()=>speedRound(p, {head:'tap its sound', key:'rafiq_letters_best',
+    more.push(button(`⚡ Bonus game: how many in ${SPEED_SECS} seconds?`,()=>speedRound(p, {head:'tap its sound', key:'rafiq_letters_best',
       pool:ALPHABET_GROUPS.slice(0,step.group+1).flatMap(g=>g.letters).map(l=>({ar:l[0], en:soundOf(l)}))}),true));
     finish(p, step, `${starsHTML(n)}<p>${firstRight} of ${total} right first time${best>n?` · your best: ${best} stars`:''}</p>`
       + (step.group===ALPHABET_GROUPS.length-1 ? `<div class="wnote up">🔓 You’ve met all 28 letters. Next: the vowel marks, then your first words.</div>` : ''), more);
@@ -1535,7 +1543,7 @@ function buildOne(w, pool, head, graded, onAnswer, onNext){
   const decoys=shuffle([...new Set(pool.filter(x=>x!==w && !x.ar.includes('/')).flatMap(x=>x.ar.trim().split(/\s+/)))]
     .filter(t=>!parts.some(q=>q===t || bare(q)===t || bare(t)===q))).slice(0,2);
   const body=el(`<div><p class="kicker">${esc(head)}</p><div class="card">${PICS.has(w.id)?`<div class="pic sm" aria-hidden="true">${wordPic(w.id)}</div>`:''}
-    <div class="en" style="margin:0">${esc(gloss(w.en))}</div><p class="howto">Build it in Arabic.${decoys.length?' Not every tile belongs.':''}</p></div><div id="t"></div></div>`);
+    <div class="en" style="margin:0">${esc(gloss(w.en))}</div><p class="howto">Build the Arabic: tap the tiles in order.${decoys.length?' Some tiles are extra.':''}</p></div><div id="t"></div></div>`);
   const next=button('Next',onNext); next.disabled=true;
   let told=false;
   const settle=ok=>{ if(told) return; told=true; if(!ok && graded) Progress.grade('v:'+w.id,'again'); next.disabled=false; onAnswer(ok); };
@@ -1577,8 +1585,8 @@ function runReview(p, step){
   let k=0, right=0;
   const show=()=>{
     if(k>=pick.length){ RafiqPath.recapDone();
-      return finish(p, step, `<p>${right} of ${pick.length} right. ${right===pick.length?'All still there.':'The ones you missed come back tomorrow.'}</p>`,
-        plus && speedPool(p).length>=4 ? [button('⚡ Bonus: beat the clock',()=>speedRound(p),true)] : []); }
+      return finish(p, step, `<p>${right} of ${pick.length} right. ${right===pick.length?'You remembered every one 🎉':'The ones you missed come back tomorrow.'}</p>`,
+        plus && speedPool(p).length>=4 ? [button(`⚡ Bonus game: how many in ${SPEED_SECS} seconds?`,()=>speedRound(p),true)] : []); }
     setBar(k,pick.length);
     const w=pick[k], due=Progress.isDue('v:'+w.id), head=`Review · ${k+1} of ${pick.length}`;
     const onAnswer=ok=>{ if(ok){ right++; if(due) Progress.grade('v:'+w.id,'good'); } }, onNext=()=>{k++;show();};
@@ -1625,7 +1633,7 @@ function speedRound(p, o){              // o (#361): {pool, head, key}, a round 
     let best=0; try{ best=+localStorage.getItem(key)||0; if(score>best) localStorage.setItem(key, score); }catch(_){}
     const n=RafiqPath.next();
     const done=el(`<div class="done"><div class="tick">⚡</div><h2>${score} right in ${SPEED_SECS} seconds</h2>
-      <p>${best && score>best ? `Your best yet 🏆 (it was ${best})` : best ? `Your best: ${best}` : 'That’s your score to beat.'}</p></div>`);
+      <p>${best && score>best ? `Your best yet 🏆 (it was ${best})` : best ? `Your best: ${best}` : 'Nice! Next time, try to beat it.'}</p></div>`);
     screen(done, doneButtons(n, n.step&&n.unit.n===p.n).concat([button('Play again',()=>speedRound(p, o),true)]));
   };
   const timer=setInterval(()=>{
@@ -1643,7 +1651,7 @@ function runRecap(p, then){
   const show=()=>{
     if(k>=pick.length){ RafiqPath.recapDone(); RafiqPath.markDay(); setBar(1,1);
       const body=el(`<div class="done"><div class="tick">✓</div><h2>Recap — ${right} of ${pick.length}</h2>
-        <p>${right===pick.length?'All still there. On to the next lesson.':'The ones you missed come back for review tomorrow.'}</p></div>`);
+        <p>${right===pick.length?'You remembered every one 🎉 On to the next lesson.':'The ones you missed come back for review tomorrow.'}</p></div>`);
       return screen(body,[button('Start the lesson',then)]); }
     setBar(k,pick.length);
     askOne(question({t:k%2?'hear':'mean', id:pick[k].id}, pool), `Quick recap · ${k+1} of ${pick.length}`, ok=>{ if(ok) right++; }, ()=>{k++;show();});
@@ -1686,7 +1694,7 @@ function runTest(p, step){
     if(right>=Math.ceil(PASS*qs.length))
       return finish(p, step, `<div class="wnote up">🎓 <b>${right} of ${qs.length}</b> (${pct}%) — ${p.basics?'the basics':'unit '+(+p.n)} passed</div>`
         + (p.basics ? `<div class="wnote"><span lang="ar" dir="rtl" style="font-family:var(--ar);font-size:1.2rem">${withMyName(BASICS_GOAL[basicsG()]).html}</span><br>${myName()?'You can say it.':'You can say it, with your own name.'}</div>` : ''),
-        p.basics && speedPool(p).length>=4 ? [button('⚡ Bonus: beat the clock',()=>speedRound(p),true)] : []);   // #361: the basics' words against the clock
+        p.basics && speedPool(p).length>=4 ? [button(`⚡ Bonus game: how many in ${SPEED_SECS} seconds?`,()=>speedRound(p),true)] : []);   // #361: the basics' words against the clock
     RafiqPath.testFailed(p.n, missed); setBar(1,1);
     const body=el(`<div class="done"><div class="tick">${right} / ${qs.length}</div><h2>Not quite yet</h2>
       <p>You need ${Math.ceil(PASS*qs.length)} to pass. Go over the ${missed.length} you missed, then try the test again.</p></div>`);
@@ -1726,7 +1734,7 @@ function basicsDrill(d, head, onAnswer, onNext, guess){        // guess (#361): 
   const body=el(`<div><p class="kicker">${esc(head)}</p><div class="card">
       ${shown?`<div class="big" id="w" style="font-size:${gap||shown.length>12?'clamp(1.6rem,7vw,2.2rem)':''}">${esc(shown).replace('___','<span class="gap">___</span>')}</div>`:''}
       <div class="en" style="margin-top:${shown?12:0}px">${withAr(q)}</div></div>
-    <div class="opts${ar?' ar-opts':''}" id="o"></div><p class="why hide" id="y">${withAr(why||'')}</p>${guess?'<p class="taphint" id="gh">Not sure? Guess: the lesson comes next.</p>':''}</div>`);
+    <div class="opts${ar?' ar-opts':''}" id="o"></div><p class="why hide" id="y">${withAr(why||'')}</p>${guess?'<p class="taphint" id="gh">Not sure? Just guess. Getting it wrong is fine: the lesson comes next.</p>':''}</div>`);
   const w=body.querySelector('#w');
   // what to say: the finished sentence for a gap, the right Arabic answer, or the Arabic shown
   const spoken=gap ? shown.replace('___', right) : ar ? right : shown;
@@ -1842,7 +1850,7 @@ function runBasics(p, step){
     if(bi>=B.length) return f<fresh.length ? again() : done();
     const [q,,o]=B[bi], parts=o[0].split(' '), extra=decoys(o);
     const body=el(`<div><p class="kicker">${esc(L.title)} · build it</p><div class="card"><div class="en" style="margin:0">${withAr(q)}</div>
-      <p class="howto">Build it from the tiles.${extra.length?' Not every tile belongs.':''}</p></div><div id="t"></div></div>`);
+      <p class="howto">Build the Arabic: tap the tiles in order.${extra.length?' Some tiles are extra.':''}</p></div><div id="t"></div></div>`);
     const next=button('Next',()=>{bi++;build();}); next.disabled=true;
     const tl=RafiqTiles.create({parts, extra, en:q, strict:true, say:(t,e)=>say(t,e), onCorrect:()=>{ next.disabled=false; }});
     body.querySelector('#t').appendChild(tl.el);
@@ -1882,7 +1890,7 @@ function runTogether(p, step, L){
     setBar(i,total);
     const s=B[i];
     const body=el(`<div><p class="kicker">Put it together · ${i+1} of ${B.length}</p><div class="card"><div class="en" style="margin:0">${esc(s.en)}</div>
-      <p class="howto">Build it in Arabic. One tile doesn’t belong.</p></div><div id="t"></div></div>`);
+      <p class="howto">Build the Arabic: tap the tiles in order. One tile is extra.</p></div><div id="t"></div></div>`);
     const next=button('Next',()=>{i++;build();}); next.disabled=true;
     const tl=RafiqTiles.create({parts:s.ar.split(' '), extra:s.extra||[], en:s.en, say:(t,e)=>say(t,e), onCorrect:()=>{ next.disabled=false; }});
     body.querySelector('#t').appendChild(tl.el);
