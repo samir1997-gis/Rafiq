@@ -30,6 +30,18 @@ const BASICS_ONLY = new Set([784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 7
 // unit → words it starts with (#156, teach first): unit 1 opens with ten single words, before the
 // greeting phrases, so its first lesson is words a beginner can hold on to (I, you, he, she, this…)
 const FIRST = { '01': [15, 16, 17, 18, 19, 20, 21, 26, 30, 28] };      // أَنا أَنْتَ أَنْتِ هُوَ هِيَ هَذا هَذِهِ صَدِيق مُدَرِّس طالِبَة
+/* Units whose words are listed here in full, in the order they're taught (lessons of 5), instead of being worked out
+   from their sentences. A listed word is placed before anything else, so it must not be one an earlier unit teaches.
+   04: listed to keep the words its learners already have. Unit 03's later exercises use لَيْسَ (418), so the rule below
+       would now drop it from unit 04 and bring in فُلوس (695) in its place.
+   13 to 16 (#344): written after the path, each with its own 40 words. */
+const LISTED = {
+  '04': [132, 142, 137, 138, 139, 152, 217, 762, 268, 293, 724, 175, 148, 181, 551, 140, 416, 540, 144, 143, 235, 146, 147, 292, 336, 679, 141, 210, 418, 496, 155, 207, 208, 211, 528, 727, 765, 243, 523, 637],
+  '13': [795, 718, 796, 797, 798, 522, 799, 800, 747, 801, 802, 803, 804, 805, 806, 636, 177, 807, 158, 244, 808, 809, 635, 810, 811, 812, 585, 813, 728, 814, 603, 815, 816, 817, 533, 407, 587, 53, 713, 818],
+  '14': [819, 820, 508, 821, 822, 519, 823, 824, 563, 825, 641, 826, 543, 827, 548, 752, 652, 564, 828, 829, 830, 831, 832, 561, 574, 577, 570, 573, 565, 578, 833, 768, 296, 834, 835, 579, 553, 130, 560, 836],
+  '15': [837, 838, 839, 840, 618, 841, 842, 238, 364, 843, 844, 845, 846, 770, 847, 848, 599, 232, 391, 849, 402, 470, 476, 490, 477, 483, 488, 850, 851, 72, 475, 852, 634, 466, 853, 382, 354, 615, 504, 467],
+  '16': [854, 855, 856, 720, 629, 614, 857, 858, 357, 601, 859, 860, 861, 862, 863, 864, 107, 865, 866, 486, 867, 868, 869, 870, 871, 204, 227, 281, 485, 228, 645, 697, 746, 872, 873, 874, 875, 136, 127, 572],
+};
 
 function load(file, names) {
   let src = fs.readFileSync(path.join(root, file), 'utf8');
@@ -55,8 +67,16 @@ const used = DATA.map(unitWords);
 const forms = w => w.ar.split('/').map(f => norm(f).split(' ').map(bare).filter(Boolean)).filter(f => f.length);
 
 const byUnit = DATA.map(() => []), placed = new Set();
+Object.entries(LISTED).forEach(([n, ids]) => {
+  const i = DATA.findIndex(x => x.n === n);
+  if (i < 0) return;
+  ids.forEach(id => {
+    if (!VOCAB.some(w => w.id === id) || placed.has(id)) throw new Error(`unit ${n}: word ${id} is not in the word list, or is listed twice`);
+    byUnit[i].push(id); placed.add(id);
+  });
+});
 VOCAB.forEach(w => {
-  if (lateIds.has(w.id) || BY_TOPIC_ONLY.has(w.id) || BASICS_ONLY.has(w.id)) return;
+  if (placed.has(w.id) || lateIds.has(w.id) || BY_TOPIC_ONLY.has(w.id) || BASICS_ONLY.has(w.id)) return;
   const i = used.findIndex(set => forms(w).some(f => f.every(t => set.has(t))));
   if (i >= 0 && byUnit[i].length < CAP) { byUnit[i].push(w.id); placed.add(w.id); }
 });

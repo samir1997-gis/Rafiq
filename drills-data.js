@@ -1255,6 +1255,452 @@ const DATA=[
      "الرِّياضَةُ مُفِيدَةٌ جِدًّا لِلصِّحَّةِ. أَنا أُحِبُّ السِّباحَةَ وَكُرَةَ الْقَدَمِ، لَكِنِّي لا أُمارِسُها كَثِيرًا.",
      "Sport is very good for your health. I like swimming and football, but I don't do them much."]
   ]
+},
+{
+  n:"13",ar:"رَمَضانُ وَالْعِيدُ",en:"Ramadan & Eid",src:"rafiq",
+  convos:[
+    {title:"Conversation 1",sub:"The crescent",lines:[
+      ["ب","السَّلامُ عَلَيْكُمْ يا يُوسُفُ. هَلْ رَأَيْتَ الْهِلالَ؟","Peace be upon you, Yusuf. Have you seen the crescent?"],
+      ["ي","وَعَلَيْكُمُ السَّلامُ. نَعَمْ، رَأَيْتُهُ بَعْدَ الْمَغْرِبِ. غَدًا أَوَّلُ يَوْمٍ مِنْ رَمَضانَ.","And upon you peace. Yes, I saw it after sunset. Tomorrow is the first day of Ramadan."],
+      ["ب","الْحَمْدُ لِلَّهِ! رَمَضانُ مُبارَكٌ.","Praise be to God! Ramadan mubarak."],
+      ["ي","رَمَضانُ مُبارَكٌ. هَلْ سَتَصُومُ الشَّهْرَ كُلَّهُ؟","Ramadan mubarak. Will you fast the whole month?"],
+      ["ب","نَعَمْ إِنْ شاءَ اللهُ. كُلُّ مُسْلِمٍ يَصُومُ فِي رَمَضانَ.","Yes, God willing. Every Muslim fasts in Ramadan."],
+      ["ي","مَتى تَتَسَحَّرُ؟","When do you eat suhoor?"],
+      ["ب","أَتَسَحَّرُ قَبْلَ الْفَجْرِ مَعَ أُسْرَتِي.","I eat suhoor before dawn with my family."],
+      ["ي","هَلْ تَشْعُرُ بِالْجُوعِ وَأَنْتَ صائِمٌ؟","Do you feel hungry while you're fasting?"],
+      ["ب","لا أَشْعُرُ بِالْجُوعِ كَثِيرًا، لَكِنِّي عَطْشانُ فِي الصَّيْفِ.","I don't feel very hungry, but I'm thirsty in summer."],
+      ["ي","اللَّهُمَّ بارِكْ لَنا فِي رَمَضانَ.","O God, bless Ramadan for us."],
+      ["ب","آمِين.","Amen."]
+    ]},
+    {title:"Conversation 2",sub:"Iftar at home",lines:[
+      ["م","يا أُمِّي، مَتى الْإِفْطارُ الْيَوْمَ؟","Mum, when is iftar today?"],
+      ["ف","بَعْدَ ساعَةٍ، عِنْدَ أَذانِ الْمَغْرِبِ.","In an hour, at the call to the sunset prayer."],
+      ["م","ماذا تَطْبُخِينَ؟","What are you cooking?"],
+      ["ف","أَطْبُخُ الْأَرُزَّ وَالدَّجاجَ، وَعِنْدَنا تَمْرٌ وَحَلِيبٌ.","I'm cooking rice and chicken, and we have dates and milk."],
+      ["م","هَلْ أُساعِدُكِ؟","Shall I help you?"],
+      ["ف","نَعَمْ، ضَعِي التَّمْرَ وَالْماءَ عَلى الْمائِدَةِ.","Yes, put the dates and the water on the table."],
+      ["م","مَنْ سَيُفْطِرُ مَعَنا اللَّيْلَةَ؟","Who will break the fast with us tonight?"],
+      ["ف","دَعَوْتُ جَدَّتَكِ وَعَمَّكِ.","I've invited your grandmother and your uncle."],
+      ["م","ما شاءَ اللهُ! أَنا صائِمَةٌ مُنْذُ الْفَجْرِ!","Mashallah! I've been fasting since dawn!"],
+      ["ف","اصْبِرِي قَلِيلًا. الصَّائِمُ يَفْرَحُ عِنْدَ الْإِفْطارِ.","Be patient a little. The one who fasts is happy at iftar."],
+      ["م","اللهُ أَكْبَرُ! هَذا أَذانُ الْمَغْرِبِ.","Allahu akbar! That's the call to the sunset prayer."],
+      ["ف","بِسْمِ اللهِ. أَفْطِرِي عَلى تَمْرَةٍ وَاشْرَبِي الْماءَ.","In the name of God. Break your fast with a date and drink some water."]
+    ]},
+    {title:"Conversation 3",sub:"Eid morning",lines:[
+      ["ع","عِيدٌ مُبارَكٌ يا حَسَنُ!","Eid mubarak, Hasan!"],
+      ["ح","عِيدٌ مُبارَكٌ! كُلُّ عامٍ وَأَنْتُمْ بِخَيْرٍ.","Eid mubarak! May you be well every year."],
+      ["ع","تَقَبَّلَ اللهُ مِنَّا وَمِنْكُمْ.","May God accept from us and from you."],
+      ["ح","آمِين. هَلْ صَلَّيْتَ صَلاةَ الْعِيدِ فِي الْمَسْجِدِ؟","Amen. Did you pray the Eid prayer at the mosque?"],
+      ["ع","نَعَمْ، صَلَّيْتُ مَعَ والِدِي وَأَخِي.","Yes, I prayed with my father and my brother."],
+      ["ح","ثَوْبُكَ جَمِيلٌ! هَلْ هُوَ جَدِيدٌ؟","Your thobe is lovely! Is it new?"],
+      ["ع","نَعَمْ، لَبِسْتُ ثَوْبًا جَدِيدًا لِلْعِيدِ. وَأَيْنَ تَذْهَبُ الْآنَ؟","Yes, I put on a new thobe for Eid. Where are you going now?"],
+      ["ح","سَأَزُورُ جَدَّتِي وَأَهْلِي، وَمَعِي هَدِيَّةٌ وَحَلْوى.","I'm going to visit my grandmother and my family. I have a gift and sweets with me."],
+      ["ع","وَهَلْ أَعْطَيْتَ زَكاةَ الْفِطْرِ؟","And have you given zakat al-fitr?"],
+      ["ح","نَعَمْ، أَعْطَيْتُها لِلْفُقَراءِ قَبْلَ صَلاةِ الْعِيدِ.","Yes, I gave it to the poor before the Eid prayer."],
+      ["ع","بارَكَ اللهُ فِيكَ. تَفَضَّلْ إِلى بَيْتِنا بَعْدَ الظُّهْرِ.","God bless you. Come to our house after midday."],
+      ["ح","شُكْرًا، سَأَحْضُرُ إِنْ شاءَ اللهُ.","Thank you, I'll come, God willing."]
+    ]}
+  ],
+  dialogue:[
+    ["ب","السَّلامُ عَلَيْكُمْ يا يُوسُفُ. هَلْ رَأَيْتَ الْهِلالَ؟","Peace be upon you, Yusuf. Have you seen the crescent?"],
+    ["ي","وَعَلَيْكُمُ السَّلامُ. نَعَمْ، رَأَيْتُهُ بَعْدَ الْمَغْرِبِ. غَدًا أَوَّلُ يَوْمٍ مِنْ رَمَضانَ.","And upon you peace. Yes, I saw it after sunset. Tomorrow is the first day of Ramadan."],
+    ["ب","الْحَمْدُ لِلَّهِ! رَمَضانُ مُبارَكٌ.","Praise be to God! Ramadan mubarak."],
+    ["ي","رَمَضانُ مُبارَكٌ. هَلْ سَتَصُومُ الشَّهْرَ كُلَّهُ؟","Ramadan mubarak. Will you fast the whole month?"],
+    ["ب","نَعَمْ إِنْ شاءَ اللهُ. كُلُّ مُسْلِمٍ يَصُومُ فِي رَمَضانَ.","Yes, God willing. Every Muslim fasts in Ramadan."],
+    ["ي","مَتى تَتَسَحَّرُ؟","When do you eat suhoor?"],
+    ["ب","أَتَسَحَّرُ قَبْلَ الْفَجْرِ مَعَ أُسْرَتِي.","I eat suhoor before dawn with my family."],
+    ["ي","هَلْ تَشْعُرُ بِالْجُوعِ وَأَنْتَ صائِمٌ؟","Do you feel hungry while you're fasting?"],
+    ["ب","لا أَشْعُرُ بِالْجُوعِ كَثِيرًا، لَكِنِّي عَطْشانُ فِي الصَّيْفِ.","I don't feel very hungry, but I'm thirsty in summer."],
+    ["ي","اللَّهُمَّ بارِكْ لَنا فِي رَمَضانَ.","O God, bless Ramadan for us."],
+    ["ب","آمِين.","Amen."]
+  ],
+  ladders:[
+    {steps:["أَصُومُ","شَهْرَ رَمَضانَ","مَعَ أُسْرَتِي","كُلَّ سَنَةٍ","، مِنَ الْفَجْرِ إِلى الْمَغْرِبِ"],
+     en:"I fast → the month of Ramadan → with my family → every year → from dawn to sunset."},
+    {steps:["أَتَسَحَّرُ","قَبْلَ الْفَجْرِ","، ثُمَّ أُصَلِّي","فِي الْمَسْجِدِ","وَأَقْرَأُ الْقُرْآنَ"],
+     en:"I eat suhoor → before dawn → then I pray → in the mosque → and read the Qur'an."},
+    {steps:["نُفْطِرُ","عَلى تَمْرٍ وَماءٍ","بَعْدَ أَذانِ الْمَغْرِبِ","، ثُمَّ نُصَلِّي","وَنَأْكُلُ مَعًا"],
+     en:"We break the fast → with dates and water → after the call to the sunset prayer → then we pray → and eat together."},
+    {steps:["فِي يَوْمِ الْعِيدِ","أَلْبَسُ ثَوْبًا جَدِيدًا","وَأُصَلِّي صَلاةَ الْعِيدِ","، ثُمَّ أَزُورُ أَهْلِي","وَأُعْطِي الْأَطْفالَ هَدايا"],
+     en:"On Eid day → I put on a new thobe → and pray the Eid prayer → then I visit my family → and give the children gifts."}
+  ],
+  subs:[
+    {tpl:["أَصُومُ ",["رَمَضانَ","يَوْمَ عَرَفَةَ","يَوْمَ الِاثْنَيْنِ","يَوْمَ الْخَمِيسِ"]," ."],
+     en:"I fast ___ . What you fast ends in -a."},
+    {tpl:["نُفْطِرُ ",["بَعْدَ أَذانِ الْمَغْرِبِ","مَعَ الضُّيُوفِ","فِي الْمَسْجِدِ","عِنْدَ جَدَّتِي"]," ."],
+     en:"We break the fast ___ ."},
+    {tpl:["غَدًا ",["سَأَصُومُ","سَأَتَسَحَّرُ","سَأُفْطِرُ","سَأَزُورُ جَدَّتِي"]," ",["إِنْ شاءَ اللهُ","مَعَ أُسْرَتِي","مَعَ أَخِي"]," ."],
+     en:"Tomorrow I will ___ ___ . سَـ on the front of the verb makes it ‘will’. Twelve sentences."},
+    {tpl:["أَزُورُ ",["جَدَّتِي","أَهْلِي","جَدِّي","أَصْدِقائِي"]," ",["فِي الْعِيدِ","بَعْدَ صَلاةِ الْعِيدِ","قَبْلَ الظُّهْرِ"]," ."],
+     en:"I visit ___ ___ . Twelve sentences."}
+  ],
+  transforms:[
+    {task:["حَوِّلْ إِلَى الْمُسْتَقْبَلِ","Change to the future"],src:"أَصُومُ يَوْمَ الْخَمِيسِ.",ans:"سَأَصُومُ يَوْمَ الْخَمِيسِ."},
+    {task:["حَوِّلْ إِلَى الْماضِي","Change to the past"],src:"أَصُومُ رَمَضانَ.",ans:"صُمْتُ رَمَضانَ."},
+    {task:["حَوِّلْ إِلَى (نَحْنُ)","Change to ‘we’"],src:"أُفْطِرُ عَلى تَمْرٍ.",ans:"نُفْطِرُ عَلى تَمْرٍ."},
+    {task:["اسْأَلْ عَنِ الْوَقْتِ","Ask when"],src:"أَتَسَحَّرُ قَبْلَ الْفَجْرِ.",ans:"مَتى تَتَسَحَّرُ؟"},
+    {task:["حَوِّلْ إِلَى (أَنْتِ)","Change to feminine ‘you’"],src:"هَلْ تَصُومُ غَدًا يا أَحْمَدُ؟",ans:"هَلْ تَصُومِينَ غَدًا يا مَرْيَمُ؟"},
+    {task:["اِرْبِطْ بِـ (ثُمَّ)","Join them with ‘then’"],src:"أُفْطِرُ. أُصَلِّي الْمَغْرِبَ.",ans:"أُفْطِرُ ثُمَّ أُصَلِّي الْمَغْرِبَ."}
+  ],
+  builds:[
+    {parts:["سَأَصُومُ","غَدًا","إِنْ شاءَ اللهُ","مَعَ أُسْرَتِي"],en:"I'll fast tomorrow, God willing, with my family."},
+    {parts:["أَتَسَحَّرُ","قَبْلَ الْفَجْرِ","وَأُفْطِرُ","بَعْدَ الْمَغْرِبِ"],en:"I eat suhoor before dawn and break my fast after sunset."},
+    {parts:["نُصَلِّي","صَلاةَ التَّراوِيحِ","فِي الْمَسْجِدِ","بَعْدَ الْعِشاءِ"],en:"We pray tarawih in the mosque after the night prayer."},
+    {parts:["فِي الْعِيدِ","أَلْبَسُ","ثَوْبًا جَدِيدًا","وَأَزُورُ أَهْلِي"],en:"At Eid I put on a new thobe and visit my family."},
+    {parts:["أَعْطَيْتُ","زَكاةَ الْفِطْرِ","لِلْفُقَراءِ","قَبْلَ صَلاةِ الْعِيدِ"],en:"I gave zakat al-fitr to the poor before the Eid prayer."}
+  ],
+  prompts:[
+    ["مَتى تَتَسَحَّرُ وَمَتى تُفْطِرُ؟","When do you eat suhoor, and when do you break your fast?",
+     "أَتَسَحَّرُ قَبْلَ الْفَجْرِ، وَأُفْطِرُ عِنْدَ أَذانِ الْمَغْرِبِ عَلى تَمْرٍ وَماءٍ.",
+     "I eat suhoor before dawn, and I break my fast at the call to the sunset prayer with dates and water."],
+    ["ماذا تَفْعَلُ فِي لَيالِي رَمَضانَ؟","What do you do on the nights of Ramadan?",
+     "أُصَلِّي التَّراوِيحَ فِي الْمَسْجِدِ، ثُمَّ أَقْرَأُ الْقُرْآنَ مَعَ أُسْرَتِي.",
+     "I pray tarawih in the mosque, then I read the Qur'an with my family."],
+    ["مَعَ مَنْ تُفْطِرُ؟ وَماذا تَأْكُلُونَ؟","Who do you break your fast with, and what do you eat?",
+     "أُفْطِرُ مَعَ أُسْرَتِي. نَأْكُلُ التَّمْرَ أَوَّلًا، ثُمَّ الْأَرُزَّ وَالدَّجاجَ.",
+     "I break my fast with my family. We eat dates first, then rice and chicken."],
+    ["ماذا سَتَفْعَلُ يَوْمَ الْعِيدِ؟","What will you do on Eid day?",
+     "سَأُصَلِّي صَلاةَ الْعِيدِ، ثُمَّ سَأَزُورُ جَدَّتِي وَأَهْلِي وَأُعْطِي الْأَطْفالَ هَدايا.",
+     "I'll pray the Eid prayer, then I'll visit my grandmother and my family and give the children gifts."],
+    ["لِماذا تُحِبُّ رَمَضانَ؟","Why do you love Ramadan?",
+     "أُحِبُّ رَمَضانَ لِأَنَّهُ شَهْرُ الْقُرْآنِ وَالصَّدَقَةِ، وَنُفْطِرُ فِيهِ مَعًا كُلَّ لَيْلَةٍ.",
+     "I love Ramadan because it's the month of the Qur'an and of charity, and we break our fast together every night."]
+  ]
+},
+{
+  n:"14",ar:"الصِّحَّةُ",en:"Health & the body",src:"rafiq",
+  convos:[
+    {title:"Conversation 1",sub:"What's wrong?",lines:[
+      ["خ","السَّلامُ عَلَيْكُمْ يا سَلْمانُ. ماذا بِكَ؟ هَلْ أَنْتَ تَعْبانُ؟","Peace be upon you, Salman. What's wrong? Are you tired?"],
+      ["س","وَعَلَيْكُمُ السَّلامُ. نَعَمْ، أَنا تَعْبانُ جِدًّا. رَأْسِي يُؤْلِمُنِي.","And upon you peace. Yes, I'm very tired. My head hurts."],
+      ["خ","هَلْ عِنْدَكَ صُداعٌ مُنْذُ الصَّباحِ؟","Have you had a headache since the morning?"],
+      ["س","نَعَمْ، وَأَشْعُرُ بِأَلَمٍ فِي ظَهْرِي وَبَطْنِي أَيْضًا.","Yes, and I feel pain in my back and my stomach too."],
+      ["خ","هَلْ نِمْتَ جَيِّدًا الْبارِحَةَ؟","Did you sleep well last night?"],
+      ["س","لا، نِمْتُ ثَلاثَ ساعاتٍ فَقَطْ.","No, I only slept three hours."],
+      ["خ","هَذا هُوَ السَّبَبُ! الْجِسْمُ يَحْتاجُ إِلى النَّوْمِ.","That's the reason! The body needs sleep."],
+      ["س","صَحِيحٌ. وَما أَكَلْتُ شَيْئًا الْيَوْمَ.","True. And I haven't eaten anything today."],
+      ["خ","يَجِبُ أَنْ تَأْكُلَ وَتَشْرَبَ الْماءَ. الصِّحَّةُ أَهَمُّ مِنَ الْعَمَلِ.","You must eat and drink water. Health matters more than work."],
+      ["س","مَعَكَ حَقٌّ. سَأَذْهَبُ إِلى الْبَيْتِ وَأَسْتَرِيحُ.","You're right. I'll go home and rest."],
+      ["خ","سَلامَتُكَ يا أَخِي. شَفاكَ اللهُ.","Get well soon, brother. May God heal you."],
+      ["س","جَزاكَ اللهُ خَيْرًا.","May God reward you."]
+    ]},
+    {title:"Conversation 2",sub:"At the doctor's",lines:[
+      ["ع","السَّلامُ عَلَيْكُمْ. عِنْدِي مَوْعِدٌ السَّاعَةَ الْعاشِرَةَ.","Peace be upon you. I have an appointment at ten o'clock."],
+      ["ط","وَعَلَيْكُمُ السَّلامُ. تَفَضَّلْ، اِجْلِسْ. ماذا بِكَ؟","And upon you peace. Come in, sit down. What's wrong?"],
+      ["ع","عِنْدِي حُمَّى وَسُعالٌ شَدِيدٌ مُنْذُ ثَلاثَةِ أَيَّامٍ.","I've had a fever and a bad cough for three days."],
+      ["ط","هَلْ يُؤْلِمُكَ صَدْرُكَ؟","Does your chest hurt?"],
+      ["ع","نَعَمْ، قَلِيلًا. وَعَيْنِي تُؤْلِمُنِي أَيْضًا.","Yes, a little. And my eye hurts too."],
+      ["ط","اِفْتَحْ فَمَكَ مِنْ فَضْلِكَ. سَأَفْحَصُكَ وَأَقِيسُ دَرَجَةَ الْحَرارَةِ.","Open your mouth, please. I'll examine you and take your temperature."],
+      ["ع","هَلْ هَذا زُكامٌ؟","Is it a cold?"],
+      ["ط","نَعَمْ، زُكامٌ شَدِيدٌ. لَكِنَّ قَلْبَكَ سَلِيمٌ وَضَغْطَكَ جَيِّدٌ.","Yes, a heavy cold. But your heart is sound and your blood pressure is good."],
+      ["ع","الْحَمْدُ لِلَّهِ. ماذا يَجِبُ أَنْ أَفْعَلَ؟","Praise be to God. What must I do?"],
+      ["ط","خُذْ هَذا الدَّواءَ ثَلاثَ مَرَّاتٍ فِي الْيَوْمِ، وَاشْرَبْ ماءً كَثِيرًا.","Take this medicine three times a day, and drink plenty of water."],
+      ["ع","وَهَلْ أَذْهَبُ إِلى الْعَمَلِ؟","And shall I go to work?"],
+      ["ط","لا تَذْهَبْ إِلى الْعَمَلِ. أَنْتَ تَحْتاجُ إِلى الرَّاحَةِ. سَلامَتُكَ.","Don't go to work. You need rest. Get well soon."]
+    ]},
+    {title:"Conversation 3",sub:"At the pharmacy",lines:[
+      ["ز","السَّلامُ عَلَيْكُمْ. أَحْتاجُ إِلى دَواءٍ لِلسُّعالِ مِنْ فَضْلِكَ.","Peace be upon you. I need some cough medicine, please."],
+      ["ص","وَعَلَيْكُمُ السَّلامُ. هَلِ الدَّواءُ لَكِ؟","And upon you peace. Is the medicine for you?"],
+      ["ز","لا، لِابْنِي. عُمْرُهُ سَبْعُ سَنَواتٍ.","No, for my son. He's seven years old."],
+      ["ص","هَلْ عِنْدَهُ حُمَّى؟","Does he have a fever?"],
+      ["ز","نَعَمْ، وَرَأْسُهُ يُؤْلِمُهُ، وَلا يَنامُ فِي اللَّيْلِ.","Yes, and his head hurts, and he doesn't sleep at night."],
+      ["ص","هَذا الدَّواءُ جَيِّدٌ لِلْأَطْفالِ. يَأْخُذُهُ مَرَّتَيْنِ فِي الْيَوْمِ بَعْدَ الطَّعامِ.","This medicine is good for children. He takes it twice a day after food."],
+      ["ز","وَهَلْ يَجِبُ أَنْ يَذْهَبَ إِلى الطَّبِيبِ؟","And must he go to the doctor?"],
+      ["ص","نَعَمْ، إِذا كانَتِ الْحُمَّى شَدِيدَةً.","Yes, if the fever is severe."],
+      ["ز","بِكَمِ الدَّواءُ؟","How much is the medicine?"],
+      ["ص","بِعِشْرِينَ رِيالًا.","Twenty riyals."],
+      ["ز","تَفَضَّلْ. جَزاكَ اللهُ خَيْرًا.","Here you are. May God reward you."],
+      ["ص","وَإِيَّاكِ. سَلامَتُهُ إِنْ شاءَ اللهُ.","And you. May he get well, God willing."]
+    ]}
+  ],
+  dialogue:[
+    ["خ","السَّلامُ عَلَيْكُمْ يا سَلْمانُ. ماذا بِكَ؟ هَلْ أَنْتَ تَعْبانُ؟","Peace be upon you, Salman. What's wrong? Are you tired?"],
+    ["س","وَعَلَيْكُمُ السَّلامُ. نَعَمْ، أَنا تَعْبانُ جِدًّا. رَأْسِي يُؤْلِمُنِي.","And upon you peace. Yes, I'm very tired. My head hurts."],
+    ["خ","هَلْ عِنْدَكَ صُداعٌ مُنْذُ الصَّباحِ؟","Have you had a headache since the morning?"],
+    ["س","نَعَمْ، وَأَشْعُرُ بِأَلَمٍ فِي ظَهْرِي وَبَطْنِي أَيْضًا.","Yes, and I feel pain in my back and my stomach too."],
+    ["خ","هَلْ نِمْتَ جَيِّدًا الْبارِحَةَ؟","Did you sleep well last night?"],
+    ["س","لا، نِمْتُ ثَلاثَ ساعاتٍ فَقَطْ.","No, I only slept three hours."],
+    ["خ","هَذا هُوَ السَّبَبُ! الْجِسْمُ يَحْتاجُ إِلى النَّوْمِ.","That's the reason! The body needs sleep."],
+    ["س","صَحِيحٌ. وَما أَكَلْتُ شَيْئًا الْيَوْمَ.","True. And I haven't eaten anything today."],
+    ["خ","يَجِبُ أَنْ تَأْكُلَ وَتَشْرَبَ الْماءَ. الصِّحَّةُ أَهَمُّ مِنَ الْعَمَلِ.","You must eat and drink water. Health matters more than work."],
+    ["س","مَعَكَ حَقٌّ. سَأَذْهَبُ إِلى الْبَيْتِ وَأَسْتَرِيحُ.","You're right. I'll go home and rest."],
+    ["خ","سَلامَتُكَ يا أَخِي. شَفاكَ اللهُ.","Get well soon, brother. May God heal you."],
+    ["س","جَزاكَ اللهُ خَيْرًا.","May God reward you."]
+  ],
+  ladders:[
+    {steps:["رَأْسِي يُؤْلِمُنِي","مُنْذُ الصَّباحِ","، وَأَشْعُرُ بِأَلَمٍ","فِي ظَهْرِي","وَبَطْنِي أَيْضًا"],
+     en:"My head has hurt → since the morning → and I feel pain → in my back → and my stomach too."},
+    {steps:["عِنْدِي حُمَّى","وَسُعالٌ شَدِيدٌ","مُنْذُ ثَلاثَةِ أَيَّامٍ","، لِذَلِكَ ذَهَبْتُ","إِلى الطَّبِيبِ"],
+     en:"I've had a fever → and a bad cough → for three days → so I went → to the doctor."},
+    {steps:["فَحَصَنِي الطَّبِيبُ","وَقاسَ ضَغْطِي","، ثُمَّ قالَ:","قَلْبُكَ سَلِيمٌ","، لَكِنَّكَ تَحْتاجُ إِلى الرَّاحَةِ"],
+     en:"The doctor examined me → and measured my blood pressure → then he said: → your heart is sound → but you need rest."},
+    {steps:["يَجِبُ أَنْ آخُذَ","هَذا الدَّواءَ","ثَلاثَ مَرَّاتٍ","فِي الْيَوْمِ","بَعْدَ الطَّعامِ"],
+     en:"I must take → this medicine → three times → a day → after food."}
+  ],
+  subs:[
+    {tpl:["عِنْدِي ",["صُداعٌ","حُمَّى","سُعالٌ","زُكامٌ"]," ",["مُنْذُ الصَّباحِ","مُنْذُ يَوْمَيْنِ","مُنْذُ الْبارِحَةِ"]," ."],
+     en:"I've had ___ ___ . Twelve sentences."},
+    {tpl:["يُؤْلِمُنِي ",["رَأْسِي","ظَهْرِي","بَطْنِي","صَدْرِي"]," ."],
+     en:"My ___ hurts. These four are masculine, so the verb starts with يُـ."},
+    {tpl:["تُؤْلِمُنِي ",["عَيْنِي","أُذُنِي","يَدِي","قَدَمِي"]," ."],
+     en:"My ___ hurts. Parts that come in pairs are feminine, so the verb starts with تُـ."},
+    {tpl:["يَجِبُ أَنْ ",["تَأْخُذَ الدَّواءَ","تَشْرَبَ ماءً كَثِيرًا","تَنامَ مُبَكِّرًا","تَذْهَبَ إِلى الطَّبِيبِ"]," ."],
+     en:"You must ___ . After أَنْ the verb ends in -a."}
+  ],
+  transforms:[
+    {task:["حَوِّلْ إِلَى (هِيَ)","Change to ‘she’"],src:"رَأْسِي يُؤْلِمُنِي.",ans:"رَأْسُها يُؤْلِمُها."},
+    {task:["حَوِّلْ إِلَى النَّهْيِ","Make it ‘don’t’"],src:"اِذْهَبْ إِلى الْعَمَلِ.",ans:"لا تَذْهَبْ إِلى الْعَمَلِ."},
+    {task:["اسْتَعْمِلْ (يَجِبُ أَنْ)","Use ‘must’"],src:"تَأْخُذُ الدَّواءَ.",ans:"يَجِبُ أَنْ تَأْخُذَ الدَّواءَ."},
+    {task:["اسْأَلْ عَنِ الْحالِ","Ask what's wrong"],src:"عِنْدِي صُداعٌ.",ans:"ماذا بِكَ؟"},
+    {task:["حَوِّلْ إِلَى الْماضِي","Change to the past"],src:"يَفْحَصُنِي الطَّبِيبُ.",ans:"فَحَصَنِي الطَّبِيبُ."},
+    {task:["حَوِّلْ إِلَى (أَنْتِ)","Change to feminine ‘you’"],src:"هَلْ يُؤْلِمُكَ ظَهْرُكَ؟",ans:"هَلْ يُؤْلِمُكِ ظَهْرُكِ؟"}
+  ],
+  builds:[
+    {parts:["رَأْسِي","يُؤْلِمُنِي","مُنْذُ","الصَّباحِ"],en:"My head has hurt since the morning."},
+    {parts:["أَشْعُرُ","بِأَلَمٍ شَدِيدٍ","فِي","بَطْنِي"],en:"I feel a bad pain in my stomach."},
+    {parts:["يَجِبُ أَنْ","تَأْخُذَ الدَّواءَ","مَرَّتَيْنِ","فِي الْيَوْمِ"],en:"You must take the medicine twice a day."},
+    {parts:["لا تَذْهَبْ","إِلى الْعَمَلِ","، أَنْتَ تَحْتاجُ","إِلى الرَّاحَةِ"],en:"Don't go to work: you need rest."},
+    {parts:["فَحَصَنِي","الطَّبِيبُ","وَقاسَ","دَرَجَةَ الْحَرارَةِ"],en:"The doctor examined me and took my temperature."}
+  ],
+  prompts:[
+    ["ماذا بِكَ؟ ماذا يُؤْلِمُكَ؟","What's wrong? What hurts?",
+     "رَأْسِي يُؤْلِمُنِي مُنْذُ الصَّباحِ، وَأَشْعُرُ بِأَلَمٍ فِي ظَهْرِي أَيْضًا.",
+     "My head has hurt since the morning, and I feel pain in my back too."],
+    ["ماذا تَفْعَلُ عِنْدَما تَكُونُ مَرِيضًا؟","What do you do when you're ill?",
+     "أَذْهَبُ إِلى الطَّبِيبِ، وَآخُذُ الدَّواءَ، وَأَنامُ كَثِيرًا.",
+     "I go to the doctor, take the medicine and sleep a lot."],
+    ["تَكَلَّمْ عَنْ زِيارَةٍ لِلطَّبِيبِ.","Talk about a visit to the doctor.",
+     "ذَهَبْتُ إِلى الطَّبِيبِ لِأَنَّ عِنْدِي حُمَّى. فَحَصَنِي وَقاسَ ضَغْطِي، ثُمَّ أَعْطانِي دَواءً.",
+     "I went to the doctor because I had a fever. He examined me and measured my blood pressure, then gave me some medicine."],
+    ["ماذا يَجِبُ أَنْ نَفْعَلَ لِصِحَّةٍ جَيِّدَةٍ؟","What must we do for good health?",
+     "يَجِبُ أَنْ نَأْكُلَ طَعامًا جَيِّدًا، وَنَنامَ مُبَكِّرًا، وَنُمارِسَ الرِّياضَةَ.",
+     "We must eat good food, sleep early and do sport."],
+    ["صَدِيقُكَ مَرِيضٌ. ماذا تَقُولُ لَهُ؟","Your friend is ill. What do you say to him?",
+     "أَقُولُ لَهُ: سَلامَتُكَ، شَفاكَ اللهُ. خُذِ الدَّواءَ وَاسْتَرِحْ فِي الْبَيْتِ.",
+     "I say to him: get well soon, may God heal you. Take your medicine and rest at home."]
+  ]
+},
+{
+  n:"15",ar:"السَّفَرُ",en:"Travel & directions",src:"rafiq",
+  convos:[
+    {title:"Conversation 1",sub:"Asking the way",lines:[
+      ["ز","لَوْ سَمَحْتَ، أَيْنَ مَحَطَّةُ الْقِطارِ؟","Excuse me, where is the train station?"],
+      ["ر","الْمَحَطَّةُ لَيْسَتْ بَعِيدَةً. هَلْ تَعْرِفُ هَذا الشَّارِعَ؟","The station isn't far. Do you know this street?"],
+      ["ز","لا، أَنا لا أَعْرِفُ الْمَدِينَةَ. أَنا مُسافِرٌ.","No, I don't know the city. I'm a traveller."],
+      ["ر","اِذْهَبْ مُباشَرَةً فِي هَذا الطَّرِيقِ، ثُمَّ اذْهَبْ يَمِينًا عِنْدَ الْمَسْجِدِ.","Go straight on along this road, then go right at the mosque."],
+      ["ز","يَمِينًا عِنْدَ الْمَسْجِدِ. وَبَعْدَ ذَلِكَ؟","Right at the mosque. And after that?"],
+      ["ر","اُعْبُرِ الشَّارِعَ، وَالْمَحَطَّةُ عَلى يَسارِكَ، خَلْفَ السُّوقِ.","Cross the street, and the station is on your left, behind the market."],
+      ["ز","هَلْ أَمْشِي أَوْ أَرْكَبُ الْحافِلَةَ؟","Shall I walk or take the bus?"],
+      ["ر","اِمْشِ. الْمَكانُ قَرِيبٌ: خَمْسُ دَقائِقَ فَقَطْ.","Walk. The place is near: only five minutes."],
+      ["ز","شُكْرًا جَزِيلًا.","Thank you very much."],
+      ["ر","عَفْوًا. رِحْلَةً سَعِيدَةً!","You're welcome. Have a good trip!"]
+    ]},
+    {title:"Conversation 2",sub:"Train or plane?",lines:[
+      ["أ","هَيَّا بِنا إِلى الْمَدِينَةِ الْمُنَوَّرَةِ فِي الْعُطْلَةِ!","Let's go to Medina in the holiday!"],
+      ["ب","فِكْرَةٌ طَيِّبَةٌ! كَيْفَ نُسافِرُ؟ بِالطَّائِرَةِ أَوْ بِالْقِطارِ؟","Good idea! How shall we travel? By plane or by train?"],
+      ["أ","الطَّائِرَةُ أَسْرَعُ مِنَ الْقِطارِ.","The plane is faster than the train."],
+      ["ب","نَعَمْ، لَكِنَّ الْقِطارَ أَرْخَصُ، وَالْمَحَطَّةُ أَقْرَبُ مِنَ الْمَطارِ.","Yes, but the train is cheaper, and the station is nearer than the airport."],
+      ["أ","كَمْ ساعَةً تَسْتَغْرِقُ الرِّحْلَةُ بِالْقِطارِ؟","How many hours does the journey take by train?"],
+      ["ب","تَسْتَغْرِقُ ساعَتَيْنِ فَقَطْ. الْقِطارُ الْجَدِيدُ سَرِيعٌ جِدًّا.","It only takes two hours. The new train is very fast."],
+      ["أ","إِذَنْ لَنْ نُسافِرَ بِالطَّائِرَةِ. الْقِطارُ أَفْضَلُ.","Then we won't travel by plane. The train is better."],
+      ["ب","وَأَيْنَ نَنْزِلُ؟ هَلْ تَعْرِفُ فُنْدُقًا قَرِيبًا مِنَ الْمَسْجِدِ النَّبَوِيِّ؟","And where shall we stay? Do you know a hotel near the Prophet's Mosque?"],
+      ["أ","نَعَمْ، الْفُنْدُقُ الَّذِي نَزَلْتُ فِيهِ فِي السَّنَةِ الْماضِيَةِ. هُوَ أَقْرَبُ فُنْدُقٍ إِلى الْمَسْجِدِ.","Yes, the hotel I stayed in last year. It's the nearest hotel to the mosque."],
+      ["ب","مُمْتازٌ! سَأَحْجِزُ التَّذاكِرَ الْيَوْمَ.","Excellent! I'll book the tickets today."],
+      ["أ","وَأَنا سَأَحْجِزُ غُرْفَةً لِثَلاثِ لَيالٍ.","And I'll book a room for three nights."],
+      ["ب","إِنْ شاءَ اللهُ.","God willing."]
+    ]},
+    {title:"Conversation 3",sub:"At the airport",lines:[
+      ["م","السَّلامُ عَلَيْكُمْ. جَوازَ السَّفَرِ مِنْ فَضْلِكِ.","Peace be upon you. Your passport, please."],
+      ["ف","تَفَضَّلْ. هَذا جَوازُ سَفَرِي، وَهَذِهِ تَأْشِيرَةُ الدُّخُولِ.","Here you are. This is my passport, and this is the entry visa."],
+      ["م","مِنْ أَيْنَ أَنْتِ قادِمَةٌ؟","Where are you arriving from?"],
+      ["ف","أَنا قادِمَةٌ مِنْ لَنْدَن.","I'm arriving from London."],
+      ["م","كَمْ يَوْمًا سَتَبْقَيْنَ هُنا؟","How many days will you stay here?"],
+      ["ف","سَأَبْقى أُسْبُوعَيْنِ. سَأَقْضِي أُسْبُوعًا فِي مَكَّةَ وَأُسْبُوعًا فِي الْمَدِينَةِ.","I'll stay two weeks. I'll spend a week in Makkah and a week in Medina."],
+      ["م","هَلْ عِنْدَكِ حَجْزٌ فِي فُنْدُقٍ؟","Do you have a hotel booking?"],
+      ["ف","نَعَمْ، هَذا تَأْكِيدُ الْحَجْزِ.","Yes, this is the booking confirmation."],
+      ["م","شُكْرًا. وَأَيْنَ حَقِيبَتُكِ؟","Thank you. And where is your suitcase?"],
+      ["ف","الْحَقِيبَةُ الَّتِي مَعِي صَغِيرَةٌ، وَحَقِيبَتِي الْكَبِيرَةُ هُناكَ.","The bag I have with me is small, and my big suitcase is over there."],
+      ["م","حَسَنًا. إِقامَةً طَيِّبَةً، وَعُمْرَةً مَقْبُولَةً.","Fine. Have a pleasant stay, and may your umrah be accepted."],
+      ["ف","جَزاكَ اللهُ خَيْرًا.","May God reward you."]
+    ]}
+  ],
+  dialogue:[
+    ["ز","لَوْ سَمَحْتَ، أَيْنَ مَحَطَّةُ الْقِطارِ؟","Excuse me, where is the train station?"],
+    ["ر","الْمَحَطَّةُ لَيْسَتْ بَعِيدَةً. هَلْ تَعْرِفُ هَذا الشَّارِعَ؟","The station isn't far. Do you know this street?"],
+    ["ز","لا، أَنا لا أَعْرِفُ الْمَدِينَةَ. أَنا مُسافِرٌ.","No, I don't know the city. I'm a traveller."],
+    ["ر","اِذْهَبْ مُباشَرَةً فِي هَذا الطَّرِيقِ، ثُمَّ اذْهَبْ يَمِينًا عِنْدَ الْمَسْجِدِ.","Go straight on along this road, then go right at the mosque."],
+    ["ز","يَمِينًا عِنْدَ الْمَسْجِدِ. وَبَعْدَ ذَلِكَ؟","Right at the mosque. And after that?"],
+    ["ر","اُعْبُرِ الشَّارِعَ، وَالْمَحَطَّةُ عَلى يَسارِكَ، خَلْفَ السُّوقِ.","Cross the street, and the station is on your left, behind the market."],
+    ["ز","هَلْ أَمْشِي أَوْ أَرْكَبُ الْحافِلَةَ؟","Shall I walk or take the bus?"],
+    ["ر","اِمْشِ. الْمَكانُ قَرِيبٌ: خَمْسُ دَقائِقَ فَقَطْ.","Walk. The place is near: only five minutes."],
+    ["ز","شُكْرًا جَزِيلًا.","Thank you very much."],
+    ["ر","عَفْوًا. رِحْلَةً سَعِيدَةً!","You're welcome. Have a good trip!"]
+  ],
+  ladders:[
+    {steps:["اِذْهَبْ مُباشَرَةً","فِي هَذا الشَّارِعِ","، ثُمَّ اذْهَبْ يَسارًا","عِنْدَ الْمَسْجِدِ","، وَالْمَحَطَّةُ أَمامَكَ"],
+     en:"Go straight on → along this street → then go left → at the mosque → and the station is in front of you."},
+    {steps:["الْقِطارُ","أَسْرَعُ مِنَ الْحافِلَةِ","وَأَرْخَصُ مِنَ الطَّائِرَةِ","، لِذَلِكَ","سَأُسافِرُ بِالْقِطارِ"],
+     en:"The train → is faster than the bus → and cheaper than the plane → so → I'll travel by train."},
+    {steps:["سافَرْتُ","إِلى مَكَّةَ","بِالطَّائِرَةِ","، وَنَزَلْتُ فِي فُنْدُقٍ","قَرِيبٍ مِنَ الْمَسْجِدِ الْحَرامِ"],
+     en:"I travelled → to Makkah → by plane → and stayed in a hotel → near the Sacred Mosque."},
+    {steps:["حَجَزْتُ غُرْفَةً","فِي الْفُنْدُقِ","الَّذِي بِجانِبِ الْمَحَطَّةِ","لِثَلاثِ لَيالٍ","، وَسَأَزُورُ الْمَتاحِفَ"],
+     en:"I booked a room → in the hotel → which is next to the station → for three nights → and I'll visit the museums."}
+  ],
+  subs:[
+    {tpl:["لَوْ سَمَحْتَ، أَيْنَ ",["مَحَطَّةُ الْقِطارِ","الْمَطارُ","أَقْرَبُ فُنْدُقٍ","هَذا الشَّارِعُ"]," ؟"],
+     en:"Excuse me, where is ___ ?"},
+    {tpl:["اِذْهَبْ ",["مُباشَرَةً","يَمِينًا","يَسارًا"]," ",["عِنْدَ الْمَسْجِدِ","بَعْدَ السُّوقِ","أَمامَ الْفُنْدُقِ","خَلْفَ الْمَحَطَّةِ"]," ."],
+     en:"Go ___ ___ . Twelve sentences."},
+    {tpl:["الْقِطارُ ",["أَسْرَعُ","أَرْخَصُ","أَفْضَلُ"]," مِنَ ",["الْحافِلَةِ","السَّيَّارَةِ","الطَّائِرَةِ"]," ."],
+     en:"The train is ___ than ___ . Nine sentences."},
+    {tpl:["لَنْ ",["أُسافِرَ","أَبْقى","أَمْشِيَ","أَرْكَبَ الْحافِلَةَ"]," ",["غَدًا","الْيَوْمَ","فِي الْعُطْلَةِ"]," ."],
+     en:"I won't ___ ___ . After لَنْ the verb ends in -a. Twelve sentences."}
+  ],
+  transforms:[
+    {task:["قارِنْ بِـ (أَسْرَع)","Compare with ‘faster’"],src:"الطَّائِرَةُ سَرِيعَةٌ. الْقِطارُ سَرِيعٌ.",ans:"الطَّائِرَةُ أَسْرَعُ مِنَ الْقِطارِ."},
+    {task:["اِرْبِطْ بِـ (الَّذِي)","Join them with ‘which’"],src:"هَذا هُوَ الْفُنْدُقُ. نَزَلْتُ فِي الْفُنْدُقِ.",ans:"هَذا هُوَ الْفُنْدُقُ الَّذِي نَزَلْتُ فِيهِ."},
+    {task:["انْفِ الْمُسْتَقْبَلَ","Make it ‘won’t’"],src:"سَأُسافِرُ غَدًا.",ans:"لَنْ أُسافِرَ غَدًا."},
+    {task:["اسْأَلْ عَنِ الْمَكانِ","Ask where"],src:"الْمَحَطَّةُ خَلْفَ السُّوقِ.",ans:"أَيْنَ الْمَحَطَّةُ؟"},
+    {task:["حَوِّلْ إِلَى الْماضِي","Change to the past"],src:"أَحْجِزُ غُرْفَةً فِي الْفُنْدُقِ.",ans:"حَجَزْتُ غُرْفَةً فِي الْفُنْدُقِ."},
+    {task:["حَوِّلْ إِلَى (أَنْتِ)","Change to feminine ‘you’"],src:"اِذْهَبْ مُباشَرَةً ثُمَّ اعْبُرِ الشَّارِعَ.",ans:"اِذْهَبِي مُباشَرَةً ثُمَّ اعْبُرِي الشَّارِعَ."}
+  ],
+  builds:[
+    {parts:["اِذْهَبْ مُباشَرَةً","ثُمَّ","اعْبُرِ الشَّارِعَ","عِنْدَ الْمَسْجِدِ"],en:"Go straight on, then cross the street at the mosque."},
+    {parts:["الْقِطارُ","أَسْرَعُ","مِنَ الْحافِلَةِ","وَأَرْخَصُ مِنَ الطَّائِرَةِ"],en:"The train is faster than the bus and cheaper than the plane."},
+    {parts:["أَيْنَ","أَقْرَبُ مَحَطَّةٍ","إِلى","الْمَطارِ؟"],en:"Where is the nearest station to the airport?"},
+    {parts:["هَذا هُوَ","الْفُنْدُقُ","الَّذِي","نَزَلْتُ فِيهِ"],en:"This is the hotel I stayed in."},
+    {parts:["لَنْ أُسافِرَ","بِالطَّائِرَةِ","، سَأَرْكَبُ","الْقِطارَ"],en:"I won't travel by plane: I'll take the train."}
+  ],
+  prompts:[
+    ["كَيْفَ أَصِلُ مِنْ بَيْتِكَ إِلى الْمَسْجِدِ؟","How do I get from your house to the mosque?",
+     "اِذْهَبْ مُباشَرَةً فِي شارِعِنا، ثُمَّ اذْهَبْ يَمِينًا. الْمَسْجِدُ عَلى يَسارِكَ بَعْدَ خَمْسِ دَقائِقَ.",
+     "Go straight along our street, then go right. The mosque is on your left after five minutes."],
+    ["كَيْفَ تُحِبُّ أَنْ تُسافِرَ؟ وَلِماذا؟","How do you like to travel, and why?",
+     "أُحِبُّ السَّفَرَ بِالْقِطارِ، لِأَنَّهُ أَرْخَصُ مِنَ الطَّائِرَةِ وَأَسْرَعُ مِنَ الْحافِلَةِ.",
+     "I like travelling by train, because it's cheaper than the plane and faster than the bus."],
+    ["تَكَلَّمْ عَنْ مَدِينَةٍ زُرْتَها.","Talk about a city you visited.",
+     "زُرْتُ مَكَّةَ فِي الشِّتاءِ. نَزَلْتُ فِي فُنْدُقٍ قَرِيبٍ مِنَ الْمَسْجِدِ الْحَرامِ، وَبَقِيتُ أُسْبُوعًا.",
+     "I visited Makkah in the winter. I stayed in a hotel near the Sacred Mosque, and I was there a week."],
+    ["أَيْنَ سَتُسافِرُ فِي الْعُطْلَةِ؟","Where will you travel in the holiday?",
+     "سَأُسافِرُ إِلى الْمَدِينَةِ الْمُنَوَّرَةِ إِنْ شاءَ اللهُ، وَسَأَقْضِي فِيها ثَلاثَةَ أَيَّامٍ.",
+     "I'll travel to Medina, God willing, and spend three days there."],
+    ["ماذا تَأْخُذُ مَعَكَ فِي السَّفَرِ؟","What do you take with you when you travel?",
+     "آخُذُ جَوازَ السَّفَرِ وَالتَّذْكِرَةَ وَحَقِيبَةً صَغِيرَةً فِيها مَلابِسِي.",
+     "I take my passport, the ticket and a small bag with my clothes in it."]
+  ]
+},
+{
+  n:"16",ar:"الْحِكاياتُ",en:"Telling stories",src:"rafiq",
+  convos:[
+    {title:"Conversation 1",sub:"The lion and the mouse",lines:[
+      ["ط","يا جَدَّتِي، أُرِيدُ قِصَّةً مِنْ فَضْلِكِ.","Grandma, I'd like a story, please."],
+      ["ج","كانَ يا ما كانَ، فِي يَوْمٍ مِنَ الْأَيَّامِ، كانَ أَسَدٌ كَبِيرٌ يَنامُ تَحْتَ شَجَرَةٍ.","Once upon a time, one day, a big lion was sleeping under a tree."],
+      ["ط","وَماذا حَدَثَ؟","And what happened?"],
+      ["ج","جاءَ فَأْرٌ صَغِيرٌ وَمَشى عَلى وَجْهِ الْأَسَدِ.","A little mouse came and walked over the lion's face."],
+      ["ط","وَهَلْ أَكَلَهُ الْأَسَدُ؟","And did the lion eat him?"],
+      ["ج","لا. خافَ الْفَأْرُ وَقالَ: «اُتْرُكْنِي، وَسَأُساعِدُكَ فِي يَوْمٍ مِنَ الْأَيَّامِ».","No. The mouse was afraid and said: ‘Let me go, and one day I'll help you.’"],
+      ["ط","فَأْرٌ صَغِيرٌ يُساعِدُ أَسَدًا؟!","A little mouse helping a lion?!"],
+      ["ج","ضَحِكَ الْأَسَدُ كَثِيرًا، لَكِنَّهُ تَرَكَ الْفَأْرَ.","The lion laughed a lot, but he let the mouse go."],
+      ["ط","وَبَعْدَ ذَلِكَ؟","And after that?"],
+      ["ج","بَعْدَ أَيَّامٍ، وَقَعَ الْأَسَدُ فِي شَبَكَةٍ. سَمِعَهُ الْفَأْرُ، فَجاءَ وَقَطَعَ الشَّبَكَةَ بِأَسْنانِهِ.","A few days later, the lion fell into a net. The mouse heard him, so he came and cut the net with his teeth."],
+      ["ط","ما شاءَ اللهُ! الْفَأْرُ الصَّغِيرُ ساعَدَ الْأَسَدَ الْكَبِيرَ.","Mashallah! The little mouse helped the big lion."],
+      ["ج","نَعَمْ يا حَبِيبَتِي. لا تَضْحَكِي مِنَ الصَّغِيرِ.","Yes, my dear. Don't laugh at the small."]
+    ]},
+    {title:"Conversation 2",sub:"What happened to you?",lines:[
+      ["ك","أَيْنَ كُنْتَ الْبارِحَةَ؟ لَمْ أَرَكَ فِي الْمَسْجِدِ.","Where were you last night? I didn't see you at the mosque."],
+      ["ع","حَدَثَتْ لِي قِصَّةٌ طَوِيلَةٌ!","A long story happened to me!"],
+      ["ك","ماذا حَدَثَ؟","What happened?"],
+      ["ع","رَجَعْتُ مِنَ الْعَمَلِ، وَعِنْدَما وَصَلْتُ إِلى الْبَيْتِ لَمْ أَجِدِ الْمِفْتاحَ.","I came back from work, and when I got home I couldn't find the key."],
+      ["ك","هَلْ فَقَدْتَهُ؟","Had you lost it?"],
+      ["ع","لا أَعْرِفُ. نَسِيتُ أَيْنَ وَضَعْتُهُ.","I don't know. I forgot where I'd put it."],
+      ["ك","وَماذا فَعَلْتَ؟","And what did you do?"],
+      ["ع","جَلَسْتُ أَمامَ الْبابِ ساعَةً. ثُمَّ تَذَكَّرْتُ: تَرَكْتُهُ فِي السَّيَّارَةِ!","I sat in front of the door for an hour. Then I remembered: I'd left it in the car!"],
+      ["ك","وَهَلْ وَجَدْتَهُ هُناكَ؟","And did you find it there?"],
+      ["ع","نَعَمْ، أَخِيرًا! فَتَحْتُ الْبابَ وَدَخَلْتُ، لَكِنَّ وَقْتَ الصَّلاةِ انْتَهى.","Yes, at last! I opened the door and went in, but the time for the prayer had ended."],
+      ["ك","لا تَنْسَ مِفْتاحَكَ مَرَّةً أُخْرى!","Don't forget your key again!"],
+      ["ع","إِنْ شاءَ اللهُ!","God willing!"]
+    ]},
+    {title:"Conversation 3",sub:"The fox and the crow",lines:[
+      ["م","يا هُدى، هَلْ قَرَأْتِ قِصَّةَ الثَّعْلَبِ وَالْغُرابِ؟","Huda, have you read the story of the fox and the crow?"],
+      ["ه","نَعَمْ، قَرَأْتُها. هِيَ قِصَّةٌ قَصِيرَةٌ.","Yes, I've read it. It's a short story."],
+      ["م","ماذا وَجَدَ الْغُرابُ؟","What did the crow find?"],
+      ["ه","وَجَدَ جُبْنًا، وَجَلَسَ عَلى شَجَرَةٍ لِيَأْكُلَهُ.","He found some cheese, and sat in a tree to eat it."],
+      ["م","وَمَنْ رَآهُ؟","And who saw him?"],
+      ["ه","رَآهُ ثَعْلَبٌ جَوْعانُ. نَظَرَ إِلى الْجُبْنِ وَقالَ: «صَوْتُكَ جَمِيلٌ يا غُرابُ!»","A hungry fox saw him. He looked at the cheese and said: ‘You have a lovely voice, crow!’"],
+      ["م","وَلِماذا قالَ ذَلِكَ؟","And why did he say that?"],
+      ["ه","لِأَنَّهُ ذَكِيٌّ! فَتَحَ الْغُرابُ فَمَهُ، فَوَقَعَ الْجُبْنُ.","Because he's clever! The crow opened his mouth, and the cheese fell."],
+      ["م","وَماذا فَعَلَ الثَّعْلَبُ؟","And what did the fox do?"],
+      ["ه","أَخَذَ الْجُبْنَ وَلَمْ يَتْرُكْ شَيْئًا. كانَ الْغُرابُ حَزِينًا وَالثَّعْلَبُ سَعِيدًا.","He took the cheese and left nothing. The crow was sad and the fox was happy."],
+      ["م","أَحْسَنْتِ! وَماذا نَتَعَلَّمُ مِنَ الْقِصَّةِ؟","Well done! And what do we learn from the story?"],
+      ["ه","لا نَسْمَعُ كُلَّ كَلامٍ جَمِيلٍ!","We don't listen to every pretty word!"]
+    ]}
+  ],
+  dialogue:[
+    ["ط","يا جَدَّتِي، أُرِيدُ قِصَّةً مِنْ فَضْلِكِ.","Grandma, I'd like a story, please."],
+    ["ج","كانَ يا ما كانَ، فِي يَوْمٍ مِنَ الْأَيَّامِ، كانَ أَسَدٌ كَبِيرٌ يَنامُ تَحْتَ شَجَرَةٍ.","Once upon a time, one day, a big lion was sleeping under a tree."],
+    ["ط","وَماذا حَدَثَ؟","And what happened?"],
+    ["ج","جاءَ فَأْرٌ صَغِيرٌ وَمَشى عَلى وَجْهِ الْأَسَدِ.","A little mouse came and walked over the lion's face."],
+    ["ط","وَهَلْ أَكَلَهُ الْأَسَدُ؟","And did the lion eat him?"],
+    ["ج","لا. خافَ الْفَأْرُ وَقالَ: «اُتْرُكْنِي، وَسَأُساعِدُكَ فِي يَوْمٍ مِنَ الْأَيَّامِ».","No. The mouse was afraid and said: ‘Let me go, and one day I'll help you.’"],
+    ["ط","فَأْرٌ صَغِيرٌ يُساعِدُ أَسَدًا؟!","A little mouse helping a lion?!"],
+    ["ج","ضَحِكَ الْأَسَدُ كَثِيرًا، لَكِنَّهُ تَرَكَ الْفَأْرَ.","The lion laughed a lot, but he let the mouse go."],
+    ["ط","وَبَعْدَ ذَلِكَ؟","And after that?"],
+    ["ج","بَعْدَ أَيَّامٍ، وَقَعَ الْأَسَدُ فِي شَبَكَةٍ. سَمِعَهُ الْفَأْرُ، فَجاءَ وَقَطَعَ الشَّبَكَةَ بِأَسْنانِهِ.","A few days later, the lion fell into a net. The mouse heard him, so he came and cut the net with his teeth."],
+    ["ط","ما شاءَ اللهُ! الْفَأْرُ الصَّغِيرُ ساعَدَ الْأَسَدَ الْكَبِيرَ.","Mashallah! The little mouse helped the big lion."],
+    ["ج","نَعَمْ يا حَبِيبَتِي. لا تَضْحَكِي مِنَ الصَّغِيرِ.","Yes, my dear. Don't laugh at the small."]
+  ],
+  ladders:[
+    {steps:["خَرَجَ الْأَسَدُ","مِنَ الْغارِ","فِي الصَّباحِ","، ثُمَّ نامَ","تَحْتَ شَجَرَةٍ كَبِيرَةٍ"],
+     en:"The lion went out → of the cave → in the morning → then slept → under a big tree."},
+    {steps:["عِنْدَما وَصَلْتُ","إِلى الْبَيْتِ","لَمْ أَجِدِ الْمِفْتاحَ","، ثُمَّ تَذَكَّرْتُ:","تَرَكْتُهُ فِي السَّيَّارَةِ"],
+     en:"When I got → home → I didn't find the key → then I remembered: → I'd left it in the car."},
+    {steps:["وَجَدَ الْغُرابُ","جُبْنًا","وَجَلَسَ عَلى شَجَرَةٍ","، فَرَآهُ","ثَعْلَبٌ ذَكِيٌّ"],
+     en:"The crow found → some cheese → and sat in a tree → and there he was seen → by a clever fox."},
+    {steps:["سَأَلَنِي الْمُعَلِّمُ","سُؤالًا","فَلَمْ أَعْرِفِ الْجَوابَ","، ثُمَّ أَجابَ صَدِيقِي","وَكانَ جَوابُهُ صَحِيحًا"],
+     en:"The teacher asked me → a question → and I didn't know the answer → then my friend answered → and his answer was right."}
+  ],
+  subs:[
+    {tpl:["لَمْ ",["أَجِدِ الْمِفْتاحَ","أَسْمَعِ الْأَذانَ","أَعْرِفِ الْجَوابَ","أَذْهَبْ إِلى الْعَمَلِ"]," ."],
+     en:"I didn't ___ . After لَمْ the verb has no last vowel (a helping -i before ال)."},
+    {tpl:["عِنْدَما ",["رَجَعْتُ","وَصَلْتُ","دَخَلْتُ","خَرَجْتُ"]," ",["كانَ أَخِي نائِمًا","وَجَدْتُ هَدِيَّةً","سَمِعْتُ الْأَذانَ"]," ."],
+     en:"When I ___ , ___ . Twelve sentences."},
+    {tpl:["كانَ الْأَسَدُ ",["يَنامُ","يَأْكُلُ","يَمْشِي","يَنْظُرُ إِلى الْفَأْرِ"]," ."],
+     en:"The lion was ___ . كانَ with a present verb: what was going on."},
+    {tpl:["ثُمَّ ",["ضَحِكَ","خافَ","بَكى","خَرَجَ"]," ",["الْأَسَدُ","الْفَأْرُ","الْوَلَدُ"]," ."],
+     en:"Then the ___ ___ . The verb comes first. Twelve sentences."}
+  ],
+  transforms:[
+    {task:["انْفِ بِـ (لَمْ)","Negate with لَمْ"],src:"وَجَدْتُ الْمِفْتاحَ.",ans:"لَمْ أَجِدِ الْمِفْتاحَ."},
+    {task:["حَوِّلْ إِلَى الْماضِي","Change to the past"],src:"يَخْرُجُ الْأَسَدُ فِي الصَّباحِ.",ans:"خَرَجَ الْأَسَدُ فِي الصَّباحِ."},
+    {task:["اِرْبِطْ بِـ (عِنْدَما)","Join them with ‘when’"],src:"رَجَعْتُ إِلى الْبَيْتِ. نِمْتُ.",ans:"عِنْدَما رَجَعْتُ إِلى الْبَيْتِ نِمْتُ."},
+    {task:["حَوِّلْ إِلَى (هِيَ)","Change to ‘she’"],src:"ضَحِكَ الْوَلَدُ ثُمَّ خَرَجَ.",ans:"ضَحِكَتِ الْبِنْتُ ثُمَّ خَرَجَتْ."},
+    {task:["اسْأَلْ عَمَّا حَدَثَ","Ask what happened"],src:"فَقَدْتُ جَوازَ سَفَرِي.",ans:"ماذا حَدَثَ؟"},
+    {task:["اِرْبِطْ بِـ (ثُمَّ)","Join them with ‘then’"],src:"فَتَحْتُ الْبابَ. دَخَلْتُ.",ans:"فَتَحْتُ الْبابَ ثُمَّ دَخَلْتُ."}
+  ],
+  builds:[
+    {parts:["فِي يَوْمٍ مِنَ الْأَيَّامِ","خَرَجَ","أَسَدٌ كَبِيرٌ","مِنَ الْغارِ"],en:"One day a big lion went out of the cave."},
+    {parts:["عِنْدَما","رَأى الْفَأْرُ","الْأَسَدَ","خافَ كَثِيرًا"],en:"When the mouse saw the lion, he was very afraid."},
+    {parts:["لَمْ أَجِدِ","الْمِفْتاحَ","، ثُمَّ تَذَكَّرْتُ","أَيْنَ وَضَعْتُهُ"],en:"I didn't find the key, then I remembered where I'd put it."},
+    {parts:["سَأَلَ","الْمُعَلِّمُ سُؤالًا","فَأَجابَ","الطَّالِبُ الذَّكِيُّ"],en:"The teacher asked a question and the clever student answered."},
+    {parts:["كانَ الْغُرابُ","حَزِينًا","وَكانَ الثَّعْلَبُ","سَعِيدًا"],en:"The crow was sad and the fox was happy."}
+  ],
+  prompts:[
+    ["ماذا فَعَلْتَ الْبارِحَةَ؟","What did you do yesterday?",
+     "ذَهَبْتُ إِلى الْعَمَلِ فِي الصَّباحِ، ثُمَّ رَجَعْتُ إِلى الْبَيْتِ وَأَكَلْتُ مَعَ أُسْرَتِي. أَخِيرًا قَرَأْتُ قَلِيلًا وَنِمْتُ.",
+     "I went to work in the morning, then came home and ate with my family. Finally I read a little and slept."],
+    ["اِحْكِ قِصَّةَ الْأَسَدِ وَالْفَأْرِ.","Tell the story of the lion and the mouse.",
+     "كانَ أَسَدٌ يَنامُ، فَمَشى عَلَيْهِ فَأْرٌ. لَمْ يَأْكُلْهُ الْأَسَدُ وَتَرَكَهُ. ثُمَّ ساعَدَ الْفَأْرُ الْأَسَدَ فِي يَوْمٍ مِنَ الْأَيَّامِ.",
+     "A lion was sleeping, and a mouse walked over him. The lion didn't eat him and let him go. Then one day the mouse helped the lion."],
+    ["هَلْ نَسِيتَ شَيْئًا مُهِمًّا مَرَّةً؟ ماذا حَدَثَ؟","Have you ever forgotten something important? What happened?",
+     "نَعَمْ، نَسِيتُ مِفْتاحِي فِي السَّيَّارَةِ. لَمْ أَجِدْهُ فِي الْبَيْتِ، ثُمَّ تَذَكَّرْتُ وَرَجَعْتُ إِلى السَّيَّارَةِ.",
+     "Yes, I forgot my key in the car. I couldn't find it at home, then I remembered and went back to the car."],
+    ["ماذا كُنْتَ تَفْعَلُ عِنْدَما كُنْتَ صَغِيرًا؟","What did you use to do when you were small?",
+     "عِنْدَما كُنْتُ صَغِيرًا كُنْتُ أَلْعَبُ كُرَةَ الْقَدَمِ مَعَ أَصْدِقائِي، وَكُنْتُ أَسْمَعُ قِصَصَ جَدَّتِي.",
+     "When I was small I used to play football with my friends, and listen to my grandmother's stories."],
+    ["ما الْقِصَّةُ الَّتِي تُحِبُّها؟ وَلِماذا؟","Which story do you love, and why?",
+     "أُحِبُّ قِصَّةَ يُوسُفَ عَلَيْهِ السَّلامُ، لِأَنَّها قِصَّةٌ جَمِيلَةٌ فِي الْقُرْآنِ.",
+     "I love the story of Yusuf, peace be upon him, because it's a beautiful story in the Qur'an."]
+  ]
 }
 ];
 
@@ -1555,5 +2001,92 @@ const EXTRA={
   {bad:"كَمْ ساعاتٍ تَقْرَأُ؟",good:"كَمْ ساعَةً تَقْرَأُ؟",w:"After كَمْ: singular, ending in -an."},
   {bad:"أُحِبُّ الْقِراءَةَ لِأَنَّ مُفِيدَةٌ.",good:"أُحِبُّ الْقِراءَةَ لِأَنَّها مُفِيدَةٌ.",w:"لِأَنَّ needs a subject."},
   {bad:"لا لَدَيَّ مَكْتَبَةٌ.",good:"لَيْسَ لَدَيَّ مَكْتَبَةٌ.",w:"Possession is negated with لَيْسَ."}
+ ]},
+"13":{
+ grammar:[
+  {t:"المستقبل",ar:"سَأَصُومُ غَدًا.",h:"‘Will’: سَـ on the front",tr:"I’ll fast tomorrow.",en:"Put سَـ on the front of a present verb and it means ‘will’: أَصُومُ, I fast; سَأَصُومُ, I’ll fast. سَوْفَ before the verb means the same: سَوْفَ أَصُومُ.",check:["How do you say ‘we’ll break the fast’?",["سَنُفْطِرُ","نُفْطِرُ","أَفْطَرْنا"],0,"سَـ on the front of نُفْطِرُ."]},
+  {t:"قَبْلَ وَبَعْدَ",ar:"قَبْلَ الْفَجْرِ · بَعْدَ الْمَغْرِبِ",h:"‘Before’ and ‘after’",tr:"before dawn · after sunset",en:"قَبْلَ is ‘before’ and بَعْدَ is ‘after’. The word that follows ends in -i: قَبْلَ الْفَجْرِ, بَعْدَ الْإِفْطارِ.",check:["Which fits? ‘after the prayer’: بَعْدَ ___",["الصَّلاةِ","الصَّلاةُ","الصَّلاةَ"],0,"After قَبْلَ and بَعْدَ the word ends in -i."]},
+  {t:"الفعل الأجوف",ar:"أَصُومُ · صُمْتُ",h:"‘I fasted’: the long vowel drops",tr:"I fast · I fasted",en:"Some verbs have a long vowel in the middle: صامَ, he fasted; زارَ, he visited. With ‘I’, ‘you’ and ‘we’ in the past, the long vowel drops out: صُمْتُ, I fasted; زُرْتُ, I visited; صُمْنا, we fasted.",check:["How do you say ‘I visited my grandmother’?",["زُرْتُ جَدَّتِي","أَزُورُ جَدَّتِي","زارَ جَدَّتِي"],0,"The long vowel drops: زُرْتُ."]}
+ ],
+ cloze:[
+  {q:"___ غَدًا إِنْ شاءَ اللهُ.",o:["سَأَصُومُ","صُمْتُ","صامَ","صائِمٌ"],a:0,w:"‘Tomorrow’ needs the future: سَـ on a present verb."},
+  {q:"أَتَسَحَّرُ قَبْلَ ___ .",o:["الْفَجْرُ","الْفَجْرَ","الْفَجْرِ","فَجْرًا"],a:2,w:"After قَبْلَ the word ends in -i."},
+  {q:"___ رَمَضانَ مَعَ أُسْرَتِي فِي السَّنَةِ الْماضِيَةِ.",o:["صُمْتُ","أَصُومُ","سَأَصُومُ","صائِمٌ"],a:0,w:"‘Last year’ is the past, and the long vowel drops: صُمْتُ."},
+  {q:"نُفْطِرُ ___ تَمْرٍ وَماءٍ.",o:["فِي","عَلى","إِلى","مِنْ"],a:1,w:"You break the fast ‘on’ something: أَفْطَرَ عَلى."},
+  {q:"كُلُّ عامٍ وَأَنْتُمْ ___ .",o:["بِخَيْرٍ","خَيْرٌ","مُبارَكٌ","جَدِيدٌ"],a:0,w:"The Eid greeting: ‘may you be well every year’."},
+  {q:"لَبِسْتُ ثَوْبًا ___ لِلْعِيدِ.",o:["جَدِيدٌ","جَدِيدًا","جَدِيدٍ","الْجَدِيدَ"],a:1,w:"The describing word copies its noun: ثَوْبًا جَدِيدًا."}
+ ],
+ fix:[
+  {bad:"سَصُمْتُ غَدًا.",good:"سَأَصُومُ غَدًا.",w:"سَـ goes on a present verb, never a past one."},
+  {bad:"أَتَسَحَّرُ قَبْلَ الْفَجْرُ.",good:"أَتَسَحَّرُ قَبْلَ الْفَجْرِ.",w:"After قَبْلَ the word ends in -i."},
+  {bad:"صامْتُ رَمَضانَ.",good:"صُمْتُ رَمَضانَ.",w:"With ‘I’ in the past the long vowel drops: صُمْتُ."},
+  {bad:"نُفْطِرُ فِي تَمْرٍ.",good:"نُفْطِرُ عَلى تَمْرٍ.",w:"You break the fast ‘on’ dates: عَلى."},
+  {bad:"أَصُومُ فِي رَمَضانٍ.",good:"أَصُومُ فِي رَمَضانَ.",w:"رَمَضان never takes the extra -n or the -i ending: فِي رَمَضانَ."}
+ ]},
+"14":{
+ grammar:[
+  {t:"ضمائر المفعول",ar:"رَأْسِي يُؤْلِمُنِي.",h:"‘It hurts me’: endings on verbs",tr:"My head hurts (me).",en:"The endings you know from ‘my’ and ‘your’ also go on verbs, for ‘me’, ‘you’, ‘him’ and ‘her’: يُؤْلِمُنِي, it hurts me; يُؤْلِمُكَ, it hurts you; يُؤْلِمُهُ, it hurts him. On a verb, ‘me’ is ـنِي, not ـِي.",check:["How do you say ‘the doctor helps me’?",["يُساعِدُنِي الطَّبِيبُ","يُساعِدِي الطَّبِيبُ","أُساعِدُ الطَّبِيبَ"],0,"On a verb, ‘me’ is ـنِي."]},
+  {t:"المؤنث",ar:"عَيْنِي تُؤْلِمُنِي · رَأْسِي يُؤْلِمُنِي",h:"Parts of the body that come in pairs are feminine",tr:"My eye hurts · My head hurts",en:"Eye, ear, hand, leg and foot: parts that come in pairs are feminine, though they have no ة. So the verb starts with تُـ: عَيْنِي تُؤْلِمُنِي. Head, back and belly are masculine: رَأْسِي يُؤْلِمُنِي.",check:["Which fits? يَدِي ___",["تُؤْلِمُنِي","يُؤْلِمُنِي"],0,"يَد is feminine: hands come in pairs."]},
+  {t:"يَجِبُ أَنْ",ar:"يَجِبُ أَنْ تَأْخُذَ الدَّواءَ.",h:"‘Must’: يَجِبُ أَنْ",tr:"You must take the medicine.",en:"يَجِبُ أَنْ means ‘must’. The verb after أَنْ ends in -a, not -u: تَأْخُذَ. It’s the same after لِـ, ‘in order to’.",check:["Which fits? يَجِبُ أَنْ ___ كَثِيرًا.",["تَنامَ","تَنامُ","نِمْتَ"],0,"After أَنْ the verb ends in -a."]},
+  {t:"الأمر والنهي",ar:"خُذِ الدَّواءَ · لا تَذْهَبْ إِلى الْعَمَلِ",h:"‘Do’ and ‘don’t’",tr:"Take the medicine · Don’t go to work",en:"Commands are short forms of the verb. Learn these four: خُذْ, take; اِشْرَبْ, drink; نَمْ, sleep; اِجْلِسْ, sit. To a woman they add ـِي: خُذِي. For ‘don’t’, put لا before the ‘you’ verb and drop its last vowel: لا تَذْهَبْ, don’t go.",check:["How do you say ‘don’t eat’ (to a man)?",["لا تَأْكُلْ","لا أَكَلْتَ","لَيْسَ تَأْكُلُ"],0,"لا, then the ‘you’ verb with no last vowel."]}
+ ],
+ cloze:[
+  {q:"رَأْسِي ___ مُنْذُ الصَّباحِ.",o:["يُؤْلِمُنِي","تُؤْلِمُنِي","يُؤْلِمِي","يُؤْلِمُ أَنا"],a:0,w:"رَأْس is masculine, and ‘me’ on a verb is ـنِي."},
+  {q:"عَيْنِي ___ .",o:["يُؤْلِمُنِي","تُؤْلِمُنِي","يُؤْلِمُهُ","تُؤْلِمُكَ"],a:1,w:"عَيْن is feminine: parts that come in pairs are."},
+  {q:"يَجِبُ أَنْ ___ الدَّواءَ.",o:["تَأْخُذُ","تَأْخُذَ","أَخَذْتَ","خُذْ"],a:1,w:"After أَنْ the verb ends in -a."},
+  {q:"___ هَذا الدَّواءَ مَرَّتَيْنِ فِي الْيَوْمِ، مِنْ فَضْلِكَ.",o:["خُذْ","تَأْخُذَ","يَأْخُذُ","أَخَذَ"],a:0,w:"A command to a man: خُذْ, take."},
+  {q:"أَحْتاجُ ___ الرَّاحَةِ.",o:["فِي","إِلى","عَلى","مِنْ"],a:1,w:"You need ‘to’ something: اِحْتاجَ إِلى."},
+  {q:"عِنْدِي سُعالٌ ___ .",o:["شَدِيدٌ","شَدِيدًا","شَدِيدَةٌ","الشَّدِيدُ"],a:0,w:"The describing word copies its noun: سُعالٌ شَدِيدٌ."}
+ ],
+ fix:[
+  {bad:"عَيْنِي يُؤْلِمُنِي.",good:"عَيْنِي تُؤْلِمُنِي.",w:"عَيْن is feminine: parts that come in pairs are."},
+  {bad:"رَأْسِي يُؤْلِمِي.",good:"رَأْسِي يُؤْلِمُنِي.",w:"On a verb, ‘me’ is ـنِي."},
+  {bad:"يَجِبُ أَنْ تَأْخُذُ الدَّواءَ.",good:"يَجِبُ أَنْ تَأْخُذَ الدَّواءَ.",w:"After أَنْ the verb ends in -a."},
+  {bad:"أَحْتاجُ فِي الرَّاحَةِ.",good:"أَحْتاجُ إِلى الرَّاحَةِ.",w:"اِحْتاجَ goes with إِلى."},
+  {bad:"عِنْدِي حُمَّى شَدِيدٌ.",good:"عِنْدِي حُمَّى شَدِيدَةٌ.",w:"حُمَّى is feminine, so its describing word takes ة."}
+ ]},
+"15":{
+ grammar:[
+  {t:"اسم التفضيل",ar:"الْقِطارُ أَسْرَعُ مِنَ الْحافِلَةِ.",h:"‘Faster than’: أَسْرَعُ مِنْ",tr:"The train is faster than the bus.",en:"To compare, a describing word is rebuilt with أَ at the front: سَرِيع → أَسْرَع, faster; قَرِيب → أَقْرَب, nearer; رَخِيص → أَرْخَص, cheaper. ‘Than’ is مِنْ. It’s the same for masculine and feminine, and it never takes the extra -n.",check:["How do you say ‘nearer than’?",["أَقْرَبُ مِنْ","قَرِيبٌ مِنْ","أَقْرَبُ إِلى"],0,"قَرِيب → أَقْرَب, and ‘than’ is مِنْ."]},
+  {t:"أَفْعَل + اسم",ar:"أَيْنَ أَقْرَبُ مَحَطَّةٍ؟",h:"‘The nearest’ goes before the noun",tr:"Where is the nearest station?",en:"Put the same word before a noun and it means ‘the most’: أَقْرَبُ مَحَطَّةٍ, the nearest station; أَفْضَلُ فُنْدُقٍ, the best hotel. The noun has no ال and ends in -in.",check:["How do you say ‘the cheapest hotel’?",["أَرْخَصُ فُنْدُقٍ","فُنْدُقٌ رَخِيصٌ","الْفُنْدُقُ الرَّخِيصُ"],0,"The أَفْعَل word first, then the noun."]},
+  {t:"الاسم الموصول",ar:"الْفُنْدُقُ الَّذِي بِجانِبِ الْمَحَطَّةِ · الْحافِلَةُ الَّتِي تَذْهَبُ إِلى الْمَطارِ",h:"‘Which’ and ‘who’: الَّذِي and الَّتِي",tr:"the hotel which is next to the station · the bus which goes to the airport",en:"الَّذِي joins more about a masculine word onto it; الَّتِي does the same for a feminine one. They’re used after a word with ال.",check:["Which fits? الطَّائِرَةُ ___ تُغادِرُ الْآنَ",["الَّتِي","الَّذِي"],0,"طائِرَة is feminine: الَّتِي."]},
+  {t:"لَنْ",ar:"لَنْ أُسافِرَ غَدًا.",h:"‘Won’t’: لَنْ",tr:"I won’t travel tomorrow.",en:"لَنْ before a present verb means ‘will not’. Like أَنْ, it makes the verb end in -a: لَنْ أُسافِرَ. Don’t add سَـ.",check:["How do you say ‘I won’t go’?",["لَنْ أَذْهَبَ","لَنْ سَأَذْهَبُ","لَنْ ذَهَبْتُ"],0,"لَنْ, then the present verb ending in -a."]}
+ ],
+ cloze:[
+  {q:"الطَّائِرَةُ ___ مِنَ الْقِطارِ.",o:["سَرِيعَةٌ","أَسْرَعُ","السَّرِيعَةُ","سَرِيعٌ"],a:1,w:"To compare: أَسْرَع, the same for masculine and feminine."},
+  {q:"أَيْنَ أَقْرَبُ ___ ؟",o:["الْمَحَطَّةُ","مَحَطَّةٍ","مَحَطَّةً","الْمَحَطَّةِ"],a:1,w:"After ‘the nearest’ the noun has no ال and ends in -in."},
+  {q:"هَذا هُوَ الْفُنْدُقُ ___ نَزَلْتُ فِيهِ.",o:["الَّتِي","الَّذِي","هَذِهِ","ماذا"],a:1,w:"فُنْدُق is masculine: الَّذِي."},
+  {q:"لَنْ ___ بِالطَّائِرَةِ.",o:["أُسافِرُ","أُسافِرَ","سافَرْتُ","سَأُسافِرُ"],a:1,w:"After لَنْ the verb ends in -a."},
+  {q:"اِذْهَبْ مُباشَرَةً، ثُمَّ ___ الشَّارِعَ.",o:["اعْبُرِ","عَبَرَ","يَعْبُرُ","عَبَرْتُ"],a:0,w:"A command: اُعْبُرْ, cross."},
+  {q:"الْحافِلَةُ ___ تَذْهَبُ إِلى الْمَطارِ هُناكَ.",o:["الَّذِي","الَّتِي","هَذا","أَيْنَ"],a:1,w:"حافِلَة is feminine: الَّتِي."}
+ ],
+ fix:[
+  {bad:"الطَّائِرَةُ أَسْرَعُ الْقِطارِ.",good:"الطَّائِرَةُ أَسْرَعُ مِنَ الْقِطارِ.",w:"‘Than’ is مِنْ."},
+  {bad:"أَيْنَ أَقْرَبُ الْمَحَطَّةُ؟",good:"أَيْنَ أَقْرَبُ مَحَطَّةٍ؟",w:"After ‘the nearest’ the noun has no ال."},
+  {bad:"الْحافِلَةُ الَّذِي تَذْهَبُ إِلى الْمَطارِ.",good:"الْحافِلَةُ الَّتِي تَذْهَبُ إِلى الْمَطارِ.",w:"حافِلَة is feminine: الَّتِي."},
+  {bad:"لَنْ سَأُسافِرُ غَدًا.",good:"لَنْ أُسافِرَ غَدًا.",w:"لَنْ already means ‘will not’: no سَـ, and the verb ends in -a."},
+  {bad:"الْمَحَطَّةُ لَيْسَتْ بَعِيدَةٌ.",good:"الْمَحَطَّةُ لَيْسَتْ بَعِيدَةً.",w:"After لَيْسَ the describing word ends in -an."}
+ ]},
+"16":{
+ grammar:[
+  {t:"الماضي في الحكاية",ar:"خَرَجَ الْأَسَدُ، ثُمَّ نامَ تَحْتَ شَجَرَةٍ.",h:"Telling what happened: the verb first",tr:"The lion went out, then slept under a tree.",en:"A story is told in the past, and the verb usually comes first: خَرَجَ الْأَسَدُ, ‘went out the lion’. For a feminine doer the verb ends in ـَتْ: خَرَجَتِ الْبِنْتُ. Join one event to the next with ثُمَّ, ‘then’.",check:["How do you say ‘the girl laughed’?",["ضَحِكَتِ الْبِنْتُ","ضَحِكَ الْبِنْتُ","ضَحِكْتُ الْبِنْتُ"],0,"A feminine doer: the verb ends in ـَتْ."]},
+  {t:"لَمْ",ar:"لَمْ يَأْكُلِ الْأَسَدُ الْفَأْرَ.",h:"‘Didn’t’: لَمْ",tr:"The lion didn’t eat the mouse.",en:"For ‘didn’t’, put لَمْ before the present verb and drop its last vowel: يَأْكُلُ → لَمْ يَأْكُلْ, he didn’t eat. It looks present, but it means the past. You can also say ما with a past verb: ما أَكَلَ.",check:["How do you say ‘I didn’t go’?",["لَمْ أَذْهَبْ","لَمْ ذَهَبْتُ","لَنْ أَذْهَبَ"],0,"لَمْ, then the present verb with no last vowel."]},
+  {t:"عِنْدَما",ar:"عِنْدَما رَأى الْفَأْرُ الْأَسَدَ، خافَ.",h:"‘When’ in a story: عِنْدَما",tr:"When the mouse saw the lion, he was afraid.",en:"مَتى asks ‘when?’. To join two things that happened, use عِنْدَما, with a past verb after it: عِنْدَما رَجَعْتُ, when I came back.",check:["Which fits? ___ رَجَعْتُ إِلى الْبَيْتِ، نِمْتُ.",["عِنْدَما","مَتى","لِماذا"],0,"Joining two events: عِنْدَما."]},
+  {t:"كانَ + مضارع",ar:"كانَ الْأَسَدُ يَنامُ.",h:"‘Was sleeping’: كانَ and a present verb",tr:"The lion was sleeping.",en:"كانَ with a present verb says what was going on, or what used to happen: كانَ يَنامُ, he was sleeping; كُنْتُ أَلْعَبُ, I used to play."}
+ ],
+ cloze:[
+  {q:"لَمْ ___ الْمِفْتاحَ فِي الْبَيْتِ.",o:["أَجِدِ","وَجَدْتُ","أَجِدُ","سَأَجِدُ"],a:0,w:"After لَمْ: the present verb, with no last vowel."},
+  {q:"___ وَصَلْتُ إِلى الْبَيْتِ، نِمْتُ.",o:["مَتى","عِنْدَما","لِماذا","هَلْ"],a:1,w:"Joining two things that happened: عِنْدَما."},
+  {q:"ضَحِكَ الْأَسَدُ، ___ تَرَكَ الْفَأْرَ.",o:["ثُمَّ","لَمْ","عِنْدَما","هَلْ"],a:0,w:"One thing after another: ثُمَّ, then."},
+  {q:"___ الْبِنْتُ مِنَ الْغُرْفَةِ.",o:["خَرَجَ","خَرَجَتِ","خَرَجْتُ","يَخْرُجُ"],a:1,w:"A feminine doer: the verb ends in ـَتْ."},
+  {q:"كانَ الْأَسَدُ ___ تَحْتَ الشَّجَرَةِ.",o:["يَنامُ","نَمْ","لَمْ يَنَمْ","سَيَنامُ"],a:0,w:"كانَ with a present verb: he was sleeping."},
+  {q:"كانَ الْغُرابُ ___ .",o:["حَزِينٌ","حَزِينًا","حَزِينٍ","الْحَزِينُ"],a:1,w:"After كانَ the describing word ends in -an."}
+ ],
+ fix:[
+  {bad:"لَمْ وَجَدْتُ الْمِفْتاحَ.",good:"لَمْ أَجِدِ الْمِفْتاحَ.",w:"لَمْ goes with a present verb, not a past one."},
+  {bad:"مَتى رَجَعْتُ إِلى الْبَيْتِ، نِمْتُ.",good:"عِنْدَما رَجَعْتُ إِلى الْبَيْتِ، نِمْتُ.",w:"مَتى only asks. To join two events, use عِنْدَما."},
+  {bad:"خَرَجَ الْبِنْتُ مِنَ الْغُرْفَةِ.",good:"خَرَجَتِ الْبِنْتُ مِنَ الْغُرْفَةِ.",w:"A feminine doer: the verb ends in ـَتْ."},
+  {bad:"كانَ الثَّعْلَبُ سَعِيدٌ.",good:"كانَ الثَّعْلَبُ سَعِيدًا.",w:"After كانَ the describing word ends in -an."},
+  {bad:"لَمْ يَأْكُلُ الْأَسَدُ الْفَأْرَ.",good:"لَمْ يَأْكُلِ الْأَسَدُ الْفَأْرَ.",w:"After لَمْ the verb loses its -u (here a helping -i, before ال)."}
  ]}
 };
