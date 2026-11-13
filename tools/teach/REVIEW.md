@@ -638,3 +638,718 @@ After a lesson's eight picks, one or two of its own "How do you say" answers are
 | Describing words | بَيْتٌ كَبِيرٌ · غُرْفَةٌ كَبِيرَةٌ | كَبِيرَةٌ / كَبِيرٌ | |
 | ‘Of’ | طالِبُ اللُّغَةِ · كِتابُ الطّالِبِ | طالِبٌ، اللُّغَةُ / الْكِتابُ، كِتابٌ | |
 | One and many | هَذِهِ كُتُبٌ · نَحْنُ طُلّابٌ | هَذا / أَنا، طالِبٌ | |
+
+## Added 13 Nov 2026 (#344): units 13 to 16 — for the teacher to check
+
+Four new units, written for this app: every word, sentence and vowel mark below is new and unchecked by a person. CAMeL Tools finds nothing to flag in the 81 new words (tools/camel-report.md unchanged), and no misspelt or mis-vowelled word in the sentences; it can't judge the case endings or whether a sentence reads naturally. Not yet through TypeSafe (the service was blocked in that session, #262). **No audio is recorded for any of this yet: record it once this list is checked.**
+
+Things I'd like a teacher's eye on first:
+- Unit 14: مُتْعَب for ‘tired’ (not تَعْبان, to avoid its endings); ماذا بِكَ؟ for ‘what's wrong?’; سَلامَتُكَ for ‘get well soon’; ‘parts that come in pairs are feminine’ as a rule for beginners.
+- Unit 14: the commands card lists four commands to learn (خُذْ، اِشْرَبْ، نَمْ، اِجْلِسْ) rather than giving a rule.
+- Unit 15: اِذْهَبْ يَمِينًا / يَسارًا for ‘go right / left’ (rather than اِنْعَطِفْ or اِتَّجِهْ); جَوازَ السَّفَرِ مِنْ فَضْلِكِ; لَنْدَن left without an ending.
+- Unit 16: the two fables are retold in simple sentences; three words in them are not taught (حَدَثَ، وَقَعَ، شَبَكَة) and only appear with their translation.
+- Unit 13: the greetings and their replies; صُمْتُ and زُرْتُ on the ‘long vowel drops’ card.
+
+### Unit 13: Ramadan & Eid (رَمَضانُ وَالْعِيدُ)
+
+**Words, in the order taught (lessons of 5).** New = added to the word list for this unit; the rest were already in the list, with audio, but in no unit.
+
+| # | Word | Reading | Meaning | New? | OK? |
+|---|---|---|---|---|---|
+| 1 | رَمَضان | ramaḍān | Ramadan | new | |
+| 2 | شَهْر | shahr | month |  | |
+| 3 | هِلال | hilāl | crescent moon | new | |
+| 4 | قَمَر | qamar | moon | new | |
+| 5 | مُسْلِم | muslim | Muslim | new | |
+| 6 | صامَ / يَصُومُ | ṣāma / yaṣūmu | to fast |  | |
+| 7 | صِيام | ṣiyām | fasting (the fast) | new | |
+| 8 | صائِم | ṣāʾim | fasting (a person) | new | |
+| 9 | جوع | jūʿ | hunger |  | |
+| 10 | عَطْشانُ | ʿaṭshān | thirsty | new | |
+| 11 | سَحُور | saḥūr | suhoor, the meal before dawn | new | |
+| 12 | تَسَحَّرَ / يَتَسَحَّرُ | tasaḥḥara / yatasaḥḥaru | to eat suhoor | new | |
+| 13 | إِفْطار | ifṭār | iftar, breaking the fast | new | |
+| 14 | أَفْطَرَ / يُفْطِرُ | afṭara / yufṭiru | to break the fast | new | |
+| 15 | قَبْلَ | qabla | before | new | |
+| 16 | تَمْرة | tamra | date |  | |
+| 17 | شَرِبَ / يَشْرَبُ | shariba / yashrabu | to drink |  | |
+| 18 | طَبَخَ / يَطْبُخُ | ṭabakha / yaṭbukhu | to cook | new | |
+| 19 | بَعْدَ | baʿda | after |  | |
+| 20 | مَعَ | maʿa | with |  | |
+| 21 | صَلاة التَّراوِيح | ṣalāt at-tarāwīḥ | the tarawih prayer | new | |
+| 22 | إِمام | imām | imam | new | |
+| 23 | مُصْحَف | muṣḥaf | mushaf |  | |
+| 24 | دُعاء | duʿāʾ | supplication, duʿaʾ | new | |
+| 25 | لَيْلَة القَدْر | laylat al-qadr | the Night of Decree | new | |
+| 26 | صَدَقَة | ṣadaqa | charity | new | |
+| 27 | أَعْطى / يُعْطِي | aʿṭā / yuʿṭī | to give |  | |
+| 28 | رَمَضان مُبارَك | ramaḍān mubārak | Ramadan mubarak (a blessed Ramadan) | new | |
+| 29 | اللَّيْلة | al-layla | tonight |  | |
+| 30 | دَعا / يَدْعُو | daʿā / yadʿū | to invite; to call on (God) | new | |
+| 31 | شَوَّال | shawwāl | Shawwal |  | |
+| 32 | عِيد مُبارَك | ʿīd mubārak | Eid mubarak (a blessed Eid) | new | |
+| 33 | كُلُّ عامٍ وَأَنْتُمْ بِخَيْرٍ | kullu ʿāmin wa-antum bi-khayr | may you be well every year | new | |
+| 34 | تَقَبَّلَ اللهُ مِنَّا وَمِنْكُمْ | taqabbala llāhu minnā wa-minkum | may God accept from us and from you | new | |
+| 35 | لَبِسَ / يَلْبَسُ | labisa / yalbasu | to wear |  | |
+| 36 | زارَ / يَزُورُ | zāra / yazūru | to visit |  | |
+| 37 | أَهْل | ahl | family, people |  | |
+| 38 | جَدَّة | jadda | grandmother |  | |
+| 39 | هَدِيّة | hadiyya | gift |  | |
+| 40 | حَلْوى | ḥalwā | sweets | new | |
+
+**Conversation 1: The crescent**
+
+| | Arabic | English | OK? |
+|---|---|---|---|
+| ب | السَّلامُ عَلَيْكُمْ يا يُوسُفُ. هَلْ رَأَيْتَ الْهِلالَ؟ | Peace be upon you, Yusuf. Have you seen the crescent? | |
+| ي | وَعَلَيْكُمُ السَّلامُ. نَعَمْ، رَأَيْتُهُ بَعْدَ الْمَغْرِبِ. غَدًا أَوَّلُ يَوْمٍ مِنْ رَمَضانَ. | And upon you peace. Yes, I saw it after sunset. Tomorrow is the first day of Ramadan. | |
+| ب | الْحَمْدُ لِلَّهِ! رَمَضانُ مُبارَكٌ. | Praise be to God! Ramadan mubarak. | |
+| ي | رَمَضانُ مُبارَكٌ. هَلْ سَتَصُومُ الشَّهْرَ كُلَّهُ؟ | Ramadan mubarak. Will you fast the whole month? | |
+| ب | نَعَمْ إِنْ شاءَ اللهُ. كُلُّ مُسْلِمٍ يَصُومُ فِي رَمَضانَ. | Yes, God willing. Every Muslim fasts in Ramadan. | |
+| ي | مَتى تَتَسَحَّرُ؟ | When do you eat suhoor? | |
+| ب | أَتَسَحَّرُ قَبْلَ الْفَجْرِ مَعَ أُسْرَتِي. | I eat suhoor before dawn with my family. | |
+| ي | هَلْ تَشْعُرُ بِالْجُوعِ وَأَنْتَ صائِمٌ؟ | Do you feel hungry while you're fasting? | |
+| ب | لا أَشْعُرُ بِالْجُوعِ كَثِيرًا، لَكِنِّي عَطْشانُ فِي الصَّيْفِ. | I don't feel very hungry, but I'm thirsty in summer. | |
+| ي | اللَّهُمَّ بارِكْ لَنا فِي رَمَضانَ. | O God, bless Ramadan for us. | |
+| ب | آمِين. | Amen. | |
+
+**Conversation 2: Iftar at home**
+
+| | Arabic | English | OK? |
+|---|---|---|---|
+| م | يا أُمِّي، مَتى الْإِفْطارُ الْيَوْمَ؟ | Mum, when is iftar today? | |
+| ف | بَعْدَ ساعَةٍ، عِنْدَ أَذانِ الْمَغْرِبِ. | In an hour, at the call to the sunset prayer. | |
+| م | ماذا تَطْبُخِينَ؟ | What are you cooking? | |
+| ف | أَطْبُخُ الْأَرُزَّ وَالدَّجاجَ، وَعِنْدَنا تَمْرٌ وَحَلِيبٌ. | I'm cooking rice and chicken, and we have dates and milk. | |
+| م | هَلْ أُساعِدُكِ؟ | Shall I help you? | |
+| ف | نَعَمْ، ضَعِي التَّمْرَ وَالْماءَ عَلى الْمائِدَةِ. | Yes, put the dates and the water on the table. | |
+| م | مَنْ سَيُفْطِرُ مَعَنا اللَّيْلَةَ؟ | Who will break the fast with us tonight? | |
+| ف | دَعَوْتُ جَدَّتَكِ وَعَمَّكِ. | I've invited your grandmother and your uncle. | |
+| م | ما شاءَ اللهُ! أَنا صائِمَةٌ مُنْذُ الْفَجْرِ! | Mashallah! I've been fasting since dawn! | |
+| ف | اصْبِرِي قَلِيلًا. الصَّائِمُ يَفْرَحُ عِنْدَ الْإِفْطارِ. | Be patient a little. The one who fasts is happy at iftar. | |
+| م | اللهُ أَكْبَرُ! هَذا أَذانُ الْمَغْرِبِ. | Allahu akbar! That's the call to the sunset prayer. | |
+| ف | بِسْمِ اللهِ. أَفْطِرِي عَلى تَمْرَةٍ وَاشْرَبِي الْماءَ. | In the name of God. Break your fast with a date and drink some water. | |
+
+**Conversation 3: Eid morning**
+
+| | Arabic | English | OK? |
+|---|---|---|---|
+| ع | عِيدٌ مُبارَكٌ يا حَسَنُ! | Eid mubarak, Hasan! | |
+| ح | عِيدٌ مُبارَكٌ! كُلُّ عامٍ وَأَنْتُمْ بِخَيْرٍ. | Eid mubarak! May you be well every year. | |
+| ع | تَقَبَّلَ اللهُ مِنَّا وَمِنْكُمْ. | May God accept from us and from you. | |
+| ح | آمِين. هَلْ صَلَّيْتَ صَلاةَ الْعِيدِ فِي الْمَسْجِدِ؟ | Amen. Did you pray the Eid prayer at the mosque? | |
+| ع | نَعَمْ، صَلَّيْتُ مَعَ والِدِي وَأَخِي. | Yes, I prayed with my father and my brother. | |
+| ح | ثَوْبُكَ جَمِيلٌ! هَلْ هُوَ جَدِيدٌ؟ | Your thobe is lovely! Is it new? | |
+| ع | نَعَمْ، لَبِسْتُ ثَوْبًا جَدِيدًا لِلْعِيدِ. وَأَيْنَ تَذْهَبُ الْآنَ؟ | Yes, I put on a new thobe for Eid. Where are you going now? | |
+| ح | سَأَزُورُ جَدَّتِي وَأَهْلِي، وَمَعِي هَدِيَّةٌ وَحَلْوى. | I'm going to visit my grandmother and my family. I have a gift and sweets with me. | |
+| ع | وَهَلْ أَعْطَيْتَ زَكاةَ الْفِطْرِ؟ | And have you given zakat al-fitr? | |
+| ح | نَعَمْ، أَعْطَيْتُها لِلْفُقَراءِ قَبْلَ صَلاةِ الْعِيدِ. | Yes, I gave it to the poor before the Eid prayer. | |
+| ع | بارَكَ اللهُ فِيكَ. تَفَضَّلْ إِلى بَيْتِنا بَعْدَ الظُّهْرِ. | God bless you. Come to our house after midday. | |
+| ح | شُكْرًا، سَأَحْضُرُ إِنْ شاءَ اللهُ. | Thank you, I'll come, God willing. | |
+
+**Grammar cards**
+
+| Card | Example | Meaning | What it says | Quick check (right answer first) | OK? |
+|---|---|---|---|---|---|
+| ‘Will’: سَـ on the front | سَأَصُومُ غَدًا. | I’ll fast tomorrow. | Put سَـ on the front of a present verb and it means ‘will’: أَصُومُ, I fast; سَأَصُومُ, I’ll fast. سَوْفَ before the verb means the same: سَوْفَ أَصُومُ. | How do you say ‘we’ll break the fast’? → سَنُفْطِرُ / نُفْطِرُ / أَفْطَرْنا | |
+| ‘Before’ and ‘after’ | قَبْلَ الْفَجْرِ · بَعْدَ الْمَغْرِبِ | before dawn · after sunset | قَبْلَ is ‘before’ and بَعْدَ is ‘after’. The word that follows ends in -i: قَبْلَ الْفَجْرِ, بَعْدَ الْإِفْطارِ. | Which fits? ‘after the prayer’: بَعْدَ ___ → الصَّلاةِ / الصَّلاةُ / الصَّلاةَ | |
+| ‘I fasted’: the long vowel drops | أَصُومُ · صُمْتُ | I fast · I fasted | Some verbs have a long vowel in the middle: صامَ, he fasted; زارَ, he visited. With ‘I’, ‘you’ and ‘we’ in the past, the long vowel drops out: صُمْتُ, I fasted; زُرْتُ, I visited; صُمْنا, we fasted. | How do you say ‘I visited my grandmother’? → زُرْتُ جَدَّتِي / أَزُورُ جَدَّتِي / زارَ جَدَّتِي | |
+
+**Sentences that build up (ladders)**
+
+| Arabic | English | OK? |
+|---|---|---|
+| أَصُومُ شَهْرَ رَمَضانَ مَعَ أُسْرَتِي كُلَّ سَنَةٍ، مِنَ الْفَجْرِ إِلى الْمَغْرِبِ | I fast → the month of Ramadan → with my family → every year → from dawn to sunset. | |
+| أَتَسَحَّرُ قَبْلَ الْفَجْرِ، ثُمَّ أُصَلِّي فِي الْمَسْجِدِ وَأَقْرَأُ الْقُرْآنَ | I eat suhoor → before dawn → then I pray → in the mosque → and read the Qur'an. | |
+| نُفْطِرُ عَلى تَمْرٍ وَماءٍ بَعْدَ أَذانِ الْمَغْرِبِ، ثُمَّ نُصَلِّي وَنَأْكُلُ مَعًا | We break the fast → with dates and water → after the call to the sunset prayer → then we pray → and eat together. | |
+| فِي يَوْمِ الْعِيدِ أَلْبَسُ ثَوْبًا جَدِيدًا وَأُصَلِّي صَلاةَ الْعِيدِ، ثُمَّ أَزُورُ أَهْلِي وَأُعْطِي الْأَطْفالَ هَدايا | On Eid day → I put on a new thobe → and pray the Eid prayer → then I visit my family → and give the children gifts. | |
+
+**Swaps** (each choice in brackets is tried in the sentence)
+
+| Pattern | Note | OK? |
+|---|---|---|
+| أَصُومُ [رَمَضانَ / يَوْمَ عَرَفَةَ / يَوْمَ الاِثْنَيْنِ / يَوْمَ الْخَمِيسِ] . | I fast ___ . What you fast ends in -a. | |
+| نُفْطِرُ [بَعْدَ أَذانِ الْمَغْرِبِ / مَعَ الضُّيُوفِ / فِي الْمَسْجِدِ / عِنْدَ جَدَّتِي] . | We break the fast ___ . | |
+| غَدًا [سَأَصُومُ / سَأَتَسَحَّرُ / سَأُفْطِرُ / سَأَزُورُ جَدَّتِي] [إِنْ شاءَ اللهُ / مَعَ أُسْرَتِي / مَعَ أَخِي] . | Tomorrow I will ___ ___ . سَـ on the front of the verb makes it ‘will’. Twelve sentences. | |
+| أَزُورُ [جَدَّتِي / أَهْلِي / جَدِّي / أَصْدِقائِي] [فِي الْعِيدِ / بَعْدَ صَلاةِ الْعِيدِ / قَبْلَ الظُّهْرِ] . | I visit ___ ___ . Twelve sentences. | |
+
+**Changes** (the learner turns the first sentence into the second)
+
+| Task | From | To | OK? |
+|---|---|---|---|
+| Change to the future | أَصُومُ يَوْمَ الْخَمِيسِ. | سَأَصُومُ يَوْمَ الْخَمِيسِ. | |
+| Change to the past | أَصُومُ رَمَضانَ. | صُمْتُ رَمَضانَ. | |
+| Change to ‘we’ | أُفْطِرُ عَلى تَمْرٍ. | نُفْطِرُ عَلى تَمْرٍ. | |
+| Ask when | أَتَسَحَّرُ قَبْلَ الْفَجْرِ. | مَتى تَتَسَحَّرُ؟ | |
+| Change to feminine ‘you’ | هَلْ تَصُومُ غَدًا يا أَحْمَدُ؟ | هَلْ تَصُومِينَ غَدًا يا مَرْيَمُ؟ | |
+| Join them with ‘then’ | أُفْطِرُ. أُصَلِّي الْمَغْرِبَ. | أُفْطِرُ ثُمَّ أُصَلِّي الْمَغْرِبَ. | |
+
+**Built from pieces**
+
+| Arabic | English | OK? |
+|---|---|---|
+| سَأَصُومُ غَدًا إِنْ شاءَ اللهُ مَعَ أُسْرَتِي | I'll fast tomorrow, God willing, with my family. | |
+| أَتَسَحَّرُ قَبْلَ الْفَجْرِ وَأُفْطِرُ بَعْدَ الْمَغْرِبِ | I eat suhoor before dawn and break my fast after sunset. | |
+| نُصَلِّي صَلاةَ التَّراوِيحِ فِي الْمَسْجِدِ بَعْدَ الْعِشاءِ | We pray tarawih in the mosque after the night prayer. | |
+| فِي الْعِيدِ أَلْبَسُ ثَوْبًا جَدِيدًا وَأَزُورُ أَهْلِي | At Eid I put on a new thobe and visit my family. | |
+| أَعْطَيْتُ زَكاةَ الْفِطْرِ لِلْفُقَراءِ قَبْلَ صَلاةِ الْعِيدِ | I gave zakat al-fitr to the poor before the Eid prayer. | |
+
+**Gaps** (right answer in bold)
+
+| Sentence | Choices | Why | OK? |
+|---|---|---|---|
+| ___ غَدًا إِنْ شاءَ اللهُ. | **سَأَصُومُ** / صُمْتُ / صامَ / صائِمٌ | ‘Tomorrow’ needs the future: سَـ on a present verb. | |
+| أَتَسَحَّرُ قَبْلَ ___ . | الْفَجْرُ / الْفَجْرَ / **الْفَجْرِ** / فَجْرًا | After قَبْلَ the word ends in -i. | |
+| ___ رَمَضانَ مَعَ أُسْرَتِي فِي السَّنَةِ الْماضِيَةِ. | **صُمْتُ** / أَصُومُ / سَأَصُومُ / صائِمٌ | ‘Last year’ is the past, and the long vowel drops: صُمْتُ. | |
+| نُفْطِرُ ___ تَمْرٍ وَماءٍ. | فِي / **عَلى** / إِلى / مِنْ | You break the fast ‘on’ something: أَفْطَرَ عَلى. | |
+| كُلُّ عامٍ وَأَنْتُمْ ___ . | **بِخَيْرٍ** / خَيْرٌ / مُبارَكٌ / جَدِيدٌ | The Eid greeting: ‘may you be well every year’. | |
+| لَبِسْتُ ثَوْبًا ___ لِلْعِيدِ. | جَدِيدٌ / **جَدِيدًا** / جَدِيدٍ / الْجَدِيدَ | The describing word copies its noun: ثَوْبًا جَدِيدًا. | |
+
+**Find the mistake** (the wrong sentence is shown on purpose)
+
+| Wrong | Right | Why | OK? |
+|---|---|---|---|
+| سَصُمْتُ غَدًا. | سَأَصُومُ غَدًا. | سَـ goes on a present verb, never a past one. | |
+| أَتَسَحَّرُ قَبْلَ الْفَجْرُ. | أَتَسَحَّرُ قَبْلَ الْفَجْرِ. | After قَبْلَ the word ends in -i. | |
+| صامْتُ رَمَضانَ. | صُمْتُ رَمَضانَ. | With ‘I’ in the past the long vowel drops: صُمْتُ. | |
+| نُفْطِرُ فِي تَمْرٍ. | نُفْطِرُ عَلى تَمْرٍ. | You break the fast ‘on’ dates: عَلى. | |
+| أَصُومُ فِي رَمَضانٍ. | أَصُومُ فِي رَمَضانَ. | رَمَضان never takes the extra -n or the -i ending: فِي رَمَضانَ. | |
+
+**Speaking prompts, with a model answer**
+
+| Prompt | English | Model answer | English | OK? |
+|---|---|---|---|---|
+| مَتى تَتَسَحَّرُ وَمَتى تُفْطِرُ؟ | When do you eat suhoor, and when do you break your fast? | أَتَسَحَّرُ قَبْلَ الْفَجْرِ، وَأُفْطِرُ عِنْدَ أَذانِ الْمَغْرِبِ عَلى تَمْرٍ وَماءٍ. | I eat suhoor before dawn, and I break my fast at the call to the sunset prayer with dates and water. | |
+| ماذا تَفْعَلُ فِي لَيالِي رَمَضانَ؟ | What do you do on the nights of Ramadan? | أُصَلِّي التَّراوِيحَ فِي الْمَسْجِدِ، ثُمَّ أَقْرَأُ الْقُرْآنَ مَعَ أُسْرَتِي. | I pray tarawih in the mosque, then I read the Qur'an with my family. | |
+| مَعَ مَنْ تُفْطِرُ؟ وَماذا تَأْكُلُونَ؟ | Who do you break your fast with, and what do you eat? | أُفْطِرُ مَعَ أُسْرَتِي. نَأْكُلُ التَّمْرَ أَوَّلًا، ثُمَّ الْأَرُزَّ وَالدَّجاجَ. | I break my fast with my family. We eat dates first, then rice and chicken. | |
+| ماذا سَتَفْعَلُ يَوْمَ الْعِيدِ؟ | What will you do on Eid day? | سَأُصَلِّي صَلاةَ الْعِيدِ، ثُمَّ سَأَزُورُ جَدَّتِي وَأَهْلِي وَأُعْطِي الْأَطْفالَ هَدايا. | I'll pray the Eid prayer, then I'll visit my grandmother and my family and give the children gifts. | |
+| لِماذا تُحِبُّ رَمَضانَ؟ | Why do you love Ramadan? | أُحِبُّ رَمَضانَ لِأَنَّهُ شَهْرُ الْقُرْآنِ وَالصَّدَقَةِ، وَنُفْطِرُ فِيهِ مَعًا كُلَّ لَيْلَةٍ. | I love Ramadan because it's the month of the Qur'an and of charity, and we break our fast together every night. | |
+
+### Unit 14: Health & the body (الصِّحَّةُ)
+
+**Words, in the order taught (lessons of 5).** New = added to the word list for this unit; the rest were already in the list, with audio, but in no unit.
+
+| # | Word | Reading | Meaning | New? | OK? |
+|---|---|---|---|---|---|
+| 1 | صِحَّة | ṣiḥḥa | health | new | |
+| 2 | جِسْم | jism | body | new | |
+| 3 | رَأْس / رُؤُوس | raʾs / ruʾūs | head / heads |  | |
+| 4 | بَطْن | baṭn | belly, stomach | new | |
+| 5 | ظَهْر | ẓahr | back | new | |
+| 6 | شَعَرَ / يَشْعُرُ | shaʿara / yashʿuru | to feel |  | |
+| 7 | مُتْعَب | mutʿab | tired | new | |
+| 8 | آلَمَ / يُؤْلِمُ | ālama / yuʾlimu | to hurt | new | |
+| 9 | صُداع | ṣudāʿ | headache |  | |
+| 10 | ماذا بِكَ؟ | mādhā bika? | what's wrong? (to a man) | new | |
+| 11 | وَجْه | wajh | face |  | |
+| 12 | عَيْن | ʿayn | eye | new | |
+| 13 | أُذُن | udhun | ear |  | |
+| 14 | فَم | fam | mouth | new | |
+| 15 | أَسْنان | asnān | teeth |  | |
+| 16 | يَد | yad | hand |  | |
+| 17 | ذِراع | dhirāʿ | arm |  | |
+| 18 | صَدْر | ṣadr | chest |  | |
+| 19 | ساق | sāq | leg | new | |
+| 20 | قَدَم | qadam | foot | new | |
+| 21 | حُمَّى | ḥummā | fever | new | |
+| 22 | سُعال | suʿāl | cough | new | |
+| 23 | زُكام | zukām | a cold | new | |
+| 24 | شَدِيد | shadīd | severe, intense |  | |
+| 25 | قَلْب | qalb | heart |  | |
+| 26 | مَوْعِد | mawʿid | appointment |  | |
+| 27 | فَحَصَ / يَفْحَصُ | faḥaṣa / yafḥaṣu | to examine |  | |
+| 28 | قاسَ / يَقِيسُ | qāsa / yaqīsu | to measure |  | |
+| 29 | ضَغْط | ḍaghṭ | pressure |  | |
+| 30 | نَتِيجَة | natīja | result |  | |
+| 31 | دَواء | dawāʾ | medicine | new | |
+| 32 | يَأْخُذ | yaʾkhudh | he takes |  | |
+| 33 | صَيْدَلِيّ | ṣaydalī | pharmacist |  | |
+| 34 | يَجِبُ أَنْ | yajibu an | must, have to | new | |
+| 35 | اِحْتاجَ / يَحْتاجُ | iḥtāja / yaḥtāju | to need | new | |
+| 36 | نَصَحَ / يَنْصَحُ | naṣaḥa / yanṣaḥu | to advise |  | |
+| 37 | راحَة | rāḥa | rest |  | |
+| 38 | نامَ / يَنامُ | nāma / yanāmu | to sleep |  | |
+| 39 | سَلِيم | salīm | sound, healthy |  | |
+| 40 | سَلامَتُكَ | salāmatuka | get well soon (to a man) | new | |
+
+**Conversation 1: What's wrong?**
+
+| | Arabic | English | OK? |
+|---|---|---|---|
+| خ | السَّلامُ عَلَيْكُمْ يا سَلْمانُ. ماذا بِكَ؟ هَلْ أَنْتَ مُتْعَبٌ؟ | Peace be upon you, Salman. What's wrong? Are you tired? | |
+| س | وَعَلَيْكُمُ السَّلامُ. نَعَمْ، أَنا مُتْعَبٌ جِدًّا. رَأْسِي يُؤْلِمُنِي. | And upon you peace. Yes, I'm very tired. My head hurts. | |
+| خ | هَلْ عِنْدَكَ صُداعٌ مُنْذُ الصَّباحِ؟ | Have you had a headache since the morning? | |
+| س | نَعَمْ، وَأَشْعُرُ بِأَلَمٍ فِي ظَهْرِي وَبَطْنِي أَيْضًا. | Yes, and I feel pain in my back and my stomach too. | |
+| خ | هَلْ نِمْتَ جَيِّدًا الْبارِحَةَ؟ | Did you sleep well last night? | |
+| س | لا، نِمْتُ ثَلاثَ ساعاتٍ فَقَطْ. | No, I only slept three hours. | |
+| خ | هَذا هُوَ السَّبَبُ! الْجِسْمُ يَحْتاجُ إِلى النَّوْمِ. | That's the reason! The body needs sleep. | |
+| س | صَحِيحٌ. وَما أَكَلْتُ شَيْئًا الْيَوْمَ. | True. And I haven't eaten anything today. | |
+| خ | يَجِبُ أَنْ تَأْكُلَ وَتَشْرَبَ الْماءَ. الصِّحَّةُ أَهَمُّ مِنَ الْعَمَلِ. | You must eat and drink water. Health matters more than work. | |
+| س | مَعَكَ حَقٌّ. سَأَذْهَبُ إِلى الْبَيْتِ وَأَسْتَرِيحُ. | You're right. I'll go home and rest. | |
+| خ | سَلامَتُكَ يا أَخِي. شَفاكَ اللهُ. | Get well soon, brother. May God heal you. | |
+| س | جَزاكَ اللهُ خَيْرًا. | May God reward you. | |
+
+**Conversation 2: At the doctor's**
+
+| | Arabic | English | OK? |
+|---|---|---|---|
+| ع | السَّلامُ عَلَيْكُمْ. عِنْدِي مَوْعِدٌ السَّاعَةَ الْعاشِرَةَ. | Peace be upon you. I have an appointment at ten o'clock. | |
+| ط | وَعَلَيْكُمُ السَّلامُ. تَفَضَّلْ، اِجْلِسْ. ماذا بِكَ؟ | And upon you peace. Come in, sit down. What's wrong? | |
+| ع | عِنْدِي حُمَّى وَسُعالٌ شَدِيدٌ مُنْذُ ثَلاثَةِ أَيَّامٍ. | I've had a fever and a bad cough for three days. | |
+| ط | هَلْ يُؤْلِمُكَ صَدْرُكَ؟ | Does your chest hurt? | |
+| ع | نَعَمْ، قَلِيلًا. وَعَيْنِي تُؤْلِمُنِي أَيْضًا. | Yes, a little. And my eye hurts too. | |
+| ط | اِفْتَحْ فَمَكَ مِنْ فَضْلِكَ. سَأَفْحَصُكَ وَأَقِيسُ دَرَجَةَ الْحَرارَةِ. | Open your mouth, please. I'll examine you and take your temperature. | |
+| ع | هَلْ هَذا زُكامٌ؟ | Is it a cold? | |
+| ط | نَعَمْ، زُكامٌ شَدِيدٌ. لَكِنَّ قَلْبَكَ سَلِيمٌ وَضَغْطَكَ جَيِّدٌ. | Yes, a heavy cold. But your heart is sound and your blood pressure is good. | |
+| ع | الْحَمْدُ لِلَّهِ. ماذا يَجِبُ أَنْ أَفْعَلَ؟ | Praise be to God. What must I do? | |
+| ط | خُذْ هَذا الدَّواءَ ثَلاثَ مَرَّاتٍ فِي الْيَوْمِ، وَاشْرَبْ ماءً كَثِيرًا. | Take this medicine three times a day, and drink plenty of water. | |
+| ع | وَهَلْ أَذْهَبُ إِلى الْعَمَلِ؟ | And shall I go to work? | |
+| ط | لا تَذْهَبْ إِلى الْعَمَلِ. أَنْتَ تَحْتاجُ إِلى الرَّاحَةِ. سَلامَتُكَ. | Don't go to work. You need rest. Get well soon. | |
+
+**Conversation 3: At the pharmacy**
+
+| | Arabic | English | OK? |
+|---|---|---|---|
+| ز | السَّلامُ عَلَيْكُمْ. أَحْتاجُ إِلى دَواءٍ لِلسُّعالِ مِنْ فَضْلِكَ. | Peace be upon you. I need some cough medicine, please. | |
+| ص | وَعَلَيْكُمُ السَّلامُ. هَلِ الدَّواءُ لَكِ؟ | And upon you peace. Is the medicine for you? | |
+| ز | لا، لِابْنِي. عُمْرُهُ سَبْعُ سَنَواتٍ. | No, for my son. He's seven years old. | |
+| ص | هَلْ عِنْدَهُ حُمَّى؟ | Does he have a fever? | |
+| ز | نَعَمْ، وَرَأْسُهُ يُؤْلِمُهُ، وَلا يَنامُ فِي اللَّيْلِ. | Yes, and his head hurts, and he doesn't sleep at night. | |
+| ص | هَذا الدَّواءُ جَيِّدٌ لِلْأَطْفالِ. يَأْخُذُهُ مَرَّتَيْنِ فِي الْيَوْمِ بَعْدَ الطَّعامِ. | This medicine is good for children. He takes it twice a day after food. | |
+| ز | وَهَلْ يَجِبُ أَنْ يَذْهَبَ إِلى الطَّبِيبِ؟ | And must he go to the doctor? | |
+| ص | نَعَمْ، إِذا كانَتِ الْحُمَّى شَدِيدَةً. | Yes, if the fever is severe. | |
+| ز | بِكَمِ الدَّواءُ؟ | How much is the medicine? | |
+| ص | بِعِشْرِينَ رِيالًا. | Twenty riyals. | |
+| ز | تَفَضَّلْ. جَزاكَ اللهُ خَيْرًا. | Here you are. May God reward you. | |
+| ص | وَإِيَّاكِ. سَلامَتُهُ إِنْ شاءَ اللهُ. | And you. May he get well, God willing. | |
+
+**Grammar cards**
+
+| Card | Example | Meaning | What it says | Quick check (right answer first) | OK? |
+|---|---|---|---|---|---|
+| ‘It hurts me’: endings on verbs | رَأْسِي يُؤْلِمُنِي. | My head hurts (me). | The endings you know from ‘my’ and ‘your’ also go on verbs, for ‘me’, ‘you’, ‘him’ and ‘her’: يُؤْلِمُنِي, it hurts me; يُؤْلِمُكَ, it hurts you; يُؤْلِمُهُ, it hurts him. On a verb, ‘me’ is ـنِي, not ـِي. | How do you say ‘the doctor helps me’? → يُساعِدُنِي الطَّبِيبُ / يُساعِدِي الطَّبِيبُ / أُساعِدُ الطَّبِيبَ | |
+| Parts of the body that come in pairs are feminine | عَيْنِي تُؤْلِمُنِي · رَأْسِي يُؤْلِمُنِي | My eye hurts · My head hurts | Eye, ear, hand, leg and foot: parts that come in pairs are feminine, though they have no ة. So the verb starts with تُـ: عَيْنِي تُؤْلِمُنِي. Head, back and belly are masculine: رَأْسِي يُؤْلِمُنِي. | Which fits? يَدِي ___ → تُؤْلِمُنِي / يُؤْلِمُنِي | |
+| ‘Must’: يَجِبُ أَنْ | يَجِبُ أَنْ تَأْخُذَ الدَّواءَ. | You must take the medicine. | يَجِبُ أَنْ means ‘must’. The verb after أَنْ ends in -a, not -u: تَأْخُذَ. It’s the same after لِـ, ‘in order to’. | Which fits? يَجِبُ أَنْ ___ كَثِيرًا. → تَنامَ / تَنامُ / نِمْتَ | |
+| ‘Do’ and ‘don’t’ | خُذِ الدَّواءَ · لا تَذْهَبْ إِلى الْعَمَلِ | Take the medicine · Don’t go to work | Commands are short forms of the verb. Learn these four: خُذْ, take; اِشْرَبْ, drink; نَمْ, sleep; اِجْلِسْ, sit. To a woman they add ـِي: خُذِي. For ‘don’t’, put لا before the ‘you’ verb and drop its last vowel: لا تَذْهَبْ, don’t go. | How do you say ‘don’t eat’ (to a man)? → لا تَأْكُلْ / لا أَكَلْتَ / لَيْسَ تَأْكُلُ | |
+
+**Sentences that build up (ladders)**
+
+| Arabic | English | OK? |
+|---|---|---|
+| رَأْسِي يُؤْلِمُنِي مُنْذُ الصَّباحِ، وَأَشْعُرُ بِأَلَمٍ فِي ظَهْرِي وَبَطْنِي أَيْضًا | My head has hurt → since the morning → and I feel pain → in my back → and my stomach too. | |
+| عِنْدِي حُمَّى وَسُعالٌ شَدِيدٌ مُنْذُ ثَلاثَةِ أَيَّامٍ، لِذَلِكَ ذَهَبْتُ إِلى الطَّبِيبِ | I've had a fever → and a bad cough → for three days → so I went → to the doctor. | |
+| فَحَصَنِي الطَّبِيبُ وَقاسَ ضَغْطِي، ثُمَّ قالَ: قَلْبُكَ سَلِيمٌ، لَكِنَّكَ تَحْتاجُ إِلى الرَّاحَةِ | The doctor examined me → and measured my blood pressure → then he said: → your heart is sound → but you need rest. | |
+| يَجِبُ أَنْ آخُذَ هَذا الدَّواءَ ثَلاثَ مَرَّاتٍ فِي الْيَوْمِ بَعْدَ الطَّعامِ | I must take → this medicine → three times → a day → after food. | |
+
+**Swaps** (each choice in brackets is tried in the sentence)
+
+| Pattern | Note | OK? |
+|---|---|---|
+| عِنْدِي [صُداعٌ / حُمَّى / سُعالٌ / زُكامٌ] [مُنْذُ الصَّباحِ / مُنْذُ يَوْمَيْنِ / مُنْذُ الْبارِحَةِ] . | I've had ___ ___ . Twelve sentences. | |
+| يُؤْلِمُنِي [رَأْسِي / ظَهْرِي / بَطْنِي / صَدْرِي] . | My ___ hurts. These four are masculine, so the verb starts with يُـ. | |
+| تُؤْلِمُنِي [عَيْنِي / أُذُنِي / يَدِي / قَدَمِي] . | My ___ hurts. Parts that come in pairs are feminine, so the verb starts with تُـ. | |
+| يَجِبُ أَنْ [تَأْخُذَ الدَّواءَ / تَشْرَبَ ماءً كَثِيرًا / تَنامَ مُبَكِّرًا / تَذْهَبَ إِلى الطَّبِيبِ] . | You must ___ . After أَنْ the verb ends in -a. | |
+
+**Changes** (the learner turns the first sentence into the second)
+
+| Task | From | To | OK? |
+|---|---|---|---|
+| Change to ‘she’ | رَأْسِي يُؤْلِمُنِي. | رَأْسُها يُؤْلِمُها. | |
+| Make it ‘don’t’ | اِذْهَبْ إِلى الْعَمَلِ. | لا تَذْهَبْ إِلى الْعَمَلِ. | |
+| Use ‘must’ | تَأْخُذُ الدَّواءَ. | يَجِبُ أَنْ تَأْخُذَ الدَّواءَ. | |
+| Ask what's wrong | عِنْدِي صُداعٌ. | ماذا بِكَ؟ | |
+| Change to the past | يَفْحَصُنِي الطَّبِيبُ. | فَحَصَنِي الطَّبِيبُ. | |
+| Change to feminine ‘you’ | هَلْ يُؤْلِمُكَ ظَهْرُكَ؟ | هَلْ يُؤْلِمُكِ ظَهْرُكِ؟ | |
+
+**Built from pieces**
+
+| Arabic | English | OK? |
+|---|---|---|
+| رَأْسِي يُؤْلِمُنِي مُنْذُ الصَّباحِ | My head has hurt since the morning. | |
+| أَشْعُرُ بِأَلَمٍ شَدِيدٍ فِي بَطْنِي | I feel a bad pain in my stomach. | |
+| يَجِبُ أَنْ تَأْخُذَ الدَّواءَ مَرَّتَيْنِ فِي الْيَوْمِ | You must take the medicine twice a day. | |
+| لا تَذْهَبْ إِلى الْعَمَلِ، أَنْتَ تَحْتاجُ إِلى الرَّاحَةِ | Don't go to work: you need rest. | |
+| فَحَصَنِي الطَّبِيبُ وَقاسَ دَرَجَةَ الْحَرارَةِ | The doctor examined me and took my temperature. | |
+
+**Gaps** (right answer in bold)
+
+| Sentence | Choices | Why | OK? |
+|---|---|---|---|
+| رَأْسِي ___ مُنْذُ الصَّباحِ. | **يُؤْلِمُنِي** / تُؤْلِمُنِي / يُؤْلِمِي / يُؤْلِمُ أَنا | رَأْس is masculine, and ‘me’ on a verb is ـنِي. | |
+| عَيْنِي ___ . | يُؤْلِمُنِي / **تُؤْلِمُنِي** / يُؤْلِمُهُ / تُؤْلِمُكَ | عَيْن is feminine: parts that come in pairs are. | |
+| يَجِبُ أَنْ ___ الدَّواءَ. | تَأْخُذُ / **تَأْخُذَ** / أَخَذْتَ / خُذْ | After أَنْ the verb ends in -a. | |
+| ___ هَذا الدَّواءَ مَرَّتَيْنِ فِي الْيَوْمِ، مِنْ فَضْلِكَ. | **خُذْ** / تَأْخُذَ / يَأْخُذُ / أَخَذَ | A command to a man: خُذْ, take. | |
+| أَحْتاجُ ___ الرَّاحَةِ. | فِي / **إِلى** / عَلى / مِنْ | You need ‘to’ something: اِحْتاجَ إِلى. | |
+| عِنْدِي سُعالٌ ___ . | **شَدِيدٌ** / شَدِيدًا / شَدِيدَةٌ / الشَّدِيدُ | The describing word copies its noun: سُعالٌ شَدِيدٌ. | |
+
+**Find the mistake** (the wrong sentence is shown on purpose)
+
+| Wrong | Right | Why | OK? |
+|---|---|---|---|
+| عَيْنِي يُؤْلِمُنِي. | عَيْنِي تُؤْلِمُنِي. | عَيْن is feminine: parts that come in pairs are. | |
+| رَأْسِي يُؤْلِمِي. | رَأْسِي يُؤْلِمُنِي. | On a verb, ‘me’ is ـنِي. | |
+| يَجِبُ أَنْ تَأْخُذُ الدَّواءَ. | يَجِبُ أَنْ تَأْخُذَ الدَّواءَ. | After أَنْ the verb ends in -a. | |
+| أَحْتاجُ فِي الرَّاحَةِ. | أَحْتاجُ إِلى الرَّاحَةِ. | اِحْتاجَ goes with إِلى. | |
+| عِنْدِي حُمَّى شَدِيدٌ. | عِنْدِي حُمَّى شَدِيدَةٌ. | حُمَّى is feminine, so its describing word takes ة. | |
+
+**Speaking prompts, with a model answer**
+
+| Prompt | English | Model answer | English | OK? |
+|---|---|---|---|---|
+| ماذا بِكَ؟ ماذا يُؤْلِمُكَ؟ | What's wrong? What hurts? | رَأْسِي يُؤْلِمُنِي مُنْذُ الصَّباحِ، وَأَشْعُرُ بِأَلَمٍ فِي ظَهْرِي أَيْضًا. | My head has hurt since the morning, and I feel pain in my back too. | |
+| ماذا تَفْعَلُ عِنْدَما تَكُونُ مَرِيضًا؟ | What do you do when you're ill? | أَذْهَبُ إِلى الطَّبِيبِ، وَآخُذُ الدَّواءَ، وَأَنامُ كَثِيرًا. | I go to the doctor, take the medicine and sleep a lot. | |
+| تَكَلَّمْ عَنْ زِيارَةٍ لِلطَّبِيبِ. | Talk about a visit to the doctor. | ذَهَبْتُ إِلى الطَّبِيبِ لِأَنَّ عِنْدِي حُمَّى. فَحَصَنِي وَقاسَ ضَغْطِي، ثُمَّ أَعْطانِي دَواءً. | I went to the doctor because I had a fever. He examined me and measured my blood pressure, then gave me some medicine. | |
+| ماذا يَجِبُ أَنْ نَفْعَلَ لِصِحَّةٍ جَيِّدَةٍ؟ | What must we do for good health? | يَجِبُ أَنْ نَأْكُلَ طَعامًا جَيِّدًا، وَنَنامَ مُبَكِّرًا، وَنُمارِسَ الرِّياضَةَ. | We must eat good food, sleep early and do sport. | |
+| صَدِيقُكَ مَرِيضٌ. ماذا تَقُولُ لَهُ؟ | Your friend is ill. What do you say to him? | أَقُولُ لَهُ: سَلامَتُكَ، شَفاكَ اللهُ. خُذِ الدَّواءَ وَاسْتَرِحْ فِي الْبَيْتِ. | I say to him: get well soon, may God heal you. Take your medicine and rest at home. | |
+
+### Unit 15: Travel & directions (السَّفَرُ)
+
+**Words, in the order taught (lessons of 5).** New = added to the word list for this unit; the rest were already in the list, with audio, but in no unit.
+
+| # | Word | Reading | Meaning | New? | OK? |
+|---|---|---|---|---|---|
+| 1 | مَطار | maṭār | airport | new | |
+| 2 | مَحَطَّة | maḥaṭṭa | station | new | |
+| 3 | شارِع | shāriʿ | street | new | |
+| 4 | طَرِيق | ṭarīq | road, way | new | |
+| 5 | مَكان | makān | place |  | |
+| 6 | يَسار | yasār | left (direction) | new | |
+| 7 | مُباشَرَةً | mubāsharatan | straight on; directly | new | |
+| 8 | بَعِيد | baʿīd | far |  | |
+| 9 | خَلْفَ | khalfa | behind |  | |
+| 10 | سَأَلَ / يَسْأَلُ | saʾala / yasʾalu | to ask | new | |
+| 11 | مَشى / يَمْشِي | mashā / yamshī | to walk | new | |
+| 12 | عَبَرَ / يَعْبُرُ | ʿabara / yaʿburu | to cross | new | |
+| 13 | دَقِيقَة | daqīqa | minute | new | |
+| 14 | يَرْكَب | yarkab | he rides |  | |
+| 15 | خَرِيطَة | kharīṭa | map | new | |
+| 16 | سَرِيع | sarīʿ | fast | new | |
+| 17 | رَخِيص | rakhīṣ | cheap |  | |
+| 18 | أَفْضَل | afḍal | better, best |  | |
+| 19 | اسْتَغْرَقَ / يَسْتَغْرِقُ | istaghraqa / yastaghriqu | to take (time) |  | |
+| 20 | الَّذِي | alladhī | who, which, that (m) | new | |
+| 21 | جَواز سَفَر | jawāz safar | passport |  | |
+| 22 | تَأْشِيرَة دُخُول | taʾshīrat dukhūl | entry visa |  | |
+| 23 | حَقِيبَة | ḥaqība | suitcase, bag |  | |
+| 24 | مُوَظَّف | muwaẓẓaf | employee, official |  | |
+| 25 | خُطُوط الطَّيَران | khuṭūṭ aṭ-ṭayarān | airlines |  | |
+| 26 | غادَرَ / يُغادِرُ | ghādara / yughādiru | to depart, leave |  | |
+| 27 | قادِم | qādim | coming, arriving |  | |
+| 28 | الَّتِي | allatī | who, which, that (f) | new | |
+| 29 | لَنْ | lan | will not | new | |
+| 30 | هَيَّا بِنا | hayyā binā | let's go |  | |
+| 31 | حَجْز | ḥajz | booking, reservation |  | |
+| 32 | حَجَزَ / يَحْجِزُ | ḥajaza / yaḥjizu | to book | new | |
+| 33 | مِفْتاح | miftāḥ | key |  | |
+| 34 | أَقامَ / يُقِيمُ | aqāma / yuqīmu | to stay, reside |  | |
+| 35 | نَزَلَ / يَنْزِلُ | nazala / yanzilu | to get off; to stay (at a hotel) | new | |
+| 36 | قَضى / يَقْضِي | qaḍā / yaqḍī | to spend (time) |  | |
+| 37 | بَقِيَ / يَبْقى | baqiya / yabqā | to stay, remain |  | |
+| 38 | مَتاحِف | matāḥif | museums |  | |
+| 39 | حَوْلَ | ḥawla | around |  | |
+| 40 | إِقامَة طَيِّبَة | iqāma ṭayyiba | a pleasant stay |  | |
+
+**Conversation 1: Asking the way**
+
+| | Arabic | English | OK? |
+|---|---|---|---|
+| ز | لَوْ سَمَحْتَ، أَيْنَ مَحَطَّةُ الْقِطارِ؟ | Excuse me, where is the train station? | |
+| ر | الْمَحَطَّةُ لَيْسَتْ بَعِيدَةً. هَلْ تَعْرِفُ هَذا الشَّارِعَ؟ | The station isn't far. Do you know this street? | |
+| ز | لا، أَنا لا أَعْرِفُ الْمَدِينَةَ. أَنا مُسافِرٌ. | No, I don't know the city. I'm a traveller. | |
+| ر | اِذْهَبْ مُباشَرَةً فِي هَذا الطَّرِيقِ، ثُمَّ اذْهَبْ يَمِينًا عِنْدَ الْمَسْجِدِ. | Go straight on along this road, then go right at the mosque. | |
+| ز | يَمِينًا عِنْدَ الْمَسْجِدِ. وَبَعْدَ ذَلِكَ؟ | Right at the mosque. And after that? | |
+| ر | اُعْبُرِ الشَّارِعَ، وَالْمَحَطَّةُ عَلى يَسارِكَ، خَلْفَ السُّوقِ. | Cross the street, and the station is on your left, behind the market. | |
+| ز | هَلْ أَمْشِي أَوْ أَرْكَبُ الْحافِلَةَ؟ | Shall I walk or take the bus? | |
+| ر | اِمْشِ. الْمَكانُ قَرِيبٌ: خَمْسُ دَقائِقَ فَقَطْ. | Walk. The place is near: only five minutes. | |
+| ز | شُكْرًا جَزِيلًا. | Thank you very much. | |
+| ر | عَفْوًا. رِحْلَةً سَعِيدَةً! | You're welcome. Have a good trip! | |
+
+**Conversation 2: Train or plane?**
+
+| | Arabic | English | OK? |
+|---|---|---|---|
+| أ | هَيَّا بِنا إِلى الْمَدِينَةِ الْمُنَوَّرَةِ فِي الْعُطْلَةِ! | Let's go to Medina in the holiday! | |
+| ب | فِكْرَةٌ طَيِّبَةٌ! كَيْفَ نُسافِرُ؟ بِالطَّائِرَةِ أَوْ بِالْقِطارِ؟ | Good idea! How shall we travel? By plane or by train? | |
+| أ | الطَّائِرَةُ أَسْرَعُ مِنَ الْقِطارِ. | The plane is faster than the train. | |
+| ب | نَعَمْ، لَكِنَّ الْقِطارَ أَرْخَصُ، وَالْمَحَطَّةُ أَقْرَبُ مِنَ الْمَطارِ. | Yes, but the train is cheaper, and the station is nearer than the airport. | |
+| أ | كَمْ ساعَةً تَسْتَغْرِقُ الرِّحْلَةُ بِالْقِطارِ؟ | How many hours does the journey take by train? | |
+| ب | تَسْتَغْرِقُ ساعَتَيْنِ فَقَطْ. الْقِطارُ الْجَدِيدُ سَرِيعٌ جِدًّا. | It only takes two hours. The new train is very fast. | |
+| أ | إِذَنْ لَنْ نُسافِرَ بِالطَّائِرَةِ. الْقِطارُ أَفْضَلُ. | Then we won't travel by plane. The train is better. | |
+| ب | وَأَيْنَ نَنْزِلُ؟ هَلْ تَعْرِفُ فُنْدُقًا قَرِيبًا مِنَ الْمَسْجِدِ النَّبَوِيِّ؟ | And where shall we stay? Do you know a hotel near the Prophet's Mosque? | |
+| أ | نَعَمْ، الْفُنْدُقُ الَّذِي نَزَلْتُ فِيهِ فِي السَّنَةِ الْماضِيَةِ. هُوَ أَقْرَبُ فُنْدُقٍ إِلى الْمَسْجِدِ. | Yes, the hotel I stayed in last year. It's the nearest hotel to the mosque. | |
+| ب | مُمْتازٌ! سَأَحْجِزُ التَّذاكِرَ الْيَوْمَ. | Excellent! I'll book the tickets today. | |
+| أ | وَأَنا سَأَحْجِزُ غُرْفَةً لِثَلاثِ لَيالٍ. | And I'll book a room for three nights. | |
+| ب | إِنْ شاءَ اللهُ. | God willing. | |
+
+**Conversation 3: At the airport**
+
+| | Arabic | English | OK? |
+|---|---|---|---|
+| م | السَّلامُ عَلَيْكُمْ. جَوازَ السَّفَرِ مِنْ فَضْلِكِ. | Peace be upon you. Your passport, please. | |
+| ف | تَفَضَّلْ. هَذا جَوازُ سَفَرِي، وَهَذِهِ تَأْشِيرَةُ الدُّخُولِ. | Here you are. This is my passport, and this is the entry visa. | |
+| م | مِنْ أَيْنَ أَنْتِ قادِمَةٌ؟ | Where are you arriving from? | |
+| ف | أَنا قادِمَةٌ مِنْ لَنْدَن. | I'm arriving from London. | |
+| م | كَمْ يَوْمًا سَتَبْقَيْنَ هُنا؟ | How many days will you stay here? | |
+| ف | سَأَبْقى أُسْبُوعَيْنِ. سَأَقْضِي أُسْبُوعًا فِي مَكَّةَ وَأُسْبُوعًا فِي الْمَدِينَةِ. | I'll stay two weeks. I'll spend a week in Makkah and a week in Medina. | |
+| م | هَلْ عِنْدَكِ حَجْزٌ فِي فُنْدُقٍ؟ | Do you have a hotel booking? | |
+| ف | نَعَمْ، هَذا تَأْكِيدُ الْحَجْزِ. | Yes, this is the booking confirmation. | |
+| م | شُكْرًا. وَأَيْنَ حَقِيبَتُكِ؟ | Thank you. And where is your suitcase? | |
+| ف | الْحَقِيبَةُ الَّتِي مَعِي صَغِيرَةٌ، وَحَقِيبَتِي الْكَبِيرَةُ هُناكَ. | The bag I have with me is small, and my big suitcase is over there. | |
+| م | حَسَنًا. إِقامَةً طَيِّبَةً، وَعُمْرَةً مَقْبُولَةً. | Fine. Have a pleasant stay, and may your umrah be accepted. | |
+| ف | جَزاكَ اللهُ خَيْرًا. | May God reward you. | |
+
+**Grammar cards**
+
+| Card | Example | Meaning | What it says | Quick check (right answer first) | OK? |
+|---|---|---|---|---|---|
+| ‘Faster than’: أَسْرَعُ مِنْ | الْقِطارُ أَسْرَعُ مِنَ الْحافِلَةِ. | The train is faster than the bus. | To compare, a describing word is rebuilt with أَ at the front: سَرِيع → أَسْرَع, faster; قَرِيب → أَقْرَب, nearer; رَخِيص → أَرْخَص, cheaper. ‘Than’ is مِنْ. It’s the same for masculine and feminine, and it never takes the extra -n. | How do you say ‘nearer than’? → أَقْرَبُ مِنْ / قَرِيبٌ مِنْ / أَقْرَبُ إِلى | |
+| ‘The nearest’ goes before the noun | أَيْنَ أَقْرَبُ مَحَطَّةٍ؟ | Where is the nearest station? | Put the same word before a noun and it means ‘the most’: أَقْرَبُ مَحَطَّةٍ, the nearest station; أَفْضَلُ فُنْدُقٍ, the best hotel. The noun has no ال and ends in -in. | How do you say ‘the cheapest hotel’? → أَرْخَصُ فُنْدُقٍ / فُنْدُقٌ رَخِيصٌ / الْفُنْدُقُ الرَّخِيصُ | |
+| ‘Which’ and ‘who’: الَّذِي and الَّتِي | الْفُنْدُقُ الَّذِي بِجانِبِ الْمَحَطَّةِ · الْحافِلَةُ الَّتِي تَذْهَبُ إِلى الْمَطارِ | the hotel which is next to the station · the bus which goes to the airport | الَّذِي joins more about a masculine word onto it; الَّتِي does the same for a feminine one. They’re used after a word with ال. | Which fits? الطَّائِرَةُ ___ تُغادِرُ الْآنَ → الَّتِي / الَّذِي | |
+| ‘Won’t’: لَنْ | لَنْ أُسافِرَ غَدًا. | I won’t travel tomorrow. | لَنْ before a present verb means ‘will not’. Like أَنْ, it makes the verb end in -a: لَنْ أُسافِرَ. Don’t add سَـ. | How do you say ‘I won’t go’? → لَنْ أَذْهَبَ / لَنْ سَأَذْهَبُ / لَنْ ذَهَبْتُ | |
+
+**Sentences that build up (ladders)**
+
+| Arabic | English | OK? |
+|---|---|---|
+| اِذْهَبْ مُباشَرَةً فِي هَذا الشَّارِعِ، ثُمَّ اذْهَبْ يَسارًا عِنْدَ الْمَسْجِدِ، وَالْمَحَطَّةُ أَمامَكَ | Go straight on → along this street → then go left → at the mosque → and the station is in front of you. | |
+| الْقِطارُ أَسْرَعُ مِنَ الْحافِلَةِ وَأَرْخَصُ مِنَ الطَّائِرَةِ، لِذَلِكَ سَأُسافِرُ بِالْقِطارِ | The train → is faster than the bus → and cheaper than the plane → so → I'll travel by train. | |
+| سافَرْتُ إِلى مَكَّةَ بِالطَّائِرَةِ، وَنَزَلْتُ فِي فُنْدُقٍ قَرِيبٍ مِنَ الْمَسْجِدِ الْحَرامِ | I travelled → to Makkah → by plane → and stayed in a hotel → near the Sacred Mosque. | |
+| حَجَزْتُ غُرْفَةً فِي الْفُنْدُقِ الَّذِي بِجانِبِ الْمَحَطَّةِ لِثَلاثِ لَيالٍ، وَسَأَزُورُ الْمَتاحِفَ | I booked a room → in the hotel → which is next to the station → for three nights → and I'll visit the museums. | |
+
+**Swaps** (each choice in brackets is tried in the sentence)
+
+| Pattern | Note | OK? |
+|---|---|---|
+| لَوْ سَمَحْتَ، أَيْنَ [مَحَطَّةُ الْقِطارِ / الْمَطارُ / أَقْرَبُ فُنْدُقٍ / هَذا الشَّارِعُ] ؟ | Excuse me, where is ___ ? | |
+| اِذْهَبْ [مُباشَرَةً / يَمِينًا / يَسارًا] [عِنْدَ الْمَسْجِدِ / بَعْدَ السُّوقِ / أَمامَ الْفُنْدُقِ / خَلْفَ الْمَحَطَّةِ] . | Go ___ ___ . Twelve sentences. | |
+| الْقِطارُ [أَسْرَعُ / أَرْخَصُ / أَفْضَلُ] مِنَ [الْحافِلَةِ / السَّيَّارَةِ / الطَّائِرَةِ] . | The train is ___ than ___ . Nine sentences. | |
+| لَنْ [أُسافِرَ / أَبْقى / أَمْشِيَ / أَرْكَبَ الْحافِلَةَ] [غَدًا / الْيَوْمَ / فِي الْعُطْلَةِ] . | I won't ___ ___ . After لَنْ the verb ends in -a. Twelve sentences. | |
+
+**Changes** (the learner turns the first sentence into the second)
+
+| Task | From | To | OK? |
+|---|---|---|---|
+| Compare with ‘faster’ | الطَّائِرَةُ سَرِيعَةٌ. الْقِطارُ سَرِيعٌ. | الطَّائِرَةُ أَسْرَعُ مِنَ الْقِطارِ. | |
+| Join them with ‘which’ | هَذا هُوَ الْفُنْدُقُ. نَزَلْتُ فِي الْفُنْدُقِ. | هَذا هُوَ الْفُنْدُقُ الَّذِي نَزَلْتُ فِيهِ. | |
+| Make it ‘won’t’ | سَأُسافِرُ غَدًا. | لَنْ أُسافِرَ غَدًا. | |
+| Ask where | الْمَحَطَّةُ خَلْفَ السُّوقِ. | أَيْنَ الْمَحَطَّةُ؟ | |
+| Change to the past | أَحْجِزُ غُرْفَةً فِي الْفُنْدُقِ. | حَجَزْتُ غُرْفَةً فِي الْفُنْدُقِ. | |
+| Change to feminine ‘you’ | اِذْهَبْ مُباشَرَةً ثُمَّ اعْبُرِ الشَّارِعَ. | اِذْهَبِي مُباشَرَةً ثُمَّ اعْبُرِي الشَّارِعَ. | |
+
+**Built from pieces**
+
+| Arabic | English | OK? |
+|---|---|---|
+| اِذْهَبْ مُباشَرَةً ثُمَّ اعْبُرِ الشَّارِعَ عِنْدَ الْمَسْجِدِ | Go straight on, then cross the street at the mosque. | |
+| الْقِطارُ أَسْرَعُ مِنَ الْحافِلَةِ وَأَرْخَصُ مِنَ الطَّائِرَةِ | The train is faster than the bus and cheaper than the plane. | |
+| أَيْنَ أَقْرَبُ مَحَطَّةٍ إِلى الْمَطارِ؟ | Where is the nearest station to the airport? | |
+| هَذا هُوَ الْفُنْدُقُ الَّذِي نَزَلْتُ فِيهِ | This is the hotel I stayed in. | |
+| لَنْ أُسافِرَ بِالطَّائِرَةِ، سَأَرْكَبُ الْقِطارَ | I won't travel by plane: I'll take the train. | |
+
+**Gaps** (right answer in bold)
+
+| Sentence | Choices | Why | OK? |
+|---|---|---|---|
+| الطَّائِرَةُ ___ مِنَ الْقِطارِ. | سَرِيعَةٌ / **أَسْرَعُ** / السَّرِيعَةُ / سَرِيعٌ | To compare: أَسْرَع, the same for masculine and feminine. | |
+| أَيْنَ أَقْرَبُ ___ ؟ | الْمَحَطَّةُ / **مَحَطَّةٍ** / مَحَطَّةً / الْمَحَطَّةِ | After ‘the nearest’ the noun has no ال and ends in -in. | |
+| هَذا هُوَ الْفُنْدُقُ ___ نَزَلْتُ فِيهِ. | الَّتِي / **الَّذِي** / هَذِهِ / ماذا | فُنْدُق is masculine: الَّذِي. | |
+| لَنْ ___ بِالطَّائِرَةِ. | أُسافِرُ / **أُسافِرَ** / سافَرْتُ / سَأُسافِرُ | After لَنْ the verb ends in -a. | |
+| اِذْهَبْ مُباشَرَةً، ثُمَّ ___ الشَّارِعَ. | **اعْبُرِ** / عَبَرَ / يَعْبُرُ / عَبَرْتُ | A command: اُعْبُرْ, cross. | |
+| الْحافِلَةُ ___ تَذْهَبُ إِلى الْمَطارِ هُناكَ. | الَّذِي / **الَّتِي** / هَذا / أَيْنَ | حافِلَة is feminine: الَّتِي. | |
+
+**Find the mistake** (the wrong sentence is shown on purpose)
+
+| Wrong | Right | Why | OK? |
+|---|---|---|---|
+| الطَّائِرَةُ أَسْرَعُ الْقِطارِ. | الطَّائِرَةُ أَسْرَعُ مِنَ الْقِطارِ. | ‘Than’ is مِنْ. | |
+| أَيْنَ أَقْرَبُ الْمَحَطَّةُ؟ | أَيْنَ أَقْرَبُ مَحَطَّةٍ؟ | After ‘the nearest’ the noun has no ال. | |
+| الْحافِلَةُ الَّذِي تَذْهَبُ إِلى الْمَطارِ. | الْحافِلَةُ الَّتِي تَذْهَبُ إِلى الْمَطارِ. | حافِلَة is feminine: الَّتِي. | |
+| لَنْ سَأُسافِرُ غَدًا. | لَنْ أُسافِرَ غَدًا. | لَنْ already means ‘will not’: no سَـ, and the verb ends in -a. | |
+| الْمَحَطَّةُ لَيْسَتْ بَعِيدَةٌ. | الْمَحَطَّةُ لَيْسَتْ بَعِيدَةً. | After لَيْسَ the describing word ends in -an. | |
+
+**Speaking prompts, with a model answer**
+
+| Prompt | English | Model answer | English | OK? |
+|---|---|---|---|---|
+| كَيْفَ أَصِلُ مِنْ بَيْتِكَ إِلى الْمَسْجِدِ؟ | How do I get from your house to the mosque? | اِذْهَبْ مُباشَرَةً فِي شارِعِنا، ثُمَّ اذْهَبْ يَمِينًا. الْمَسْجِدُ عَلى يَسارِكَ بَعْدَ خَمْسِ دَقائِقَ. | Go straight along our street, then go right. The mosque is on your left after five minutes. | |
+| كَيْفَ تُحِبُّ أَنْ تُسافِرَ؟ وَلِماذا؟ | How do you like to travel, and why? | أُحِبُّ السَّفَرَ بِالْقِطارِ، لِأَنَّهُ أَرْخَصُ مِنَ الطَّائِرَةِ وَأَسْرَعُ مِنَ الْحافِلَةِ. | I like travelling by train, because it's cheaper than the plane and faster than the bus. | |
+| تَكَلَّمْ عَنْ مَدِينَةٍ زُرْتَها. | Talk about a city you visited. | زُرْتُ مَكَّةَ فِي الشِّتاءِ. نَزَلْتُ فِي فُنْدُقٍ قَرِيبٍ مِنَ الْمَسْجِدِ الْحَرامِ، وَبَقِيتُ أُسْبُوعًا. | I visited Makkah in the winter. I stayed in a hotel near the Sacred Mosque, and I was there a week. | |
+| أَيْنَ سَتُسافِرُ فِي الْعُطْلَةِ؟ | Where will you travel in the holiday? | سَأُسافِرُ إِلى الْمَدِينَةِ الْمُنَوَّرَةِ إِنْ شاءَ اللهُ، وَسَأَقْضِي فِيها ثَلاثَةَ أَيَّامٍ. | I'll travel to Medina, God willing, and spend three days there. | |
+| ماذا تَأْخُذُ مَعَكَ فِي السَّفَرِ؟ | What do you take with you when you travel? | آخُذُ جَوازَ السَّفَرِ وَالتَّذْكِرَةَ وَحَقِيبَةً صَغِيرَةً فِيها مَلابِسِي. | I take my passport, the ticket and a small bag with my clothes in it. | |
+
+### Unit 16: Telling stories (الْحِكاياتُ)
+
+**Words, in the order taught (lessons of 5).** New = added to the word list for this unit; the rest were already in the list, with audio, but in no unit.
+
+| # | Word | Reading | Meaning | New? | OK? |
+|---|---|---|---|---|---|
+| 1 | قِصَّة | qiṣṣa | story | new | |
+| 2 | كانَ يا ما كانَ | kāna yā mā kāna | once upon a time | new | |
+| 3 | فِي يَوْمٍ مِنَ الأَيَّامِ | fī yawmin mina l-ayyām | one day | new | |
+| 4 | أَسَد | asad | lion |  | |
+| 5 | فَأْر | faʾr | mouse |  | |
+| 6 | قالَ / يَقُولُ | qāla / yaqūlu | to say |  | |
+| 7 | خافَ / يَخافُ | khāfa / yakhāfu | to be afraid | new | |
+| 8 | ضَحِكَ / يَضْحَكُ | ḍaḥika / yaḍḥaku | to laugh | new | |
+| 9 | تَرَكَ / يَتْرُكُ | taraka / yatruku | to leave |  | |
+| 10 | ساعَدَ / يُساعِدُ | sāʿada / yusāʿidu | to help |  | |
+| 11 | ثُمَّ | thumma | then | new | |
+| 12 | فَجْأَةً | fajʾatan | suddenly | new | |
+| 13 | أَخِيرًا | akhīran | finally, at last | new | |
+| 14 | عِنْدَما | ʿindamā | when | new | |
+| 15 | لَمْ | lam | did not (before a present verb) | new | |
+| 16 | خَرَجَ / يَخْرُجُ | kharaja / yakhruju | to go out | new | |
+| 17 | دَخَلَ / يَدْخُلُ | dakhala / yadkhulu | to enter |  | |
+| 18 | رَجَعَ / يَرْجِعُ | rajaʿa / yarjiʿu | to return, go back | new | |
+| 19 | وَجَدَ / يَجِدُ | wajada / yajidu | to find | new | |
+| 20 | فَقَدَ / يَفْقِدُ | faqada / yafqidu | to lose |  | |
+| 21 | نَسِيَ / يَنْسى | nasiya / yansā | to forget | new | |
+| 22 | تَذَكَّرَ / يَتَذَكَّرُ | tadhakkara / yatadhakkaru | to remember | new | |
+| 23 | سُؤال | suʾāl | question | new | |
+| 24 | أَجابَ / يُجِيبُ | ajāba / yujību | to answer | new | |
+| 25 | جَواب | jawāb | answer | new | |
+| 26 | جَلَسَ / يَجْلِسُ | jalasa / yajlisu | to sit |  | |
+| 27 | سَمِعَ / يَسْمَعُ | samiʿa / yasmaʿu | to hear |  | |
+| 28 | نَظَرَ / يَنْظُرُ | naẓara / yanẓuru | to look |  | |
+| 29 | فَتَحَ / يَفْتَحُ | fataḥa / yaftaḥu | to open |  | |
+| 30 | وَضَعَ / يَضَعُ | waḍaʿa / yaḍaʿu | to put, place |  | |
+| 31 | ثَعْلَب | thaʿlab | fox |  | |
+| 32 | غُراب | ghurāb | crow |  | |
+| 33 | جُبْن | jubn | cheese |  | |
+| 34 | ذَكِيّ | dhakī | clever | new | |
+| 35 | حَزِين | ḥazīn | sad | new | |
+| 36 | سَعِيد | saʿīd | happy | new | |
+| 37 | بَكى / يَبْكِي | bakā / yabkī | to cry | new | |
+| 38 | فَعَلَ / يَفْعَلُ | faʿala / yafʿalu | to do |  | |
+| 39 | ما | mā | not (negates the past) |  | |
+| 40 | قابَلَ / يُقابِلُ | qābala / yuqābilu | to meet |  | |
+
+**Conversation 1: The lion and the mouse**
+
+| | Arabic | English | OK? |
+|---|---|---|---|
+| ط | يا جَدَّتِي، أُرِيدُ قِصَّةً مِنْ فَضْلِكِ. | Grandma, I'd like a story, please. | |
+| ج | كانَ يا ما كانَ، فِي يَوْمٍ مِنَ الْأَيَّامِ، كانَ أَسَدٌ كَبِيرٌ يَنامُ تَحْتَ شَجَرَةٍ. | Once upon a time, one day, a big lion was sleeping under a tree. | |
+| ط | وَماذا حَدَثَ؟ | And what happened? | |
+| ج | جاءَ فَأْرٌ صَغِيرٌ وَمَشى عَلى وَجْهِ الْأَسَدِ. | A little mouse came and walked over the lion's face. | |
+| ط | وَهَلْ أَكَلَهُ الْأَسَدُ؟ | And did the lion eat him? | |
+| ج | لا. خافَ الْفَأْرُ وَقالَ: «اُتْرُكْنِي، وَسَأُساعِدُكَ فِي يَوْمٍ مِنَ الْأَيَّامِ». | No. The mouse was afraid and said: ‘Let me go, and one day I'll help you.’ | |
+| ط | فَأْرٌ صَغِيرٌ يُساعِدُ أَسَدًا؟! | A little mouse helping a lion?! | |
+| ج | ضَحِكَ الْأَسَدُ كَثِيرًا، لَكِنَّهُ تَرَكَ الْفَأْرَ. | The lion laughed a lot, but he let the mouse go. | |
+| ط | وَبَعْدَ ذَلِكَ؟ | And after that? | |
+| ج | بَعْدَ أَيَّامٍ، وَقَعَ الْأَسَدُ فِي شَبَكَةٍ. سَمِعَهُ الْفَأْرُ، فَجاءَ وَقَطَعَ الشَّبَكَةَ بِأَسْنانِهِ. | A few days later, the lion fell into a net. The mouse heard him, so he came and cut the net with his teeth. | |
+| ط | ما شاءَ اللهُ! الْفَأْرُ الصَّغِيرُ ساعَدَ الْأَسَدَ الْكَبِيرَ. | Mashallah! The little mouse helped the big lion. | |
+| ج | نَعَمْ يا حَبِيبَتِي. لا تَضْحَكِي مِنَ الصَّغِيرِ. | Yes, my dear. Don't laugh at the small. | |
+
+**Conversation 2: What happened to you?**
+
+| | Arabic | English | OK? |
+|---|---|---|---|
+| ك | أَيْنَ كُنْتَ الْبارِحَةَ؟ لَمْ أَرَكَ فِي الْمَسْجِدِ. | Where were you last night? I didn't see you at the mosque. | |
+| ع | حَدَثَتْ لِي قِصَّةٌ طَوِيلَةٌ! | A long story happened to me! | |
+| ك | ماذا حَدَثَ؟ | What happened? | |
+| ع | رَجَعْتُ مِنَ الْعَمَلِ، وَعِنْدَما وَصَلْتُ إِلى الْبَيْتِ لَمْ أَجِدِ الْمِفْتاحَ. | I came back from work, and when I got home I couldn't find the key. | |
+| ك | هَلْ فَقَدْتَهُ؟ | Had you lost it? | |
+| ع | لا أَعْرِفُ. نَسِيتُ أَيْنَ وَضَعْتُهُ. | I don't know. I forgot where I'd put it. | |
+| ك | وَماذا فَعَلْتَ؟ | And what did you do? | |
+| ع | جَلَسْتُ أَمامَ الْبابِ ساعَةً. ثُمَّ تَذَكَّرْتُ: تَرَكْتُهُ فِي السَّيَّارَةِ! | I sat in front of the door for an hour. Then I remembered: I'd left it in the car! | |
+| ك | وَهَلْ وَجَدْتَهُ هُناكَ؟ | And did you find it there? | |
+| ع | نَعَمْ، أَخِيرًا! فَتَحْتُ الْبابَ وَدَخَلْتُ، لَكِنَّ وَقْتَ الصَّلاةِ انْتَهى. | Yes, at last! I opened the door and went in, but the time for the prayer had ended. | |
+| ك | لا تَنْسَ مِفْتاحَكَ مَرَّةً أُخْرى! | Don't forget your key again! | |
+| ع | إِنْ شاءَ اللهُ! | God willing! | |
+
+**Conversation 3: The fox and the crow**
+
+| | Arabic | English | OK? |
+|---|---|---|---|
+| م | يا هُدى، هَلْ قَرَأْتِ قِصَّةَ الثَّعْلَبِ وَالْغُرابِ؟ | Huda, have you read the story of the fox and the crow? | |
+| ه | نَعَمْ، قَرَأْتُها. هِيَ قِصَّةٌ قَصِيرَةٌ. | Yes, I've read it. It's a short story. | |
+| م | ماذا وَجَدَ الْغُرابُ؟ | What did the crow find? | |
+| ه | وَجَدَ جُبْنًا، وَجَلَسَ عَلى شَجَرَةٍ لِيَأْكُلَهُ. | He found some cheese, and sat in a tree to eat it. | |
+| م | وَمَنْ رَآهُ؟ | And who saw him? | |
+| ه | رَآهُ ثَعْلَبٌ جَوْعانُ. نَظَرَ إِلى الْجُبْنِ وَقالَ: «صَوْتُكَ جَمِيلٌ يا غُرابُ!» | A hungry fox saw him. He looked at the cheese and said: ‘You have a lovely voice, crow!’ | |
+| م | وَلِماذا قالَ ذَلِكَ؟ | And why did he say that? | |
+| ه | لِأَنَّهُ ذَكِيٌّ! فَتَحَ الْغُرابُ فَمَهُ، فَوَقَعَ الْجُبْنُ. | Because he's clever! The crow opened his mouth, and the cheese fell. | |
+| م | وَماذا فَعَلَ الثَّعْلَبُ؟ | And what did the fox do? | |
+| ه | أَخَذَ الْجُبْنَ وَلَمْ يَتْرُكْ شَيْئًا. كانَ الْغُرابُ حَزِينًا وَالثَّعْلَبُ سَعِيدًا. | He took the cheese and left nothing. The crow was sad and the fox was happy. | |
+| م | أَحْسَنْتِ! وَماذا نَتَعَلَّمُ مِنَ الْقِصَّةِ؟ | Well done! And what do we learn from the story? | |
+| ه | لا نَسْمَعُ كُلَّ كَلامٍ جَمِيلٍ! | We don't listen to every pretty word! | |
+
+**Grammar cards**
+
+| Card | Example | Meaning | What it says | Quick check (right answer first) | OK? |
+|---|---|---|---|---|---|
+| Telling what happened: the verb first | خَرَجَ الْأَسَدُ، ثُمَّ نامَ تَحْتَ شَجَرَةٍ. | The lion went out, then slept under a tree. | A story is told in the past, and the verb usually comes first: خَرَجَ الْأَسَدُ, ‘went out the lion’. For a feminine doer the verb ends in ـَتْ: خَرَجَتِ الْبِنْتُ. Join one event to the next with ثُمَّ, ‘then’. | How do you say ‘the girl laughed’? → ضَحِكَتِ الْبِنْتُ / ضَحِكَ الْبِنْتُ / ضَحِكْتُ الْبِنْتُ | |
+| ‘Didn’t’: لَمْ | لَمْ يَأْكُلِ الْأَسَدُ الْفَأْرَ. | The lion didn’t eat the mouse. | For ‘didn’t’, put لَمْ before the present verb and drop its last vowel: يَأْكُلُ → لَمْ يَأْكُلْ, he didn’t eat. It looks present, but it means the past. You can also say ما with a past verb: ما أَكَلَ. | How do you say ‘I didn’t go’? → لَمْ أَذْهَبْ / لَمْ ذَهَبْتُ / لَنْ أَذْهَبَ | |
+| ‘When’ in a story: عِنْدَما | عِنْدَما رَأى الْفَأْرُ الْأَسَدَ، خافَ. | When the mouse saw the lion, he was afraid. | مَتى asks ‘when?’. To join two things that happened, use عِنْدَما, with a past verb after it: عِنْدَما رَجَعْتُ, when I came back. | Which fits? ___ رَجَعْتُ إِلى الْبَيْتِ، نِمْتُ. → عِنْدَما / مَتى / لِماذا | |
+| ‘Was sleeping’: كانَ and a present verb | كانَ الْأَسَدُ يَنامُ. | The lion was sleeping. | كانَ with a present verb says what was going on, or what used to happen: كانَ يَنامُ, he was sleeping; كُنْتُ أَلْعَبُ, I used to play. |  | |
+
+**Sentences that build up (ladders)**
+
+| Arabic | English | OK? |
+|---|---|---|
+| خَرَجَ الْأَسَدُ مِنَ الْغارِ فِي الصَّباحِ، ثُمَّ نامَ تَحْتَ شَجَرَةٍ كَبِيرَةٍ | The lion went out → of the cave → in the morning → then slept → under a big tree. | |
+| عِنْدَما وَصَلْتُ إِلى الْبَيْتِ لَمْ أَجِدِ الْمِفْتاحَ، ثُمَّ تَذَكَّرْتُ: تَرَكْتُهُ فِي السَّيَّارَةِ | When I got → home → I didn't find the key → then I remembered: → I'd left it in the car. | |
+| وَجَدَ الْغُرابُ جُبْنًا وَجَلَسَ عَلى شَجَرَةٍ، فَرَآهُ ثَعْلَبٌ ذَكِيٌّ | The crow found → some cheese → and sat in a tree → and there he was seen → by a clever fox. | |
+| سَأَلَنِي الْمُعَلِّمُ سُؤالًا فَلَمْ أَعْرِفِ الْجَوابَ، ثُمَّ أَجابَ صَدِيقِي وَكانَ جَوابُهُ صَحِيحًا | The teacher asked me → a question → and I didn't know the answer → then my friend answered → and his answer was right. | |
+
+**Swaps** (each choice in brackets is tried in the sentence)
+
+| Pattern | Note | OK? |
+|---|---|---|
+| لَمْ [أَجِدِ الْمِفْتاحَ / أَسْمَعِ الْأَذانَ / أَعْرِفِ الْجَوابَ / أَذْهَبْ إِلى الْعَمَلِ] . | I didn't ___ . After لَمْ the verb has no last vowel (a helping -i before ال). | |
+| عِنْدَما [رَجَعْتُ / وَصَلْتُ / دَخَلْتُ / خَرَجْتُ] [كانَ أَخِي نائِمًا / وَجَدْتُ هَدِيَّةً / سَمِعْتُ الْأَذانَ] . | When I ___ , ___ . Twelve sentences. | |
+| كانَ الْأَسَدُ [يَنامُ / يَأْكُلُ / يَمْشِي / يَنْظُرُ إِلى الْفَأْرِ] . | The lion was ___ . كانَ with a present verb: what was going on. | |
+| ثُمَّ [ضَحِكَ / خافَ / بَكى / خَرَجَ] [الْأَسَدُ / الْفَأْرُ / الْوَلَدُ] . | Then the ___ ___ . The verb comes first. Twelve sentences. | |
+
+**Changes** (the learner turns the first sentence into the second)
+
+| Task | From | To | OK? |
+|---|---|---|---|
+| Negate with لَمْ | وَجَدْتُ الْمِفْتاحَ. | لَمْ أَجِدِ الْمِفْتاحَ. | |
+| Change to the past | يَخْرُجُ الْأَسَدُ فِي الصَّباحِ. | خَرَجَ الْأَسَدُ فِي الصَّباحِ. | |
+| Join them with ‘when’ | رَجَعْتُ إِلى الْبَيْتِ. نِمْتُ. | عِنْدَما رَجَعْتُ إِلى الْبَيْتِ نِمْتُ. | |
+| Change to ‘she’ | ضَحِكَ الْوَلَدُ ثُمَّ خَرَجَ. | ضَحِكَتِ الْبِنْتُ ثُمَّ خَرَجَتْ. | |
+| Ask what happened | فَقَدْتُ جَوازَ سَفَرِي. | ماذا حَدَثَ؟ | |
+| Join them with ‘then’ | فَتَحْتُ الْبابَ. دَخَلْتُ. | فَتَحْتُ الْبابَ ثُمَّ دَخَلْتُ. | |
+
+**Built from pieces**
+
+| Arabic | English | OK? |
+|---|---|---|
+| فِي يَوْمٍ مِنَ الْأَيَّامِ خَرَجَ أَسَدٌ كَبِيرٌ مِنَ الْغارِ | One day a big lion went out of the cave. | |
+| عِنْدَما رَأى الْفَأْرُ الْأَسَدَ خافَ كَثِيرًا | When the mouse saw the lion, he was very afraid. | |
+| لَمْ أَجِدِ الْمِفْتاحَ، ثُمَّ تَذَكَّرْتُ أَيْنَ وَضَعْتُهُ | I didn't find the key, then I remembered where I'd put it. | |
+| سَأَلَ الْمُعَلِّمُ سُؤالًا فَأَجابَ الطَّالِبُ الذَّكِيُّ | The teacher asked a question and the clever student answered. | |
+| كانَ الْغُرابُ حَزِينًا وَكانَ الثَّعْلَبُ سَعِيدًا | The crow was sad and the fox was happy. | |
+
+**Gaps** (right answer in bold)
+
+| Sentence | Choices | Why | OK? |
+|---|---|---|---|
+| لَمْ ___ الْمِفْتاحَ فِي الْبَيْتِ. | **أَجِدِ** / وَجَدْتُ / أَجِدُ / سَأَجِدُ | After لَمْ: the present verb, with no last vowel. | |
+| ___ وَصَلْتُ إِلى الْبَيْتِ، نِمْتُ. | مَتى / **عِنْدَما** / لِماذا / هَلْ | Joining two things that happened: عِنْدَما. | |
+| ضَحِكَ الْأَسَدُ، ___ تَرَكَ الْفَأْرَ. | **ثُمَّ** / لَمْ / عِنْدَما / هَلْ | One thing after another: ثُمَّ, then. | |
+| ___ الْبِنْتُ مِنَ الْغُرْفَةِ. | خَرَجَ / **خَرَجَتِ** / خَرَجْتُ / يَخْرُجُ | A feminine doer: the verb ends in ـَتْ. | |
+| كانَ الْأَسَدُ ___ تَحْتَ الشَّجَرَةِ. | **يَنامُ** / نَمْ / نامُوا / تَنامِينَ | كانَ with a present verb: he was sleeping. | |
+| كانَ الْغُرابُ ___ . | حَزِينٌ / **حَزِينًا** / حَزِينٍ / الْحَزِينُ | After كانَ the describing word ends in -an. | |
+
+**Find the mistake** (the wrong sentence is shown on purpose)
+
+| Wrong | Right | Why | OK? |
+|---|---|---|---|
+| لَمْ وَجَدْتُ الْمِفْتاحَ. | لَمْ أَجِدِ الْمِفْتاحَ. | لَمْ goes with a present verb, not a past one. | |
+| مَتى رَجَعْتُ إِلى الْبَيْتِ، نِمْتُ. | عِنْدَما رَجَعْتُ إِلى الْبَيْتِ، نِمْتُ. | مَتى only asks. To join two events, use عِنْدَما. | |
+| خَرَجَ الْبِنْتُ مِنَ الْغُرْفَةِ. | خَرَجَتِ الْبِنْتُ مِنَ الْغُرْفَةِ. | A feminine doer: the verb ends in ـَتْ. | |
+| كانَ الثَّعْلَبُ سَعِيدٌ. | كانَ الثَّعْلَبُ سَعِيدًا. | After كانَ the describing word ends in -an. | |
+| لَمْ يَأْكُلُ الْأَسَدُ الْفَأْرَ. | لَمْ يَأْكُلِ الْأَسَدُ الْفَأْرَ. | After لَمْ the verb loses its -u (here a helping -i, before ال). | |
+
+**Speaking prompts, with a model answer**
+
+| Prompt | English | Model answer | English | OK? |
+|---|---|---|---|---|
+| ماذا فَعَلْتَ الْبارِحَةَ؟ | What did you do yesterday? | ذَهَبْتُ إِلى الْعَمَلِ فِي الصَّباحِ، ثُمَّ رَجَعْتُ إِلى الْبَيْتِ وَأَكَلْتُ مَعَ أُسْرَتِي. أَخِيرًا قَرَأْتُ قَلِيلًا وَنِمْتُ. | I went to work in the morning, then came home and ate with my family. Finally I read a little and slept. | |
+| اِحْكِ قِصَّةَ الْأَسَدِ وَالْفَأْرِ. | Tell the story of the lion and the mouse. | كانَ أَسَدٌ يَنامُ، فَمَشى عَلَيْهِ فَأْرٌ. لَمْ يَأْكُلْهُ الْأَسَدُ وَتَرَكَهُ. ثُمَّ ساعَدَ الْفَأْرُ الْأَسَدَ فِي يَوْمٍ مِنَ الْأَيَّامِ. | A lion was sleeping, and a mouse walked over him. The lion didn't eat him and let him go. Then one day the mouse helped the lion. | |
+| هَلْ نَسِيتَ شَيْئًا مُهِمًّا مَرَّةً؟ ماذا حَدَثَ؟ | Have you ever forgotten something important? What happened? | نَعَمْ، نَسِيتُ مِفْتاحِي فِي السَّيَّارَةِ. لَمْ أَجِدْهُ فِي الْبَيْتِ، ثُمَّ تَذَكَّرْتُ وَرَجَعْتُ إِلى السَّيَّارَةِ. | Yes, I forgot my key in the car. I couldn't find it at home, then I remembered and went back to the car. | |
+| ماذا كُنْتَ تَفْعَلُ عِنْدَما كُنْتَ صَغِيرًا؟ | What did you use to do when you were small? | عِنْدَما كُنْتُ صَغِيرًا كُنْتُ أَلْعَبُ كُرَةَ الْقَدَمِ مَعَ أَصْدِقائِي، وَكُنْتُ أَسْمَعُ قِصَصَ جَدَّتِي. | When I was small I used to play football with my friends, and listen to my grandmother's stories. | |
+| ما الْقِصَّةُ الَّتِي تُحِبُّها؟ وَلِماذا؟ | Which story do you love, and why? | أُحِبُّ قِصَّةَ يُوسُفَ عَلَيْهِ السَّلامُ، لِأَنَّها قِصَّةٌ جَمِيلَةٌ فِي الْقُرْآنِ. | I love the story of Yusuf, peace be upon him, because it's a beautiful story in the Qur'an. | |

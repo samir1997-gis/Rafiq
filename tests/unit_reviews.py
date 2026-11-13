@@ -108,7 +108,7 @@ def main():
         p = page_with(b, seen(*START, *[f"p:01|{k}" for k in OLD_U1], "p:02|meet1", "p:02|review1", "p:02|meet2"), errors)
         p.set_viewport_size({"width": 390, "height": 844}); p.goto(BASE + "dashboard.html"); p.wait_for_timeout(1500)
         ok.append(("finished and current units open, later ones stay locked", p.evaluate("document.querySelectorAll('details.ud').length") == 4
-                   and p.evaluate("document.querySelectorAll('.unit.later').length") == 10))
+                   and p.evaluate("document.querySelectorAll('.unit.later').length") == 14))          # units 3 to 16 (#344)
         p.locator("details.ud[data-u='01'] > summary").click(); p.locator("details.ud[data-u='02'] > summary").click(); p.wait_for_timeout(400)
         u1 = p.evaluate("""[...document.querySelectorAll('details.ud[data-u="01"] .ustep')].map(e => [e.className, e.getAttribute('href') || ''])""")
         ok.append(("unit 1: all 22 steps done, each one to redo", len(u1) == 22 and all("done" in c and h.startswith("learn.html?u=01&s=") for c, h in u1)))
@@ -137,13 +137,13 @@ def main():
         p = team_page(True)
         ok.append(("team: every unit open", p.evaluate("RafiqPath.units().every(u => RafiqPath.unitOpen(u.n)) && RafiqPath.stepOpen('12', 'test')")))
         ok.append(("team: no locked rows on Home, units ahead marked open", p.evaluate("document.querySelectorAll('.unit.later').length") == 0
-                   and p.evaluate("document.querySelectorAll('details.ud').length") == 14 and "Open to the team" in p.inner_text("details.ud[data-u='12']")
+                   and p.evaluate("document.querySelectorAll('details.ud').length") == 18 and "Open to the team" in p.inner_text("details.ud[data-u='12']")
                    and "team account: every unit open" in p.inner_text("#home")))
         ok.append(("team: progress unchanged, the review is still next (" + nxt(p) + ")", nxt(p) == "01|review1"))
         p.goto(BASE + "learn.html?u=12&s=meet3"); p.wait_for_timeout(1500)
         ok.append(("team: a later unit's lesson opens (" + kicker(p) + ")", kicker(p).startswith("New word"))); p.close()
         p = team_page(False)
-        ok.append(("a learner's later units stay locked", not p.evaluate("RafiqPath.unitOpen('12')") and p.evaluate("document.querySelectorAll('.unit.later').length") == 11
+        ok.append(("a learner's later units stay locked", not p.evaluate("RafiqPath.unitOpen('12')") and p.evaluate("document.querySelectorAll('.unit.later').length") == 15
                    and "team account" not in p.inner_text("#home"))); p.close()
         b.close()
     ok.append(("no page errors " + "; ".join(e[:120] for e in errors[:3]), not errors))
