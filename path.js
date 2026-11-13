@@ -35,14 +35,10 @@
   const UNITS = ALPHA.concat(BASICS_UNIT, PATH);
   const units = () => UNITS;
   const unitData = n => DATA.find(u => u.n === n);
-  /* Announced, not built yet: shown after the last unit on Home and on the
-     pricing page. Update as units ship (and move them into the path). */
-  const COMING = [
-    {ar:'السَّفَرُ',              en:'Travel & directions',    d:'Airports, hotels, asking the way'},
-    {ar:'الصِّحَّةُ',              en:'Health & the body',      d:'At the doctor, how you feel'},
-    {ar:'رَمَضانُ وَالْعِيدُ',      en:'Ramadan & Eid',          d:'Fasting, iftar, Eid visits'},
-    {ar:'الْحِكاياتُ',             en:'Telling stories',        d:'What happened — the past tense in use'},
-  ];
+  /* Announced, not built yet: shown after the last unit on Home. Add a unit here when it's announced
+     ({ar, en, d: a line about it}) and take it out as it ships. Travel, Health, Ramadan & Eid and
+     Telling stories shipped as units 13 to 16 (#344), so nothing is waiting. */
+  const COMING = [];
   const grammarCards = n => (typeof EXTRA !== 'undefined' && EXTRA[n] && EXTRA[n].grammar) || [];
   const wordById = (() => { const m = new Map(); VOCAB.forEach(w => m.set(w.id, w)); return id => m.get(id); })();
 

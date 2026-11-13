@@ -1325,7 +1325,7 @@ const DATA=[
      en:"On Eid day → I put on a new thobe → and pray the Eid prayer → then I visit my family → and give the children gifts."}
   ],
   subs:[
-    {tpl:["أَصُومُ ",["رَمَضانَ","يَوْمَ عَرَفَةَ","يَوْمَ الِاثْنَيْنِ","يَوْمَ الْخَمِيسِ"]," ."],
+    {tpl:["أَصُومُ ",["رَمَضانَ","يَوْمَ عَرَفَةَ","يَوْمَ الاِثْنَيْنِ","يَوْمَ الْخَمِيسِ"]," ."],
      en:"I fast ___ . What you fast ends in -a."},
     {tpl:["نُفْطِرُ ",["بَعْدَ أَذانِ الْمَغْرِبِ","مَعَ الضُّيُوفِ","فِي الْمَسْجِدِ","عِنْدَ جَدَّتِي"]," ."],
      en:"We break the fast ___ ."},
@@ -1371,8 +1371,8 @@ const DATA=[
   n:"14",ar:"الصِّحَّةُ",en:"Health & the body",src:"rafiq",
   convos:[
     {title:"Conversation 1",sub:"What's wrong?",lines:[
-      ["خ","السَّلامُ عَلَيْكُمْ يا سَلْمانُ. ماذا بِكَ؟ هَلْ أَنْتَ تَعْبانُ؟","Peace be upon you, Salman. What's wrong? Are you tired?"],
-      ["س","وَعَلَيْكُمُ السَّلامُ. نَعَمْ، أَنا تَعْبانُ جِدًّا. رَأْسِي يُؤْلِمُنِي.","And upon you peace. Yes, I'm very tired. My head hurts."],
+      ["خ","السَّلامُ عَلَيْكُمْ يا سَلْمانُ. ماذا بِكَ؟ هَلْ أَنْتَ مُتْعَبٌ؟","Peace be upon you, Salman. What's wrong? Are you tired?"],
+      ["س","وَعَلَيْكُمُ السَّلامُ. نَعَمْ، أَنا مُتْعَبٌ جِدًّا. رَأْسِي يُؤْلِمُنِي.","And upon you peace. Yes, I'm very tired. My head hurts."],
       ["خ","هَلْ عِنْدَكَ صُداعٌ مُنْذُ الصَّباحِ؟","Have you had a headache since the morning?"],
       ["س","نَعَمْ، وَأَشْعُرُ بِأَلَمٍ فِي ظَهْرِي وَبَطْنِي أَيْضًا.","Yes, and I feel pain in my back and my stomach too."],
       ["خ","هَلْ نِمْتَ جَيِّدًا الْبارِحَةَ؟","Did you sleep well last night?"],
@@ -1414,8 +1414,8 @@ const DATA=[
     ]}
   ],
   dialogue:[
-    ["خ","السَّلامُ عَلَيْكُمْ يا سَلْمانُ. ماذا بِكَ؟ هَلْ أَنْتَ تَعْبانُ؟","Peace be upon you, Salman. What's wrong? Are you tired?"],
-    ["س","وَعَلَيْكُمُ السَّلامُ. نَعَمْ، أَنا تَعْبانُ جِدًّا. رَأْسِي يُؤْلِمُنِي.","And upon you peace. Yes, I'm very tired. My head hurts."],
+    ["خ","السَّلامُ عَلَيْكُمْ يا سَلْمانُ. ماذا بِكَ؟ هَلْ أَنْتَ مُتْعَبٌ؟","Peace be upon you, Salman. What's wrong? Are you tired?"],
+    ["س","وَعَلَيْكُمُ السَّلامُ. نَعَمْ، أَنا مُتْعَبٌ جِدًّا. رَأْسِي يُؤْلِمُنِي.","And upon you peace. Yes, I'm very tired. My head hurts."],
     ["خ","هَلْ عِنْدَكَ صُداعٌ مُنْذُ الصَّباحِ؟","Have you had a headache since the morning?"],
     ["س","نَعَمْ، وَأَشْعُرُ بِأَلَمٍ فِي ظَهْرِي وَبَطْنِي أَيْضًا.","Yes, and I feel pain in my back and my stomach too."],
     ["خ","هَلْ نِمْتَ جَيِّدًا الْبارِحَةَ؟","Did you sleep well last night?"],
@@ -2079,7 +2079,7 @@ const EXTRA={
   {q:"___ وَصَلْتُ إِلى الْبَيْتِ، نِمْتُ.",o:["مَتى","عِنْدَما","لِماذا","هَلْ"],a:1,w:"Joining two things that happened: عِنْدَما."},
   {q:"ضَحِكَ الْأَسَدُ، ___ تَرَكَ الْفَأْرَ.",o:["ثُمَّ","لَمْ","عِنْدَما","هَلْ"],a:0,w:"One thing after another: ثُمَّ, then."},
   {q:"___ الْبِنْتُ مِنَ الْغُرْفَةِ.",o:["خَرَجَ","خَرَجَتِ","خَرَجْتُ","يَخْرُجُ"],a:1,w:"A feminine doer: the verb ends in ـَتْ."},
-  {q:"كانَ الْأَسَدُ ___ تَحْتَ الشَّجَرَةِ.",o:["يَنامُ","نَمْ","لَمْ يَنَمْ","سَيَنامُ"],a:0,w:"كانَ with a present verb: he was sleeping."},
+  {q:"كانَ الْأَسَدُ ___ تَحْتَ الشَّجَرَةِ.",o:["يَنامُ","نَمْ","نامُوا","تَنامِينَ"],a:0,w:"كانَ with a present verb: he was sleeping."},
   {q:"كانَ الْغُرابُ ___ .",o:["حَزِينٌ","حَزِينًا","حَزِينٍ","الْحَزِينُ"],a:1,w:"After كانَ the describing word ends in -an."}
  ],
  fix:[

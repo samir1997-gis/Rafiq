@@ -828,7 +828,7 @@ const VOCAB = [
   { id: 820, ar: "جِسْم", en: "body", tr: "jism", unit: "11 · Body & health" },
   { id: 821, ar: "بَطْن", en: "belly, stomach", tr: "baṭn", unit: "11 · Body & health" },
   { id: 822, ar: "ظَهْر", en: "back", tr: "ẓahr", unit: "11 · Body & health" },
-  { id: 823, ar: "تَعْبانُ", en: "tired", tr: "taʿbān", unit: "11 · Body & health" },
+  { id: 823, ar: "مُتْعَب", en: "tired", tr: "mutʿab", unit: "11 · Body & health" },
   { id: 824, ar: "آلَمَ / يُؤْلِمُ", en: "to hurt", tr: "ālama / yuʾlimu", unit: "03 · Verbs" },
   { id: 825, ar: "ماذا بِكَ؟", en: "what's wrong? (to a man)", tr: "mādhā bika?", unit: "05 · Questions & connectors" },
   { id: 826, ar: "عَيْن", en: "eye", tr: "ʿayn", unit: "11 · Body & health" },

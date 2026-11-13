@@ -224,9 +224,9 @@ a.ustep:hover{background:var(--paper-deep)}
   <div id="remPrompt"></div>
   <div id="home"></div>
 </main>
-<script src="vocab-data.js?v=20261022a"></script>
-<script src="drills-data.js?v=20260930h"></script>
-<script src="path-data.js?v=20260930b"></script>
+<script src="vocab-data.js?v=20261113a"></script>
+<script src="drills-data.js?v=20261113h"></script>
+<script src="path-data.js?v=20261113b"></script>
 <script src="alphabet-data.js?v=20261022a"></script>
 <script>
 /* Both apps keep their own schedule; the dashboard just reports on each. */
@@ -342,7 +342,7 @@ function paintHome(){
       ? `<button type="button" class="unit later" data-lock="${esc(U[cur].alpha?'the reading starter':U[cur].basics?'the basics':'unit '+(+U[cur].n))}">${inner}</button>`
       : `<details class="ud" data-u="${p.n}"${OPEN_UNITS.has(p.n)?' open':''}><summary class="unit ${done?'done':now?'now':'open'}">${inner}<span class="chev" aria-hidden="true">▾</span></summary>${stepList(p, i, now&&n.step?n.step.key:null)}</details>`;
   }).join('');
-  const coming=`<div class="ph" style="margin-top:4px">More units coming</div>
+  const coming=!RafiqPath.COMING.length ? '' : `<div class="ph" style="margin-top:4px">More units coming</div>
     <p class="csub">New units are added regularly — Complete members get them first.</p>
     <div class="units">${RafiqPath.COMING.map(c=>`<div class="unit soon"><span class="st">✨</span>
       <span class="nm"><b>${esc(c.en)}</b><span>${esc(c.d)}</span></span><span class="ua">${esc(c.ar)}</span></div>`).join('')}</div>`;
@@ -419,7 +419,7 @@ function paintHome(){
 <script src="fsrs.js?v=20260929"></script>
 <script src="progress.js?v=20261022a"></script>
 <script src="basics-data.js?v=5"></script>
-<script src="path.js?v=20261103c"></script>
+<script src="path.js?v=20261113c"></script>
 <script src="salah-data.js?v=1"></script>
 <script src="salah.js?v=8"></script>
 <script src="mistakes.js?v=20260922"></script>
