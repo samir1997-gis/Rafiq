@@ -601,3 +601,40 @@ Bonus sentence at the end: أَنا أَدْرُسُ اللُّغَةَ الْع
 | اسْمُ الْمُدَرِّسِ يُوسُفُ | The teacher’s name is Yusuf. | اسْمِي | |
 | نَحْنُ طُلّابُ اللُّغَةِ الْعَرَبِيَّةِ | We’re students of the Arabic language. | طالِبُ | |
 
+## Added 13 Nov 2026 (#361): more practice in the reading starter and the basics — for the teacher to check
+
+No new words or sentences: the lessons use what was already there in more ways. Three things are worth a teacher's eye. Not yet through TypeSafe (the service was blocked in that session, #262).
+
+### The vowel marks, read on other letters
+
+Each mark is met on ب as before, then read on another letter, chosen at random from ت د ر ز س ك م ن ف (no ل, so لا isn't met early). The reading shown is the letter's sound in place of the b:
+
+| Mark | On ب | On ت | On س | On د | OK? |
+|---|---|---|---|---|---|
+| Fatha | بَ ba | تَ ta | سَ sa | دَ da | |
+| Kasra | بِ bi | تِ ti | سِ si | دِ di | |
+| Damma | بُ bu | تُ tu | سُ su | دُ du | |
+| Sukun | بْ b | تْ t | سْ s | دْ d | |
+| Shadda | بّ bb | تّ tt | سّ ss | دّ dd | |
+| Alif after fatha | با baa | تا taa | سا saa | دا daa | |
+| Ya after kasra | بي bii | تي tii | سي sii | دي dii | |
+| Waw after damma | بو buu | تو tuu | سو suu | دو duu | |
+| Tanwin | بٌ bun | تٌ tun | سٌ sun | دٌ dun | |
+
+These have no recording, so they're read, not heard.
+
+### Write it: tracing a letter
+
+After each letter's card the learner traces the letter (its form on its own) with a finger. It's accepted once the whole shape and every dot have been gone over. **No stroke order or direction is taught or checked.** Is that acceptable for a first meeting, or should the pad show where to start?
+
+### The basics: Build it
+
+After a lesson's eight picks, one or two of its own "How do you say" answers are built from word tiles. The extra tiles are words from that question's wrong choices, so a learner may be offered طالِبٌ beside طالِبُ, or كَبِيرَةٌ beside كَبِيرٌ: the ending is what the lesson teaches. Only the exact answer is accepted.
+
+| Lesson | Built | Extra tiles | OK? |
+|---|---|---|---|
+| I, you, he, she | أَنا طالِبٌ · هُوَ طالِبٌ | أَنْتَ، هُوَ / أَنا، أَنْتَ | |
+| Masculine and feminine | أَنا طالِبَةٌ | طالِبٌ، هِيَ | |
+| Describing words | بَيْتٌ كَبِيرٌ · غُرْفَةٌ كَبِيرَةٌ | كَبِيرَةٌ / كَبِيرٌ | |
+| ‘Of’ | طالِبُ اللُّغَةِ · كِتابُ الطّالِبِ | طالِبٌ، اللُّغَةُ / الْكِتابُ، كِتابٌ | |
+| One and many | هَذِهِ كُتُبٌ · نَحْنُ طُلّابٌ | هَذا / أَنا، طالِبٌ | |
