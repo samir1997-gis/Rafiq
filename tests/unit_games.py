@@ -1,4 +1,4 @@
-"""Units 1 and 2: lessons on tested methods, with games (#358). Unit 3 on keeps the earlier lesson.
+"""Word lessons and reviews on tested methods, with games (#358): units 1 and 2 first, every unit since #371.
   - Meet: the meaning is hidden until it's tapped, and Next waits for that (guess first)
   - recall is spread through the lesson, not left to the end: the first question comes after the
     second word; each word is asked three ways (its meaning, by ear with pictures, in Arabic) and
@@ -126,9 +126,29 @@ def main():
           return [pics, bad, samePic(64, 151)]; })()""")
         ok.append(("tap the picture: no two the same in 80 questions " + str(twins), twins[0] == 80 and twins[1] == 0 and twins[2])); p.close()
 
-        # unit 3 keeps the earlier lesson and review
-        p = page_with(b, seen(*START, "p:01|placed", "p:02|placed"), errors); p.goto(BASE + "learn.html?u=03&s=meet1"); p.wait_for_timeout(1500)
-        ok.append(("unit 3: the meaning is shown straight away", p.locator(".guess").count() == 0 and p.locator(".card .en").is_visible())); p.close()
+        # every unit has this lesson (#371): unit 3, a unit's short last lesson, two words with one meaning
+        placed = lambda upto: [f"p:{i:02d}|placed" for i in range(1, upto)]
+        p = page_with(b, seen(*START, *placed(3)), errors); p.goto(BASE + "learn.html?u=03&s=meet1"); p.wait_for_timeout(1500)
+        ok.append(("unit 3: the meaning is hidden until it's tapped", p.locator(".guess").count() == 1 and not p.locator("#m").is_visible())); p.close()
+        early = ["meet1", "review1", "meet2", "review2", "listen", "grammar", "meet3", "review3", "meet4", "review4", "practise", "meet5", "review5"]
+        p = page_with(b, seen(*START, *placed(12), *[f"p:12|{k}" for k in early]), errors); p.goto(BASE + "learn.html?u=12&s=meet6"); p.wait_for_timeout(1500)
+        order, asked, _, _ = walk(p)
+        ok.append(("a last lesson of one word: asked three ways, no Match-up " + str(order), order.count("meet") == 1 and "match" not in order and len(order) == 4
+                   and "3 times" in p.inner_text(".done") and p.evaluate("RafiqPath.stepDone('12','meet6')"))); p.close()
+        p = page_with(b, seen(*START, *placed(10), *[f"p:10|{k}" for k in early]), errors); p.goto(BASE + "learn.html?u=10&s=meet6"); p.wait_for_timeout(1500)
+        for _ in range(40):                                                # on to its Match-up: خارِجَ and فِي الخارِج are both 'outside'
+            if p.locator(".mt").count() or p.locator(".done").count(): break
+            if p.locator(".guess").count(): p.locator(".guess").click()
+            elif not kicker(p).startswith("New word"): answer(p)
+            go_on(p)
+        crossed = p.evaluate("""(() => { const e = [...document.querySelectorAll('.mt[data-side=e]')], t = e.find(x => e.some(y => y !== x && y.textContent === x.textContent));
+          if(!t) return null; const other = e.find(y => y !== t && y.textContent === t.textContent);
+          document.querySelector(`.mt[data-side=a][data-id='${t.dataset.id}']`).click(); other.click(); return t.textContent; })()""")
+        p.wait_for_timeout(200)
+        ok.append(("two words with one meaning (%s): either pairing is right" % crossed, crossed == "outside" and p.locator(".mt.right[disabled]").count() == 2 and p.locator(".mt.wrong").count() == 0))
+        p.evaluate("""(() => { for(const a of document.querySelectorAll('.mt[data-side=a]:not([disabled])')){ a.click();
+          [...document.querySelectorAll('.mt[data-side=e]:not([disabled])')].find(e => e.dataset.g === a.dataset.g).click(); } })()"""); p.wait_for_timeout(300)
+        ok.append(("…and the game still ends (" + p.inner_text("#v") + ")", "All matched in" in p.inner_text("#v"))); p.close()
 
         # ── the review, unit 1 ────────────────────────────────────────────────────────────
         done = [f"p:01|{k}" for k in ("meet1", "review1", "meet2", "review2", "meet3")]
@@ -154,13 +174,13 @@ def main():
                    and p.get_by_text("Continue learning").count() == 1 and p.evaluate("localStorage.getItem('rafiq_speed_best')") == "3"))
         ok.append(("nothing in it is scored into review", p.evaluate("JSON.stringify(Progress.ids().map(i => Progress.get(i)))") == before)); p.close()
 
-        # unit 3's review: the two kinds it had, and no bonus
-        u12 = [f"p:0{u}|placed" for u in (1, 2)]
-        p = page_with(b, seen(*START, *u12, "p:03|meet1"), errors); p.goto(BASE + "learn.html?u=03&s=review1"); p.wait_for_timeout(1500)
+        # a later unit's review (#371): the same three kinds, and the bonus
+        p = page_with(b, seen(*START, *placed(3), "p:03|meet1"), errors); p.goto(BASE + "learn.html?u=03&s=review1"); p.wait_for_timeout(1500)
         kinds = []
         for q in range(p.evaluate("+document.querySelector('.kicker').textContent.split(' of ')[1]")):
             kinds.append(answer(p)[1]); go_on(p)
-        ok.append(("unit 3's review: by meaning and by ear only, no bonus " + str(sorted(set(kinds))), set(kinds) == {"mean", "hear"} and p.get_by_text("Bonus game").count() == 0)); p.close()
+        turn = all(k == "mean" for k in kinds[0::3]) and all(k in ("pic", "hear") for k in kinds[1::3]) and all(k in ("say", "build") for k in kinds[2::3])
+        ok.append(("unit 3's review: three kinds in turn, and the bonus " + str(kinds[:6]), turn and p.get_by_text("Bonus game").count() == 1)); p.close()
 
         ok.append(("no page errors " + str(errors[:2]), not errors))
         b.close()

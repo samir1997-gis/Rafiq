@@ -205,7 +205,7 @@ mark{background:color-mix(in srgb,var(--gold) 35%,transparent);color:inherit;bor
 .opt{min-height:56px;border:1px solid var(--rule);border-radius:14px;background:var(--card);font-size:1.0625rem;color:var(--ink);cursor:pointer;padding:8px 12px}
 .opt.right{background:var(--verdigris);border-color:var(--verdigris);color:#fff}
 .opt.wrong{background:var(--rubric);border-color:var(--rubric);color:#fff}
-/* units 1 and 2 (#358): guess first, picture choices, Match-up, Beat the clock */
+/* word lessons and reviews (#358): guess first, picture choices, Match-up, Beat the clock */
 .guess{display:block;width:100%;margin-top:14px;min-height:52px;border:1px dashed var(--verdigris);border-radius:14px;background:color-mix(in srgb,var(--verdigris) 8%,var(--card));color:var(--ink);font-size:1rem;line-height:1.35;cursor:pointer;padding:8px 12px;touch-action:manipulation}
 .guess b{display:block;color:var(--verdigris)}
 .pic.sm{margin-bottom:2px}.pic.sm .wpic{width:92px;height:92px}
@@ -404,76 +404,6 @@ function partsHTML(ar){
   const ps=window.RafiqTeach && RafiqTeach.parts(ar);
   return ps ? `<div class="wparts" aria-label="Word by word">${ps.map(([a,e])=>`<span><b lang="ar">${esc(a)}</b><i>${esc(e)}</i></span>`).join('')}</div>` : '';
 }
-function runWords(p, step){
-  const words=RafiqPath.wordsOf(p, step.batch);
-  // teach first (#156): after the meaning check, hear a few and pick the word
-  const HEAR=RafiqPath.teaches(p.n) ? Math.min(5, words.length) : 0, heard=shuffle(words).slice(0,HEAR);
-  const total=words.length*2+HEAR;       // meet each word, then a short check
-  let i=0;
-  const meet=()=>{
-    if(i>=words.length) return check(0);
-    const w=words[i]; setBar(i,total);
-    const pic=PICS.has(w.id)?`<div class="pic" aria-hidden="true">${wordPic(w.id)}</div>`:PIC[w.id]?`<div class="pic" aria-hidden="true">${PIC[w.id]}</div>`:'';   // the drawing (#332), else the emoji
-    const body=el(`<div><p class="kicker">New word ${i+1} of ${words.length}</p>
-      <div class="card">${pic}<div class="big" id="w">${esc(w.ar)}</div>
-      <div class="tr">${esc(w.tr||'')}</div><div class="en">${esc(w.en)}</div>${partsHTML(w.ar)}
-      <button class="hear" type="button" id="h">🔊 Hear it again</button></div>
-      <p class="howto">Say it aloud once, then carry on</p></div>`);
-    screen(body,[button(i<words.length-1?'Next word':'Check yourself',()=>{i++;meet()})]);
-    const a=body.querySelector('#w'), play=listenThen(body, done=>say(w.ar,a,done), 'say');
-    a.onclick=play; body.querySelector('#h').onclick=play; play();
-  };
-  // Light check straight after meeting: pick the meaning. Learning, not a test —
-  // a miss just shows the answer and moves on.
-  const order=shuffle(words);
-  const check=k=>{
-    if(k>=order.length) return hear(0);
-    setBar(words.length+k,total);
-    ask(k);
-  };
-  // hear it, then pick the word you heard, so sound and spelling go together
-  const hear=k=>{
-    if(k>=HEAR) return done();
-    setBar(words.length*2+k,total);
-    const w=heard[k];
-    // no two choices with the same letters (ما اسْمُكَ / ما اسْمُكِ differ only in a vowel you can barely hear)
-    const skel=t=>t.replace(/[\u064B-\u0652\u0670\u0640؟?.]/g,'').trim(), used=new Set([skel(w.ar)]);
-    const pool=shuffle(words).filter(x=>!used.has(skel(x.ar)) && used.add(skel(x.ar))).slice(0,3).concat([w]);
-    const body=el(`<div><p class="kicker">Hear it, pick the word</p>
-      <div class="card"><button class="hear big-hear" type="button" id="h" aria-label="Hear it again">🔊</button></div><div class="opts ar-opts" id="o"></div></div>`);
-    const h=body.querySelector('#h'), play=()=>say(w.ar,h); h.onclick=play;
-    const next=button('Next',()=>hear(k+1)); next.disabled=true;
-    shuffle(pool).forEach(x=>{
-      const b=document.createElement('button'); b.className='opt'; b.type='button'; b.lang='ar'; b.dir='rtl'; b.textContent=x.ar;
-      b.onclick=()=>{ if(!next.disabled) return;
-        b.classList.add(x===w?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(x===w);
-        if(x!==w) [...body.querySelectorAll('.opt')].find(o=>o.textContent===w.ar).classList.add('right');
-        next.disabled=false; if(x===w) autoNext(next, w.ar, h); };
-      body.querySelector('#o').appendChild(b);
-    });
-    screen(body,[next]); play();
-  };
-  const done=()=>wordsDone(p, step, words);
-  const ask=k=>{
-    const w=order[k];
-    const pool=shuffle(words.filter(x=>x!==w && !tooClose(x.en,w.en))).slice(0,3).concat([w]);
-    const body=el(`<div><p class="kicker">What does this mean?</p>
-      <div class="card"><div class="big" id="w">${esc(w.ar)}</div></div><div class="opts" id="o"></div></div>`);
-    const a=body.querySelector('#w'); a.onclick=()=>say(w.ar,a);
-    const next=button('Next',()=>check(k+1)); next.disabled=true;
-    shuffle(pool).forEach(x=>{
-      const b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=gloss(x.en);
-      b.onclick=()=>{ if(!next.disabled) return;
-        b.classList.add(x===w?'right':'wrong'); window.RafiqSound&&RafiqSound.answer(x===w);
-        if(x!==w) [...body.querySelectorAll('.opt')].find(o=>o.textContent===gloss(w.en)).classList.add('right');
-        next.disabled=false;
-        if(x===w) autoNext(next, w.ar, a); else say(w.ar,a); };
-      body.querySelector('#o').appendChild(b);
-    });
-    screen(body,[next]);
-  };
-  meet();
-}
 function wordsDone(p, step, words, note){
   // into daily review; the first time through, every word counts as met today
   const first=!RafiqPath.stepDone(p.n, step.key);
@@ -483,17 +413,16 @@ function wordsDone(p, step, words, note){
   return br ? showBridge(br, ()=>finish(p, step, note)) : finish(p, step, note);
 }
 
-/* ── units 1 and 2: lessons on tested methods, with games (#358) ──────────────
-   Only these two units for now, so they can be compared with the rest.
+/* ── word lessons on tested methods, with games (#358; every unit since #371) ──────────────
    Meet: guess the meaning before it's shown (errorful generation: Potts & Shanks 2014) and say the word
    aloud (the production effect: MacLeod et al. 2010). Then every word is recalled four times, with a growing
    gap between its questions rather than all at the end (retrieval practice: Karpicke & Roediger 2008), each
    time a little harder: pick the meaning, hear it and tap its picture, the Match-up game, say it in Arabic.
    Anything missed comes back until it's right (practice to criterion: Rawson & Dunlosky). Nothing is scored
-   into the review schedule during the lesson; the words go into review at the end, as before. */
-const PLUS=new Set(['01','02']);
+   into the review schedule during the lesson; the words go into review at the end, as before.
+   A unit's last lesson can be short (1 to 4 words): with fewer than 3 there's no Match-up. */
 const isPhrase=w=>!w.ar.includes('/') && w.ar.trim().split(/\s+/).length>1;
-function runWordsPlus(p, step){
+function runWords(p, step){
   const words=RafiqPath.wordsOf(p, step.batch), n=words.length;
   // choices come from this lesson and the unit's earlier ones, so the earlier words keep turning up
   const pool=[...Array(step.batch+1).keys()].flatMap(j=>RafiqPath.wordsOf(p, j));
@@ -501,7 +430,7 @@ function runWordsPlus(p, step){
   words.forEach((w,i)=>{ plan.push({meet:w}); if(i>=1) plan.push({w:words[i-1], r:0}); if(i>=3) plan.push({w:words[i-3], r:1}); });
   const rest=words.slice(Math.max(0,n-3), n-1).map(w=>({w, r:1}));
   rest.splice(1, 0, {w:words[n-1], r:0}); rest.push({w:words[n-1], r:1});
-  plan.push(...rest, {match:true}, ...shuffle(words).map(w=>({w, r:2})));
+  plan.push(...rest, ...(n>=3 ? [{match:true}] : []), ...shuffle(words).map(w=>({w, r:2})));
   const again=[];                         // missed: asked once more at the end, until right
   let k=0, missed=0, match=null;
   const miss=(w, r)=>{ missed++; if(!again.slice(Math.max(0, k+1-plan.length)).some(x=>x.w===w)) again.push({w, r, redo:true}); };
@@ -533,7 +462,7 @@ function runWordsPlus(p, step){
     const a=body.querySelector('#w'), play=listenThen(body, done=>say(w.ar,a,done), 'say');
     a.onclick=play; body.querySelector('#h').onclick=play; play();
   };
-  const note=()=>`<div class="wnote">🧠 You recalled each word 4 times, in 4 different ways. Recalling a word, not rereading it, is what makes it stick.</div>`
+  const note=()=>`<div class="wnote">🧠 You recalled each word ${n>=3?4:3} times, in ${n>=3?4:3} different ways. Recalling a word, not rereading it, is what makes it stick.</div>`
     + (match ? `<p>Match-up in <b>${mmss(match.secs)}</b>${match.record?' · your best yet 🏆':''}${missed?` · ${missed} missed, and back until you had ${missed===1?'it':'them'}`:''}</p>` : '');
   go();
 }
@@ -564,11 +493,12 @@ function matchGame(words, head, onMiss, onDone){
     if(sel[side]){ b.classList.add('on'); if(side==='a') say(b.textContent, null); }
     const A=sel.a, E=sel.e; if(!A || !E) return;
     sel.a=sel.e=null; [A,E].forEach(x=>x.classList.remove('on'));
-    const ok=A.dataset.id===E.dataset.id; window.RafiqSound&&RafiqSound.answer(ok);
+    const ok=A.dataset.id===E.dataset.id || A.dataset.g===E.dataset.g;        // two words with one meaning (#371): either pairing is right
+    window.RafiqSound&&RafiqSound.answer(ok);
     if(ok){ [A,E].forEach(x=>{ x.classList.add('right'); x.disabled=true; }); if(--left===0) end(); }
     else{ misses++; onMiss(+A.dataset.id); [A,E].forEach(x=>x.classList.add('wrong')); setTimeout(()=>[A,E].forEach(x=>x.classList.remove('wrong')), 500); }
   };
-  const tile=(w, side)=>{ const b=document.createElement('button'); b.type='button'; b.className='mt'; b.dataset.id=w.id; b.dataset.side=side;
+  const tile=(w, side)=>{ const b=document.createElement('button'); b.type='button'; b.className='mt'; b.dataset.id=w.id; b.dataset.side=side; b.dataset.g=gloss(w.en);
     if(side==='a'){ b.lang='ar'; b.dir='rtl'; b.textContent=w.ar; } else b.textContent=gloss(w.en);
     b.onclick=()=>tap(b, side); return b; };
   // one grid, a meaning and a word to a row, so a row's two tiles are the same height
@@ -1565,7 +1495,7 @@ function recapWords(p){
   return {pick:due.concat(rest).slice(0,RECAP_N), pool:met};
 }
 /* Review (#335): after each lesson of 5, ten quick questions: three of the words just met and seven
-   earlier ones (due first, then those reviewed longest ago), mixed, half by meaning and half by ear.
+   earlier ones (due first, then those reviewed longest ago), mixed, in three kinds of question in turn.
    Teach a small set together, then mix it with older words (the report, #324). A right answer on a
    word that was due moves it on in the schedule; a miss brings any word back tomorrow. It counts as
    the recap (#158), so the two don't stack. */
@@ -1581,23 +1511,23 @@ function reviewWords(p, step){
   return {pick:shuffle(earlier.concat(shuffle(fresh).slice(0, REVIEW_N-earlier.length))), pool:met.concat(fresh)};
 }
 function runReview(p, step){
-  const {pick, pool}=reviewWords(p, step), plus=PLUS.has(p.n);
+  const {pick, pool}=reviewWords(p, step);
   let k=0, right=0;
   const show=()=>{
     if(k>=pick.length){ RafiqPath.recapDone();
       return finish(p, step, `<p>${right} of ${pick.length} right. ${right===pick.length?'You remembered every one 🎉':'The ones you missed come back tomorrow.'}</p>`,
-        plus && speedPool(p).length>=4 ? [button(`⚡ Bonus game: how many in ${SPEED_SECS} seconds?`,()=>speedRound(p),true)] : []); }
+        speedPool(p).length>=4 ? [button(`⚡ Bonus game: how many in ${SPEED_SECS} seconds?`,()=>speedRound(p),true)] : []); }
     setBar(k,pick.length);
     const w=pick[k], due=Progress.isDue('v:'+w.id), head=`Review · ${k+1} of ${pick.length}`;
     const onAnswer=ok=>{ if(ok){ right++; if(due) Progress.grade('v:'+w.id,'good'); } }, onNext=()=>{k++;show();};
-    // units 1 and 2 (#358): by meaning, by ear with pictures, and from the meaning to the Arabic
-    const t=plus ? ['mean','pic','say'][k%3] : k%2?'hear':'mean';
+    // by meaning, by ear with pictures, and from the meaning to the Arabic (#358)
+    const t=['mean','pic','say'][k%3];
     if(t==='say' && isPhrase(w)) return buildOne(w, pool, head, true, onAnswer, onNext);
     askOne(question({t, id:w.id}, pool), head, onAnswer, onNext);
   };
   show();
 }
-/* Beat the clock (#358): a bonus after a review in units 1 and 2, started from its done screen, so the step is
+/* Beat the clock (#358): a bonus after a review, started from its done screen, so the step is
    already finished and nothing here is scored into the review schedule. 40 seconds; a word comes up with two
    meanings, as many as you can. Quick recall of words already met builds fluency (the fourth of Nation's four
    strands). A miss shows the right one and costs 3 seconds, so guessing never beats knowing. The best score
@@ -2464,7 +2394,7 @@ function showBridge(b, then){
   let step=steps.find(s=>s.key===RafiqPath.stepKey(qs.get('s')))||steps.find(s=>!RafiqPath.stepDone(p.n,s.key))||steps[0];
   if(!RafiqPath.stepOpen(p.n,step.key)) step=steps.find(s=>RafiqPath.stepOpen(p.n,s.key)&&!RafiqPath.stepDone(p.n,s.key))||steps[0];
   document.title=step.title+' — Rafiq';
-  const run=()=>({words:PLUS.has(p.n)?runWordsPlus:runWords,review:runReview,listen:runListen,grammar:runGrammar,practise:runPractise,speak:runSpeak,
+  const run=()=>({words:runWords,review:runReview,listen:runListen,grammar:runGrammar,practise:runPractise,speak:runSpeak,
     letters:runLetters,vowels:runVowels,rules:runRules,hearing:runHearing,chat:runChat,test:runTest,basics:runBasics,
     play:runPlay,sound:runSound,firstwords:runFirstWords,line:runLine})[step.kind](p,step);
   // a new reading-starter step starts with a check-in on letters from an earlier day (#276)

@@ -98,11 +98,18 @@ def main():
 
         # unit 13: a word lesson to its end
         p = page_with(b, UPTO(13), errors, "learn.html?u=13&s=meet1")
-        first = p.inner_text("#w"); n = 0
-        while not done(p) and n < 30:
-            if p.locator(".opt").count(): p.locator(".opt").first.click(); p.wait_for_timeout(120)
-            go(p); n += 1
-        ok.append(("unit 13's first lesson opens on رَمَضان and runs to its end (%d screens)" % n, first == "رَمَضان" and done(p)))
+        first = p.inner_text("#w"); n = games = 0
+        while not done(p) and n < 40:                                      # the lesson every unit has (#371): guess, recall, Match-up
+            if p.locator(".guess").count(): p.locator(".guess").click()
+            elif p.locator(".mt").count():
+                games += 1
+                for i in p.evaluate("[...new Set([...document.querySelectorAll('.mt')].map(b => b.dataset.id))]"):
+                    p.locator(f".mt[data-side=a][data-id='{i}']").click(); p.locator(f".mt[data-side=e][data-id='{i}']").click()
+            elif p.locator(".tl-tile").count():
+                p.evaluate("() => { for(const t of asking.parts) [...document.querySelectorAll('.tl-pool .tl-tile')].find(b => b.textContent === t).click(); }"); p.locator(".tl-check").click()
+            elif p.locator(".opt").count(): p.evaluate("[...document.querySelectorAll('.opt')].find(b => b._o === asking.right).click()")
+            p.wait_for_timeout(120); go(p); n += 1
+        ok.append(("unit 13's first lesson opens on رَمَضان and runs to its end, with a Match-up (%d screens)" % n, first == "رَمَضان" and done(p) and games == 1))
         ok.append(("its five words are met and in review", p.evaluate("RafiqPath.stepDone('13','meet1') && [795, 718, 796, 797, 798].every(id => RafiqPath.metWords().has(id) && !Progress.isNew('v:' + id))")))
         p.close()
 

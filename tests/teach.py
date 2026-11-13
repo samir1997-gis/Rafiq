@@ -2,7 +2,7 @@
   - the steps: two word lessons, then How it works, the rest of the words, Practise, and the
     conversation last (unit 4 unchanged); progress saved under the old order still counts
   - unit 1 starts with ten single words; greeting phrases are shown word by word
-  - word lessons end with "Hear it, pick the word" (unit 3; units 1 and 2 have their own lesson, #358)
+  - (the word lesson itself is in tests/unit_games.py: every unit has the same one since #371)
   - How it works has the new cards (three endings, the past, describing words, 'this house'),
     each with a common mistake crossed out
   - Practise only uses exercises made from taught words
@@ -57,30 +57,10 @@ def main():
         p = page_with(b, done, errors); p.goto(BASE + "dashboard.html"); p.wait_for_timeout(1500)
         ok.append(("unit 1 finished under the old order stays finished", p.evaluate("RafiqPath.unitDone(RafiqPath.units().find(u => u.n === '01'))"))); p.close()
 
-        # word lessons: phrases word by word, and the hearing round
+        # word lessons: phrases word by word
         p = page_with(b, seen("p:00|placed", "p:01|words1", "p:01|review2"), errors); p.goto(BASE + "learn.html?u=01&s=words2"); p.wait_for_timeout(1500)   # the old address opens meet3
         parts = p.eval_on_selector_all(".wparts span", "ss => ss.map(s => s.innerText.replace(/\\n/g, ' = '))")
         ok.append(("السَّلامُ عَلَيْكُم taken apart " + str(parts), len(parts) == 2 and "peace" in parts[0])); p.close()
-        # units 1 and 2 have their own lesson now (#358, tests/unit_games.py); unit 3 keeps this one
-        p = page_with(b, seen("p:00|placed", "p:01|placed", "p:02|placed"), errors); p.goto(BASE + "learn.html?u=03&s=meet1"); p.wait_for_timeout(1500)
-        kinds, last = [], None
-        for _ in range(120):
-            if "learn.html" not in p.url: break
-            k = p.evaluate("(() => { const k = document.querySelector('.kicker'); return k ? k.textContent.trim() : ''; })()")   # textContent: not the CSS capitals
-            sig = k + p.evaluate("(document.querySelector('#stage') || document.body).innerText.slice(0, 120)")
-            if k and sig != last:                  # a new screen
-                kinds.append(k.split(" ")[0]); last = sig
-                if k.startswith(("Hear it", "What does")):
-                    p.locator(".opt").first.click(); p.wait_for_timeout(250)
-                    last = k + p.evaluate("(document.querySelector('#stage') || document.body).innerText.slice(0, 120)")
-            btn = p.locator("button.go:not([disabled])")
-            if btn.count():
-                try: btn.first.click(timeout=2000)
-                except Exception: pass
-            p.wait_for_timeout(250)
-            if not k and not btn.count(): break
-        ok.append(("words step: meet 5, pick the meaning 5, then hear it 5 (%d/%d/%d)" % (kinds.count("New"), kinds.count("What"), kinds.count("Hear")),
-                   kinds.count("New") == 5 and kinds.count("What") == 5 and kinds.count("Hear") == 5)); p.close()
 
         # How it works in unit 2: the new cards and the crossed-out mistakes
         p = page_with(b, seen("p:00|placed", "p:01|words1", "p:01|words2", "p:01|grammar", "p:01|words3", "p:01|words4", "p:01|practise",
