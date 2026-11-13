@@ -893,7 +893,8 @@ function tracePad(ch, onDone){
   const mark=(x,y)=>{ const k=Math.floor(y/C)*N+Math.floor(x/C); if(!near.has(k)) stray.add(k); box3(k, j=>{ if(need.has(j)) hit.add(j); });
     pieces.forEach((b,i)=>{ if(x>=b[0]-6 && x<=b[2]+6 && y>=b[1]-6 && y<=b[3]+6) got.add(i); }); };
   const stroke=(a,b)=>{
-    g.strokeStyle=col('--verdigris'); g.lineWidth=20; g.lineCap=g.lineJoin='round'; g.beginPath(); g.moveTo(a[0],a[1]); g.lineTo(b[0],b[1]); g.stroke();
+    g.strokeStyle=g.fillStyle=col('--verdigris'); g.lineWidth=20; g.lineCap=g.lineJoin='round'; g.beginPath(); g.moveTo(a[0],a[1]); g.lineTo(b[0],b[1]); g.stroke();
+    g.beginPath(); g.arc(b[0],b[1],10,0,7); g.fill();                          // a tap (a dot) leaves its mark too
     const n=Math.max(1, Math.ceil(Math.hypot(b[0]-a[0], b[1]-a[1])/6));
     for(let i=0;i<=n;i++) mark(a[0]+(b[0]-a[0])*i/n, a[1]+(b[1]-a[1])*i/n);
     if(stray.size>need.size) return void(msg.textContent='Keep to the letter: clear it and try again');

@@ -61,19 +61,22 @@ def main():
         ok.append(("everything in unit 2 but part 2: part 2 is next (" + nxt + ")", nxt == "02|grammar2"))
         p.close()
 
-        # the reading rules steps: 3 rules each, each with a quick check (#276: two more sets)
+        # the reading rules steps: 3 rules each (#276: two more sets); a guess before each rule, the checks together at the end (#361)
         before = k0[:k0.index("rules")]
         for key in ("rules", "rules2", "rules3"):
             alpha = seen(*[f"p:00|{k}" for k in before])
             p = page_with(b, alpha, errors); p.goto(BASE + "learn.html?u=00&s=" + key); p.wait_for_timeout(1500)
-            rules = checks = 0
+            rules = guesses = checks = 0
             for _ in range(12):
                 k = kicker(p)
-                if k.startswith("Reading rules"): rules += 1; go(p)
-                elif k.startswith("Quick check"):
-                    checks += 1; p.locator(".opt").first.click(); p.wait_for_timeout(150); go(p)
+                if p.locator(".opt").count():
+                    if "guess" in k: guesses += 1
+                    else: checks += 1
+                    right = p.evaluate("(key => { const c = RULE_SETS[key]().find(r => r[3][0] === document.querySelector('.card .en').innerText)[3]; return c[1][c[2]]; })", key)
+                    p.evaluate("r => [...document.querySelectorAll('.opt')].find(b => b.textContent === r).click()", right); p.wait_for_timeout(150); go(p)
+                elif k.startswith("Reading rules"): rules += 1; go(p)
                 else: break
-            ok.append((f"{key}: %d rules, %d checks" % (rules, checks), rules == 3 and checks == 3))   # ال and sun letters moved to the basics (#166)
+            ok.append((f"{key}: %d guesses, %d rules, %d checks" % (guesses, rules, checks), guesses == 3 and rules == 3 and checks == 3))   # ال and sun letters moved to the basics (#166)
             ok.append((f"{key} step done", p.evaluate(f"RafiqPath.stepDone('00','{key}')")))
             p.close()
             before.append(key)

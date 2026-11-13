@@ -156,7 +156,7 @@ def main():
         # the basics: words to keep you going, and put it together
         alpha = steps(ALPHA) | known
         p = page_with(b, alpha | {"p:0b|b-the": row()}, errors, "learn.html?u=0b&s=b-keep")
-        ok.append(("words to keep you going (" + kicker(p) + ")", kicker(p) == "Words to keep you going · 1 of 2"))
+        ok.append(("words to keep you going, opening with a guess (" + kicker(p) + ")", kicker(p) == "Words to keep you going · before you start, have a guess"))   # #361
         p.close()
         done = {f"p:0b|{k}": row() for k in ["b-the", "b-keep", "b-my", "b-people", "b-gender", "b-describe", "b-of", "b-many", "b-verbs"]}
         p = page_with(b, alpha | done, errors, "learn.html?u=0b&s=b-together")
