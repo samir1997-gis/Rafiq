@@ -3,7 +3,8 @@
   - it has a goal (#168): lesson 1 opens with the sentence you'll say by the end, and each lesson ends
     with your sentence so far, the new piece marked
   - Home calls it "Before unit 1" and still numbers the units 1, 2, 3 …
-  - a lesson: teaching screens, then 8 picks; a missed pick comes back until it's right; its words become met
+  - a lesson: a guess, teaching screens, a Match-up, then 8 picks, an answer built from tiles (#361); a missed
+    pick comes back until it's right; its words become met
   - the check at the end: 18 questions, 80% to pass
   - learners already in the units aren't sent back to it; placement at unit 1 starts here
 
@@ -51,9 +52,14 @@ def main():
 
         # a lesson: teach, 8 picks, a miss comes back
         p = page_with(b, seen(*KNOWN, *[f"p:00|{k}" for k in ALPHA], "p:0b|b-the", "p:0b|b-keep", "p:0b|b-my", "p:0b|b-people"), errors); p.goto(BASE + "learn.html?u=0b&s=b-gender"); p.wait_for_timeout(1500)
+        ok.append(("it opens with a guess (#361)", kicker(p).endswith("have a guess")))
+        p.locator(".opt").first.click(); p.wait_for_timeout(120); go(p)
         teach = 0
-        while kicker(p).startswith("Masculine and feminine ·") and "practise" not in kicker(p):
+        while kicker(p).startswith("Masculine and feminine ·") and "match-up" not in kicker(p):
             teach += 1; go(p)
+        for i in p.evaluate("[...document.querySelectorAll('.mt[data-side=a]')].map(b => b.dataset.id)"):      # the Match-up on its examples (#361)
+            p.locator(f".mt[data-side=a][data-id='{i}']").click(); p.locator(f".mt[data-side=e][data-id='{i}']").click()
+        go(p)
         picks, missed = 0, False
         for _ in range(20):
             if "practise" not in kicker(p): break
@@ -66,6 +72,10 @@ def main():
                 [o for o in opts.all() if o.inner_text() == right][0].click()
             p.wait_for_timeout(120); picks += 1; go(p)
         ok.append(("gender lesson: %d teaching screens, %d picks (8 + the one missed)" % (teach, picks), teach == 3 and picks == 9))
+        built = 0                                                        # then an answer built from tiles (#361)
+        while kicker(p).endswith("build it") and built < 3:
+            p.locator("button.go", has_text="Show the answer").click(); p.wait_for_timeout(150); built += 1; go(p)
+        ok.append(("then %d built from tiles" % built, built == 1))
         fresh = 0                                                        # then three from earlier lessons (#277)
         while kicker(p).startswith("Keep it fresh") and fresh < 5:
             p.locator(".opt").first.click(); p.wait_for_timeout(120); fresh += 1; go(p)
