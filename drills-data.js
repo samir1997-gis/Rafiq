@@ -1496,7 +1496,7 @@ const DATA=[
       ["ر","عَفْوًا. رِحْلَةً سَعِيدَةً!","You're welcome. Have a good trip!"]
     ]},
     {title:"Conversation 2",sub:"Train or plane?",lines:[
-      ["أ","هَيَّا بِنا إِلى الْمَدِينَةِ الْمُنَوَّرَةِ فِي الْعُطْلَةِ!","Let's go to Medina in the holiday!"],
+      ["أ","هَيَّا بِنا إِلى الْمَدِينَةِ الْمُنَوَّرَةِ فِي الْعُطْلَةِ!","Let's go to Medina in the holidays!"],
       ["ب","فِكْرَةٌ طَيِّبَةٌ! كَيْفَ نُسافِرُ؟ بِالطَّائِرَةِ أَوْ بِالْقِطارِ؟","Good idea! How shall we travel? By plane or by train?"],
       ["أ","الطَّائِرَةُ أَسْرَعُ مِنَ الْقِطارِ.","The plane is faster than the train."],
       ["ب","نَعَمْ، لَكِنَّ الْقِطارَ أَرْخَصُ، وَالْمَحَطَّةُ أَقْرَبُ مِنَ الْمَطارِ.","Yes, but the train is cheaper, and the station is nearer than the airport."],
@@ -1604,7 +1604,7 @@ const DATA=[
       ["ط","وَبَعْدَ ذَلِكَ؟","And after that?"],
       ["ج","بَعْدَ أَيَّامٍ، وَقَعَ الْأَسَدُ فِي شَبَكَةٍ. سَمِعَهُ الْفَأْرُ، فَجاءَ وَقَطَعَ الشَّبَكَةَ بِأَسْنانِهِ.","A few days later, the lion fell into a net. The mouse heard him, so he came and cut the net with his teeth."],
       ["ط","ما شاءَ اللهُ! الْفَأْرُ الصَّغِيرُ ساعَدَ الْأَسَدَ الْكَبِيرَ.","Mashallah! The little mouse helped the big lion."],
-      ["ج","نَعَمْ يا حَبِيبَتِي. لا تَضْحَكِي مِنَ الصَّغِيرِ.","Yes, my dear. Don't laugh at the small."]
+      ["ج","نَعَمْ يا حَبِيبَتِي. لا تَضْحَكِي مِنَ الصَّغِيرِ.","Yes, my dear. Don't laugh at the little one."]
     ]},
     {title:"Conversation 2",sub:"What happened to you?",lines:[
       ["ك","أَيْنَ كُنْتَ الْبارِحَةَ؟ لَمْ أَرَكَ فِي الْمَسْجِدِ.","Where were you last night? I didn't see you at the mosque."],
@@ -1647,7 +1647,7 @@ const DATA=[
     ["ط","وَبَعْدَ ذَلِكَ؟","And after that?"],
     ["ج","بَعْدَ أَيَّامٍ، وَقَعَ الْأَسَدُ فِي شَبَكَةٍ. سَمِعَهُ الْفَأْرُ، فَجاءَ وَقَطَعَ الشَّبَكَةَ بِأَسْنانِهِ.","A few days later, the lion fell into a net. The mouse heard him, so he came and cut the net with his teeth."],
     ["ط","ما شاءَ اللهُ! الْفَأْرُ الصَّغِيرُ ساعَدَ الْأَسَدَ الْكَبِيرَ.","Mashallah! The little mouse helped the big lion."],
-    ["ج","نَعَمْ يا حَبِيبَتِي. لا تَضْحَكِي مِنَ الصَّغِيرِ.","Yes, my dear. Don't laugh at the small."]
+    ["ج","نَعَمْ يا حَبِيبَتِي. لا تَضْحَكِي مِنَ الصَّغِيرِ.","Yes, my dear. Don't laugh at the little one."]
   ],
   ladders:[
     {steps:["خَرَجَ الْأَسَدُ","مِنَ الْغارِ","فِي الصَّباحِ","، ثُمَّ نامَ","تَحْتَ شَجَرَةٍ كَبِيرَةٍ"],
@@ -1655,7 +1655,7 @@ const DATA=[
     {steps:["عِنْدَما وَصَلْتُ","إِلى الْبَيْتِ","لَمْ أَجِدِ الْمِفْتاحَ","، ثُمَّ تَذَكَّرْتُ:","تَرَكْتُهُ فِي السَّيَّارَةِ"],
      en:"When I got → home → I didn't find the key → then I remembered: → I'd left it in the car."},
     {steps:["وَجَدَ الْغُرابُ","جُبْنًا","وَجَلَسَ عَلى شَجَرَةٍ","، فَرَآهُ","ثَعْلَبٌ ذَكِيٌّ"],
-     en:"The crow found → some cheese → and sat in a tree → and there he was seen → by a clever fox."},
+     en:"The crow found → some cheese → and sat in a tree → and he was spotted → by a clever fox."},
     {steps:["سَأَلَنِي الْمُعَلِّمُ","سُؤالًا","فَلَمْ أَعْرِفِ الْجَوابَ","، ثُمَّ أَجابَ صَدِيقِي","وَكانَ جَوابُهُ صَحِيحًا"],
      en:"The teacher asked me → a question → and I didn't know the answer → then my friend answered → and his answer was right."}
   ],
@@ -2005,7 +2005,7 @@ const EXTRA={
 "13":{
  grammar:[
   {t:"المستقبل",ar:"سَأَصُومُ غَدًا.",h:"‘Will’: سَـ on the front",tr:"I’ll fast tomorrow.",en:"Put سَـ on the front of a present verb and it means ‘will’: أَصُومُ, I fast; سَأَصُومُ, I’ll fast. سَوْفَ before the verb means the same: سَوْفَ أَصُومُ.",check:["How do you say ‘we’ll break the fast’?",["سَنُفْطِرُ","نُفْطِرُ","أَفْطَرْنا"],0,"سَـ on the front of نُفْطِرُ."]},
-  {t:"قَبْلَ وَبَعْدَ",ar:"قَبْلَ الْفَجْرِ · بَعْدَ الْمَغْرِبِ",h:"‘Before’ and ‘after’",tr:"before dawn · after sunset",en:"قَبْلَ is ‘before’ and بَعْدَ is ‘after’. The word that follows ends in -i: قَبْلَ الْفَجْرِ, بَعْدَ الْإِفْطارِ.",check:["Which fits? ‘after the prayer’: بَعْدَ ___",["الصَّلاةِ","الصَّلاةُ","الصَّلاةَ"],0,"After قَبْلَ and بَعْدَ the word ends in -i."]},
+  {t:"قَبْلَ وَبَعْدَ",ar:"قَبْلَ الْفَجْرِ · بَعْدَ الْمَغْرِبِ",h:"‘Before’ and ‘after’",tr:"before dawn · after sunset",en:"قَبْلَ means ‘before’ and بَعْدَ means ‘after’. The noun right after them always ends in -i (or -in): قَبْلَ الْفَجْرِ, before dawn; بَعْدَ الْإِفْطارِ, after iftar.",check:["Which fits? ‘after the prayer’: بَعْدَ ___",["الصَّلاةِ","الصَّلاةُ","الصَّلاةَ"],0,"After قَبْلَ and بَعْدَ the word ends in -i."]},
   {t:"الفعل الأجوف",ar:"أَصُومُ · صُمْتُ",h:"‘I fasted’: the long vowel drops",tr:"I fast · I fasted",en:"Some verbs have a long vowel in the middle: صامَ, he fasted; زارَ, he visited. With ‘I’, ‘you’ and ‘we’ in the past, the long vowel drops out: صُمْتُ, I fasted; زُرْتُ, I visited; صُمْنا, we fasted.",check:["How do you say ‘I visited my grandmother’?",["زُرْتُ جَدَّتِي","أَزُورُ جَدَّتِي","زارَ جَدَّتِي"],0,"The long vowel drops: زُرْتُ."]}
  ],
  cloze:[
@@ -2048,8 +2048,8 @@ const EXTRA={
 "15":{
  grammar:[
   {t:"اسم التفضيل",ar:"الْقِطارُ أَسْرَعُ مِنَ الْحافِلَةِ.",h:"‘Faster than’: أَسْرَعُ مِنْ",tr:"The train is faster than the bus.",en:"To compare, a describing word is rebuilt with أَ at the front: سَرِيع → أَسْرَع, faster; قَرِيب → أَقْرَب, nearer; رَخِيص → أَرْخَص, cheaper. ‘Than’ is مِنْ. It’s the same for masculine and feminine, and it never takes the extra -n.",check:["How do you say ‘nearer than’?",["أَقْرَبُ مِنْ","قَرِيبٌ مِنْ","أَقْرَبُ إِلى"],0,"قَرِيب → أَقْرَب, and ‘than’ is مِنْ."]},
-  {t:"أَفْعَل + اسم",ar:"أَيْنَ أَقْرَبُ مَحَطَّةٍ؟",h:"‘The nearest’ goes before the noun",tr:"Where is the nearest station?",en:"Put the same word before a noun and it means ‘the most’: أَقْرَبُ مَحَطَّةٍ, the nearest station; أَفْضَلُ فُنْدُقٍ, the best hotel. The noun has no ال and ends in -in.",check:["How do you say ‘the cheapest hotel’?",["أَرْخَصُ فُنْدُقٍ","فُنْدُقٌ رَخِيصٌ","الْفُنْدُقُ الرَّخِيصُ"],0,"The أَفْعَل word first, then the noun."]},
-  {t:"الاسم الموصول",ar:"الْفُنْدُقُ الَّذِي بِجانِبِ الْمَحَطَّةِ · الْحافِلَةُ الَّتِي تَذْهَبُ إِلى الْمَطارِ",h:"‘Which’ and ‘who’: الَّذِي and الَّتِي",tr:"the hotel which is next to the station · the bus which goes to the airport",en:"الَّذِي joins more about a masculine word onto it; الَّتِي does the same for a feminine one. They’re used after a word with ال.",check:["Which fits? الطَّائِرَةُ ___ تُغادِرُ الْآنَ",["الَّتِي","الَّذِي"],0,"طائِرَة is feminine: الَّتِي."]},
+  {t:"أَفْعَل + اسم",ar:"أَيْنَ أَقْرَبُ مَحَطَّةٍ؟",h:"‘The nearest’ goes before the noun",tr:"Where is the nearest station?",en:"Put an ‘-er’ word (أَقْرَبُ, nearer) before a noun and it means ‘the -est’: أَقْرَبُ مَحَطَّةٍ, the nearest station; أَفْضَلُ فُنْدُقٍ, the best hotel. The noun after it has no ال and ends in -in.",check:["How do you say ‘the cheapest hotel’?",["أَرْخَصُ فُنْدُقٍ","فُنْدُقٌ رَخِيصٌ","الْفُنْدُقُ الرَّخِيصُ"],0,"The أَفْعَل word first, then the noun."]},
+  {t:"الاسم الموصول",ar:"الْفُنْدُقُ الَّذِي بِجانِبِ الْمَحَطَّةِ · الْحافِلَةُ الَّتِي تَذْهَبُ إِلى الْمَطارِ",h:"‘Which’ and ‘who’: الَّذِي and الَّتِي",tr:"the hotel which is next to the station · the bus which goes to the airport",en:"الَّذِي means ‘who’ or ‘which’ after a masculine word, and الَّتِي after a feminine one. Use them after a word with ال: الْفُنْدُقُ الَّذِي…, the hotel which…",check:["Which fits? الطَّائِرَةُ ___ تُغادِرُ الْآنَ",["الَّتِي","الَّذِي"],0,"طائِرَة is feminine: الَّتِي."]},
   {t:"لَنْ",ar:"لَنْ أُسافِرَ غَدًا.",h:"‘Won’t’: لَنْ",tr:"I won’t travel tomorrow.",en:"لَنْ before a present verb means ‘will not’. Like أَنْ, it makes the verb end in -a: لَنْ أُسافِرَ. Don’t add سَـ.",check:["How do you say ‘I won’t go’?",["لَنْ أَذْهَبَ","لَنْ سَأَذْهَبُ","لَنْ ذَهَبْتُ"],0,"لَنْ, then the present verb ending in -a."]}
  ],
  cloze:[
