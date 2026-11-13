@@ -48,7 +48,7 @@ def svg(inner, bg="thing"):
     css = "".join(KEY[c] for c in used) + "@media (prefers-reduced-motion:reduce){*{animation:none!important}}"
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><style>{css}</style>'
             + ('<clipPath id="k"><circle cx="100" cy="100" r="94"/></clipPath>' if clip else "") +
-            f'<circle cx="100" cy="100" r="94" fill="{BG.get(bg, bg)}"/><g class="c"' + (' clip-path="url(#k)"' if clip else "") + f'>{inner}</g></svg>')
+            f'<circle cx="100" cy="100" r="94" fill="{BG.get(bg, bg)}"/><g class="all"' + (' clip-path="url(#k)"' if clip else "") + f'>{inner}</g></svg>')
 
 # ---- shapes ------------------------------------------------------------------------------------------------------------------
 def mini(inner, x, y, s): return f'<g transform="translate({x},{y}) scale({s}) translate(-100,-100)">{inner}</g>'

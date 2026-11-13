@@ -469,3 +469,7 @@ W = {
 739: ("home", lambda: vacuum()), 743: ("place", lambda: mini(church(), 100, 108, .88)), 745: ("nature", lambda: roots()), 748: ("place", lambda: boat()),
 750: ("food", lambda: banana_peel()), 759: ("place", lambda: hut()),
 }
+
+# the words that had no picture (#371): units 13 to 16 and the last ones in units 1 to 12
+from words_more import MORE
+W.update({k: v for k, v in MORE.items() if k not in W})
