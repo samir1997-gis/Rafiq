@@ -17,3 +17,16 @@ with ThreadPoolExecutor(18) as ex: r = list(ex.map(lambda j: (j, ask({"ctx": CTX
 for k in CAP:
     s = {q: round(sum(a[q]["score"] for (kk, _), a in r if kk == k) / 6, 2) for q in Q}
     print(k, s, round(sum(s.values()), 2))
+
+# captions (13 Nov 2026)
+CTXC = CTX.replace("The spoken first line, on screen from frame 0, of", "The caption under")
+TC = "#learnarabic #quran #arabic #islam #muslim"
+CAPC = {"list": f"Over 7,700 words of the Qur'an are just these 5 ☝️\n\nمِنْ from · لَا no · فِي in · الَّذِينَ those who · عَلَى over\n\nHow many did you already know? 0 to 5 👇\n\n{TC}",
+        "save": f"Learn these 5 tiny words and you'll spot them on every page of the Qur'an 📖 Save this for your next recitation.\n\nHow many did you already know? Comment 0 to 5 👇\n\n{TC}"}
+QC = {"engage": {"type": "score", "instructions": "`ctx` Caption: `h`. Viewer: `who`. How likely are they to save, share or comment?", "criteria": ["Very unlikely", "Unlikely", "Likely", "Very likely"]},
+      "fair": {"type": "score", "instructions": "`ctx` Caption: `h`. Is it accurate, without overclaiming, and does it avoid giving away the quiz answer before the video?", "criteria": ["No", "Partly", "Mostly", "Fully"]}}
+jobs = [(k, w) for k in CAPC for w in WHO for _ in range(2)]
+with ThreadPoolExecutor(18) as ex: r = list(ex.map(lambda j: (j, ask({"ctx": CTXC, "h": CAPC[j[0]], "who": WHO[j[1]]}, QC)["answers"]), jobs))
+for k in CAPC:
+    s = {q: round(sum(a[q]["score"] for (kk, _), a in r if kk == k) / 6, 2) for q in QC}
+    print("caption", k, s, round(sum(s.values()), 2))
