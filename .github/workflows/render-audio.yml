@@ -26,6 +26,10 @@ on:
         description: "Re-record clips that already exist, e.g. for a new voice? (yes/no)"
         required: false
         default: "no"
+      pausal:
+        description: "Say the last word of each phrase without its case ending, as Arabic is said at a stop (yes/no)"
+        required: false
+        default: "yes"
       model:
         description: "ElevenLabs model"
         required: false
@@ -57,6 +61,7 @@ jobs:
           if [ "${{ inputs.strip }}" = "yes" ]; then ARGS="$ARGS --strip"; fi
           if [ -n "${{ inputs.ids }}" ]; then ARGS="$ARGS --ids ${{ inputs.ids }}"; fi
           if [ "${{ inputs.rerecord }}" = "yes" ]; then ARGS="$ARGS --force"; fi
+          if [ "${{ inputs.pausal }}" != "no" ]; then ARGS="$ARGS --pausal"; fi
           node tools/render-elevenlabs.js $ARGS
 
       - name: Commit the audio

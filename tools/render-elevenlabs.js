@@ -17,10 +17,35 @@ const ONLY=(arg('--only','')||'').split(',').filter(Boolean);
 const IDS=arg('--ids') ? fs.readFileSync(path.join(root,arg('--ids')),'utf8').split('\n').map(l=>l.trim()).filter(l=>l && !l.startsWith('#')) : null;
 const rawLimit=arg('--limit','0');
 const LIMIT=Number.isFinite(parseInt(rawLimit,10))?parseInt(rawLimit,10):0;   // blank or junk = no limit
-const DRY=has('--dry'), STRIP=has('--strip'), FORCE=has('--force');   // --force re-records clips that already exist (e.g. a new voice)
+const DRY=has('--dry'), STRIP=has('--strip'), FORCE=has('--force'), PAUSAL=has('--pausal');   // --force re-records clips that already exist (e.g. a new voice)
 const outDir=path.join(root,'audio');
 
 const stripTashkeel=s=>s.replace(/[\u064B-\u0652\u0670\u0640]/g,'');
+/* --pausal (owner, 13 Nov 2026: "don't overemphasise the ending of the word"): Arabic said on its own, or at a stop, drops its case
+   ending (waqf). Only what's sent to the voice changes: the clip's id still comes from the fully vowelled text the page shows.
+   At the end of a clip and before ، . ؟ ! : ؛ the last word loses its final short vowel or -un/-in; -an becomes a long ā; ة
+   becomes a soft h. Endings that carry meaning stay: -ka/-ki, -ta/-ti (your, you, to a man or a woman), and words ending in
+   و / ي with a vowel (هُوَ، هِيَ، عَلَيَّ). */
+const SHADDA='ّ';
+function pausalWord(w){
+  const m=w.match(/^(.*?)([^ء-ْٰ]*)$/s), c=m[1], tail=m[2];          // keep trailing punctuation as it is
+  if(!c) return w;
+  if(/ً[اى]$/.test(c)) return c.replace(/ً([اى])$/,'َ$1')+tail;   // -an written with alif (or ى): a long ā
+  const mm=c.match(/^(.*[^ً-ْ])([ً-ْ]*)$/s); if(!mm) return w;
+  const stem=mm[1], marks=mm[2], end=stem.slice(-1), sh=marks.includes(SHADDA)?SHADDA:'', v=marks.replace(/[ّْ]/g,'');
+  if(end==='ة') return stem.slice(0,-1)+'هْ'+tail;                  // ة → a soft h
+  if(!v) return w;                                                                // already still (sukun, or no mark)
+  if('كت'.includes(end) && (/^[َِ]$/.test(v) || (end==='ت' && v==='ُ')) && !/ال/.test(stem)) return w;   // and -tu: I   // -ka/-ki, -ta/-ti: to a man or a woman (كِتابُكَ / كِتابُكِ، كَتَبْتَ / كَتَبْتِ)
+  if('وي'.includes(end) && v==='َ') return w;                      // هُوَ، هِيَ، عَلَيَّ
+  if(v==='ً') return stem+sh+'َا'+tail;                            // -an with no alif written (ماءً): a long ā
+  return stem+sh+tail;                                                            // -u/-a/-i and -un/-in: gone (a shadda stays)
+}
+const pausal=s=>s.split(/(\s+)/).map((t,i,a)=>{
+  if(/^\s+$/.test(t)) return t;
+  const next=a.slice(i+1).find(x=>!/^\s+$/.test(x));
+  const stop=!next || /[،.؟!:؛?,]$/.test(t) || /^[،.؟!:؛?,]/.test(next||'');
+  return stop ? pausalWord(t) : t;
+}).join('');
 
 async function listVoices(){
   const r=await fetch('https://api.elevenlabs.io/v1/voices',{headers:{'xi-api-key':KEY}});
@@ -50,7 +75,7 @@ async function main(){
 
   let ok=0,fail=0;
   for(const [n,it] of batch.entries()){
-    const text=STRIP?stripTashkeel(it.text):it.text;
+    let text=PAUSAL?pausal(it.text):it.text; if(STRIP) text=stripTashkeel(text);
     try{
       const r=await fetch('https://api.elevenlabs.io/v1/text-to-speech/'+VOICE,{
         method:'POST',
@@ -78,4 +103,5 @@ function writeIndex(){
   fs.writeFileSync(path.join(outDir,'index.json'),JSON.stringify(ids));
   console.log('audio/index.json now lists '+ids.length+' clips');
 }
-main();
+if(require.main===module) main();
+module.exports={pausal};
