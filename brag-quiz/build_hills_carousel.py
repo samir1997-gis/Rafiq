@@ -19,7 +19,7 @@ SLIDES = [
  ("clouds", "30% 40%", "وَتَرَى [[الْجِبَالَ]] تَحْسَبُهَا جَامِدَةً وَهِيَ تَمُرُّ مَرَّ السَّحَابِ", "الجِبال", "al-jibāl", "the mountains (one: جَبَل)",
   "You see the mountains and think them firmly fixed, while they move as the clouds move.", "AN-NAML · 27:88"),
  ("hail", "45% 45%", "إِنَّ مَعَ الْعُسْرِ [[يُسْرًا]]", "يُسْر", "yusr", "ease", "Indeed, with hardship comes ease.", "ASH-SHARḤ · 94:6"),
- ("group", "50% 60%", "وَاعْتَصِمُوا [[بِحَبْلِ]] اللَّهِ جَمِيعًا وَلَا تَفَرَّقُوا", "حَبْل", "ḥabl", "rope",
+ ("group", "50% 60%", "وَاعْتَصِمُوا بِحَبْلِ اللَّهِ [[جَمِيعًا]] وَلَا تَفَرَّقُوا", "جَمِيعًا", "jamīʿan", "together, all of you",   # owner: "together, not rope"
   "Hold firmly to the rope of Allah, all together, and do not be divided.", "ĀL ʿIMRĀN · 3:103"),
 ]
 N = len(SLIDES) + 1
