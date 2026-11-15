@@ -3,6 +3,7 @@ slide in gold with its meaning (the Rafiq part). Cover line chosen with TypeSafe
 The photos show the owner's friends and the repo is public: they're read from a folder outside it, and the slides go to Drive.
 
   python3 brag-quiz/build_hills_carousel.py PHOTOS OUT      (PHOTOS: sunrise, path, clouds, hail, group .jpg)  ->  OUT/hills-1..6.png
+  python3 brag-quiz/build_hills_carousel.py PHOTOS OUT 2    (part 2. PHOTOS: stream, walk, clouds, sun, rock .jpg)
 """
 import os, sys
 from playwright.sync_api import sync_playwright
@@ -22,8 +23,21 @@ SLIDES = [
  ("group", "50% 60%", "وَاعْتَصِمُوا بِحَبْلِ اللَّهِ [[جَمِيعًا]] وَلَا تَفَرَّقُوا", "جَمِيعًا", "jamīʿan", "together, all of you",   # owner: "together, not rope"
   "Hold firmly to the rope of Allah, all together, and do not be divided.", "ĀL ʿIMRĀN · 3:103"),
 ]
-N = len(SLIDES) + 1
 COVER = "5 Qur'an words I couldn't stop thinking about on <b>Kinder Scout</b>"
+END_PHOTO = ("group", "50% 50%"); END_HEAD = "Five words from one hike"
+# part 2 (owner, 15 Nov 2026: "now do these"): a stream at sunset, the stone path, clouds over the ridge, sunrise, a night under a rock
+if len(sys.argv) > 3 and sys.argv[3] == "2":
+    SLIDES = [
+     ("stream", "50% 50%", "وَجَعَلْنَا مِنَ [[الْمَاءِ]] كُلَّ شَيْءٍ حَيٍّ", "الماء", "al-māʾ", "water", "And We made every living thing from water.", "AL-ANBIYĀʾ · 21:30"),
+     ("walk", "50% 55%", "وَعِبَادُ الرَّحْمَٰنِ الَّذِينَ يَمْشُونَ عَلَى الْأَرْضِ [[هَوْنًا]]", "هَوْنًا", "hawnan", "gently, humbly",
+      "The servants of the Most Merciful are those who walk on the earth gently.", "AL-FURQĀN · 25:63"),
+     ("clouds", "50% 50%", "أَلَمْ تَرَ أَنَّ اللَّهَ يُزْجِي [[سَحَابًا]]", "سَحاب", "saḥāb", "clouds", "Do you not see that Allah drives the clouds?", "AN-NŪR · 24:43"),
+     ("sun", "30% 50%", "وَ[[الشَّمْسِ]] وَضُحَاهَا", "الشَّمْس", "ash-shams", "the sun", "By the sun and its morning brightness.", "ASH-SHAMS · 91:1"),
+     ("rock", "50% 40%", "وَجَعَلْنَا [[نَوْمَكُمْ]] سُبَاتًا", "نَوْم", "nawm", "sleep", "And We made your sleep a rest.", "AN-NABAʾ · 78:9"),
+    ]
+    COVER = "One night on a mountain, <b>5&nbsp;words</b> from the Qur'an"     # TypeSafe 5.13 of 6 (hills_carousel.py, part 2)
+    END_PHOTO = ("sun", "40% 50%"); END_HEAD = "Five words from one night"
+N = len(SLIDES) + 1
 
 CSS = f"""
 @font-face {{ font-family:AM; src:url("file://{F}/amiri-arabic-700-normal.woff2"); }}
@@ -78,9 +92,9 @@ def slides():
         out.append(page(body, ph, pos))
     rows = "".join(f'<div class="row"><span class="n">{i + 1}</span><span class="e">{s[5].split(" (")[0]}</span><span class="a">{s[3]}</span></div>' for i, s in enumerate(SLIDES))
     out.append(page(frame(N, left_foot="SIGNS IN THE HILLS", right_foot="SAVE FOR YOUR NEXT WALK") +
-                    f'<div class="end"><h2>Five words from one hike</h2><div class="list">{rows}</div>'
+                    f'<div class="end"><h2>{END_HEAD}</h2><div class="list">{rows}</div>'
                     f'<div class="ask">Which verse would you take up a mountain? 1 to 5 👇</div><div class="site">Learn the Qur\'an\'s words: rafiq-arabic.com</div></div>',
-                    "group", "50% 50%", dark=True))
+                    *END_PHOTO, dark=True))
     return out
 
 if __name__ == "__main__":
