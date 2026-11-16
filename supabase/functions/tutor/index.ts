@@ -14,7 +14,7 @@ const cors = (req: Request) => req.headers.get('origin') === PREVIEW
 const json = (req: Request, body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...cors(req), 'Content-Type': 'application/json' } });
 
-const BETA = true;               // as in plan.js: everyone has Complete until launch; set both to false together
+const BETA = false;              // as in plan.js: payments are live, so only Complete (and the free week) may ask (#250)
 const KEY = Deno.env.get('ANTHROPIC_API_KEY') || '';
 const MODEL = 'claude-sonnet-5-5';
 const DAILY = 20;                // questions a day, "Why?" included (#127: keeps the worst case near £3.30 a month)
