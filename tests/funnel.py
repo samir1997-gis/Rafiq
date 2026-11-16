@@ -68,7 +68,7 @@ def main():
         rows = [r.split("|") for r in psql("select * from private.funnel()").splitlines()]
         new, old = (list(map(int, r[1:])) for r in (rows[0], rows[-1]))   # newest week first
         src = {r.split("|")[0]: r.split("|")[1:] for r in psql("select * from private.funnel_by_source(30)").splitlines()}
-        psql("set role anon; select public.tap('signup_page'); select public.tap('signup_page'); select public.tap('create'); select public.tap('anything')")
+        psql("set role anon; select public.tap('signup_page'); select public.tap('signup_page'); select public.tap('create'); select public.tap('idle_signout'); select public.tap('anything')")
         taps = dict(r.split("|") for r in psql("set role service_role; select * from public.admin_taps(7)").splitlines() if "|" in r)
         tst = {r.split("|")[0]: r.split("|")[1:] for r in psql("select * from private.funnel_by_taster(30)").splitlines()}
         ok = [
@@ -92,7 +92,7 @@ def main():
              and "permission denied" in subprocess.run(pg + ["psql", "-h", sock, "-p", "54329", "-d", "postgres", "-c",
                 "set role authenticated; select * from public.admin_funnel_by_source(30)"], capture_output=True, text=True).stderr),
             ("taps on the way to an account (#225): anyone can count a known step, an unknown one is ignored; the dashboard gets the sums",
-             taps == {"signup_page": "2", "create": "1"}),
+             taps == {"signup_page": "2", "create": "1", "idle_signout": "1"}),
             ("…but the public key can't read them", all("permission denied" in subprocess.run(pg + ["psql", "-h", sock, "-p", "54329", "-d", "postgres", "-c",
                 f"set role anon; {q}"], capture_output=True, text=True).stderr for q in ("select * from public.admin_taps(7)", "select * from private.taps"))),
             ("the learner's own key can't run it", "permission denied" in subprocess.run(pg + ["psql", "-h", sock, "-p", "54329", "-d", "postgres", "-c",

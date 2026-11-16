@@ -16,7 +16,7 @@
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1B1815">
 <meta name="color-scheme" content="light dark">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth.js?v=11"></script>
+<script src="auth.js?v=12"></script>
 <style>
 /* The owner dashboard (#189): website visits from Cloudflare Web Analytics, the steps to an account (#225), and sign-ups by where people came from. */
 main.wrap{max-width:720px;padding-bottom:56px}
@@ -77,7 +77,7 @@ th{font-size:12px;color:var(--ink-soft);font-weight:700}
       <div class="tile"><b id="tJoined">–</b><span>sign-ups</span></div>
       <div class="tile"><b id="tAcc">–</b><span>accounts in total</span></div>
     </div>
-    <div class="card"><h2>Steps to an account</h2><div class="list" id="steps"></div></div>
+    <div class="card"><h2>Steps to an account</h2><div class="list" id="steps"></div><p class="note" id="away"></p></div>
     <div class="card"><h2>Visits each day</h2><div id="days"></div></div>
     <div class="grid2">
       <div class="card"><h2>Where they came from</h2><div class="list" id="refs"></div></div>
@@ -129,6 +129,7 @@ function steps(w, taps, joined){
     ['Pressed Create account', t.create || 0], ['Pressed Continue with Google', t.google || 0], ['New accounts', joined]];
   const max = Math.max(...rows.map(r => r[1] || 0), 1);
   $('steps').innerHTML = rows.map(([name, n]) => `<div class="row"><div class="l"><i style="width:${Math.max(3, (n || 0) / max * 100)}%"></i><span>${esc(name)}</span></div><b>${n ?? '–'}</b></div>`).join('');
+  $('away').textContent = `Signed out after time away and sent to sign-in: ${t.idle_signout || 0}`;
 }
 function sources(rows){
   if(!rows.length){ $('sources').innerHTML = '<div class="empty">No sign-ups in this time.</div>'; return; }

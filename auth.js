@@ -15,15 +15,22 @@ const sb = (window.supabase && window.supabase.createClient)
 /* Log the user out: end the Supabase session, clear the cached name,
    then send them to the login page. Works from any page. */
 /* ---------- Idle auto-logout (shared-computer safety) ----------
-   If the app hasn't been used for this long, the next time a page loads
-   the person is logged out. Protects a session left open on a shared PC.
+   If the app hasn't been used for 30 days on a personal device, or 24 hours
+   on one marked shared (the tick box on the sign-in page), the next time a page
+   loads the person is signed out and sent to the sign-in page with a message (#373).
    Note: this can only act when a page is opened/reloaded — it can't log
    someone out while the tab is closed. */
-const IDLE_LIMIT_MS = 24 * 60 * 60 * 1000;   // 24 hours
+const IDLE_LIMIT_MS = 30 * 24 * 60 * 60 * 1000;        // 30 days on someone's own device (#373)
+const IDLE_LIMIT_SHARED_MS = 24 * 60 * 60 * 1000;      // 24 hours when they ticked "shared device" on the sign-in page
+const SHARED_KEY = 'rafiq_shared';
 const LAST_ACTIVE_KEY = 'bay_last_active';
 
+let _lastMark = 0;
 function markActive(){
-  try { localStorage.setItem(LAST_ACTIVE_KEY, String(Date.now())); } catch(_) {}
+  const now = Date.now();
+  if (now - _lastMark < 60000) return;                 // one write a minute is plenty (scrolling fires many events)
+  _lastMark = now;
+  try { localStorage.setItem(LAST_ACTIVE_KEY, String(now)); } catch(_) {}
 }
 // has the idle limit been exceeded since last activity?
 /* The app added to the home screen is on the person's own phone, so it keeps
@@ -36,7 +43,8 @@ function idleExpired(){
   try {
     const last = parseInt(localStorage.getItem(LAST_ACTIVE_KEY), 10);
     if (!last) return false;                  // never recorded -> don't lock out
-    return (Date.now() - last) > IDLE_LIMIT_MS;
+    const shared = localStorage.getItem(SHARED_KEY) === '1';
+    return (Date.now() - last) > (shared ? IDLE_LIMIT_SHARED_MS : IDLE_LIMIT_MS);
   } catch(_) { return false; }
 }
 
@@ -86,7 +94,10 @@ async function requireLogin(){
     }
     // logged in — but has it been idle too long? (shared-computer safety)
     if (idleExpired()) {
-      await logout();
+      // away too long: sign out on this device only, and say why on the sign-in page (#373)
+      try { await sb.auth.signOut({ scope: 'local' }); } catch(_) {}
+      try { localStorage.removeItem(LAST_ACTIVE_KEY); } catch(_) {}
+      window.location.href = 'login.html?away=1';
       return null;
     }
     markActive();                             // fresh activity: reset the idle clock
@@ -110,7 +121,7 @@ function saveSource(user){
 }
 
 // keep the "last active" time fresh while the person is actually using the app
-['click','keydown','touchstart'].forEach(evt=>{
+['click','keydown','touchstart','scroll'].forEach(evt=>{
   document.addEventListener(evt, ()=>{ if (sb) markActive(); }, { passive:true });
 });
 

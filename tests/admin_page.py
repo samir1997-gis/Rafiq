@@ -21,7 +21,7 @@ window.supabase = { createClient: () => {
 """
 from datetime import date, timedelta
 TODAY = date.today()
-STATS = {"days": 7, "accounts": 18, "taps": [{"step": "signup_page", "n": 6}, {"step": "create", "n": 4}],
+STATS = {"days": 7, "accounts": 18, "taps": [{"step": "signup_page", "n": 6}, {"step": "create", "n": 4}, {"step": "idle_signout", "n": 2}],
          "sources": [{"source": "unknown", "campaign": None, "joined": 2, "first_lesson": 1, "back_next_day": 0, "chose_plan": 0, "paying": 0},
                                                 {"source": "instagram", "campaign": "brother", "joined": 1, "first_lesson": 1, "back_next_day": 0, "chose_plan": 1, "paying": 0}],
          "web": {"visits": 18, "views": 19,
@@ -56,6 +56,7 @@ def main():
                 st = p.inner_text("#steps").split("\n")
                 ok.append(("steps to an account: 15 home views, 6 opened sign-up, 4 pressed Create, 0 Google, 3 accounts: " + " / ".join(st),
                            st[1::2] == ["15", "6", "4", "0", "3"]))
+                ok.append(("signed out after time away is counted: " + p.inner_text("#away"), p.inner_text("#away").endswith(": 2")))
                 ok.append(("sign-ups by source in a table", "Before tracking" in p.inner_text("#sources") and p.locator("#sources tr").count() == 3))
                 p.click(".range button[data-d='30']"); p.wait_for_timeout(300)
                 ok.append(("30 days asks for 30 and draws 30 days", asked[-1] == 30 and p.locator(".day").count() == 30))
