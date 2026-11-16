@@ -109,7 +109,8 @@
   }
 
   /* Home, opened from the home-screen icon: once per account, ask for a time
-     (or, if one was picked at sign-up, offer notifications for it). */
+     (or, if one was picked at sign-up, offer notifications for it). In a browser, a learner
+     with no reminder is asked once, from their second study day (#377). */
   const css = document.createElement('style');
   css.textContent = `
     .rem-card{background:var(--card);border:1px solid var(--verdigris);border-radius:12px;padding:16px;margin:14px 0 0}
@@ -124,11 +125,18 @@
   document.head.appendChild(css);
   const ASKED = 'rafiq_reminder_asked';
   async function prompt(el){
-    if(!el || !standalone() || !sb) return;
+    if(!el || !sb) return;
+    const inApp = standalone();
     const uid = await currentUserId(); if(!uid) return;
     let asked = []; try{ asked = (localStorage.getItem(ASKED) || '').split(','); }catch(_){}
     if(asked.includes(uid)) return;
     const row = await load();
+    if(!inApp){
+      // in a browser (#377): only someone with no reminder who has come back on a second day; "No reminders" stays a no
+      if(row && (row.enabled || row.by_email === false)) return;
+      try{ await Progress.init(); }catch(_){}
+      if(!window.Progress || Progress.ids('s:').length < 2) return;
+    }
     const can = pushState() === 'ok';
     if(row && row.enabled && (row.push || !can)) return;          // nothing to offer
     const done = () => { try{ localStorage.setItem(ASKED, asked.filter(Boolean).concat(uid).slice(-5).join(',')); }catch(_){} };
@@ -148,7 +156,10 @@
         <button type="button" class="no">Not now</button></div>`;
       el.querySelectorAll('[data-h]').forEach(b => b.onclick = async () => {
         done(); b.textContent = '…';
-        try{ const r = await enable(+b.dataset.h); thanks(+b.dataset.h, r.push); }
+        try{ const h = +b.dataset.h;
+             // in a browser the reminder is an email: no notification permission is asked for
+             const r = inApp ? await enable(h) : (await save({ hour: h, goal: goal(), by_email: true, enabled: true }), { push: false });
+             thanks(h, r.push); }
         catch(_){ el.innerHTML = '<div class="rem-card"><p>Couldn’t save that. You can set a reminder in Settings.</p></div>'; }
       });
     }

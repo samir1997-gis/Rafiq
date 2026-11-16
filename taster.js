@@ -118,7 +118,8 @@
         <div class="tst-learned">${words.map(w => `<button type="button" class="tst-chip" data-ar="${esc(w.ar)}">${w.salah ? '<i aria-hidden="true">🕌</i>' : ''}<span lang="ar" dir="rtl">${esc(w.ar)}</span> ${esc(w.en)}</button>`).join('')}</div>
         <p class="tst-month">Imagine what you’d know in a month.</p>
         <a class="btn tst-go" href="login.html?mode=signup">Start your free week →</a>
-        <p class="tst-free">7 days free, no card.</p></div>`, pane => {
+        <p class="tst-free">7 days free, no card.</p>
+        <a class="tst-try" href="onboarding.html?guest=1">Or try your first lesson now, no account needed →</a></div>`, pane => {
         pane.querySelectorAll('.tst-chip').forEach(c => c.onclick = () => say(c.dataset.ar, c));
         // the pieces settle in one after another
         if(!calm() && pane.animate) [...pane.querySelector('.tst-end').children].forEach((el, i) =>

@@ -7,6 +7,15 @@ Posts are for reach and engagement first; follows bring people to the site over 
 - TypeSafe, 0-3 averaged over three viewers: this mix grows the accounts about twice as much as every post ending on
   the link (1.19 vs 0.51) and is trusted more (1.51 vs 0.99), for the same sign-ups (0.25 vs 0.24).
 
+**What the numbers say (the audit, #383, Instagram 10 Oct to 16 Nov 2026, about 80 reels):**
+- A typical reel gets 1,500 to 2,500 views. "Learn this now" content travels furthest: the alphabet pronunciation reel (29 Oct)
+  reached 378,000 views with 6,200 saves and 3,300 shares. Practical salah reels are next (duʿāʾ al-istiftāḥ: 10,000 and 6,400).
+- Direct promos and reminder-style talking posts get 125 to 650 views, with 70 to 90% skipping. Don't ask for the sign-up in the reel.
+- A comment keyword works ("Comment 20": 5,000 views, 74 comments). The alphabet reel brought only about 150 site visits, so every
+  strong reel needs a route to the free lesson (#389: a keyword that sends the link by direct message).
+- Proposed, for the owner to agree (#389): four or five posts a week in two series (the alphabet; "your salah, word by word"),
+  no reposts, and a follow-up to every winner within two days.
+
 **When to post (Metricool, @rafiqarabic, best times for 22–28 Oct 2026, UK time):** 10:00 is the peak every day; weekdays beat
 weekends about 2 to 1 (Fri 10:00 the best slot of the week, then Wed and Thu; 18:00 the second peak). Post at 10:00 on weekdays.
 **Trial reels (the level-up ad, #273):** don't post the ten at once (near-copies compete and can read as repeated content); post

@@ -172,6 +172,44 @@ async function userTables() {
     }
     return;
   }
+  if (cmd === 'ask-preview' || cmd === 'ask') {
+    // "what stopped you?" (#380): a short personal email, once per account, to people who studied and then stopped
+    // (last studied 7 or more days ago, not on a plan). 'ask-preview' only lists them; 'ask' sends and marks billing.asked_at.
+    if (cmd === 'ask' && arg !== 'SEND-ASK') { console.error('type SEND-ASK to send'); process.exit(1); }
+    const has = (await sql(`select exists(select 1 from information_schema.columns
+                            where table_schema = 'public' and table_name = 'billing' and column_name = 'asked_at') as x`))[0].x;
+    if (cmd === 'ask' && !has) await sql('alter table public.billing add column if not exists asked_at timestamptz');
+    const people = await sql(`select u.id, u.email, coalesce(u.raw_user_meta_data->>'full_name', u.raw_user_meta_data->>'name', '') as name,
+                                count(*)::int as days, max(substr(p.item_id, 3)) as last
+                              from auth.users u join public.item_progress p on p.user_id = u.id and p.item_id like 's:%'
+                                left join public.billing b on b.user_id = u.id
+                              where u.email_confirmed_at is not null and coalesce(u.raw_app_meta_data->>'admin', '') <> 'true'
+                                and coalesce(b.status, '') not in ('active', 'trialing', 'past_due') ${has || cmd === 'ask' ? 'and b.asked_at is null' : ''}
+                              group by u.id, u.email, name
+                              having max(substr(p.item_id, 3)) <= to_char(current_date - 7, 'YYYY-MM-DD') order by days desc, last desc`);
+    console.log(`${people.length} learner(s) who studied and then stopped (last studied 7+ days ago, not asked before):`);
+    for (const u of people) {
+      const first = (u.name.trim().split(/\s+/)[0] || '').replace(/[<>&"]/g, '');
+      console.log(`  ${mask(u.email)}  studied on ${u.days} day(s), last ${u.last}`);
+      if (cmd !== 'ask') continue;
+      if (!process.env.RESEND_API_KEY) { console.error('RESEND_API_KEY is not set'); process.exit(1); }
+      await sql(`update public.billing set asked_at = now() where user_id = '${u.id}'`);   // mark first: never asked twice
+      const paras = [u.days > 1 ? `I'm Samir, and I made Rafiq. You came back to it a few times and then stopped, and I'd really like to know why.`
+                                : `I'm Samir, and I made Rafiq. You tried a lesson and didn't come back, and I'd really like to know why.`,
+        `Could you hit reply with one line? What got in the way, or what you hoped to find and didn't. I read every reply myself, and it decides what we fix next.`];
+      const hi = first ? `Hi ${first},` : 'Hi there,';
+      const text = [hi, ...paras, 'Thank you,\nSamir'].join('\n\n');
+      const html = `<div style="font-family:Georgia,serif;font-size:16px;line-height:1.6;color:#17262B;max-width:560px">` +
+        [hi, ...paras].map(t => `<p>${t}</p>`).join('') + `<p>Thank you,<br>Samir</p></div>`;
+      const r = await fetch('https://api.resend.com/emails', { method: 'POST',
+        headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ from: 'Samir from Rafiq <hello@contact.rafiq-arabic.com>', to: [u.email], reply_to: 'support@rafiq-arabic.com',
+                               subject: 'A quick question about Rafiq', html, text }) });
+      console.log(`    email ${r.ok ? 'sent' : 'FAILED ' + r.status + ' ' + (await r.text()).slice(0, 200)}`);
+      await new Promise(r => setTimeout(r, 600));
+    }
+    return;
+  }
   if (cmd === 'attempts') {
     // where sign-ups get stuck (#224): Supabase's own sign-in log, day by day. Counts only; never emails or passwords.
     const days = Math.max(1, Math.min(30, parseInt(arg, 10) || 7));

@@ -105,6 +105,16 @@ with sync_playwright() as pw:
         p.click("#flNext"); p.wait_for_timeout(350)
     ok.append(("a name with no Arabic spelling is shown as typed", "Zebedee" in p.inner_text("#flBody") and "اسْمِي" in p.inner_text("#flBody")))
     c.close()
+    # "No reminders" is kept as an answer (#379), so the study emails leave this person alone
+    c, p = context(b, "localStorage.setItem('bay_name','Samir'); localStorage.setItem('rafiq_first_lesson','u1');")
+    p.goto(BASE + "onboarding.html"); p.wait_for_timeout(1500)
+    # what gets saved is noted in sessionStorage, which is still there after the page moves on to Home
+    p.evaluate("RafiqReminders.save = async x => { sessionStorage.setItem('saved', JSON.stringify(x)); }")
+    p.click('.q[data-key="remind"] .opt[data-val="none"]')
+    p.click("#doneBtn"); p.wait_for_timeout(2500)
+    saved = json.loads(p.evaluate("sessionStorage.getItem('saved')") or "null")
+    ok.append(('"No reminders" is saved as an answer: ' + str(saved), saved == {"enabled": False, "by_email": False}))
+    c.close()
     b.close()
 
 ok.append(("no page errors " + "; ".join(errors[:3]), not errors))

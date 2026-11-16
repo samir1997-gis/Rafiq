@@ -65,6 +65,8 @@ alter table public.billing add column if not exists subscribed_email_sub text;
 alter table public.billing add column if not exists cancel_email_for text;
 -- when this account was last refunded automatically: the automatic refund is once per account
 alter table public.billing add column if not exists refunded_at timestamptz;
+-- "what stopped you?" (#380): when this account was asked, so it's asked once
+alter table public.billing add column if not exists asked_at timestamptz;
 -- The app stores (#345): where the plan was bought. Stripe on the website; Apple and Google in the apps, reported by
 -- RevenueCat (store-webhook). One row per account either way, so every page reads the plan the same.
 alter table public.billing add column if not exists source text not null default 'stripe';

@@ -163,7 +163,7 @@
       </div>
     </div>
     <div class="q" data-key="remind">
-      <h2>When should we remind you? <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></h2>
+      <h2>When shall we bring your words back? <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></h2>
       <div class="opts">
         <button class="opt" data-val="8">Morning, 8:00</button>
         <button class="opt" data-val="13">Lunchtime, 13:00</button>
@@ -171,7 +171,7 @@
         <button class="opt" data-val="21">Night, 21:00</button>
         <button class="opt" data-val="none">No reminders</button>
       </div>
-      <p class="qnote">By email, only on days you haven’t done your lesson.</p>
+      <p class="qnote">We’ll email you at that time, only on days you haven’t studied. One tap stops it.</p>
     </div>
     <div class="actions">
       <button class="skip" id="skipBtn">Skip for now</button>
@@ -206,12 +206,16 @@
 <script src="basics-data.js?v=5"></script>
 <script src="path.js?v=20261113c"></script>
 <script src="plan.js?v=20261104store"></script>
-<script src="reminders.js?v=2"></script>
+<script src="reminders.js?v=3"></script>
 <script src="judge.js?v=20260922"></script>
 <script src="audio.js?v=904"></script>
 <script src="arkb.js?v=3" defer></script>
 <script>
-requireLogin();
+/* A guest (#381): ?guest=1 with nobody signed in runs the first lesson without an account. Nothing is saved until they
+   create one; rafiq_guest_lesson then tells this page, after sign-up, that the lesson is done. */
+const GUEST = new URLSearchParams(location.search).get('guest') === '1';
+const GUEST_KEY = 'rafiq_guest_lesson';
+if(!GUEST) requireLogin();
 const answers = { reads:null, remind:null };
 document.querySelectorAll('.q').forEach(q=>{
   const key=q.dataset.key;
@@ -295,10 +299,13 @@ async function firstLesson(){
   next.onclick=()=>{ if(i<N-1){ i++; paint(); } else finishLesson(nm, nameAr); };
   paint();
 }
-function finishLesson(nm, nameAr){
+function saveFirstLesson(){
   // the two words go into their reviews, and the lesson counts as today's first step
   try{ ['v:1','v:784'].forEach(id=>{ if(Progress.isNew(id)){ Progress.grade(id,'good',1); RafiqPath.wordMet(); } }); RafiqPath.markDay(); Progress.flush&&Progress.flush(); }catch(_){}
   try{ const ids=(localStorage.getItem('rafiq_first_lesson')||'').split(','); localStorage.setItem('rafiq_first_lesson', ids.concat(UID||'1').slice(-5).join(',')); }catch(_){}
+}
+function finishLesson(nm, nameAr){
+  if(GUEST){ try{ localStorage.setItem(GUEST_KEY, '1'); }catch(_){} } else saveFirstLesson();
   const ar=GREET+'، '+MY+' '+(nameAr || (nm ? '' : 'سَمِير'));
   document.getElementById('wellH').textContent = nm ? `Well done, ${nm.latin}!` : 'Well done!';
   const wa=document.getElementById('wellAr');
@@ -307,7 +314,11 @@ function finishLesson(nm, nameAr){
   const sayIt=()=>{ const whole=ar.trim(); if(nameAr && window.RQ && RQ.clipId && RQ.clipId(whole)) say(whole, wa); else sayAll(parts, wa); };
   document.getElementById('wellSay').onclick=sayIt;
   show('well'); setTimeout(sayIt, 500);
-  document.getElementById('wellGo').onclick=()=>show('qs');
+  if(GUEST){
+    document.querySelector('#well .fl-note').innerHTML='You’ve learnt <b>2 words</b>. Create your free account to keep them: we’ll bring them back so they stick.';
+    const go=document.getElementById('wellGo'); go.textContent='Create my free account';
+    go.onclick=()=>{ location.href='login.html?mode=signup'; };
+  } else document.getElementById('wellGo').onclick=()=>show('qs');
 }
 
 const LEVEL_PACE={ beginner:2, basics:4 };   // extra new words a day in Words
@@ -315,7 +326,9 @@ async function save(){
   await uidReady; markOnboarded();
   // the reminder goes by email for now; notifications are offered once Rafiq is on the home screen
   try{ if(answers.remind && answers.remind !== 'none' && window.RafiqReminders)
-         await RafiqReminders.save({ hour:+answers.remind, goal:2, by_email:true, enabled:true }); }catch(_){}
+         await RafiqReminders.save({ hour:+answers.remind, goal:2, by_email:true, enabled:true });
+       // "No reminders" is an answer too: kept, so the study emails (#379) leave this person alone
+       else if(answers.remind === 'none' && window.RafiqReminders) await RafiqReminders.save({ enabled:false, by_email:false }); }catch(_){}
   const level = answers.reads==='knows' ? 'basics' : answers.reads ? 'beginner' : null;
   try{
     if(typeof cloudSaveProfile==='function') await cloudSaveProfile({ level });
@@ -345,10 +358,15 @@ document.getElementById('doneBtn').onclick=async()=>{
   home();
 };
 
-/* Start: the lesson, unless this account has done it already (then the questions). */
+/* Start: the lesson, unless this account has done it already (then the questions). A guest gets the lesson; someone who
+   did it as a guest and has now signed up (#381) gets it saved, and goes to the questions. */
 (async()=>{
   await uidReady;
+  if(GUEST && UID){ location.replace('onboarding.html'); return; }      // already signed in: the ordinary start
   try{ await Progress.init(); }catch(_){}
+  if(GUEST) return firstLesson();
+  let guestDone=false; try{ guestDone=localStorage.getItem(GUEST_KEY)==='1'; }catch(_){}
+  if(guestDone){ saveFirstLesson(); try{ localStorage.removeItem(GUEST_KEY); }catch(_){} return show('qs'); }
   let done=false; try{ done=(localStorage.getItem('rafiq_first_lesson')||'').split(',').includes(UID||'1'); }catch(_){}
   if(done) show('qs'); else firstLesson();
 })();

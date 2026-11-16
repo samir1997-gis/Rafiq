@@ -1990,6 +1990,11 @@ function wordsNote(step){
     : `<b>${r.today}</b> new word${r.today===1?'':'s'} today`;
   return `<div class="wnote${r.record||r.aboveUsual?' up':''}">${msg}</div>`;
 }
+/* How many words and sentences are due by tomorrow (#376): what the learner comes back to. */
+function dueTomorrow(){
+  const d=new Date(); d.setDate(d.getDate()+1); const t=d.toISOString().slice(0,10);   // the way progress.js works out a due date
+  return Progress.ids().filter(id=>{ if(!/^(v|d):/.test(id)) return false; const r=Progress.get(id); return r && r.box>0 && r.due && r.due<=t; }).length;
+}
 function finish(p, step, note, extra){
   RafiqPath.complete(p.n, step.key);
   setBar(1,1);
@@ -1998,9 +2003,10 @@ function finish(p, step, note, extra){
   const s=RafiqPath.streak(), today=RafiqPath.doneToday(), sg=RafiqPath.streakGoal(s);
   // the step that meets today's goal (and so adds the day to the streak) and lands on a streak goal gets a celebration
   const hit = sg.reached && today===RafiqPath.GOAL;
+  const back=dueTomorrow();
   const body=el(`<div class="done"><div class="tick">${hit?'🎉':'✓'}</div><h2>${hit?`${s}-day streak!`:esc(step.title)+' — done'}</h2>
     <p>${hit?esc(sg.reached.why):today>=RafiqPath.GOAL?'Daily goal reached. Anything more is a bonus.':'One more step and today\'s goal is done.'}</p>
-    ${note||''}${wordsNote(step)}
+    ${note||''}${wordsNote(step)}${back?`<div class="wnote" id="tmrw">📅 Tomorrow: <b>${back}</b> ${back===1?'word or sentence comes':'words and sentences come'} back for a quick review.</div>`:''}
     <span class="streak">🔥 ${s}-day streak${sg.next?` · next goal ${sg.next.days} days`:''}</span></div>`);
   if(p.alpha && step.kind==='letters') body.appendChild(alphabetChart('Your alphabet', ALPHABET_GROUPS[step.group].letters.map(l=>l[0])));
   if(p.alpha && (step.kind==='play' || step.kind==='hearing')) body.appendChild(alphabetChart('Your alphabet', []));

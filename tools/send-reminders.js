@@ -7,7 +7,8 @@
                                                   function and the push keys (safe to re-run;
                                                   the Action runs it whenever this file changes on main)
      node tools/send-reminders.js run             send what's due this hour (the hourly schedule)
-     node tools/send-reminders.js preview         who 'run' would remind right now (sends nothing)
+     node tools/send-reminders.js preview         who 'run' would remind right now, and who would get a
+                                                  study email (#379: 'start' or 'review', built switched off); sends nothing
      node tools/send-reminders.js test <id>       send one account's reminder now, whatever the time
 
    Who gets one: people who turned reminders on in Settings, at the hour they chose
@@ -59,6 +60,9 @@ alter table public.reminders enable row level security;
 drop policy if exists "own reminders" on public.reminders;
 create policy "own reminders" on public.reminders for all to authenticated
   using (auth.uid() = user_id) with check (auth.uid() = user_id);
+-- the study emails (#379): when each was sent, so each goes once per account
+alter table public.reminders add column if not exists nudge_start_at timestamptz;
+alter table public.reminders add column if not exists nudge_review_at timestamptz;
 
 create schema if not exists private;
 revoke all on schema private from public, anon, authenticated;
@@ -128,7 +132,7 @@ function message(row, today) {
              : s > 1 ? `You're on a ${s}-day streak. A few minutes today keeps it going.`
                      : 'Your next step is ready. A few minutes is enough.';
   const reviews = due > 0 ? `${due} ${due === 1 ? 'word or sentence is' : 'words and sentences are'} due for review.` : '';
-  return { title, line, reviews, streak: s, due };
+  return { title, line, reviews, streak: s, due, word: wordOfDay(WORDS, today) };
 }
 
 const rows = where => sql(rowsQuery(where, utcDay()));
@@ -149,6 +153,22 @@ function rowsQuery(where, today) {
     where ${where}`);
 }
 
+/* ---------- today's word from the salah (#378) ---------- */
+const vm = require('vm');
+// every word of the prayer's own phrases, once each, in the order they're said. Lines with a ref are Qur'an: left out.
+function salahWords(file = path.join(__dirname, '..', 'salah-data.js')) {
+  const S = vm.runInNewContext(fs.readFileSync(file, 'utf8') + '; SALAH');
+  const seen = new Set(), list = [];
+  for (const p of S.parts) for (const l of p.lines) {
+    if (l.ref || /^fatiha/.test(p.id)) continue;
+    for (const w of l.words) { if (!w.root || seen.has(w.ar)) continue; seen.add(w.ar); list.push({ ar: w.ar, en: w.en, where: p.title }); }
+  }
+  return list;
+}
+// the same word for everyone on a given day
+const wordOfDay = (list, day) => list.length ? list[Math.floor(Date.parse(day + 'T00:00:00Z') / 864e5) % list.length] : null;
+let WORDS = [];
+try { WORDS = salahWords(); } catch (e) { console.log(`no salah word today: ${e.message}`); }   // never let this stop a reminder
 /* ---------- sending ---------- */
 const TEMPLATE = fs.readFileSync(path.join(__dirname, '..', 'supabase/email-templates/daily-reminder.html'), 'utf8')
   .replace(/^<!--[\s\S]*?-->\s*/, '');
@@ -161,6 +181,7 @@ function render(row, m) {
   const unsub = `${SITE}/unsubscribe.html?t=${row.unsub}`;
   const html = TEMPLATE.replace('{{GREETING}}', esc(name ? `Assalamu alaykum ${name},` : 'Assalamu alaykum,'))
     .replace('{{LINE}}', esc(m.line)).replace('{{REVIEWS}}', m.reviews ? `<p style="margin:0 0 20px">${esc(m.reviews)}</p>` : '')
+    .replace('{{WORD}}', m.word ? `<p style="margin:0 0 20px">Today’s word from your salah: <b dir="rtl" lang="ar" style="font-size:20px">${esc(m.word.ar)}</b> means “${esc(m.word.en)}”. You say it in: ${esc(m.word.where)}.</p>` : '')
     .replace(/\{\{UNSUB\}\}/g, unsub);
   return { html, text: text(html), unsub };
 }
@@ -188,7 +209,7 @@ async function push(row, m) {
   const wp = await pusher();
   if (!wp) throw new Error('web push is not available (web-push package or keys missing)');
   try {
-    await wp.sendNotification(row.push, JSON.stringify({ title: m.title, body: m.reviews ? `${m.line} ${m.reviews}` : m.line, url: 'dashboard.html' }),
+    await wp.sendNotification(row.push, JSON.stringify({ title: m.title, body: [m.line, m.reviews, m.word && `Today's salah word: ${m.word.ar} means "${m.word.en}".`].filter(Boolean).join(' '), url: 'dashboard.html' }),
       { TTL: 4 * 3600, urgency: 'normal' });
     return true;
   } catch (e) {
@@ -213,6 +234,60 @@ async function remind(row, today, localDate, log) {
   return done;
 }
 
+/* ---------- study emails (#379): two short emails about learning, each once per account ---------- */
+const NUDGES_ON = false;        // the owner switches this on (#379). Until then 'run' sends none; 'preview' still lists them
+const NUDGE_HOURS = [17, 18];   // the UTC hours they go out in (two, so a late run still sends)
+const NUDGES = {
+  start:  { subject: 'Your first Arabic lesson takes two minutes', button: 'Start my first lesson',
+            line: 'Your account is ready and your first lesson is waiting. In two minutes you’ll greet someone and say your name in Arabic.' },
+  review: { subject: 'Your first words are ready to review', button: 'Review my words',
+            line: 'The words you learnt are due for their first review. It takes about two minutes, and it’s what makes them stay.' } };
+const NUDGE_QUERY = `
+  select u.id as user_id, u.email, u.raw_user_meta_data->>'name' as name, u.email_confirmed_at as confirmed_at,
+         (r.user_id is not null) as has_row, r.enabled, r.by_email, r.nudge_start_at, r.nudge_review_at,
+         (select count(*) from public.item_progress p where p.user_id = u.id and p.item_id like 's:%')::int as study_days,
+         (select max(substr(p.item_id, 3)) from public.item_progress p where p.user_id = u.id and p.item_id like 's:%') as last_day
+  from auth.users u left join public.reminders r on r.user_id = u.id
+  where u.email_confirmed_at > now() - interval '10 days' and coalesce(u.raw_app_meta_data->>'admin', '') <> 'true'`;
+/* 'start' | 'review' | null for one row of NUDGE_QUERY */
+function nudgeKind(row, now = new Date()) {
+  if (row.by_email === false) return null;                                        // unsubscribed, or said "No reminders"
+  if (row.enabled) return null;                                                   // daily reminders already reach them
+  if (row.has_row && !row.nudge_start_at && !row.nudge_review_at) return null;    // turned reminders off themselves
+  const hours = (now - new Date(row.confirmed_at)) / 3600e3;
+  if (!row.study_days) return !row.nudge_start_at && hours >= 24 && hours < 96 ? 'start' : null;
+  const since = Math.round((Date.parse(utcDay(now) + 'T00:00:00Z') - Date.parse(row.last_day + 'T00:00:00Z')) / 864e5);
+  return !row.nudge_review_at && row.study_days <= 2 && since >= 2 && since <= 4 ? 'review' : null;
+}
+const NUDGE_TEMPLATE = fs.readFileSync(path.join(__dirname, '..', 'supabase/email-templates/study-nudge.html'), 'utf8')
+  .replace(/^<!--[\s\S]*?-->\s*/, '');
+function renderNudge(row, kind, token) {
+  const name = (row.name || '').trim().split(/\s+/)[0], unsub = `${SITE}/unsubscribe.html?t=${token}`;
+  const html = NUDGE_TEMPLATE.replace('{{GREETING}}', esc(name ? `Assalamu alaykum ${name},` : 'Assalamu alaykum,'))
+    .replace('{{LINE}}', esc(NUDGES[kind].line)).replace('{{BUTTON}}', esc(NUDGES[kind].button)).replace(/\{\{UNSUB\}\}/g, unsub);
+  return { html, unsub };
+}
+async function nudges(cmd, now = new Date()) {
+  if (cmd === 'run' && (!NUDGES_ON || !NUDGE_HOURS.includes(now.getUTCHours()))) return;
+  let n = 0;
+  for (const row of await sql(NUDGE_QUERY)) {
+    const kind = nudgeKind(row, now); if (!kind) continue;
+    const who = `${row.user_id}  ${mask(row.email)}`;
+    if (cmd === 'preview') { console.log(`would send the '${kind}' study email  ${who}`); n++; continue; }
+    // mark first, so a retry can never send it twice; the same statement gives the unsubscribe token
+    const col = kind === 'start' ? 'nudge_start_at' : 'nudge_review_at';
+    const [r] = await sql(`insert into public.reminders (user_id, ${col}) values (${q(row.user_id)}, now())
+                           on conflict (user_id) do update set ${col} = now() returning unsub`);
+    const { html, unsub } = renderNudge(row, kind, r.unsub);
+    const res = await fetch('https://api.resend.com/emails', { method: 'POST',
+      headers: { Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: FROM, to: [row.email], reply_to: REPLY_TO, subject: NUDGES[kind].subject, html, text: text(html),
+        headers: { 'List-Unsubscribe': `<${unsub}>` } }) });
+    console.log(`${who}  '${kind}' study email ${res.ok ? 'sent' : 'FAILED ' + res.status}`); if (res.ok) n++;
+    await new Promise(r => setTimeout(r, 600));   // Resend: 2 a second
+  }
+  console.log(`study emails: ${n} ${cmd === 'preview' ? `would go${NUDGES_ON ? '' : ' (switched off: none are sent)'}` : 'sent'}`);
+}
 if (require.main === module) (async () => {
   const [cmd, arg] = process.argv.slice(2);
   if (cmd === 'self-test') return selfTest();
@@ -250,10 +325,11 @@ if (require.main === module) (async () => {
     await new Promise(r => setTimeout(r, 600));   // Resend: 2 a second
   }
   console.log(`${all.length} with reminders on · ${sent} ${cmd === 'preview' ? 'due now' : 'reminded'} · ${met} had met their goal · ${failed} failed`);
+  try { await nudges(cmd, now); } catch (e) { console.log(`study emails skipped: ${e.message}`); }   // never let these stop the reminders
   if (failed) process.exit(1);
 })().catch(e => { console.error(e.message); process.exit(1); });
 
-module.exports = { SETUP, rowsQuery, decide, message, streak, localNow, render };
+module.exports = { SETUP, rowsQuery, decide, message, streak, localNow, render, salahWords, wordOfDay, nudgeKind, renderNudge, NUDGES_ON };
 
 /* node tools/send-reminders.js self-test — checks the timing and message rules, offline */
 function selfTest() {
@@ -284,5 +360,33 @@ function selfTest() {
   assert.strictEqual(message({ days: [], due: 0, letters: '4' }, '2026-09-27').line, '4 letters are waiting for a quick check-in. Get them right today and they turn green.');
   assert.strictEqual(message({ days: [], due: 0, letters: 1 }, '2026-09-27').line, '1 letter is waiting for a quick check-in. Get it right today and it turns green.');
   assert.strictEqual(message({ days: [], due: 0, letters: 0 }, '2026-09-27').line, 'Your next step is ready. A few minutes is enough.');
+  // today's word from the salah (#378): from the prayer's own phrases, the same for everyone on a day, never Qur'an
+  const words = salahWords();
+  assert.ok(words.length >= 30);
+  assert.ok(words.every(w => w.ar && w.en && w.where && !/^Al-Fatiha/.test(w.where)));
+  assert.deepStrictEqual(wordOfDay(words, '2026-11-16'), wordOfDay(words, '2026-11-16'));
+  assert.notDeepStrictEqual(wordOfDay(words, '2026-11-16'), wordOfDay(words, '2026-11-17'));
+  assert.strictEqual(wordOfDay([], '2026-11-16'), null);
+  const mail = render({ name: 'Aisha', unsub: 'x' }, message({ days: [], due: 0 }, '2026-11-16'));
+  assert.ok(mail.html.includes('Today’s word from your salah') && !mail.html.includes('{{'));
+  // the study emails (#379): who gets which, and who gets none
+  const at2 = at('2026-11-16T17:10:00Z');
+  const fresh = { confirmed_at: '2026-11-15T10:00:00Z', study_days: 0, last_day: null, has_row: false, enabled: null, by_email: null, nudge_start_at: null, nudge_review_at: null };
+  assert.strictEqual(nudgeKind(fresh, at2), 'start');                                                          // confirmed 31 hours ago, never studied
+  assert.strictEqual(nudgeKind({ ...fresh, confirmed_at: '2026-11-16T09:00:00Z' }, at2), null);                // too soon
+  assert.strictEqual(nudgeKind({ ...fresh, confirmed_at: '2026-11-10T09:00:00Z' }, at2), null);                // too late
+  assert.strictEqual(nudgeKind({ ...fresh, has_row: true, nudge_start_at: '2026-11-15T17:00:00Z' }, at2), null);   // sent already
+  assert.strictEqual(nudgeKind({ ...fresh, has_row: true, by_email: false }, at2), null);                      // unsubscribed, or "No reminders"
+  assert.strictEqual(nudgeKind({ ...fresh, has_row: true, enabled: false, by_email: true }, at2), null);       // turned reminders off in Settings
+  assert.strictEqual(nudgeKind({ ...fresh, has_row: true, enabled: true, by_email: true }, at2), null);        // has a daily reminder
+  const once = { ...fresh, confirmed_at: '2026-11-13T10:00:00Z', study_days: 1, last_day: '2026-11-14' };
+  assert.strictEqual(nudgeKind(once, at2), 'review');                                                          // studied once, two days ago
+  assert.strictEqual(nudgeKind({ ...once, last_day: '2026-11-15' }, at2), null);                               // only yesterday
+  assert.strictEqual(nudgeKind({ ...once, last_day: '2026-11-11' }, at2), null);                               // five days ago: too late
+  assert.strictEqual(nudgeKind({ ...once, study_days: 3 }, at2), null);                                        // a regular by now
+  assert.strictEqual(nudgeKind({ ...once, has_row: true, nudge_start_at: '2026-11-14T17:00:00Z' }, at2), 'review');   // had 'start', then studied
+  const nm = renderNudge({ name: 'Aisha K' }, 'start', 'tok');
+  assert.ok(nm.html.includes('Assalamu alaykum Aisha,') && nm.html.includes('Start my first lesson') && nm.html.includes('unsubscribe.html?t=tok') && !nm.html.includes('{{'));
+  assert.strictEqual(NUDGES_ON, false);                                                                        // ships switched off
   console.log('self-test passed');
 }

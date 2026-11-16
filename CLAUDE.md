@@ -49,6 +49,9 @@ what you make into its "Already made" list.
 - The app's purchases (in the app Plans and Settings never offer Stripe; the store subscription screen; the website unchanged): `python3 .claude/skills/webapp-testing/scripts/with_server.py --server "python3 -m http.server 8766 -d app/www >/dev/null 2>&1" --port 8766 --server "python3 -m http.server 8767 >/dev/null 2>&1" --port 8767 -- python3 tests/app_store.py` (after changing `app/app-store.js`, plans.html or settings.html).
 - Login page (opening, Sign in / Create account switch, field messages, spinner and tick): `... -- python3 tests/login_page.py` (same server command as the smoke test).
 - Signed out after time away (30 days, a day on a shared device; sent to sign-in with a message; Log out unchanged): `... -- python3 tests/idle_signout.py` (same server command as the smoke test).
+- The end of a lesson says what comes back tomorrow: `... -- python3 tests/tomorrow_note.py` (same server command as the smoke test).
+- The reminder prompt on Home in a browser (asked once from the second study day; an email reminder; not after "No reminders"): `... -- python3 tests/reminder_prompt.py` (same server command as the smoke test).
+- The first lesson before the account (a guest does the lesson, then creates an account to keep it; it counts after sign-up): `... -- python3 tests/guest_lesson.py` (same server command as the smoke test).
 - Landing page (compact tiles, hover and tap, scroll-in, reduced motion): `... -- python3 tests/landing.py` (same server command as the smoke test).
 - Owner dashboard (admin.html: tiles, visits per day, referrers, countries, sign-ups by source; non-admins kept out): `... -- python3 tests/admin_page.py` (same server command as the smoke test).
 - `python3 tests/funnel.py`: after changing the funnel in `supabase/sql/backend.sql` (runs it on a throwaway Postgres).

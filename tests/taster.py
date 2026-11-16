@@ -81,6 +81,7 @@ def main():
                    and "Imagine what you’d know in a month" in end and "/" not in end.split("learned")[0]))
         go = p.get_attribute(".tst-go", "href")
         ok.append(("'Start your free week →' goes to Create account: " + go, go == "login.html?mode=signup" and "Start your free week" in p.inner_text(".tst-go")))
+        ok.append(("the end card also offers the first lesson with no account (#381)", p.get_attribute(".tst-try", "href") == "onboarding.html?guest=1"))
         ok.append(("…with 'no card' under it", "no card" in p.inner_text(".tst-free")))
         ok.append(("the words learned are there to hear again", p.locator(".tst-chip").count() == 4))
         p.click(".tst-chip >> nth=0")
