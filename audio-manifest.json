@@ -29837,21 +29837,21 @@
   "id": "gcj605",
   "text": "الشَّفة",
   "bucket": "body",
-  "unit": "head",
+  "unit": "mouth",
   "chars": 7
  },
  {
   "id": "11byhmv",
   "text": "السِّنّ، الأَسْنان",
   "bucket": "body",
-  "unit": "head",
+  "unit": "mouth",
   "chars": 18
  },
  {
   "id": "rlsqa9",
   "text": "اللِّسان",
   "bucket": "body",
-  "unit": "head",
+  "unit": "mouth",
   "chars": 8
  },
  {

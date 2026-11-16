@@ -35,9 +35,9 @@ const BODY_WORDS = [
   { id:'forehead',  ar:'الجَبِين',             en:'the forehead',          tr:'al-jabīn',       level:2, parent:'head',   svgZoneId:'z-forehead' },
   { id:'cheek',     ar:'الخَدّ',               en:'the cheek',             tr:'al-khadd',       level:2, parent:'head',   svgZoneId:'z-cheek' },
   { id:'chin',      ar:'الذَّقْن',             en:'the chin',              tr:'adh-dhaqn',      level:2, parent:'head',   svgZoneId:'z-chin' },
-  { id:'lip',       ar:'الشَّفة',              en:'the lip',               tr:'ash-shafa',      level:2, parent:'head',   svgZoneId:'z-lip' },
-  { id:'teeth',     ar:'السِّنّ / الأَسْنان', vocab:548, en:'the tooth / teeth', tr:'as-sinn / al-asnān', level:2, parent:'head', svgZoneId:'z-teeth' },
-  { id:'tongue',    vocab:734,                 en:'the tongue',            tr:'al-lisān',       level:2, parent:'head',   svgZoneId:'z-tongue' },
+  { id:'lip',       ar:'الشَّفة',              en:'the lip',               tr:'ash-shafa',      level:2, parent:'mouth',   svgZoneId:'z-lip' },
+  { id:'teeth',     ar:'السِّنّ / الأَسْنان', vocab:548, en:'the tooth / teeth', tr:'as-sinn / al-asnān', level:2, parent:'mouth', svgZoneId:'z-teeth' },
+  { id:'tongue',    vocab:734,                 en:'the tongue',            tr:'al-lisān',       level:2, parent:'mouth',   svgZoneId:'z-tongue' },
   { id:'eyebrow',   ar:'الحاجِب',              en:'the eyebrow',           tr:'al-ḥājib',       level:2, parent:'head',   svgZoneId:'z-eyebrow' },
 
   // Level 2: the arm and hand
