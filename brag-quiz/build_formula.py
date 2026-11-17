@@ -2245,6 +2245,19 @@ def g11():                                                      # 10 Nov 2026 (#
         "How many did you get? 0, 1 or 2? Comment below 👇 and send this to your Arabic study buddy",
         words={"كِتابانِ": V + "kitabani.mp3", "سَيّارَتانِ": V + "sayyaratani.mp3", "قَلَمانِ": V + "qalamani.mp3", "مَدْرَسَتانِ": V + "madrasatani.mp3"})
 
+W12 = "brag-quiz/voice/g12/g12-"
+def g12():                                                      # 17 Nov 2026 (#393; owner: "like the I eat she eat video… different words and different concept"): the future, سَـ
+    V = W12
+    rule_quiz("g12-will", V,
+        [("أَفْهَمُ", 'أَفْهَمُ', "I understand", "", V + "t1"), ("سَأَفْهَمُ", '<em>سَ</em>أَفْهَمُ', "I will understand", "", V + "t2"),
+         ("سَيَفْهَمُ", '<em>سَ</em>يَفْهَمُ', "he will understand", "", V + "t3")],
+        "one syllable on the front: <bdi lang=\"ar\" dir=\"rtl\">سَـ</bdi> = will",
+        ('will = <span class="ar" lang="ar"><em>سَـ</em></span>', 'on any verb, for anyone'),
+        [("نَلْعَبُ", "we play", "we will play", ["لَعِبْنا", "سَنَلْعَبُ", "يَلْعَبُونَ"], 1, 'add <bdi lang="ar"><em>سَـ</em></bdi> = will'),
+         ("يَنامُ", "he sleeps", "he will sleep", ["سَيَنامُ", "نامَ", "سَتَنامُ"], 0, 'add <bdi lang="ar"><em>سَـ</em></bdi> = will')],
+        "How many did you get? 0, 1 or 2? Comment below 👇 and send this to your Arabic study buddy",
+        words={"أَفْهَمُ": V + "afhamu.mp3", "سَأَفْهَمُ": V + "saafhamu.mp3", "سَيَفْهَمُ": V + "sayafhamu.mp3", "سَنَلْعَبُ": V + "sanalabu.mp3"})
+
 def l4():
     """The difficulty ladder #4, the weekly quiz (#355): five words from the salah, each harder: صَلاة prayer 90% → سُبْحانَ glory be to 70%
     (ruku) → الْعَظِيم the Magnificent 45% → نَسْتَعِينُ we ask for help 20% (1:5) → the final boss الْمَغْضُوبِ those who earned anger 3% (1:7).
@@ -2320,7 +2333,7 @@ ALL = {"f1-sujood": f1, "f2-root": f2, "f3-she-eats": f3, "j1-jumuah": j1, "a1-a
        "w5-rabbana": w5, "w6-salam": w6, "w7-tahiyyat": w7, "g1-plural": g1, "g2-female": g2, "g3-past": g3, "r2-muhammad": r2,
        "r3-akbar": r3, "r4-insha": r4, "g4-past-i": g4, "g5-endings": g5, "g6-i-she": g6, "g7-we": g7, "g8-you": g8, "w8-subhana-azim": w8,
        "v1-go-quiz": v1q, "v2-write-quiz": v2q, "i4-she-quiz": i4q, "n1-jannah": n1, "m1-mashallah": m1, "m2-barik": m2, "l1-ladder": l1, "l3-quran": l3,
-       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2, "n5-salah": n5, "h1-algebra": h1, "h2-coffee": h2, "h3-lisan": h3, "h4-khutbah": h4, "u1-umrah": u1, "g9-past-you": g9, "g10-they": g10, "g11-two": g11, "l4-salah": l4, "u2-masjid": u2}
+       "n2-rahma": n2, "d1-din": d1, "f4-family": f4, "n3-ilm": n3, "n4-jannah": n4, "l2-jumuah": l2, "n5-salah": n5, "h1-algebra": h1, "h2-coffee": h2, "h3-lisan": h3, "h4-khutbah": h4, "u1-umrah": u1, "g9-past-you": g9, "g10-they": g10, "g11-two": g11, "g12-will": g12, "l4-salah": l4, "u2-masjid": u2}
 if __name__ == "__main__":
     ids = [a for a in sys.argv[1:] if not a.startswith("--")]
     T.LUFS.update({v: -16.0 for v in ALL})
