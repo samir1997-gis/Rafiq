@@ -1,0 +1,98 @@
+[
+ {
+  "file": "g12-t1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "This means 'I understand'..."
+ },
+ {
+  "file": "g12-t2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Put 'sa' on the front, and it's 'I WILL understand'..."
+ },
+ {
+  "file": "g12-t3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "The same 'sa' works on any verb: 'he will understand'..."
+ },
+ {
+  "file": "g12-rule",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "That's the trick. 'Sa' on the front means 'will'. One syllable, and you're in the future. Now it's your turn."
+ },
+ {
+  "file": "g12-q1a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "If this means 'we play'..."
+ },
+ {
+  "file": "g12-q1b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "what's 'we will play'?"
+ },
+ {
+  "file": "g12-q2a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "And if this means 'he sleeps'..."
+ },
+ {
+  "file": "g12-q2b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "what's 'he will sleep'?"
+ },
+ {
+  "file": "g12-afhamu",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "أَفْهَمْ"
+ },
+ {
+  "file": "g12-saafhamu",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "سَأَفْهَمْ"
+ },
+ {
+  "file": "g12-sayafhamu",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "سَيَفْهَمْ"
+ },
+ {
+  "file": "g12-sanalabu",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "سَنَلْعَبْ"
+ }
+]
