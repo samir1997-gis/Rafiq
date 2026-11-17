@@ -33,7 +33,7 @@ enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "image2pipe", "-fra
                         "-c:v", "libx264", "-crf", "12", "-preset", "medium", "-pix_fmt", "yuv420p", vid], stdin=subprocess.PIPE)
 t_start = time.time()
 with sync_playwright() as p:
-    b = p.chromium.launch(args=["--disable-gpu"])
+    b = p.chromium.launch(executable_path="/opt/pw-browsers/chromium" if os.path.exists("/opt/pw-browsers/chromium") else None, args=["--disable-gpu"])
     pg = b.new_page(viewport={"width": 1080, "height": 1920})
     pg.goto("file://" + os.path.abspath(os.path.join(comp, "index.html")))
     pg.wait_for_timeout(1500); assert pg.evaluate("!!(window.__timelines && window.__timelines.main) && document.fonts.status === 'loaded'")
