@@ -1,0 +1,327 @@
+[
+ {
+  "file": "a9-h1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] NINE! [normal] Arabic letters have no real match in English. Can you say them all?"
+ },
+ {
+  "file": "a9-intro",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Listen, then say each one out loud."
+ },
+ {
+  "file": "a9-t1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "A breathy 'h', from the middle of your throat."
+ },
+ {
+  "file": "a9-t2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Like the 'ch' in Scottish 'loch'."
+ },
+ {
+  "file": "a9-t3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "A heavy 's', with your tongue low."
+ },
+ {
+  "file": "a9-t4",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "A heavy 'd'. Arabic is nicknamed after this letter."
+ },
+ {
+  "file": "a9-t5",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "A heavy 't'."
+ },
+ {
+  "file": "a9-t6",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "A heavy 'th', like in 'this'."
+ },
+ {
+  "file": "a9-t7",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "A tight squeeze, also from the middle of your throat."
+ },
+ {
+  "file": "a9-t8",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Like gargling, or a French 'r'."
+ },
+ {
+  "file": "a9-t9",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "A 'k', from much further back."
+ },
+ {
+  "file": "a9-end",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Which one is the hardest for you? Comment it below, and save this to practise later!"
+ },
+ {
+  "file": "l5-h1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] FIVE! [normal] Arabic letters, each one harder to spot. How far can you get?"
+ },
+ {
+  "file": "l5-q1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Easy one first. What's this letter called?"
+ },
+ {
+  "file": "l5-q2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Next one. What's it called?"
+ },
+ {
+  "file": "l5-q3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "It has two dots on top. Which letter is it?"
+ },
+ {
+  "file": "l5-q4",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Harder. This letter is in the middle of a word. Which one is it?"
+ },
+ {
+  "file": "l5-q5",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "The final boss. Also in the middle of a word. Which letter is this?"
+ },
+ {
+  "file": "w9-h1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "model": "eleven_v3",
+  "stability": 0.0,
+  "text": "[shouting] FIVE! [normal] times in one line, you speak straight to Allah. Most people never notice."
+ },
+ {
+  "file": "w9-l1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "You can say this right after 'Allahu akbar', before al-Fatiha."
+ },
+ {
+  "file": "w9-m1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Glory be to You, O Allah..."
+ },
+ {
+  "file": "w9-m2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "and with Your praise."
+ },
+ {
+  "file": "w9-m3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Blessed is Your name..."
+ },
+ {
+  "file": "w9-m4",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "exalted is Your majesty..."
+ },
+ {
+  "file": "w9-m5",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "and there is no god other than You."
+ },
+ {
+  "file": "w9-rule",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Did you hear it? 'Ka', five times. 'Ka' on the end means 'You', or 'Your'. In every part, you're talking straight to Allah."
+ },
+ {
+  "file": "w9-q1a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Your turn. What does this mean?"
+ },
+ {
+  "file": "w9-q1b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "My Lord, your Lord, or our Lord?"
+ },
+ {
+  "file": "w9-end",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "What do you say straight after it? Comment it below, and send this to someone you pray with."
+ },
+ {
+  "file": "w9-rabbuka",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "رَبُّكَ"
+ },
+ {
+  "file": "g13-t1",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "This means 'I know'..."
+ },
+ {
+  "file": "g13-t2",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "Put 'la' in front, and it's 'I DON'T know'..."
+ },
+ {
+  "file": "g13-t3",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "It works for anyone: 'we don't know'..."
+ },
+ {
+  "file": "g13-rule",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "That's the trick. 'La' in front means 'don't'. The verb stays exactly the same. Now it's your turn."
+ },
+ {
+  "file": "g13-q1a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "If this means 'he drinks'..."
+ },
+ {
+  "file": "g13-q1b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "what's 'he doesn't drink'?"
+ },
+ {
+  "file": "g13-q2a",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "And if this means 'we go'..."
+ },
+ {
+  "file": "g13-q2b",
+  "voice": "N2lVS1w4EtoT3dr4eOWO",
+  "stability": 0.35,
+  "style": 0.45,
+  "speed": 1.05,
+  "text": "what's 'we don't go'?"
+ },
+ {
+  "file": "g13-la-narif",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "لا نَعْرِفْ"
+ },
+ {
+  "file": "g13-la-yashrab",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "لا يَشْرَبْ"
+ },
+ {
+  "file": "g13-la-nadhhab",
+  "voice": "Ywuz3KyW2N5pqKNpwcCL",
+  "stability": 0.6,
+  "style": 0.1,
+  "speed": 0.9,
+  "text": "لا نَذْهَبْ"
+ }
+]
