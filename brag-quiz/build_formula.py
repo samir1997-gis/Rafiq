@@ -1307,7 +1307,7 @@ LADDER_CSS = (
     "#mark b { display:inline-block; padding:8px 14px; border-radius:30px; background:var(--rubric); color:#fff; font-size:38px; font-weight:800; box-shadow:0 8px 24px rgba(180,50,42,.35); }"
     "#mark small { display:block; font-size:19px; letter-spacing:.12em; font-weight:800; color:var(--rubric); margin-top:6px; }")
 
-def ladder(vid, R, ask, voice={}, kicker="QUIZ · HOW FAR CAN YOU GET?", hook=None, vo=None, end=None):
+def ladder(vid, R, ask, voice={}, kicker="QUIZ · HOW FAR CAN YOU GET?", hook=None, vo=None, end=None, bg=None):
     """The difficulty ladder (owner, 14 Oct 2026). The owner says each line, stitched under the video, so it all sits in the top
     ~1,150 px. One page: each round sits under the last and the page slides up to it; the rail on the left drops its marker a rung
     (the share counts down, a click per 10%); the question, a 3-2-1 with clicks, the answer pops green and Rafiq says it.
@@ -1328,7 +1328,7 @@ def ladder(vid, R, ask, voice={}, kicker="QUIZ · HOW FAR CAN YOU GET?", hook=No
             f'<div id="mark" style="top:{ry(0):.0f}px"><b id="markn">{R[0][0]}%</b><small>STILL IN</small></div></div>']
     t, prev = 0.1, R[0][0]
     if hook:
-        t = hook_in(c, body, hook)
+        t = hook_in(c, body, hook, bg)          # bg: a background that fits this hook's words (l5-letters, #395)
         c.t('tl.set(["#view", "#rail"], {autoAlpha:0}, 0);')
         c.t(f'tl.fromTo(["#view", "#rail"], {{autoAlpha:0, x:700, filter:"blur(18px)"}}, {{autoAlpha:1, x:0, filter:"blur(0px)", duration:0.35, ease:"power3.out"}}, {t - 0.2:.2f});')
         c.css += (".cc { position:absolute; left:80px; right:80px; top:1330px; text-align:center; font-weight:700; font-size:66px; line-height:1.15; color:var(--ink); }"

@@ -205,6 +205,21 @@ cotton ← قُطْن, mattress ← مَطْرَح; tie each to a word from the 
 **Made 6 Nov 2026 (`reels/magazine/build.py`, #353; owner: "can you make some tiktok cout" [content]):** `h10-magazine`, the story of a word #9 in the drawn format (from the "next in the series" list), over an old market's arched storehouses at dusk. Calm hook "Every magazine you've ever read is named after an Arabic word… and it has nothing to do with reading" over MAGAZINE, a magazine dropping onto a table and مَخازِن; مَخازِن (Rafiq) = storehouses: the grain, the oil, the goods (a sack, a jar and a crate drop into the arches); the root خ ز ن = to store away (a padlock), مَـ in front = مَخْزَن, the place where you keep things, more than one مَخازِن; Italian magazzino → French magasin (still a shop in France) → the 1580s (counting) → English MAGAZINE, a storehouse; the news stand, 1731 (counting), a London monthly, The Gentleman's Magazine: a storehouse of articles, the name stuck (Merriam-Webster); your turn خَزائِنِ الْأَرْضِ (Yūsuf 12:55): the armies / the roads / the storehouses? 3-2-1, STOREHOUSES! (the one shout), and he saved the grain for seven hard years (seven sacks); ask: which English word should we trace next? Cream end card, 86 s, -16 LUFS. Captions: `tools/typesafe-exp/magazine_caption.py` (not run: no TypeSafe key). Amiri stacks مَخْ (its marks float high), so مَـخْزَن has a kashida. Left out of the series: sugar ← سُكَّر only looks like the Qur'an's root for "drunk" (a Persian loanword), cotton ← قُطْن has no Qur'an tie.
 **Silent version, 6 Nov 2026 (`reels/magazine-silent/build.py`, #353):** the silent template (as mattress-silent), five numbered points (makhāzin and the storehouses, the root and the ma, the road to English with 1580s counting, 1731 a storehouse to read, your turn Yūsuf 12:55), sound effects only, 54 s.
 
+**Made 20 Nov 2026, the week of 21–27 Nov (#395; Saleh: "can you make me 10 tiktok content"; schedule and captions: `brag-quiz/schedule/2026-11-21.md`),
+built on the audit's finding (#383) that "learn this now" alphabet content and practical salah content travel furthest, so most of the ten follow the
+two series of #389.** Videos (`build_nov21.py`, all in the every-video standard, rendered with `framecap.py`): `a9-letters` (the winning alphabet
+board cut to the 9 letters with no real match in English, ح خ ص ض ط ظ ع غ ق, each lit as the owner says it in his own recording, Callum's tip
+for each, "n / 9" filling; hook "NINE Arabic letters have no real match in English. Can you say them all?"; 58 s); `l5-letters` (the weekly ladder,
+the alphabet: name the letter, ب → ج → ق → ع and ه in the middle of a word, the owner says each name; 62 s); `g13-not` (`rule_quiz()`: لا in front,
+أَعْرِفُ → لا أَعْرِفُ → لا نَعْرِفُ; quiz يَشْرَبُ → he doesn't drink? (traps ما شَرِبَ, لا تَشْرَبُ), نَذْهَبُ → we don't go? (traps لَنْ نَذْهَبَ, لا يَذْهَبُونَ); 60 s);
+`w9-istiftah` (the opening duʿāʾ word by word, after the owner's "A Sunnah most of us skip": five of its words end in ـكَ "You / Your" (the ك of
+تَبارَكَ is the word's own), your turn رَبُّكَ; 75 s). Carousels (`build_sheet_carousel.py`, in our colours, never pastel: paper light or deep teal
+and gold): `dots` (same shape, different dots: the nine letter families, red dots on ink letters), `join` (the 6 letters that never join; count the
+pieces of رَبَّنا وَلَكَ الْحَمْدُ: 6), `starter` (the live site's reading starter; free week, link in bio), `this-that` (هَذا هَذِهِ ذَلِكَ تِلْكَ, al-Baqarah 2:2,
+Yūnus 10:1), `khutbah` (the khuṭbat al-ḥājah word by word: it's all "we"; an-Nasāʾī 1404), `salah` (your salah cheat sheet: each position word by
+word). Voices: `voice/nov21-lines.json`. Not made: f1-five part 2 (the next five Qur'an words): tanzil.net was blocked, so the counts couldn't be checked.
+Next in these series: the letters' four shapes (start, middle, end, alone), the sun letters as a video, the taslīm or the tashahhud word by word.
+
 ## More ideas (not made yet)
 - **Scripts ready to film** (owner on camera, my graphics on top; approved 1 Nov 2026, waiting for the owner to film):
   `brag-quiz/reels/insha/SCRIPT.md` (#314, in shāʾ Allāh: not a polite no, it's tawakkul) · `brag-quiz/reels/ahad/SCRIPT.md`
